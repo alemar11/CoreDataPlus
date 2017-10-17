@@ -43,16 +43,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
   /// **CoreDataPlus**
   ///
-  /// Creates a `new` NSFetchRequest for `self`.
-//  @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
-//  internal static func fetchRequest() -> NSFetchRequest<Self> {
-//    let fetchRequest = NSFetchRequest<Self>(entityName: entityName)
-//    
-//    return fetchRequest
-//  }
-
-  /// **CoreDataPlus**
-  ///
   /// Attempts to find an object matching a predicate or creates a new one and configures it.
   ///
   /// - Parameters:
