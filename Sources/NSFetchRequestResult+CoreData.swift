@@ -72,6 +72,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   }
 
   // TODO: to be implemented
+  @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
   private static func findOrCreateUniqueObject(in context: NSManagedObjectContext, where predicate: NSPredicate, with configuration: (Self) -> Void) -> Self {
     guard let object = findOrFetchUniqueObject(in: context, where: predicate) else {
       let newObject: Self = Self(context: context)
