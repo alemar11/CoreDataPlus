@@ -28,66 +28,44 @@ import CoreData
 class NSFetchRequestUtilsTests: XCTestCase {
 
   func testInit() {
-    let stack = CoreDataStack()
-
-    if let stack = stack {
-      let mainContext = stack.mainContext
 
       do {
-        // Given
-        let entityDescription = NSEntityDescription.entity(forEntityName: EntityKey.person, in: mainContext)
-        let de = Person.entity()
-
-        // When
-        XCTAssertNotNil(entityDescription)
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entity: entityDescription!)
+        // Given, When
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entity: Person.entity())
         // Then
-        XCTAssertEqual(fetchRequest.entity, entityDescription)
+        XCTAssertEqual(fetchRequest.entity, Person.entity())
         XCTAssertEqual(fetchRequest.fetchBatchSize, 0)
         XCTAssertNil(fetchRequest.predicate)
       }
 
       do {
-        // Given
-        let entityDescription = NSEntityDescription.entity(forEntityName: EntityKey.person, in: mainContext)
-        // When
-        XCTAssertNotNil(entityDescription)
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entity: entityDescription!, predicate: nil, batchSize: 10)
+        // Given, When
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entity: Person.entity(), predicate: nil, batchSize: 10)
         // Then
-        XCTAssertEqual(fetchRequest.entity, entityDescription)
+        XCTAssertEqual(fetchRequest.entity, Person.entity())
         XCTAssertEqual(fetchRequest.fetchBatchSize, 10)
         XCTAssertNil(fetchRequest.predicate)
       }
 
       do {
-        // Given
-        let backgroudContext = mainContext.newBackgroundContext()
-        let entityDescription = NSEntityDescription.entity(forEntityName: EntityKey.person, in: backgroudContext)
-        // When
-        XCTAssertNotNil(entityDescription)
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entity: entityDescription!, predicate: nil, batchSize: 20)
+        // Given, When
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entity: Person.entity(), predicate: nil, batchSize: 20)
         // Then
-        XCTAssertEqual(fetchRequest.entity, entityDescription)
+        XCTAssertEqual(fetchRequest.entity, Person.entity())
         XCTAssertEqual(fetchRequest.fetchBatchSize, 20)
         XCTAssertNil(fetchRequest.predicate)
       }
 
       do {
-        // Given
-        let entityDescription = NSEntityDescription.entity(forEntityName: EntityKey.person, in: mainContext)
-        // When
-        XCTAssertNotNil(entityDescription)
+        // Given, When
         let predicate = NSPredicate(value: true)
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entity: entityDescription!, predicate: predicate, batchSize: 1)
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entity: Person.entity(), predicate: predicate, batchSize: 1)
         // Then
-        XCTAssertEqual(fetchRequest.entity, entityDescription)
+        XCTAssertEqual(fetchRequest.entity, Person.entity())
         XCTAssertEqual(fetchRequest.fetchBatchSize, 1)
         XCTAssertEqual(fetchRequest.predicate, predicate)
       }
 
-    } else {
-      XCTAssertNotNil(stack)
-    }
   }
 
   func testPredicateAndDescriptorComposition() {

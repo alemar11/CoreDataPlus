@@ -52,8 +52,8 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
         }
         // Then
         let metaData = stack.mainContext.metaData(for: firstPersistentStore)
-        XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[EntityKey.car])
-        XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[EntityKey.person])
+        XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[Car.entityName])
+        XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[Person.entityName])
         XCTAssertNotNil(metaData["NSStoreType"] as? String)
 
         let addMetaDataExpectation = expectation(description: "Add MetaData Expectation")
@@ -82,8 +82,8 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
         }
         // Then
         let metaData = stack.mainContext.metaData(for: firstPersistentStore)
-        XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[EntityKey.car])
-        XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[EntityKey.person])
+        XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[Car.entityName])
+        XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[Person.entityName])
         XCTAssertNotNil(metaData["NSStoreType"] as? String)
 
         let addMetaDataExpectation = expectation(description: "Add MetaData Expectation")
@@ -107,8 +107,8 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
     let stack = CoreDataStack()
     if let stack = stack {
       // Then
-      XCTAssertNotNil(stack.mainContext.entity(forEntityName: EntityKey.car))
-      XCTAssertNotNil(stack.mainContext.entity(forEntityName: EntityKey.person))
+      XCTAssertNotNil(stack.mainContext.entity(forEntityName: Car.entityName))
+      XCTAssertNotNil(stack.mainContext.entity(forEntityName: Person.entityName))
     } else {
       XCTAssertNotNil(stack)
     }
@@ -193,8 +193,8 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
     // Given, When
     let stack = CoreDataStack(type: .sqlite)
     if let stack = stack {
-      let context = stack.mainContext.newBackgroundContext()
 
+      let context = stack.mainContext.newBackgroundContext()
       // Then
       let saveExpectation1 = expectation(description: "Save 1")
       context.performSave(after: {
@@ -255,7 +255,6 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
       }
 
       wait(for: [saveExpectation5], timeout: 10)
-
 
     } else {
       XCTAssertNotNil(stack)

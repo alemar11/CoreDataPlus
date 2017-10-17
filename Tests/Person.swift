@@ -30,7 +30,7 @@ final public class Person: NSManagedObject {
 
   @NSManaged public var firstName: String
   @NSManaged public var lastName: String
-  @NSManaged public var cars: [Car]?
+  @NSManaged public var cars: Set<Car>?
 
 }
 

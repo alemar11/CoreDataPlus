@@ -23,6 +23,7 @@
 
 import Foundation
 import CoreData
+import CoreDataPlus
 
 @objc(Car)
 final public class Car: NSManagedObject {
@@ -34,3 +35,16 @@ final public class Car: NSManagedObject {
 
 }
 
+// MARK: - FetchConfigurable
+
+extension Car: FetchConfigurable {
+
+  public static var defaultPredicate: NSPredicate {
+    return NSPredicate(value: true)
+  }
+
+  public static var defaultSortDescriptors: [NSSortDescriptor] {
+    return []
+  }
+
+}
