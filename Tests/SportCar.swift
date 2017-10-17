@@ -25,26 +25,7 @@ import Foundation
 import CoreData
 import CoreDataPlus
 
-@objc(Car)
-public class Car: NSManagedObject {
-
-  @NSManaged public var maker: String?
-  @NSManaged public var model: String?
-  @NSManaged public var numberPlate: String!
-  @NSManaged public var owner: Person?
-
-}
-
-// MARK: - FetchConfigurable
-
-extension Car: FetchConfigurable {
-
-  public static var defaultPredicate: NSPredicate {
-    return NSPredicate(value: true)
-  }
-
-  public static var defaultSortDescriptors: [NSSortDescriptor] {
-    return []
-  }
+@objc(SportCar)
+final public class SportCar: Car {
 
 }

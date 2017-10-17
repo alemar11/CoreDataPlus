@@ -259,13 +259,24 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
       let saveExpectation6 = expectation(description: "Save 6")
       context.performSave(after: {
         let car = Car(context: context)
-        car.numberPlate = "123456"
+        car.numberPlate = "100"
       }){ error in
         XCTAssertNil(error)
         saveExpectation6.fulfill()
       }
 
       wait(for: [saveExpectation6], timeout: 10)
+
+      let saveExpectation7 = expectation(description: "Save 7")
+      context.performSave(after: {
+        let car = SportCar(context: context)
+        car.numberPlate = "200"
+      }){ error in
+        XCTAssertNil(error)
+        saveExpectation7.fulfill()
+      }
+
+      wait(for: [saveExpectation7], timeout: 10)
 
     } else {
       XCTAssertNotNil(stack)
