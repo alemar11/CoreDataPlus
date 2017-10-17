@@ -23,6 +23,7 @@
 
 import XCTest
 import CoreData
+@testable import CoreDataPlus
 
 class NSManagedObjectUtilsTests: XCTestCase {
 

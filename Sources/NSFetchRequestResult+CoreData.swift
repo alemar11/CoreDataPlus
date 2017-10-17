@@ -44,12 +44,12 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// **CoreDataPlus**
   ///
   /// Creates a `new` NSFetchRequest for `self`.
-  @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
-  public static func fetchRequest() -> NSFetchRequest<Self> {
-    // let fetchRequest = NSFetchRequest<Self>(entity: entity)
-    let fetchRequest = NSFetchRequest<Self>(entityName: entityName)
-    return fetchRequest
-  }
+//  @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
+//  internal static func fetchRequest() -> NSFetchRequest<Self> {
+//    let fetchRequest = NSFetchRequest<Self>(entityName: entityName)
+//    
+//    return fetchRequest
+//  }
 
   /// **CoreDataPlus**
   ///
@@ -66,8 +66,10 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     guard let object = findOrFetch(in: context, where: predicate) else {
       let newObject: Self = Self(context: context)
       configuration(newObject)
+
       return newObject
     }
+
     return object
   }
 
@@ -77,8 +79,10 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     guard let object = findOrFetchUniqueObject(in: context, where: predicate) else {
       let newObject: Self = Self(context: context)
       configuration(newObject)
+
       return newObject
     }
+
     return object
   }
 
@@ -103,6 +107,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
         request.fetchLimit = 1
         }.first
     }
+
     return object
   }
 
@@ -159,10 +164,11 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     configuration(request)
     do {
       let result = try context.count(for: request)
-      guard result != NSNotFound else { fatalError("Failed to execute count fetch request.") }
+      guard result != NSNotFound else { fatalError("Failed to execute the count fetch request.") }
+
       return result
     } catch let error {
-      fatalError("Failed to execute fetch request: \(error).")
+      fatalError("Failed to execute the fetch request: \(error).")
     }
   }
 
@@ -174,14 +180,17 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   public static func findMaterializedObject(in context: NSManagedObjectContext, where predicate: NSPredicate) -> Self? {
     for object in context.registeredObjects where !object.isFault {
       guard let result = object as? Self, predicate.evaluate(with: result) else { continue }
+
       return result
     }
+
     return nil
   }
 
   // TODO: to be implemented
   private static func findMaterializedObjects(in context: NSManagedObjectContext, where predicate: NSPredicate) -> [Self] {
     let results = context.registeredObjects.filter { !$0.isFault }.filter { predicate.evaluate(with: $0) }.flatMap { $0 as? Self}
+    
     return results
   }
 
@@ -196,9 +205,12 @@ extension NSFetchRequestResult where Self: NSManagedObject {
       request.fetchLimit = 2
     }
     switch result.count {
-    case 0: return nil
-    case 1: return result[0]
-    default: fatalError("Returned multiple objects (\(result.count), expected max 1.")
+    case 0:
+      return nil
+    case 1:
+      return result[0]
+    default:
+      fatalError("Returned multiple objects (\(result.count), expected max 1.")
     }
   }
 
@@ -221,6 +233,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     guard let cached = context.cachedManagedObject(forKey: cacheKey) as? Self else {
       let result = fetchSingleObject(in: context, with: configuration)
       context.setCachedManagedObject(result, forKey: cacheKey)
+
       return result
     }
     

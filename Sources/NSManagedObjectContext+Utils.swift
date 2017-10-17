@@ -31,6 +31,7 @@ extension NSManagedObjectContext {
   public final var persistentStores: [NSPersistentStore] {
     guard let persistentStoreCoordinator = persistentStoreCoordinator else { fatalError("Persistent Store Coordinator missing.") }
     let stores = persistentStoreCoordinator.persistentStores
+
     return stores
   }
 
@@ -39,6 +40,7 @@ extension NSManagedObjectContext {
   /// Returns a dictionary that contains the metadata currently stored or to-be-stored in a given persistent store.
   public final func metaData(for store: NSPersistentStore) -> [String: Any] {
     guard let persistentStoreCoordinator = persistentStoreCoordinator else { fatalError("Must have Persistent Store Coordinator.") }
+
     return persistentStoreCoordinator.metadata(for: store)
   }
 

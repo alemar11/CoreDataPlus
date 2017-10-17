@@ -1,4 +1,4 @@
-//
+// 
 // CoreDataPlus
 //
 // Copyright © 2016-2017 Tinrobots.
@@ -22,14 +22,12 @@
 // SOFTWARE.
 
 import XCTest
+import CoreData
 @testable import CoreDataPlus
 
-class ModelVersionTests: XCTestCase {
+class NSFetchRequestResultUtilsTests: XCTestCase {
+    
 
-    func testVersionModelSetup() {
-      XCTAssertTrue(SampleModelVersion.currentVersion == .version1)
-      XCTAssertTrue(SampleModelVersion.allVersions == [.version1])
-      XCTAssertTrue(SampleModelVersion.version1.successor == nil)
-    }
 
+    
 }
