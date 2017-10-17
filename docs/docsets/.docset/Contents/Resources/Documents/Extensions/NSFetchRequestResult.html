@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>NSFetchRequestResult Extension Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Extension/NSFetchRequestResult" class="dashAnchor"></a>
+    <a title="NSFetchRequestResult Extension Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html"> Docs</a> (89% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html"> Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        NSFetchRequestResult Extension Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Collection.html">Collection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSFetchRequest.html">NSFetchRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSFetchRequestResult.html">NSFetchRequestResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSManagedObject.html">NSManagedObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSManagedObjectContext.html">NSManagedObjectContext</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/DelayedDeletable.html">DelayedDeletable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/FetchConfigurable.html">FetchConfigurable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ModelVersion.html">ModelVersion</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RemoteDeletable.html">RemoteDeletable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/UpdateTimestampable.html">UpdateTimestampable</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>NSFetchRequestResult</h1>
+            
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzAC16DelayedDeletableRzlE35batchDeleteObjectsMarkedForDeletionySo0gH7ContextC2in_10Foundation4DateV9olderThantKFZ"></a>
+                    <a name="//apple_ref/swift/Method/batchDeleteObjectsMarkedForDeletion(in:olderThan:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzAC16DelayedDeletableRzlE35batchDeleteObjectsMarkedForDeletionySo0gH7ContextC2in_10Foundation4DateV9olderThantKFZ">batchDeleteObjectsMarkedForDeletion(in:olderThan:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Makes a batch delete for object conforming to <code><a href="../Protocols/DelayedDeletable.html">DelayedDeletable</a></code> older than the <code>cutOffDate</code> date.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An error in cases of a batch delete operation failure.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">batchDeleteObjectsMarkedForDeletion</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="n">olderThan</span> <span class="nv">cutOffDate</span><span class="p">:</span> <span class="kt">Date</span> <span class="o">=</span> <span class="kt">Date</span><span class="p">(</span><span class="nv">timeIntervalSinceNow</span><span class="p">:</span> <span class="o">-</span><span class="kt">TimeInterval</span><span class="p">(</span><span class="mi">120</span><span class="p">)))</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>context</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The NSManagedObjectContext where is executed the batch delete request.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>cutOffDate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Objects marked for local deletion more than this time (in seconds) ago will get permanently deleted.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE10entityNameSSvZ"></a>
+                    <a name="//apple_ref/swift/Variable/entityName" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE10entityNameSSvZ">entityName</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>The entity name.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">entityName</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE05fetchB0So0aB0CyxGyFZ"></a>
+                    <a name="//apple_ref/swift/Method/fetchRequest()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE05fetchB0So0aB0CyxGyFZ">fetchRequest()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Creates a <code>new</code> NSFetchRequest for <code>self</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">fetchRequest</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">NSFetchRequest</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/TODO:%20rename%20findOrCreateObject"></a>
+                <a name="//apple_ref/swift/Section/TODO: rename findOrCreateObject" class="dashAnchor"></a>
+                <a href="#/TODO:%20rename%20findOrCreateObject">
+                  <h3 class="section-name">TODO: rename findOrCreateObject</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE12findOrCreatexSo0gH7ContextC2in_So11NSPredicateC5whereyxc4withtFZ"></a>
+                    <a name="//apple_ref/swift/Method/findOrCreate(in:where:with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE12findOrCreatexSo0gH7ContextC2in_So11NSPredicateC5whereyxc4withtFZ">findOrCreate(in:where:with:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/TODO:%20rename%20findOrFetchFirstObject"></a>
+                <a name="//apple_ref/swift/Section/TODO: rename findOrFetchFirstObject" class="dashAnchor"></a>
+                <a href="#/TODO:%20rename%20findOrFetchFirstObject">
+                  <h3 class="section-name">TODO: rename findOrFetchFirstObject</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE11findOrFetchxSgSo0gH7ContextC2in_So11NSPredicateC5wheretFZ"></a>
+                    <a name="//apple_ref/swift/Method/findOrFetch(in:where:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE11findOrFetchxSgSo0gH7ContextC2in_So11NSPredicateC5wheretFZ">findOrFetch(in:where:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/TODO:%20to%20be%20implemented"></a>
+                <a name="//apple_ref/swift/Section/TODO: to be implemented" class="dashAnchor"></a>
+                <a href="#/TODO:%20to%20be%20implemented">
+                  <h3 class="section-name">TODO: to be implemented</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE5fetchSayxGSo0gH7ContextC2in_ySo0aB0CyxGc4withtFZ"></a>
+                    <a name="//apple_ref/swift/Method/fetch(in:with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE5fetchSayxGSo0gH7ContextC2in_ySo0aB0CyxGc4withtFZ">fetch(in:with:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Performs a configurable fetch request in a context.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="n">with</span> <span class="nv">configuration</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSFetchRequest</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">})</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="k">Self</span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE5countSiSo0gH7ContextC2in_ySo0aB0CyxGc3fortFZ"></a>
+                    <a name="//apple_ref/swift/Method/count(in:for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE5countSiSo0gH7ContextC2in_ySo0aB0CyxGc3fortFZ">count(in:for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Counts the results of a configurable fetch request in a context.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">count</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="k">for</span> <span class="nv">configuration</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSFetchRequest</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">})</span> <span class="o">-&gt;</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/TODO:%20rename%20findFirstMaterializedObject"></a>
+                <a name="//apple_ref/swift/Section/TODO: rename findFirstMaterializedObject" class="dashAnchor"></a>
+                <a href="#/TODO:%20rename%20findFirstMaterializedObject">
+                  <h3 class="section-name">TODO: rename findFirstMaterializedObject</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE016findMaterializedH0xSgSo0gH7ContextC2in_So11NSPredicateC5wheretFZ"></a>
+                    <a name="//apple_ref/swift/Method/findMaterializedObject(in:where:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE016findMaterializedH0xSgSo0gH7ContextC2in_So11NSPredicateC5wheretFZ">findMaterializedObject(in:where:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/TODO:%20to%20be%20renamed%20fetchSingleUniqueObject"></a>
+                <a name="//apple_ref/swift/Section/TODO: to be renamed fetchSingleUniqueObject" class="dashAnchor"></a>
+                <a href="#/TODO:%20to%20be%20renamed%20fetchSingleUniqueObject">
+                  <h3 class="section-name">TODO: to be renamed fetchSingleUniqueObject</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE011fetchSingleH0xSgSo0gH7ContextC2in_ySo0aB0CyxGc4withtFZ"></a>
+                    <a name="//apple_ref/swift/Method/fetchSingleObject(in:with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE011fetchSingleH0xSgSo0gH7ContextC2in_ySo0aB0CyxGc4withtFZ">fetchSingleObject(in:with:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE011fetchCachedH0xSgSo0gH7ContextC2in_SS6forKeyySo0aB0CyxGc4withtFZ"></a>
+                    <a name="//apple_ref/swift/Method/fetchCachedObject(in:forKey:with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE011fetchCachedH0xSgSo0gH7ContextC2in_SS6forKeyySo0aB0CyxGc4withtFZ">fetchCachedObject(in:forKey:with:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Tries to retrieve an object from the cache; if there’s nothing in the cache executes the fetch request and caches the result (if a single object is found).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">fetchCachedObject</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="n">forKey</span> <span class="nv">cacheKey</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">with</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">NSFetchRequest</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>context</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Searched context.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>cacheKey</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Cache key.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Configurable fetch request.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A cached object (if any).</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2017 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2017-10-17)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.4</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
