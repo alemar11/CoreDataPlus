@@ -2,12 +2,9 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13532" systemVersion="" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Car" representedClassName="Car" syncable="YES">
         <attribute name="maker" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="model" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="model" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="numberPlate" attributeType="String" syncable="YES"/>
         <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Person" inverseName="cars" inverseEntity="Person" syncable="YES"/>
-        <fetchIndex name="byNumberPlateIndex">
-            <fetchIndexElement property="numberPlate" type="Binary" order="ascending"/>
-        </fetchIndex>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="numberPlate"/>
@@ -26,7 +23,7 @@
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="Car" positionX="-63" positionY="-18" width="128" height="105"/>
-        <element name="Person" positionX="144" positionY="-9" width="128" height="90"/>
+        <element name="Person" positionX="-63" positionY="-18" width="128" height="90"/>
+        <element name="Car" positionX="-54" positionY="-9" width="128" height="105"/>
     </elements>
 </model>

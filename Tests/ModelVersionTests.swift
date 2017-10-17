@@ -26,9 +26,9 @@ import XCTest
 class ModelVersionTests: XCTestCase {
 
     func testVersionModelSetup() {
-      XCTAssertTrue(DemoModelVersion.currentVersion == .version1)
-      XCTAssertTrue(DemoModelVersion.allVersions == [.version1])
-      XCTAssertTrue(DemoModelVersion.version1.successor == nil)
+      XCTAssertTrue(SampleModelVersion.currentVersion == .version1)
+      XCTAssertTrue(SampleModelVersion.allVersions == [.version1])
+      XCTAssertTrue(SampleModelVersion.version1.successor == nil)
     }
 
 }

@@ -23,15 +23,15 @@
 
 @testable import CoreDataPlus
 
-public enum DemoModelVersion: String {
-  case version1 = "DemoModel"
+public enum SampleModelVersion: String {
+  case version1 = "SampleModel"
 }
 
-extension DemoModelVersion: ModelVersion {
+extension SampleModelVersion: ModelVersion {
 
-  public static var allVersions: [DemoModelVersion] { return [.version1] }
+  public static var allVersions: [SampleModelVersion] { return [.version1] }
 
-  public static var currentVersion: DemoModelVersion { return .version1 }
+  public static var currentVersion: SampleModelVersion { return .version1 }
 
   public var versionName: String { return rawValue }
 
@@ -40,7 +40,7 @@ extension DemoModelVersion: ModelVersion {
     return Bundle(for: Object.self)
   }
 
-  public var modelName: String { return "DemoModel" }
+  public var modelName: String { return "SampleModel" }
 
 }
 

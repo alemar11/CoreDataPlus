@@ -32,7 +32,7 @@ final class CoreDataStack {
   var mainContext: NSManagedObjectContext
 
   init?(type: StoreType = .inMemory) {
-    let managedObjectModel = DemoModelVersion.currentVersion.managedObjectModel()
+    let managedObjectModel = SampleModelVersion.currentVersion.managedObjectModel()
     persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
 
     switch (type) {
