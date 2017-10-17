@@ -1,6 +1,5 @@
 //
-//  CoreDataStack.swift
-//  Mechanica
+// CoreDataPlus
 //
 //  Copyright © 2016-2017 Tinrobots.
 //
@@ -24,7 +23,7 @@
 
 import XCTest
 import CoreData
-@testable import Mechanica
+@testable import CoreDataPlus
 
 class NSFetchRequestUtilsTests: XCTestCase {
 

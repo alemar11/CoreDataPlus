@@ -1,6 +1,5 @@
 //
-//  CoreDataStack.swift
-//  Mechanica
+// CoreDataPlus
 //
 //  Copyright © 2016-2017 Tinrobots.
 //

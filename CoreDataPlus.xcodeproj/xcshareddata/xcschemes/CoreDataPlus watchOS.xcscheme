@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "236350731F95EC1A00B3A16A"
-               BuildableName = "CoreDataPlus_watchOS.framework"
+               BuildableName = "CoreDataPlus.framework"
                BlueprintName = "CoreDataPlus watchOS"
                ReferencedContainer = "container:CoreDataPlus.xcodeproj">
             </BuildableReference>
@@ -51,7 +51,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "236350731F95EC1A00B3A16A"
-            BuildableName = "CoreDataPlus_watchOS.framework"
+            BuildableName = "CoreDataPlus.framework"
             BlueprintName = "CoreDataPlus watchOS"
             ReferencedContainer = "container:CoreDataPlus.xcodeproj">
          </BuildableReference>
@@ -69,7 +69,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "236350731F95EC1A00B3A16A"
-            BuildableName = "CoreDataPlus_watchOS.framework"
+            BuildableName = "CoreDataPlus.framework"
             BlueprintName = "CoreDataPlus watchOS"
             ReferencedContainer = "container:CoreDataPlus.xcodeproj">
          </BuildableReference>

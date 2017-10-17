@@ -1,6 +1,5 @@
 //
-//  DemoModelVersion.swift
-//  Mechanica
+// CoreDataPlus
 //
 //  Copyright © 2016-2017 Tinrobots.
 //
@@ -22,7 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-@testable import Mechanica
+@testable import CoreDataPlus
 
 public enum DemoModelVersion: String {
   case version1 = "DemoModel"

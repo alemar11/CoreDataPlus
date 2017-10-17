@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "236350801F95EC3000B3A16A"
-               BuildableName = "CoreDataPlus_tvOS.framework"
+               BuildableName = "CoreDataPlus.framework"
                BlueprintName = "CoreDataPlus tvOS"
                ReferencedContainer = "container:CoreDataPlus.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "236350801F95EC3000B3A16A"
-            BuildableName = "CoreDataPlus_tvOS.framework"
+            BuildableName = "CoreDataPlus.framework"
             BlueprintName = "CoreDataPlus tvOS"
             ReferencedContainer = "container:CoreDataPlus.xcodeproj">
          </BuildableReference>
@@ -68,7 +68,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "236350801F95EC3000B3A16A"
-            BuildableName = "CoreDataPlus_tvOS.framework"
+            BuildableName = "CoreDataPlus.framework"
             BlueprintName = "CoreDataPlus tvOS"
             ReferencedContainer = "container:CoreDataPlus.xcodeproj">
          </BuildableReference>
@@ -86,7 +86,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "236350801F95EC3000B3A16A"
-            BuildableName = "CoreDataPlus_tvOS.framework"
+            BuildableName = "CoreDataPlus.framework"
             BlueprintName = "CoreDataPlus tvOS"
             ReferencedContainer = "container:CoreDataPlus.xcodeproj">
          </BuildableReference>

@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2363509C1F95EC5600B3A16A"
-               BuildableName = "CoreDataPlus_macOS.framework"
+               BuildableName = "CoreDataPlus.framework"
                BlueprintName = "CoreDataPlus macOS"
                ReferencedContainer = "container:CoreDataPlus.xcodeproj">
             </BuildableReference>
@@ -48,7 +48,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2363509C1F95EC5600B3A16A"
-            BuildableName = "CoreDataPlus_macOS.framework"
+            BuildableName = "CoreDataPlus.framework"
             BlueprintName = "CoreDataPlus macOS"
             ReferencedContainer = "container:CoreDataPlus.xcodeproj">
          </BuildableReference>
@@ -71,7 +71,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2363509C1F95EC5600B3A16A"
-            BuildableName = "CoreDataPlus_macOS.framework"
+            BuildableName = "CoreDataPlus.framework"
             BlueprintName = "CoreDataPlus macOS"
             ReferencedContainer = "container:CoreDataPlus.xcodeproj">
          </BuildableReference>
@@ -89,7 +89,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2363509C1F95EC5600B3A16A"
-            BuildableName = "CoreDataPlus_macOS.framework"
+            BuildableName = "CoreDataPlus.framework"
             BlueprintName = "CoreDataPlus macOS"
             ReferencedContainer = "container:CoreDataPlus.xcodeproj">
          </BuildableReference>
