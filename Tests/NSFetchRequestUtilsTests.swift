@@ -36,6 +36,8 @@ class NSFetchRequestUtilsTests: XCTestCase {
       do {
         // Given
         let entityDescription = NSEntityDescription.entity(forEntityName: EntityKey.person, in: mainContext)
+        let de = Person.entity()
+
         // When
         XCTAssertNotNil(entityDescription)
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entity: entityDescription!)

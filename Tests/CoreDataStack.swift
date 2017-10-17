@@ -24,11 +24,6 @@
 import XCTest
 import CoreData
 
-enum EntityKey {
-  static let car = "Car"
-  static let person = "Person"
-}
-
 final class CoreDataStack {
 
   enum StoreType { case sqlite, inMemory }

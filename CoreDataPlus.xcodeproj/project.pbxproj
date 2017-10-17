@@ -79,6 +79,12 @@
 		23B5809B1F94FFF700A365C0 /* FetchConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B580911F94FFF700A365C0 /* FetchConfigurable.swift */; };
 		23B5809C1F94FFF700A365C0 /* Collection+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B580921F94FFF700A365C0 /* Collection+CoreData.swift */; };
 		23B5809E1F95006200A365C0 /* CoreDataPlus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5809D1F95006200A365C0 /* CoreDataPlus.swift */; };
+		23EEF5451F962E5700A2E72F /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EEF5441F962E5700A2E72F /* Car.swift */; };
+		23EEF5461F962E5700A2E72F /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EEF5441F962E5700A2E72F /* Car.swift */; };
+		23EEF5471F962E5700A2E72F /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EEF5441F962E5700A2E72F /* Car.swift */; };
+		23EEF5491F962E6A00A2E72F /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EEF5481F962E6A00A2E72F /* Person.swift */; };
+		23EEF54A1F962E6A00A2E72F /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EEF5481F962E6A00A2E72F /* Person.swift */; };
+		23EEF54B1F962E6A00A2E72F /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EEF5481F962E6A00A2E72F /* Person.swift */; };
 		23EFDE921F95FE730038BE75 /* CoreDataPlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23B5806A1F94FEDF00A365C0 /* CoreDataPlus.framework */; };
 		23EFDEA11F95FE990038BE75 /* CoreDataPlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 236350811F95EC3000B3A16A /* CoreDataPlus.framework */; };
 		23EFDEB01F95FEB50038BE75 /* CoreDataPlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2363509D1F95EC5600B3A16A /* CoreDataPlus.framework */; };
@@ -137,6 +143,8 @@
 		23B580911F94FFF700A365C0 /* FetchConfigurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchConfigurable.swift; sourceTree = "<group>"; };
 		23B580921F94FFF700A365C0 /* Collection+CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+CoreData.swift"; sourceTree = "<group>"; };
 		23B5809D1F95006200A365C0 /* CoreDataPlus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPlus.swift; sourceTree = "<group>"; };
+		23EEF5441F962E5700A2E72F /* Car.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Car.swift; sourceTree = "<group>"; };
+		23EEF5481F962E6A00A2E72F /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		23EFDE8D1F95FE730038BE75 /* CoreDataPlus Tests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CoreDataPlus Tests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		23EFDE9C1F95FE990038BE75 /* CoreDataPlus Tests tvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CoreDataPlus Tests tvOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		23EFDEAB1F95FEB40038BE75 /* CoreDataPlus Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CoreDataPlus Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -255,9 +263,7 @@
 		23B580861F94FF0E00A365C0 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				236351081F95F28C00B3A16A /* CoreDataStack.swift */,
-				236351091F95F28C00B3A16A /* DemoModel.xcdatamodeld */,
-				2363510B1F95F28C00B3A16A /* DemoModelVersion.swift */,
+				23EEF5431F962DA600A2E72F /* Sample Model */,
 				236351041F95F28B00B3A16A /* ModelVersionTests.swift */,
 				236351071F95F28C00B3A16A /* NSFetchRequestUtilsTests.swift */,
 				236351051F95F28C00B3A16A /* NSManagedObjectContextCacheTests.swift */,
@@ -265,6 +271,18 @@
 				236351061F95F28C00B3A16A /* NSManagedObjectUtilsTests.swift */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		23EEF5431F962DA600A2E72F /* Sample Model */ = {
+			isa = PBXGroup;
+			children = (
+				2363510B1F95F28C00B3A16A /* DemoModelVersion.swift */,
+				236351091F95F28C00B3A16A /* DemoModel.xcdatamodeld */,
+				236351081F95F28C00B3A16A /* CoreDataStack.swift */,
+				23EEF5441F962E5700A2E72F /* Car.swift */,
+				23EEF5481F962E6A00A2E72F /* Person.swift */,
+			);
+			name = "Sample Model";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -624,11 +642,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23EEF5491F962E6A00A2E72F /* Person.swift in Sources */,
 				234130691F95FF90002BE7FC /* NSManagedObjectContextCacheTests.swift in Sources */,
 				234130651F95FF90002BE7FC /* CoreDataStack.swift in Sources */,
 				234130681F95FF90002BE7FC /* NSFetchRequestUtilsTests.swift in Sources */,
 				2341306A1F95FF90002BE7FC /* NSManagedObjectContextUtilsTests.swift in Sources */,
 				2341307A1F95FF95002BE7FC /* DemoModel.xcdatamodeld in Sources */,
+				23EEF5451F962E5700A2E72F /* Car.swift in Sources */,
 				2341306B1F95FF90002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */,
 				234130661F95FF90002BE7FC /* DemoModelVersion.swift in Sources */,
 				234130671F95FF90002BE7FC /* ModelVersionTests.swift in Sources */,
@@ -639,11 +659,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23EEF54A1F962E6A00A2E72F /* Person.swift in Sources */,
 				234130701F95FF91002BE7FC /* NSManagedObjectContextCacheTests.swift in Sources */,
 				2341306C1F95FF91002BE7FC /* CoreDataStack.swift in Sources */,
 				2341306F1F95FF91002BE7FC /* NSFetchRequestUtilsTests.swift in Sources */,
 				234130711F95FF91002BE7FC /* NSManagedObjectContextUtilsTests.swift in Sources */,
 				2341307B1F95FF95002BE7FC /* DemoModel.xcdatamodeld in Sources */,
+				23EEF5461F962E5700A2E72F /* Car.swift in Sources */,
 				234130721F95FF91002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */,
 				2341306D1F95FF91002BE7FC /* DemoModelVersion.swift in Sources */,
 				2341306E1F95FF91002BE7FC /* ModelVersionTests.swift in Sources */,
@@ -654,11 +676,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23EEF54B1F962E6A00A2E72F /* Person.swift in Sources */,
 				234130771F95FF91002BE7FC /* NSManagedObjectContextCacheTests.swift in Sources */,
 				234130731F95FF91002BE7FC /* CoreDataStack.swift in Sources */,
 				234130761F95FF91002BE7FC /* NSFetchRequestUtilsTests.swift in Sources */,
 				234130781F95FF91002BE7FC /* NSManagedObjectContextUtilsTests.swift in Sources */,
 				2341307C1F95FF96002BE7FC /* DemoModel.xcdatamodeld in Sources */,
+				23EEF5471F962E5700A2E72F /* Car.swift in Sources */,
 				234130791F95FF91002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */,
 				234130741F95FF91002BE7FC /* DemoModelVersion.swift in Sources */,
 				234130751F95FF91002BE7FC /* ModelVersionTests.swift in Sources */,
