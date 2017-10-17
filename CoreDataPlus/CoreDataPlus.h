@@ -1,4 +1,4 @@
-//
+// 
 // CoreDataPlus
 //
 // Copyright © 2016-2017 Tinrobots.
@@ -21,7 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-@import Foundation;
+#import <WatchKit/WatchKit.h>
 
 //! Project version number for CoreDataPlus.
 FOUNDATION_EXPORT double CoreDataPlusVersionNumber;
