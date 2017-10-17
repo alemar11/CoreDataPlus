@@ -29,6 +29,7 @@ class NSFetchRequestUtilsTests: XCTestCase {
 
   func testInit() {
     let stack = CoreDataStack()
+
     if let stack = stack {
       let mainContext = stack.mainContext
 
@@ -57,8 +58,8 @@ class NSFetchRequestUtilsTests: XCTestCase {
       }
 
       do {
-        let backgroudContext = mainContext.newBackgroundContext()
         // Given
+        let backgroudContext = mainContext.newBackgroundContext()
         let entityDescription = NSEntityDescription.entity(forEntityName: EntityKey.person, in: backgroudContext)
         // When
         XCTAssertNotNil(entityDescription)
@@ -93,7 +94,9 @@ class NSFetchRequestUtilsTests: XCTestCase {
       let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Not important")
       fetchRequest.andPredicate(NSPredicate(format: "Y = 30"))
       XCTAssertTrue(fetchRequest.predicate == NSPredicate(format: "Y = 30"))
+
       fetchRequest.addSortDescriptors([NSSortDescriptor(key: "id", ascending: true, selector: #selector(NSString.localizedStandardCompare(_:)))])
+
       if fetchRequest.sortDescriptors?.count == 1 {
         XCTAssertTrue(fetchRequest.sortDescriptors!.last! == NSSortDescriptor(key: "id", ascending: true, selector: #selector(NSString.localizedStandardCompare(_:))))
       } else {
@@ -106,8 +109,10 @@ class NSFetchRequestUtilsTests: XCTestCase {
       fetchRequest.predicate = NSPredicate(format: "X = 10")
       fetchRequest.sortDescriptors = [NSSortDescriptor(key: "KEY", ascending: false)]
       fetchRequest.andPredicate(NSPredicate(format: "Y = 30"))
+
       XCTAssertTrue(fetchRequest.predicate == NSPredicate(format: "X = 10 AND Y = 30"))
       fetchRequest.addSortDescriptors([NSSortDescriptor(key: "id", ascending: true, selector: #selector(NSString.localizedStandardCompare(_:)))])
+
       if fetchRequest.sortDescriptors?.count == 2 {
         XCTAssertTrue(fetchRequest.sortDescriptors!.first! == NSSortDescriptor(key: "KEY", ascending: false))
         XCTAssertTrue(fetchRequest.sortDescriptors!.last! == NSSortDescriptor(key: "id", ascending: true, selector: #selector(NSString.localizedStandardCompare(_:))))
@@ -120,6 +125,7 @@ class NSFetchRequestUtilsTests: XCTestCase {
       let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Not important")
       fetchRequest.predicate = NSPredicate(format: "X = 10")
       fetchRequest.orPredicate(NSPredicate(format: "Y = 30"))
+
       XCTAssertTrue(fetchRequest.predicate == NSPredicate(format: "X = 10 OR Y = 30"))
       XCTAssertNil(fetchRequest.sortDescriptors)
     }
@@ -127,6 +133,7 @@ class NSFetchRequestUtilsTests: XCTestCase {
     do {
       let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Not important")
       fetchRequest.orPredicate(NSPredicate(format: "Y = 30"))
+
       XCTAssertTrue(fetchRequest.predicate == NSPredicate(format: "Y = 30"))
     }
 

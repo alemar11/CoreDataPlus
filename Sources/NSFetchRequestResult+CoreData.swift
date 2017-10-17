@@ -198,7 +198,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     switch result.count {
     case 0: return nil
     case 1: return result[0]
-    default: fatalError("Returned multiple objects, expected max 1.")
+    default: fatalError("Returned multiple objects (\(result.count), expected max 1.")
     }
   }
 

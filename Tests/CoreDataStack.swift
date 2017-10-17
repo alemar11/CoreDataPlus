@@ -29,7 +29,7 @@ enum EntityKey {
   static let person = "Person"
 }
 
-class CoreDataStack {
+final class CoreDataStack {
 
   enum StoreType { case sqlite, inMemory }
 
@@ -38,7 +38,7 @@ class CoreDataStack {
 
   init?(type: StoreType = .inMemory) {
     let managedObjectModel = DemoModelVersion.currentVersion.managedObjectModel()
-    let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
+    persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
 
     switch (type) {
 
@@ -46,7 +46,7 @@ class CoreDataStack {
       do {
         try persistentStoreCoordinator.addPersistentStore(ofType: NSInMemoryStoreType, configurationName: nil, at: nil, options: nil)
       } catch {
-        XCTFail("\(error)")
+        XCTFail("\(error.localizedDescription)")
       }
 
     case .sqlite:
@@ -58,20 +58,14 @@ class CoreDataStack {
       persistentStoreDescription.shouldInferMappingModelAutomatically = true // default behaviour
       persistentStoreDescription.shouldAddStoreAsynchronously = false // default
 
-      var hasFailed = false
       persistentStoreCoordinator.addPersistentStore(with: persistentStoreDescription, completionHandler: { (persistentStoreDescription, error) in
-        if let error = error {
-          XCTFail("\(error)")
-          hasFailed = true
-        }
+        if let error = error { XCTFail("\(error.localizedDescription)") }
       })
-      if (hasFailed) { return nil }
     }
 
-    self.persistentStoreCoordinator = persistentStoreCoordinator
     let managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     managedObjectContext.persistentStoreCoordinator = persistentStoreCoordinator
-    self.mainContext = managedObjectContext
+    mainContext = managedObjectContext
   }
 
 }

@@ -46,7 +46,7 @@ class NSManagedObjectUtilsTests: XCTestCase {
 
   func testRefresh() {
     // Given
-    let mainContext = NSManagedObjectUtilsTests.stack.mainContext
+    let mainContext = type(of: self).stack.mainContext
 
     do {
       // When
@@ -86,7 +86,7 @@ class NSManagedObjectUtilsTests: XCTestCase {
     let carModel = #keyPath(Car.model)
 
     // Given
-    let mainContext = NSManagedObjectUtilsTests.stack.mainContext
+    let mainContext = type(of: self).stack.mainContext
     // https://cocoacasts.com/how-to-observe-a-managed-object-context/
     // http://mentalfaculty.tumblr.com/post/65682908577/how-does-core-data-save
     do {
