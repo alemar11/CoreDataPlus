@@ -20,6 +20,20 @@
                ReferencedContainer = "container:CoreDataPlus.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "23EFDEAA1F95FEB40038BE75"
+               BuildableName = "CoreDataPlus Tests macOS.xctest"
+               BlueprintName = "CoreDataPlus Tests macOS"
+               ReferencedContainer = "container:CoreDataPlus.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -37,9 +51,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "236350A41F95EC5600B3A16A"
-               BuildableName = "CoreDataPlus macOSTests.xctest"
-               BlueprintName = "CoreDataPlus macOSTests"
+               BlueprintIdentifier = "23EFDEAA1F95FEB40038BE75"
+               BuildableName = "CoreDataPlus Tests macOS.xctest"
+               BlueprintName = "CoreDataPlus Tests macOS"
                ReferencedContainer = "container:CoreDataPlus.xcodeproj">
             </BuildableReference>
          </TestableReference>
