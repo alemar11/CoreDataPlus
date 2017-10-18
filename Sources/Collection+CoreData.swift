@@ -24,7 +24,7 @@
 import CoreData
 
 extension Collection where Element: NSManagedObject {
-
+  
   /// **CoreDataPlus**
   ///
   /// Fetches all faulted object in one batch executing a single fetch request for all objects that we’re interested in.
@@ -32,21 +32,49 @@ extension Collection where Element: NSManagedObject {
   public func fetchFaultedObjects() {
     guard !self.isEmpty else { return }
     guard let context = self.first?.managedObjectContext else { fatalError("The managed object must have a context.") }
-
+    
     let faults = self.filter { $0.isFault }
-
+    
     guard let mo = faults.first else { return }
-
+    
     let request = NSFetchRequest<NSFetchRequestResult>()
     request.entity = mo.entity
     request.returnsObjectsAsFaults = false
-    request.predicate = NSPredicate(format: "self in %@", faults)
-
+    request.predicate = NSPredicate(format: "self IN %@", faults)
+    
     do {
       try context.fetch(request)
     } catch {
       fatalError(error.localizedDescription)
     }
   }
-
+  
+  // http://www.cocoabuilder.com/archive/cocoa/150371-batch-faulting.html
+  // https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreData/Performance.html#//apple_ref/doc/uid/TP40001075-CH25-SW6
+  
+  public func _fetchFaultedObjects() {
+    guard !self.isEmpty else { return }
+    guard let context = self.first?.managedObjectContext else { fatalError("The managed object must have a context.") }
+    
+    let faults = self.filter { $0.isFault }
+    guard faults.count > 0 else { return }
+    
+    let entities = Set(faults.map { $0.entity }) //remove subclasses?
+    
+    for entity in entities {
+      let request = NSFetchRequest<NSFetchRequestResult>()
+      request.entity = entity
+      request.returnsObjectsAsFaults = false
+      request.predicate = NSPredicate(format: "self IN %@", faults)
+      
+      do {
+        let r = try context.fetch(request)
+        print(r.count)
+        print(r)
+      } catch {
+        fatalError(error.localizedDescription)
+      }
+    }
+  }
+  
 }

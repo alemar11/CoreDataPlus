@@ -27,208 +27,291 @@ import CoreData
 
 class NSFetchRequestResultUtilsTests: XCTestCase {
     
-  func fill(context: NSManagedObjectContext) {
+  func insertSampleData(in context: NSManagedObjectContext) {
 
     let person1 = Person(context: context)
-    person1.firstName = ""
-    person1.lastName = ""
+    person1.firstName = "Edythe"
+    person1.lastName = "Moreton"
 
     let person2 = Person(context: context)
-    person2.firstName = ""
-    person2.lastName = ""
+    person2.firstName = "Ellis"
+    person2.lastName = "Khoury"
 
     let person3 = Person(context: context)
-    person3.firstName = ""
-    person3.lastName = ""
+    person3.firstName = "Faron"
+    person3.lastName = "Devich"
 
     let person4 = Person(context: context)
-    person4.firstName = ""
-    person4.lastName = ""
+    person4.firstName = "Darin"
+    person4.lastName = "Meadow"
 
     let person5 = Person(context: context)
-    person5.firstName = ""
-    person5.lastName = ""
+    person5.firstName = "Juliana"
+    person5.lastName = "Pyke"
 
     let person6 = Person(context: context)
-    person6.firstName = ""
-    person6.lastName = ""
+    person6.firstName = "Victoria"
+    person6.lastName = "Distefano"
 
     let person7 = Person(context: context)
-    person7.firstName = ""
-    person7.lastName = ""
+    person7.firstName = "Wardell"
+    person7.lastName = "Reynolds"
 
     let person8 = Person(context: context)
-    person8.firstName = ""
-    person8.lastName = ""
+    person8.firstName = "Morgan"
+    person8.lastName = "Wigner"
 
     let person9 = Person(context: context)
-    person9.firstName = ""
-    person9.lastName = ""
+    person9.firstName = "Gavin"
+    person9.lastName = "Chuang"
 
     let person10 = Person(context: context)
-    person10.firstName = ""
-    person10.lastName = ""
+    person10.firstName = "Bret"
+    person10.lastName = "Munger"
 
     let person11 = Person(context: context)
-    person11.firstName = ""
-    person11.lastName = ""
+    person11.firstName = "Theodora"
+    person11.lastName = "Stone"
 
     let person12 = Person(context: context)
-    person12.firstName = ""
-    person12.lastName = ""
+    person12.firstName = "Bishop"
+    person12.lastName = "Boosalis"
 
     let person13 = Person(context: context)
-    person13.firstName = ""
-    person13.lastName = ""
+    person13.firstName = "Jerrod"
+    person13.lastName = "Wade"
 
     let person14 = Person(context: context)
-    person14.firstName = ""
-    person14.lastName = ""
+    person14.firstName = "Ross"
+    person14.lastName = "Hurowitz"
 
     let person15 = Person(context: context)
-    person15.firstName = ""
-    person15.lastName = ""
+    person15.firstName = "Vale"
+    person15.lastName = "Coster"
 
     let person16 = Person(context: context)
-    person16.firstName = ""
-    person16.lastName = ""
+    person16.firstName = "Lorayne"
+    person16.lastName = "Soncin"
 
     let person17 = Person(context: context)
-    person17.firstName = ""
-    person17.lastName = ""
+    person17.firstName = "Bret"
+    person17.lastName = "Nabokov"
 
     let person18 = Person(context: context)
-    person18.firstName = ""
-    person18.lastName = ""
+    person18.firstName = "Vaughn"
+    person18.lastName = "Gleaves"
 
     let person19 = Person(context: context)
-    person19.firstName = ""
-    person19.lastName = ""
+    person19.firstName = "Mark"
+    person19.lastName = "Alves"
 
     let person20 = Person(context: context)
-    person20.firstName = ""
-    person20.lastName = ""
+    person20.firstName = "Alex"
+    person20.lastName = "Rathbun"
 
+    
+    /// FIAT
     let car1 = Car(context: context)
-    car1.maker = ""
-    car1.model = ""
-    car1.numberPlate = "!"
-    car1.owner = nil
+    car1.maker = "FIAT"
+    car1.model = "Panda"
+    car1.numberPlate = "1"
 
     let car2 = Car(context: context)
-    car2.maker = ""
-    car2.model = ""
-    car2.numberPlate = "!"
-    car2.owner = nil
+    car2.maker = "FIAT"
+    car2.model = "Punto"
+    car2.numberPlate = "2"
 
     let car3 = Car(context: context)
-    car3.maker = ""
-    car3.model = ""
-    car3.numberPlate = "!"
-    car3.owner = nil
+    car3.maker = "FIAT"
+    car3.model = "Tipo"
+    car3.numberPlate = "3"
 
+    /// Alfa Romeo
     let car4 = Car(context: context)
-    car4.maker = ""
-    car4.model = ""
-    car4.numberPlate = "!"
-    car4.owner = nil
+    car4.maker = "Alfa Romeo"
+    car4.model = "Giulietta"
+    car4.numberPlate = "4"
 
     let car5 = Car(context: context)
-    car5.maker = ""
-    car5.model = ""
-    car5.numberPlate = "!"
-    car5.owner = nil
+    car5.maker = "Alfa Romeo"
+    car5.model = "Giulia"
+    car5.numberPlate = "5"
 
     let car6 = Car(context: context)
-    car6.maker = ""
-    car6.model = ""
-    car6.numberPlate = "!"
-    car6.owner = nil
+    car6.maker = "Alfa Romeo"
+    car6.model = "Mito"
+    car6.numberPlate = "6"
 
+    /// Volkswagen
     let car7 = Car(context: context)
-    car7.maker = ""
-    car7.model = ""
-    car7.numberPlate = "!"
-    car7.owner = nil
+    car7.maker = "Volkswagen"
+    car7.model = "Golf"
+    car7.numberPlate = "7"
 
     let car8 = Car(context: context)
-    car8.maker = ""
-    car8.model = ""
-    car8.numberPlate = "!"
-    car8.owner = nil
+    car8.maker = "Volkswagen"
+    car8.model = "Polo"
+    car8.numberPlate = "8"
 
+    /// Kia
     let car9 = Car(context: context)
-    car9.maker = ""
-    car9.model = ""
-    car9.numberPlate = "!"
-    car9.owner = nil
+    car9.maker = "Kia"
+    car9.model = "Rio"
+    car9.numberPlate = "9"
 
     let car10 = Car(context: context)
-    car10.maker = ""
-    car10.model = ""
-    car10.numberPlate = "!"
-    car10.owner = nil
+    car10.maker = "Kia"
+    car10.model = "Sportage"
+    car10.numberPlate = "10"
 
     let car11 = Car(context: context)
-    car11.maker = ""
-    car11.model = ""
-    car11.numberPlate = "!"
-    car11.owner = nil
+    car11.maker = "Kia"
+    car11.model = "Soul"
+    car11.numberPlate = "11"
 
     let car12 = Car(context: context)
-    car12.maker = ""
-    car12.model = ""
-    car12.numberPlate = "!"
-    car12.owner = nil
+    car12.maker = "Kia"
+    car12.model = "Carens"
+    car12.numberPlate = "12"
 
+    /// Renault
     let car13 = Car(context: context)
-    car13.maker = ""
-    car13.model = ""
-    car13.numberPlate = "!"
-    car13.owner = nil
+    car13.maker = "Renault"
+    car13.model = "Twingo"
+    car13.numberPlate = "13"
 
     let car14 = Car(context: context)
-    car14.maker = ""
-    car14.model = ""
-    car14.numberPlate = "!"
-    car14.owner = nil
+    car14.maker = "Renault"
+    car14.model = "Clio"
+    car14.numberPlate = "14"
 
     let car15 = Car(context: context)
-    car15.maker = ""
-    car15.model = ""
-    car15.numberPlate = "!"
-    car15.owner = nil
+    car15.maker = "Renault"
+    car15.model = "Megane"
+    car15.numberPlate = "15"
 
-    let supercar1 = Car(context: context)
-    supercar1.maker = ""
-    supercar1.model = ""
-    supercar1.numberPlate = "!"
-    supercar1.owner = nil
+    /// Sport Car
+    let sportCar1 = SportCar(context: context)
+    sportCar1.maker = "BMW"
+    sportCar1.model = "M6 Coupe"
+    sportCar1.numberPlate = "16"
 
-    let supercar2 = Car(context: context)
-    supercar2.maker = ""
-    supercar2.model = ""
-    supercar2.numberPlate = "!"
-    supercar2.owner = nil
+    let sportCar2 = SportCar(context: context)
+    sportCar2.maker = "Mercedes-Benz "
+    sportCar2.model = "AMG GT S"
+    sportCar2.numberPlate = "17"
 
-    let supercar3 = Car(context: context)
-    supercar3.maker = ""
-    supercar3.model = ""
-    supercar3.numberPlate = "!"
-    supercar3.owner = nil
+    let sportCar3 = SportCar(context: context)
+    sportCar3.maker = "Maserati"
+    sportCar3.model = "GranTurismo MC"
+    sportCar3.numberPlate = "18"
 
-    let supercar4 = Car(context: context)
-    supercar4.maker = ""
-    supercar4.model = ""
-    supercar4.numberPlate = "!"
-    supercar4.owner = nil
+    let sportCar4 = SportCar(context: context)
+    sportCar4.maker = "McLaren"
+    sportCar4.model = "570GT"
+    sportCar4.numberPlate = "19"
 
-    let supercar5 = Car(context: context)
-    supercar5.maker = ""
-    supercar5.model = ""
-    supercar5.numberPlate = "!"
-    supercar5.owner = nil
+    let sportCar5 = SportCar(context: context)
+    sportCar5.maker = "Lamborghini "
+    sportCar5.model = "Aventador LP750-4"
+    sportCar5.numberPlate = "20"
+    
+    // car15 and sportCar5 do not have an owner
+    person1.cars = [car1]
+    person2.cars = [car2]
+    person3.cars = [car3]
+    person4.cars = [car4]
+    person5.cars = [car5]
+    person6.cars = [car6]
+    person7.cars = [sportCar1, sportCar2]
+    person8.cars = [car7]
+    person9.cars = [sportCar3]
+    person10.cars = [car8, car9]
+    person11.cars = [car10, car11, car12]
+    person12.cars = [sportCar4]
+    person13.cars = [car13, car14]
+    person14.cars = [car13, car14]
+    
+//    var cars = [Car]()
+//    for i in 100...200 {
+//      let car = Car(context: context)
+//      car.maker = "FIAT"
+//      car.model = "Panda"
+//      car.numberPlate = "\(i)"
+//      cars.append(car)
+//    }
+//    person11.cars = Set(cars)
   }
+  
+  func testFetchFaults() {
+    let stack = CoreDataStack()!
+    let context = stack.mainContext
+    
+    context.performAndWait {
+      insertSampleData(in: context)
+      try! context.save()
+    }
+    
+    //context.refreshAllObjects() //re-fault objects that don't have pending changes
 
+    let request = Person.fetchRequest()
+    request.predicate = NSPredicate(value: true)//NSPredicate(format: "firstName == %@ AND lastName == %@", "Theodora", "Stone")
+    
+    do {
+    let persons = try context.fetch(request) as? [Person]
+
+      context.refreshAllObjects()
+      
+      let faults = persons!.filter { $0.isFault }
+      persons!.fetchFaultedObjects()
+      let notFaults = persons!.filter { !$0.isFault }
+
+      print(faults.count)
+      print(notFaults.count)
+
+    } catch {
+      print(error)
+    }
+    //cars.fetchFaultedObjects()
+    
+    
+
+  }
+  
+  func testFetchFaults2() {
+    let stack = CoreDataStack()!
+    let context = stack.mainContext
+    
+    context.performAndWait {
+      insertSampleData(in: context)
+      try! context.save()
+    }
+    
+    //context.refreshAllObjects() //re-fault objects that don't have pending changes
+    
+    let request = Car.fetchRequest()
+    request.predicate = NSPredicate(value: true)
+    
+    do {
+      let cars = try context.fetch(request) as? [Car]
+
+  
+      context.refreshAllObjects()
+//
+      let faults = cars!.filter { $0.isFault }
+      cars!._fetchFaultedObjects()
+      let notFaults = cars!.filter { !$0.isFault }
+//
+      print(faults.count)
+      print(notFaults.count)
+      
+    } catch {
+      print(error)
+    }
+    //cars.fetchFaultedObjects()
+    
+    
+    
+  }
     
 }
