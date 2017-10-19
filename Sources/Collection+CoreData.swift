@@ -95,11 +95,17 @@ extension Collection where Element: NSManagedObject {
     let notSuperEntities =  entities.filter{ $0.superentity != nil }
 
     for subclassEntity in notSuperEntities {
-      guard let superEntity = subclassEntity.superentity else { continue }
-
-      if !superEntities.contains(superEntity) {
+      let hierarchy = Set(subclassEntity.hierarchyEntities())
+      let intersection = hierarchy.intersection(superEntities)
+      
+      if intersection.isEmpty {
         superEntities.insert(subclassEntity)
       }
+//      guard let superEntity = subclassEntity.superentity else { continue }
+//
+//      if !superEntities.contains(superEntity) {
+//        superEntities.insert(subclassEntity)
+//      }
 
     }
 

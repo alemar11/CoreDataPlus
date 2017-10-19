@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13532" systemVersion="" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13532" systemVersion="17A405" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Car" representedClassName="Car" syncable="YES">
         <attribute name="maker" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="model" optional="YES" attributeType="String" syncable="YES"/>
@@ -11,6 +11,7 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
+    <entity name="ExpensiveCar" representedClassName="ExpensiveCar" parentEntity="SportCar" syncable="YES"/>
     <entity name="Person" representedClassName="Person" syncable="YES">
         <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
@@ -25,7 +26,8 @@
     <entity name="SportCar" representedClassName="SportCar" parentEntity="Car" syncable="YES"/>
     <elements>
         <element name="Car" positionX="-54" positionY="-9" width="128" height="105"/>
-        <element name="Person" positionX="-63" positionY="-18" width="128" height="90"/>
-        <element name="SportCar" positionX="-63" positionY="27" width="128" height="45"/>
+        <element name="Person" positionX="-351" positionY="-90" width="128" height="90"/>
+        <element name="SportCar" positionX="-54" positionY="-90" width="128" height="45"/>
+        <element name="ExpensiveCar" positionX="-56" positionY="-171" width="128" height="43"/>
     </elements>
 </model>

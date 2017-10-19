@@ -23,14 +23,22 @@
 
 import Foundation
 import CoreData
-import CoreDataPlus
 
-@objc(SportCar)
-public class SportCar: Car {
-
-}
-
-@objc(ExpensiveCar)
-final public class ExpensiveCar: SportCar {
+extension NSEntityDescription {
+  
+  /// Returns the entire super-entity hierarchy of `self`.
+  func hierarchyEntities() -> [NSEntityDescription] {
+    var entities = [self]
+    var se = self.superentity
+    
+    while let e = se {
+      if !entities.contains(e) {
+        entities.append(e)
+      }
+      se = e.superentity
+    }
+    
+    return entities
+  }
   
 }

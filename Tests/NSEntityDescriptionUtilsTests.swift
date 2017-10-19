@@ -21,16 +21,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import Foundation
+import XCTest
 import CoreData
-import CoreDataPlus
+@testable import CoreDataPlus
 
-@objc(SportCar)
-public class SportCar: Car {
-
-}
-
-@objc(ExpensiveCar)
-final public class ExpensiveCar: SportCar {
-  
+class NSEntityDescriptionUtilsTests: XCTestCase {
+    
+  func testEntity() {
+    let stack = CoreDataStack()!
+    let context = stack.mainContext
+    
+    let ec = ExpensiveCar(context: context)
+    print(ec.entity.hierarchyEntities().map{$0.name})
+  }
+    
 }

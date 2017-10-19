@@ -311,7 +311,8 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     //cars.fetchFaultedObjects()
     
     
-    
   }
+  
+
     
 }
