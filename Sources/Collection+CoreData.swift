@@ -58,10 +58,13 @@ extension Collection where Element: NSManagedObject {
     
     let faults = self.filter { $0.isFault }
     guard faults.count > 0 else { return }
-    
-    let entities = Set(faults.map { $0.entity }) //remove subclasses?
-    
+
+    // avoid multiple fetches for subclass entities.
+    let entities = self.entitiesRemovingSubclassEntities()
+
+    print(entities.count)
     for entity in entities {
+
       let request = NSFetchRequest<NSFetchRequestResult>()
       request.entity = entity
       request.returnsObjectsAsFaults = false
@@ -69,12 +72,38 @@ extension Collection where Element: NSManagedObject {
       
       do {
         let r = try context.fetch(request)
-        print(r.count)
+        //print(r.count)
         print(r)
       } catch {
         fatalError(error.localizedDescription)
       }
     }
+  }
+
+
+  /// Returns all the different `NSEntityDescription` defined in the collection.
+  public func entities() -> Set<NSEntityDescription> {
+    return Set(self.map { $0.entity })
+  }
+
+  /// Returns all the different `NSEntityDescription` defined in the collection.
+  /// Removes all the entities that are sublcass of entities already in the collection.
+  func entitiesRemovingSubclassEntities() -> Set<NSEntityDescription> {
+    let entities = self.entities()
+    // todo: find the real super entity (more than 1 level) --> rootSuperEntity
+    var superEntities =  entities.filter{ $0.superentity == nil }
+    let notSuperEntities =  entities.filter{ $0.superentity != nil }
+
+    for subclassEntity in notSuperEntities {
+      guard let superEntity = subclassEntity.superentity else { continue }
+
+      if !superEntities.contains(superEntity) {
+        superEntities.insert(subclassEntity)
+      }
+
+    }
+
+    return superEntities
   }
   
 }
