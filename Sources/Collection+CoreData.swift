@@ -91,7 +91,7 @@ extension Collection where Element: NSManagedObject {
   func entitiesRemovingSubclassEntities() -> Set<NSEntityDescription> {
     let entities = self.entities()
     // todo: find the real super entity (more than 1 level) --> rootSuperEntity
-    var superEntities =  entities.filter{ $0.superentity == nil }
+    var superEntities =  entities.filter{ $0.superentity == nil } //todo: this set could be reduced removing checking if there are a common super class
     let notSuperEntities =  entities.filter{ $0.superentity != nil }
 
     for subclassEntity in notSuperEntities {

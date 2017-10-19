@@ -26,16 +26,18 @@ import CoreData
 
 extension NSEntityDescription {
   
-  /// Returns the entire super-entity hierarchy of `self`.
-  func hierarchyEntities() -> [NSEntityDescription] {
+  /// **CoreDataPlus**
+  ///
+  /// Returns a collection with the entire super-entity hierarchy of `self`.
+  internal func hierarchyEntities() -> [NSEntityDescription] {
     var entities = [self]
-    var se = self.superentity
+    var currentSuperEntity = self.superentity
     
-    while let e = se {
-      if !entities.contains(e) {
-        entities.append(e)
+    while let entity = currentSuperEntity {
+      if !entities.contains(entity) {
+        entities.append(entity)
       }
-      se = e.superentity
+      currentSuperEntity = entity.superentity
     }
     
     return entities
