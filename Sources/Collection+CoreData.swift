@@ -60,7 +60,7 @@ extension Collection where Element: NSManagedObject {
     guard faults.count > 0 else { return }
 
     // avoid multiple fetches for subclass entities.
-    let entities = self.entitiesRemovingSubclassEntities()
+    let entities = self.entitiesKeepingOnlyEntityHiearchyCommonAncestors()
 
     print(entities.count)
     for entity in entities {
@@ -88,22 +88,43 @@ extension Collection where Element: NSManagedObject {
 
   /// Returns all the different `NSEntityDescription` defined in the collection.
   /// Removes all the entities that are sublcass of entities already in the collection.
-  func entitiesRemovingSubclassEntities() -> Set<NSEntityDescription> {
+
+  func entitiesKeepingOnlyEntityHiearchyCommonAncestors() -> Set<NSEntityDescription> {
     let entities = self.entities()
     // todo: find the real super entity (more than 1 level) --> rootSuperEntity
-    var superEntities =  entities.filter{ $0.superentity == nil }
+    var rootSuperEntities =  entities.filter{ $0.superentity == nil }
     let notSuperEntities =  entities.filter{ $0.superentity != nil }
 
     for subclassEntity in notSuperEntities {
       guard let superEntity = subclassEntity.superentity else { continue }
 
-      if !superEntities.contains(superEntity) {
-        superEntities.insert(subclassEntity)
+      if !rootSuperEntities.contains(superEntity) {
+        rootSuperEntities.insert(subclassEntity)
       }
 
     }
 
-    return superEntities
+    return rootSuperEntities
   }
   
+}
+
+extension Collection where Element: NSEntityDescription {
+
+  func entitiesKeepingOnlyEntityHiearchyCommonAncestors() -> Set<NSEntityDescription> {
+
+    var rootSuperEntities =  Set(self.filter{ $0.superentity == nil }) as Set<NSEntityDescription>
+    let notRootSuperEntities =  Set(self.filter{ $0.superentity != nil }) as Set<NSEntityDescription>
+
+    for subclassEntity in notRootSuperEntities {
+      guard let superEntity = subclassEntity.superentity else { continue }
+
+      if !rootSuperEntities.contains(superEntity) {
+        rootSuperEntities.insert(subclassEntity)
+      }
+
+    }
+
+    return rootSuperEntities
+  }
 }
