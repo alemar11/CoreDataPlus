@@ -41,6 +41,16 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     return String(describing: Self.self)
   }
 
+  /// **Mechanica**
+  ///
+  /// Creates a `new` NSFetchRequest for `self`.
+  /// - Note: Use this method instead of fetchRequest() to avoid a bug in CoreData occurring in the Unit Test targets or when Generics are used.
+  @available(iOS 10, tvOS 10, watchOS 3, OSX 10.12, *)
+  public static func newFetchRequest() -> NSFetchRequest<Self> {
+    let fetchRequest = NSFetchRequest<Self>(entityName: entityName)
+    return fetchRequest
+  }
+  
   /// **CoreDataPlus**
   ///
   /// Attempts to find an object matching a predicate or creates a new one and configures it.

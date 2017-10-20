@@ -27,104 +27,84 @@ import CoreData
 
 extension Collection where Element: NSManagedObject {
   
+  // http://www.cocoabuilder.com/archive/cocoa/150371-batch-faulting.html
+  // https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreData/Performance.html#//apple_ref/doc/uid/TP40001075-CH25-SW6
+  
   /// **CoreDataPlus**
   ///
-  /// Fetches all faulted object in one batch executing a single fetch request for all objects that we’re interested in.
+  /// Fetches all faulted object in one batch executing a single fetch request for all objects of the same type (or ancestor) that we’re interested in.
   /// - Note: Materializing all objects in one batch is faster than triggering the fault for each object on its own.
   public func fetchFaultedObjects() {
     guard !self.isEmpty else { return }
     guard let context = self.first?.managedObjectContext else { fatalError("The managed object must have a context.") }
     
     let faults = self.filter { $0.isFault }
-    
-    guard let mo = faults.first else { return }
-    
-    let request = NSFetchRequest<NSFetchRequestResult>()
-    request.entity = mo.entity
-    request.returnsObjectsAsFaults = false
-    request.predicate = NSPredicate(format: "self IN %@", faults)
-    
-    do {
-      try context.fetch(request)
-    } catch {
-      fatalError(error.localizedDescription)
-    }
-  }
-  
-  // http://www.cocoabuilder.com/archive/cocoa/150371-batch-faulting.html
-  // https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreData/Performance.html#//apple_ref/doc/uid/TP40001075-CH25-SW6
-  
-  public func _fetchFaultedObjects() {
-    guard !self.isEmpty else { return }
-    guard let context = self.first?.managedObjectContext else { fatalError("The managed object must have a context.") }
-    
-    let faults = self.filter { $0.isFault }
     guard faults.count > 0 else { return }
-
+    
     // avoid multiple fetches for subclass entities.
     let entities = self.entities().entitiesKeepingOnlyCommonEntityAncestors()
-
+    
     for entity in entities {
-
+      
       let request = NSFetchRequest<NSFetchRequestResult>()
       request.entity = entity
       request.returnsObjectsAsFaults = false
       request.predicate = NSPredicate(format: "self IN %@", faults)
       
       do {
-        let r = try context.fetch(request)
-        print("----fetch----")
+        try context.fetch(request)
       } catch {
         fatalError(error.localizedDescription)
       }
     }
   }
-
-
+  
+  /// **CoreDataPlus**
+  ///
   /// Returns all the different `NSEntityDescription` defined in the collection.
   public func entities() -> Set<NSEntityDescription> {
     return Set(self.map { $0.entity })
   }
-
+  
 }
 
 
 // MARK: - NSEntityDescription
 
 extension Collection where Element: NSEntityDescription {
-
+  
+  /// **CoreDataPlus**
+  ///
+  /// Returns a collection of `NSEntityDescription` with only the commong entity ancestors.
   func entitiesKeepingOnlyCommonEntityAncestors() -> Set<NSEntityDescription> {
-
-    // grouped by the same ancestors
     let grouped = Dictionary(grouping: self) { return $0.topMostEntity }
     var result = [NSEntityDescription]()
-
+    
     grouped.forEach { _, entities in
-
-      let test = entities.reduce([]) { (result, e) -> [NSEntityDescription] in
+      let set = Set(entities)
+      let test = set.reduce([]) { (result, entity) -> [NSEntityDescription] in
         var newResult = result
-        guard !newResult.isEmpty else { return [e] }
-
-        for (index, entityR) in result.enumerated() {
-          if let ancestor = entityR.commonEntityAncestor(with: e) {
+        guard !newResult.isEmpty else { return [entity] }
+        
+        for (index, entityResult) in result.enumerated() {
+          if let ancestor = entityResult.commonEntityAncestor(with: entity) {
             if !newResult.contains(ancestor) {
               newResult.remove(at: index)
               newResult.append(ancestor)
             }
-          } else {
-            newResult.append(e)
+          } else { // this condition should be never verified
+            newResult.append(entity)
           }
-
         }
-
+        
         return newResult
       }
-
+      
       result.append(contentsOf: test)
-
+      
     }
-
+    
     return Set(result)
-
   }
+  
 }
