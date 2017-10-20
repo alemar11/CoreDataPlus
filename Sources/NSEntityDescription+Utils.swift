@@ -23,14 +23,44 @@
 
 import Foundation
 import CoreData
-import CoreDataPlus
 
-@objc(SportCar)
-public class SportCar: Car {
+extension NSEntityDescription {
+  
+  /// **CoreDataPlus**
+  ///
+  /// Returns a collection with the entire super-entity hierarchy of `self`.
+  internal func hierarchyEntities() -> [NSEntityDescription] {
+    var entities = [self]
+    var currentSuperEntity = superentity
+    
+    while let entity = currentSuperEntity {
+      if !entities.contains(entity) {
+        entities.append(entity)
+      }
+      currentSuperEntity = entity.superentity
+    }
+    
+    return entities
+  }
 
-}
+  func commonEntityAncestor(with entity: NSEntityDescription) -> NSEntityDescription? {
+    guard self != entity else { return entity }
 
-@objc(ExpensiveCar)
-final public class ExpensiveCar: SportCar {
+    let selfHierarchy = Set(self.hierarchyEntities())
+    let entityHirarchy = Set(entity.hierarchyEntities())
+    let intersection = selfHierarchy.intersection(entityHirarchy)
+    guard !intersection.isEmpty else { return nil }
+
+    if (intersection.contains(self)) {
+      return self
+    } else {
+      return entity
+    }
+
+  }
+
+  var topMostEntity: NSEntityDescription {
+    return hierarchyEntities().last ?? self
+  }
   
 }
