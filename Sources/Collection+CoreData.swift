@@ -23,6 +23,8 @@
 
 import CoreData
 
+// MARK: - NSManagedObject
+
 extension Collection where Element: NSManagedObject {
   
   /// **CoreDataPlus**
@@ -60,9 +62,8 @@ extension Collection where Element: NSManagedObject {
     guard faults.count > 0 else { return }
 
     // avoid multiple fetches for subclass entities.
-    let entities = self._entitiesKeepingOnlyEntityHiearchyCommonAncestors()
+    let entities = self.entities().entitiesKeepingOnlyCommonEntityAncestors()
 
-    print(entities.count)
     for entity in entities {
 
       let request = NSFetchRequest<NSFetchRequestResult>()
@@ -72,8 +73,7 @@ extension Collection where Element: NSManagedObject {
       
       do {
         let r = try context.fetch(request)
-        //print(r.count)
-        print(r)
+        print("----fetch----")
       } catch {
         fatalError(error.localizedDescription)
       }
@@ -86,65 +86,45 @@ extension Collection where Element: NSManagedObject {
     return Set(self.map { $0.entity })
   }
 
-  /// Returns all the different `NSEntityDescription` defined in the collection.
-  /// Removes all the entities that are sublcass of entities already in the collection.
-
-  func _entitiesKeepingOnlyEntityHiearchyCommonAncestors() -> Set<NSEntityDescription> {
-    let entities = self.entities()
-    // todo: find the real super entity (more than 1 level) --> rootSuperEntity
-
-    var superEntities =  entities.filter{ $0.superentity == nil } //todo: this set could be reduced removing checking if there are a common super class
-    let notSuperEntities =  entities.filter{ $0.superentity != nil }
-
-    for subclassEntity in notSuperEntities {
-      let hierarchy = Set(subclassEntity.hierarchyEntities())
-      let intersection = hierarchy.intersection(superEntities)
-      
-      if intersection.isEmpty {
-        superEntities.insert(subclassEntity)
-      } else {
-        superEntities = intersection
-      }
-      //      guard let superEntity = subclassEntity.superentity else { continue }
-      //
-      //      if !superEntities.contains(superEntity) {
-      //        superEntities.insert(subclassEntity)
-      //      }
-
-    }
-
-    return superEntities
-  }
-  
 }
+
+
+// MARK: - NSEntityDescription
 
 extension Collection where Element: NSEntityDescription {
 
   func entitiesKeepingOnlyCommonEntityAncestors() -> Set<NSEntityDescription> {
 
-////// ------ sol 2
+    // grouped by the same ancestors
+    let grouped = Dictionary(grouping: self) { return $0.topMostEntity }
+    var result = [NSEntityDescription]()
 
-    let test = self.reduce([]) { (result, e) -> [NSEntityDescription] in
-      var newResult = result
-      guard !newResult.isEmpty else { return [e] }
-      var index = 0
-      for entityR in result {
-        if let ancestor = entityR.commonEntityAncestor(with: e) {
-          if !newResult.contains(ancestor) {
-            newResult.remove(at: index)
-            newResult.append(ancestor)
+    grouped.forEach { _, entities in
+
+      let test = entities.reduce([]) { (result, e) -> [NSEntityDescription] in
+        var newResult = result
+        guard !newResult.isEmpty else { return [e] }
+
+        for (index, entityR) in result.enumerated() {
+          if let ancestor = entityR.commonEntityAncestor(with: e) {
+            if !newResult.contains(ancestor) {
+              newResult.remove(at: index)
+              newResult.append(ancestor)
+            }
+          } else {
+            newResult.append(e)
           }
-        } else {
-          newResult.append(e)
+
         }
 
-        index = index + 1
+        return newResult
       }
 
-      return newResult
+      result.append(contentsOf: test)
+
     }
 
+    return Set(result)
 
-    return Set(test)
   }
 }

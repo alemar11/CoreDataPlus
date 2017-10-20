@@ -24,44 +24,12 @@
 import Foundation
 import CoreData
 
-extension NSEntityDescription {
-  
-  /// **CoreDataPlus**
-  ///
-  /// Returns a collection with the entire super-entity hierarchy of `self`.
-  internal func hierarchyEntities() -> [NSEntityDescription] {
-    var entities = [self]
-    var currentSuperEntity = superentity
-    
-    while let entity = currentSuperEntity {
-      if !entities.contains(entity) {
-        entities.append(entity)
-      }
-      currentSuperEntity = entity.superentity
-    }
-    
-    return entities
-  }
+extension NSFetchRequestResult where Self: NSManagedObject {
 
-  func commonEntityAncestor(with entity: NSEntityDescription) -> NSEntityDescription? {
-    guard self != entity else { return entity }
-
-    let selfHierarchy = Set(self.hierarchyEntities())
-    let entityHirarchy = Set(entity.hierarchyEntities())
-    let intersection = selfHierarchy.intersection(entityHirarchy)
-
-    guard !intersection.isEmpty else { return nil }
-
-    if (intersection.contains(self)) {
-      return self
-    } else {
-      return entity
-    }
-
-  }
-
-  var topMostEntity: NSEntityDescription {
-    return hierarchyEntities().last ?? self
-  }
-  
+//  @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
+//  static func xct_fetchEntity() -> NSEntityDescription {
+//    guard let context = self.managedObjectContext else { fatalError("Must have a context.") }
+//    guard let entity =  NSEntityDescription.entity(forEntityName: Self.entityName, in: context) else { fatalError("NSEntityDescription not found.") }
+//    return entity
+//  }
 }

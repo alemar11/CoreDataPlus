@@ -191,10 +191,18 @@ class NSEntityDescriptionUtilsTests: XCTestCase {
     do {
       let entities = [ExpensiveCar(context: context).entity, ExpensiveCar(context: context).entity, SportCar(context: context).entity, SportCar(context: context).entity, Person(context: context).entity]
       let ancestors = Set(entities).entitiesKeepingOnlyCommonEntityAncestors()
-      print(ancestors)
       XCTAssertTrue(!ancestors.isEmpty)
       XCTAssertTrue(ancestors.count == 2)
       XCTAssertTrue(ancestors.contains(SportCar(context: context).entity))
+      XCTAssertTrue(ancestors.contains(Person(context: context).entity))
+    }
+
+    do {
+      let entities = [ExpensiveCar(context: context).entity, ExpensiveCar(context: context).entity, SportCar(context: context).entity, SportCar(context: context).entity, Person(context: context).entity, Car(context: context).entity]
+      let ancestors = Set(entities).entitiesKeepingOnlyCommonEntityAncestors()
+      XCTAssertTrue(!ancestors.isEmpty)
+      XCTAssertTrue(ancestors.count == 2)
+      XCTAssertTrue(ancestors.contains(Car(context: context).entity))
       XCTAssertTrue(ancestors.contains(Person(context: context).entity))
     }
 

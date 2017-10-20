@@ -288,21 +288,26 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     }
     
     //context.refreshAllObjects() //re-fault objects that don't have pending changes
-    
-    let request = Car.fetchRequest()
-    request.predicate = NSPredicate(value: true)
+
     
     do {
-      let cars = try context.fetch(request) as? [Car]
+
+      let request = NSFetchRequest<Car>(entityName: Car.entityName)
+      request.predicate = NSPredicate(value: true)
+      XCTAssertNotNil(request)
+
+//      let request = Car.xct_fetchEntity()
+
+      let cars = try context.fetch(request)
 
   
       context.refreshAllObjects()
 //
-      let faults = cars!.filter { $0.isFault }
-      cars!._fetchFaultedObjects()
-      let notFaults = cars!.filter { !$0.isFault }
+      let previousFaults = cars.filter { $0.isFault }
+      cars._fetchFaultedObjects()
+      let notFaults = cars.filter { !$0.isFault }
 //
-      print(faults.count)
+      print(previousFaults.count)
       print(notFaults.count)
       
     } catch {
