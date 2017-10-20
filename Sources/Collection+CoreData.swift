@@ -32,7 +32,7 @@ extension Collection where Element: NSManagedObject {
   
   /// **CoreDataPlus**
   ///
-  /// Fetches all faulted object in one batch executing a single fetch request for all objects of the same type (or ancestor) that we’re interested in.
+  /// Fetches all the faulted object in one batch executing a single fetch request for all objects of the same type (or ancestor) that we’re interested in.
   /// - Note: Materializing all objects in one batch is faster than triggering the fault for each object on its own.
   public func fetchFaultedObjects() {
     guard !self.isEmpty else { return }
