@@ -48,9 +48,9 @@ class NSEntityDescriptionUtilsTests: XCTestCase {
     }
 
     do {
-      let expensiveSportCar = ExpensiveSportCar(context: context)
       let sportCar = SportCar(context: context)
-
+      let expensiveSportCar = ExpensiveSportCar(context: context)
+     
       let ancestorCommontEntity = sportCar.entity.commonEntityAncestor(with: expensiveSportCar.entity)
       XCTAssertNotNil(ancestorCommontEntity)
       XCTAssertTrue(ancestorCommontEntity == sportCar.entity)
@@ -82,6 +82,15 @@ class NSEntityDescriptionUtilsTests: XCTestCase {
       XCTAssertNotNil(ancestorCommontEntity)
       XCTAssertTrue(ancestorCommontEntity == car.entity)
     }
+    
+    do {
+      let car = Car(context: context)
+      let sportCar = SportCar(context: context)
+      
+      let ancestorCommontEntity = car.entity.commonEntityAncestor(with: sportCar.entity)
+      XCTAssertNotNil(ancestorCommontEntity)
+      XCTAssertTrue(ancestorCommontEntity == car.entity)
+    }
 
     do {
       let sportCar = SportCar(context: context)
@@ -102,7 +111,7 @@ class NSEntityDescriptionUtilsTests: XCTestCase {
   }
 
 
-  func test2() {
+  func testEntitiesKeepingOnlyCommonEntityAncestors() {
     let stack = CoreDataStack()!
     let context = stack.mainContext
 
