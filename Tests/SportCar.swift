@@ -30,7 +30,7 @@ public class SportCar: Car {
 
 }
 
-@objc(ExpensiveCar)
-final public class ExpensiveCar: SportCar {
+@objc(ExpensiveSportCar)
+final public class ExpensiveSportCar: SportCar {
   
 }

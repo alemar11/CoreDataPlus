@@ -31,7 +31,7 @@ class NSEntityDescriptionUtilsTests: XCTestCase {
     let stack = CoreDataStack()!
     let context = stack.mainContext
     
-    let ec = ExpensiveCar(context: context)
+    let ec = ExpensiveSportCar(context: context)
     print(ec.entity.hierarchyEntities().map{$0.name})
   }
 
@@ -40,29 +40,29 @@ class NSEntityDescriptionUtilsTests: XCTestCase {
     let context = stack.mainContext
 
     do {
-      let expensiveCar = ExpensiveCar(context: context)
+      let expensiveSportCar = ExpensiveSportCar(context: context)
       let sportCar = SportCar(context: context)
-      let ancestorCommontEntity = expensiveCar.entity.commonEntityAncestor(with: sportCar.entity)
+      let ancestorCommontEntity = expensiveSportCar.entity.commonEntityAncestor(with: sportCar.entity)
       XCTAssertNotNil(ancestorCommontEntity)
       XCTAssertTrue(ancestorCommontEntity == sportCar.entity)
     }
 
     do {
-      let expensiveCar = ExpensiveCar(context: context)
+      let expensiveSportCar = ExpensiveSportCar(context: context)
       let sportCar = SportCar(context: context)
 
-      let ancestorCommontEntity = sportCar.entity.commonEntityAncestor(with: expensiveCar.entity)
+      let ancestorCommontEntity = sportCar.entity.commonEntityAncestor(with: expensiveSportCar.entity)
       XCTAssertNotNil(ancestorCommontEntity)
       XCTAssertTrue(ancestorCommontEntity == sportCar.entity)
     }
 
     do {
-      let expensiveCar = ExpensiveCar(context: context)
-      let expensiveCar2 = ExpensiveCar(context: context)
+      let expensiveSportCar = ExpensiveSportCar(context: context)
+      let expensiveSportCar2 = ExpensiveSportCar(context: context)
 
-      let ancestorCommontEntity = expensiveCar.entity.commonEntityAncestor(with: expensiveCar2.entity)
+      let ancestorCommontEntity = expensiveSportCar.entity.commonEntityAncestor(with: expensiveSportCar2.entity)
       XCTAssertNotNil(ancestorCommontEntity)
-      XCTAssertTrue(ancestorCommontEntity == expensiveCar2.entity)
+      XCTAssertTrue(ancestorCommontEntity == expensiveSportCar2.entity)
     }
 
     do {
@@ -107,7 +107,7 @@ class NSEntityDescriptionUtilsTests: XCTestCase {
     let context = stack.mainContext
 
     do {
-      let entities = [ExpensiveCar(context: context).entity, ExpensiveCar(context: context).entity, SportCar(context: context).entity, SportCar(context: context).entity]
+      let entities = [ExpensiveSportCar(context: context).entity, ExpensiveSportCar(context: context).entity, SportCar(context: context).entity, SportCar(context: context).entity]
       let ancestors = Set(entities).entitiesKeepingOnlyCommonEntityAncestors()
       XCTAssertTrue(!ancestors.isEmpty)
       XCTAssertTrue(ancestors.count == 1)
@@ -115,7 +115,7 @@ class NSEntityDescriptionUtilsTests: XCTestCase {
     }
 
     do {
-      let entities = [ExpensiveCar(context: context).entity, ExpensiveCar(context: context).entity, SportCar(context: context).entity, Car(context: context).entity]
+      let entities = [ExpensiveSportCar(context: context).entity, ExpensiveSportCar(context: context).entity, SportCar(context: context).entity, Car(context: context).entity]
       let ancestors = Set(entities).entitiesKeepingOnlyCommonEntityAncestors()
       XCTAssertTrue(!ancestors.isEmpty)
       XCTAssertTrue(ancestors.count == 1)
@@ -123,7 +123,7 @@ class NSEntityDescriptionUtilsTests: XCTestCase {
     }
 
     do {
-      let entities = [Car(context: context).entity, ExpensiveCar(context: context).entity, ExpensiveCar(context: context).entity, SportCar(context: context).entity]
+      let entities = [Car(context: context).entity, ExpensiveSportCar(context: context).entity, ExpensiveSportCar(context: context).entity, SportCar(context: context).entity]
       let ancestors = Set(entities).entitiesKeepingOnlyCommonEntityAncestors()
       XCTAssertTrue(!ancestors.isEmpty)
       XCTAssertTrue(ancestors.count == 1)
@@ -131,7 +131,7 @@ class NSEntityDescriptionUtilsTests: XCTestCase {
     }
 
     do {
-      let entities = [SportCar(context: context).entity, Car(context: context).entity, ExpensiveCar(context: context).entity, ExpensiveCar(context: context).entity, ]
+      let entities = [SportCar(context: context).entity, Car(context: context).entity, ExpensiveSportCar(context: context).entity, ExpensiveSportCar(context: context).entity, ]
       let ancestors = Set(entities).entitiesKeepingOnlyCommonEntityAncestors()
       XCTAssertTrue(!ancestors.isEmpty)
       XCTAssertTrue(ancestors.count == 1)
@@ -155,19 +155,19 @@ class NSEntityDescriptionUtilsTests: XCTestCase {
     }
 
     do {
-      let entities = [ExpensiveCar(context: context).entity, ExpensiveCar(context: context).entity]
+      let entities = [ExpensiveSportCar(context: context).entity, ExpensiveSportCar(context: context).entity]
       let ancestors = Set(entities).entitiesKeepingOnlyCommonEntityAncestors()
       XCTAssertTrue(!ancestors.isEmpty)
       XCTAssertTrue(ancestors.count == 1)
-      XCTAssertTrue(ancestors.first == ExpensiveCar(context: context).entity)
+      XCTAssertTrue(ancestors.first == ExpensiveSportCar(context: context).entity)
     }
 
     do {
-      let entities = [ExpensiveCar(context: context).entity]
+      let entities = [ExpensiveSportCar(context: context).entity]
       let ancestors = Set(entities).entitiesKeepingOnlyCommonEntityAncestors()
       XCTAssertTrue(!ancestors.isEmpty)
       XCTAssertTrue(ancestors.count == 1)
-      XCTAssertTrue(ancestors.first == ExpensiveCar(context: context).entity)
+      XCTAssertTrue(ancestors.first == ExpensiveSportCar(context: context).entity)
     }
 
     do {
@@ -189,7 +189,7 @@ class NSEntityDescriptionUtilsTests: XCTestCase {
     /// 2+
 
     do {
-      let entities = [ExpensiveCar(context: context).entity, ExpensiveCar(context: context).entity, SportCar(context: context).entity, SportCar(context: context).entity, Person(context: context).entity]
+      let entities = [ExpensiveSportCar(context: context).entity, ExpensiveSportCar(context: context).entity, SportCar(context: context).entity, SportCar(context: context).entity, Person(context: context).entity]
       let ancestors = Set(entities).entitiesKeepingOnlyCommonEntityAncestors()
       XCTAssertTrue(!ancestors.isEmpty)
       XCTAssertTrue(ancestors.count == 2)
@@ -198,7 +198,7 @@ class NSEntityDescriptionUtilsTests: XCTestCase {
     }
 
     do {
-      let entities = [ExpensiveCar(context: context).entity, ExpensiveCar(context: context).entity, SportCar(context: context).entity, SportCar(context: context).entity, Person(context: context).entity, Car(context: context).entity]
+      let entities = [ExpensiveSportCar(context: context).entity, ExpensiveSportCar(context: context).entity, SportCar(context: context).entity, SportCar(context: context).entity, Person(context: context).entity, Car(context: context).entity]
       let ancestors = Set(entities).entitiesKeepingOnlyCommonEntityAncestors()
       XCTAssertTrue(!ancestors.isEmpty)
       XCTAssertTrue(ancestors.count == 2)
