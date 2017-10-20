@@ -11,7 +11,9 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="ExpensiveSportCar" representedClassName="ExpensiveSportCar" parentEntity="SportCar" syncable="YES"/>
+    <entity name="ExpensiveSportCar" representedClassName="ExpensiveSportCar" parentEntity="SportCar" syncable="YES">
+        <attribute name="isLimitedEdition" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
     <entity name="Person" representedClassName="Person" syncable="YES">
         <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
@@ -26,7 +28,7 @@
     <entity name="SportCar" representedClassName="SportCar" parentEntity="Car" syncable="YES"/>
     <elements>
         <element name="Car" positionX="-54" positionY="-9" width="128" height="105"/>
-        <element name="ExpensiveSportCar" positionX="-56" positionY="-189" width="128" height="45"/>
+        <element name="ExpensiveSportCar" positionX="-56" positionY="-189" width="128" height="58"/>
         <element name="Person" positionX="-326" positionY="9" width="128" height="90"/>
         <element name="SportCar" positionX="-54" positionY="-90" width="128" height="45"/>
     </elements>

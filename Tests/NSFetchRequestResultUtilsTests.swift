@@ -194,46 +194,77 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     let sportCar1 = SportCar(context: context)
     sportCar1.maker = "BMW"
     sportCar1.model = "M6 Coupe"
-    sportCar1.numberPlate = "16"
+    sportCar1.numberPlate = "200"
     
     let sportCar2 = SportCar(context: context)
     sportCar2.maker = "Mercedes-Benz "
     sportCar2.model = "AMG GT S"
-    sportCar2.numberPlate = "17"
+    sportCar2.numberPlate = "201"
     
     let sportCar3 = SportCar(context: context)
     sportCar3.maker = "Maserati"
     sportCar3.model = "GranTurismo MC"
-    sportCar3.numberPlate = "18"
+    sportCar3.numberPlate = "202"
     
     let sportCar4 = SportCar(context: context)
     sportCar4.maker = "McLaren"
     sportCar4.model = "570GT"
-    sportCar4.numberPlate = "19"
+    sportCar4.numberPlate = "203"
     
     let sportCar5 = SportCar(context: context)
     sportCar5.maker = "Lamborghini "
     sportCar5.model = "Aventador LP750-4"
-    sportCar5.numberPlate = "20"
+    sportCar5.numberPlate = "204"
     
-    // car15 and sportCar5 do not have an owner
+    /// Expensive Sport Car
+    let expensiveSportCar1 = ExpensiveSportCar(context: context)
+    expensiveSportCar1.maker = "BMW"
+    expensiveSportCar1.model = "M6 Coupe"
+    expensiveSportCar1.numberPlate = "300"
+    expensiveSportCar1.isLimitedEdition = true
+    
+    let expensiveSportCar2 = ExpensiveSportCar(context: context)
+    expensiveSportCar2.maker = "Mercedes-Benz "
+    expensiveSportCar2.model = "AMG GT S"
+    expensiveSportCar2.numberPlate = "301"
+    expensiveSportCar1.isLimitedEdition = true
+    
+    let expensiveSportCar3 = ExpensiveSportCar(context: context)
+    expensiveSportCar3.maker = "Maserati"
+    expensiveSportCar3.model = "GranTurismo MC"
+    expensiveSportCar3.numberPlate = "302"
+    expensiveSportCar1.isLimitedEdition = false
+    
+    let expensiveSportCar4 = ExpensiveSportCar(context: context)
+    expensiveSportCar4.maker = "McLaren"
+    expensiveSportCar4.model = "570GT"
+    expensiveSportCar4.numberPlate = "303"
+    expensiveSportCar1.isLimitedEdition = false
+    
+    let expensiveSportCar5 = ExpensiveSportCar(context: context)
+    expensiveSportCar5.maker = "Lamborghini "
+    expensiveSportCar5.model = "Aventador LP750-4"
+    expensiveSportCar5.numberPlate = "304"
+    expensiveSportCar1.isLimitedEdition = false
+    
+    /// car15, sportCar5, expensiveSportCar4 and expensiveSportCar5 do not have an owner
     person1.cars = [car1]
     person2.cars = [car2]
-    person3.cars = [car3]
+    person3.cars = [car3, expensiveSportCar1]
     person4.cars = [car4]
-    person5.cars = [car5]
+    person5.cars = [car5, expensiveSportCar2, expensiveSportCar3]
     person6.cars = [car6]
     person7.cars = [sportCar1, sportCar2]
     person8.cars = [car7]
     person9.cars = [sportCar3]
     person10.cars = [car8, car9]
-    person11.cars = [car10, car11, car12]
+    person11.cars = [car10, car11, car12] // and a lots of panda 🚗
     person12.cars = [sportCar4]
     person13.cars = [car13, car14]
     person14.cars = [car13, car14]
     
     var cars = [Car]()
-    for i in 100...200 {
+    for i in 100..<200 {
       let car = Car(context: context)
       car.maker = "FIAT"
       car.model = "Panda"

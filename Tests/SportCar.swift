@@ -26,11 +26,9 @@ import CoreData
 import CoreDataPlus
 
 @objc(SportCar)
-public class SportCar: Car {
-
-}
+public class SportCar: Car { }
 
 @objc(ExpensiveSportCar)
 final public class ExpensiveSportCar: SportCar {
-  
+   @NSManaged public var isLimitedEdition: Bool
 }
