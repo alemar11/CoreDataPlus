@@ -113,7 +113,24 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
   // TODO: to be implemented
   private static func findOrFetchUniqueObject(in context: NSManagedObjectContext, where predicate: NSPredicate) -> Self? {
-    return nil
+    var result = findMaterializedObjects(in: context, where: predicate)
+    if result.isEmpty {
+      result = fetch(in: context) { request in
+        request.predicate = predicate
+        request.returnsObjectsAsFaults = false
+        request.fetchLimit = 2
+        }
+    }
+
+    switch result.count {
+    case 0:
+      return nil
+    case 1:
+      return result[0]
+    default:
+      fatalError("Returned multiple objects, expected max 1.")
+    }
+
   }
 
   /// **CoreDataPlus**
@@ -123,7 +140,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   public static func fetch(in context: NSManagedObjectContext, with configuration: (NSFetchRequest<Self>) -> Void = { _ in }) -> [Self] {
     let request = NSFetchRequest<Self>(entityName: entityName)
     configuration(request)
-    guard let result = try? context.fetch(request) else { fatalError("Fetched objects have wrong type.") }
+    guard let result = try? context.fetch(request) else { fatalError("Fetched objects have the wrong type.") }
 
     return result
   }
@@ -210,7 +227,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     case 1:
       return result[0]
     default:
-      fatalError("Returned multiple objects (\(result.count), expected max 1.")
+      fatalError("Returned multiple objects, expected max 1.")
     }
   }
 

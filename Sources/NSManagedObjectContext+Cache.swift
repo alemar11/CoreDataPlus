@@ -25,7 +25,7 @@ import CoreData
 
 // MARK: - Cache
 
-private let managedObjectsCacheKey = "\(bundleIdentifier).CoreData.ManagedObjectsCache"
+private let managedObjectsCacheKey = "\(bundleIdentifier).NSManagedObjectContext.cache"
 private typealias ManagedObjectsCache = [String: NSManagedObject]
 
 extension NSManagedObjectContext {
@@ -37,11 +37,13 @@ extension NSManagedObjectContext {
   public final func setCachedManagedObject(_ object: NSManagedObject?, forKey key: String) {
     switch object {
     case let managedObject? where managedObject.managedObjectContext != nil && managedObject.managedObjectContext !== self:
-      print("The managedObject \(managedObject.objectID) has a NSManagedObjectContext \(managedObject.managedObjectContext!) different from \(self) and it will be not cached.")
+      //assertionFailure("The managedObject \(managedObject.objectID) has a NSManagedObjectContext \(managedObject.managedObjectContext!) different from \(self) and it will be not cached.")
       return
+
     case let managedObject? where managedObject.managedObjectContext == nil:
-      print("The managedObject \(managedObject.objectID) doen't have a NSManagedObjectContext and it will be not cached.")
+      //assertionFailure("The managedObject \(managedObject.objectID) doesn't have a NSManagedObjectContext and it will be not cached.")
       return
+
     default:
       var cache = userInfo[managedObjectsCacheKey] as? ManagedObjectsCache ?? [:]
       cache[key] = object
