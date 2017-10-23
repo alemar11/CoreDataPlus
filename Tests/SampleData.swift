@@ -111,7 +111,6 @@ extension NSManagedObjectContext {
     person20.firstName = "Alex"
     person20.lastName = "Rathbun"
 
-
     /// FIAT
     let car1 = Car(context: context)
     car1.maker = "FIAT"

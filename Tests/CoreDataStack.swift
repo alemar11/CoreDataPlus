@@ -48,6 +48,8 @@ final class CoreDataStack {
       let storeURL = URL(fileURLWithPath: "\(NSTemporaryDirectory())\(UUID().uuidString).sqlite" )
       let persistentStoreDescription = NSPersistentStoreDescription(url: storeURL)
 
+      print(storeURL)
+
       persistentStoreDescription.type = NSSQLiteStoreType
       persistentStoreDescription.shouldMigrateStoreAutomatically = true // default behaviour
       persistentStoreDescription.shouldInferMappingModelAutomatically = true // default behaviour
