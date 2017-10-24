@@ -37,7 +37,14 @@ extension Collection where Element: NSManagedObject {
   /// - Note: Materializing all objects in one batch is faster than triggering the fault for each object on its own.
   public func fetchFaultedObjects() throws {
     guard !self.isEmpty else { return }
-    guard let context = self.first?.managedObjectContext else { fatalError("The managed object must have a context.") }
+    
+    //TODO
+    let contextIds = Set(self.flatMap { ObjectIdentifier($0.managedObjectContext!) })
+    print(contextIds)
+    guard let context = self.first?.managedObjectContext else {
+      fatalError("TODO: fatal error if different contexts or different context management")
+      
+    }
     
     let faults = self.filter { $0.isFault }
     guard faults.count > 0 else { return }

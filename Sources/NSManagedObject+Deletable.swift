@@ -104,7 +104,8 @@ extension NSFetchRequestResult where Self: NSManagedObject, Self: DelayedDeletab
   /// - Throws: An error in cases of a batch delete operation failure.
   @available(iOS 9, tvOS 9, watchOS 2, macOS 10.12, *)
   public static func batchDeleteObjectsMarkedForDeletion(in context: NSManagedObjectContext, olderThan cutOffDate: Date = Date(timeIntervalSinceNow: -TimeInterval(120))) throws {
-    guard context.persistentStoreCoordinator != nil else { fatalError("Persistent Store Coordinator missing. A NSBatchDeleteRequest instance operates directly on one or more persistent stores.") }
+    
+    guard context.persistentStoreCoordinator != nil else { throw CoreDataPlusError.missingParameter(reason: .persistentStoreCoordinator(context: "A NSBatchDeleteRequest instance operates directly on one or more persistent stores.")) }
 
     let request = fetchRequest()
     request.predicate = NSPredicate(format: "%K <= %@", markedForDeletionKey, cutOffDate as NSDate)

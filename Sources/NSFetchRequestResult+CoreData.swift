@@ -157,7 +157,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     configuration(request)
 
     let result = try context.count(for: request)
-    guard result != NSNotFound else { fatalError("Failed to execute the count fetch request.") }
+    guard result != NSNotFound else { throw CoreDataPlusError.failedFetch(reason: .countNotFound) }
 
     return result
   }
@@ -202,7 +202,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     case 1:
       return result[0]
     default:
-      fatalError("Returned multiple objects, expected max 1.")
+      throw CoreDataPlusError.failedFetch(reason: .expectingOneObject)
     }
   }
 

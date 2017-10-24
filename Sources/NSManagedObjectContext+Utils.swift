@@ -55,7 +55,10 @@ extension NSManagedObjectContext {
   ///   - handler: The completion handler called when the saving is completed.
   public final func setMetaDataObject(_ object: Any?, with key: String, for store: NSPersistentStore, completion handler: ( (Error?) -> Void )? = nil ) {
     performSave(after: {
-      guard let persistentStoreCoordinator = self.persistentStoreCoordinator else { fatalError("Persistent Store Coordinator missing.") }
+      guard let persistentStoreCoordinator = self.persistentStoreCoordinator else {
+        handler?(CoreDataPlusError.missingParameter(reason: .persistentStoreCoordinator(context: "\(self.description) doesn't have a NSPersistentStoreCoordinator associoated with.")))
+        return
+      }
       var metaData = persistentStoreCoordinator.metadata(for: store)
       metaData[key] = object
       persistentStoreCoordinator.setMetadata(metaData, for: store)
@@ -70,7 +73,7 @@ extension NSManagedObjectContext {
   public final func entity(forEntityName name: String) -> NSEntityDescription {
     guard let persistentStoreCoordinator = persistentStoreCoordinator else { fatalError("Persistent Store Coordinator missing.") }
     guard let entity = persistentStoreCoordinator.managedObjectModel.entitiesByName[name] else { fatalError("Entity \(name) not found.") }
-    // guard let entity = NSEntityDescription.entity(forEntityName: name, in: self) else { fatalError("Entity \(name) not found.") }
+    
     return entity
   }
 
