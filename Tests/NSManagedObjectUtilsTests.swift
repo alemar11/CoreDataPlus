@@ -141,7 +141,7 @@ class NSManagedObjectUtilsTests: XCTestCase {
       XCTAssertNotNil(car.committedValue(forKey: carNumberPlate))
 
       let request = NSFetchRequest<Car>(entityName: "Car")
-      request.predicate = NSPredicate(format: "model=%@ AND numberPlate=%@", "MyModel", "202")
+      request.predicate = NSPredicate(format: "\(#keyPath(Car.model)) == %@ AND \(#keyPath(Car.numberPlate)) == %@", "MyModel", "202")
       request.fetchBatchSize = 1
       if let fetchedCar = try! mainContext.fetch(request).first {
         XCTAssertNotNil(car.committedValue(forKey: carNumberPlate))

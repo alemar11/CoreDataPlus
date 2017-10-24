@@ -115,10 +115,10 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// If objects have not yet been saved to a persistent store, they are simply removed from the context.
   /// - Note: `NSBatchDeleteRequest` would be more efficient but requires a context with an `NSPersistentStoreCoordinator` directly connected (no child context).
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
-  private static func deleteAll(in context: NSManagedObjectContext, where predicate: NSPredicate) {
+  public static func deleteAll(in context: NSManagedObjectContext, where predicate: NSPredicate = NSPredicate(value: true)) {
     fetch(in: context) { request in
       request.includesPropertyValues = false
-      request.includesSubentities = false
+      //request.includesSubentities = false
       request.predicate = predicate
       }.lazy.forEach(context.delete(_:))
   }
@@ -131,7 +131,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - parameter objects: An Array of `NSManagedObjects` belonging to the `NSManagedObjectContext` to exclude from deletion.
   /// - note: `NSBatchDeleteRequest` would be more efficient but requires a context with an `NSPersistentStoreCoordinator` directly connected (no child context).
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
-  private static func deleteAll(in context: NSManagedObjectContext, except objects: [Self]) {
+  public static func deleteAll(in context: NSManagedObjectContext, except objects: [Self]) {
     let predicate = NSPredicate(format: "NOT (self IN %@)", objects)
     deleteAll(in: context, where: predicate )
   }

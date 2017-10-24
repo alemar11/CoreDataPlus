@@ -41,7 +41,7 @@ extension NSManagedObjectContext {
 
     let person3 = Person(context: context)
     person3.firstName = "Faron"
-    person3.lastName = "Devich"
+    person3.lastName = "Moreton"
 
     let person4 = Person(context: context)
     person4.firstName = "Darin"
@@ -88,12 +88,12 @@ extension NSManagedObjectContext {
     person14.lastName = "Hurowitz"
 
     let person15 = Person(context: context)
-    person15.firstName = "Vale"
+    person15.firstName = "Victoria"
     person15.lastName = "Coster"
 
     let person16 = Person(context: context)
     person16.firstName = "Lorayne"
-    person16.lastName = "Soncin"
+    person16.lastName = "Gleaves"
 
     let person17 = Person(context: context)
     person17.firstName = "Bret"

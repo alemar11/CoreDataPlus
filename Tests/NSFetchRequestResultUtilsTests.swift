@@ -326,8 +326,8 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     context.refreshAllObjects() //re-fault objects that don't have pending changes
     
     let request = Person.newFetchRequest()
-    request.predicate = NSPredicate(format: "firstName == %@ AND lastName == %@", "Theodora", "Stone")
-    
+    request.predicate = NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone")
+
     do {
       let persons = try context.fetch(request)
       
