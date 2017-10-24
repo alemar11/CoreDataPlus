@@ -27,7 +27,7 @@ import CoreData
 
 class NSFetchRequestResultCoreDataTests: XCTestCase {
 
-  func testDeleteAll() {
+  func testDeleteAllIncludingSubentities() {
     let stack = CoreDataStack()!
     let context = stack.mainContext
 
@@ -51,6 +51,37 @@ class NSFetchRequestResultCoreDataTests: XCTestCase {
     XCTAssertTrue(SportCar.fetch(in: context).isEmpty)
     XCTAssertTrue(ExpensiveSportCar.fetch(in: context).isEmpty)
     XCTAssertTrue(!Car.fetch(in: context).isEmpty)
+
+    // When
+    Car.deleteAll(in: context)
+    // Then
+    XCTAssertTrue(Car.fetch(in: context).isEmpty)
+
+  }
+
+  func testDeleteAllExcludingSubentities() {
+    let stack = CoreDataStack()!
+    let context = stack.mainContext
+
+    // Given
+    context.fillWithSampleData()
+    // When
+    SportCar.deleteAll(in: context, includingSubentities:false, where: NSPredicate(format: "%K == %@", #keyPath(SportCar.numberPlate), "302")) //it's an ExpensiveSportCar
+    // Then
+    XCTAssertFalse(SportCar.fetch(in: context).filter { $0.numberPlate == "302" }.isEmpty)
+    XCTAssertFalse(ExpensiveSportCar.fetch(in: context).filter { $0.numberPlate == "302" }.isEmpty)
+
+    // When
+    ExpensiveSportCar.deleteAll(in: context, includingSubentities:false, where: NSPredicate(format: "%K == %@", #keyPath(SportCar.numberPlate), "301"))
+    // Then
+    XCTAssertTrue(SportCar.fetch(in: context).filter { $0.numberPlate == "301" }.isEmpty)
+    XCTAssertTrue(ExpensiveSportCar.fetch(in: context).filter { $0.numberPlate == "301" }.isEmpty)
+
+    // When
+    SportCar.deleteAll(in: context, includingSubentities:false, where: NSPredicate(value: true))
+    // Then
+    XCTAssertFalse(SportCar.fetch(in: context).isEmpty)
+    XCTAssertFalse(ExpensiveSportCar.fetch(in: context).isEmpty)
 
     // When
     Car.deleteAll(in: context)
