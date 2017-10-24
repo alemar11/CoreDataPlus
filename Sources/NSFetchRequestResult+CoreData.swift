@@ -60,7 +60,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - predicate: Matching predicate.
   ///   - configuration: Configuration closure called only when creating a new object.
   /// - Returns: A matching object or a configured new one.
-  // TODO: rename findOrCreateObject
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
   public static func findOrCreate(in context: NSManagedObjectContext, where predicate: NSPredicate, with configuration: (Self) -> Void) -> Self {
     guard let object = findOrFetch(in: context, where: predicate) else {
@@ -72,19 +71,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
     return object
   }
-
-  // TODO: to be implemented
-//  @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
-//  private static func findOrCreateUniqueObject(in context: NSManagedObjectContext, where predicate: NSPredicate, with configuration: (Self) -> Void) -> Self {
-//    guard let object = findOrFetchUniqueObject(in: context, where: predicate) else {
-//      let newObject: Self = Self(context: context)
-//      configuration(newObject)
-//
-//      return newObject
-//    }
-//
-//    return object
-//  }
 
   /// **CoreDataPlus**
   ///
@@ -105,32 +91,11 @@ extension NSFetchRequestResult where Self: NSManagedObject {
         request.returnsObjectsAsFaults = false
         request.fetchLimit = 1
         }.first
+
     }
 
     return object
   }
-
-  // TODO: to be implemented
-//  private static func findOrFetchUniqueObject(in context: NSManagedObjectContext, where predicate: NSPredicate) -> Self? {
-//    var result = findMaterializedObjects(in: context, where: predicate)
-//    if result.isEmpty {
-//      result = fetch(in: context) { request in
-//        request.predicate = predicate
-//        request.returnsObjectsAsFaults = false
-//        request.fetchLimit = 2
-//        }
-//    }
-//
-//    switch result.count {
-//    case 0:
-//      return nil
-//    case 1:
-//      return result[0]
-//    default:
-//      fatalError("Returned multiple objects, expected max 1.")
-//    }
-//
-//  }
 
   /// **CoreDataPlus**
   ///
@@ -178,6 +143,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   public static func count(in context: NSManagedObjectContext, for configuration: (NSFetchRequest<Self>) -> Void = { _ in }) -> Int {
     let request = NSFetchRequest<Self>(entityName: entityName)
     configuration(request)
+
     do {
       let result = try context.count(for: request)
       guard result != NSNotFound else { fatalError("Failed to execute the count fetch request.") }
@@ -192,7 +158,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///
   /// Iterates over the context’s registeredObjects set (which contains all managed objects the context currently knows about) until it finds one that is not a fault matching for a given predicate.
   /// Faulted objects are not considered to prevent Core Data to make a round trip to the persistent store.
-  // TODO: rename findFirstMaterializedObject
   public static func findMaterializedObject(in context: NSManagedObjectContext, where predicate: NSPredicate) -> Self? {
     for object in context.registeredObjects where !object.isFault {
       guard let result = object as? Self, predicate.evaluate(with: result) else { continue }
