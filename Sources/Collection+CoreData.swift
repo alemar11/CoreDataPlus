@@ -33,8 +33,9 @@ extension Collection where Element: NSManagedObject {
   /// **CoreDataPlus**
   ///
   /// Fetches all the faulted object in one batch executing a single fetch request for all objects of the same type (or ancestor) that we’re interested in.
+  /// - Throws: It throws an error in cases of failure.
   /// - Note: Materializing all objects in one batch is faster than triggering the fault for each object on its own.
-  public func fetchFaultedObjects() {
+  public func fetchFaultedObjects() throws {
     guard !self.isEmpty else { return }
     guard let context = self.first?.managedObjectContext else { fatalError("The managed object must have a context.") }
     
@@ -50,12 +51,8 @@ extension Collection where Element: NSManagedObject {
       request.entity = entity
       request.returnsObjectsAsFaults = false
       request.predicate = NSPredicate(format: "self IN %@", faults)
-      
-      do {
-        try context.fetch(request)
-      } catch {
-        fatalError(error.localizedDescription)
-      }
+
+      try context.fetch(request)
     }
   }
   

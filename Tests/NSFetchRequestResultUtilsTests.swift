@@ -300,7 +300,7 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
       let previousFaultsCount = cars.filter { $0.isFault }.count
       
       /// batch faulting
-      cars.fetchFaultedObjects()
+      XCTAssertNoThrow(try cars.fetchFaultedObjects())
       
       // Then
       let currentNotFaultsCount = cars.filter { !$0.isFault }.count
@@ -337,7 +337,7 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
       let person = persons.first!
       let previousFaultsCount = person.cars?.filter { $0.isFault }.count
       
-      person.cars?.fetchFaultedObjects()
+      XCTAssertNoThrow(try person.cars?.fetchFaultedObjects())
       let currentNotFaultsCount = person.cars?.filter { !$0.isFault }.count
       let currentFaultsCount = person.cars?.filter { $0.isFault }.count
       XCTAssertTrue(previousFaultsCount == currentNotFaultsCount)

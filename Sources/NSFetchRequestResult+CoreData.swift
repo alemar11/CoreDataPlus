@@ -60,9 +60,10 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - predicate: Matching predicate.
   ///   - configuration: Configuration closure called only when creating a new object.
   /// - Returns: A matching object or a configured new one.
+  /// - Throws: It throws an error in cases of failure.
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
-  public static func findOrCreate(in context: NSManagedObjectContext, where predicate: NSPredicate, with configuration: (Self) -> Void) -> Self {
-    guard let object = findOrFetch(in: context, where: predicate) else {
+  public static func findOrCreate(in context: NSManagedObjectContext, where predicate: NSPredicate, with configuration: (Self) -> Void) throws -> Self {
+    guard let object = try findOrFetch(in: context, where: predicate) else {
       let newObject: Self = Self(context: context)
       configuration(newObject)
 
@@ -81,12 +82,13 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - context: Searched context.
   ///   - predicate: Matching predicate.
   /// - Returns: The first matching object (if any).
+  /// - Throws: It throws an error in cases of failure.
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
-  public static func findOrFetch(in context: NSManagedObjectContext, where predicate: NSPredicate) -> Self? {
+  public static func findOrFetch(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? {
     // first we should fetch an existing object in the context as a performance optimization
     guard let object = findMaterializedObject(in: context, where: predicate) else {
       // if it's not in memory, we should execute a fetch to see if it exists
-      return fetch(in: context) { request in
+      return try fetch(in: context) { request in
         request.predicate = predicate
         request.returnsObjectsAsFaults = false
         request.fetchLimit = 1
@@ -100,17 +102,16 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// **CoreDataPlus**
   ///
   /// Performs a configurable fetch request in a context.
+  /// - Throws: It throws an error in cases of failure.
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
-  public static func fetch(in context: NSManagedObjectContext, with configuration: (NSFetchRequest<Self>) -> Void = { _ in }) -> [Self] {
+  public static func fetch(in context: NSManagedObjectContext, with configuration: (NSFetchRequest<Self>) -> Void = { _ in }) throws -> [Self] {
     let request = NSFetchRequest<Self>(entityName: entityName)
     configuration(request)
-    do {
+
       let result = try context.fetch(request)
       return result
 
-    } catch {
-      fatalError("Failed to execute the fetch request: \(error.localizedDescription).")
-    }
+
   }
 
   /// **CoreDataPlus**
@@ -119,9 +120,10 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// If objects have not yet been saved to a persistent store, they are simply removed from the context.
   /// If `includingSubentities` is set to `false`, sub-entities will be ignored.
   /// - Note: `NSBatchDeleteRequest` would be more efficient but requires a context with an `NSPersistentStoreCoordinator` directly connected (no child context).
+  /// - Throws: It throws an error in cases of failure.
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
-  public static func deleteAll(in context: NSManagedObjectContext, includingSubentities: Bool = true, where predicate: NSPredicate = NSPredicate(value: true)) {
-    fetch(in: context) { request in
+  public static func deleteAll(in context: NSManagedObjectContext, includingSubentities: Bool = true, where predicate: NSPredicate = NSPredicate(value: true)) throws {
+    try fetch(in: context) { request in
       request.includesPropertyValues = false
       request.includesSubentities = includingSubentities
       request.predicate = predicate
@@ -132,31 +134,32 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///
   /// Removes all entities from within the specified `NSManagedObjectContext` excluding a given list of entities.
   ///
-  /// - parameter context: The `NSManagedObjectContext` to remove the Entities from.
-  /// - parameter objects: An Array of `NSManagedObjects` belonging to the `NSManagedObjectContext` to exclude from deletion.
-  /// - note: `NSBatchDeleteRequest` would be more efficient but requires a context with an `NSPersistentStoreCoordinator` directly connected (no child context).
+  /// - Parameters:
+  ///   - context: The `NSManagedObjectContext` to remove the Entities from.
+  ///   - objects: An Array of `NSManagedObjects` belonging to the `NSManagedObjectContext` to exclude from deletion.
+  /// - Throws: It throws an error in cases of failure.
+  /// - Note: `NSBatchDeleteRequest` would be more efficient but requires a context with an `NSPersistentStoreCoordinator` directly connected (no child context).
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
-  public static func deleteAll(in context: NSManagedObjectContext, except objects: [Self]) {
+
+
+  public static func deleteAll(in context: NSManagedObjectContext, except objects: [Self]) throws {
     let predicate = NSPredicate(format: "NOT (self IN %@)", objects)
-    deleteAll(in: context, includingSubentities:true, where: predicate )
+    try deleteAll(in: context, includingSubentities:true, where: predicate )
   }
 
   /// **CoreDataPlus**
   ///
   /// Counts the results of a configurable fetch request in a context.
+  /// - Throws: It throws an error in cases of failure.
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
-  public static func count(in context: NSManagedObjectContext, for configuration: (NSFetchRequest<Self>) -> Void = { _ in }) -> Int {
+  public static func count(in context: NSManagedObjectContext, for configuration: (NSFetchRequest<Self>) -> Void = { _ in }) throws -> Int {
     let request = NSFetchRequest<Self>(entityName: entityName)
     configuration(request)
 
-    do {
-      let result = try context.count(for: request)
-      guard result != NSNotFound else { fatalError("Failed to execute the count fetch request.") }
-      return result
+    let result = try context.count(for: request)
+    guard result != NSNotFound else { fatalError("Failed to execute the count fetch request.") }
 
-    } catch let error {
-      fatalError("Failed to execute the fetch request: \(error.localizedDescription).")
-    }
+    return result
   }
 
   /// **CoreDataPlus**
@@ -186,9 +189,10 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// **CoreDataPlus**
   ///
   /// Executes a fetch request where only a single object is expected as result, otherwhise a fatal error occurs.
+  /// - Throws: It throws an error in cases of failure.
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
-  public static func fetchSingleObject(in context: NSManagedObjectContext, with configuration: @escaping (NSFetchRequest<Self>) -> Void) -> Self? {
-    let result = fetch(in: context) { request in
+  public static func fetchSingleObject(in context: NSManagedObjectContext, with configuration: @escaping (NSFetchRequest<Self>) -> Void) throws -> Self? {
+    let result = try fetch(in: context) { request in
       configuration(request)
       request.fetchLimit = 2
     }
@@ -216,10 +220,11 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - cacheKey: Cache key.
   ///   - configuration: Configurable fetch request.
   /// - Returns: A cached object (if any).
+  /// - Throws: It throws an error in cases of failure.
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
-  public static func fetchCachedObject(in context: NSManagedObjectContext, forKey cacheKey: String, with configuration: @escaping (NSFetchRequest<Self>) -> Void) -> Self? {
+  public static func fetchCachedObject(in context: NSManagedObjectContext, forKey cacheKey: String, with configuration: @escaping (NSFetchRequest<Self>) -> Void) throws -> Self? {
     guard let cached = context.cachedManagedObject(forKey: cacheKey) as? Self else {
-      let result = fetchSingleObject(in: context, with: configuration)
+      let result = try fetchSingleObject(in: context, with: configuration)
       context.setCachedManagedObject(result, forKey: cacheKey)
 
       return result

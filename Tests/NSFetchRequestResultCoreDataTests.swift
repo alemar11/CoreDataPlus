@@ -34,28 +34,28 @@ class NSFetchRequestResultCoreDataTests: XCTestCase {
     // Given
     context.fillWithSampleData()
     // When
-    SportCar.deleteAll(in: context, where: NSPredicate(format: "%K == %@", #keyPath(SportCar.numberPlate), "302"))
+    XCTAssertNoThrow(try SportCar.deleteAll(in: context, where: NSPredicate(format: "%K == %@", #keyPath(SportCar.numberPlate), "302")))
     // Then
-    XCTAssertTrue(SportCar.fetch(in: context).filter { $0.numberPlate == "302" }.isEmpty)
-    XCTAssertTrue(ExpensiveSportCar.fetch(in: context).filter { $0.numberPlate == "302" }.isEmpty)
+    XCTAssertTrue(try SportCar.fetch(in: context).filter { $0.numberPlate == "302" }.isEmpty)
+    XCTAssertTrue(try ExpensiveSportCar.fetch(in: context).filter { $0.numberPlate == "302" }.isEmpty)
 
     // When
-    ExpensiveSportCar.deleteAll(in: context, where: NSPredicate(format: "%K == %@", #keyPath(SportCar.numberPlate), "301"))
+     XCTAssertNoThrow(try ExpensiveSportCar.deleteAll(in: context, where: NSPredicate(format: "%K == %@", #keyPath(SportCar.numberPlate), "301")))
     // Then
-    XCTAssertTrue(SportCar.fetch(in: context).filter { $0.numberPlate == "301" }.isEmpty)
-    XCTAssertTrue(ExpensiveSportCar.fetch(in: context).filter { $0.numberPlate == "301" }.isEmpty)
+    XCTAssertTrue(try SportCar.fetch(in: context).filter { $0.numberPlate == "301" }.isEmpty)
+    XCTAssertTrue(try ExpensiveSportCar.fetch(in: context).filter { $0.numberPlate == "301" }.isEmpty)
 
     // When
-    SportCar.deleteAll(in: context, where: NSPredicate(value: true))
+     XCTAssertNoThrow(try SportCar.deleteAll(in: context, where: NSPredicate(value: true)))
     // Then
-    XCTAssertTrue(SportCar.fetch(in: context).isEmpty)
-    XCTAssertTrue(ExpensiveSportCar.fetch(in: context).isEmpty)
-    XCTAssertTrue(!Car.fetch(in: context).isEmpty)
+    XCTAssertTrue(try SportCar.fetch(in: context).isEmpty)
+    XCTAssertTrue(try ExpensiveSportCar.fetch(in: context).isEmpty)
+    XCTAssertTrue(try !Car.fetch(in: context).isEmpty)
 
     // When
-    Car.deleteAll(in: context)
+     XCTAssertNoThrow(try Car.deleteAll(in: context))
     // Then
-    XCTAssertTrue(Car.fetch(in: context).isEmpty)
+    XCTAssertTrue(try Car.fetch(in: context).isEmpty)
 
   }
 
@@ -66,27 +66,27 @@ class NSFetchRequestResultCoreDataTests: XCTestCase {
     // Given
     context.fillWithSampleData()
     // When
-    SportCar.deleteAll(in: context, includingSubentities:false, where: NSPredicate(format: "%K == %@", #keyPath(SportCar.numberPlate), "302")) //it's an ExpensiveSportCar
+    XCTAssertNoThrow(try SportCar.deleteAll(in: context, includingSubentities:false, where: NSPredicate(format: "%K == %@", #keyPath(SportCar.numberPlate), "302"))) //it's an ExpensiveSportCar
     // Then
-    XCTAssertFalse(SportCar.fetch(in: context).filter { $0.numberPlate == "302" }.isEmpty)
-    XCTAssertFalse(ExpensiveSportCar.fetch(in: context).filter { $0.numberPlate == "302" }.isEmpty)
+    XCTAssertFalse(try SportCar.fetch(in: context).filter { $0.numberPlate == "302" }.isEmpty)
+    XCTAssertFalse(try ExpensiveSportCar.fetch(in: context).filter { $0.numberPlate == "302" }.isEmpty)
 
     // When
-    ExpensiveSportCar.deleteAll(in: context, includingSubentities:false, where: NSPredicate(format: "%K == %@", #keyPath(SportCar.numberPlate), "301"))
+    XCTAssertNoThrow(try ExpensiveSportCar.deleteAll(in: context, includingSubentities:false, where: NSPredicate(format: "%K == %@", #keyPath(SportCar.numberPlate), "301")))
     // Then
-    XCTAssertTrue(SportCar.fetch(in: context).filter { $0.numberPlate == "301" }.isEmpty)
-    XCTAssertTrue(ExpensiveSportCar.fetch(in: context).filter { $0.numberPlate == "301" }.isEmpty)
+    XCTAssertTrue(try SportCar.fetch(in: context).filter { $0.numberPlate == "301" }.isEmpty)
+    XCTAssertTrue(try ExpensiveSportCar.fetch(in: context).filter { $0.numberPlate == "301" }.isEmpty)
 
     // When
-    SportCar.deleteAll(in: context, includingSubentities:false, where: NSPredicate(value: true))
+    XCTAssertNoThrow(try SportCar.deleteAll(in: context, includingSubentities:false, where: NSPredicate(value: true)))
     // Then
-    XCTAssertFalse(SportCar.fetch(in: context).isEmpty)
-    XCTAssertFalse(ExpensiveSportCar.fetch(in: context).isEmpty)
+    XCTAssertFalse(try SportCar.fetch(in: context).isEmpty)
+    XCTAssertFalse(try ExpensiveSportCar.fetch(in: context).isEmpty)
 
     // When
-    Car.deleteAll(in: context)
+    XCTAssertNoThrow(try Car.deleteAll(in: context))
     // Then
-    XCTAssertTrue(Car.fetch(in: context).isEmpty)
+    XCTAssertTrue(try Car.fetch(in: context).isEmpty)
 
   }
 
@@ -96,9 +96,10 @@ class NSFetchRequestResultCoreDataTests: XCTestCase {
     // Given
     context.fillWithSampleData()
 
-    let optonalCar = Car.fetch(in: context).filter { $0.numberPlate == "5" }.first
-    let optionalPerson = Person.fetch(in: context).filter { $0.firstName == "Theodora" && $0.lastName == "Stone" }.first
-    let persons = Person.fetch(in: context).filter { $0.lastName == "Moreton" }
+    do {
+    let optonalCar = try Car.fetch(in: context).filter { $0.numberPlate == "5" }.first
+    let optionalPerson = try Person.fetch(in: context).filter { $0.firstName == "Theodora" && $0.lastName == "Stone" }.first
+    let persons = try Person.fetch(in: context).filter { $0.lastName == "Moreton" }
 
     guard
       let car = optonalCar,
@@ -111,18 +112,21 @@ class NSFetchRequestResultCoreDataTests: XCTestCase {
         return
     }
 
-    Car.deleteAll(in: context, except: [car])
-    XCTAssertNotNil(Car.fetch(in: context).filter { $0.numberPlate == "5" }.first)
-    XCTAssertTrue(Car.fetch(in: context).filter { $0.numberPlate != "5" }.isEmpty)
+    XCTAssertNoThrow(try Car.deleteAll(in: context, except: [car]))
+    XCTAssertNotNil(try Car.fetch(in: context).filter { $0.numberPlate == "5" }.first)
+    XCTAssertTrue(try Car.fetch(in: context).filter { $0.numberPlate != "5" }.isEmpty)
 
     var exceptions = persons
     exceptions.append(person)
-    Person.deleteAll(in: context, except: exceptions)
-    XCTAssertFalse(Person.fetch(in: context).filter { ($0.firstName == "Theodora" && $0.lastName == "Stone") || ($0.lastName == "Moreton") }.isEmpty)
+    XCTAssertNoThrow(try Person.deleteAll(in: context, except: exceptions))
+    XCTAssertFalse(try Person.fetch(in: context).filter { ($0.firstName == "Theodora" && $0.lastName == "Stone") || ($0.lastName == "Moreton") }.isEmpty)
 
-    Person.deleteAll(in: context, except: [])
-    XCTAssertTrue(Person.fetch(in: context).isEmpty)
+    XCTAssertNoThrow(try Person.deleteAll(in: context, except: []))
+    XCTAssertTrue(try Person.fetch(in: context).isEmpty)
 
+    } catch {
+      XCTFail(error.localizedDescription)
+    }
     // test with sport and expensivesportcar subentities
     // test removing subentities
 
