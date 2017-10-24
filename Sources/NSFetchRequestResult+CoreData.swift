@@ -104,9 +104,13 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   public static func fetch(in context: NSManagedObjectContext, with configuration: (NSFetchRequest<Self>) -> Void = { _ in }) -> [Self] {
     let request = NSFetchRequest<Self>(entityName: entityName)
     configuration(request)
-    guard let result = try? context.fetch(request) else { fatalError("Fetched objects have the wrong type.") }
+    do {
+      let result = try context.fetch(request)
+      return result
 
-    return result
+    } catch {
+      fatalError("Failed to execute the fetch request: \(error.localizedDescription).")
+    }
   }
 
   /// **CoreDataPlus**
@@ -148,10 +152,10 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     do {
       let result = try context.count(for: request)
       guard result != NSNotFound else { fatalError("Failed to execute the count fetch request.") }
-
       return result
+
     } catch let error {
-      fatalError("Failed to execute the fetch request: \(error).")
+      fatalError("Failed to execute the fetch request: \(error.localizedDescription).")
     }
   }
 
