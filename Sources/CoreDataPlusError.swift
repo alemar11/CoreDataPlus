@@ -36,8 +36,15 @@ public enum CoreDataPlusError: Error {
     //var underlyingError: Error?
   }
 
+  public enum NotFoundFailureReason {
+    case context
+    case entity
+    case persistentStoreCoordinator
+    case predicate
+  }
+  
   public enum FailingFetchFailureReason {
-    case countNotFound
+    case countNotFound //TODO rename as wrongCount
     case expectingOneObject
     
     //var underlyingError: Error?
