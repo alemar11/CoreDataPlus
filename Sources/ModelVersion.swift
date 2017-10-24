@@ -115,6 +115,9 @@ extension ModelVersion {
 
 extension ModelVersion {
 
+  /// **CoreDataPlus**
+  ///
+  /// The next model version.
   public var successor: Self? { return nil }
 
 }
