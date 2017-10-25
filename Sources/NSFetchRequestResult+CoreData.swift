@@ -88,11 +88,15 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     // first we should fetch an existing object in the context as a performance optimization
     guard let object = findMaterializedObject(in: context, where: predicate) else {
       // if it's not in memory, we should execute a fetch to see if it exists
-      return try fetch(in: context) { request in
-        request.predicate = predicate
-        request.returnsObjectsAsFaults = false
-        request.fetchLimit = 1
-        }.first
+      do {
+        return try fetch(in: context) { request in
+          request.predicate = predicate
+          request.returnsObjectsAsFaults = false
+          request.fetchLimit = 1
+          }.first
+      } catch {
+        throw CoreDataPlusError.databaseOperationFailed(reason: .fetchFailed(error: error))
+      }
 
     }
 
@@ -108,9 +112,12 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     let request = NSFetchRequest<Self>(entityName: entityName)
     configuration(request)
 
+    do {
       let result = try context.fetch(request)
       return result
-
+    } catch {
+      throw CoreDataPlusError.databaseOperationFailed(reason: .fetchFailed(error: error))
+    }
 
   }
 
@@ -123,11 +130,15 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Throws: It throws an error in cases of failure.
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
   public static func deleteAll(in context: NSManagedObjectContext, includingSubentities: Bool = true, where predicate: NSPredicate = NSPredicate(value: true)) throws {
-    try fetch(in: context) { request in
-      request.includesPropertyValues = false
-      request.includesSubentities = includingSubentities
-      request.predicate = predicate
-      }.lazy.forEach(context.delete(_:))
+    do {
+      try fetch(in: context) { request in
+        request.includesPropertyValues = false
+        request.includesSubentities = includingSubentities
+        request.predicate = predicate
+        }.lazy.forEach(context.delete(_:))
+    } catch {
+      throw CoreDataPlusError.databaseOperationFailed(reason: .fetchFailed(error: error))
+    }
   }
 
   /// **CoreDataPlus**
@@ -157,7 +168,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     configuration(request)
 
     let result = try context.count(for: request)
-    guard result != NSNotFound else { throw CoreDataPlusError.fetchFailed(reason: .countNotFound) }
+    guard result != NSNotFound else { throw CoreDataPlusError.databaseOperationFailed(reason: .fetchCountNotFound) }
 
     return result
   }
@@ -196,13 +207,14 @@ extension NSFetchRequestResult where Self: NSManagedObject {
       configuration(request)
       request.fetchLimit = 2
     }
+
     switch result.count {
     case 0:
       return nil
     case 1:
       return result[0]
     default:
-      throw CoreDataPlusError.fetchFailed(reason: .expectingOneObject)
+      throw CoreDataPlusError.databaseOperationFailed(reason: .fetchExpectingOneObjectFailed)
     }
   }
 

@@ -27,60 +27,85 @@ import CoreData
 
 public enum CoreDataPlusError: Error {
 
+  // TODO: better naming?
+  case contextOperationFailed(reason: ContextOperationFailureReason)
+  case configurationFailed(reason: MissingParameterFailureReason)
+
+  public var underlyingError: Error? {
+    switch self {
+    case .configurationFailed(let reason):
+      return reason.underlyingError
+    case .contextOperationFailed(let reason):
+      return reason.underlyingError
+    }
+  }
+
+  //TODO rename
   public enum MissingParameterFailureReason {
     case context(in: NSManagedObject)
     case entityName(entity: String)
     case persistentStoreCoordinator(context: NSManagedObjectContext)
     case predicate(in: NSFetchRequestResult)
-    
-    //var underlyingError: Error?
+
+    public var underlyingError: Error? {
+      return nil
+    }
   }
 
-  public enum ConfigurationFailureReason {
-    case contextMissing
-    case entityMissing
-    case persistentStoreCoordinatorMissing
-    case predicateMissing
-  }
-  
-  public enum FetchFailureReason {
-    case countNotFound //TODO rename as wrongCount
-    case expectingOneObject
+  // TODO: better naming?
+  public enum ContextOperationFailureReason {
+    case fetchCountNotFound
+    case fetchExpectingOneObjectFailed
     case fetchFailed(error: Error)
-    
-    //var underlyingError: Error?
+    case saveFailed(error: Error)
+
+    public var underlyingError: Error? {
+      switch self {
+      case .fetchFailed(let error):
+        return error
+      case .saveFailed(let error):
+        return error
+      default:
+        return nil
+      }
+    }
+
   }
 
-  case fetchFailed(reason: FetchFailureReason)
-  case configurationFailed(reason: MissingParameterFailureReason)
+
+
 }
 
 extension CoreDataPlusError : LocalizedError {
 
   public var errorDescription: String? {
     switch self {
-    case .fetchFailed(let reason):
+    case .contextOperationFailed(let reason):
       return reason.localizedDescription
     case .configurationFailed(let reason):
-       return reason.localizedDescription
+      return reason.localizedDescription
     }
   }
 
 }
 
-extension CoreDataPlusError.FetchFailureReason: LocalizedError {
+extension CoreDataPlusError.ContextOperationFailureReason: LocalizedError {
   
-    public var errorDescription: String? {
-      switch self {
-      case .countNotFound:
-        return "The fetch count responded with NSNotFound."
-        
-      case .expectingOneObject:
-         return "Returned multiple objects, expected max 1."
-      case .fetchFailed(let error):
-        return "The fetch could not be completed because of error:\n\(error.localizedDescription)"
-      }
+  public var errorDescription: String? {
+    switch self {
+    case .fetchCountNotFound:
+      return "The fetch count responded with NSNotFound."
+
+    case .fetchExpectingOneObjectFailed:
+      return "Returned multiple objects, expected max 1."
+
+    case .fetchFailed(let error):
+      return "The fetch could not be completed because of error:\n\(error.localizedDescription)"
+
+    case .saveFailed(let error):
+      return "The save operation could not be completed because of error:\n\(error.localizedDescription)"
     }
+  }
   
 }
 
@@ -89,16 +114,16 @@ extension CoreDataPlusError.MissingParameterFailureReason: LocalizedError {
   public var errorDescription: String? {
     switch self {
     case .context(let managedObject):
-      return "\(managedObject.description) is missing a NSManagedObjectContext."
+      return "\(managedObject.description) doesn't have a NSManagedObjectContext."
       
     case .entityName(let entity):
       return "\(entity) not found."
       
     case .persistentStoreCoordinator(let context):
-      return "The persistent store coordinator is missing: \(context.description)"
+      return "\(context.description) doesn't have a NSPersistentStoreCoordinator."
       
     case .predicate(let fetchRequestResult):
-      return "The NSPredicate in \(fetchRequestResult) is missing."
+      return "\(fetchRequestResult) doesn't have a NSPredicate."
     }
   }
   

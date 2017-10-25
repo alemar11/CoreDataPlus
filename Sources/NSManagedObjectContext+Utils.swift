@@ -139,7 +139,7 @@ extension NSManagedObjectContext {
           saveError = error
         }
       }
-      if let error = saveError { throw error }
+      if let error = saveError { throw CoreDataPlusError.databaseOperationFailed(reason: .saveFailed(error: error)) }
     }
   }
 
@@ -150,7 +150,7 @@ extension NSManagedObjectContext {
       try save()
     } catch {
       rollback()
-      throw error
+      throw CoreDataPlusError.databaseOperationFailed(reason: .saveFailed(error: error))
     }
   }
 

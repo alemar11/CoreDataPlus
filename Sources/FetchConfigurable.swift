@@ -71,7 +71,7 @@ extension FetchConfigurable where Self: NSManagedObject {
   ///
   /// Creates a `new` sorted fetch request using `sortedFetchRequest` *AND* `predicate`.
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
-  public static func sortedFetchRequest(with predicate: NSPredicate) -> NSFetchRequest<Self> {
+  public static func sortedFetchRequest(with predicate: NSPredicate) throws -> NSFetchRequest<Self> {
     let request = sortedFetchRequest
     guard let existingPredicate = request.predicate else { fatalError("Must have a predicate.") }
     request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [existingPredicate, predicate])
