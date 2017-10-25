@@ -30,44 +30,45 @@ public enum CoreDataPlusError: Error {
   public enum MissingParameterFailureReason {
     case context(in: NSManagedObject)
     case entityName(entity: String)
-    case persistentStoreCoordinator(context: String)
+    case persistentStoreCoordinator(context: NSManagedObjectContext)
     case predicate(in: NSFetchRequestResult)
     
     //var underlyingError: Error?
   }
 
-  public enum NotFoundFailureReason {
-    case context
-    case entity
-    case persistentStoreCoordinator
-    case predicate
+  public enum ConfigurationFailureReason {
+    case contextMissing
+    case entityMissing
+    case persistentStoreCoordinatorMissing
+    case predicateMissing
   }
   
-  public enum FailingFetchFailureReason {
+  public enum FetchFailureReason {
     case countNotFound //TODO rename as wrongCount
     case expectingOneObject
+    case fetchFailed(error: Error)
     
     //var underlyingError: Error?
   }
 
-  case failedFetch(reason: FailingFetchFailureReason)
-  case missingParameter(reason: MissingParameterFailureReason)
+  case fetchFailed(reason: FetchFailureReason)
+  case configurationFailed(reason: MissingParameterFailureReason)
 }
 
 extension CoreDataPlusError : LocalizedError {
 
   public var errorDescription: String? {
     switch self {
-    case .failedFetch(let reason):
+    case .fetchFailed(let reason):
       return reason.localizedDescription
-    case .missingParameter(let reason):
+    case .configurationFailed(let reason):
        return reason.localizedDescription
     }
   }
 
 }
 
-extension CoreDataPlusError.FailingFetchFailureReason: LocalizedError {
+extension CoreDataPlusError.FetchFailureReason: LocalizedError {
   
     public var errorDescription: String? {
       switch self {
@@ -76,6 +77,8 @@ extension CoreDataPlusError.FailingFetchFailureReason: LocalizedError {
         
       case .expectingOneObject:
          return "Returned multiple objects, expected max 1."
+      case .fetchFailed(let error):
+        return "The fetch could not be completed because of error:\n\(error.localizedDescription)"
       }
     }
   

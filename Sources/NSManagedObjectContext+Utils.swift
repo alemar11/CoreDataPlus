@@ -27,19 +27,17 @@ extension NSManagedObjectContext {
 
   /// **CoreDataPlus**
   ///
-  /// The persistent stores associated with the receiver.
+  /// The persistent stores associated with the receiver (if any).
   public final var persistentStores: [NSPersistentStore] {
-    guard let persistentStoreCoordinator = persistentStoreCoordinator else { fatalError("Persistent Store Coordinator missing.") }
-    let stores = persistentStoreCoordinator.persistentStores
 
-    return stores
+    return persistentStoreCoordinator?.persistentStores ?? []
   }
 
   /// **CoreDataPlus**
   ///
   /// Returns a dictionary that contains the metadata currently stored or to-be-stored in a given persistent store.
-  public final func metaData(for store: NSPersistentStore) -> [String: Any] {
-    guard let persistentStoreCoordinator = persistentStoreCoordinator else { fatalError("Must have Persistent Store Coordinator.") }
+  public final func metaData(for store: NSPersistentStore) throws -> [String: Any] {
+    guard let persistentStoreCoordinator = persistentStoreCoordinator else { throw CoreDataPlusError.configurationFailed(reason: .persistentStoreCoordinator(context: self)) }
 
     return persistentStoreCoordinator.metadata(for: store)
   }
@@ -56,7 +54,7 @@ extension NSManagedObjectContext {
   public final func setMetaDataObject(_ object: Any?, with key: String, for store: NSPersistentStore, completion handler: ( (Error?) -> Void )? = nil ) {
     performSave(after: {
       guard let persistentStoreCoordinator = self.persistentStoreCoordinator else {
-        handler?(CoreDataPlusError.missingParameter(reason: .persistentStoreCoordinator(context: "\(self.description) doesn't have a NSPersistentStoreCoordinator associoated with.")))
+        handler?(CoreDataPlusError.configurationFailed(reason: .persistentStoreCoordinator(context: self)))
         return
       }
       var metaData = persistentStoreCoordinator.metadata(for: store)
