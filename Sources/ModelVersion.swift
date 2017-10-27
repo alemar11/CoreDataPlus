@@ -23,7 +23,7 @@
 
 import CoreData
 
-private enum ModelVersionKey {
+private enum ModelVersionExtension {
   static let momd = "momd"
   static let omo  = "omo"
   static let mom  = "mom"
@@ -85,7 +85,7 @@ extension ModelVersion {
   /// Protocol `ModelVersion`.
   ///
   /// Model file name.
-  var momd: String { return "\(modelName).\(ModelVersionKey.momd)" }
+  var momd: String { return "\(modelName).\(ModelVersionExtension.momd)" }
 
 }
 
@@ -97,7 +97,7 @@ extension ModelVersion {
   ///
   /// Return the NSManagedObjectModel for this `ModelVersion`.
   public func managedObjectModel() -> NSManagedObjectModel {
-    let momURL = modelBundle.url(forResource: versionName, withExtension: "\(ModelVersionKey.mom)", subdirectory: momd)
+    let momURL = modelBundle.url(forResource: versionName, withExtension: "\(ModelVersionExtension.mom)", subdirectory: momd)
 
     /**
      As of iOS 11, Apple is advising that opening the .omo file for a managed object model is not supported, since the file format can change from release to release
