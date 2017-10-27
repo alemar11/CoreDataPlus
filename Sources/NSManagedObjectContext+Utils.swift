@@ -36,6 +36,7 @@ extension NSManagedObjectContext {
   /// **CoreDataPlus**
   ///
   /// Returns a dictionary that contains the metadata currently stored or to-be-stored in a given persistent store.
+  /// - Throws: It throws an error in cases of failure.
   public final func metaData(for store: NSPersistentStore) throws -> [String: Any] {
     guard let persistentStoreCoordinator = persistentStoreCoordinator else { throw CoreDataPlusError.configurationFailed(reason: .persistentStoreCoordinator(context: self)) }
 
@@ -68,6 +69,7 @@ extension NSManagedObjectContext {
   /// **CoreDataPlus**
   ///
   /// Returns the entity with the specified name from the managed object model associated with the specified managed object context’s persistent store coordinator.
+  /// - Throws: It throws an error in cases of failure.
   public final func entity(forEntityName name: String) throws -> NSEntityDescription {
     guard let persistentStoreCoordinator = persistentStoreCoordinator else {
         throw CoreDataPlusError.configurationFailed(reason: .persistentStoreCoordinator(context: self))
