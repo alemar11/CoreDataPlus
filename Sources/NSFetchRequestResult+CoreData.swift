@@ -50,7 +50,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     let fetchRequest = NSFetchRequest<Self>(entityName: entityName)
     return fetchRequest
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Attempts to find an object matching a predicate or creates a new one and configures it (if multiple objects are found, configures the **first** one).
@@ -151,11 +151,9 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Throws: It throws an error in cases of failure.
   /// - Note: `NSBatchDeleteRequest` would be more efficient but requires a context with an `NSPersistentStoreCoordinator` directly connected (no child context).
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
-
-
   public static func deleteAll(in context: NSManagedObjectContext, except objects: [Self]) throws {
     let predicate = NSPredicate(format: "NOT (self IN %@)", objects)
-    try deleteAll(in: context, includingSubentities:true, where: predicate )
+    try deleteAll(in: context, includingSubentities: true, where: predicate )
   }
 
   /// **CoreDataPlus**
@@ -189,11 +187,12 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
   /// **CoreDataPlus**
   ///
-  /// Iterates over the context’s registeredObjects set (which contains all managed objects the context currently knows about) until it finds all the objects that aren't a fault matching for a given predicate.
+  /// Iterates over the context’s registeredObjects set (which contains all managed objects the context currently knows about) until it finds
+  /// all the objects that aren't a fault matching for a given predicate.
   /// Faulted objects are not considered to prevent Core Data to make a round trip to the persistent store.
   private static func findMaterializedObjects(in context: NSManagedObjectContext, where predicate: NSPredicate) -> [Self] {
     let results = context.registeredObjects.filter { !$0.isFault }.filter { predicate.evaluate(with: $0) }.flatMap { $0 as? Self}
-    
+
     return results
   }
 
@@ -241,7 +240,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
       return result
     }
-    
+
     return cached
   }
 

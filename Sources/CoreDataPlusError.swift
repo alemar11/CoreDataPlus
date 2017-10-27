@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2017 Tinrobots.
@@ -32,10 +32,10 @@ import CoreData
 /// - contextOperationFailed: Returned when a NSManagedObjectContext error occurs.
 /// - configurationFailed: Returned when a configuration error occurs.
 public enum CoreDataPlusError: Error {
-    
+
     case contextOperationFailed(reason: ContextOperationFailureReason)
     case configurationFailed(reason: ConfigurationFailureReason)
-    
+
     /// **CoreDataPlus**
     ///
     /// The `Error` returned by a system framework associated with a configuration or a context operation error.
@@ -47,7 +47,7 @@ public enum CoreDataPlusError: Error {
             return reason.underlyingError
         }
     }
-    
+
     /// **CoreDataPlus**
     ///
     /// The underlying reason the configuration error occurred.
@@ -61,13 +61,13 @@ public enum CoreDataPlusError: Error {
         case differentContexts(context: NSManagedObjectContext, context: NSManagedObjectContext)
         case entityNotFound(entityName: String)
         case persistentStoreCoordinatorNotFound(context: NSManagedObjectContext)
-        
+
         /// **CoreDataPlus**
         ///
         /// The `Error` returned by a system framework associated with configuration failure error.
         public var underlyingError: Error? { return nil }
     }
-    
+
     /// **CoreDataPlus**
     ///
     /// The underlying reason the NSManagedObjectContext error occurred.
@@ -81,7 +81,7 @@ public enum CoreDataPlusError: Error {
         case fetchExpectingOneObjectFailed
         case fetchFailed(error: Error)
         case saveFailed(error: Error)
-        
+
         /// **CoreDataPlus**
         ///
         /// The `Error` returned by a system framework associated with a context operation failure error.
@@ -93,13 +93,13 @@ public enum CoreDataPlusError: Error {
                 return nil
             }
         }
-        
+
     }
-    
+
 }
 
-extension CoreDataPlusError : LocalizedError {
-    
+extension CoreDataPlusError: LocalizedError {
+
     public var errorDescription: String? {
         switch self {
         case .contextOperationFailed(let reason):
@@ -108,47 +108,45 @@ extension CoreDataPlusError : LocalizedError {
             return reason.localizedDescription
         }
     }
-    
+
 }
 
 extension CoreDataPlusError.ContextOperationFailureReason: LocalizedError {
-    
+
     public var errorDescription: String? {
         switch self {
         case .fetchCountNotFound:
             return "The fetch count responded with NSNotFound."
-            
+
         case .fetchExpectingOneObjectFailed:
             return "Returned multiple objects, expected max 1."
-            
+
         case .fetchFailed(let error):
             return "The fetch could not be completed because of error:\n\(error.localizedDescription)"
-            
+
         case .saveFailed(let error):
             return "The save operation could not be completed because of error:\n\(error.localizedDescription)"
         }
     }
-    
+
 }
 
 extension CoreDataPlusError.ConfigurationFailureReason: LocalizedError {
-    
+
     public var errorDescription: String? {
         switch self {
         case .contextNotFound(let managedObject):
             return "\(managedObject.description) doesn't have a NSManagedObjectContext."
-            
+
         case .differentContexts(let context1, let context2):
             return "\(context1.description) is different from \(context2.description)"
-            
+
         case .entityNotFound(let entityName):
             return "\(entityName) not found."
-            
+
         case .persistentStoreCoordinatorNotFound(let context):
             return "\(context.description) doesn't have a NSPersistentStoreCoordinator."
         }
-        
+
     }
 }
-
-

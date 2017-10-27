@@ -25,21 +25,21 @@ import CoreData
 
 /// Objects adopting the `FetchConfigurable` support a variety of fetching helper functionalities.
 public protocol FetchConfigurable: class {
-    
+
     /// **CoreDataPlus**
     ///
     /// Protocol `ManagedObjectConfigurable`.
     ///
     /// Default sort descriptors.
     static var defaultSortDescriptors: [NSSortDescriptor] { get }
-    
+
     /// **CoreDataPlus**
     ///
     /// Protocol `ManagedObjectConfigurable`.
     ///
     /// Default predicate.
     static var defaultPredicate: NSPredicate { get }
-    
+
 }
 
 // MARK: - Predicates and SortDescriptors
@@ -52,7 +52,7 @@ extension FetchConfigurable {
 // MARK: - NSManagedObject
 
 extension FetchConfigurable where Self: NSManagedObject {
-    
+
     /// **CoreDataPlus**
     ///
     /// Fetch Request with the `defaultPredicate` and the default `defaultSortDescriptors`.
@@ -64,10 +64,10 @@ extension FetchConfigurable where Self: NSManagedObject {
         // swiftlint:enable force_cast
         request.sortDescriptors = defaultSortDescriptors
         request.predicate = defaultPredicate
-        
+
         return request
     }
-    
+
     /// **CoreDataPlus**
     ///
     /// Creates a `new` sorted fetch request using `sortedFetchRequest` (if exists) *AND* `predicate`.
@@ -80,10 +80,10 @@ extension FetchConfigurable where Self: NSManagedObject {
         } else {
             request.predicate = predicate
         }
-        
+
         return request
     }
-    
+
     /// **CoreDataPlus**
     ///
     /// Creates a `new` predicate using the `defaultPredicate` *AND* a `predicate` by substituting the values in an argument list into a format string.
@@ -91,12 +91,12 @@ extension FetchConfigurable where Self: NSManagedObject {
         let p = withVaList(args) { NSPredicate(format: format, arguments: $0) }
         return predicate(p)
     }
-    
+
     /// **CoreDataPlus**
     ///
     /// Creates a `new` predicate using the `defaultPredicate` *AND* a given `predicate`.
     public static func predicate(_ predicate: NSPredicate) -> NSPredicate {
         return NSCompoundPredicate(andPredicateWithSubpredicates: [defaultPredicate, predicate])
     }
-    
+
 }

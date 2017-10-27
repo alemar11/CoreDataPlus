@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2017 Tinrobots.
@@ -30,7 +30,7 @@ class NSEntityDescriptionUtilsTests: XCTestCase {
   func testEntity() {
     let stack = CoreDataStack()!
     let context = stack.mainContext
-    
+
     let ec = ExpensiveSportCar(context: context)
     print(ec.entity.hierarchyEntities().map{$0.name})
   }
@@ -50,7 +50,7 @@ class NSEntityDescriptionUtilsTests: XCTestCase {
     do {
       let sportCar = SportCar(context: context)
       let expensiveSportCar = ExpensiveSportCar(context: context)
-     
+
       let ancestorCommontEntity = sportCar.entity.commonEntityAncestor(with: expensiveSportCar.entity)
       XCTAssertNotNil(ancestorCommontEntity)
       XCTAssertTrue(ancestorCommontEntity == sportCar.entity)
@@ -82,11 +82,11 @@ class NSEntityDescriptionUtilsTests: XCTestCase {
       XCTAssertNotNil(ancestorCommontEntity)
       XCTAssertTrue(ancestorCommontEntity == car.entity)
     }
-    
+
     do {
       let car = Car(context: context)
       let sportCar = SportCar(context: context)
-      
+
       let ancestorCommontEntity = car.entity.commonEntityAncestor(with: sportCar.entity)
       XCTAssertNotNil(ancestorCommontEntity)
       XCTAssertTrue(ancestorCommontEntity == car.entity)

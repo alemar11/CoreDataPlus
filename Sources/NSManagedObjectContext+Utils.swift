@@ -75,7 +75,7 @@ extension NSManagedObjectContext {
         throw CoreDataPlusError.configurationFailed(reason: .persistentStoreCoordinatorNotFound(context: self))
     }
     guard let entity = persistentStoreCoordinator.managedObjectModel.entitiesByName[name] else { throw CoreDataPlusError.configurationFailed(reason: .entityNotFound(entityName: name)) }
-    
+
     return entity
   }
 
