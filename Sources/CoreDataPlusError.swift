@@ -24,10 +24,20 @@
 import Foundation
 import CoreData
 
-
+/// **CoreDataPlus**
+///
+/// - contextOperationFailed: NSManagedObjectContext errors group.
+/// - configurationFailed: Configuration errors group.
+/// - context: Missing NSManagedObjectContext failure.
+/// - entityName: NSEntity not found failure.
+/// - persistentStoreCoordinator: Missing NSPersistentStoreCoordinator failure.
+/// - predicate: Missing NSPredicate failure.
+/// - fetchCountNotFound: Fetch count failure.
+/// - fetchExpectingOneObjectFailed: Fetch expecting only one object failure.
+/// - fetchFailed: Fetch operation failure.
+/// - saveFailed: Saving operation failure.
 public enum CoreDataPlusError: Error {
 
-  // TODO: better naming?
   case contextOperationFailed(reason: ContextOperationFailureReason)
   case configurationFailed(reason: ConfigurationFailureReason)
 
@@ -47,9 +57,7 @@ public enum CoreDataPlusError: Error {
     case persistentStoreCoordinator(context: NSManagedObjectContext)
     case predicate(in: NSFetchRequestResult)
 
-    public var underlyingError: Error? {
-      return nil
-    }
+    public var underlyingError: Error? { return nil }
   }
 
   // TODO: better naming?
@@ -71,8 +79,6 @@ public enum CoreDataPlusError: Error {
     }
 
   }
-
-
 
 }
 
