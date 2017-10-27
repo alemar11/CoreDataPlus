@@ -68,9 +68,11 @@ extension NSManagedObjectContext {
   /// **CoreDataPlus**
   ///
   /// Returns the entity with the specified name from the managed object model associated with the specified managed object context’s persistent store coordinator.
-  public final func entity(forEntityName name: String) -> NSEntityDescription {
-    guard let persistentStoreCoordinator = persistentStoreCoordinator else { fatalError("Persistent Store Coordinator missing.") }
-    guard let entity = persistentStoreCoordinator.managedObjectModel.entitiesByName[name] else { fatalError("Entity \(name) not found.") }
+  public final func entity(forEntityName name: String) throws -> NSEntityDescription {
+    guard let persistentStoreCoordinator = persistentStoreCoordinator else {
+        throw CoreDataPlusError.configurationFailed(reason: .persistentStoreCoordinator(context: self))
+    }
+    guard let entity = persistentStoreCoordinator.managedObjectModel.entitiesByName[name] else { throw CoreDataPlusError.configurationFailed(reason: .entityName(entityName: name)) }
     
     return entity
   }
@@ -139,7 +141,7 @@ extension NSManagedObjectContext {
           saveError = error
         }
       }
-      if let error = saveError { throw CoreDataPlusError.databaseOperationFailed(reason: .saveFailed(error: error)) }
+      if let error = saveError { throw CoreDataPlusError.contextOperationFailed(reason: .saveFailed(error: error)) }
     }
   }
 
@@ -150,7 +152,7 @@ extension NSManagedObjectContext {
       try save()
     } catch {
       rollback()
-      throw CoreDataPlusError.databaseOperationFailed(reason: .saveFailed(error: error))
+      throw CoreDataPlusError.contextOperationFailed(reason: .saveFailed(error: error))
     }
   }
 

@@ -95,7 +95,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
           request.fetchLimit = 1
           }.first
       } catch {
-        throw CoreDataPlusError.databaseOperationFailed(reason: .fetchFailed(error: error))
+        throw CoreDataPlusError.contextOperationFailed(reason: .fetchFailed(error: error))
       }
 
     }
@@ -116,7 +116,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
       let result = try context.fetch(request)
       return result
     } catch {
-      throw CoreDataPlusError.databaseOperationFailed(reason: .fetchFailed(error: error))
+      throw CoreDataPlusError.contextOperationFailed(reason: .fetchFailed(error: error))
     }
 
   }
@@ -137,7 +137,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
         request.predicate = predicate
         }.lazy.forEach(context.delete(_:))
     } catch {
-      throw CoreDataPlusError.databaseOperationFailed(reason: .fetchFailed(error: error))
+      throw CoreDataPlusError.contextOperationFailed(reason: .fetchFailed(error: error))
     }
   }
 
@@ -168,7 +168,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     configuration(request)
 
     let result = try context.count(for: request)
-    guard result != NSNotFound else { throw CoreDataPlusError.databaseOperationFailed(reason: .fetchCountNotFound) }
+    guard result != NSNotFound else { throw CoreDataPlusError.contextOperationFailed(reason: .fetchCountNotFound) }
 
     return result
   }
@@ -214,7 +214,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     case 1:
       return result[0]
     default:
-      throw CoreDataPlusError.databaseOperationFailed(reason: .fetchExpectingOneObjectFailed)
+      throw CoreDataPlusError.contextOperationFailed(reason: .fetchExpectingOneObjectFailed)
     }
   }
 
