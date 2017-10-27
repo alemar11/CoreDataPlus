@@ -43,7 +43,7 @@ extension Collection where Element: NSManagedObject {
         
         
         let managedObjectsWithoutContext = self.filter { $0.managedObjectContext == nil }
-        guard managedObjectsWithoutContext.isEmpty else { throw CoreDataPlusError.configurationFailed(reason: .context(in: managedObjectsWithoutContext.first!)) }
+        guard managedObjectsWithoutContext.isEmpty else { throw CoreDataPlusError.configurationFailed(reason: .contextNotFound(in: managedObjectsWithoutContext.first!)) }
         
         let groupedManagedObjects = Dictionary(grouping: self) { ObjectIdentifier($0.managedObjectContext!) }
         

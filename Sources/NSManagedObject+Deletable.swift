@@ -105,7 +105,7 @@ extension NSFetchRequestResult where Self: NSManagedObject, Self: DelayedDeletab
   @available(iOS 9, tvOS 9, watchOS 2, macOS 10.12, *)
   public static func batchDeleteObjectsMarkedForDeletion(in context: NSManagedObjectContext, olderThan cutOffDate: Date = Date(timeIntervalSinceNow: -TimeInterval(120))) throws {
     
-    guard context.persistentStoreCoordinator != nil else { throw CoreDataPlusError.configurationFailed(reason: .persistentStoreCoordinator(context: context)) }
+    guard context.persistentStoreCoordinator != nil else { throw CoreDataPlusError.configurationFailed(reason: .persistentStoreCoordinatorNotFound(context: context)) }
 
     let request = fetchRequest()
     request.predicate = NSPredicate(format: "%K <= %@", markedForDeletionKey, cutOffDate as NSDate)

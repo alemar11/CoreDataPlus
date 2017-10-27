@@ -237,7 +237,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   public static func fetchCachedObject(in context: NSManagedObjectContext, forKey cacheKey: String, with configuration: @escaping (NSFetchRequest<Self>) -> Void) throws -> Self? {
     guard let cached = context.cachedManagedObject(forKey: cacheKey) as? Self else {
       let result = try fetchSingleObject(in: context, with: configuration)
-      context.setCachedManagedObject(result, forKey: cacheKey)
+      try context.setCachedManagedObject(result, forKey: cacheKey)
 
       return result
     }

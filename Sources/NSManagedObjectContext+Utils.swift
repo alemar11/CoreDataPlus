@@ -38,7 +38,7 @@ extension NSManagedObjectContext {
   /// Returns a dictionary that contains the metadata currently stored or to-be-stored in a given persistent store.
   /// - Throws: It throws an error in cases of failure.
   public final func metaData(for store: NSPersistentStore) throws -> [String: Any] {
-    guard let persistentStoreCoordinator = persistentStoreCoordinator else { throw CoreDataPlusError.configurationFailed(reason: .persistentStoreCoordinator(context: self)) }
+    guard let persistentStoreCoordinator = persistentStoreCoordinator else { throw CoreDataPlusError.configurationFailed(reason: .persistentStoreCoordinatorNotFound(context: self)) }
 
     return persistentStoreCoordinator.metadata(for: store)
   }
@@ -55,7 +55,7 @@ extension NSManagedObjectContext {
   public final func setMetaDataObject(_ object: Any?, with key: String, for store: NSPersistentStore, completion handler: ( (Error?) -> Void )? = nil ) {
     performSave(after: {
       guard let persistentStoreCoordinator = self.persistentStoreCoordinator else {
-        handler?(CoreDataPlusError.configurationFailed(reason: .persistentStoreCoordinator(context: self)))
+        handler?(CoreDataPlusError.configurationFailed(reason: .persistentStoreCoordinatorNotFound(context: self)))
         return
       }
       var metaData = persistentStoreCoordinator.metadata(for: store)
@@ -72,9 +72,9 @@ extension NSManagedObjectContext {
   /// - Throws: It throws an error in cases of failure.
   public final func entity(forEntityName name: String) throws -> NSEntityDescription {
     guard let persistentStoreCoordinator = persistentStoreCoordinator else {
-        throw CoreDataPlusError.configurationFailed(reason: .persistentStoreCoordinator(context: self))
+        throw CoreDataPlusError.configurationFailed(reason: .persistentStoreCoordinatorNotFound(context: self))
     }
-    guard let entity = persistentStoreCoordinator.managedObjectModel.entitiesByName[name] else { throw CoreDataPlusError.configurationFailed(reason: .entityName(entityName: name)) }
+    guard let entity = persistentStoreCoordinator.managedObjectModel.entitiesByName[name] else { throw CoreDataPlusError.configurationFailed(reason: .entityNotFound(entityName: name)) }
     
     return entity
   }
