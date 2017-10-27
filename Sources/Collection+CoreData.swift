@@ -38,19 +38,21 @@ extension Collection where Element: NSManagedObject {
   public func fetchFaultedObjects() throws {
     guard !self.isEmpty else { return }
     
-    //TODO
-    let contextIds = Set(self.flatMap { ObjectIdentifier($0.managedObjectContext!) })
-    print(contextIds)
-    guard let context = self.first?.managedObjectContext else {
-      fatalError("TODO: fatal error if different contexts or different context management")
-      
-    }
-    
     let faults = self.filter { $0.isFault }
     guard faults.count > 0 else { return }
     
+    
+    let managedObjectsWithoutContext = self.filter { $0.managedObjectContext == nil }
+    guard managedObjectsWithoutContext.isEmpty else { return }
+    
+    let groupedManagedObjects = Dictionary(grouping: self) { ObjectIdentifier($0.managedObjectContext!) }
+    
+    for (_, objects) in groupedManagedObjects {
+        
+    let context = objects.first!.managedObjectContext!
+    
     // avoid multiple fetches for subclass entities.
-    let entities = self.entities().entitiesKeepingOnlyCommonEntityAncestors()
+    let entities = objects.entities().entitiesKeepingOnlyCommonEntityAncestors()
     
     for entity in entities {
       
@@ -60,6 +62,8 @@ extension Collection where Element: NSManagedObject {
       request.predicate = NSPredicate(format: "self IN %@", faults)
 
       try context.fetch(request)
+    }
+    
     }
   }
   
