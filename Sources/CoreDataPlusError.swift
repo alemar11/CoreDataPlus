@@ -72,7 +72,7 @@ public enum CoreDataPlusError: Error {
     ///
     /// The underlying reason the NSManagedObjectContext error occurred.
     ///
-    /// - executionFailed:
+    /// - executionFailed: A context executions failed.
     /// - fetchCountNotFound: A count fetch operation failed.
     /// - fetchExpectingOneObjectFailed: A fetch operation expecting only one object failed.
     /// - fetchFailed: A fetch operation failed with an underlying system error.
