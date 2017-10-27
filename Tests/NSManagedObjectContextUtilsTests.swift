@@ -126,7 +126,6 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
         let stack = CoreDataStack()
         if let stack = stack {
             // Then
-
             XCTAssertNotNil(try? stack.mainContext.entity(forEntityName: Car.entityName))
             XCTAssertNotNil(try? stack.mainContext.entity(forEntityName: Person.entityName))
 
