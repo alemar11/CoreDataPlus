@@ -186,7 +186,7 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
                     person.lastName = "Robots"
                 }
             ) { (error) in
-                print(error)
+                XCTAssertNotNil(error)
             }
 
             XCTAssertNoThrow(

@@ -102,8 +102,6 @@ class NSManagedObjectUtilsTests: XCTestCase {
       person.lastName = "Marzoli"
       car.owner = person
       // Then
-      print(car.changedValues())
-      print(car.committedValues(forKeys: nil))
       XCTAssertNotNil(car.changedValue(forKey: carNumberPlate) as? String)
       XCTAssertNotNil(car.changedValue(forKey: carModel) as? String)
       XCTAssertEqual(car.changedValue(forKey: carNumberPlate) as! String, "123456")
