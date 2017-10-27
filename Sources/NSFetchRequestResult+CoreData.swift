@@ -113,8 +113,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     configuration(request)
 
     do {
-      let result = try context.fetch(request)
-      return result
+      return try context.fetch(request)
     } catch {
       throw CoreDataPlusError.contextOperationFailed(reason: .fetchFailed(error: error))
     }

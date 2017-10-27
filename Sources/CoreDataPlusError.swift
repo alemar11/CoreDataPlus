@@ -72,11 +72,13 @@ public enum CoreDataPlusError: Error {
     ///
     /// The underlying reason the NSManagedObjectContext error occurred.
     ///
+    /// - executionFailed:
     /// - fetchCountNotFound: A count fetch operation failed.
     /// - fetchExpectingOneObjectFailed: A fetch operation expecting only one object failed.
     /// - fetchFailed: A fetch operation failed with an underlying system error.
     /// - saveFailed: A save oepration failed with an underlying system error
     public enum ContextOperationFailureReason {
+        case executionFailed(error: Error)
         case fetchCountNotFound
         case fetchExpectingOneObjectFailed
         case fetchFailed(error: Error)
@@ -115,6 +117,9 @@ extension CoreDataPlusError.ContextOperationFailureReason: LocalizedError {
 
     public var errorDescription: String? {
         switch self {
+        case .executionFailed(let error):
+            return "\(error.localizedDescription)"
+            
         case .fetchCountNotFound:
             return "The fetch count responded with NSNotFound."
 
@@ -126,6 +131,7 @@ extension CoreDataPlusError.ContextOperationFailureReason: LocalizedError {
 
         case .saveFailed(let error):
             return "The save operation could not be completed because of error:\n\(error.localizedDescription)"
+
         }
     }
 
