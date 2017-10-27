@@ -58,6 +58,7 @@ public enum CoreDataPlusError: Error {
     /// - predicate: The NSPredicate is missing.
     public enum ConfigurationFailureReason {
         case context(in: NSManagedObject)
+        case differentContexts(context: NSManagedObjectContext, context: NSManagedObjectContext)
         case entityName(entityName: String)
         case persistentStoreCoordinator(context: NSManagedObjectContext)
         
@@ -137,14 +138,17 @@ extension CoreDataPlusError.ConfigurationFailureReason: LocalizedError {
         case .context(let managedObject):
             return "\(managedObject.description) doesn't have a NSManagedObjectContext."
             
+        case .differentContexts(let context1, let context2):
+            return "\(context1.description) is different from \(context2.description)"
+            
         case .entityName(let entityName):
             return "\(entityName) not found."
             
         case .persistentStoreCoordinator(let context):
             return "\(context.description) doesn't have a NSPersistentStoreCoordinator."
         }
+        
     }
-    
 }
 
 
