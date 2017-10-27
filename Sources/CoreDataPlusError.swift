@@ -29,7 +29,7 @@ public enum CoreDataPlusError: Error {
 
   // TODO: better naming?
   case contextOperationFailed(reason: ContextOperationFailureReason)
-  case configurationFailed(reason: MissingParameterFailureReason)
+  case configurationFailed(reason: ConfigurationFailureReason)
 
   public var underlyingError: Error? {
     switch self {
@@ -41,7 +41,7 @@ public enum CoreDataPlusError: Error {
   }
 
   //TODO rename
-  public enum MissingParameterFailureReason {
+  public enum ConfigurationFailureReason {
     case context(in: NSManagedObject)
     case entityName(entity: String)
     case persistentStoreCoordinator(context: NSManagedObjectContext)
@@ -109,7 +109,7 @@ extension CoreDataPlusError.ContextOperationFailureReason: LocalizedError {
   
 }
 
-extension CoreDataPlusError.MissingParameterFailureReason: LocalizedError {
+extension CoreDataPlusError.ConfigurationFailureReason: LocalizedError {
   
   public var errorDescription: String? {
     switch self {
