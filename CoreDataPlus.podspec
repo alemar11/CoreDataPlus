@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name    = 'Mechanica'
+  s.name    = 'CoreDataPlus'
   s.version = '0.1.0'
   s.license = 'MIT'
   s.documentation_url = 'http://www.tinrobots.org/CoreDataPlus'  
