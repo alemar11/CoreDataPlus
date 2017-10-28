@@ -197,7 +197,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
   /// **CoreDataPlus**
   ///
-  /// Executes a fetch request where only a single object is expected as result, otherwhise a fatal error occurs.
+  /// Executes a fetch request where only a single object is expected as result, otherwhise a an error is thrown.
   /// - Throws: It throws an error in cases of failure.
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
   public static func fetchSingleObject(in context: NSManagedObjectContext, with configuration: @escaping (NSFetchRequest<Self>) -> Void) throws -> Self? {
@@ -235,7 +235,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   public static func fetchCachedObject(in context: NSManagedObjectContext, forKey cacheKey: String, with configuration: @escaping (NSFetchRequest<Self>) -> Void) throws -> Self? {
     guard let cached = context.cachedManagedObject(forKey: cacheKey) as? Self else {
       let result = try fetchSingleObject(in: context, with: configuration)
-      try context.setCachedManagedObject(result, forKey: cacheKey)
+      context.setCachedManagedObject(result, forKey: cacheKey)
 
       return result
     }
