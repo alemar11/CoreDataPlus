@@ -127,8 +127,8 @@ class NSFetchRequestResultCoreDataTests: XCTestCase {
     } catch {
       XCTFail(error.localizedDescription)
     }
-    // test with sport and expensivesportcar subentities
-    // test removing subentities
+    // TODO: test with sport and expensivesportcar subentities
+    // TODO: test removing subentities
 
   }
 
