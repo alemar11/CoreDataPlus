@@ -26,7 +26,7 @@ import CoreData
 
 /// **CoreDataPlus**
 ///
-/// `CoreDataPlusError` is the error type returned by CoreDataPlusError. It encompasses a few different types of errors, each with
+/// `CoreDataPlusError` is the error type returned by CoreDataPlus. It encompasses a few different types of errors, each with
 /// their own associated reasons.
 ///
 /// - contextOperationFailed: Returned when a NSManagedObjectContext error occurs.
