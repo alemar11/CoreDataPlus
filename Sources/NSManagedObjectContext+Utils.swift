@@ -40,7 +40,7 @@ extension NSManagedObjectContext {
   /// Returns a dictionary that contains the metadata currently stored or to-be-stored in a given persistent store.
   public final func metaData(for store: NSPersistentStore) -> [String: Any] {
     guard let persistentStoreCoordinator = persistentStoreCoordinator else { preconditionFailure("\(self.description) doesn't have a Persistent Store Coordinator.") }
-    
+
     return persistentStoreCoordinator.metadata(for: store)
   }
 
@@ -57,7 +57,7 @@ extension NSManagedObjectContext {
     performSave(after: { [weak self] in
       guard let strongSelf = self else { return }
       guard let persistentStoreCoordinator = strongSelf.persistentStoreCoordinator else { preconditionFailure("\(strongSelf.description) doesn't have a Persistent Store Coordinator.") }
-      
+
       var metaData = persistentStoreCoordinator.metadata(for: store)
       metaData[key] = object
       persistentStoreCoordinator.setMetadata(metaData, for: store)
@@ -72,7 +72,7 @@ extension NSManagedObjectContext {
   public final func entity(forEntityName name: String) -> NSEntityDescription? {
     guard let persistentStoreCoordinator = persistentStoreCoordinator else { preconditionFailure("\(self.description) doesn't have a Persistent Store Coordinator.") }
     let entity = persistentStoreCoordinator.managedObjectModel.entitiesByName[name]
-    
+
     return entity
   }
 
@@ -89,13 +89,13 @@ extension NSManagedObjectContext {
   ///   - asChildContext: Specifies if this new context is a child context of the current context (default *false*).
   public final func newBackgroundContext(asChildContext isChildContext: Bool = false) -> NSManagedObjectContext {
     let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-    
+
     if isChildContext {
       context.parent = self
     } else {
       context.persistentStoreCoordinator = persistentStoreCoordinator
     }
-    
+
     return context
   }
 
@@ -142,7 +142,7 @@ extension NSManagedObjectContext {
           saveError = error
         }
       }
-      if let error = saveError { throw CoreDataPlusError.contextOperationFailed(reason: .saveFailed(error: error)) }
+      if let error = saveError { throw CoreDataPlusError.saveFailed(error: error) }
     }
   }
 
@@ -153,7 +153,7 @@ extension NSManagedObjectContext {
       try save()
     } catch {
       rollback()
-      throw CoreDataPlusError.contextOperationFailed(reason: .saveFailed(error: error))
+      throw CoreDataPlusError.saveFailed(error: error)
     }
   }
 

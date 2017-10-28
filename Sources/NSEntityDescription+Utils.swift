@@ -66,7 +66,7 @@ extension NSEntityDescription {
     guard !intersection.isEmpty else { return nil }
 
     if intersection.contains(self) { return self }
-    
+
     return entity
   }
 

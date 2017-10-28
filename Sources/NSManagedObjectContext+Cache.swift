@@ -29,7 +29,7 @@ private let managedObjectsCacheKey = "\(bundleIdentifier).NSManagedObjectContext
 private typealias ManagedObjectsCache = [String: NSManagedObject]
 
 extension NSManagedObjectContext {
-  
+
   /// **CoreDataPlus**
   ///
   /// Caches a NSManagedObject `object` for a `key` in this context.
@@ -41,20 +41,20 @@ extension NSManagedObjectContext {
       if !ProcessInfo.isRunningUnitTests {
         assertionFailure("The managedObject \(managedObject.objectID) has a NSManagedObjectContext \(managedObject.managedObjectContext!) different from \(self) and it will be not cached.")
       }
-      
+
     case let managedObject? where managedObject.managedObjectContext == nil:
       // TODO: - better management
       if !ProcessInfo.isRunningUnitTests {
         assertionFailure("The managedObject \(managedObject.objectID) doesn't have a NSManagedObjectContext and it will be not cached.")
       }
-      
+
     default:
       var cache = userInfo[managedObjectsCacheKey] as? ManagedObjectsCache ?? [:]
       cache[key] = object
       userInfo[managedObjectsCacheKey] = cache
     }
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Returns a cached NSManagedObject `object` in this context for a given `key`.
@@ -62,7 +62,7 @@ extension NSManagedObjectContext {
     guard let cache = userInfo[managedObjectsCacheKey] as? ManagedObjectsCache else { return nil }
     return cache[key]
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Clears all cached NSManagedObject objects in this context.
@@ -72,5 +72,5 @@ extension NSManagedObjectContext {
       userInfo[managedObjectsCacheKey] = nil
     }
   }
-  
+
 }

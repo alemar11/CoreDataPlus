@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2017 Tinrobots.
@@ -24,12 +24,12 @@
 import Foundation
 
 extension ProcessInfo {
-  
+
   /// **CoreDataPlus**
   ///
   ///  Returns true if Unit Tests are running.
   static var isRunningUnitTests: Bool {
     return processInfo.environment["XCTestConfigurationFilePath"] != nil
 }
-  
+
 }

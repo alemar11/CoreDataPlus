@@ -26,121 +26,61 @@ import CoreData
 
 /// **CoreDataPlus**
 ///
-/// `CoreDataPlusError` is the error type returned by CoreDataPlus. It encompasses a few different types of errors, each with
-/// their own associated reasons.
+/// `CoreDataPlusError` is the error type returned by CoreDataPlus.
 ///
-/// - contextOperationFailed: Returned when a NSManagedObjectContext error occurs.
-/// - configurationFailed: Returned when a configuration error occurs.
+/// - executionFailed: A context executions failed.
+/// - fetchCountNotFound: A count fetch operation failed.
+/// - fetchExpectingOneObjectFailed: A fetch operation expecting only one object failed.
+/// - fetchFailed: A fetch operation failed with an underlying system error.
+/// - persistentStoreCoordinator: The NSPersistentStoreCoordinator is missing.
+/// - saveFailed: A save oepration failed with an underlying system error
 public enum CoreDataPlusError: Error {
 
-    case contextOperationFailed(reason: ContextOperationFailureReason)
-    case configurationFailed(reason: ConfigurationFailureReason)
+  case executionFailed(error: Error)
+  case fetchCountNotFound
+  case fetchExpectingOneObjectFailed
+  case fetchFailed(error: Error)
+  case persistentStoreCoordinatorNotFound(context: NSManagedObjectContext)
+  case saveFailed(error: Error)
 
-    /// **CoreDataPlus**
-    ///
-    /// The `Error` returned by a system framework associated with a configuration or a context operation error.
-    public var underlyingError: Error? {
-        switch self {
-        case .configurationFailed(let reason):
-            return reason.underlyingError
-        case .contextOperationFailed(let reason):
-            return reason.underlyingError
-        }
+  /// **CoreDataPlus**
+  ///
+  /// The `Error` returned by a system framework associated with a CoreDataPlus failure error.
+  public var underlyingError: Error? {
+    switch self {
+    case .fetchFailed(let error), .saveFailed(let error):
+      return error
+    default:
+      return nil
     }
-
-    /// **CoreDataPlus**
-    ///
-    /// The underlying reason the configuration error occurred.
-    ///
-    /// - entityNotFound: The NSEntity is not found.
-    /// - persistentStoreCoordinator: The NSPersistentStoreCoordinator is missing.
-    public enum ConfigurationFailureReason {
-        
-        case persistentStoreCoordinatorNotFound(context: NSManagedObjectContext)
-
-        /// **CoreDataPlus**
-        ///
-        /// The `Error` returned by a system framework associated with configuration failure error.
-        public var underlyingError: Error? { return nil }
-    }
-
-    /// **CoreDataPlus**
-    ///
-    /// The underlying reason the NSManagedObjectContext error occurred.
-    ///
-    /// - executionFailed: A context executions failed.
-    /// - fetchCountNotFound: A count fetch operation failed.
-    /// - fetchExpectingOneObjectFailed: A fetch operation expecting only one object failed.
-    /// - fetchFailed: A fetch operation failed with an underlying system error.
-    /// - saveFailed: A save oepration failed with an underlying system error
-    public enum ContextOperationFailureReason {
-        case executionFailed(error: Error)
-        case fetchCountNotFound
-        case fetchExpectingOneObjectFailed
-        case fetchFailed(error: Error)
-        case saveFailed(error: Error)
-
-        /// **CoreDataPlus**
-        ///
-        /// The `Error` returned by a system framework associated with a context operation failure error.
-        public var underlyingError: Error? {
-            switch self {
-            case .fetchFailed(let error), .saveFailed(let error):
-                return error
-            default:
-                return nil
-            }
-        }
-
-    }
+  }
 
 }
+
+// MARK: - LocalizedError
 
 extension CoreDataPlusError: LocalizedError {
 
-    public var errorDescription: String? {
-        switch self {
-        case .contextOperationFailed(let reason):
-            return reason.localizedDescription
-        case .configurationFailed(let reason):
-            return reason.localizedDescription
-        }
+  public var errorDescription: String? {
+    switch self {
+    case .executionFailed(let error):
+      return "\(error.localizedDescription)"
+
+    case .fetchCountNotFound:
+      return "The fetch count responded with NSNotFound."
+
+    case .fetchExpectingOneObjectFailed:
+      return "Returned multiple objects, expected max 1."
+
+    case .fetchFailed(let error):
+      return "The fetch could not be completed because of error:\n\(error.localizedDescription)"
+
+    case .persistentStoreCoordinatorNotFound(let context):
+      return "\(context.description) doesn't have a NSPersistentStoreCoordinator."
+
+    case .saveFailed(let error):
+      return "The save operation could not be completed because of error:\n\(error.localizedDescription)"
     }
+  }
 
-}
-
-extension CoreDataPlusError.ContextOperationFailureReason: LocalizedError {
-
-    public var errorDescription: String? {
-        switch self {
-        case .executionFailed(let error):
-            return "\(error.localizedDescription)"
-            
-        case .fetchCountNotFound:
-            return "The fetch count responded with NSNotFound."
-
-        case .fetchExpectingOneObjectFailed:
-            return "Returned multiple objects, expected max 1."
-
-        case .fetchFailed(let error):
-            return "The fetch could not be completed because of error:\n\(error.localizedDescription)"
-
-        case .saveFailed(let error):
-            return "The save operation could not be completed because of error:\n\(error.localizedDescription)"
-
-        }
-    }
-
-}
-
-extension CoreDataPlusError.ConfigurationFailureReason: LocalizedError {
-
-    public var errorDescription: String? {
-        switch self {
-
-        case .persistentStoreCoordinatorNotFound(let context):
-            return "\(context.description) doesn't have a NSPersistentStoreCoordinator."
-        }
-
-    }
 }
