@@ -313,6 +313,47 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     }
 
   }
+  
+  func testBatchFaultingWithDifferentContexts() {
+    // Given
+    let _stack = CoreDataStack()
+    guard let stack = _stack else {
+      XCTAssertNotNil(_stack)
+      return
+    }
+    let context1 = stack.mainContext
+    let context2 = context1.newBackgroundContext(asChildContext: false)
+    
+    let car1 = Car(context: context1)
+    car1.numberPlate = "car1-testBatchFaultingWithDifferentContexts"
+    let sportCar1 = SportCar(context: context1)
+    sportCar1.numberPlate = "sportCar1-testBatchFaultingWithDifferentContexts"
+    
+    let person2 = Person(context: context2)
+    person2.firstName = "firstName-testBatchFaultingWithDifferentContexts"
+    person2.lastName = "lastName-testBatchFaultingWithDifferentContexts"
+    let car2 = Car(context: context2)
+    car2.numberPlate = "car2-testBatchFaultingWithDifferentContexts"
+    
+    context1.performAndWait {
+      try! context1.save()
+    }
+    
+    context2.performAndWait {
+      try! context2.save()
+    }
+    
+    // When
+    context1.refreshAllObjects()
+    context2.refreshAllObjects()
+    
+    let objects = [car1, sportCar1, person2, car2]
+    
+    // Then
+    XCTAssertTrue(objects.filter { !$0.isFault }.isEmpty)
+    XCTAssertNoThrow(try objects.fetchFaultedObjects())
+    XCTAssertTrue(objects.filter { !$0.isFault }.count == 4)
+  }
 
   func testBatchFaultingToManyRelationship() {
     let stack = CoreDataStack()!
