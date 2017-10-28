@@ -314,6 +314,49 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
 
   }
   
+  func testBatchFaultingEdgeCases() {
+    // Given
+    let _stack = CoreDataStack()
+    guard let stack = _stack else {
+      XCTAssertNotNil(_stack)
+      return
+    }
+    let context = stack.mainContext
+    context.performAndWait {
+      insertSampleData(in: context)
+      try! context.save()
+    }
+    
+    // empty data set
+    let objects: [NSManagedObject] = []
+    XCTAssertNoThrow(try objects.fetchFaultedObjects())
+    
+    // no faults objects
+    let request = Car.newFetchRequest()
+    request.predicate = NSPredicate(value: true)
+    request.fetchLimit = 2 // reduce the chances to have faults objects
+    
+    do {
+      // When
+      let cars = try context.fetch(request)
+      let previousFaultsCount = cars.filter { $0.isFault }.count
+      let previousNotFaultsCount = cars.filter { !$0.isFault }.count
+    
+      XCTAssertNoThrow(try cars.fetchFaultedObjects())
+      
+      // Then
+      let currentFaultsCount = cars.filter { $0.isFault }.count
+       let currentNotFaultsCount = cars.filter { !$0.isFault }.count
+      XCTAssertTrue(previousFaultsCount == 0)
+      XCTAssertTrue(currentFaultsCount == 0)
+      XCTAssertTrue(previousNotFaultsCount == currentNotFaultsCount)
+      
+    } catch {
+      XCTFail(error.localizedDescription)
+    }
+    
+  }
+  
   func testBatchFaultingWithDifferentContexts() {
     // Given
     let _stack = CoreDataStack()

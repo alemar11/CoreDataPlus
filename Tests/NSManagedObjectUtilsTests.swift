@@ -66,7 +66,6 @@ class NSManagedObjectUtilsTests: XCTestCase {
     do {
       // When
       let person = Person(context: mainContext)
-      //mainContext.insert(person)
       mainContext.performAndWait {
         person.firstName = "Myname2"
         person.lastName = "MyLastName2"
