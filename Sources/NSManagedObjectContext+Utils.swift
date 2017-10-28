@@ -29,17 +29,18 @@ extension NSManagedObjectContext {
   ///
   /// The persistent stores associated with the receiver (if any).
   public final var persistentStores: [NSPersistentStore] {
-
+    if !ProcessInfo.isRunningUnitTests {
+      assertionFailure("\(self.description) doesn't have a Persistent Store Coordinator.")
+    }
     return persistentStoreCoordinator?.persistentStores ?? []
   }
 
   /// **CoreDataPlus**
   ///
   /// Returns a dictionary that contains the metadata currently stored or to-be-stored in a given persistent store.
-  /// - Throws: It throws an error in cases of failure.
-  public final func metaData(for store: NSPersistentStore) throws -> [String: Any] {
-    guard let persistentStoreCoordinator = persistentStoreCoordinator else { throw CoreDataPlusError.configurationFailed(reason: .persistentStoreCoordinatorNotFound(context: self)) }
-
+  public final func metaData(for store: NSPersistentStore) -> [String: Any] {
+    guard let persistentStoreCoordinator = persistentStoreCoordinator else { preconditionFailure("\(self.description) doesn't have a Persistent Store Coordinator.") }
+    
     return persistentStoreCoordinator.metadata(for: store)
   }
 
@@ -53,11 +54,10 @@ extension NSManagedObjectContext {
   ///   - store: NSPersistentStore where is stored the metadata.
   ///   - handler: The completion handler called when the saving is completed.
   public final func setMetaDataObject(_ object: Any?, with key: String, for store: NSPersistentStore, completion handler: ( (Error?) -> Void )? = nil ) {
-    performSave(after: {
-      guard let persistentStoreCoordinator = self.persistentStoreCoordinator else {
-        handler?(CoreDataPlusError.configurationFailed(reason: .persistentStoreCoordinatorNotFound(context: self)))
-        return
-      }
+    performSave(after: { [weak self] in
+      guard let strongSelf = self else { return }
+      guard let persistentStoreCoordinator = strongSelf.persistentStoreCoordinator else { preconditionFailure("\(strongSelf.description) doesn't have a Persistent Store Coordinator.") }
+      
       var metaData = persistentStoreCoordinator.metadata(for: store)
       metaData[key] = object
       persistentStoreCoordinator.setMetadata(metaData, for: store)
@@ -68,14 +68,11 @@ extension NSManagedObjectContext {
 
   /// **CoreDataPlus**
   ///
-  /// Returns the entity with the specified name from the managed object model associated with the specified managed object context’s persistent store coordinator.
-  /// - Throws: It throws an error in cases of failure.
-  public final func entity(forEntityName name: String) throws -> NSEntityDescription {
-    guard let persistentStoreCoordinator = persistentStoreCoordinator else {
-        throw CoreDataPlusError.configurationFailed(reason: .persistentStoreCoordinatorNotFound(context: self))
-    }
-    guard let entity = persistentStoreCoordinator.managedObjectModel.entitiesByName[name] else { throw CoreDataPlusError.configurationFailed(reason: .entityNotFound(entityName: name)) }
-
+  /// Returns the entity with the specified name (if any) from the managed object model associated with the specified managed object context’s persistent store coordinator.
+  public final func entity(forEntityName name: String) -> NSEntityDescription? {
+    guard let persistentStoreCoordinator = persistentStoreCoordinator else { preconditionFailure("\(self.description) doesn't have a Persistent Store Coordinator.") }
+    let entity = persistentStoreCoordinator.managedObjectModel.entitiesByName[name]
+    
     return entity
   }
 
@@ -92,11 +89,13 @@ extension NSManagedObjectContext {
   ///   - asChildContext: Specifies if this new context is a child context of the current context (default *false*).
   public final func newBackgroundContext(asChildContext isChildContext: Bool = false) -> NSManagedObjectContext {
     let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+    
     if isChildContext {
       context.parent = self
     } else {
       context.persistentStoreCoordinator = persistentStoreCoordinator
     }
+    
     return context
   }
 

@@ -305,19 +305,19 @@
 		23B580851F94FF0900A365C0 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				23B5808F1F94FFF700A365C0 /* NSManagedObjectContext+Utils.swift */,
-				23B580901F94FFF700A365C0 /* NSManagedObjectContext+Cache.swift */,
-				23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */,
-				23B5808C1F94FFF600A365C0 /* NSManagedObject+Utils.swift */,
-				23B5808D1F94FFF600A365C0 /* NSManagedObject+Deletable.swift */,
 				23B580921F94FFF700A365C0 /* Collection+CoreData.swift */,
+				23B5809D1F95006200A365C0 /* CoreDataPlus.swift */,
+				23A8A4501F9F89670038DE3A /* CoreDataPlusError.swift */,
 				23B580911F94FFF700A365C0 /* FetchConfigurable.swift */,
 				23B580891F94FFF600A365C0 /* ModelVersion.swift */,
+				23948D141F99332A00B3738D /* NSEntityDescription+Utils.swift */,
 				23B580871F94FFF600A365C0 /* NSFetchRequest+Utils.swift */,
 				23B580881F94FFF600A365C0 /* NSFetchRequestResult+CoreData.swift */,
-				23B5809D1F95006200A365C0 /* CoreDataPlus.swift */,
-				23948D141F99332A00B3738D /* NSEntityDescription+Utils.swift */,
-				23A8A4501F9F89670038DE3A /* CoreDataPlusError.swift */,
+				23B5808D1F94FFF600A365C0 /* NSManagedObject+Deletable.swift */,
+				23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */,
+				23B5808C1F94FFF600A365C0 /* NSManagedObject+Utils.swift */,
+				23B580901F94FFF700A365C0 /* NSManagedObjectContext+Cache.swift */,
+				23B5808F1F94FFF700A365C0 /* NSManagedObjectContext+Utils.swift */,
 				237EF68B1FA4851800B54A7A /* ProcessInfo+Utils.swift */,
 			);
 			path = Sources;

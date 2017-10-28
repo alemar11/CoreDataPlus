@@ -55,7 +55,7 @@ public enum CoreDataPlusError: Error {
     /// - entityNotFound: The NSEntity is not found.
     /// - persistentStoreCoordinator: The NSPersistentStoreCoordinator is missing.
     public enum ConfigurationFailureReason {
-        case entityNotFound(entityName: String)
+        
         case persistentStoreCoordinatorNotFound(context: NSManagedObjectContext)
 
         /// **CoreDataPlus**
@@ -137,9 +137,6 @@ extension CoreDataPlusError.ConfigurationFailureReason: LocalizedError {
 
     public var errorDescription: String? {
         switch self {
-      
-        case .entityNotFound(let entityName):
-            return "\(entityName) not found."
 
         case .persistentStoreCoordinatorNotFound(let context):
             return "\(context.description) doesn't have a NSPersistentStoreCoordinator."
