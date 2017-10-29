@@ -36,7 +36,7 @@ extension NSEntityDescription {
   /// **CoreDataPlus**
   ///
   /// Returns a collection with the entire super-entity hierarchy of `self`.
-  func hierarchyEntities() -> [NSEntityDescription] {
+  internal func hierarchyEntities() -> [NSEntityDescription] {
     var entities = [self]
     var currentSuperEntity = superentity
 
@@ -56,7 +56,7 @@ extension NSEntityDescription {
   ///
   /// - Parameter entity: the entity to evaluate
   /// - Returns: Returns the common ancestor entity (if any).
-  func commonEntityAncestor(with entity: NSEntityDescription) -> NSEntityDescription? {
+  internal func commonEntityAncestor(with entity: NSEntityDescription) -> NSEntityDescription? {
     guard self != entity else { return entity }
 
     let selfHierarchy = Set(self.hierarchyEntities())

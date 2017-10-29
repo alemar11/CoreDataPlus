@@ -87,7 +87,7 @@ extension FetchConfigurable where Self: NSManagedObject {
     /// **CoreDataPlus**
     ///
     /// Creates a `new` predicate using the `defaultPredicate` *AND* a `predicate` by substituting the values in an argument list into a format string.
-    public static func predicate(format: String, _ args: CVarArg...) -> NSPredicate {
+  public static func predicate(format: String, _ args: CVarArg...) -> NSPredicate {
         let p = withVaList(args) { NSPredicate(format: format, arguments: $0) }
         return predicate(p)
     }
