@@ -23,8 +23,6 @@
 
 import CoreData
 
-// MARK: - Local Deletion
-
 private let markedForDeletionKey = "markedForDeletionAsOf"
 
 /// **CoreDataPlus**
@@ -118,97 +116,6 @@ extension NSFetchRequestResult where Self: NSManagedObject, Self: DelayedDeletab
         } catch {
             throw CoreDataPlusError.executionFailed(error: error)
         }
-    }
-
-}
-
-// MARK: - Remote Deletion
-
-private let markedForRemoteDeletionKey = "isMarkedForRemoteDeletion"
-
-/// **CoreDataPlus**
-///
-/// Objects adopting the `RemoteDeletable` support remote deletion.
-public protocol RemoteDeletable: class {
-
-    /// **CoreDataPlus**
-    ///
-    /// Protocol `RemoteDeletable`.
-    ///
-    /// Checks whether or not the managed object’s `markedForRemoteDeletion` property has unsaved changes.
-    var hasChangedForRemoteDeletion: Bool { get }
-
-    /// **CoreDataPlus**
-    ///
-    /// Protocol `RemoteDeletable`.
-    ///
-    /// Returns `true` if the object is marked to be deleted remotely.
-    var isMarkedForRemoteDeletion: Bool { get set }
-
-    /// **CoreDataPlus**
-    ///
-    /// Protocol `RemoteDeletable`.
-    ///
-    /// Marks an object to be deleted remotely, on the backend (i.e. Cloud Kit).
-    func markForRemoteDeletion()
-
-}
-
-// MARK: - RemoteDeletable Extension
-
-extension RemoteDeletable {
-
-    /// **CoreDataPlus**
-    ///
-    /// Protocol `RemoteDeletable`.
-    ///
-    /// Predicate to filter for objects that aren’t marked for remote deletion.
-    public static var notMarkedForRemoteDeletionPredicate: NSPredicate {
-        return NSPredicate(format: "%K == false", markedForRemoteDeletionKey)
-    }
-
-    /// **CoreDataPlus**
-    ///
-    /// Protocol `RemoteDeletable`.
-    ///
-    /// Predicate to filter for objects that are marked for remote deletion.
-    public static var markedForRemoteDeletionPredicate: NSPredicate {
-        return NSCompoundPredicate(notPredicateWithSubpredicate: notMarkedForRemoteDeletionPredicate)
-    }
-
-    /// **CoreDataPlus**
-    ///
-    /// Protocol `RemoteDeletable`.
-    ///
-    /// Marks an object to be deleted remotely.
-    public func markForRemoteDeletion() {
-        isMarkedForRemoteDeletion = true
-    }
-
-}
-
-extension RemoteDeletable where Self: NSManagedObject {
-
-    /// **CoreDataPlus**
-    ///
-    /// Protocol `RemoteDeletable`.
-    ///
-    /// Returns true if `self` has been marked for remote deletion.
-    public var hasChangedForRemoteDeletion: Bool {
-        return changedValue(forKey: markedForRemoteDeletionKey) as? Bool == true
-    }
-
-}
-
-extension RemoteDeletable where Self: DelayedDeletable {
-
-    /// **CoreDataPlus**
-    ///
-    /// Protocol `RemoteDeletable`.
-    ///
-    /// Predicate to filter for objects that are marked for remote deletion.
-    public static var notMarkedForDeletionPredicate: NSPredicate {
-        return NSCompoundPredicate(andPredicateWithSubpredicates: [notMarkedForLocalDeletionPredicate, notMarkedForRemoteDeletionPredicate])
     }
 
 }
