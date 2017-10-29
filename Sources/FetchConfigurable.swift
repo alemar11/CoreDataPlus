@@ -23,6 +23,8 @@
 
 import CoreData
 
+// TODO: remove this protocol?
+
 /// Objects adopting the `FetchConfigurable` support a variety of fetching helper functionalities.
 public protocol FetchConfigurable: class {
 
@@ -56,7 +58,6 @@ extension FetchConfigurable where Self: NSManagedObject {
     /// **CoreDataPlus**
     ///
     /// Fetch Request with the `defaultPredicate` and the default `defaultSortDescriptors`.
-    /// - Throws: It throws an error in cases of failure.
     @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
     public static var sortedFetchRequest: NSFetchRequest<Self> {
         // swiftlint:disable force_cast
@@ -71,9 +72,8 @@ extension FetchConfigurable where Self: NSManagedObject {
     /// **CoreDataPlus**
     ///
     /// Creates a `new` sorted fetch request using `sortedFetchRequest` (if exists) *AND* `predicate`.
-    /// - Throws: It throws an error in cases of failure.
     @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
-    public static func sortedFetchRequest(with predicate: NSPredicate) throws -> NSFetchRequest<Self> {
+    public static func sortedFetchRequest(with predicate: NSPredicate) -> NSFetchRequest<Self> {
         let request = sortedFetchRequest
         if let existingPredicate = request.predicate {
             request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [existingPredicate, predicate])
