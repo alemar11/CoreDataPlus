@@ -33,17 +33,3 @@ final public class Person: NSManagedObject {
   @NSManaged public var cars: Set<Car>?
 
 }
-
-// MARK: - FetchConfigurable
-
-extension Person: FetchConfigurable {
-
-  public static var defaultPredicate: NSPredicate {
-    return NSPredicate(value: true)
-  }
-
-  public static var defaultSortDescriptors: [NSSortDescriptor] {
-    return []
-  }
-
-}
