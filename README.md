@@ -1,4 +1,4 @@
-# CoreDataPlus
+![CoreDataPlus](https://raw.githubusercontent.com/tinrobots/CoreDataPlus/assets/coredata_plus.png)
 
 [![Swift 4.0](https://img.shields.io/badge/Swift-4.0-orange.svg?style=flat)](https://developer.apple.com/swift)
 ![Platforms](https://img.shields.io/badge/Platform-iOS%2010%2B%20|%20macOS%2010.12+%20|%20tvOS%2010+%20|%20watchOS%203+-blue.svg) 
