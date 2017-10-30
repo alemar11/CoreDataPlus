@@ -28,7 +28,7 @@ import CoreData
 class NSFetchRequestResultCoreDataTests: XCTestCase {
 
   func testDeleteAllIncludingSubentities() {
-    let stack = CoreDataStack()!
+    let stack = CoreDataStack.stack()
     let context = stack.mainContext
 
     // Given
@@ -60,7 +60,7 @@ class NSFetchRequestResultCoreDataTests: XCTestCase {
   }
 
   func testDeleteAllExcludingSubentities() {
-    let stack = CoreDataStack()!
+    let stack = CoreDataStack.stack()
     let context = stack.mainContext
 
     // Given
@@ -91,7 +91,7 @@ class NSFetchRequestResultCoreDataTests: XCTestCase {
   }
 
   func testDeleteAllExcludingExceptions() {
-    let stack = CoreDataStack()!
+    let stack = CoreDataStack.stack()
     let context = stack.mainContext
     // Given
     context.fillWithSampleData()

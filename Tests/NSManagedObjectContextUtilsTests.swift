@@ -26,30 +26,27 @@ import CoreData
 @testable import CoreDataPlus
 
 class NSManagedObjectContextUtilsTests: XCTestCase {
-
+  
   func testSinglePersistentStore() {
     // Given, When
-    let stack = CoreDataStack()
-    if let stack = stack {
-      // Then
-      XCTAssertTrue(stack.mainContext.persistentStores.count == 1)
-      XCTAssertNotNil(stack.mainContext.persistentStores.first)
-    } else {
-      XCTAssertNotNil(stack)
-    }
+    let stack = CoreDataStack.stack()
+    // Then
+    XCTAssertTrue(stack.mainContext.persistentStores.count == 1)
+    XCTAssertNotNil(stack.mainContext.persistentStores.first)
+    
   }
-
+  
   func testMissingPersistentStoreCoordinator() {
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     XCTAssertTrue(context.persistentStores.isEmpty)
   }
-
+  
   func testMetaData() {
     do {
       // Given
       let stack = CoreDataStack(type: .sqlite)
       if let stack = stack {
-
+        
         // When
         guard let firstPersistentStore = stack.mainContext.persistentStores.first else {
           XCTAssertNotNil(stack.mainContext.persistentStores.first)
@@ -60,28 +57,28 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
         XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[Car.entityName])
         XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[Person.entityName])
         XCTAssertNotNil(metaData["NSStoreType"] as? String)
-
+        
         let addMetaDataExpectation = expectation(description: "Add MetaData Expectation")
         stack.mainContext.setMetaDataObject("Test", with: "testKey", for: firstPersistentStore){ error in
           XCTAssertNil(error)
           addMetaDataExpectation.fulfill()
         }
         waitForExpectations(timeout: 5.0, handler: nil)
-
+        
         let updatedMetaData = stack.mainContext.metaData(for: firstPersistentStore)
         XCTAssertNotNil(updatedMetaData["testKey"])
         XCTAssertEqual(updatedMetaData["testKey"] as? String, "Test")
-
+        
       } else {
         XCTAssertNotNil(stack)
       }
     }
-
+    
     do {
       // Given
       let stack = CoreDataStack(type: .inMemory)
       if let stack = stack {
-
+        
         // When
         guard let firstPersistentStore = stack.mainContext.persistentStores.first else {
           XCTAssertNotNil(stack.mainContext.persistentStores.first)
@@ -92,64 +89,57 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
         XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[Car.entityName])
         XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[Person.entityName])
         XCTAssertNotNil(metaData["NSStoreType"] as? String)
-
+        
         let addMetaDataExpectation = expectation(description: "Add MetaData Expectation")
         stack.mainContext.setMetaDataObject("Test", with: "testKey", for: firstPersistentStore){ error in
           XCTAssertNil(error)
           addMetaDataExpectation.fulfill()
         }
         waitForExpectations(timeout: 5.0, handler: nil)
-
+        
         let updatedMetaData = stack.mainContext.metaData(for: firstPersistentStore)
         XCTAssertNotNil(updatedMetaData["testKey"])
         XCTAssertEqual(updatedMetaData["testKey"] as? String, "Test")
-
+        
       } else {
         XCTAssertNotNil(stack)
       }
     }
-
+    
   }
-
+  
   func testEntityDescription() {
     // Given, When
-    let _stack = CoreDataStack()
-    guard let stack = _stack else {
-      XCTAssertNotNil(_stack)
-      return
-    }
+    let stack = CoreDataStack.stack()
     // Then
     XCTAssertNotNil(stack.mainContext.entity(forEntityName: Car.entityName))
     XCTAssertNotNil(stack.mainContext.entity(forEntityName: Person.entityName))
     XCTAssertNil(stack.mainContext.entity(forEntityName: "FakeEntity"))
-
   }
-
+  
   func testNewBackgroundContext() {
     // Given, When
-    let stack = CoreDataStack()
-    if let stack = stack {
-      // Then
-      let backgroundContext = stack.mainContext.newBackgroundContext(asChildContext: true)
-      XCTAssertEqual(backgroundContext.concurrencyType,.privateQueueConcurrencyType)
-      XCTAssertEqual(backgroundContext.parent,stack.mainContext)
-
-      let backgroundContext2 = stack.mainContext.newBackgroundContext()
-      XCTAssertEqual(backgroundContext2.concurrencyType,.privateQueueConcurrencyType)
-      XCTAssertNotEqual(backgroundContext2.parent,stack.mainContext)
-    }  else {
-      XCTAssertNotNil(stack)
-    }
+    let stack = CoreDataStack.stack()
+    
+    // Then
+    let backgroundContext = stack.mainContext.newBackgroundContext(asChildContext: true)
+    XCTAssertEqual(backgroundContext.concurrencyType,.privateQueueConcurrencyType)
+    XCTAssertEqual(backgroundContext.parent,stack.mainContext)
+    
+    let backgroundContext2 = stack.mainContext.newBackgroundContext()
+    XCTAssertEqual(backgroundContext2.concurrencyType,.privateQueueConcurrencyType)
+    XCTAssertNotEqual(backgroundContext2.parent,stack.mainContext)
+    
   }
-
+  
   func testSaveAndWait() {
     // Given, When
     let stack = CoreDataStack(type: .sqlite)
     if let stack = stack {
       let context = stack.mainContext
-
+      
       // Then
-
+      
       XCTAssertNoThrow(
         try context.performSaveAndWait {
           let person = Person(context: context)
@@ -157,10 +147,10 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
           person.lastName = "R"
         }
       )
-
+      
       XCTAssertNoThrow(
         try context.performSaveAndWait {})
-
+      
       XCTAssertNoThrow(
         try context.performSaveAndWait {
           let person = Person(context: context)
@@ -168,7 +158,7 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
           person.lastName = "Robots"
         }
       )
-
+      
       XCTAssertThrowsError(
         try context.performSaveAndWait {
           let person = Person(context: context)
@@ -178,7 +168,7 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
       ) { (error) in
         XCTAssertNotNil(error)
       }
-
+      
       XCTAssertNoThrow(
         try context.performSaveAndWait {
           let person = Person(context: context)
@@ -186,7 +176,7 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
           person.lastName = "Robots"
         }
       )
-
+      
       XCTAssertNoThrow(
         try context.performSaveAndWait {
           let person = Person(context: context)
@@ -194,17 +184,17 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
           person.lastName = "Robots_"
         }
       )
-
+      
     } else {
       XCTAssertNotNil(stack)
     }
   }
-
+  
   func testSave() {
     // Given, When
     let stack = CoreDataStack(type: .sqlite)
     if let stack = stack {
-
+      
       let context = stack.mainContext.newBackgroundContext()
       // Then
       let saveExpectation1 = expectation(description: "Save 1")
@@ -216,9 +206,9 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
         XCTAssertNil(error)
         saveExpectation1.fulfill()
       }
-
+      
       wait(for: [saveExpectation1], timeout: 10)
-
+      
       let saveExpectation2 = expectation(description: "Save 2")
       context.performSave(after: {
         let person = Person(context: context)
@@ -228,9 +218,9 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
         XCTAssertNil(error)
         saveExpectation2.fulfill()
       }
-
+      
       wait(for: [saveExpectation2], timeout: 10)
-
+      
       /// saving error
       let saveExpectation3 = expectation(description: "Save 3")
       context.performSave(after: {
@@ -241,9 +231,9 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
         XCTAssertNotNil(error)
         saveExpectation3.fulfill()
       }
-
+      
       wait(for: [saveExpectation3], timeout: 10)
-
+      
       let saveExpectation4 = expectation(description: "Save 4")
       context.performSave(after: {
         let person = Person(context: context)
@@ -253,9 +243,9 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
         XCTAssertNil(error)
         saveExpectation4.fulfill()
       }
-
+      
       wait(for: [saveExpectation4], timeout: 10)
-
+      
       let saveExpectation5 = expectation(description: "Save 5")
       context.performSave(after: {
         let person = Person(context: context)
@@ -265,9 +255,9 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
         XCTAssertNil(error)
         saveExpectation5.fulfill()
       }
-
+      
       wait(for: [saveExpectation5], timeout: 10)
-
+      
       let saveExpectation6 = expectation(description: "Save 6")
       context.performSave(after: {
         let car = Car(context: context)
@@ -276,9 +266,9 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
         XCTAssertNil(error)
         saveExpectation6.fulfill()
       }
-
+      
       wait(for: [saveExpectation6], timeout: 10)
-
+      
       let saveExpectation7 = expectation(description: "Save 7")
       context.performSave(after: {
         let car = SportCar(context: context)
@@ -287,9 +277,9 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
         XCTAssertNil(error)
         saveExpectation7.fulfill()
       }
-
+      
       wait(for: [saveExpectation7], timeout: 10)
-
+      
       /// saving error
       let saveExpectation8 = expectation(description: "Save 7")
       context.performSave(after: {
@@ -299,13 +289,13 @@ class NSManagedObjectContextUtilsTests: XCTestCase {
         XCTAssertNotNil(error)
         saveExpectation8.fulfill()
       }
-
+      
       wait(for: [saveExpectation8], timeout: 10)
-
+      
     } else {
       XCTAssertNotNil(stack)
     }
   }
-
+  
 }
 
