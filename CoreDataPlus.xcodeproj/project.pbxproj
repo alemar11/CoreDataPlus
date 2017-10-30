@@ -197,6 +197,7 @@
 		23B580901F94FFF700A365C0 /* NSManagedObjectContext+Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+Cache.swift"; sourceTree = "<group>"; };
 		23B580921F94FFF700A365C0 /* Collection+CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+CoreData.swift"; sourceTree = "<group>"; };
 		23B5809D1F95006200A365C0 /* CoreDataPlus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPlus.swift; sourceTree = "<group>"; };
+		23BAC1181FA7A7D8002EE4F1 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = SOURCE_ROOT; };
 		23DAFA241F9641BD0058654B /* SampleModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel.xcdatamodel; sourceTree = "<group>"; };
 		23DAFA291F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSFetchRequestResultUtilsTests.swift; sourceTree = "<group>"; };
 		23EEF5441F962E5700A2E72F /* Car.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Car.swift; sourceTree = "<group>"; };
@@ -289,6 +290,7 @@
 		23B580841F94FF0300A365C0 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				23BAC1181FA7A7D8002EE4F1 /* Package.swift */,
 				236351241F95F53900B3A16A /* IDETemplateMacros.plist */,
 				236350E11F95F1A900B3A16A /* Info-Tests.plist */,
 				23B5806E1F94FEDF00A365C0 /* Info.plist */,
