@@ -34,3 +34,11 @@ public class Car: NSManagedObject {
   @NSManaged public var owner: Person?
 
 }
+
+@objc(SportCar)
+public class SportCar: Car { }
+
+@objc(ExpensiveSportCar)
+final public class ExpensiveSportCar: SportCar {
+    @NSManaged public var isLimitedEdition: Bool
+}
