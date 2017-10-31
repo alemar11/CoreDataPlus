@@ -188,8 +188,8 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// Iterates over the context’s registeredObjects set (which contains all managed objects the context currently knows about) until it finds
   /// all the objects that aren't a fault matching for a given predicate.
   /// Faulted objects are not considered to prevent Core Data to make a round trip to the persistent store.
-  private static func findMaterializedObjects(in context: NSManagedObjectContext, where predicate: NSPredicate) -> [Self] {
-    let results = context.registeredObjects.filter { !$0.isFault }.filter { predicate.evaluate(with: $0) }.flatMap { $0 as? Self}
+  public static func findMaterializedObjects(in context: NSManagedObjectContext, where predicate: NSPredicate) -> [Self] {
+    let results = context.registeredObjects.filter { !$0.isFault && $0 is Self}.filter { predicate.evaluate(with: $0) }.flatMap { $0 as? Self}
 
     return results
   }
@@ -231,7 +231,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Returns: A cached object (if any).
   /// - Throws: It throws an error in cases of failure.
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
-  public static func fetchCachedObject(in context: NSManagedObjectContext, forKey cacheKey: String, with configuration: @escaping (NSFetchRequest<Self>) -> Void) throws -> Self? {
+  public static func fetchCachedObject(in context: NSManagedObjectContext, forKey cacheKey: String, orCacheUsing configuration: @escaping (NSFetchRequest<Self>) -> Void) throws -> Self? {
     guard let cached = context.cachedManagedObject(forKey: cacheKey) as? Self else {
       let result = try fetchSingleObject(in: context, with: configuration)
       context.setCachedManagedObject(result, forKey: cacheKey)
