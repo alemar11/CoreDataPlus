@@ -243,7 +243,7 @@ extension NSManagedObjectContext {
     expensiveSportCar1.isLimitedEdition = false
 
     let expensiveSportCar5 = ExpensiveSportCar(context: context)
-    expensiveSportCar5.maker = "Lamborghini "
+    expensiveSportCar5.maker = "Lamborghini"
     expensiveSportCar5.model = "Aventador LP750-4"
     expensiveSportCar5.numberPlate = "304"
     expensiveSportCar1.isLimitedEdition = false
