@@ -24,7 +24,7 @@
 import CoreData
 
 extension NSManagedObjectContext {
-
+  
   /// **CoreDataPlus**
   ///
   /// The persistent stores associated with the receiver (if any).
@@ -34,16 +34,16 @@ extension NSManagedObjectContext {
     }
     return persistentStoreCoordinator?.persistentStores ?? []
   }
-
+  
   /// **CoreDataPlus**
   ///
   /// Returns a dictionary that contains the metadata currently stored or to-be-stored in a given persistent store.
   public final func metaData(for store: NSPersistentStore) -> [String: Any] {
     guard let persistentStoreCoordinator = persistentStoreCoordinator else { preconditionFailure("\(self.description) doesn't have a Persistent Store Coordinator.") }
-
+    
     return persistentStoreCoordinator.metadata(for: store)
   }
-
+  
   /// **CoreDataPlus**
   ///
   /// Adds an `object` to the store's metadata and saves it **asynchronously**.
@@ -57,31 +57,31 @@ extension NSManagedObjectContext {
     performSave(after: { [weak self] in
       guard let strongSelf = self else { return }
       guard let persistentStoreCoordinator = strongSelf.persistentStoreCoordinator else { preconditionFailure("\(strongSelf.description) doesn't have a Persistent Store Coordinator.") }
-
+      
       var metaData = persistentStoreCoordinator.metadata(for: store)
       metaData[key] = object
       persistentStoreCoordinator.setMetadata(metaData, for: store)
-    }, completion: { error in
-      handler?(error)
+      }, completion: { error in
+        handler?(error)
     })
   }
-
+  
   /// **CoreDataPlus**
   ///
   /// Returns the entity with the specified name (if any) from the managed object model associated with the specified managed object context’s persistent store coordinator.
   public final func entity(forEntityName name: String) -> NSEntityDescription? {
     guard let persistentStoreCoordinator = persistentStoreCoordinator else { preconditionFailure("\(self.description) doesn't have a Persistent Store Coordinator.") }
     let entity = persistentStoreCoordinator.managedObjectModel.entitiesByName[name]
-
+    
     return entity
   }
-
+  
 }
 
 // MARK: - Child Context
 
 extension NSManagedObjectContext {
-
+  
   /// **CoreDataPlus**
   ///
   /// - Returns: a `new` background `NSManagedObjectContext`.
@@ -89,22 +89,22 @@ extension NSManagedObjectContext {
   ///   - asChildContext: Specifies if this new context is a child context of the current context (default *false*).
   public final func newBackgroundContext(asChildContext isChildContext: Bool = false) -> NSManagedObjectContext {
     let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-
+    
     if isChildContext {
       context.parent = self
     } else {
       context.persistentStoreCoordinator = persistentStoreCoordinator
     }
-
+    
     return context
   }
-
+  
 }
 
 // MARK: - Save
 
 extension NSManagedObjectContext {
-
+  
   /// **CoreDataPlus**
   ///
   /// Asynchronously performs changes and then saves them or **rollbacks** if any error occurs.
@@ -125,7 +125,7 @@ extension NSManagedObjectContext {
       completion?(result) // completion is escaping by default
     }
   }
-
+  
   /// **CoreDataPlus**
   ///
   /// Synchronously performs changes and then saves them or **rollbacks** if any error occurs.
@@ -145,7 +145,9 @@ extension NSManagedObjectContext {
       if let error = saveError { throw CoreDataPlusError.saveFailed(error: error) }
     }
   }
-
+  
+  /// **CoreDataPlus**
+  ///
   /// Saves the `NSManagedObjectContext` if changes are present or **rollbacks** if any error occurs.
   private final func saveOrRollBack() throws {
     guard hasChanges else { return }
@@ -156,5 +158,26 @@ extension NSManagedObjectContext {
       throw CoreDataPlusError.saveFailed(error: error)
     }
   }
-
+  
+  /// **CoreDataPlus**
+  ///
+  /// Saves the `NSManagedObjectContext` up to the last parent `NSManagedObjectContext`.
+  private final func performSaveUpToTheLastParentContextAndWait() throws {
+    var parentContext: NSManagedObjectContext? = self
+    
+    while parentContext != nil {
+      var saveError: Error? = nil
+      
+      parentContext!.performAndWait {
+        do {
+          try parentContext!.save()
+        } catch {
+          saveError = error
+        }
+      }
+      parentContext = parentContext!.parent
+      if let error = saveError { throw CoreDataPlusError.saveFailed(error: error) }
+    }
+  }
+  
 }
