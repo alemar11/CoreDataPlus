@@ -27,6 +27,8 @@ import CoreData
 
 class NSFetchRequestResultUtilsTests: XCTestCase {
   
+  // MARK: - Batch Faulting
+  
   func testBatchFaulting() {
     // Given
     let stack = CoreDataStack.stack()
@@ -179,6 +181,8 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     
   }
   
+  // MARK: - Fetch
+  
   func testFetch() {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
@@ -208,6 +212,8 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     
   }
   
+  // MARK: - Count
+  
   func testCount() {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
@@ -236,6 +242,8 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     }
     
   }
+  
+  // MARK: - Unique
   
   func testFetchUniqueObject() {
     let stack = CoreDataStack.stack()
@@ -320,7 +328,7 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
       XCTFail(error.localizedDescription)
     }
     
-    /// new object in the context: multiple objects
+    /// new object added in the context before the fetch
     
     // first we materialiaze all cars
     XCTAssertNoThrow( try Car.fetch(in: context) { request in request.returnsObjectsAsFaults = false })
@@ -336,6 +344,39 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     XCTAssertThrowsError(try Car.findUniqueOrCreate(in: context, where: NSPredicate(value: true), with: { _ in }))
     
   }
+  
+  func testFindUniqueMaterializedObject() {
+    let stack = CoreDataStack.stack()
+    let context = stack.mainContext
+    
+    context.performAndWait {
+      context.fillWithSampleData()
+      try! context.save()
+    }
+    
+    // materialize all expensive sport cars
+    let request = ExpensiveSportCar.newFetchRequest()
+    request.returnsObjectsAsFaults = false
+    request.predicate = NSPredicate(value: true)
+    do {
+      _ = try context.fetch(request)
+    } catch {
+      XCTFail(error.localizedDescription)
+    }
+    
+    XCTAssertThrowsError(try Car.findUniqueMaterializedObject(in: context, where: NSPredicate(value: true)))
+    
+    let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
+    XCTAssertNotNil(Car.findFirstMaterializedObject(in: context, where: predicate))
+    
+    // de-materialize all objects
+    context.refreshAllObjects()
+    
+    XCTAssertNil(Car.findFirstMaterializedObject(in: context, where: predicate))
+    
+  }
+  
+  // MARK: - First
   
   func testFindFirstOrCreate() {
     let stack = CoreDataStack.stack()
@@ -373,7 +414,7 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
       XCTFail(error.localizedDescription)
     }
     
-    /// new object in the context: multiple objects
+    /// new object added in the context before the fetch
     
     // first we materialiaze all cars
     XCTAssertNoThrow( try Car.fetch(in: context) { request in request.returnsObjectsAsFaults = false })
@@ -440,36 +481,7 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     
   }
   
-  func testFindUniqueMaterializedObject() {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
-    
-    context.performAndWait {
-      context.fillWithSampleData()
-      try! context.save()
-    }
-    
-    // materialize all expensive sport cars
-    let request = ExpensiveSportCar.newFetchRequest()
-    request.returnsObjectsAsFaults = false
-    request.predicate = NSPredicate(value: true)
-    do {
-      _ = try context.fetch(request)
-    } catch {
-      XCTFail(error.localizedDescription)
-    }
-    
-    XCTAssertThrowsError(try Car.findUniqueMaterializedObject(in: context, where: NSPredicate(value: true)))
-    
-    let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
-    XCTAssertNotNil(Car.findFirstMaterializedObject(in: context, where: predicate))
-    
-    // de-materialize all objects
-    context.refreshAllObjects()
-    
-    XCTAssertNil(Car.findFirstMaterializedObject(in: context, where: predicate))
-    
-  }
+  // MARK: Materialized Object
   
   func testFindMaterializedObjects() {
     let stack = CoreDataStack.stack()
@@ -499,6 +511,8 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     
     XCTAssertTrue(Car.findMaterializedObjects(in: context, where: NSPredicate(value: true)).isEmpty)
   }
+  
+  // MARK: Cache
   
   func testFetchCachedObject() {
     let stack = CoreDataStack.stack()

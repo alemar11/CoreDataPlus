@@ -40,6 +40,8 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     return String(describing: Self.self)
   }
   
+  // MARK: - Fetch
+  
   /// **Mechanica**
   ///
   /// Creates a `new` NSFetchRequest for `self`.
@@ -48,6 +50,23 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   public static func newFetchRequest() -> NSFetchRequest<Self> {
     let fetchRequest = NSFetchRequest<Self>(entityName: entityName)
     return fetchRequest
+  }
+  
+  /// **CoreDataPlus**
+  ///
+  /// Performs a configurable fetch request in a context.
+  /// - Throws: It throws an error in cases of failure.
+  @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
+  public static func fetch(in context: NSManagedObjectContext, with configuration: (NSFetchRequest<Self>) -> Void = { _ in }) throws -> [Self] {
+    let request = NSFetchRequest<Self>(entityName: entityName)
+    configuration(request)
+    
+    do {
+      return try context.fetch(request)
+    } catch {
+      throw CoreDataPlusError.fetchFailed(error: error)
+    }
+    
   }
   
   // MARK: - First
@@ -188,25 +207,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     default:
       throw CoreDataPlusError.fetchExpectingOneObjectFailed
     }
-  }
-  
-  // MARK: - Fetch
-  
-  /// **CoreDataPlus**
-  ///
-  /// Performs a configurable fetch request in a context.
-  /// - Throws: It throws an error in cases of failure.
-  @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
-  public static func fetch(in context: NSManagedObjectContext, with configuration: (NSFetchRequest<Self>) -> Void = { _ in }) throws -> [Self] {
-    let request = NSFetchRequest<Self>(entityName: entityName)
-    configuration(request)
-    
-    do {
-      return try context.fetch(request)
-    } catch {
-      throw CoreDataPlusError.fetchFailed(error: error)
-    }
-    
   }
   
   // MARK: - Delete
