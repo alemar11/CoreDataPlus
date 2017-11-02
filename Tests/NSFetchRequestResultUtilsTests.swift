@@ -330,7 +330,7 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     
   }
   
-  func testFirstFindMaterializedObject() {
+  func testFindFirstMaterializedObject() {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
     
