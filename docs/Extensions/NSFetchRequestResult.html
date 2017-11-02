@@ -181,6 +181,17 @@
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Fetch"></a>
+                <a name="//apple_ref/swift/Section/Fetch" class="dashAnchor"></a>
+                <a href="#/Fetch">
+                  <h3 class="section-name">Fetch</h3>
+                </a>
+              </div>
+              <ul>
                 <li class="item">
                   <div>
                     <code>
@@ -218,9 +229,54 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE12findOrCreatexSo0gH7ContextC2in_So11NSPredicateC5whereyxc4withtKFZ"></a>
-                    <a name="//apple_ref/swift/Method/findOrCreate(in:where:with:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE12findOrCreatexSo0gH7ContextC2in_So11NSPredicateC5whereyxc4withtKFZ">findOrCreate(in:where:with:)</a>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE5fetchSayxGSo0gH7ContextC2in_ySo0aB0CyxGc4withtKFZ"></a>
+                    <a name="//apple_ref/swift/Method/fetch(in:with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE5fetchSayxGSo0gH7ContextC2in_ySo0aB0CyxGc4withtKFZ">fetch(in:with:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Performs a configurable fetch request in a context.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    It throws an error in cases of failure.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="n">with</span> <span class="nv">configuration</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSFetchRequest</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">})</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="k">Self</span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/First"></a>
+                <a name="//apple_ref/swift/Section/First" class="dashAnchor"></a>
+                <a href="#/First">
+                  <h3 class="section-name">First</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE17findFirstOrCreatexSo0gH7ContextC2in_So11NSPredicateC5whereyxc4withtKFZ"></a>
+                    <a name="//apple_ref/swift/Method/findFirstOrCreate(in:where:with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE17findFirstOrCreatexSo0gH7ContextC2in_So11NSPredicateC5whereyxc4withtKFZ">findFirstOrCreate(in:where:with:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -242,7 +298,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">findOrCreate</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="k">where</span> <span class="nv">predicate</span><span class="p">:</span> <span class="kt">NSPredicate</span><span class="p">,</span> <span class="n">with</span> <span class="nv">configuration</span><span class="p">:</span> <span class="p">(</span><span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">findFirstOrCreate</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="k">where</span> <span class="nv">predicate</span><span class="p">:</span> <span class="kt">NSPredicate</span><span class="p">,</span> <span class="n">with</span> <span class="nv">configuration</span><span class="p">:</span> <span class="p">(</span><span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
                       </div>
@@ -299,9 +355,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE11findOrFetchxSgSo0gH7ContextC2in_So11NSPredicateC5wheretKFZ"></a>
-                    <a name="//apple_ref/swift/Method/findOrFetch(in:where:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE11findOrFetchxSgSo0gH7ContextC2in_So11NSPredicateC5wheretKFZ">findOrFetch(in:where:)</a>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE16findFirstOrFetchxSgSo0gH7ContextC2in_So11NSPredicateC5wheretKFZ"></a>
+                    <a name="//apple_ref/swift/Method/findFirstOrFetch(in:where:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE16findFirstOrFetchxSgSo0gH7ContextC2in_So11NSPredicateC5wheretKFZ">findFirstOrFetch(in:where:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -311,7 +367,7 @@
                       <div class="abstract">
                         <p><strong>CoreDataPlus</strong></p>
 
-<p>Tries to find an existing object in the context (memory) matching a predicate.
+<p>Tries to find the first existing object in the context (memory) matching a predicate.
 If it doesn’t find the object in the context, tries to load it using a fetch request (if multiple objects are found, returns the <strong>first</strong> one).</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
@@ -324,7 +380,169 @@ If it doesn’t find the object in the context, tries to load it using a fetch r
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">findOrFetch</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="k">where</span> <span class="nv">predicate</span><span class="p">:</span> <span class="kt">NSPredicate</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">findFirstOrFetch</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="k">where</span> <span class="nv">predicate</span><span class="p">:</span> <span class="kt">NSPredicate</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>context</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Searched context.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>predicate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Matching predicate.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The first matching object (if any).</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Unique"></a>
+                <a name="//apple_ref/swift/Section/Unique" class="dashAnchor"></a>
+                <a href="#/Unique">
+                  <h3 class="section-name">Unique</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE18findUniqueOrCreatexSo0gH7ContextC2in_So11NSPredicateC5whereyxc4withtKFZ"></a>
+                    <a name="//apple_ref/swift/Method/findUniqueOrCreate(in:where:with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE18findUniqueOrCreatexSo0gH7ContextC2in_So11NSPredicateC5whereyxc4withtKFZ">findUniqueOrCreate(in:where:with:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Attempts to find an unique object matching a predicate or creates a new one and configures it.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    It throws an error in cases of failure or if multiple objects are found.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">findUniqueOrCreate</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="k">where</span> <span class="nv">predicate</span><span class="p">:</span> <span class="kt">NSPredicate</span><span class="p">,</span> <span class="n">with</span> <span class="nv">configuration</span><span class="p">:</span> <span class="p">(</span><span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>context</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Searched context.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>predicate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Matching predicate.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Configuration closure called only when creating a new object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matching object or a configured new one.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE17findUniqueOrFetchxSgSo0gH7ContextC2in_So11NSPredicateC5wheretKFZ"></a>
+                    <a name="//apple_ref/swift/Method/findUniqueOrFetch(in:where:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE17findUniqueOrFetchxSgSo0gH7ContextC2in_So11NSPredicateC5wheretKFZ">findUniqueOrFetch(in:where:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Tries to find an unique existing object in the context (memory) matching a predicate.
+If it doesn’t find the object in the context, tries to load it using a fetch request (if multiple objects are found, returns the <strong>first</strong> one).</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    It throws an error in cases of failure or if multiple objects are found.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">findUniqueOrFetch</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="k">where</span> <span class="nv">predicate</span><span class="p">:</span> <span class="kt">NSPredicate</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -369,9 +587,9 @@ If it doesn’t find the object in the context, tries to load it using a fetch r
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE5fetchSayxGSo0gH7ContextC2in_ySo0aB0CyxGc4withtKFZ"></a>
-                    <a name="//apple_ref/swift/Method/fetch(in:with:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE5fetchSayxGSo0gH7ContextC2in_ySo0aB0CyxGc4withtKFZ">fetch(in:with:)</a>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE022findUniqueMaterializedH0xSgSo0gH7ContextC2in_So11NSPredicateC5wheretKFZ"></a>
+                    <a name="//apple_ref/swift/Method/findUniqueMaterializedObject(in:where:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE022findUniqueMaterializedH0xSgSo0gH7ContextC2in_So11NSPredicateC5wheretKFZ">findUniqueMaterializedObject(in:where:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -381,7 +599,42 @@ If it doesn’t find the object in the context, tries to load it using a fetch r
                       <div class="abstract">
                         <p><strong>CoreDataPlus</strong></p>
 
-<p>Performs a configurable fetch request in a context.</p>
+<p>Iterates over the context’s registeredObjects set (which contains all managed objects the context currently knows about) until it finds an unique object that is not a fault matching for a given predicate.
+Faulted objects are not considered to prevent Core Data to make a round trip to the persistent store.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    It throws an error in cases of multiple results.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">findUniqueMaterializedObject</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="k">where</span> <span class="nv">predicate</span><span class="p">:</span> <span class="kt">NSPredicate</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE011fetchUniqueH0xSgSo0gH7ContextC2in_ySo0aB0CyxGc4withtKFZ"></a>
+                    <a name="//apple_ref/swift/Method/fetchUniqueObject(in:with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE011fetchUniqueH0xSgSo0gH7ContextC2in_ySo0aB0CyxGc4withtKFZ">fetchUniqueObject(in:with:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Executes a fetch request where only a single object is expected as result, otherwhise a an error is thrown.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     It throws an error in cases of failure.
@@ -393,13 +646,24 @@ If it doesn’t find the object in the context, tries to load it using a fetch r
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="n">with</span> <span class="nv">configuration</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSFetchRequest</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">})</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="k">Self</span><span class="p">]</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">fetchUniqueObject</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="n">with</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">NSFetchRequest</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Delete"></a>
+                <a name="//apple_ref/swift/Section/Delete" class="dashAnchor"></a>
+                <a href="#/Delete">
+                  <h3 class="section-name">Delete</h3>
+                </a>
+              </div>
+              <ul>
                 <li class="item">
                   <div>
                     <code>
@@ -511,6 +775,17 @@ If <code>includingSubentities</code> is set to <code>false</code>, sub-entities 
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Count"></a>
+                <a name="//apple_ref/swift/Section/Count" class="dashAnchor"></a>
+                <a href="#/Count">
+                  <h3 class="section-name">Count</h3>
+                </a>
+              </div>
+              <ul>
                 <li class="item">
                   <div>
                     <code>
@@ -545,12 +820,23 @@ If <code>includingSubentities</code> is set to <code>false</code>, sub-entities 
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Materialized%20Object"></a>
+                <a name="//apple_ref/swift/Section/Materialized Object" class="dashAnchor"></a>
+                <a href="#/Materialized%20Object">
+                  <h3 class="section-name">Materialized Object</h3>
+                </a>
+              </div>
+              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE016findMaterializedH0xSgSo0gH7ContextC2in_So11NSPredicateC5wheretFZ"></a>
-                    <a name="//apple_ref/swift/Method/findMaterializedObject(in:where:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE016findMaterializedH0xSgSo0gH7ContextC2in_So11NSPredicateC5wheretFZ">findMaterializedObject(in:where:)</a>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE021findFirstMaterializedH0xSgSo0gH7ContextC2in_So11NSPredicateC5wheretFZ"></a>
+                    <a name="//apple_ref/swift/Method/findFirstMaterializedObject(in:where:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE021findFirstMaterializedH0xSgSo0gH7ContextC2in_So11NSPredicateC5wheretFZ">findFirstMaterializedObject(in:where:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -568,7 +854,7 @@ Faulted objects are not considered to prevent Core Data to make a round trip to 
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">findMaterializedObject</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="k">where</span> <span class="nv">predicate</span><span class="p">:</span> <span class="kt">NSPredicate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">findFirstMaterializedObject</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="k">where</span> <span class="nv">predicate</span><span class="p">:</span> <span class="kt">NSPredicate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -600,40 +886,6 @@ Faulted objects are not considered to prevent Core Data to make a round trip to 
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">findMaterializedObjects</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="k">where</span> <span class="nv">predicate</span><span class="p">:</span> <span class="kt">NSPredicate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="k">Self</span><span class="p">]</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE011fetchSingleH0xSgSo0gH7ContextC2in_ySo0aB0CyxGc4withtKFZ"></a>
-                    <a name="//apple_ref/swift/Method/fetchSingleObject(in:with:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzlE011fetchSingleH0xSgSo0gH7ContextC2in_ySo0aB0CyxGc4withtKFZ">fetchSingleObject(in:with:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Executes a fetch request where only a single object is expected as result, otherwhise a an error is thrown.</p>
-<div class="aside aside-throws">
-    <p class="aside-title">Throws</p>
-    It throws an error in cases of failure.
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">fetchSingleObject</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="n">with</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">NSFetchRequest</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -730,8 +982,8 @@ Faulted objects are not considered to prevent Core Data to make a round trip to 
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2017 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2017-10-31)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.4</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2017 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2017-11-02)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
