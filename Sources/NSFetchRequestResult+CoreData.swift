@@ -85,7 +85,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
   public static func findOrFetch(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? {
     // first we should fetch an existing object in the context as a performance optimization
-    guard let object = findMaterializedObject(in: context, where: predicate) else {
+    guard let object = findFirstMaterializedObject(in: context, where: predicate) else {
       // if it's not in memory, we should execute a fetch to see if it exists
       do {
         return try fetch(in: context) { request in
@@ -173,7 +173,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///
   /// Iterates over the context’s registeredObjects set (which contains all managed objects the context currently knows about) until it finds one that is not a fault matching for a given predicate.
   /// Faulted objects are not considered to prevent Core Data to make a round trip to the persistent store.
-  public static func findMaterializedObject(in context: NSManagedObjectContext, where predicate: NSPredicate) -> Self? {
+  public static func findFirstMaterializedObject(in context: NSManagedObjectContext, where predicate: NSPredicate) -> Self? {
     for object in context.registeredObjects where !object.isFault {
       guard let result = object as? Self, predicate.evaluate(with: result) else { continue }
 

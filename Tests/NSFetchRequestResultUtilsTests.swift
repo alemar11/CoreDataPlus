@@ -349,15 +349,15 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
       XCTFail(error.localizedDescription)
     }
     
-    XCTAssertNotNil(Car.findMaterializedObject(in: context, where: NSPredicate(value: true)))
+    XCTAssertNotNil(Car.findFirstMaterializedObject(in: context, where: NSPredicate(value: true)))
     
     let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
-    XCTAssertNotNil(Car.findMaterializedObject(in: context, where: predicate))
+    XCTAssertNotNil(Car.findFirstMaterializedObject(in: context, where: predicate))
     
     // de-materialize all objects
     context.refreshAllObjects()
     
-    XCTAssertNil(Car.findMaterializedObject(in: context, where: predicate))
+    XCTAssertNil(Car.findFirstMaterializedObject(in: context, where: predicate))
     
   }
   
@@ -383,12 +383,12 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     XCTAssertThrowsError(try Car.findUniqueMaterializedObject(in: context, where: NSPredicate(value: true)))
     
     let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
-    XCTAssertNotNil(Car.findMaterializedObject(in: context, where: predicate))
+    XCTAssertNotNil(Car.findFirstMaterializedObject(in: context, where: predicate))
     
     // de-materialize all objects
     context.refreshAllObjects()
     
-    XCTAssertNil(Car.findMaterializedObject(in: context, where: predicate))
+    XCTAssertNil(Car.findFirstMaterializedObject(in: context, where: predicate))
     
   }
   
