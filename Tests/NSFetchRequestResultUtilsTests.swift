@@ -361,6 +361,37 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     
   }
   
+  func testFindUniqueMaterializedObject() {
+    let stack = CoreDataStack.stack()
+    let context = stack.mainContext
+    
+    context.performAndWait {
+      context.fillWithSampleData()
+      try! context.save()
+    }
+    
+    // materialize all expensive sport cars
+    let request = ExpensiveSportCar.newFetchRequest()
+    request.returnsObjectsAsFaults = false
+    request.predicate = NSPredicate(value: true)
+    do {
+      _ = try context.fetch(request)
+    } catch {
+      XCTFail(error.localizedDescription)
+    }
+    
+    XCTAssertThrowsError(try Car.findUniqueMaterializedObject(in: context, where: NSPredicate(value: true)))
+    
+    let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
+    XCTAssertNotNil(Car.findMaterializedObject(in: context, where: predicate))
+    
+    // de-materialize all objects
+    context.refreshAllObjects()
+    
+    XCTAssertNil(Car.findMaterializedObject(in: context, where: predicate))
+    
+  }
+  
   func testFindMaterializedObjects() {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext

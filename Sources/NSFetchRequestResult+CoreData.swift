@@ -182,6 +182,19 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
     return nil
   }
+  
+  /// **CoreDataPlus**
+  ///
+  /// Iterates over the context’s registeredObjects set (which contains all managed objects the context currently knows about) until it finds an unique object that is not a fault matching for a given predicate.
+  /// Faulted objects are not considered to prevent Core Data to make a round trip to the persistent store.
+  /// - Throws: It throws an error in cases of multiple results.
+  public static func findUniqueMaterializedObject(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? {
+    let results = findMaterializedObjects(in: context, where: predicate)
+    guard results.count <= 1 else {
+      throw CoreDataPlusError.fetchCountNotFound
+    }
+    return results.first
+  }
 
   /// **CoreDataPlus**
   ///
