@@ -247,7 +247,7 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     }
     
     do {
-      _ = try Person.fetchSingleObject(in: context) { request in
+      _ = try Person.fetchUniqueObject(in: context) { request in
         request.predicate = NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "Moreton")
       }
       XCTFail("This fetch should fail because the result should have more than 1 resul.")
@@ -256,7 +256,7 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     }
     
     do {
-      let person = try Person.fetchSingleObject(in: context) { request in
+      let person = try Person.fetchUniqueObject(in: context) { request in
         request.predicate = NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "MoretonXYZ")
       }
       XCTAssertNil(person)
@@ -273,7 +273,7 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     }
     
     do {
-      let person = try Person.fetchSingleObject(in: context) { request in
+      let person = try Person.fetchUniqueObject(in: context) { request in
         request.predicate = NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone")
       }
       XCTAssertNotNil(person)

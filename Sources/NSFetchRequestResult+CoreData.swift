@@ -212,7 +212,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// Executes a fetch request where only a single object is expected as result, otherwhise a an error is thrown.
   /// - Throws: It throws an error in cases of failure.
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
-  public static func fetchSingleObject(in context: NSManagedObjectContext, with configuration: @escaping (NSFetchRequest<Self>) -> Void) throws -> Self? {
+  public static func fetchUniqueObject(in context: NSManagedObjectContext, with configuration: @escaping (NSFetchRequest<Self>) -> Void) throws -> Self? {
     let result = try fetch(in: context) { request in
       configuration(request)
       request.fetchLimit = 2
@@ -246,7 +246,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
   public static func fetchCachedObject(in context: NSManagedObjectContext, forKey cacheKey: String, orCacheUsing configuration: @escaping (NSFetchRequest<Self>) -> Void) throws -> Self? {
     guard let cached = context.cachedManagedObject(forKey: cacheKey) as? Self else {
-      let result = try fetchSingleObject(in: context, with: configuration)
+      let result = try fetchUniqueObject(in: context, with: configuration)
       context.setCachedManagedObject(result, forKey: cacheKey)
 
       return result
