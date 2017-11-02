@@ -283,7 +283,7 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     
   }
   
-  func testFindOrCreate() {
+  func testFindUniqueOrCreate() {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
     
@@ -294,7 +294,61 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     
     /// existing object
     do {
-      let car = try Car.findOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")) { car in
+      let car = try Car.findUniqueOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")) { car in
+        XCTAssertNotNil(car.numberPlate)
+      }
+      
+      XCTAssertNotNil(car)
+      XCTAssertTrue(car.maker == "Lamborghini")
+    } catch {
+      XCTFail(error.localizedDescription)
+    }
+    
+    /// new object
+    do {
+      let car = try Car.findFirstOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-new"), with: { car in
+        XCTAssertNil(car.numberPlate)
+        car.numberPlate = "304-new"
+        car.model = "test"
+      })
+      XCTAssertNotNil(car)
+      XCTAssertNil(car.maker)
+      XCTAssertEqual(car.numberPlate, "304-new")
+      XCTAssertEqual(car.model, "test")
+      context.delete(car)
+    } catch {
+      XCTFail(error.localizedDescription)
+    }
+    
+    /// new object in the context: multiple objects
+    
+    // first we materialiaze all cars
+    XCTAssertNoThrow( try Car.fetch(in: context) { request in request.returnsObjectsAsFaults = false })
+    let car = Car(context: context)
+    car.numberPlate = "304"
+    car.maker = "fake-maker"
+    car.model = "fake-model"
+    
+    XCTAssertThrowsError(try Car.findUniqueOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"), with: { _ in }))
+    
+    /// multiple objects, the first one matching the condition is returned
+    
+    XCTAssertThrowsError(try Car.findUniqueOrCreate(in: context, where: NSPredicate(value: true), with: { _ in }))
+    
+  }
+  
+  func testFindFirstOrCreate() {
+    let stack = CoreDataStack.stack()
+    let context = stack.mainContext
+    
+    context.performAndWait {
+      context.fillWithSampleData()
+      try! context.save()
+    }
+    
+    /// existing object
+    do {
+      let car = try Car.findFirstOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")) { car in
         XCTAssertNotNil(car.numberPlate)
       }
       XCTAssertNotNil(car)
@@ -305,13 +359,38 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     
     /// new object
     do {
-      let car = try Car.findOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-new"), with: { car in
+      let car = try Car.findFirstOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-new"), with: { car in
         XCTAssertNil(car.numberPlate)
+        car.numberPlate = "304-new"
         car.model = "test"
       })
       XCTAssertNotNil(car)
       XCTAssertNil(car.maker)
+      XCTAssertEqual(car.numberPlate, "304-new")
       XCTAssertEqual(car.model, "test")
+      context.delete(car)
+    } catch {
+      XCTFail(error.localizedDescription)
+    }
+    
+    /// new object in the context: multiple objects
+    
+    // first we materialiaze all cars
+    XCTAssertNoThrow( try Car.fetch(in: context) { request in request.returnsObjectsAsFaults = false })
+    let car = Car(context: context)
+    car.numberPlate = "304"
+    car.maker = "fake-maker"
+    car.model = "fake-model"
+    
+    do {
+      let car = try Car.findFirstOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"), with: { car in
+        XCTAssertNil(car.numberPlate)
+      })
+      XCTAssertNotNil(car)
+      
+      let car304 = context.registeredObjects.filter{ $0 is Car } as! Set<Car>
+      
+      XCTAssertTrue(car304.filter { $0.numberPlate == "304" }.count == 2)
     } catch {
       XCTFail(error.localizedDescription)
     }
@@ -320,7 +399,7 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     
     /// multiple objects, the first one matching the condition is returned
     do {
-      let car = try Car.findOrCreate(in: context, where: NSPredicate(value: true), with: { car in
+      let car = try Car.findFirstOrCreate(in: context, where: NSPredicate(value: true), with: { car in
         XCTAssertNotNil(car.numberPlate)
       })
       XCTAssertNotNil(car)
