@@ -573,5 +573,66 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
       request.predicate = NSPredicate(value: true)
       })
   }
+
+  // MARK: Batch Delete
+
+  func testBatchDeleteObjectsWithResultTypeStatusOnly() {
+    // Given
+    let stack = CoreDataStack.stack(type: .sqlite)
+    let context = stack.mainContext
+    context.fillWithSampleData()
+    try! context.save()
+
+
+    do {
+      let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
+      let result = try Car.batchDeleteObjects(with: context, where: fiatPredicate, withResult: .resultTypeStatusOnly)
+
+      XCTAssertNotNil(result.status)
+      XCTAssertTrue(result.status! == true)
+      XCTAssertNil(result.changes)
+    } catch {
+      XCTFail(error.localizedDescription)
+    }
+  }
+
+  func testBatchDeleteObjectsWithResultTypeCount() {
+    // Given
+    let stack = CoreDataStack.stack(type: .sqlite)
+    let context = stack.mainContext
+    context.fillWithSampleData()
+    try! context.save()
+
+
+    do {
+      let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
+      let result = try Car.batchDeleteObjects(with: context, where: fiatPredicate, withResult: .resultTypeCount)
+
+      XCTAssertNotNil(result.count)
+      XCTAssertTrue(result.count! > 1)
+    } catch {
+      XCTFail(error.localizedDescription)
+    }
+  }
+
+  func testBatchDeleteObjectsWithResultTypeObjectIDs() {
+    // Given
+    let stack = CoreDataStack.stack(type: .sqlite)
+    let context = stack.mainContext
+    context.fillWithSampleData()
+    try! context.save()
+
+    do {
+      let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
+      let result = try Car.batchDeleteObjects(with: context, where: fiatPredicate, withResult: .resultTypeObjectIDs)
+
+      XCTAssertNotNil(result.changes)
+      XCTAssertTrue(result.changes!.keys.count == 1)
+      let deletedValues = result.changes![NSDeletedObjectsKey]?.count ?? 0
+      XCTAssertTrue(deletedValues > 1)
+    } catch {
+      XCTFail(error.localizedDescription)
+    }
+  }
   
 }
