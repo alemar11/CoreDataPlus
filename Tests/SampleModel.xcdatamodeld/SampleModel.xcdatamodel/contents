@@ -18,6 +18,7 @@
     <entity name="Person" representedClassName="Person" syncable="YES">
         <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updatedAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="cars" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Car" inverseName="owner" inverseEntity="Car" syncable="YES"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
@@ -30,7 +31,7 @@
     <elements>
         <element name="Car" positionX="-54" positionY="-9" width="128" height="120"/>
         <element name="ExpensiveSportCar" positionX="-56" positionY="-189" width="128" height="58"/>
-        <element name="Person" positionX="-326" positionY="9" width="128" height="90"/>
+        <element name="Person" positionX="-326" positionY="9" width="128" height="105"/>
         <element name="SportCar" positionX="-54" positionY="-90" width="128" height="45"/>
     </elements>
 </model>

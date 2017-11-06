@@ -27,9 +27,29 @@ import CoreDataPlus
 
 @objc(Person)
 final public class Person: NSManagedObject {
-
   @NSManaged public var firstName: String
   @NSManaged public var lastName: String
   @NSManaged public var cars: Set<Car>?
+}
 
+extension Person: UpdateTimestampable {
+  @NSManaged public var updatedAt: Date
+}
+
+extension Person {
+
+  /// Primitive accessor for `updateAt` property.
+  /// It's created by default from Core Data with a *primitive* suffix*.
+  @NSManaged private var primitiveUpdatedAt: Date
+
+  public override func awakeFromInsert() {
+    super.awakeFromInsert()
+    primitiveUpdatedAt = Date()
+  }
+
+  public override func willSave() {
+    super.willSave()
+    refreshUpdateDate()
+  }
+  
 }

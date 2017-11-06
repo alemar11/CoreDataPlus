@@ -27,12 +27,10 @@ import CoreDataPlus
 
 @objc(Car)
 public class Car: NSManagedObject {
-
   @NSManaged public var maker: String?
   @NSManaged public var model: String?
   @NSManaged public var numberPlate: String!
   @NSManaged public var owner: Person?
-
 }
 
 extension Car: DelayedDeletable {

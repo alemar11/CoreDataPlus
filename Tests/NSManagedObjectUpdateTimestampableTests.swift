@@ -25,35 +25,34 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-class NSManagedObjectDelayedDeletableTests: XCTestCase {
-
-  func testMarkAsDelayedDeletable() {
+class NSManagedObjectUpdateTimestampableTests: XCTestCase {
+  
+  func testRefreshUpdateDate() {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
     context.fillWithSampleData()
 
     // Given
-    let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
-    let cars = try! Car.fetch(in: context) { $0.predicate = fiatPredicate }
+    let people = try! Person.fetch(in: context) { $0.predicate = NSPredicate(value: true) }
+    var updates = [String: Date]()
 
     // When, Then
-    for car in cars {
-      XCTAssertNil(car.markedForDeletionAsOf)
-      XCTAssertFalse(car.hasChangedForDelayedDeletion)
-      car.markForDelayedDeletion()
-    }
-
-    for car in cars {
-      XCTAssertNotNil(car.markedForDeletionAsOf)
-      XCTAssertTrue(car.hasChangedForDelayedDeletion)
+    for person in people {
+      XCTAssertNotNil(person.updatedAt)
+      updates["\(person.firstName) - \(person.lastName)"] = person.updatedAt
+      person.refreshUpdateDate()
+      XCTAssertTrue(updates["\(person.firstName) - \(person.lastName)"] == person.updatedAt)
     }
 
     // When, Then
     try! context.save()
-    let fiatNotDeletablePredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [fiatPredicate, Car.notMarkedForLocalDeletionPredicate])
-    let notDeletableCars = try! Car.fetch(in: context) { $0.predicate = fiatNotDeletablePredicate }
-    XCTAssertTrue(notDeletableCars.isEmpty)
+
+    for person in people {
+      XCTAssertTrue(updates["\(person.firstName) - \(person.lastName)"] == person.updatedAt)
+      person.refreshUpdateDate()
+      XCTAssertTrue(updates["\(person.firstName) - \(person.lastName)"] != person.updatedAt)
+    }
 
   }
-
+  
 }
