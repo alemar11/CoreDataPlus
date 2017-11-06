@@ -67,7 +67,7 @@
 		236350B91F95F11C00B3A16A /* NSManagedObjectContext+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B580901F94FFF700A365C0 /* NSManagedObjectContext+Cache.swift */; };
 		236350BA1F95F11C00B3A16A /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
 		236350BB1F95F11C00B3A16A /* NSManagedObject+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808C1F94FFF600A365C0 /* NSManagedObject+Utils.swift */; };
-		236350BC1F95F11C00B3A16A /* NSManagedObject+Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808D1F94FFF600A365C0 /* NSManagedObject+Deletable.swift */; };
+		236350BC1F95F11C00B3A16A /* NSManagedObject+DelayedDeletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808D1F94FFF600A365C0 /* NSManagedObject+DelayedDeletable.swift */; };
 		236350BD1F95F11C00B3A16A /* Collection+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B580921F94FFF700A365C0 /* Collection+CoreData.swift */; };
 		236350BF1F95F11C00B3A16A /* ModelVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B580891F94FFF600A365C0 /* ModelVersion.swift */; };
 		236350C01F95F11C00B3A16A /* NSFetchRequest+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B580871F94FFF600A365C0 /* NSFetchRequest+Utils.swift */; };
@@ -77,7 +77,7 @@
 		236350C41F95F11C00B3A16A /* NSManagedObjectContext+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B580901F94FFF700A365C0 /* NSManagedObjectContext+Cache.swift */; };
 		236350C51F95F11C00B3A16A /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
 		236350C61F95F11C00B3A16A /* NSManagedObject+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808C1F94FFF600A365C0 /* NSManagedObject+Utils.swift */; };
-		236350C71F95F11C00B3A16A /* NSManagedObject+Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808D1F94FFF600A365C0 /* NSManagedObject+Deletable.swift */; };
+		236350C71F95F11C00B3A16A /* NSManagedObject+DelayedDeletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808D1F94FFF600A365C0 /* NSManagedObject+DelayedDeletable.swift */; };
 		236350C81F95F11C00B3A16A /* Collection+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B580921F94FFF700A365C0 /* Collection+CoreData.swift */; };
 		236350CA1F95F11C00B3A16A /* ModelVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B580891F94FFF600A365C0 /* ModelVersion.swift */; };
 		236350CB1F95F11C00B3A16A /* NSFetchRequest+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B580871F94FFF600A365C0 /* NSFetchRequest+Utils.swift */; };
@@ -87,7 +87,7 @@
 		236350CF1F95F11D00B3A16A /* NSManagedObjectContext+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B580901F94FFF700A365C0 /* NSManagedObjectContext+Cache.swift */; };
 		236350D01F95F11D00B3A16A /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
 		236350D11F95F11D00B3A16A /* NSManagedObject+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808C1F94FFF600A365C0 /* NSManagedObject+Utils.swift */; };
-		236350D21F95F11D00B3A16A /* NSManagedObject+Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808D1F94FFF600A365C0 /* NSManagedObject+Deletable.swift */; };
+		236350D21F95F11D00B3A16A /* NSManagedObject+DelayedDeletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808D1F94FFF600A365C0 /* NSManagedObject+DelayedDeletable.swift */; };
 		236350D31F95F11D00B3A16A /* Collection+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B580921F94FFF700A365C0 /* Collection+CoreData.swift */; };
 		236350D51F95F11D00B3A16A /* ModelVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B580891F94FFF600A365C0 /* ModelVersion.swift */; };
 		236350D61F95F11D00B3A16A /* NSFetchRequest+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B580871F94FFF600A365C0 /* NSFetchRequest+Utils.swift */; };
@@ -117,7 +117,7 @@
 		23B580951F94FFF700A365C0 /* ModelVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B580891F94FFF600A365C0 /* ModelVersion.swift */; };
 		23B580961F94FFF700A365C0 /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
 		23B580971F94FFF700A365C0 /* NSManagedObject+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808C1F94FFF600A365C0 /* NSManagedObject+Utils.swift */; };
-		23B580981F94FFF700A365C0 /* NSManagedObject+Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808D1F94FFF600A365C0 /* NSManagedObject+Deletable.swift */; };
+		23B580981F94FFF700A365C0 /* NSManagedObject+DelayedDeletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808D1F94FFF600A365C0 /* NSManagedObject+DelayedDeletable.swift */; };
 		23B580991F94FFF700A365C0 /* NSManagedObjectContext+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808F1F94FFF700A365C0 /* NSManagedObjectContext+Utils.swift */; };
 		23B5809A1F94FFF700A365C0 /* NSManagedObjectContext+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B580901F94FFF700A365C0 /* NSManagedObjectContext+Cache.swift */; };
 		23B5809C1F94FFF700A365C0 /* Collection+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B580921F94FFF700A365C0 /* Collection+CoreData.swift */; };
@@ -192,7 +192,7 @@
 		23B580891F94FFF600A365C0 /* ModelVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelVersion.swift; sourceTree = "<group>"; };
 		23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+UpdateTimestampable.swift"; sourceTree = "<group>"; };
 		23B5808C1F94FFF600A365C0 /* NSManagedObject+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+Utils.swift"; sourceTree = "<group>"; };
-		23B5808D1F94FFF600A365C0 /* NSManagedObject+Deletable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+Deletable.swift"; sourceTree = "<group>"; };
+		23B5808D1F94FFF600A365C0 /* NSManagedObject+DelayedDeletable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+DelayedDeletable.swift"; sourceTree = "<group>"; };
 		23B5808F1F94FFF700A365C0 /* NSManagedObjectContext+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+Utils.swift"; sourceTree = "<group>"; };
 		23B580901F94FFF700A365C0 /* NSManagedObjectContext+Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+Cache.swift"; sourceTree = "<group>"; };
 		23B580921F94FFF700A365C0 /* Collection+CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+CoreData.swift"; sourceTree = "<group>"; };
@@ -310,7 +310,7 @@
 				23948D141F99332A00B3738D /* NSEntityDescription+Utils.swift */,
 				23B580871F94FFF600A365C0 /* NSFetchRequest+Utils.swift */,
 				23B580881F94FFF600A365C0 /* NSFetchRequestResult+CoreData.swift */,
-				23B5808D1F94FFF600A365C0 /* NSManagedObject+Deletable.swift */,
+				23B5808D1F94FFF600A365C0 /* NSManagedObject+DelayedDeletable.swift */,
 				23463B0B1FA67CC200149574 /* NSManagedObject+RemoteDeletable.swift */,
 				23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */,
 				23B5808C1F94FFF600A365C0 /* NSManagedObject+Utils.swift */,
@@ -682,7 +682,7 @@
 				236350C11F95F11C00B3A16A /* NSFetchRequestResult+CoreData.swift in Sources */,
 				237EF68D1FA4851800B54A7A /* ProcessInfo+Utils.swift in Sources */,
 				23A8A4521F9F89670038DE3A /* CoreDataPlusError.swift in Sources */,
-				236350BC1F95F11C00B3A16A /* NSManagedObject+Deletable.swift in Sources */,
+				236350BC1F95F11C00B3A16A /* NSManagedObject+DelayedDeletable.swift in Sources */,
 				236350BA1F95F11C00B3A16A /* NSManagedObject+UpdateTimestampable.swift in Sources */,
 				236350B81F95F11C00B3A16A /* NSManagedObjectContext+Utils.swift in Sources */,
 				236350BF1F95F11C00B3A16A /* ModelVersion.swift in Sources */,
@@ -703,7 +703,7 @@
 				236350CC1F95F11C00B3A16A /* NSFetchRequestResult+CoreData.swift in Sources */,
 				237EF68E1FA4851800B54A7A /* ProcessInfo+Utils.swift in Sources */,
 				23A8A4531F9F89670038DE3A /* CoreDataPlusError.swift in Sources */,
-				236350C71F95F11C00B3A16A /* NSManagedObject+Deletable.swift in Sources */,
+				236350C71F95F11C00B3A16A /* NSManagedObject+DelayedDeletable.swift in Sources */,
 				236350C51F95F11C00B3A16A /* NSManagedObject+UpdateTimestampable.swift in Sources */,
 				236350C31F95F11C00B3A16A /* NSManagedObjectContext+Utils.swift in Sources */,
 				236350CA1F95F11C00B3A16A /* ModelVersion.swift in Sources */,
@@ -724,7 +724,7 @@
 				236350D71F95F11D00B3A16A /* NSFetchRequestResult+CoreData.swift in Sources */,
 				237EF68F1FA4851800B54A7A /* ProcessInfo+Utils.swift in Sources */,
 				23A8A4541F9F89670038DE3A /* CoreDataPlusError.swift in Sources */,
-				236350D21F95F11D00B3A16A /* NSManagedObject+Deletable.swift in Sources */,
+				236350D21F95F11D00B3A16A /* NSManagedObject+DelayedDeletable.swift in Sources */,
 				236350D01F95F11D00B3A16A /* NSManagedObject+UpdateTimestampable.swift in Sources */,
 				236350CE1F95F11D00B3A16A /* NSManagedObjectContext+Utils.swift in Sources */,
 				236350D51F95F11D00B3A16A /* ModelVersion.swift in Sources */,
@@ -741,7 +741,7 @@
 			files = (
 				23463B0C1FA67CC200149574 /* NSManagedObject+RemoteDeletable.swift in Sources */,
 				23948D151F99332A00B3738D /* NSEntityDescription+Utils.swift in Sources */,
-				23B580981F94FFF700A365C0 /* NSManagedObject+Deletable.swift in Sources */,
+				23B580981F94FFF700A365C0 /* NSManagedObject+DelayedDeletable.swift in Sources */,
 				237EF68C1FA4851800B54A7A /* ProcessInfo+Utils.swift in Sources */,
 				23A8A4511F9F89670038DE3A /* CoreDataPlusError.swift in Sources */,
 				23B580931F94FFF700A365C0 /* NSFetchRequest+Utils.swift in Sources */,
