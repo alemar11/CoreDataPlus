@@ -80,7 +80,7 @@ extension DelayedDeletable where Self: NSManagedObject {
   
   /// **CoreDataPlus**
   ///
-  /// Marks an object to be deleted at a later point in time.
+  /// Marks an object to be deleted at a later point in time (if not already marked).
   /// An object marked for local deletion will no longer match the `notMarkedForDeletionPredicate`.
   public func markForLocalDeletion() {
     guard isFault || markedForDeletionAsOf == nil else { return }

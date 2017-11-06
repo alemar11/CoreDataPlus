@@ -35,10 +35,14 @@ public class Car: NSManagedObject {
 
 }
 
+extension Car: DelayedDeletable {
+  @NSManaged public var markedForDeletionAsOf: Date?
+}
+
 @objc(SportCar)
 public class SportCar: Car { }
 
 @objc(ExpensiveSportCar)
 final public class ExpensiveSportCar: SportCar {
-    @NSManaged public var isLimitedEdition: Bool
+  @NSManaged public var isLimitedEdition: Bool
 }
