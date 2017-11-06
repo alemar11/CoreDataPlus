@@ -68,8 +68,8 @@ final class CoreDataStack {
 }
 
 extension CoreDataStack {
-    class func stack() -> CoreDataStack {
-        let _stack = CoreDataStack()
+    class func stack(type: StoreType = .inMemory) -> CoreDataStack {
+      let _stack = CoreDataStack(type: type)
         guard let stack = _stack else {
             XCTAssertNotNil(_stack)
             fatalError()
