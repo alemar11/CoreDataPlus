@@ -42,7 +42,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   
   // MARK: - Fetch
   
-  /// **Mechanica**
+  /// **CoreDataPlus**
   ///
   /// Creates a `new` NSFetchRequest for `self`.
   /// - Note: Use this method instead of fetchRequest() to avoid a bug in CoreData occurring in the Unit Test targets or when Generics are used.
@@ -254,7 +254,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Throws: It throws an error in cases of failure.
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
   public static func count(in context: NSManagedObjectContext, for configuration: (NSFetchRequest<Self>) -> Void = { _ in }) throws -> Int {
-    let request = NSFetchRequest<Self>(entityName: entityName)
+    let request = newFetchRequest()
     configuration(request)
     
     let result = try context.count(for: request)
@@ -319,28 +319,37 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   
 }
 
-// MARK: - Delete
+// MARK: - Batch Delete
 
-//extension NSFetchRequestResult where Self: NSManagedObject {
-//
-//  @available(iOS 9, tvOS 9, watchOS 2, macOS 10.12, *)
-//  public static func batchDeleteObjects(in context: NSManagedObjectContext, for predicate: NSPredicate, withResult type: NSBatchDeleteRequestResultType) throws -> NSBatchDeleteResult  {
-//    // TODO: remove this check?
-//    //guard context.persistentStoreCoordinator != nil else { throw CoreDataPlusError.persistentStoreCoordinatorNotFound(context: context) }
-//
-//    // TODO: use newFetchRequest?
-//    let request = fetchRequest()
-//    request.predicate = predicate
-//
-//    let batchRequest = NSBatchDeleteRequest(fetchRequest: request)
-//    batchRequest.resultType = type
-//
-//    do {
-//      // https://developer.apple.com/library/content/featuredarticles/CoreData_Batch_Guide/BatchDeletes/BatchDeletes.html
-//      return try context.execute(batchRequest) as! NSBatchDeleteResult
-//    } catch {
-//      throw CoreDataPlusError.executionFailed(error: error)
-//    }
-//  }
-//}
+extension NSFetchRequestResult where Self: NSManagedObject {
+
+  /// **CoreDataPlus**
+  ///
+  /// Executes a batch delete on the context's persistent store coordinator.
+  /// - Parameters:
+  ///   - context: The context whose the persistent store coordinator will be used to execute the batch delete.
+  ///   - predicate: The predicate used to delete objects.
+  ///   - type: The type of the batch delete result.
+  /// - Returns: a NSBatchDeleteResult result.
+  /// - Throws: It throws an error in cases of failure.
+  /// - Note: A batch delete can only be done on a SQLite store.
+  @available(iOS 9, tvOS 9, watchOS 2, macOS 10.12, *)
+  public static func batchDeleteObjects(with context: NSManagedObjectContext, where predicate: NSPredicate, withResult type: NSBatchDeleteRequestResultType = .resultTypeStatusOnly) throws -> NSBatchDeleteResult  {
+    // TODO: remove this check?
+    //guard context.persistentStoreCoordinator != nil else { throw CoreDataPlusError.persistentStoreCoordinatorNotFound(context: context) }
+    
+    let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+    request.predicate = predicate
+
+    let batchRequest = NSBatchDeleteRequest(fetchRequest: request)
+    batchRequest.resultType = type
+
+    do {
+      // https://developer.apple.com/library/content/featuredarticles/CoreData_Batch_Guide/BatchDeletes/BatchDeletes.html
+      return  try context.execute(batchRequest) as! NSBatchDeleteResult
+    } catch {
+      throw CoreDataPlusError.executionFailed(error: error)
+    }
+  }
+}
 
