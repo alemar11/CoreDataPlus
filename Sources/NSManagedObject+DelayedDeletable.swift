@@ -48,7 +48,7 @@ public protocol DelayedDeletable: class {
   /// Protocol `DelayedDeletable`.
   ///
   /// Marks an object to be deleted at a later point in time.
-  func markForLocalDeletion()
+  func markForDelayedDeletion()
   
 }
 
@@ -63,6 +63,15 @@ extension DelayedDeletable {
   /// Predicate to filter for objects that haven’t a deletion date.
   public static var notMarkedForLocalDeletionPredicate: NSPredicate {
     return NSPredicate(format: "%K == NULL", markedForDeletionKey)
+  }
+
+  /// **CoreDataPlus**
+  ///
+  /// Protocol `DelayedDeletable`.
+  ///
+  /// Predicate to filter for objects that have a deletion date.
+  public static var markedForLocalDeletionPredicate: NSPredicate {
+    return NSPredicate(format: "%K != NULL", markedForDeletionKey)
   }
   
 }
@@ -82,8 +91,8 @@ extension DelayedDeletable where Self: NSManagedObject {
   ///
   /// Marks an object to be deleted at a later point in time (if not already marked).
   /// An object marked for local deletion will no longer match the `notMarkedForDeletionPredicate`.
-  public func markForLocalDeletion() {
-    guard isFault || markedForDeletionAsOf == nil else { return }
+  public func markForDelayedDeletion() {
+    guard markedForDeletionAsOf == nil else { return }
     markedForDeletionAsOf = Date()
   }
   

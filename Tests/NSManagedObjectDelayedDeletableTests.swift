@@ -35,14 +35,12 @@ class NSManagedObjectDelayedDeletableTests: XCTestCase {
     let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
     context.fillWithSampleData()
     let cars = try! Car.fetch(in: context) { $0.predicate = fiatPredicate }
+
     // When, Then
     for car in cars {
       XCTAssertNil(car.markedForDeletionAsOf)
       XCTAssertFalse(car.hasChangedForDelayedDeletion)
-    }
-
-    for car in cars {
-      car.markForLocalDeletion()
+      car.markForDelayedDeletion()
     }
 
     for car in cars {
@@ -55,8 +53,6 @@ class NSManagedObjectDelayedDeletableTests: XCTestCase {
     let fiatNotDeletablePredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [fiatPredicate, Car.notMarkedForLocalDeletionPredicate])
     let notDeletableCars = try! Car.fetch(in: context) { $0.predicate = fiatNotDeletablePredicate }
     XCTAssertTrue(notDeletableCars.isEmpty)
-
-    //TODO: check what happens with fault or not (if fault---> fetch?)
 
   }
 
