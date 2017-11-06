@@ -318,3 +318,29 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   }
   
 }
+
+// MARK: - Delete
+
+//extension NSFetchRequestResult where Self: NSManagedObject {
+//
+//  @available(iOS 9, tvOS 9, watchOS 2, macOS 10.12, *)
+//  public static func batchDeleteObjects(in context: NSManagedObjectContext, for predicate: NSPredicate, withResult type: NSBatchDeleteRequestResultType) throws -> NSBatchDeleteResult  {
+//    // TODO: remove this check?
+//    //guard context.persistentStoreCoordinator != nil else { throw CoreDataPlusError.persistentStoreCoordinatorNotFound(context: context) }
+//
+//    // TODO: use newFetchRequest?
+//    let request = fetchRequest()
+//    request.predicate = predicate
+//
+//    let batchRequest = NSBatchDeleteRequest(fetchRequest: request)
+//    batchRequest.resultType = type
+//
+//    do {
+//      // https://developer.apple.com/library/content/featuredarticles/CoreData_Batch_Guide/BatchDeletes/BatchDeletes.html
+//      return try context.execute(batchRequest) as! NSBatchDeleteResult
+//    } catch {
+//      throw CoreDataPlusError.executionFailed(error: error)
+//    }
+//  }
+//}
+

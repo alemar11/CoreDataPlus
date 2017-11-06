@@ -311,12 +311,12 @@
 				23B580871F94FFF600A365C0 /* NSFetchRequest+Utils.swift */,
 				23B580881F94FFF600A365C0 /* NSFetchRequestResult+CoreData.swift */,
 				23B5808D1F94FFF600A365C0 /* NSManagedObject+Deletable.swift */,
+				23463B0B1FA67CC200149574 /* NSManagedObject+RemoteDeletable.swift */,
 				23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */,
 				23B5808C1F94FFF600A365C0 /* NSManagedObject+Utils.swift */,
 				23B580901F94FFF700A365C0 /* NSManagedObjectContext+Cache.swift */,
 				23B5808F1F94FFF700A365C0 /* NSManagedObjectContext+Utils.swift */,
 				237EF68B1FA4851800B54A7A /* ProcessInfo+Utils.swift */,
-				23463B0B1FA67CC200149574 /* NSManagedObject+RemoteDeletable.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
