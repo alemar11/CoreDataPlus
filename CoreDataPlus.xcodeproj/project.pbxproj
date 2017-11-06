@@ -56,10 +56,6 @@
 		234130771F95FF91002BE7FC /* NSManagedObjectContextCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351051F95F28C00B3A16A /* NSManagedObjectContextCacheTests.swift */; };
 		234130781F95FF91002BE7FC /* NSManagedObjectContextUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351031F95F28B00B3A16A /* NSManagedObjectContextUtilsTests.swift */; };
 		234130791F95FF91002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351061F95F28C00B3A16A /* NSManagedObjectUtilsTests.swift */; };
-		23463B0C1FA67CC200149574 /* NSManagedObject+RemoteDeletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23463B0B1FA67CC200149574 /* NSManagedObject+RemoteDeletable.swift */; };
-		23463B0D1FA67CC200149574 /* NSManagedObject+RemoteDeletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23463B0B1FA67CC200149574 /* NSManagedObject+RemoteDeletable.swift */; };
-		23463B0E1FA67CC200149574 /* NSManagedObject+RemoteDeletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23463B0B1FA67CC200149574 /* NSManagedObject+RemoteDeletable.swift */; };
-		23463B0F1FA67CC200149574 /* NSManagedObject+RemoteDeletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23463B0B1FA67CC200149574 /* NSManagedObject+RemoteDeletable.swift */; };
 		236350B51F95F0ED00B3A16A /* CoreDataPlus.h in Headers */ = {isa = PBXBuildFile; fileRef = 23B5806D1F94FEDF00A365C0 /* CoreDataPlus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		236350B61F95F0EF00B3A16A /* CoreDataPlus.h in Headers */ = {isa = PBXBuildFile; fileRef = 23B5806D1F94FEDF00A365C0 /* CoreDataPlus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		236350B71F95F0F200B3A16A /* CoreDataPlus.h in Headers */ = {isa = PBXBuildFile; fileRef = 23B5806D1F94FEDF00A365C0 /* CoreDataPlus.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -168,7 +164,6 @@
 
 /* Begin PBXFileReference section */
 		233654361F9E1644007F8D3D /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
-		23463B0B1FA67CC200149574 /* NSManagedObject+RemoteDeletable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+RemoteDeletable.swift"; sourceTree = "<group>"; };
 		236350741F95EC1A00B3A16A /* CoreDataPlus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreDataPlus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		236350811F95EC3000B3A16A /* CoreDataPlus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreDataPlus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		236350841F95EC3000B3A16A /* Info-tvOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-tvOS.plist"; sourceTree = "<group>"; };
@@ -315,7 +310,6 @@
 				23B580871F94FFF600A365C0 /* NSFetchRequest+Utils.swift */,
 				23B580881F94FFF600A365C0 /* NSFetchRequestResult+CoreData.swift */,
 				23B5808D1F94FFF600A365C0 /* NSManagedObject+DelayedDeletable.swift */,
-				23463B0B1FA67CC200149574 /* NSManagedObject+RemoteDeletable.swift */,
 				23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */,
 				23B5808C1F94FFF600A365C0 /* NSManagedObject+Utils.swift */,
 				23B580901F94FFF700A365C0 /* NSManagedObjectContext+Cache.swift */,
@@ -681,7 +675,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23463B0D1FA67CC200149574 /* NSManagedObject+RemoteDeletable.swift in Sources */,
 				236350B91F95F11C00B3A16A /* NSManagedObjectContext+Cache.swift in Sources */,
 				23948D161F99332A00B3738D /* NSEntityDescription+Utils.swift in Sources */,
 				236350C11F95F11C00B3A16A /* NSFetchRequestResult+CoreData.swift in Sources */,
@@ -702,7 +695,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23463B0E1FA67CC200149574 /* NSManagedObject+RemoteDeletable.swift in Sources */,
 				236350C41F95F11C00B3A16A /* NSManagedObjectContext+Cache.swift in Sources */,
 				23948D171F99332A00B3738D /* NSEntityDescription+Utils.swift in Sources */,
 				236350CC1F95F11C00B3A16A /* NSFetchRequestResult+CoreData.swift in Sources */,
@@ -723,7 +715,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23463B0F1FA67CC200149574 /* NSManagedObject+RemoteDeletable.swift in Sources */,
 				236350CF1F95F11D00B3A16A /* NSManagedObjectContext+Cache.swift in Sources */,
 				23948D181F99332A00B3738D /* NSEntityDescription+Utils.swift in Sources */,
 				236350D71F95F11D00B3A16A /* NSFetchRequestResult+CoreData.swift in Sources */,
@@ -744,7 +735,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23463B0C1FA67CC200149574 /* NSManagedObject+RemoteDeletable.swift in Sources */,
 				23948D151F99332A00B3738D /* NSEntityDescription+Utils.swift in Sources */,
 				23B580981F94FFF700A365C0 /* NSManagedObject+DelayedDeletable.swift in Sources */,
 				237EF68C1FA4851800B54A7A /* ProcessInfo+Utils.swift in Sources */,
