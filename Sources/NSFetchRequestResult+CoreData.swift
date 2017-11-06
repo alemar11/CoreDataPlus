@@ -338,18 +338,36 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     // TODO: remove this check?
     //guard context.persistentStoreCoordinator != nil else { throw CoreDataPlusError.persistentStoreCoordinatorNotFound(context: context) }
     
-    let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-    request.predicate = predicate
+//    let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+//    request.predicate = predicate
+//
+//    let batchRequest = NSBatchDeleteRequest(fetchRequest: request)
+//    batchRequest.resultType = type
+//
+//    do {
+//      // https://developer.apple.com/library/content/featuredarticles/CoreData_Batch_Guide/BatchDeletes/BatchDeletes.html
+//      return  try context.execute(batchRequest) as! NSBatchDeleteResult
+//    } catch {
+//      throw CoreDataPlusError.executionFailed(error: error)
+//    }
+    return try _batchDeleteObjects(with: context, and: { (request, batchRequest) in
+      request.predicate = predicate
+      batchRequest.resultType = type
+    })
 
-    let batchRequest = NSBatchDeleteRequest(fetchRequest: request)
-    batchRequest.resultType = type
+  }
 
-    do {
-      // https://developer.apple.com/library/content/featuredarticles/CoreData_Batch_Guide/BatchDeletes/BatchDeletes.html
-      return  try context.execute(batchRequest) as! NSBatchDeleteResult
-    } catch {
-      throw CoreDataPlusError.executionFailed(error: error)
-    }
+  // TODO: make this public
+ internal static func _batchDeleteObjects(with context: NSManagedObjectContext, and configuration: (NSFetchRequest<Self>, NSBatchDeleteRequest) -> Void) throws -> NSBatchDeleteResult {
+  let request = newFetchRequest()
+  let batchRequest = NSBatchDeleteRequest(fetchRequest: request as! NSFetchRequest<NSFetchRequestResult>)
+  configuration(request, batchRequest)
+
+  do {
+    return  try context.execute(batchRequest) as! NSBatchDeleteResult
+  } catch {
+    throw CoreDataPlusError.executionFailed(error: error)
   }
 }
 
+}
