@@ -29,93 +29,95 @@ private let markedForDeletionKey = "markedForDeletionAsOf"
 ///
 /// Objects adopting the `DelayedDeletable` support *two-step* deletion.
 public protocol DelayedDeletable: class {
-    /// **CoreDataPlus**
-    ///
-    /// Protocol `DelayedDeletable`.
-    ///
-    /// Checks whether or not the managed object’s `markedForDeletion` property has unsaved changes.
-    var hasChangedForDelayedDeletion: Bool { get }
-
-    /// **CoreDataPlus**
-    ///
-    /// Protocol `DelayedDeletable`.
-    ///
-    /// This object can be deleted starting from this particular date.
-    var markedForDeletionAsOf: Date? { get set }
-
-    /// **CoreDataPlus**
-    ///
-    /// Protocol `DelayedDeletable`.
-    ///
-    /// Marks an object to be deleted at a later point in time.
-    func markForLocalDeletion()
-
+  /// **CoreDataPlus**
+  ///
+  /// Protocol `DelayedDeletable`.
+  ///
+  /// Checks whether or not the managed object’s `markedForDeletion` property has unsaved changes.
+  var hasChangedForDelayedDeletion: Bool { get }
+  
+  /// **CoreDataPlus**
+  ///
+  /// Protocol `DelayedDeletable`.
+  ///
+  /// This object can be deleted starting from this particular date.
+  var markedForDeletionAsOf: Date? { get set }
+  
+  /// **CoreDataPlus**
+  ///
+  /// Protocol `DelayedDeletable`.
+  ///
+  /// Marks an object to be deleted at a later point in time.
+  func markForLocalDeletion()
+  
 }
 
 // MARK: - DelayedDeletable Extension
 
 extension DelayedDeletable {
-
-    /// **CoreDataPlus**
-    ///
-    /// Protocol `DelayedDeletable`.
-    ///
-    /// Predicate to filter for objects that haven’t a deletion date.
-    public static var notMarkedForLocalDeletionPredicate: NSPredicate {
-        return NSPredicate(format: "%K == NULL", markedForDeletionKey)
-    }
-
+  
+  /// **CoreDataPlus**
+  ///
+  /// Protocol `DelayedDeletable`.
+  ///
+  /// Predicate to filter for objects that haven’t a deletion date.
+  public static var notMarkedForLocalDeletionPredicate: NSPredicate {
+    return NSPredicate(format: "%K == NULL", markedForDeletionKey)
+  }
+  
 }
 
 extension DelayedDeletable where Self: NSManagedObject {
-
-    /// **CoreDataPlus**
-    ///
-    /// Protocol `DelayedDeletable`.
-    ///
-    /// Returns true if `self` has been marked for deletion.
-    public var hasChangedForDelayedDeletion: Bool {
-        return changedValue(forKey: markedForDeletionKey) as? Date != nil
-    }
-
-    /// **CoreDataPlus**
-    ///
-    /// Marks an object to be deleted at a later point in time.
-    /// An object marked for local deletion will no longer match the `notMarkedForDeletionPredicate`.
-    public func markForLocalDeletion() {
-        guard isFault || markedForDeletionAsOf == nil else { return }
-        markedForDeletionAsOf = Date()
-    }
-
+  
+  /// **CoreDataPlus**
+  ///
+  /// Protocol `DelayedDeletable`.
+  ///
+  /// Returns true if `self` has been marked for deletion.
+  public var hasChangedForDelayedDeletion: Bool {
+    return changedValue(forKey: markedForDeletionKey) as? Date != nil
+  }
+  
+  /// **CoreDataPlus**
+  ///
+  /// Marks an object to be deleted at a later point in time.
+  /// An object marked for local deletion will no longer match the `notMarkedForDeletionPredicate`.
+  public func markForLocalDeletion() {
+    guard isFault || markedForDeletionAsOf == nil else { return }
+    markedForDeletionAsOf = Date()
+  }
+  
 }
 
 // MARK: - Batch Deletion
 
 extension NSFetchRequestResult where Self: NSManagedObject, Self: DelayedDeletable {
-
-    /// **CoreDataPlus**
-    ///
-    /// Makes a batch delete for object conforming to `DelayedDeletable` older than the `cutOffDate` date.
-    /// - Parameters:
-    ///   - context: The NSManagedObjectContext where is executed the batch delete request.
-    ///   - cutOffDate: Objects marked for local deletion more than this time (in seconds) ago will get permanently deleted.
-    /// - Throws: An error in cases of a batch delete operation failure.
-    @available(iOS 9, tvOS 9, watchOS 2, macOS 10.12, *)
-    public static func batchDeleteObjectsMarkedForDeletion(in context: NSManagedObjectContext, olderThan cutOffDate: Date = Date(timeIntervalSinceNow: -TimeInterval(120))) throws {
-
-        guard context.persistentStoreCoordinator != nil else { throw CoreDataPlusError.persistentStoreCoordinatorNotFound(context: context) }
-
-        let request = fetchRequest()
-        request.predicate = NSPredicate(format: "%K <= %@", markedForDeletionKey, cutOffDate as NSDate)
-
-        let batchRequest = NSBatchDeleteRequest(fetchRequest: request)
-        batchRequest.resultType = .resultTypeStatusOnly
-
-        do {
-            try context.execute(batchRequest)
-        } catch {
-            throw CoreDataPlusError.executionFailed(error: error)
-        }
+  
+  /// **CoreDataPlus**
+  ///
+  /// Makes a batch delete for object conforming to `DelayedDeletable` older than the `cutOffDate` date.
+  /// - Parameters:
+  ///   - context: The NSManagedObjectContext where is executed the batch delete request.
+  ///   - cutOffDate: Objects marked for local deletion more than this time (in seconds) ago will get permanently deleted.
+  /// - Throws: An error in cases of a batch delete operation failure.
+  @available(iOS 9, tvOS 9, watchOS 2, macOS 10.12, *)
+  public static func batchDeleteObjectsMarkedForDeletion(in context: NSManagedObjectContext, olderThan cutOffDate: Date = Date(timeIntervalSinceNow: -TimeInterval(120))) throws {
+    // TODO: remove this check?
+    guard context.persistentStoreCoordinator != nil else { throw CoreDataPlusError.persistentStoreCoordinatorNotFound(context: context) }
+    // TODO: use newFetchRequest?
+    let request = fetchRequest()
+    request.predicate = NSPredicate(format: "%K <= %@", markedForDeletionKey, cutOffDate as NSDate)
+    
+    let batchRequest = NSBatchDeleteRequest(fetchRequest: request)
+    batchRequest.resultType = .resultTypeStatusOnly
+    
+    do {
+      // https://developer.apple.com/library/content/featuredarticles/CoreData_Batch_Guide/BatchDeletes/BatchDeletes.html
+      //try context.execute(batchRequest)
+      let _ = try context.execute(batchRequest) as? NSBatchDeleteResult
+    } catch {
+      throw CoreDataPlusError.executionFailed(error: error)
     }
-
+  }
+  
 }
