@@ -107,7 +107,7 @@ extension NSFetchRequestResult where Self: NSManagedObject, Self: DelayedDeletab
   /// Makes a batch delete operation for object conforming to `DelayedDeletable` older than the `cutOffDate` date.
   /// - Parameters:
   ///   - context: The NSManagedObjectContext where is executed the batch delete request.
-  ///   - cutOffDate: Objects marked for local deletion more than this time (in seconds) ago will get permanently deleted.
+  ///   - cutOffDate: Objects marked for local deletion more than this time (in seconds) ago will get permanently deleted (default: 2 minutes).
   ///   - resultType: The type of the batch delete result (default: `NSBatchDeleteRequestResultType.resultTypeStatusOnly`).
   /// - Throws: An error in cases of a batch delete operation failure.
   @available(iOS 9, tvOS 9, watchOS 2, macOS 10.12, *)
