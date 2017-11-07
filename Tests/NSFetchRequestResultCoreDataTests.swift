@@ -93,14 +93,15 @@ class NSFetchRequestResultCoreDataTests: XCTestCase {
   func testDeleteAllExcludingExceptions() {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    // Given
     context.fillWithSampleData()
 
+    // Given
     do {
     let optonalCar = try Car.fetch(in: context).filter { $0.numberPlate == "5" }.first
     let optionalPerson = try Person.fetch(in: context).filter { $0.firstName == "Theodora" && $0.lastName == "Stone" }.first
     let persons = try Person.fetch(in: context).filter { $0.lastName == "Moreton" }
 
+    // When
     guard
       let car = optonalCar,
       let person = optionalPerson,
@@ -112,6 +113,7 @@ class NSFetchRequestResultCoreDataTests: XCTestCase {
         return
     }
 
+    // Then
     XCTAssertNoThrow(try Car.deleteAll(in: context, except: [car]))
     XCTAssertNotNil(try Car.fetch(in: context).filter { $0.numberPlate == "5" }.first)
     XCTAssertTrue(try Car.fetch(in: context).filter { $0.numberPlate != "5" }.isEmpty)
