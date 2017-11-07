@@ -329,22 +329,21 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Parameters:
   ///   - context: The context whose the persistent store coordinator will be used to execute the batch delete.
   ///   - predicate: The predicate used to delete objects.
-  ///   - resultType: The type of the batch delete result.
+  ///   - resultType: The type of the batch delete result (default: `NSBatchDeleteRequestResultType.resultTypeStatusOnly`).
   /// - Returns: a NSBatchDeleteResult result.
   /// - Throws: It throws an error in cases of failure.
   /// - Note: A batch delete can only be done on a SQLite store.
   @available(iOS 9, tvOS 9, watchOS 2, macOS 10.12, *)
   // swiftlint:disable line_length
   public static func batchDeleteObjects(with context: NSManagedObjectContext, where predicate: NSPredicate, resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly) throws -> NSBatchDeleteResult {
-    // TODO: remove this check?
-    //guard context.persistentStoreCoordinator != nil else { throw CoreDataPlusError.persistentStoreCoordinatorNotFound(context: context) }
-
     return try batchDeleteObjects(with: context, where: predicate) { $0.resultType = resultType }
   }
   // swiftlint:enable line_length
 
   // TODO: make this public
   internal static func batchDeleteObjects(with context: NSManagedObjectContext, where predicate: NSPredicate, and configuration: (NSBatchDeleteRequest) -> Void) throws -> NSBatchDeleteResult {
+    guard context.persistentStoreCoordinator != nil else { throw CoreDataPlusError.persistentStoreCoordinatorNotFound(context: context) }
+
     let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
     request.predicate = predicate
 

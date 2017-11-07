@@ -98,36 +98,23 @@ extension DelayedDeletable where Self: NSManagedObject {
 
 }
 
-// MARK: - Batch Deletion
+// MARK: - Batch Delete
 
 extension NSFetchRequestResult where Self: NSManagedObject, Self: DelayedDeletable {
 
   /// **CoreDataPlus**
   ///
-  /// Makes a batch delete for object conforming to `DelayedDeletable` older than the `cutOffDate` date.
+  /// Makes a batch delete operation for object conforming to `DelayedDeletable` older than the `cutOffDate` date.
   /// - Parameters:
   ///   - context: The NSManagedObjectContext where is executed the batch delete request.
   ///   - cutOffDate: Objects marked for local deletion more than this time (in seconds) ago will get permanently deleted.
+  ///   - resultType: The type of the batch delete result (default: `NSBatchDeleteRequestResultType.resultTypeStatusOnly`).
   /// - Throws: An error in cases of a batch delete operation failure.
   @available(iOS 9, tvOS 9, watchOS 2, macOS 10.12, *)
-  public static func batchDeleteObjectsMarkedForDeletion(in context: NSManagedObjectContext, olderThan cutOffDate: Date = Date(timeIntervalSinceNow: -TimeInterval(120))) throws {
-    // TODO: remove this check?
-    guard context.persistentStoreCoordinator != nil else { throw CoreDataPlusError.persistentStoreCoordinatorNotFound(context: context) }
-    // TODO: use newFetchRequest?
-    
-    let request = fetchRequest()
-    request.predicate = NSPredicate(format: "%K <= %@", markedForDeletionKey, cutOffDate as NSDate)
+  public static func batchDeleteObjectsMarkedForDeletion(with context: NSManagedObjectContext, olderThan cutOffDate: Date = Date(timeIntervalSinceNow: -TimeInterval(120)), resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly) throws {
+    let predicate = NSPredicate(format: "%K <= %@", markedForDeletionKey, cutOffDate as NSDate)
 
-    let batchRequest = NSBatchDeleteRequest(fetchRequest: request)
-    batchRequest.resultType = .resultTypeStatusOnly
-
-    do {
-      // https://developer.apple.com/library/content/featuredarticles/CoreData_Batch_Guide/BatchDeletes/BatchDeletes.html
-      //try context.execute(batchRequest)
-      let _ = try context.execute(batchRequest) as? NSBatchDeleteResult
-    } catch {
-      throw CoreDataPlusError.executionFailed(error: error)
-    }
+    try batchDeleteObjects(with: context, where: predicate, resultType: resultType)
   }
 
 }
