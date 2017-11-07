@@ -117,19 +117,12 @@ class NSFetchRequestResultCoreDataTests: XCTestCase {
       XCTAssertNotNil(cars.filter { $0.numberPlate == "5" }.first)
       XCTAssertTrue(cars.filter { $0.numberPlate != "5" }.isEmpty)
 
-//      let previousCarCount = cars.count
-//      print(previousCarCount)
-//      let sportCar = try! SportCar.fetch(in: context, with: { $0.predicate = NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), "202") })
-//      XCTAssertNotNil(sportCar)
-//      XCTAssertNoThrow(try Car.deleteAll(in: context, except: sportCar))
-//      let carsAfterDelete = try Car.fetch(in: context)
-//      print(carsAfterDelete.count)
-
       /// exceptions
       var exceptions = persons
       exceptions.append(person)
       XCTAssertNoThrow(try Person.deleteAll(in: context, except: exceptions))
       XCTAssertFalse(try Person.fetch(in: context).filter { ($0.firstName == "Theodora" && $0.lastName == "Stone") || ($0.lastName == "Moreton") }.isEmpty)
+
       /// no exceptions
       XCTAssertNoThrow(try Person.deleteAll(in: context, except: []))
       XCTAssertTrue(try Person.fetch(in: context).isEmpty)
@@ -137,8 +130,23 @@ class NSFetchRequestResultCoreDataTests: XCTestCase {
     } catch {
       XCTFail(error.localizedDescription)
     }
-
-
-
   }
+
+  func testDeleteAllWithSubentitiesExcludingExceptions() {
+    // Given
+    let stack = CoreDataStack.stack()
+    let context = stack.mainContext
+    context.fillWithSampleData()
+    // When, Then
+    do {
+      let sportCar = try! SportCar.fetch(in: context, with: { $0.predicate = NSPredicate(format: "%K BETWEEN %@", #keyPath(Car.numberPlate), ["202","204"]) })
+      XCTAssertNotNil(sportCar)
+      XCTAssertNoThrow(try Car.deleteAll(in: context, except: sportCar))
+      let carsAfterDelete = try Car.fetch(in: context)
+      XCTAssertTrue(carsAfterDelete.count == 3)
+    } catch {
+      XCTFail(error.localizedDescription)
+    }
+  }
+
 }
