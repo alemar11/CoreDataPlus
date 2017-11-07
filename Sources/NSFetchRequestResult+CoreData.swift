@@ -177,7 +177,8 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
   /// **CoreDataPlus**
   ///
-  /// Iterates over the context’s registeredObjects set (which contains all managed objects the context currently knows about) until it finds an unique object that is not a fault matching for a given predicate.
+  /// Iterates over the context’s registeredObjects set (which contains all managed objects the context currently knows about) until it finds
+  /// an unique object that is not a fault matching for a given predicate.
   /// Faulted objects are not considered to prevent Core Data to make a round trip to the persistent store.
   /// - Throws: It throws an error in cases of multiple results.
   public static func findUniqueMaterializedObject(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? {
@@ -340,8 +341,18 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   }
   // swiftlint:enable line_length
 
-  // TODO: make this public
-  internal static func batchDeleteObjects(with context: NSManagedObjectContext, where predicate: NSPredicate, and configuration: (NSBatchDeleteRequest) -> Void) throws -> NSBatchDeleteResult {
+  /// **CoreDataPlus**
+  ///
+  /// Executes a batch delete on the context's persistent store coordinator.
+  /// - Parameters:
+  ///   - context: The context whose the persistent store coordinator will be used to execute the batch delete.
+  ///   - predicate: The predicate used to delete objects.
+  ///   - configuration: Configurable batch delete request.
+  /// - Returns: a NSBatchDeleteResult result.
+  /// - Throws: It throws an error in cases of failure.
+  /// - Note: A batch delete can only be done on a SQLite store.
+  @available(iOS 9, tvOS 9, watchOS 2, macOS 10.12, *)
+  public static func batchDeleteObjects(with context: NSManagedObjectContext, where predicate: NSPredicate, and configuration: (NSBatchDeleteRequest) -> Void) throws -> NSBatchDeleteResult {
     guard context.persistentStoreCoordinator != nil else { throw CoreDataPlusError.persistentStoreCoordinatorNotFound(context: context) }
 
     let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
