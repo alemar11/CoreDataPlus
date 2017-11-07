@@ -51,5 +51,5 @@ extension Person {
     super.willSave()
     refreshUpdateDate()
   }
-  
+
 }

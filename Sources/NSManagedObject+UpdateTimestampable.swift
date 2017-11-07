@@ -33,7 +33,7 @@ public protocol UpdateTimestampable: class {
 }
 
 extension UpdateTimestampable where Self: NSManagedObject {
-  
+
   /// **CoreDataPlus**
   ///
   /// Protocol `UpdateTimestampable`.
@@ -43,5 +43,5 @@ extension UpdateTimestampable where Self: NSManagedObject {
     guard changedValue(forKey: updateTimestampKey) == nil else { return }
     updatedAt = Date()
   }
-  
+
 }

@@ -24,7 +24,7 @@
 import CoreData
 
 extension NSFetchRequestResult where Self: NSManagedObject {
-  
+
   /// **CoreDataPlus**
   ///
   /// The entity name.
@@ -39,9 +39,9 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     // https://stackoverflow.com/questions/43231873/nspersistentcontainer-unittests-with-ios10/43286175
     return String(describing: Self.self)
   }
-  
+
   // MARK: - Fetch
-  
+
   /// **CoreDataPlus**
   ///
   /// Creates a `new` NSFetchRequest for `self`.
@@ -51,7 +51,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     let fetchRequest = NSFetchRequest<Self>(entityName: entityName)
     return fetchRequest
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Performs a configurable fetch request in a context.
@@ -60,17 +60,17 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   public static func fetch(in context: NSManagedObjectContext, with configuration: (NSFetchRequest<Self>) -> Void = { _ in }) throws -> [Self] {
     let request = NSFetchRequest<Self>(entityName: entityName)
     configuration(request)
-    
+
     do {
       return try context.fetch(request)
     } catch {
       throw CoreDataPlusError.fetchFailed(error: error)
     }
-    
+
   }
-  
+
   // MARK: - First
-  
+
   /// **CoreDataPlus**
   ///
   /// Attempts to find an object matching a predicate or creates a new one and configures it (if multiple objects are found, configures the **first** one).
@@ -86,13 +86,13 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     guard let object = try findFirstOrFetch(in: context, where: predicate) else {
       let newObject: Self = Self(context: context)
       configuration(newObject)
-      
+
       return newObject
     }
-    
+
     return object
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Tries to find the first existing object in the context (memory) matching a predicate.
@@ -117,14 +117,14 @@ extension NSFetchRequestResult where Self: NSManagedObject {
       } catch {
         throw CoreDataPlusError.fetchFailed(error: error)
       }
-      
+
     }
-    
+
     return object
   }
-  
+
   // MARK: - Unique
-  
+
   /// **CoreDataPlus**
   ///
   /// Attempts to find an unique object matching a predicate or creates a new one and configures it.
@@ -140,13 +140,13 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     guard let object = try findUniqueOrFetch(in: context, where: predicate) else {
       let newObject: Self = Self(context: context)
       configuration(newObject)
-      
+
       return newObject
     }
-    
+
     return object
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Tries to find an unique existing object in the context (memory) matching a predicate.
@@ -159,9 +159,9 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Throws: It throws an error in cases of failure or if multiple objects are found.
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
   public static func findUniqueOrFetch(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? {
-    
+
     guard let object = try findUniqueMaterializedObject(in: context, where: predicate) else {
-      
+
       do {
         return try fetchUniqueObject(in: context) { request in
           request.predicate = predicate
@@ -169,12 +169,12 @@ extension NSFetchRequestResult where Self: NSManagedObject {
       } catch {
         throw CoreDataPlusError.fetchFailed(error: error)
       }
-      
+
     }
-    
+
     return object
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Iterates over the context’s registeredObjects set (which contains all managed objects the context currently knows about) until it finds an unique object that is not a fault matching for a given predicate.
@@ -187,7 +187,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     }
     return results.first
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Executes a fetch request where only a single object is expected as result, otherwhise a an error is thrown.
@@ -198,7 +198,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
       configuration(request)
       request.fetchLimit = 2
     }
-    
+
     switch result.count {
     case 0:
       return nil
@@ -208,9 +208,9 @@ extension NSFetchRequestResult where Self: NSManagedObject {
       throw CoreDataPlusError.fetchExpectingOneObjectFailed
     }
   }
-  
+
   // MARK: - Delete
-  
+
   /// **CoreDataPlus**
   ///
   /// Specifies the objects (matching a given predicate) that should be removed from its persistent store when changes are committed.
@@ -230,7 +230,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
       throw CoreDataPlusError.fetchFailed(error: error)
     }
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Removes all entities from within the specified `NSManagedObjectContext` excluding a given list of entities.
@@ -245,9 +245,9 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     let predicate = NSPredicate(format: "NOT (self IN %@)", objects)
     try deleteAll(in: context, includingSubentities: true, where: predicate )
   }
-  
+
   // MARK: - Count
-  
+
   /// **CoreDataPlus**
   ///
   /// Counts the results of a configurable fetch request in a context.
@@ -256,15 +256,15 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   public static func count(in context: NSManagedObjectContext, for configuration: (NSFetchRequest<Self>) -> Void = { _ in }) throws -> Int {
     let request = newFetchRequest()
     configuration(request)
-    
+
     let result = try context.count(for: request)
     guard result != NSNotFound else { throw CoreDataPlusError.fetchCountNotFound }
-    
+
     return result
   }
-  
+
   // MARK: - Materialized Object
-  
+
   /// **CoreDataPlus**
   ///
   /// Iterates over the context’s registeredObjects set (which contains all managed objects the context currently knows about) until it finds one that is not a fault matching for a given predicate.
@@ -272,13 +272,13 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   public static func findFirstMaterializedObject(in context: NSManagedObjectContext, where predicate: NSPredicate) -> Self? {
     for object in context.registeredObjects where !object.isFault {
       guard let result = object as? Self, predicate.evaluate(with: result) else { continue }
-      
+
       return result
     }
-    
+
     return nil
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Iterates over the context’s registeredObjects set (which contains all managed objects the context currently knows about) until it finds
@@ -286,16 +286,16 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// Faulted objects are not considered to prevent Core Data to make a round trip to the persistent store.
   public static func findMaterializedObjects(in context: NSManagedObjectContext, where predicate: NSPredicate) -> [Self] {
     let results = context.registeredObjects.filter { !$0.isFault && $0 is Self}.filter { predicate.evaluate(with: $0) }.flatMap { $0 as? Self}
-    
+
     return results
   }
-  
+
 }
 
 // MARK: - Cache
 
 extension NSFetchRequestResult where Self: NSManagedObject {
-  
+
   /// **CoreDataPlus**
   ///
   /// Tries to retrieve an object from the cache; if there’s nothing in the cache executes the fetch request and caches the result (if a single object is found).
@@ -310,13 +310,13 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     guard let cached = context.cachedManagedObject(forKey: cacheKey) as? Self else {
       let result = try fetchUniqueObject(in: context, with: configuration)
       context.setCachedManagedObject(result, forKey: cacheKey)
-      
+
       return result
     }
-    
+
     return cached
   }
-  
+
 }
 
 // MARK: - Batch Delete
@@ -329,45 +329,35 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Parameters:
   ///   - context: The context whose the persistent store coordinator will be used to execute the batch delete.
   ///   - predicate: The predicate used to delete objects.
-  ///   - type: The type of the batch delete result.
+  ///   - resultType: The type of the batch delete result.
   /// - Returns: a NSBatchDeleteResult result.
   /// - Throws: It throws an error in cases of failure.
   /// - Note: A batch delete can only be done on a SQLite store.
   @available(iOS 9, tvOS 9, watchOS 2, macOS 10.12, *)
-  public static func batchDeleteObjects(with context: NSManagedObjectContext, where predicate: NSPredicate, withResult type: NSBatchDeleteRequestResultType = .resultTypeStatusOnly) throws -> NSBatchDeleteResult  {
+  // swiftlint:disable line_length
+  public static func batchDeleteObjects(with context: NSManagedObjectContext, where predicate: NSPredicate, resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly) throws -> NSBatchDeleteResult {
     // TODO: remove this check?
     //guard context.persistentStoreCoordinator != nil else { throw CoreDataPlusError.persistentStoreCoordinatorNotFound(context: context) }
-    
-//    let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-//    request.predicate = predicate
-//
-//    let batchRequest = NSBatchDeleteRequest(fetchRequest: request)
-//    batchRequest.resultType = type
-//
-//    do {
-//      // https://developer.apple.com/library/content/featuredarticles/CoreData_Batch_Guide/BatchDeletes/BatchDeletes.html
-//      return  try context.execute(batchRequest) as! NSBatchDeleteResult
-//    } catch {
-//      throw CoreDataPlusError.executionFailed(error: error)
-//    }
-    return try _batchDeleteObjects(with: context, and: { (request, batchRequest) in
-      request.predicate = predicate
-      batchRequest.resultType = type
-    })
 
+    return try batchDeleteObjects(with: context, where: predicate) { $0.resultType = resultType }
   }
+  // swiftlint:enable line_length
 
   // TODO: make this public
- internal static func _batchDeleteObjects(with context: NSManagedObjectContext, and configuration: (NSFetchRequest<Self>, NSBatchDeleteRequest) -> Void) throws -> NSBatchDeleteResult {
-  let request = newFetchRequest()
-  let batchRequest = NSBatchDeleteRequest(fetchRequest: request as! NSFetchRequest<NSFetchRequestResult>)
-  configuration(request, batchRequest)
+  internal static func batchDeleteObjects(with context: NSManagedObjectContext, where predicate: NSPredicate, and configuration: (NSBatchDeleteRequest) -> Void) throws -> NSBatchDeleteResult {
+    let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+    request.predicate = predicate
 
-  do {
-    return  try context.execute(batchRequest) as! NSBatchDeleteResult
-  } catch {
-    throw CoreDataPlusError.executionFailed(error: error)
+    let batchRequest = NSBatchDeleteRequest(fetchRequest: request)
+    configuration(batchRequest)
+
+    do {
+      // swiftlint:disable force_cast
+      return  try context.execute(batchRequest) as! NSBatchDeleteResult
+      // swiftlint:enable force_cast
+    } catch {
+      throw CoreDataPlusError.executionFailed(error: error)
+    }
   }
-}
 
 }

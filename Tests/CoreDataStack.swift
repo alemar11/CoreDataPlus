@@ -25,46 +25,46 @@ import XCTest
 import CoreData
 
 final class CoreDataStack {
-    
+
     enum StoreType { case sqlite, inMemory }
-    
+
     var persistentStoreCoordinator: NSPersistentStoreCoordinator
     var mainContext: NSManagedObjectContext
-    
+
     init?(type: StoreType = .inMemory) {
         let managedObjectModel = SampleModelVersion.currentVersion.managedObjectModel()
         persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
-        
+
         switch (type) {
-            
+
         case .inMemory:
             do {
                 try persistentStoreCoordinator.addPersistentStore(ofType: NSInMemoryStoreType, configurationName: nil, at: nil, options: nil)
             } catch {
                 XCTFail("\(error.localizedDescription)")
             }
-            
+
         case .sqlite:
             let storeURL = URL(fileURLWithPath: "\(NSTemporaryDirectory())\(UUID().uuidString).sqlite" )
             let persistentStoreDescription = NSPersistentStoreDescription(url: storeURL)
-            
+
             print(storeURL)
-            
+
             persistentStoreDescription.type = NSSQLiteStoreType
             persistentStoreDescription.shouldMigrateStoreAutomatically = true // default behaviour
             persistentStoreDescription.shouldInferMappingModelAutomatically = true // default behaviour
             persistentStoreDescription.shouldAddStoreAsynchronously = false // default
-            
+
             persistentStoreCoordinator.addPersistentStore(with: persistentStoreDescription, completionHandler: { (persistentStoreDescription, error) in
                 if let error = error { XCTFail("\(error.localizedDescription)") }
             })
         }
-        
+
         let managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = persistentStoreCoordinator
         mainContext = managedObjectContext
     }
-    
+
 }
 
 extension CoreDataStack {

@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2017 Tinrobots.
@@ -26,7 +26,7 @@ import CoreData
 @testable import CoreDataPlus
 
 class NSManagedObjectUpdateTimestampableTests: XCTestCase {
-  
+
   func testRefreshUpdateDate() {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
@@ -54,5 +54,5 @@ class NSManagedObjectUpdateTimestampableTests: XCTestCase {
     }
 
   }
-  
+
 }

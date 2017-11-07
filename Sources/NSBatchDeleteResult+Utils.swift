@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2017 Tinrobots.
@@ -29,7 +29,7 @@ extension NSBatchDeleteResult {
   ///
   /// Returns a dictionary containig all the deleted `NSManagedObjectID` instances.
   /// - Note: Make sure the resultType of the `NSBatchDeleteRequest` is set to `NSBatchDeleteRequestResultType.resultTypeObjectIDs` before the request is executed otherwise the value is nil.
-  public var changes: [String : [NSManagedObjectID]]? {
+  public var changes: [String: [NSManagedObjectID]]? {
 
     switch resultType {
     case .resultTypeStatusOnly, .resultTypeCount:
@@ -37,7 +37,7 @@ extension NSBatchDeleteResult {
 
     case .resultTypeObjectIDs:
       guard let objectIDs = result as? [NSManagedObjectID] else { return nil }
-      let changes = [NSDeletedObjectsKey : objectIDs]
+      let changes = [NSDeletedObjectsKey: objectIDs]
       return changes
     }
 
@@ -48,7 +48,7 @@ extension NSBatchDeleteResult {
   /// Returns the number of deleted objcts.
   /// - Note: Make sure the resultType of the `NSBatchDeleteRequest` is set to `NSBatchDeleteRequestResultType.resultTypeCount` before the request is executed otherwise the value is nil.
   public var count: Int? {
-    
+
     switch resultType {
     case .resultTypeStatusOnly, .resultTypeObjectIDs:
       return nil
@@ -63,7 +63,7 @@ extension NSBatchDeleteResult {
   /// Returns `true` if the batc delete operation has been completed successfully.
   /// - Note: Make sure the resultType of the `NSBatchDeleteRequest` is set to `NSBatchDeleteRequestResultType.resultTypeStatusOnly` before the request is executed otherwise the value is nil.
   public var status: Bool? {
-    
+
     switch resultType {
     case .resultTypeCount, .resultTypeObjectIDs:
       return nil

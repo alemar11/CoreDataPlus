@@ -35,27 +35,27 @@ public protocol DelayedDeletable: class {
   ///
   /// Checks whether or not the managed object’s `markedForDeletion` property has unsaved changes.
   var hasChangedForDelayedDeletion: Bool { get }
-  
+
   /// **CoreDataPlus**
   ///
   /// Protocol `DelayedDeletable`.
   ///
   /// This object can be deleted starting from this particular date.
   var markedForDeletionAsOf: Date? { get set }
-  
+
   /// **CoreDataPlus**
   ///
   /// Protocol `DelayedDeletable`.
   ///
   /// Marks an object to be deleted at a later point in time.
   func markForDelayedDeletion()
-  
+
 }
 
 // MARK: - DelayedDeletable Extension
 
 extension DelayedDeletable {
-  
+
   /// **CoreDataPlus**
   ///
   /// Protocol `DelayedDeletable`.
@@ -73,11 +73,11 @@ extension DelayedDeletable {
   public static var markedForLocalDeletionPredicate: NSPredicate {
     return NSPredicate(format: "%K != NULL", markedForDeletionKey)
   }
-  
+
 }
 
 extension DelayedDeletable where Self: NSManagedObject {
-  
+
   /// **CoreDataPlus**
   ///
   /// Protocol `DelayedDeletable`.
@@ -86,7 +86,7 @@ extension DelayedDeletable where Self: NSManagedObject {
   public var hasChangedForDelayedDeletion: Bool {
     return changedValue(forKey: markedForDeletionKey) as? Date != nil
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Marks an object to be deleted at a later point in time (if not already marked).
@@ -95,13 +95,13 @@ extension DelayedDeletable where Self: NSManagedObject {
     guard markedForDeletionAsOf == nil else { return }
     markedForDeletionAsOf = Date()
   }
-  
+
 }
 
 // MARK: - Batch Deletion
 
 extension NSFetchRequestResult where Self: NSManagedObject, Self: DelayedDeletable {
-  
+
   /// **CoreDataPlus**
   ///
   /// Makes a batch delete for object conforming to `DelayedDeletable` older than the `cutOffDate` date.
@@ -114,12 +114,13 @@ extension NSFetchRequestResult where Self: NSManagedObject, Self: DelayedDeletab
     // TODO: remove this check?
     guard context.persistentStoreCoordinator != nil else { throw CoreDataPlusError.persistentStoreCoordinatorNotFound(context: context) }
     // TODO: use newFetchRequest?
+    
     let request = fetchRequest()
     request.predicate = NSPredicate(format: "%K <= %@", markedForDeletionKey, cutOffDate as NSDate)
-    
+
     let batchRequest = NSBatchDeleteRequest(fetchRequest: request)
     batchRequest.resultType = .resultTypeStatusOnly
-    
+
     do {
       // https://developer.apple.com/library/content/featuredarticles/CoreData_Batch_Guide/BatchDeletes/BatchDeletes.html
       //try context.execute(batchRequest)
@@ -128,5 +129,5 @@ extension NSFetchRequestResult where Self: NSManagedObject, Self: DelayedDeletab
       throw CoreDataPlusError.executionFailed(error: error)
     }
   }
-  
+
 }
