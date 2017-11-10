@@ -1,5 +1,10 @@
 # Changelog
 
+### 0.4.0
+- Added a `CoreDataPlusError` type.
+- Added `NSBatchDeleteResult` utils.
+- Fixes.
+
 ### 0.3.0
 
 - Added more utility methods.
