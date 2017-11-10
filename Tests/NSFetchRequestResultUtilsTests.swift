@@ -246,7 +246,7 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
   // MARK: - Unique
   
   func testFetchUniqueObject() {
-    let stack = CoreDataStack.stack()
+    let stack = CoreDataStack.stack(type: .sqlite)
     let context = stack.mainContext
     
     context.performAndWait {
