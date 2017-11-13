@@ -29,7 +29,7 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
   
   // MARK: - Batch Faulting
   
-  func testBatchFaulting() {
+  func testBatchFaulting() throws {
     // Given
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
@@ -45,31 +45,27 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     let request = Car.newFetchRequest()
     request.predicate = NSPredicate(value: true)
     
-    do {
-      // When
-      let cars = try context.fetch(request)
-      
-      /// re-fault objects that don't have pending changes
-      context.refreshAllObjects()
-      
-      let previousFaultsCount = cars.filter { $0.isFault }.count
-      
-      /// batch faulting
-      XCTAssertNoThrow(try cars.fetchFaultedObjects())
-      
-      // Then
-      let currentNotFaultsCount = cars.filter { !$0.isFault }.count
-      let currentFaultsCount = cars.filter { $0.isFault }.count
-      XCTAssertTrue(previousFaultsCount == currentNotFaultsCount)
-      XCTAssertTrue(currentFaultsCount == 0)
-      
-    } catch {
-      XCTFail(error.localizedDescription)
-    }
+    
+    // When
+    let cars = try context.fetch(request)
+    
+    /// re-fault objects that don't have pending changes
+    context.refreshAllObjects()
+    
+    let previousFaultsCount = cars.filter { $0.isFault }.count
+    
+    /// batch faulting
+    XCTAssertNoThrow(try cars.fetchFaultedObjects())
+    
+    // Then
+    let currentNotFaultsCount = cars.filter { !$0.isFault }.count
+    let currentFaultsCount = cars.filter { $0.isFault }.count
+    XCTAssertTrue(previousFaultsCount == currentNotFaultsCount)
+    XCTAssertTrue(currentFaultsCount == 0)
     
   }
   
-  func testBatchFaultingEdgeCases() {
+  func testBatchFaultingEdgeCases() throws {
     // Given
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
@@ -88,24 +84,19 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     request.returnsObjectsAsFaults = false
     request.fetchLimit = 2
     
-    do {
-      // When
-      let cars = try context.fetch(request)
-      let previousFaultsCount = cars.filter { $0.isFault }.count
-      let previousNotFaultsCount = cars.filter { !$0.isFault }.count
-      
-      XCTAssertNoThrow(try cars.fetchFaultedObjects())
-      
-      // Then
-      let currentFaultsCount = cars.filter { $0.isFault }.count
-      let currentNotFaultsCount = cars.filter { !$0.isFault }.count
-      XCTAssertTrue(previousFaultsCount == 0)
-      XCTAssertTrue(currentFaultsCount == 0)
-      XCTAssertTrue(previousNotFaultsCount == currentNotFaultsCount)
-      
-    } catch {
-      XCTFail(error.localizedDescription)
-    }
+    // When
+    let cars = try context.fetch(request)
+    let previousFaultsCount = cars.filter { $0.isFault }.count
+    let previousNotFaultsCount = cars.filter { !$0.isFault }.count
+    
+    XCTAssertNoThrow(try cars.fetchFaultedObjects())
+    
+    // Then
+    let currentFaultsCount = cars.filter { $0.isFault }.count
+    let currentNotFaultsCount = cars.filter { !$0.isFault }.count
+    XCTAssertTrue(previousFaultsCount == 0)
+    XCTAssertTrue(currentFaultsCount == 0)
+    XCTAssertTrue(previousNotFaultsCount == currentNotFaultsCount)
     
   }
   
@@ -146,7 +137,7 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     XCTAssertTrue(objects.filter { !$0.isFault }.count == 4)
   }
   
-  func testBatchFaultingToManyRelationship() {
+  func testBatchFaultingToManyRelationship() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
     
@@ -160,30 +151,25 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     let request = Person.newFetchRequest()
     request.predicate = NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone")
     
-    do {
-      let persons = try context.fetch(request)
-      
-      XCTAssertNotNil(persons)
-      XCTAssertTrue(!persons.isEmpty)
-      
-      let person = persons.first!
-      let previousFaultsCount = person.cars?.filter { $0.isFault }.count
-      
-      XCTAssertNoThrow(try person.cars?.fetchFaultedObjects())
-      let currentNotFaultsCount = person.cars?.filter { !$0.isFault }.count
-      let currentFaultsCount = person.cars?.filter { $0.isFault }.count
-      XCTAssertTrue(previousFaultsCount == currentNotFaultsCount)
-      XCTAssertTrue(currentFaultsCount == 0)
-      
-    } catch {
-      XCTFail(error.localizedDescription)
-    }
+    let persons = try context.fetch(request)
+    
+    XCTAssertNotNil(persons)
+    XCTAssertTrue(!persons.isEmpty)
+    
+    let person = persons.first!
+    let previousFaultsCount = person.cars?.filter { $0.isFault }.count
+    
+    XCTAssertNoThrow(try person.cars?.fetchFaultedObjects())
+    let currentNotFaultsCount = person.cars?.filter { !$0.isFault }.count
+    let currentFaultsCount = person.cars?.filter { $0.isFault }.count
+    XCTAssertTrue(previousFaultsCount == currentNotFaultsCount)
+    XCTAssertTrue(currentFaultsCount == 0)
     
   }
   
   // MARK: - Fetch
   
-  func testFetch() {
+  func testFetch() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
     
@@ -197,8 +183,6 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
         request.predicate = NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "Moreton")
       }
       XCTAssertTrue(persons.count == 2)
-    } catch {
-      XCTFail(error.localizedDescription)
     }
     
     do {
@@ -206,15 +190,13 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
         request.predicate = NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "MoretonXYZ")
       }
       XCTAssertTrue(persons.isEmpty)
-    } catch {
-      XCTFail(error.localizedDescription)
     }
     
   }
   
   // MARK: - Count
   
-  func testCount() {
+  func testCount() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
     
@@ -228,8 +210,6 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
         request.predicate = NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "Moreton")
       }
       XCTAssertTrue(persons == 2)
-    } catch {
-      XCTFail(error.localizedDescription)
     }
     
     do {
@@ -237,15 +217,13 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
         request.predicate = NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "MoretonXYZ")
       }
       XCTAssertTrue(persons == 0)
-    } catch {
-      XCTFail(error.localizedDescription)
     }
     
   }
   
   // MARK: - Unique
   
-  func testFetchUniqueObject() {
+  func testFetchUniqueObject() throws {
     let stack = CoreDataStack.stack(type: .sqlite)
     let context = stack.mainContext
     
@@ -268,16 +246,6 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
         request.predicate = NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "MoretonXYZ")
       }
       XCTAssertNil(person)
-    } catch {
-      XCTFail(error.localizedDescription)
-      XCTAssertTrue(error is CoreDataPlusError)
-      
-      switch error {
-      case CoreDataPlusError.fetchExpectingOneObjectFailed:
-        break
-      default:
-        XCTFail("Invalid CoreDataPlusError: \(error) should be an \(CoreDataPlusError.fetchExpectingOneObjectFailed) error.")
-      }
     }
     
     do {
@@ -285,13 +253,11 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
         request.predicate = NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone")
       }
       XCTAssertNotNil(person)
-    } catch {
-      XCTFail(error.localizedDescription)
     }
     
   }
   
-  func testFindUniqueOrCreate() {
+  func testFindUniqueOrCreate() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
     
@@ -308,8 +274,6 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
       
       XCTAssertNotNil(car)
       XCTAssertTrue(car.maker == "Lamborghini")
-    } catch {
-      XCTFail(error.localizedDescription)
     }
     
     /// new object
@@ -324,8 +288,6 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
       XCTAssertEqual(car.numberPlate, "304-new")
       XCTAssertEqual(car.model, "test")
       context.delete(car)
-    } catch {
-      XCTFail(error.localizedDescription)
     }
     
     /// new object added in the context before the fetch
@@ -345,7 +307,7 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     
   }
   
-  func testFindUniqueMaterializedObject() {
+  func testFindUniqueMaterializedObject() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
     
@@ -358,11 +320,7 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     let request = ExpensiveSportCar.newFetchRequest()
     request.returnsObjectsAsFaults = false
     request.predicate = NSPredicate(value: true)
-    do {
-      _ = try context.fetch(request)
-    } catch {
-      XCTFail(error.localizedDescription)
-    }
+    _ = try context.fetch(request)
     
     XCTAssertThrowsError(try Car.findUniqueMaterializedObject(in: context, where: NSPredicate(value: true)))
     
@@ -378,7 +336,7 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
   
   // MARK: - First
   
-  func testFindFirstOrCreate() {
+  func testFindFirstOrCreate() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
     
@@ -394,8 +352,6 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
       }
       XCTAssertNotNil(car)
       XCTAssertTrue(car.maker == "Lamborghini")
-    } catch {
-      XCTFail(error.localizedDescription)
     }
     
     /// new object
@@ -410,8 +366,6 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
       XCTAssertEqual(car.numberPlate, "304-new")
       XCTAssertEqual(car.model, "test")
       context.delete(car)
-    } catch {
-      XCTFail(error.localizedDescription)
     }
     
     /// new object added in the context before the fetch
@@ -432,8 +386,6 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
       let car304 = context.registeredObjects.filter{ $0 is Car } as! Set<Car>
       
       XCTAssertTrue(car304.filter { $0.numberPlate == "304" }.count == 2)
-    } catch {
-      XCTFail(error.localizedDescription)
     }
     
     context.refreshAllObjects()
@@ -444,13 +396,11 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
         XCTAssertNotNil(car.numberPlate)
       })
       XCTAssertNotNil(car)
-    } catch {
-      XCTFail(error.localizedDescription)
     }
     
   }
   
-  func testFindFirstMaterializedObject() {
+  func testFindFirstMaterializedObject() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
     
@@ -463,12 +413,9 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     let request = ExpensiveSportCar.newFetchRequest()
     request.returnsObjectsAsFaults = false
     request.predicate = NSPredicate(value: true)
-    do {
-      _ = try context.fetch(request)
-    } catch {
-      XCTFail(error.localizedDescription)
-    }
-    
+
+    _ = try context.fetch(request)
+
     XCTAssertNotNil(Car.findOneMaterializedObject(in: context, where: NSPredicate(value: true)))
     
     let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
@@ -483,7 +430,7 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
   
   // MARK: Materialized Object
   
-  func testFindMaterializedObjects() {
+  func testFindMaterializedObjects() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
     
@@ -496,11 +443,7 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     let request = ExpensiveSportCar.newFetchRequest()
     request.returnsObjectsAsFaults = false
     request.predicate = NSPredicate(value: true)
-    do {
-      _ = try context.fetch(request)
-    } catch {
-      XCTFail(error.localizedDescription)
-    }
+    _ = try context.fetch(request)
     
     XCTAssertTrue(Car.findMaterializedObjects(in: context, where: NSPredicate(value: true)).count > 1)
     // with the previous fetch we have materialized only one Lamborghini (the expensive one)
@@ -514,7 +457,7 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
   
   // MARK: Cache
   
-  func testFetchCachedObject() {
+  func testFetchCachedObject() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
     
@@ -528,8 +471,6 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
         request.predicate = NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone")
       }
       XCTAssertNotNil(person)
-    } catch {
-      XCTFail(error.localizedDescription)
     }
     
     do {
@@ -537,8 +478,6 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
         request.predicate = NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone")
       }
       XCTAssertNotNil(person)
-    } catch {
-      XCTFail(error.localizedDescription)
     }
     
     do {
@@ -549,8 +488,6 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
       XCTAssertNotNil(person)
       XCTAssertTrue(person?.firstName == "Theodora")
       XCTAssertTrue(person?.lastName == "Stone")
-    } catch {
-      XCTFail(error.localizedDescription)
     }
     
     do {
@@ -559,8 +496,6 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
       }
       // the cache was already there but for another entity, the request has been evaluated
       XCTAssertNotNil(car)
-    } catch {
-      XCTFail(error.localizedDescription)
     }
     
     XCTAssertNotNil(context.cachedManagedObject(forKey: "cached-person"))
@@ -569,71 +504,66 @@ class NSFetchRequestResultUtilsTests: XCTestCase {
     
     XCTAssertNil(newContext.cachedManagedObject(forKey: "cached-person"))
     
-    XCTAssertThrowsError(try Person.fetchCachedObject(in: newContext, forKey: "cached-person-2") { request in
-      request.predicate = NSPredicate(value: true)
-      })
+    do {
+      _  = try Person.fetchCachedObject(in: newContext, forKey: "cached-person-2") { request in
+        request.predicate = NSPredicate(value: true)
+      }
+    } catch {
+      XCTAssertTrue(error is CoreDataPlusError)
+      if case CoreDataPlusError.fetchExpectingOneObjectFailed = error {
+        // do nothing
+      } else {
+        XCTFail("Expected an error of type CoreDataPlusError.fetchExpectingOneObjectFailed")
+      }
+    }
   }
   
   // MARK: Batch Delete
   
-  func testBatchDeleteObjectsWithResultTypeStatusOnly() {
+  func testBatchDeleteObjectsWithResultTypeStatusOnly() throws {
     // Given
     let stack = CoreDataStack.stack(type: .sqlite)
     let context = stack.mainContext
     context.fillWithSampleData()
-    try! context.save()
+    try context.save()
     
+    let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
+    let result = try Car.batchDeleteObjects(with: context, where: fiatPredicate, resultType: .resultTypeStatusOnly)
     
-    do {
-      let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
-      let result = try Car.batchDeleteObjects(with: context, where: fiatPredicate, resultType: .resultTypeStatusOnly)
-      
-      XCTAssertNotNil(result.status)
-      XCTAssertTrue(result.status! == true)
-      XCTAssertNil(result.changes)
-    } catch {
-      XCTFail(error.localizedDescription)
-    }
+    XCTAssertNotNil(result.status)
+    XCTAssertTrue(result.status! == true)
+    XCTAssertNil(result.changes)
   }
   
-  func testBatchDeleteObjectsWithResultTypeCount() {
+  func testBatchDeleteObjectsWithResultTypeCount() throws {
     // Given
     let stack = CoreDataStack.stack(type: .sqlite)
     let context = stack.mainContext
     context.fillWithSampleData()
-    try! context.save()
+    try context.save()
     
+    let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
+    let result = try Car.batchDeleteObjects(with: context, where: fiatPredicate, resultType: .resultTypeCount)
     
-    do {
-      let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
-      let result = try Car.batchDeleteObjects(with: context, where: fiatPredicate, resultType: .resultTypeCount)
-      
-      XCTAssertNotNil(result.count)
-      
-      XCTAssertTrue(result.count! > 1)
-    } catch {
-      XCTFail(error.localizedDescription)
-    }
+    XCTAssertNotNil(result.count)
+    XCTAssertTrue(result.count! > 1)
   }
   
-  func testBatchDeleteObjectsWithResultTypeObjectIDs() {
+  func testBatchDeleteObjectsWithResultTypeObjectIDs() throws {
     // Given
     let stack = CoreDataStack.stack(type: .sqlite)
     let context = stack.mainContext
     context.fillWithSampleData()
-    try! context.save()
+    try context.save()
     
-    do {
-      let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
-      let result = try Car.batchDeleteObjects(with: context, where: fiatPredicate, resultType: .resultTypeObjectIDs)
-      
-      XCTAssertNotNil(result.changes)
-      XCTAssertTrue(result.changes!.keys.count == 1)
-      let deletedValues = result.changes![NSDeletedObjectsKey]?.count ?? 0
-      XCTAssertTrue(deletedValues > 1)
-    } catch {
-      XCTFail(error.localizedDescription)
-    }
+    let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
+    let result = try Car.batchDeleteObjects(with: context, where: fiatPredicate, resultType: .resultTypeObjectIDs)
+    
+    XCTAssertNotNil(result.changes)
+    XCTAssertTrue(result.changes!.keys.count == 1)
+    let deletedValues = result.changes![NSDeletedObjectsKey]?.count ?? 0
+    XCTAssertTrue(deletedValues > 1)
+    
   }
   
   func testBatchDeleteObjectsWithResultTypeStatusOnlyThrowingAnException() {
