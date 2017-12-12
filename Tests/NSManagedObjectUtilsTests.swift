@@ -27,35 +27,19 @@ import CoreData
 
 class NSManagedObjectUtilsTests: XCTestCase {
 
-  static var stack: CoreDataStack {
-    get {
-      let stack = CoreDataStack(type: .inMemory)
-      XCTAssertNotNil(stack)
-      return stack!
-    }
-  }
-
-  override func setUp() {
-    super.setUp()
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-  }
-
-  override func tearDown() {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    super.tearDown()
-  }
-
   func testRefresh() {
+    let stack = CoreDataStack.stack(type: .sqlite)
+
     // Given
-    let mainContext = type(of: self).stack.mainContext
+    let context = stack.mainContext
 
     do {
       // When
-      let person = Person(context: mainContext)
-      mainContext.performAndWait {
+      let person = Person(context: context)
+      context.performAndWait {
         person.firstName = "Myname"
         person.lastName = "MyLastName"
-        try! mainContext.save()
+        try! context.save()
       }
       // Then
       person.firstName = "NewName"
@@ -65,11 +49,11 @@ class NSManagedObjectUtilsTests: XCTestCase {
 
     do {
       // When
-      let person = Person(context: mainContext)
-      mainContext.performAndWait {
+      let person = Person(context: context)
+      context.performAndWait {
         person.firstName = "Myname2"
         person.lastName = "MyLastName2"
-        try! mainContext.save()
+        try! context.save()
       }
       // Then
       person.firstName = "NewName2"
@@ -81,18 +65,20 @@ class NSManagedObjectUtilsTests: XCTestCase {
   }
 
 
-  func testChangedAndCommittedValue() {
+  func testChangedAndCommittedValue() throws {
+    let stack = CoreDataStack.stack(type: .sqlite)
+    let context = stack.mainContext
+
     let carNumberPlate = #keyPath(Car.numberPlate)
     let carModel = #keyPath(Car.model)
 
     // Given
-    let mainContext = type(of: self).stack.mainContext
     // https://cocoacasts.com/how-to-observe-a-managed-object-context/
     // http://mentalfaculty.tumblr.com/post/65682908577/how-does-core-data-save
     do {
       // When
-      let car = Car(context: mainContext)
-      let person = Person(context: mainContext)
+      let car = Car(context: context)
+      let person = Person(context: context)
       XCTAssertNil(car.changedValue(forKey:  carNumberPlate))
       XCTAssertNil(car.changedValue(forKey:  carModel))
       car.model = "MyModel"
@@ -108,7 +94,7 @@ class NSManagedObjectUtilsTests: XCTestCase {
       XCTAssertNil(car.committedValue(forKey: carModel))
 
       // When
-      try! mainContext.save()
+      try context.save()
       XCTAssertNotNil(car.committedValue(forKey: carNumberPlate))
       XCTAssertNotNil(car.committedValue(forKey: carModel))
       XCTAssertEqual(car.committedValue(forKey: carNumberPlate) as! String, "123456")
@@ -132,7 +118,7 @@ class NSManagedObjectUtilsTests: XCTestCase {
       XCTAssertEqual(car.committedValue(forKey: carNumberPlate) as! String, "123456")
 
       // When
-      try! mainContext.save()
+      try context.save()
       // Then
       XCTAssertNil(car.changedValue(forKey: carNumberPlate))
       XCTAssertNotNil(car.committedValue(forKey: carNumberPlate))
@@ -140,7 +126,7 @@ class NSManagedObjectUtilsTests: XCTestCase {
       let request = NSFetchRequest<Car>(entityName: "Car")
       request.predicate = NSPredicate(format: "\(#keyPath(Car.model)) == %@ AND \(#keyPath(Car.numberPlate)) == %@", "MyModel", "202")
       request.fetchBatchSize = 1
-      if let fetchedCar = try! mainContext.fetch(request).first {
+      if let fetchedCar = try! context.fetch(request).first {
         XCTAssertNotNil(car.committedValue(forKey: carNumberPlate))
         XCTAssertNil(car.changedValue(forKey: carNumberPlate))
         fetchedCar.numberPlate = "999"
