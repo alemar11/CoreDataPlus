@@ -335,11 +335,10 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Throws: It throws an error in cases of failure.
   /// - Note: A batch delete can only be done on a SQLite store.
   @available(iOS 9, tvOS 9, watchOS 2, macOS 10.12, *)
-  // swiftlint:disable line_length
+  // swiftlint:disable:next line_length
   public static func batchDeleteObjects(with context: NSManagedObjectContext, where predicate: NSPredicate, resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly) throws -> NSBatchDeleteResult {
     return try batchDeleteObjects(with: context, where: predicate) { $0.resultType = resultType }
   }
-  // swiftlint:enable line_length
 
   /// **CoreDataPlus**
   ///
@@ -362,9 +361,8 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     configuration(batchRequest)
 
     do {
-      // swiftlint:disable force_cast
+      // swiftlint:disable:next force_cast
       return  try context.execute(batchRequest) as! NSBatchDeleteResult
-      // swiftlint:enable force_cast
     } catch {
       throw CoreDataPlusError.executionFailed(error: error)
     }

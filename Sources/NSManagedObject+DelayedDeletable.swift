@@ -114,12 +114,11 @@ extension NSFetchRequestResult where Self: NSManagedObject & DelayedDeletable {
   /// - Returns: a NSBatchDeleteResult result.
   /// - Throws: An error in cases of a batch delete operation failure.
   @available(iOS 9, tvOS 9, watchOS 2, macOS 10.12, *)
-  // swiftlint:disable line_length
+  // swiftlint:disable:next line_length
   public static func batchDeleteObjectsMarkedForDeletion(with context: NSManagedObjectContext, olderThan cutOffDate: Date = Date(timeIntervalSinceNow: -TimeInterval(120)), resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly) throws -> NSBatchDeleteResult {
     let predicate = NSPredicate(format: "%K <= %@", markedForDeletionKey, cutOffDate as NSDate)
 
     return try batchDeleteObjects(with: context, where: predicate, resultType: resultType)
   }
-  // swiftlint:enable line_length
 
 }
