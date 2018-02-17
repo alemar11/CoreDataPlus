@@ -21,6 +21,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+import CoreData
+import XCTest
 @testable import CoreDataPlus
 
 public enum SampleModelVersion: String {
@@ -38,6 +40,35 @@ extension SampleModelVersion: ModelVersion {
   public var modelBundle: Bundle {
     class Object {} // used to get the current bundle 🤓
     return Bundle(for: Object.self)
+  }
+
+  /// Hack-ish way to load the NSManagedObjectModel without using the Bundle.
+  public func managedObjectModel_swift_package_tests() -> NSManagedObjectModel {
+    let environment = ProcessInfo.processInfo.environment
+
+    guard
+      let path = environment["__XPC_DYLD_FRAMEWORK_PATH"],
+      let bundleName = environment["IDEiPhoneInternalTestBundleName"],
+      let url = URL(string: path)
+      else {
+        XCTFail("Missing enviroment values.")
+        fatalError()
+    }
+
+    let bundleUrl = url.appendingPathComponent(bundleName)
+
+    let momUrl: URL
+
+    #if os(macOS)
+      momUrl = bundleUrl.appendingPathComponent("Contents/Resources/")
+    #endif
+
+    momUrl = bundleUrl.appendingPathComponent("\(versionName).momd/\(versionName).mom")
+
+    XCTAssertTrue(FileManager.default.fileExists(atPath: momUrl.absoluteString.removingPercentEncoding!))
+    guard let model = NSManagedObjectModel(contentsOf: momUrl) else { preconditionFailure("Error initializing Managed Object Model: cannot open model at \(momUrl).") }
+
+    return model
   }
 
   public var modelName: String { return "SampleModel" }
