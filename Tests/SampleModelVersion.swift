@@ -43,6 +43,7 @@ extension SampleModelVersion: ModelVersion {
   }
 
   /// Hack-ish way to load the NSManagedObjectModel without using the Bundle.
+  /// - Note: This is not enought to run the spm tests because the enviroment doesn't contain the "required" values.
   public func managedObjectModel_swift_package_tests() -> NSManagedObjectModel {
     let environment = ProcessInfo.processInfo.environment
 
@@ -51,6 +52,7 @@ extension SampleModelVersion: ModelVersion {
       let bundleName = environment["IDEiPhoneInternalTestBundleName"],
       let url = URL(string: path)
       else {
+        print(environment)
         XCTFail("Missing enviroment values.")
         fatalError()
     }
@@ -60,10 +62,10 @@ extension SampleModelVersion: ModelVersion {
     let momUrl: URL
 
     #if os(macOS)
-      momUrl = bundleUrl.appendingPathComponent("Contents/Resources/")
+      momUrl = bundleUrl.appendingPathComponent("Contents/Resources/").appendingPathComponent("\(versionName).momd/\(versionName).mom")
+      #else
+      momUrl = bundleUrl.appendingPathComponent("\(versionName).momd/\(versionName).mom")
     #endif
-
-    momUrl = bundleUrl.appendingPathComponent("\(versionName).momd/\(versionName).mom")
 
     XCTAssertTrue(FileManager.default.fileExists(atPath: momUrl.absoluteString.removingPercentEncoding!))
     guard let model = NSManagedObjectModel(contentsOf: momUrl) else { preconditionFailure("Error initializing Managed Object Model: cannot open model at \(momUrl).") }
