@@ -27,8 +27,8 @@ extension ProcessInfo {
 
   /// **CoreDataPlus**
   ///
-  ///  Returns true if Unit Tests are running.
-  static var isRunningUnitTests: Bool {
+  ///  Returns true if Xcode Unit Tests are running.
+  static var isRunningXcodeUnitTests: Bool {
     return processInfo.environment["XCTestConfigurationFilePath"] != nil
 }
 
