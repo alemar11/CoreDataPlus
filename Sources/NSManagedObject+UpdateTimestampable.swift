@@ -38,7 +38,7 @@ extension UpdateTimestampable where Self: NSManagedObject {
   ///
   /// Protocol `UpdateTimestampable`.
   ///
-  /// Refreshes the update date iif the object has not unsaved update date.
+  /// Refreshes the update date if and only if the object has not unsaved update date.
   public func refreshUpdateDate() {
     guard changedValue(forKey: updateTimestampKey) == nil else { return }
     updatedAt = Date()
