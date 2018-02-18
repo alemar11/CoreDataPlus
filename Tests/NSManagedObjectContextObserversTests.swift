@@ -42,18 +42,18 @@ class NSManagedObjectContextObserversTests: XCTestCase {
       expectation1.fulfill()
     }
 
-    let token2 = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { Notification in
+    let token2 = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       expectation2.fulfill()
     }
 
-    let token3 = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { Notification in
+    let token3 = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
       expectation3.fulfill()
     }
 
     context.fillWithSampleData()
     try context.save()
 
-    wait(for: [expectation1, expectation2, expectation3], timeout: 2)
+    waitForExpectations(timeout: 2)
     XCTAssertFalse(context.hasChanges)
 
     notificationCenter.removeObserver(token1)
@@ -78,17 +78,17 @@ class NSManagedObjectContextObserversTests: XCTestCase {
       expectation1.fulfill()
     }
 
-    let token2 = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { Notification in
+    let token2 = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       expectation2.fulfill()
     }
 
-    let token3 = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { Notification in
+    let token3 = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
       expectation3.fulfill()
     }
 
     context.fillWithSampleData()
 
-    wait(for: [expectation1, expectation2, expectation3], timeout: 2)
+    waitForExpectations(timeout: 2)
     XCTAssertTrue(context.hasChanges)
 
     notificationCenter.removeObserver(token1)
@@ -99,7 +99,7 @@ class NSManagedObjectContextObserversTests: XCTestCase {
   func testObserversWhenWorkingOnAnotherContext() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let anotherContext = stack.mainContext.newBackgroundContext(asChildContext: false) // TODO add test with true
+    let anotherContext = stack.mainContext.newBackgroundContext(asChildContext: false)
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let expectation2 = expectation(description: "\(#function)\(#line)")
@@ -115,18 +115,18 @@ class NSManagedObjectContextObserversTests: XCTestCase {
       expectation1.fulfill()
     }
 
-    let token2 = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { Notification in
+    let token2 = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       expectation2.fulfill()
     }
 
-    let token3 = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { Notification in
+    let token3 = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
       expectation3.fulfill()
     }
 
     anotherContext.fillWithSampleData()
     try anotherContext.save()
 
-    wait(for: [expectation1, expectation2, expectation3], timeout: 2)
+    waitForExpectations(timeout: 2)
     XCTAssertFalse(context.hasChanges)
     XCTAssertFalse(anotherContext.hasChanges)
 
@@ -135,10 +135,49 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     notificationCenter.removeObserver(token3)
   }
 
-  func testObserverCountingChangedObjects() throws {
+  func testObserversWhenWorkingWithChildContext() throws {
+    let stack = CoreDataStack.stack()
+    let context = stack.mainContext
+    let anotherContext = stack.mainContext.newBackgroundContext(asChildContext: true)
+
+    let expectation1 = expectation(description: "\(#function)\(#line)")
+    let expectation2 = expectation(description: "\(#function)\(#line)")
+    let expectation3 = expectation(description: "\(#function)\(#line)")
+
+    expectation1.isInverted = true
+    expectation2.isInverted = true
+
+    let notificationCenter = NotificationCenter.default
+
+    let token1 = context.addContextWillSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+      expectation1.fulfill()
+    }
+
+    let token2 = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+      expectation2.fulfill()
+    }
+
+    let token3 = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
+      expectation3.fulfill()
+    }
+
+    anotherContext.fillWithSampleData()
+    try anotherContext.save()
+
+    waitForExpectations(timeout: 2)
+    XCTAssertTrue(context.hasChanges) // dirtied by the parent-child relationship
+    XCTAssertFalse(anotherContext.hasChanges)
+
+    notificationCenter.removeObserver(token1)
+    notificationCenter.removeObserver(token2)
+    notificationCenter.removeObserver(token3)
+  }
+
+  func testObserverEvaluatingChangedObjects() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
 
+    let expectation1 = expectation(description: "\(#function)\(#line)")
     let notificationCenter = NotificationCenter.default
 
     // Add and save some data in the context
@@ -155,7 +194,7 @@ class NSManagedObjectContextObserversTests: XCTestCase {
 
     person1_deleted.cars = Set([car1_deleted])
 
-     /// Elements to be updated: 3 Person + 1 Car
+    /// Elements to be updated: 3 Person + 1 Car
     let person1_updated = Person(context: context)
     person1_updated.firstName = "Andrea"
     person1_updated.lastName = "Marzoli"
@@ -189,14 +228,29 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     var invalidatedObjects = 0
     var invalidatedAllObjects = false
 
+    var didSaveDeletedObjects = 0
+    var didSaveInsertedObjects = 0
+    var didSaveUpdatedObjects = 0
+
     let token1 = context.addContextWillSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       XCTAssertEqual(notification.managedObjectContext, context)
-      //expectation1.fulfill()
+      expectation1.fulfill()
     }
 
     let token2 = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       XCTAssertEqual(notification.managedObjectContext, context)
-      //expectation2.fulfill()
+
+      for _ in notification.deletedObjects.enumerated() {
+        didSaveDeletedObjects += 1
+      }
+      for _ in notification.insertedObjects.enumerated() {
+        didSaveInsertedObjects += 1
+      }
+
+      for _ in notification.updatedObjects.enumerated() {
+        didSaveUpdatedObjects += 1
+      }
+
     }
 
     let token3 = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
@@ -207,7 +261,8 @@ class NSManagedObjectContextObserversTests: XCTestCase {
       updatedObjects += notification.updatedObjects.count
       refreshedObjects += notification.refreshedObjects.count
       invalidatedObjects += notification.invalidatedObjects.count
-      invalidatedAllObjects = invalidatedAllObjects && notification.invalidatedAllObjects
+
+      invalidatedAllObjects = invalidatedAllObjects || notification.invalidatedAllObjects
     }
 
     let person1_inserted = Person(context: context)
@@ -275,10 +330,161 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     XCTAssertEqual(updatedObjects, 4)
     XCTAssertEqual(refreshedObjects, 1)
     XCTAssertEqual(invalidatedObjects, 0)
+    XCTAssertEqual(didSaveDeletedObjects, 2)
+    XCTAssertEqual(didSaveInsertedObjects, 9)
+    XCTAssertEqual(didSaveUpdatedObjects, 4)
+
+    waitForExpectations(timeout: 2)
 
     notificationCenter.removeObserver(token1)
     notificationCenter.removeObserver(token2)
     notificationCenter.removeObserver(token3)
+  }
+
+  func testMerge() throws {
+    let stack = CoreDataStack.stack()
+    let context = stack.mainContext
+    let anotherContext = stack.mainContext.newBackgroundContext(asChildContext: false)
+
+    let expectation1 = expectation(description: "\(#function)\(#line)")
+    let expectation2 = expectation(description: "\(#function)\(#line)")
+    let expectation3 = expectation(description: "\(#function)\(#line)")
+
+    let notificationCenter = NotificationCenter.default
+
+    let token1 = anotherContext.addContextWillSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+      expectation1.fulfill()
+    }
+
+    let token2 = anotherContext.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+      debugPrint(notification)
+      context.performAndWaitMergeChanges(from: notification)
+
+      //      print(context.updatedObjects)
+      //      print(context.insertedObjects)
+      //      for o in context.registeredObjects {
+      //        if (o is Person) {
+      //          let p = o as! Person
+      //          print(p.firstName)
+      //          print(o.isFault)
+      //        }
+      //      }
+
+      expectation2.fulfill()
+    }
+
+    let token3 = anotherContext.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
+      expectation3.fulfill()
+    }
+
+    // http://mikeabdullah.net/merging-saved-changes-betwe.html
+    let person1_inserted = Person(context: context)
+    person1_inserted.firstName = "Edythe"
+    person1_inserted.lastName = "Moreton"
+
+    let person2_inserted = Person(context: context)
+    person2_inserted.firstName = "Ellis"
+    person2_inserted.lastName = "Khoury"
+
+    try context.save()
+
+    let persons = try Person.fetch(in: anotherContext)
+
+    for person in persons {
+      person.firstName += " Updated"
+    }
+    
+    let person3_inserted = Person(context: anotherContext)
+    person3_inserted.firstName = "Alessandro"
+    person3_inserted.lastName = "Marzoli"
+
+    try anotherContext.save()
+
+    waitForExpectations(timeout: 2)
+
+    XCTAssertFalse(anotherContext.hasChanges)
+    XCTAssertEqual(try Person.count(in: anotherContext), 3)
+
+    notificationCenter.removeObserver(token1)
+    notificationCenter.removeObserver(token2)
+    notificationCenter.removeObserver(token3)
+  }
+
+  func testNSFetchedResultController() throws {
+    let stack = CoreDataStack.stack()
+    let context = stack.mainContext
+
+    let person1_inserted = Person(context: context)
+    person1_inserted.firstName = "Edythe"
+    person1_inserted.lastName = "Moreton"
+
+    let person2_inserted = Person(context: context)
+    person2_inserted.firstName = "Ellis"
+    person2_inserted.lastName = "Khoury"
+
+    try context.save()
+
+    print(context.reset())
+    XCTAssertTrue(context.registeredObjects.isEmpty)
+
+    let request = Person.fetchRequest()
+    request.addSortDescriptors([])
+    let delegate = FetchedResultsControllerMockDelegate()
+    let frc = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+    frc.delegate = delegate
+    try frc.performFetch()
+
+    let expectation1 = expectation(description: "\(#function)\(#line)")
+    let notificationCenter = NotificationCenter.default
+    let anotherContext = stack.mainContext.newBackgroundContext(asChildContext: false)
+
+    let token1 = anotherContext.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+      context.performAndWaitMergeChanges(from: notification)
+      expectation1.fulfill()
+    }
+
+    let persons = try Person.fetch(in: anotherContext)
+
+    // Updating a faulted relationship
+    let car = SportCar(context: anotherContext)
+    car.maker = "BMW"
+    car.model = "M6 Coupe"
+    car.numberPlate = "200"
+    let firstPerson = persons.first!
+    firstPerson.cars = Set([car])
+
+    try anotherContext.save()
+
+    waitForExpectations(timeout: 2)
+
+    XCTAssertEqual(delegate.updatedObjects.count, 1)
+    let updatedObject = delegate.updatedObjects.first! as! Person
+    XCTAssertEqual(updatedObject.objectID, firstPerson.objectID)
+
+    notificationCenter.removeObserver(token1)
+  }
+
+  class FetchedResultsControllerMockDelegate: NSObject, NSFetchedResultsControllerDelegate {
+
+    var updatedObjects = [Any]()
+    var insertedObjects = [Any]()
+    var movedObjects = [Any]()
+    var deletedObjects = [Any]()
+
+    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+
+      switch (type) {
+      case .delete:
+        deletedObjects.append(anObject)
+      case .insert:
+        insertedObjects.append(anObject)
+      case .move:
+        movedObjects.append(anObject)
+      case .update:
+        updatedObjects.append(anObject)
+      }
+    }
+
   }
 
 }

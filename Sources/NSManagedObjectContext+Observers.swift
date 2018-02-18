@@ -30,7 +30,7 @@ public struct ContextDidSaveNotification {
   fileprivate let notification: Notification
 
   public init(notification: Notification) {
-    guard notification.name == .NSManagedObjectContextDidSave else { fatalError() }
+    guard notification.name == .NSManagedObjectContextDidSave else { fatalError("Invalid notification object.") }
     self.notification = notification
   }
 
@@ -55,13 +55,15 @@ public struct ContextDidSaveNotification {
     return iterator(forKey: NSDeletedObjectsKey)
   }
 
+  /// **CoreDataPlus**
+  ///
+  /// Returns the notification's `NSManagedObjectContext`.
   public var managedObjectContext: NSManagedObjectContext {
-    guard let context = notification.object as? NSManagedObjectContext else { fatalError("Invalid notification object") }
+    guard let context = notification.object as? NSManagedObjectContext else { fatalError("Invalid notification object.") }
     return context
   }
 
   private func iterator(forKey key: String) -> AnyIterator<NSManagedObject> {
-    //TODO: check this method
     guard let set = notification.userInfo?[key] as? NSSet else { return AnyIterator { nil } }
 
     var innerIterator = set.makeIterator()
@@ -97,8 +99,11 @@ public struct ContextWillSaveNotification {
     self.notification = notification
   }
 
+  /// **CoreDataPlus**
+  ///
+  /// Returns the notification's `NSManagedObjectContext`.
   public var managedObjectContext: NSManagedObjectContext {
-    guard let context = notification.object as? NSManagedObjectContext else { fatalError("Invalid notification object") }
+    guard let context = notification.object as? NSManagedObjectContext else { fatalError("Invalid notification object.") }
     return context
   }
 
@@ -112,7 +117,7 @@ public struct ObjectsDidChangeNotification {
 
   init(notification: Notification) {
     // Notification when objects in a context changed:  the user info dictionary contains information about the objects that changed and what changed
-    assert(notification.name == .NSManagedObjectContextObjectsDidChange)
+    guard notification.name == .NSManagedObjectContextObjectsDidChange else { fatalError("Invalid notification object.") }
     self.notification = notification
   }
 
@@ -132,6 +137,8 @@ public struct ObjectsDidChangeNotification {
 
   /// **CoreDataPlus**
   ///
+  ///
+  /// Returns a `Set`of objects that were marked for deletion during the previous event.
   public var deletedObjects: Set<NSManagedObject> {
     return objects(forKey: NSDeletedObjectsKey)
   }
@@ -157,8 +164,11 @@ public struct ObjectsDidChangeNotification {
     return (notification as Notification).userInfo?[NSInvalidatedAllObjectsKey] != nil
   }
 
+  /// **CoreDataPlus**
+  ///
+  /// Returns the notification's `NSManagedObjectContext`.
   public var managedObjectContext: NSManagedObjectContext {
-    guard let context = notification.object as? NSManagedObjectContext else { fatalError("Invalid notification object") }
+    guard let context = notification.object as? NSManagedObjectContext else { fatalError("Invalid notification object.") }
     return context
   }
 
@@ -168,13 +178,18 @@ public struct ObjectsDidChangeNotification {
 
 }
 
+// MARK: - NSManagedObjectContext
+
 extension NSManagedObjectContext {
 
   /// **CoreDataPlus**
   ///
-  /// A notification that the context completed a save.
-  /// Adds the given block to the default `NotificationCenter`'s dispatch table for the given context's did-save notifications.
-  /// - returns: An opaque object to act as the observer. This must be sent to the default `NotificationCenter`'s `removeObserver()`.
+  /// Adds the given block to a `NotificationCenter`'s dispatch table for the did-save notifications.
+  ///
+  /// - Parameters:
+  ///   - notificationCenter: The `NotificationCenter`
+  ///   - handler: The block to be executed when the notification triggers.
+  /// - Returns: An opaque object to act as the observer. This must be sent to the `NotificationCenter`'s `removeObserver()`.
   public func addContextDidSaveNotificationObserver(notificationCenter: NotificationCenter = .default, _ handler: @escaping (ContextDidSaveNotification) -> Void) -> NSObjectProtocol {
 
     return notificationCenter.addObserver(forName: .NSManagedObjectContextDidSave, object: self, queue: nil) { notfication in
@@ -185,9 +200,12 @@ extension NSManagedObjectContext {
 
   /// **CoreDataPlus**
   ///
-  /// A notification that the context is about to save.
-  /// Adds the given block to the default `NotificationCenter`'s dispatch table for the given context's will-save notifications.
-  /// - returns: An opaque object to act as the observer. This must be sent to the default `NotificationCenter`'s `removeObserver()`.
+  /// Adds the given block to a `NotificationCenter`'s dispatch table for the will-save notifications.
+  ///
+  /// - Parameters:
+  ///   - notificationCenter: The `NotificationCenter`
+  ///   - handler: The block to be executed when the notification triggers.
+  /// - Returns: An opaque object to act as the observer. This must be sent to the `NotificationCenter`'s `removeObserver()`.
   public func addContextWillSaveNotificationObserver(notificationCenter: NotificationCenter = .default, _ handler: @escaping (ContextWillSaveNotification) -> Void) -> NSObjectProtocol {
 
     return notificationCenter.addObserver(forName: .NSManagedObjectContextWillSave, object: self, queue: nil) { notfication in
@@ -198,9 +216,12 @@ extension NSManagedObjectContext {
 
   /// **CoreDataPlus**
   ///
-  /// A notification of changes made to managed objects associated with this context.
-  /// Adds the given block to the default `NotificationCenter`'s dispatch table for the given context's objects-did-change notifications.
-  /// - returns: An opaque object to act as the observer. This must be sent to the default `NotificationCenter`'s `removeObserver()`.
+  /// Adds the given block to a `NotificationCenter`'s dispatch table for the did-change notifications.
+  ///
+  /// - Parameters:
+  ///   - notificationCenter: The `NotificationCenter`
+  ///   - handler: The block to be executed when the notification triggers.
+  /// - Returns: An opaque object to act as the observer. This must be sent to the `NotificationCenter`'s `removeObserver()`.
   public func addObjectsDidChangeNotificationObserver(notificationCenter: NotificationCenter = .default, _ handler: @escaping (ObjectsDidChangeNotification) -> Void) -> NSObjectProtocol {
 
     return notificationCenter.addObserver(forName: .NSManagedObjectContextObjectsDidChange, object: self, queue: nil) { notfication in
@@ -209,10 +230,61 @@ extension NSManagedObjectContext {
     }
   }
 
-  public func performMergeChanges(from notification: ContextDidSaveNotification) {
+  /// **CoreDataPlus**
+  ///
+  /// Asynchronously merges the changes specified in a given notification.
+  ///
+  /// - Parameters:
+  ///   - notification: An instance of an `NSManagedObjectContextDidSave` notification posted by another context.
+  ///   - completion: The block to be executed after the merge completes.
+  public func performMergeChanges(from notification: ContextDidSaveNotification, completion: @escaping () -> Void = {}) {
     perform {
       self.mergeChanges(fromContextDidSave: notification.notification)
+      completion()
     }
+  }
+
+  /// **CoreDataPlus**
+  ///
+  /// Synchronously merges the changes specified in a given notification.
+  ///
+  /// - Parameters:
+  ///   - notification: An instance of an `NSManagedObjectContextDidSave` notification posted by another context.
+  ///   - completion: The block to be executed after the merge completes.
+  public func performAndWaitMergeChanges(from notification: ContextDidSaveNotification) {
+
+      performAndWait {
+        // Merge
+        self.mergeChanges(fromContextDidSave: notification.notification)
+      }
+
+    }
+
+  // TODO: unused, to be removed
+  private func mergeChanges(fromContextDidSave notification: ContextDidSaveNotification, faultingInUpdatedObjects: Bool = true) {
+    
+    // http://www.mlsite.net/blog/?p=518
+    // http://www.mlsite.net/blog/?p=518
+
+    if faultingInUpdatedObjects {
+      // Fault in all updated objects
+      notification.updatedObjects.map({ $0.objectID }).forEach { objectID in
+        guard let object = try? existingObject(with: objectID) else { return }
+        refresh(object, mergeChanges: false)
+      }
+
+      notification.insertedObjects.map({ $0.objectID }).forEach { objectID in
+        guard let object = try? existingObject(with: objectID) else {
+          return
+        }
+        print("\n\n ==== \n\n")
+          print(object.isFault)
+        refresh(object, mergeChanges: true)
+
+      }
+    }
+    // Merge
+    mergeChanges(fromContextDidSave: notification.notification)
   }
 
 }
