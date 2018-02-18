@@ -49,7 +49,7 @@ extension Person {
 
   public override func willSave() {
     super.willSave()
-    refreshUpdateDate()
+    refreshUpdateDate(observingChanges: false) // we don't want to get notified when this value changes.
   }
 
 }
