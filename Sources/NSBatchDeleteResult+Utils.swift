@@ -24,53 +24,53 @@
 import CoreData
 
 extension NSBatchDeleteResult {
-  
+
   /// **CoreDataPlus**
   ///
   /// Returns a dictionary containig all the deleted `NSManagedObjectID` instances.
   /// - Note: Make sure the resultType of the `NSBatchDeleteRequest` is set to `NSBatchDeleteRequestResultType.resultTypeObjectIDs` before the request is executed otherwise the value is nil.
   public var changes: [String: [NSManagedObjectID]]? {
-    
+
     switch resultType {
     case .resultTypeStatusOnly, .resultTypeCount:
       return nil
-      
+
     case .resultTypeObjectIDs:
       guard let objectIDs = result as? [NSManagedObjectID] else { return nil }
       let changes = [NSDeletedObjectsKey: objectIDs]
       return changes
     }
-    
+
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Returns the number of deleted objcts.
   /// - Note: Make sure the resultType of the `NSBatchDeleteRequest` is set to `NSBatchDeleteRequestResultType.resultTypeCount` before the request is executed otherwise the value is nil.
   public var count: Int? {
-    
+
     switch resultType {
     case .resultTypeStatusOnly, .resultTypeObjectIDs:
       return nil
-      
+
     case .resultTypeCount:
       return result as? Int
     }
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Returns `true` if the batc delete operation has been completed successfully.
   /// - Note: Make sure the resultType of the `NSBatchDeleteRequest` is set to `NSBatchDeleteRequestResultType.resultTypeStatusOnly` before the request is executed otherwise the value is nil.
   public var status: Bool? {
-    
+
     switch resultType {
     case .resultTypeCount, .resultTypeObjectIDs:
       return nil
-      
+
     case .resultTypeStatusOnly:
       return result as? Bool
     }
   }
-  
+
 }

@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2018 Tinrobots.
@@ -125,7 +125,7 @@ class NSManagedObjectContextObserversTests: XCTestCase {
 
     anotherContext.fillWithSampleData()
     try anotherContext.save()
-    
+
     wait(for: [expectation1, expectation2, expectation3], timeout: 2)
     XCTAssertFalse(context.hasChanges)
     XCTAssertFalse(anotherContext.hasChanges)
@@ -138,10 +138,6 @@ class NSManagedObjectContextObserversTests: XCTestCase {
   func testObserverCountingChangedObjects() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-
-//    let expectation1 = expectation(description: "\(#function)\(#line)")
-//    let expectation2 = expectation(description: "\(#function)\(#line)")
-//    let expectation3 = expectation(description: "\(#function)\(#line)")
 
     let notificationCenter = NotificationCenter.default
 
@@ -179,10 +175,19 @@ class NSManagedObjectContextObserversTests: XCTestCase {
 
     person1_updated.cars = Set([car1_updated])
 
+    /// Elements to be refreshed: 1 Person
+    let person1_refreshed = Person(context: context)
+    person1_updated.firstName = "Tin"
+    person1_updated.lastName = "Robots"
+
     try context.save()
 
     var deletedObjects = 0
     var insertedObjects = 0
+    var updatedObjects = 0
+    var refreshedObjects = 0
+    var invalidatedObjects = 0
+    var invalidatedAllObjects = false
 
     let token1 = context.addContextWillSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       XCTAssertEqual(notification.managedObjectContext, context)
@@ -198,18 +203,11 @@ class NSManagedObjectContextObserversTests: XCTestCase {
       XCTAssertEqual(notification.managedObjectContext, context)
 
       deletedObjects += notification.deletedObjects.count
-      for o in notification.deletedObjects {
-        print(o.isDeleted)
-      }
-      debugPrint(notification)
       insertedObjects += notification.insertedObjects.count
-
-      //XCTAssertEqual(notification.invalidatedObjects.count, 0) //--> 1
-      //XCTAssertEqual(notification.updatedObjects.count, 0) //--> 4
-      //XCTAssertEqual(notification.refreshedObjects.count, 0) //--> 3
-      //XCTAssertFalse(notification.invalidatedAllObjects)
-      //XCTAssertEqual(notification.insertedObjects.count, 9) // 3 persons + 6 cars
-      //expectation3.fulfill()
+      updatedObjects += notification.updatedObjects.count
+      refreshedObjects += notification.refreshedObjects.count
+      invalidatedObjects += notification.invalidatedObjects.count
+      invalidatedAllObjects = invalidatedAllObjects && notification.invalidatedAllObjects
     }
 
     let person1_inserted = Person(context: context)
@@ -260,16 +258,24 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     person2_inserted.cars = Set([car2_inserted, car3_inserted])
     person3_inserted.cars = Set([car4_inserted, car5_inserted, car6_inserted])
 
-
     context.delete(person1_deleted)
     context.delete(car1_deleted)
+
+    person1_updated.firstName += " Updated"
+    person2_updated.firstName += " Updated"
+    person3_updated.firstName += " Updated"
+    car1_updated.numberPlate! += " Updated"
+
+    person1_refreshed.refresh()
 
     try context.save()
 
     XCTAssertEqual(deletedObjects, 2)
     XCTAssertEqual(insertedObjects, 9)
+    XCTAssertEqual(updatedObjects, 4)
+    XCTAssertEqual(refreshedObjects, 1)
+    XCTAssertEqual(invalidatedObjects, 0)
 
-    //wait(for: [expectation1, expectation2, expectation3], timeout: 2)
     notificationCenter.removeObserver(token1)
     notificationCenter.removeObserver(token2)
     notificationCenter.removeObserver(token3)

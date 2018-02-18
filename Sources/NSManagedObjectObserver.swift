@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2018 Tinrobots.
@@ -30,7 +30,7 @@ final class ManagedObjectObserver {
     //case insert
   }
 
-  init?(object: NSManagedObject, changeHandler: @escaping (ChangeType) -> ()) {
+  init?(object: NSManagedObject, changeHandler: @escaping (ChangeType) -> Void) {
     guard let context = object.managedObjectContext else { return nil }
 
     token = context.addObjectsDidChangeNotificationObserver { [weak self] notification in

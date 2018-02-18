@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2018 Tinrobots.
@@ -102,7 +102,7 @@ public struct ContextWillSaveNotification {
 
 public struct ObjectsDidChangeNotification {
 
-  fileprivate let notification: Notification
+  private let notification: Notification
 
   init(notification: Notification) {
     // Notification when objects in a context changed:  the user info dictionary contains information about the objects that changed and what changed
@@ -110,10 +110,12 @@ public struct ObjectsDidChangeNotification {
     self.notification = notification
   }
 
+  /// Returns a `Set` of objects that were inserted into the context.
   public var insertedObjects: Set<NSManagedObject> {
     return objects(forKey: NSInsertedObjectsKey)
   }
 
+  /// Returns a `Set` of objects that were updated.
   public var updatedObjects: Set<NSManagedObject> {
     return objects(forKey: NSUpdatedObjectsKey)
   }
@@ -122,14 +124,17 @@ public struct ObjectsDidChangeNotification {
     return objects(forKey: NSDeletedObjectsKey)
   }
 
+  /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
   public var refreshedObjects: Set<NSManagedObject> {
     return objects(forKey: NSRefreshedObjectsKey)
   }
 
+  /// A `Set` of objects that were invalidated
   public var invalidatedObjects: Set<NSManagedObject> {
     return objects(forKey: NSInvalidatedObjectsKey)
   }
 
+  /// Returns `true` if all the objects in the context have been invalidated.
   public var invalidatedAllObjects: Bool {
     return (notification as Notification).userInfo?[NSInvalidatedAllObjectsKey] != nil
   }
@@ -139,7 +144,7 @@ public struct ObjectsDidChangeNotification {
     return context
   }
 
-  fileprivate func objects(forKey key: String) -> Set<NSManagedObject> {
+  private func objects(forKey key: String) -> Set<NSManagedObject> {
     return ((notification as Notification).userInfo?[key] as? Set<NSManagedObject>) ?? Set()
   }
 
@@ -150,7 +155,7 @@ extension NSManagedObjectContext {
   /// A notification that the context completed a save.
   /// Adds the given block to the default `NotificationCenter`'s dispatch table for the given context's did-save notifications.
   /// - returns: An opaque object to act as the observer. This must be sent to the default `NotificationCenter`'s `removeObserver()`.
-  public func addContextDidSaveNotificationObserver(notificationCenter: NotificationCenter = .default, _ handler: @escaping (ContextDidSaveNotification) -> ()) -> NSObjectProtocol {
+  public func addContextDidSaveNotificationObserver(notificationCenter: NotificationCenter = .default, _ handler: @escaping (ContextDidSaveNotification) -> Void) -> NSObjectProtocol {
 
     return notificationCenter.addObserver(forName: .NSManagedObjectContextDidSave, object: self, queue: nil) { notfication in
       let didSaveNotification = ContextDidSaveNotification(notification: notfication)
@@ -161,7 +166,7 @@ extension NSManagedObjectContext {
   /// A notification that the context is about to save.
   /// Adds the given block to the default `NotificationCenter`'s dispatch table for the given context's will-save notifications.
   /// - returns: An opaque object to act as the observer. This must be sent to the default `NotificationCenter`'s `removeObserver()`.
-  public func addContextWillSaveNotificationObserver(notificationCenter: NotificationCenter = .default, _ handler: @escaping (ContextWillSaveNotification) -> ()) -> NSObjectProtocol {
+  public func addContextWillSaveNotificationObserver(notificationCenter: NotificationCenter = .default, _ handler: @escaping (ContextWillSaveNotification) -> Void) -> NSObjectProtocol {
 
     return notificationCenter.addObserver(forName: .NSManagedObjectContextWillSave, object: self, queue: nil) { notfication in
       let willSaveNotification = ContextWillSaveNotification(notification: notfication)
@@ -172,7 +177,7 @@ extension NSManagedObjectContext {
   /// A notification of changes made to managed objects associated with this context.
   /// Adds the given block to the default `NotificationCenter`'s dispatch table for the given context's objects-did-change notifications.
   /// - returns: An opaque object to act as the observer. This must be sent to the default `NotificationCenter`'s `removeObserver()`.
-  public func addObjectsDidChangeNotificationObserver(notificationCenter: NotificationCenter = .default, _ handler: @escaping (ObjectsDidChangeNotification) -> ()) -> NSObjectProtocol {
+  public func addObjectsDidChangeNotificationObserver(notificationCenter: NotificationCenter = .default, _ handler: @escaping (ObjectsDidChangeNotification) -> Void) -> NSObjectProtocol {
 
     return notificationCenter.addObserver(forName: .NSManagedObjectContextObjectsDidChange, object: self, queue: nil) { notfication in
       let didChangeNotification = ObjectsDidChangeNotification(notification: notfication)
