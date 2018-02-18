@@ -34,16 +34,22 @@ public struct ContextDidSaveNotification {
     self.notification = notification
   }
 
+  /// **CoreDataPlus**
+  ///
   /// Returns a `Set` of objects that were inserted into the context.
   public var insertedObjects: AnyIterator<NSManagedObject> {
     return iterator(forKey: NSInsertedObjectsKey)
   }
 
+  /// **CoreDataPlus**
+  ///
   /// Returns a `Set` of objects that were updated.
   public var updatedObjects: AnyIterator<NSManagedObject> {
     return iterator(forKey: NSUpdatedObjectsKey)
   }
 
+  /// **CoreDataPlus**
+  ///
   /// Returns a `Set`of objects that were marked for deletion during the previous event.
   public var deletedObjects: AnyIterator<NSManagedObject> {
     return iterator(forKey: NSDeletedObjectsKey)
@@ -54,7 +60,7 @@ public struct ContextDidSaveNotification {
     return context
   }
 
-  fileprivate func iterator(forKey key: String) -> AnyIterator<NSManagedObject> {
+  private func iterator(forKey key: String) -> AnyIterator<NSManagedObject> {
     //TODO: check this method
     guard let set = notification.userInfo?[key] as? NSSet else { return AnyIterator { nil } }
 
@@ -110,30 +116,42 @@ public struct ObjectsDidChangeNotification {
     self.notification = notification
   }
 
+  /// **CoreDataPlus**
+  ///
   /// Returns a `Set` of objects that were inserted into the context.
   public var insertedObjects: Set<NSManagedObject> {
     return objects(forKey: NSInsertedObjectsKey)
   }
 
+  /// **CoreDataPlus**
+  ///
   /// Returns a `Set` of objects that were updated.
   public var updatedObjects: Set<NSManagedObject> {
     return objects(forKey: NSUpdatedObjectsKey)
   }
 
+  /// **CoreDataPlus**
+  ///
   public var deletedObjects: Set<NSManagedObject> {
     return objects(forKey: NSDeletedObjectsKey)
   }
 
+  /// **CoreDataPlus**
+  ///
   /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
   public var refreshedObjects: Set<NSManagedObject> {
     return objects(forKey: NSRefreshedObjectsKey)
   }
 
+  /// **CoreDataPlus**
+  ///
   /// A `Set` of objects that were invalidated
   public var invalidatedObjects: Set<NSManagedObject> {
     return objects(forKey: NSInvalidatedObjectsKey)
   }
 
+  /// **CoreDataPlus**
+  ///
   /// Returns `true` if all the objects in the context have been invalidated.
   public var invalidatedAllObjects: Bool {
     return (notification as Notification).userInfo?[NSInvalidatedAllObjectsKey] != nil
@@ -152,6 +170,8 @@ public struct ObjectsDidChangeNotification {
 
 extension NSManagedObjectContext {
 
+  /// **CoreDataPlus**
+  ///
   /// A notification that the context completed a save.
   /// Adds the given block to the default `NotificationCenter`'s dispatch table for the given context's did-save notifications.
   /// - returns: An opaque object to act as the observer. This must be sent to the default `NotificationCenter`'s `removeObserver()`.
@@ -163,6 +183,8 @@ extension NSManagedObjectContext {
     }
   }
 
+  /// **CoreDataPlus**
+  ///
   /// A notification that the context is about to save.
   /// Adds the given block to the default `NotificationCenter`'s dispatch table for the given context's will-save notifications.
   /// - returns: An opaque object to act as the observer. This must be sent to the default `NotificationCenter`'s `removeObserver()`.
@@ -174,6 +196,8 @@ extension NSManagedObjectContext {
     }
   }
 
+  /// **CoreDataPlus**
+  ///
   /// A notification of changes made to managed objects associated with this context.
   /// Adds the given block to the default `NotificationCenter`'s dispatch table for the given context's objects-did-change notifications.
   /// - returns: An opaque object to act as the observer. This must be sent to the default `NotificationCenter`'s `removeObserver()`.
