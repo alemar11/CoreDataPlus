@@ -475,7 +475,6 @@ class NSManagedObjectContextObserversTests: XCTestCase {
 
     try context.save()
 
-    print(context.reset())
     XCTAssertTrue(context.registeredObjects.isEmpty)
 
     let request = Person.fetchRequest()
