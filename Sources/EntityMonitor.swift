@@ -33,7 +33,7 @@ public protocol EntityObserverDelegate: class {
   ///
   /// - parameter observer: The `EntityObserver` posting the callback.
   /// - parameter entities: The set of inserted objects.
-  func entityObserver(_ observer: EntityObserver<ManagedObject>, inserted: Set<ManagedObject>)
+  func entityMonitor(_ monitor: EntityMonitor<ManagedObject>, inserted: Set<ManagedObject>)
 
   /// **CoreDataPlus**
   ///
@@ -41,7 +41,7 @@ public protocol EntityObserverDelegate: class {
   ///
   /// - parameter observer: The `EntityObserver` posting the callback.
   /// - parameter entities: The set of deleted objects.
-  func entityObserver(_ observer: EntityObserver<ManagedObject>, deleted: Set<ManagedObject>)
+  func entityEntityMonitor(_ monitor: EntityMonitor<ManagedObject>, deleted: Set<ManagedObject>)
 
   /// **CoreDataPlus**
   ///
@@ -49,7 +49,7 @@ public protocol EntityObserverDelegate: class {
   ///
   /// - parameter observer: The `EntityObserver` posting the callback.
   /// - parameter entities: The set of updated objects.
-  func entityObserver(_ observer: EntityObserver<ManagedObject>, updated: Set<ManagedObject>)
+  func entityMonitor(_ monitor: EntityMonitor<ManagedObject>, updated: Set<ManagedObject>)
 }
 
 /// **CoreDataPlus**
@@ -78,31 +78,31 @@ public class AnyEntityObserverDelegate<T: NSManagedObject>: EntityObserverDelega
   fileprivate typealias EntitySet = Set<T>
   public typealias ManagedObject = T
 
-  private let _deleted: (EntityObserver<T>, Set<T>) -> ()
-  private let _inserted: (EntityObserver<T>, Set<T>) -> ()
-  private let _updated: (EntityObserver<T>, Set<T>) -> ()
+  private let _deleted: (EntityMonitor<T>, Set<T>) -> ()
+  private let _inserted: (EntityMonitor<T>, Set<T>) -> ()
+  private let _updated: (EntityMonitor<T>, Set<T>) -> ()
 
   public required init<D: EntityObserverDelegate>(_ delegate: D) where D.ManagedObject == T {
-    _deleted = delegate.entityObserver(_:deleted:)
-    _inserted = delegate.entityObserver(_:inserted:)
-    _updated = delegate.entityObserver(_:updated:)
+    _deleted = delegate.entityEntityMonitor(_:deleted:)
+    _inserted = delegate.entityMonitor(_:inserted:)
+    _updated = delegate.entityMonitor(_:updated:)
   }
 
-  public func entityObserver(_ observer: EntityObserver<T>, inserted: Set<T>) {
+  public func entityMonitor(_ observer: EntityMonitor<T>, inserted: Set<T>) {
     _deleted(observer, inserted)
   }
 
-  public func entityObserver(_ observer: EntityObserver<T>, deleted: Set<T>) {
+  public func entityEntityMonitor(_ observer: EntityMonitor<T>, deleted: Set<T>) {
     _deleted(observer, deleted)
   }
 
-  public func entityObserver(_ observer: EntityObserver<T>, updated: Set<T>) {
+  public func entityMonitor(_ observer: EntityMonitor<T>, updated: Set<T>) {
     _updated(observer, updated)
   }
 
 }
 
-public class EntityObserver<T: NSManagedObject> {
+public class EntityMonitor<T: NSManagedObject> {
 
   fileprivate typealias EntitySet = Set<T>
 
@@ -201,15 +201,15 @@ public class EntityObserver<T: NSManagedObject> {
     guard let delegate = delegate else { return }
 
     if !inserted.isEmpty {
-      delegate.entityObserver(self, inserted: inserted)
+      delegate.entityMonitor(self, inserted: inserted)
     }
 
     if !deleted.isEmpty {
-      delegate.entityObserver(self, deleted: deleted)
+      delegate.entityEntityMonitor(self, deleted: deleted)
     }
 
     if !updated.isEmpty {
-      delegate.entityObserver(self, updated: updated)
+      delegate.entityMonitor(self, updated: updated)
     }
   }
 

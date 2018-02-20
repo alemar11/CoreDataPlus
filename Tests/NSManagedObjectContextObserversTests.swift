@@ -274,16 +274,9 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     let token2 = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       XCTAssertEqual(notification.managedObjectContext, context)
 
-      for _ in notification.deletedObjects.enumerated() {
-        didSaveDeletedObjects += 1
-      }
-      for _ in notification.insertedObjects.enumerated() {
-        didSaveInsertedObjects += 1
-      }
-
-      for _ in notification.updatedObjects.enumerated() {
-        didSaveUpdatedObjects += 1
-      }
+      didSaveDeletedObjects += notification.deletedObjects.count
+      didSaveInsertedObjects += notification.insertedObjects.count
+      didSaveUpdatedObjects += notification.updatedObjects.count
 
     }
 
