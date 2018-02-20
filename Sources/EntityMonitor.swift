@@ -162,19 +162,22 @@ public class EntityObserver<T: NSManagedObject> {
     tokens.removeAll()
   }
 
-  private func setupObservers(){
+  private func setupObservers() {
+    func process(_ value: Set<NSManagedObject>) -> EntitySet {
+      return (value as NSSet).filtered(using: combinedPredicate) as? EntitySet ?? []
+    }
+
     if frequency.contains(.onChange) {
       let token = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { [weak self] notification in
         guard let `self` = self else { return }
 
-        self.context.performAndWait { [predicate = self.combinedPredicate] in
-          func process(_ value: Set<NSManagedObject>) -> EntitySet {
-            return (value as NSSet).filtered(using: predicate) as? EntitySet ?? []
-          }
+        self.context.performAndWait {
           //TODO: DRY
           let deleted = process(notification.deletedObjects)
           let inserted = process(notification.insertedObjects)
           let updated = process(notification.updatedObjects)
+          let invalidated = process(notification.invalidatedObjects)
+          //let invalidatedAll = process(notification.invalidatedAllObjects)
 
           self.handleChanges(inserted: inserted, deleted: deleted, updated: updated)
         }
@@ -186,7 +189,9 @@ public class EntityObserver<T: NSManagedObject> {
     if frequency.contains(.onSave) {
       let token = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { [weak self] notification in
         guard let `self` = self else { return }
-        //TODO:
+        self.context.performAndWait {
+          //TODO:
+        }
       }
       tokens.append(token)
     }

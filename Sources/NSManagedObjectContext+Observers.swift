@@ -32,7 +32,7 @@ public struct ContextDidSaveNotification {
   fileprivate let notification: Notification
 
   public init(notification: Notification) {
-    guard notification.name == .NSManagedObjectContextDidSave else { fatalError("Invalid notification object.") }
+    guard notification.name == .NSManagedObjectContextDidSave else { fatalError("Invalid NSManagedObjectContextDidSave notification object.") }
     self.notification = notification
   }
 
@@ -97,7 +97,7 @@ public struct ContextWillSaveNotification {
   fileprivate let notification: Notification
 
   public init(notification: Notification) {
-    assert(notification.name == .NSManagedObjectContextWillSave)
+    guard notification.name == .NSManagedObjectContextWillSave else { fatalError("Invalid NSManagedObjectContextWillSave notification object.") }
     self.notification = notification
   }
 
@@ -119,7 +119,7 @@ public struct ObjectsDidChangeNotification {
 
   init(notification: Notification) {
     // Notification when objects in a context changed:  the user info dictionary contains information about the objects that changed and what changed
-    guard notification.name == .NSManagedObjectContextObjectsDidChange else { fatalError("Invalid notification object.") }
+    guard notification.name == .NSManagedObjectContextObjectsDidChange else { fatalError("Invalid NSManagedObjectContextObjectsDidChange notification object.") }
     self.notification = notification
   }
 
@@ -163,7 +163,7 @@ public struct ObjectsDidChangeNotification {
   ///
   /// Returns `true` if all the objects in the context have been invalidated.
   public var invalidatedAllObjects: Bool {
-    return (notification as Notification).userInfo?[NSInvalidatedAllObjectsKey] != nil
+    return (notification as Notification).userInfo?[NSInvalidatedAllObjectsKey] != nil //TODO: returns a set?
   }
 
   /// **CoreDataPlus**

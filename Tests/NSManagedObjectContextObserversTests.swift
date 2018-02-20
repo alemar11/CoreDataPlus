@@ -65,6 +65,36 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     notificationCenter.removeObserver(token3)
   }
 
+  func testInvalidatedAllObjects() throws {
+    let stack = CoreDataStack.stack()
+    let context = stack.mainContext
+
+    let expectation1 = expectation(description: "\(#function)\(#line)")
+
+    let notificationCenter = NotificationCenter.default
+
+    let token1 = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
+      XCTAssertTrue(notification.invalidatedAllObjects)
+      XCTAssertEqual(notification.invalidatedObjects.count, 0)
+      expectation1.fulfill()
+    }
+
+    let person1_inserted: Person = Person(context: context)
+    person1_inserted.firstName = "Edythe"
+    person1_inserted.lastName = "Moreton"
+
+    let person2_inserted = Person(context: context)
+    person2_inserted.firstName = "Ellis"
+    person2_inserted.lastName = "Khoury"
+
+    context.reset()
+
+    waitForExpectations(timeout: 2)
+    XCTAssertFalse(context.hasChanges)
+
+    notificationCenter.removeObserver(token1)
+  }
+
   func testObserversWithoutSaving() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
@@ -474,7 +504,7 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     person2_inserted.lastName = "Khoury"
 
     try context.save()
-
+    context.reset()
     XCTAssertTrue(context.registeredObjects.isEmpty)
 
     let request = Person.fetchRequest()
