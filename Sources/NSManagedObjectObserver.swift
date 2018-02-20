@@ -30,9 +30,13 @@ final class ManagedObjectObserver {
     //case insert
   }
 
-  init?(object: NSManagedObject, changeHandler: @escaping (ChangeType) -> Void) {
+  private let notificationCenter: NotificationCenter
+  private var token: NSObjectProtocol!
+
+  init?(object: NSManagedObject, notificationCenter: NotificationCenter = .default, changeHandler: @escaping (ChangeType) -> Void) {
     guard let context = object.managedObjectContext else { return nil }
 
+    self.notificationCenter = notificationCenter
     token = context.addObjectsDidChangeNotificationObserver { [weak self] notification in
       guard let changeType = self?.changeType(of: object, in: notification) else { return }
       changeHandler(changeType)
@@ -44,8 +48,6 @@ final class ManagedObjectObserver {
   }
 
   // MARK: Private
-
-  fileprivate var token: NSObjectProtocol!
 
   fileprivate func changeType(of object: NSManagedObject, in notification: ObjectsDidChangeNotification) -> ChangeType? {
     let deleted = notification.deletedObjects.union(notification.invalidatedObjects)
@@ -64,7 +66,7 @@ final class ManagedObjectObserver {
   }
 }
 
-extension Sequence where Iterator.Element: AnyObject {
+private extension Sequence where Iterator.Element: AnyObject {
   func containsObjectIdentical(to object: AnyObject) -> Bool {
     return contains { $0 === object }
   }
