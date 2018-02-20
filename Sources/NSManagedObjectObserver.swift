@@ -27,7 +27,6 @@ final class ManagedObjectObserver {
   enum ChangeType {
     case delete
     case update
-    //case insert
   }
 
   private let notificationCenter: NotificationCenter

@@ -23,6 +23,8 @@
 
 import CoreData
 
+// Note: Since we receive these notifications only when we change manually a NSManagedObject, we don’t trigger them if we execute NSBatchUpdateRequest/NSBatchDeleteRequest.
+
 // MARK: - NSManagedObjectContextDidSave
 
 public struct ContextDidSaveNotification {
