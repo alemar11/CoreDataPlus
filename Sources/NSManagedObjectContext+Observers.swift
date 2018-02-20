@@ -252,39 +252,9 @@ extension NSManagedObjectContext {
   ///   - notification: An instance of an `NSManagedObjectContextDidSave` notification posted by another context.
   ///   - completion: The block to be executed after the merge completes.
   public func performAndWaitMergeChanges(from notification: ContextDidSaveNotification) {
-
-      performAndWait {
-        // Merge
-        self.mergeChanges(fromContextDidSave: notification.notification)
-      }
-
+    performAndWait {
+      self.mergeChanges(fromContextDidSave: notification.notification)
     }
-
-  // TODO: unused, to be removed
-  private func mergeChanges(fromContextDidSave notification: ContextDidSaveNotification, faultingInUpdatedObjects: Bool = true) {
-    
-    // http://www.mlsite.net/blog/?p=518
-    // http://www.mlsite.net/blog/?p=518
-
-    if faultingInUpdatedObjects {
-      // Fault in all updated objects
-      notification.updatedObjects.map({ $0.objectID }).forEach { objectID in
-        guard let object = try? existingObject(with: objectID) else { return }
-        refresh(object, mergeChanges: false)
-      }
-
-      notification.insertedObjects.map({ $0.objectID }).forEach { objectID in
-        guard let object = try? existingObject(with: objectID) else {
-          return
-        }
-        print("\n\n ==== \n\n")
-          print(object.isFault)
-        refresh(object, mergeChanges: true)
-
-      }
-    }
-    // Merge
-    mergeChanges(fromContextDidSave: notification.notification)
   }
 
 }
