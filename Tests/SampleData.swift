@@ -228,25 +228,25 @@ extension NSManagedObjectContext {
     expensiveSportCar2.maker = "Mercedes-Benz "
     expensiveSportCar2.model = "AMG GT S"
     expensiveSportCar2.numberPlate = "301"
-    expensiveSportCar1.isLimitedEdition = true
+    expensiveSportCar2.isLimitedEdition = true
 
     let expensiveSportCar3 = ExpensiveSportCar(context: context)
     expensiveSportCar3.maker = "Maserati"
     expensiveSportCar3.model = "GranTurismo MC"
     expensiveSportCar3.numberPlate = "302"
-    expensiveSportCar1.isLimitedEdition = false
+    expensiveSportCar3.isLimitedEdition = false
 
     let expensiveSportCar4 = ExpensiveSportCar(context: context)
     expensiveSportCar4.maker = "McLaren"
     expensiveSportCar4.model = "570GT"
     expensiveSportCar4.numberPlate = "303"
-    expensiveSportCar1.isLimitedEdition = false
+    expensiveSportCar4.isLimitedEdition = false
 
     let expensiveSportCar5 = ExpensiveSportCar(context: context)
     expensiveSportCar5.maker = "Lamborghini"
     expensiveSportCar5.model = "Aventador LP750-4"
     expensiveSportCar5.numberPlate = "304"
-    expensiveSportCar1.isLimitedEdition = false
+    expensiveSportCar5.isLimitedEdition = false
 
     /// car15, sportCar5, expensiveSportCar4 and expensiveSportCar5 do not have an owner
     person1.cars = [car1]
