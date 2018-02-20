@@ -21,6 +21,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+// Readings:
+// http://mikeabdullah.net/merging-saved-changes-betwe.html
+// http://www.mlsite.net/blog/?p=518
+
 import XCTest
 import CoreData
 @testable import CoreDataPlus
@@ -359,17 +363,6 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     let token2 = anotherContext.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       debugPrint(notification)
       context.performAndWaitMergeChanges(from: notification)
-
-      //      print(context.updatedObjects)
-      //      print(context.insertedObjects)
-      //      for o in context.registeredObjects {
-      //        if (o is Person) {
-      //          let p = o as! Person
-      //          print(p.firstName)
-      //          print(o.isFault)
-      //        }
-      //      }
-
       expectation2.fulfill()
     }
 
@@ -377,7 +370,6 @@ class NSManagedObjectContextObserversTests: XCTestCase {
       expectation3.fulfill()
     }
 
-    // http://mikeabdullah.net/merging-saved-changes-betwe.html
     let person1_inserted = Person(context: context)
     person1_inserted.firstName = "Edythe"
     person1_inserted.lastName = "Moreton"
@@ -401,7 +393,66 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     try anotherContext.save()
 
     waitForExpectations(timeout: 2)
+    XCTAssertFalse(context.hasChanges)
+    XCTAssertFalse(anotherContext.hasChanges)
+    XCTAssertEqual(try Person.count(in: anotherContext), 3)
 
+    notificationCenter.removeObserver(token1)
+    notificationCenter.removeObserver(token2)
+    notificationCenter.removeObserver(token3)
+  }
+
+  func testAsyncMerge() throws {
+    let stack = CoreDataStack.stack()
+    let context = stack.mainContext
+    let anotherContext = stack.mainContext.newBackgroundContext(asChildContext: false)
+
+    let expectation1 = expectation(description: "\(#function)\(#line)")
+    let expectation2 = expectation(description: "\(#function)\(#line)")
+    let expectation3 = expectation(description: "\(#function)\(#line)")
+
+    let notificationCenter = NotificationCenter.default
+
+    let token1 = anotherContext.addContextWillSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+      expectation1.fulfill()
+    }
+
+    let token2 = anotherContext.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+      debugPrint(notification)
+      context.performMergeChanges(from: notification, completion: {
+        expectation2.fulfill()
+      })
+
+    }
+
+    let token3 = anotherContext.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
+      expectation3.fulfill()
+    }
+
+    let person1_inserted = Person(context: context)
+    person1_inserted.firstName = "Edythe"
+    person1_inserted.lastName = "Moreton"
+
+    let person2_inserted = Person(context: context)
+    person2_inserted.firstName = "Ellis"
+    person2_inserted.lastName = "Khoury"
+
+    try context.save()
+
+    let persons = try Person.fetch(in: anotherContext)
+
+    for person in persons {
+      person.firstName += " Updated"
+    }
+
+    let person3_inserted = Person(context: anotherContext)
+    person3_inserted.firstName = "Alessandro"
+    person3_inserted.lastName = "Marzoli"
+
+    try anotherContext.save()
+
+    waitForExpectations(timeout: 2)
+    XCTAssertFalse(context.hasChanges)
     XCTAssertFalse(anotherContext.hasChanges)
     XCTAssertEqual(try Person.count(in: anotherContext), 3)
 
