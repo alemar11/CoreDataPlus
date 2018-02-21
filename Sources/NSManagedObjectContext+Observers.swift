@@ -43,6 +43,23 @@ public extension NSManagedObjectContextNotification {
   }
 }
 
+public protocol NSManagedObjectContextObserving_: NSManagedObjectContextNotification {
+  /// **CoreDataPlus**
+  ///
+  /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
+  var refreshedObjects: Set<NSManagedObject> { get }
+
+    /// **CoreDataPlus**
+    ///
+    /// A `Set` of objects that were invalidated.
+  var invalidatedObjects: Set<NSManagedObject> { get }
+
+  //  /// **CoreDataPlus**
+  //  ///
+  //  /// Returns `true` if all the objects in the context have been invalidated.
+  var invalidatedAllObjects: Bool { get }
+}
+
 public protocol NSManagedObjectContextObserving: NSManagedObjectContextNotification {
   /// **CoreDataPlus**
   ///
@@ -59,18 +76,26 @@ public protocol NSManagedObjectContextObserving: NSManagedObjectContextNotificat
   /// Returns a `Set`of objects that were marked for deletion during the previous event.
   var deletedObjects: Set<NSManagedObject> { get }
 
-//  /// **CoreDataPlus**
-//  ///
-//  /// A `Set` of objects that were invalidated
-//  var invalidatedObjects: Set<NSManagedObject> { get }
-//
-//  /// **CoreDataPlus**
-//  ///
-//  /// Returns `true` if all the objects in the context have been invalidated.
-//  var invalidatedAllObjects: Bool { get }
+  //  /// **CoreDataPlus**
+  //  ///
+  //  /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
+  //  public var refreshedObjects: Set<NSManagedObject> {
+  //    return objects(forKey: NSRefreshedObjectsKey)
+  //  }
+  //
+  //  /// **CoreDataPlus**
+  //  ///
+  //  /// A `Set` of objects that were invalidated
+  //  var invalidatedObjects: Set<NSManagedObject> { get }
+  //
+  //  /// **CoreDataPlus**
+  //  ///
+  //  /// Returns `true` if all the objects in the context have been invalidated.
+  //  var invalidatedAllObjects: Bool { get }
 }
 
 extension NSManagedObjectContextObserving {
+
   public var insertedObjects: Set<NSManagedObject> {
     return objects(forKey: NSInsertedObjectsKey)
   }
@@ -131,12 +156,12 @@ public struct ContextDidSaveNotification {
     return (notification.userInfo?[key] as? Set<NSManagedObject>) ?? Set()
   }
 
-//  private func iterator(forKey key: String) -> AnyIterator<NSManagedObject> {
-//    guard let set = notification.userInfo?[key] as? NSSet else { return AnyIterator { nil } }
-//
-//    var innerIterator = set.makeIterator()
-//    return AnyIterator { return innerIterator.next() as? NSManagedObject }
-//  }
+  //  private func iterator(forKey key: String) -> AnyIterator<NSManagedObject> {
+  //    guard let set = notification.userInfo?[key] as? NSSet else { return AnyIterator { nil } }
+  //
+  //    var innerIterator = set.makeIterator()
+  //    return AnyIterator { return innerIterator.next() as? NSManagedObject }
+  //  }
 
 }
 
@@ -260,8 +285,8 @@ extension NSManagedObjectContext {
   /// - Returns: An opaque object to act as the observer. This must be sent to the `NotificationCenter`'s `removeObserver()`.
   public func addContextDidSaveNotificationObserver(notificationCenter: NotificationCenter = .default, _ handler: @escaping (ContextDidSaveNotification) -> Void) -> NSObjectProtocol {
 
-    return notificationCenter.addObserver(forName: .NSManagedObjectContextDidSave, object: self, queue: nil) { notfication in
-      let didSaveNotification = ContextDidSaveNotification(notification: notfication)
+    return notificationCenter.addObserver(forName: .NSManagedObjectContextDidSave, object: self, queue: nil) { notification in
+      let didSaveNotification = ContextDidSaveNotification(notification: notification)
       handler(didSaveNotification)
     }
   }
@@ -276,8 +301,8 @@ extension NSManagedObjectContext {
   /// - Returns: An opaque object to act as the observer. This must be sent to the `NotificationCenter`'s `removeObserver()`.
   public func addContextWillSaveNotificationObserver(notificationCenter: NotificationCenter = .default, _ handler: @escaping (ContextWillSaveNotification) -> Void) -> NSObjectProtocol {
 
-    return notificationCenter.addObserver(forName: .NSManagedObjectContextWillSave, object: self, queue: nil) { notfication in
-      let willSaveNotification = ContextWillSaveNotification(notification: notfication)
+    return notificationCenter.addObserver(forName: .NSManagedObjectContextWillSave, object: self, queue: nil) { notification in
+      let willSaveNotification = ContextWillSaveNotification(notification: notification)
       handler(willSaveNotification)
     }
   }
@@ -292,8 +317,8 @@ extension NSManagedObjectContext {
   /// - Returns: An opaque object to act as the observer. This must be sent to the `NotificationCenter`'s `removeObserver()`.
   public func addObjectsDidChangeNotificationObserver(notificationCenter: NotificationCenter = .default, _ handler: @escaping (ObjectsDidChangeNotification) -> Void) -> NSObjectProtocol {
 
-    return notificationCenter.addObserver(forName: .NSManagedObjectContextObjectsDidChange, object: self, queue: nil) { notfication in
-      let didChangeNotification = ObjectsDidChangeNotification(notification: notfication)
+    return notificationCenter.addObserver(forName: .NSManagedObjectContextObjectsDidChange, object: self, queue: nil) { notification in
+      let didChangeNotification = ObjectsDidChangeNotification(notification: notification)
       handler(didChangeNotification)
     }
   }

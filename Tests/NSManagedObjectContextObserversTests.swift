@@ -376,6 +376,8 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let expectation2 = expectation(description: "\(#function)\(#line)")
     let expectation3 = expectation(description: "\(#function)\(#line)")
+    let expectation4 = expectation(description: "\(#function)\(#line)")
+    let expectation5 = expectation(description: "\(#function)\(#line)")
 
     let notificationCenter = NotificationCenter.default
 
@@ -384,12 +386,22 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     }
 
     let token2 = anotherContext.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
-      debugPrint(notification)
-      context.performAndWaitMergeChanges(from: notification)
+      //debugPrint(notification) //TODO: test this string?
+      XCTAssertEqual(notification.updatedObjects.count, 2)
+      XCTAssertEqual(notification.insertedObjects.count, 1)
+
+      // [1] - When you perform changes in this way, you will get changes in NSRefreshedObjectsKey in "context"
+      context.performAndWaitMergeChanges(from: notification) // it will fire [2]
+      context.performAndWait {
+        try! context.save() // it will fire [3]
+      }
       expectation2.fulfill()
     }
 
     let token3 = anotherContext.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
+      XCTAssertEqual(notification.refreshedObjects.count, 0)
+      XCTAssertEqual(notification.updatedObjects.count, 2)
+      XCTAssertEqual(notification.insertedObjects.count, 1)
       expectation3.fulfill()
     }
 
@@ -403,6 +415,22 @@ class NSManagedObjectContextObserversTests: XCTestCase {
 
     try context.save()
 
+    let token4 = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
+      // [2] - updates in "anotherContext", in "context", are represented as refreshed objects, inserts are represented as inserts in both contexts.
+      XCTAssertEqual(notification.refreshedObjects.count, 2)
+      XCTAssertEqual(notification.updatedObjects.count, 0)
+      XCTAssertEqual(notification.insertedObjects.count, 1)
+      expectation4.fulfill()
+    }
+
+    let token5 = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+      // Before saving, we didn't changed anything: we don't expect nothing from this notification.
+      XCTAssertEqual(notification.insertedObjects.count, 0)
+      XCTAssertEqual(notification.updatedObjects.count, 0)
+      XCTAssertEqual(notification.deletedObjects.count, 0)
+      expectation5.fulfill()
+    }
+
     let persons = try Person.fetch(in: anotherContext)
 
     for person in persons {
@@ -413,9 +441,11 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     person3_inserted.firstName = "Alessandro"
     person3_inserted.lastName = "Marzoli"
 
-    try anotherContext.save()
+    anotherContext.performAndWait {
+      try! anotherContext.save() // it will fire [1]
+    }
 
-    waitForExpectations(timeout: 2)
+    waitForExpectations(timeout: 20)
     XCTAssertFalse(context.hasChanges)
     XCTAssertFalse(anotherContext.hasChanges)
     XCTAssertEqual(try Person.count(in: anotherContext), 3)
@@ -423,6 +453,8 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     notificationCenter.removeObserver(token1)
     notificationCenter.removeObserver(token2)
     notificationCenter.removeObserver(token3)
+    notificationCenter.removeObserver(token4)
+    notificationCenter.removeObserver(token5)
   }
 
   func testAsyncMerge() throws {
@@ -537,6 +569,18 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     notificationCenter.removeObserver(token1)
   }
 
+  /**
+   NSFetchedResultsController: Handling Object Invalidation
+
+   https://developer.apple.com/documentation/coredata/nsfetchedresultscontroller
+
+   When a managed object context notifies the fetched results controller that individual objects are invalidated, the controller treats these as deleted objects and sends the proper delegate calls.
+
+   It’s possible for all the objects in a managed object context to be invalidated simultaneously.
+   (For example, as a result of calling reset(), or if a store is removed from the the persistent store coordinator.).
+   When this happens, NSFetchedResultsController does not invalidate all objects, nor does it send individual notifications for object deletions.
+   Instead, you must call performFetch() to reset the state of the controller then reload the data in the table view (reloadData()).
+   **/
   class FetchedResultsControllerMockDelegate: NSObject, NSFetchedResultsControllerDelegate {
 
     var updatedObjects = [Any]()
