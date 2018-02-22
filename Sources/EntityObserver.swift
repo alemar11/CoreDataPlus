@@ -33,7 +33,7 @@ public protocol EntityObserverDelegate: class {
   ///
   /// - parameter observer: The `EntityObserver` posting the callback.
   /// - parameter entities: The set of inserted objects.
-  func entityMonitor(_ monitor: EntityMonitor<ManagedObject>, inserted: Set<ManagedObject>)
+  func entityObserver(_ observer: EntityObserver<ManagedObject>, inserted: Set<ManagedObject>)
 
   /// **CoreDataPlus**
   ///
@@ -41,7 +41,7 @@ public protocol EntityObserverDelegate: class {
   ///
   /// - parameter observer: The `EntityObserver` posting the callback.
   /// - parameter entities: The set of deleted objects.
-  func entityEntityMonitor(_ monitor: EntityMonitor<ManagedObject>, deleted: Set<ManagedObject>)
+  func entityObserver(_ observer: EntityObserver<ManagedObject>, deleted: Set<ManagedObject>)
 
   /// **CoreDataPlus**
   ///
@@ -49,7 +49,23 @@ public protocol EntityObserverDelegate: class {
   ///
   /// - parameter observer: The `EntityObserver` posting the callback.
   /// - parameter entities: The set of updated objects.
-  func entityMonitor(_ monitor: EntityMonitor<ManagedObject>, updated: Set<ManagedObject>)
+  func entityObserver(_ observer: EntityObserver<ManagedObject>, updated: Set<ManagedObject>)
+
+  /// **CoreDataPlus**
+  ///
+  /// Called when objects matching the predicate have been refreshed.
+  ///
+  /// - parameter observer: The `EntityObserver` posting the callback.
+  /// - parameter entities: The set of refreshed objects.
+  func entityObserver(_ observer: EntityObserver<ManagedObject>, refreshed: Set<ManagedObject>)
+
+  /// **CoreDataPlus**
+  ///
+  /// Called when objects matching the predicate have been invalidated.
+  ///
+  /// - parameter observer: The `EntityObserver` posting the callback.
+  /// - parameter entities: The set of invalidated objects.
+  func entityObserver(_ observer: EntityObserver<ManagedObject>, invalidated: Set<ManagedObject>)
 }
 
 /// **CoreDataPlus**
@@ -78,31 +94,43 @@ public class AnyEntityObserverDelegate<T: NSManagedObject>: EntityObserverDelega
   fileprivate typealias EntitySet = Set<T>
   public typealias ManagedObject = T
 
-  private let _deleted: (EntityMonitor<T>, Set<T>) -> ()
-  private let _inserted: (EntityMonitor<T>, Set<T>) -> ()
-  private let _updated: (EntityMonitor<T>, Set<T>) -> ()
+  private let _deleted: (EntityObserver<T>, Set<T>) -> ()
+  private let _inserted: (EntityObserver<T>, Set<T>) -> ()
+  private let _updated: (EntityObserver<T>, Set<T>) -> ()
+  private let _refreshed: (EntityObserver<T>, Set<T>) -> ()
+  private let _invalidated: (EntityObserver<T>, Set<T>) -> ()
 
   public required init<D: EntityObserverDelegate>(_ delegate: D) where D.ManagedObject == T {
-    _deleted = delegate.entityEntityMonitor(_:deleted:)
-    _inserted = delegate.entityMonitor(_:inserted:)
-    _updated = delegate.entityMonitor(_:updated:)
+    _deleted = delegate.entityObserver(_:deleted:)
+    _inserted = delegate.entityObserver(_:inserted:)
+    _updated = delegate.entityObserver(_:updated:)
+    _refreshed = delegate.entityObserver(_:refreshed:)
+    _invalidated = delegate.entityObserver(_:invalidated:)
   }
 
-  public func entityMonitor(_ observer: EntityMonitor<T>, inserted: Set<T>) {
+  public func entityObserver(_ observer: EntityObserver<T>, inserted: Set<T>) {
     _deleted(observer, inserted)
   }
 
-  public func entityEntityMonitor(_ observer: EntityMonitor<T>, deleted: Set<T>) {
+  public func entityObserver(_ observer: EntityObserver<T>, deleted: Set<T>) {
     _deleted(observer, deleted)
   }
 
-  public func entityMonitor(_ observer: EntityMonitor<T>, updated: Set<T>) {
+  public func entityObserver(_ observer: EntityObserver<T>, updated: Set<T>) {
     _updated(observer, updated)
+  }
+
+  public func entityObserver(_ observer: EntityObserver<ManagedObject>, refreshed: Set<ManagedObject>){
+    _refreshed(observer, refreshed)
+}
+
+  public func entityObserver(_ observer: EntityObserver<ManagedObject>, invalidated: Set<ManagedObject>){
+    _invalidated(observer, invalidated)
   }
 
 }
 
-public class EntityMonitor<T: NSManagedObject> {
+public class EntityObserver<T: NSManagedObject> {
 
   fileprivate typealias EntitySet = Set<T>
 
@@ -120,13 +148,19 @@ public class EntityMonitor<T: NSManagedObject> {
   // MARK: - Private Properties
 
   private let context: NSManagedObjectContext
+
   private let entity: NSEntityDescription
+
   private let frequency: ObserverFrequency
+
   private let notificationCenter = NotificationCenter.default
+
   private var tokens = [NSObjectProtocol]()
 
   private lazy var entityPredicate: NSPredicate = { return NSPredicate(format: "entity == %@", entity) }()
+
   private let filterPredicate: NSPredicate?
+
   private lazy var combinedPredicate: NSPredicate = {
     if let filterPredicate = self.filterPredicate {
       return NSCompoundPredicate(andPredicateWithSubpredicates: [self.entityPredicate, filterPredicate])
@@ -155,32 +189,20 @@ public class EntityMonitor<T: NSManagedObject> {
 
   // MARK: - Private implementation
 
-  private func removeObservers(){
+  private func removeObservers() {
     tokens.forEach { token in
       notificationCenter.removeObserver(token)
     }
+
     tokens.removeAll()
   }
 
   private func setupObservers() {
-    func process(_ value: Set<NSManagedObject>) -> EntitySet {
-      return (value as NSSet).filtered(using: combinedPredicate) as? EntitySet ?? []
-    }
 
     if frequency.contains(.onChange) {
       let token = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { [weak self] notification in
         guard let `self` = self else { return }
-
-        self.context.performAndWait {
-          //TODO: DRY
-          let deleted = process(notification.deletedObjects)
-          let inserted = process(notification.insertedObjects)
-          let updated = process(notification.updatedObjects)
-          let invalidated = process(notification.invalidatedObjects)
-          //let invalidatedAll = process(notification.invalidatedAllObjects)
-
-          self.handleChanges(inserted: inserted, deleted: deleted, updated: updated)
-        }
+        self.handleChanges(in: notification)
       }
 
       tokens.append(token)
@@ -189,27 +211,47 @@ public class EntityMonitor<T: NSManagedObject> {
     if frequency.contains(.onSave) {
       let token = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { [weak self] notification in
         guard let `self` = self else { return }
-        self.context.performAndWait {
-          //TODO:
-        }
+        self.handleChanges(in: notification)
       }
+
       tokens.append(token)
     }
   }
 
-  private func handleChanges(inserted: EntitySet, deleted: EntitySet, updated: EntitySet) {
+  private func handleChanges(in notification: NSManagedObjectContextObserving) {
     guard let delegate = delegate else { return }
 
-    if !inserted.isEmpty {
-      delegate.entityMonitor(self, inserted: inserted)
-    }
+    context.performAndWait {
+      func process(_ value: Set<NSManagedObject>) -> EntitySet {
+        return (value as NSSet).filtered(using: combinedPredicate) as? EntitySet ?? []
+      }
 
-    if !deleted.isEmpty {
-      delegate.entityEntityMonitor(self, deleted: deleted)
-    }
+      let deleted = process(notification.deletedObjects)
+      let inserted = process(notification.insertedObjects)
+      let updated = process(notification.updatedObjects)
+      let invalidated = process(notification.invalidatedObjects)
+      let invalidatedAll = notification.invalidatedAllObjects
 
-    if !updated.isEmpty {
-      delegate.entityMonitor(self, updated: updated)
+      if !inserted.isEmpty {
+        delegate.entityObserver(self, inserted: inserted)
+      }
+
+      if !deleted.isEmpty {
+        delegate.entityObserver(self, deleted: deleted)
+      }
+
+      if !updated.isEmpty {
+        delegate.entityObserver(self, updated: updated)
+      }
+
+      if !invalidated.isEmpty {
+        delegate.entityObserver(self, updated: invalidated)
+      }
+
+      if invalidatedAll {
+
+      }
+
     }
   }
 

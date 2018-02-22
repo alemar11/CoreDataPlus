@@ -23,8 +23,12 @@
 
 import CoreData
 
+/// **CoreDataPlus**
+///
+/// A `Notification` involving the `NSManagedObjectContext`.
+/// - Note: Since these notifications are received only when a NSManagedObject is changed manually, they aren't triggered when executing *NSBatchUpdateRequest*/*NSBatchDeleteRequest*.
 public protocol NSManagedObjectContextNotification {
-  var notification: Notification { get set}
+  var notification: Notification { get }
   init(notification: Notification)
   var managedObjectContext: NSManagedObjectContext { get }
 }
@@ -38,27 +42,21 @@ public extension NSManagedObjectContextNotification {
     return context
   }
 
+  /// Returns a `Set` of objects for a given `key`.
   fileprivate func objects(forKey key: String) -> Set<NSManagedObject> {
     return (notification.userInfo?[key] as? Set<NSManagedObject>) ?? Set()
   }
+
+  /// Returns an `AnyIterator<NSManagedObject>` of objects for a given `key`.
+  fileprivate func iterator(forKey key: String) -> AnyIterator<NSManagedObject> {
+    guard let set = notification.userInfo?[key] as? NSSet else { return AnyIterator { nil } }
+
+    var innerIterator = set.makeIterator()
+    return AnyIterator { return innerIterator.next() as? NSManagedObject }
+  }
 }
 
-public protocol NSManagedObjectContextObserving_: NSManagedObjectContextNotification {
-  /// **CoreDataPlus**
-  ///
-  /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
-  var refreshedObjects: Set<NSManagedObject> { get }
-
-    /// **CoreDataPlus**
-    ///
-    /// A `Set` of objects that were invalidated.
-  var invalidatedObjects: Set<NSManagedObject> { get }
-
-  //  /// **CoreDataPlus**
-  //  ///
-  //  /// Returns `true` if all the objects in the context have been invalidated.
-  var invalidatedAllObjects: Bool { get }
-}
+// MARK: - NSManagedObjectContextObserving
 
 public protocol NSManagedObjectContextObserving: NSManagedObjectContextNotification {
   /// **CoreDataPlus**
@@ -76,53 +74,23 @@ public protocol NSManagedObjectContextObserving: NSManagedObjectContextNotificat
   /// Returns a `Set`of objects that were marked for deletion during the previous event.
   var deletedObjects: Set<NSManagedObject> { get }
 
-  //  /// **CoreDataPlus**
-  //  ///
-  //  /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
-  //  public var refreshedObjects: Set<NSManagedObject> {
-  //    return objects(forKey: NSRefreshedObjectsKey)
-  //  }
-  //
-  //  /// **CoreDataPlus**
-  //  ///
-  //  /// A `Set` of objects that were invalidated
-  //  var invalidatedObjects: Set<NSManagedObject> { get }
-  //
-  //  /// **CoreDataPlus**
-  //  ///
-  //  /// Returns `true` if all the objects in the context have been invalidated.
-  //  var invalidatedAllObjects: Bool { get }
+  /// **CoreDataPlus**
+  ///
+  /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
+  var refreshedObjects: Set<NSManagedObject> { get }
+
+  /// **CoreDataPlus**
+  ///
+  /// A `Set` of objects that were invalidated.
+  var invalidatedObjects: Set<NSManagedObject> { get }
+
+  /// **CoreDataPlus**
+  ///
+  /// Returns `true` if *all* the objects in the context have been invalidated.
+  var invalidatedAllObjects: Bool { get }
 }
 
 extension NSManagedObjectContextObserving {
-
-  public var insertedObjects: Set<NSManagedObject> {
-    return objects(forKey: NSInsertedObjectsKey)
-  }
-
-  public var updatedObjects: Set<NSManagedObject> {
-    return objects(forKey: NSUpdatedObjectsKey)
-  }
-
-  public var deletedObjects: Set<NSManagedObject> {
-    return objects(forKey: NSDeletedObjectsKey)
-  }
-
-}
-
-// Note: Since we receive these notifications only when we change manually a NSManagedObject, we don’t trigger them if we execute NSBatchUpdateRequest/NSBatchDeleteRequest.
-
-// MARK: - NSManagedObjectContextDidSave
-
-public struct ContextDidSaveNotification {
-
-  fileprivate let notification: Notification
-
-  public init(notification: Notification) {
-    guard notification.name == .NSManagedObjectContextDidSave else { fatalError("Invalid NSManagedObjectContextDidSave notification object.") }
-    self.notification = notification
-  }
-
   /// **CoreDataPlus**
   ///
   /// Returns a `Set` of objects that were inserted into the context.
@@ -146,25 +114,44 @@ public struct ContextDidSaveNotification {
 
   /// **CoreDataPlus**
   ///
-  /// Returns the notification's `NSManagedObjectContext`.
-  public var managedObjectContext: NSManagedObjectContext {
-    guard let context = notification.object as? NSManagedObjectContext else { fatalError("Invalid notification object.") }
-    return context
+  /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
+  // ObjectsDidChangeNotification only
+  public var refreshedObjects: Set<NSManagedObject> {
+    return objects(forKey: NSRefreshedObjectsKey)
   }
 
-  private func objects(forKey key: String) -> Set<NSManagedObject> {
-    return (notification.userInfo?[key] as? Set<NSManagedObject>) ?? Set()
+  /// **CoreDataPlus**
+  ///
+  /// A `Set` of objects that were invalidated.
+  public var invalidatedObjects: Set<NSManagedObject> {
+     // ObjectsDidChangeNotification only
+    return objects(forKey: NSInvalidatedObjectsKey)
   }
 
-  //  private func iterator(forKey key: String) -> AnyIterator<NSManagedObject> {
-  //    guard let set = notification.userInfo?[key] as? NSSet else { return AnyIterator { nil } }
-  //
-  //    var innerIterator = set.makeIterator()
-  //    return AnyIterator { return innerIterator.next() as? NSManagedObject }
-  //  }
+  /// **CoreDataPlus**
+  ///
+  /// Returns `true` if *all* the objects in the context have been invalidated.
+  public var invalidatedAllObjects: Bool {
+    // ObjectsDidChangeNotification only
+    return notification.userInfo?[NSInvalidatedAllObjectsKey] != nil //TODO: returns a set?
+  }
 
 }
 
+// MARK: - NSManagedObjectContextDidSave
+
+public struct ContextDidSaveNotification: NSManagedObjectContextObserving {
+
+  public let notification: Notification
+
+  public init(notification: Notification) {
+    guard notification.name == .NSManagedObjectContextDidSave else { fatalError("Invalid NSManagedObjectContextDidSave notification object.") }
+    self.notification = notification
+  }
+
+}
+
+//TODO
 extension ContextDidSaveNotification: CustomDebugStringConvertible {
 
   public var debugDescription: String {
@@ -183,90 +170,27 @@ extension ContextDidSaveNotification: CustomDebugStringConvertible {
 
 // MARK: - NSManagedObjectContextWillSave
 
-public struct ContextWillSaveNotification {
+public struct ContextWillSaveNotification: NSManagedObjectContextNotification {
 
-  fileprivate let notification: Notification
+  public let notification: Notification
 
   public init(notification: Notification) {
     guard notification.name == .NSManagedObjectContextWillSave else { fatalError("Invalid NSManagedObjectContextWillSave notification object.") }
     self.notification = notification
   }
 
-  /// **CoreDataPlus**
-  ///
-  /// Returns the notification's `NSManagedObjectContext`.
-  public var managedObjectContext: NSManagedObjectContext {
-    guard let context = notification.object as? NSManagedObjectContext else { fatalError("Invalid notification object.") }
-    return context
-  }
-
 }
 
 // MARK: - NSManagedObjectContextObjectsDidChange
 
-public struct ObjectsDidChangeNotification {
+public struct ObjectsDidChangeNotification: NSManagedObjectContextObserving {
 
-  private let notification: Notification
+  public let notification: Notification
 
-  init(notification: Notification) {
+  public init(notification: Notification) {
     // Notification when objects in a context changed:  the user info dictionary contains information about the objects that changed and what changed
     guard notification.name == .NSManagedObjectContextObjectsDidChange else { fatalError("Invalid NSManagedObjectContextObjectsDidChange notification object.") }
     self.notification = notification
-  }
-
-  /// **CoreDataPlus**
-  ///
-  /// Returns a `Set` of objects that were inserted into the context.
-  public var insertedObjects: Set<NSManagedObject> {
-    return objects(forKey: NSInsertedObjectsKey)
-  }
-
-  /// **CoreDataPlus**
-  ///
-  /// Returns a `Set` of objects that were updated.
-  public var updatedObjects: Set<NSManagedObject> {
-    return objects(forKey: NSUpdatedObjectsKey)
-  }
-
-  /// **CoreDataPlus**
-  ///
-  ///
-  /// Returns a `Set`of objects that were marked for deletion during the previous event.
-  public var deletedObjects: Set<NSManagedObject> {
-    return objects(forKey: NSDeletedObjectsKey)
-  }
-
-  /// **CoreDataPlus**
-  ///
-  /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
-  public var refreshedObjects: Set<NSManagedObject> {
-    return objects(forKey: NSRefreshedObjectsKey)
-  }
-
-  /// **CoreDataPlus**
-  ///
-  /// A `Set` of objects that were invalidated
-  public var invalidatedObjects: Set<NSManagedObject> {
-    return objects(forKey: NSInvalidatedObjectsKey)
-  }
-
-  /// **CoreDataPlus**
-  ///
-  /// Returns `true` if all the objects in the context have been invalidated.
-  public var invalidatedAllObjects: Bool {
-    return notification.userInfo?[NSInvalidatedAllObjectsKey] != nil //TODO: returns a set?
-  }
-
-  /// **CoreDataPlus**
-  ///
-  /// Returns the notification's `NSManagedObjectContext`.
-  public var managedObjectContext: NSManagedObjectContext {
-    guard let context = notification.object as? NSManagedObjectContext else { fatalError("Invalid notification object.") }
-    return context
-  }
-
-  private func objects(forKey key: String) -> Set<NSManagedObject> {
-    return (notification.userInfo?[key] as? Set<NSManagedObject>) ?? Set()
   }
 
 }
