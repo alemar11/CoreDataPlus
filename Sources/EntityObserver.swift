@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2018 Tinrobots.
@@ -89,16 +89,15 @@ public struct ObserverFrequency: OptionSet {
   public static let all: ObserverFrequency = [.onChange, .onSave]
 }
 
-
 public class AnyEntityObserverDelegate<T: NSManagedObject>: EntityObserverDelegate {
   fileprivate typealias EntitySet = Set<T>
   public typealias ManagedObject = T
 
-  private let _deleted: (EntityObserver<T>, Set<T>) -> ()
-  private let _inserted: (EntityObserver<T>, Set<T>) -> ()
-  private let _updated: (EntityObserver<T>, Set<T>) -> ()
-  private let _refreshed: (EntityObserver<T>, Set<T>) -> ()
-  private let _invalidated: (EntityObserver<T>, Set<T>) -> ()
+  private let _deleted: (EntityObserver<T>, Set<T>) -> Void
+  private let _inserted: (EntityObserver<T>, Set<T>) -> Void
+  private let _updated: (EntityObserver<T>, Set<T>) -> Void
+  private let _refreshed: (EntityObserver<T>, Set<T>) -> Void
+  private let _invalidated: (EntityObserver<T>, Set<T>) -> Void
 
   public required init<D: EntityObserverDelegate>(_ delegate: D) where D.ManagedObject == T {
     _deleted = delegate.entityObserver(_:deleted:)
@@ -120,11 +119,11 @@ public class AnyEntityObserverDelegate<T: NSManagedObject>: EntityObserverDelega
     _updated(observer, updated)
   }
 
-  public func entityObserver(_ observer: EntityObserver<ManagedObject>, refreshed: Set<ManagedObject>){
+  public func entityObserver(_ observer: EntityObserver<ManagedObject>, refreshed: Set<ManagedObject>) {
     _refreshed(observer, refreshed)
 }
 
-  public func entityObserver(_ observer: EntityObserver<ManagedObject>, invalidated: Set<ManagedObject>){
+  public func entityObserver(_ observer: EntityObserver<ManagedObject>, invalidated: Set<ManagedObject>) {
     _invalidated(observer, invalidated)
   }
 
@@ -258,4 +257,3 @@ public class EntityObserver<T: NSManagedObject> {
   }
 
 }
-

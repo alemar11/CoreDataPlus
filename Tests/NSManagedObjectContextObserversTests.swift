@@ -436,7 +436,7 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     for person in persons {
       person.firstName += " Updated"
     }
-    
+
     let person3_inserted = Person(context: anotherContext)
     person3_inserted.firstName = "Alessandro"
     person3_inserted.lastName = "Marzoli"
