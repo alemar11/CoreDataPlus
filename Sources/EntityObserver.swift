@@ -134,7 +134,7 @@ public class EntityObserver<T: NSManagedObject> {
 
   fileprivate typealias EntitySet = Set<T>
 
-  // MARK: - Public Properties
+ // MARK: - Public Properties
 
   public weak var delegate: AnyEntityObserverDelegate<T>? {
     willSet {
@@ -145,21 +145,23 @@ public class EntityObserver<T: NSManagedObject> {
     }
   }
 
+  // MARK: - Public Read-Only Properties
+
+  private(set) let context: NSManagedObjectContext
+
+  private(set) let entity: NSEntityDescription
+
+  private(set) let frequency: ObserverFrequency
+
+  private(set) let filterPredicate: NSPredicate?
+
   // MARK: - Private Properties
-
-  private let context: NSManagedObjectContext
-
-  private let entity: NSEntityDescription
-
-  private let frequency: ObserverFrequency
 
   private let notificationCenter = NotificationCenter.default
 
   private var tokens = [NSObjectProtocol]()
 
   private lazy var entityPredicate: NSPredicate = { return NSPredicate(format: "entity == %@", entity) }()
-
-  private let filterPredicate: NSPredicate?
 
   private lazy var combinedPredicate: NSPredicate = {
     if let filterPredicate = self.filterPredicate {
