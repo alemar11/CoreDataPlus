@@ -114,6 +114,9 @@
 		23A8A4521F9F89670038DE3A /* CoreDataPlusError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A8A4501F9F89670038DE3A /* CoreDataPlusError.swift */; };
 		23A8A4531F9F89670038DE3A /* CoreDataPlusError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A8A4501F9F89670038DE3A /* CoreDataPlusError.swift */; };
 		23A8A4541F9F89670038DE3A /* CoreDataPlusError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A8A4501F9F89670038DE3A /* CoreDataPlusError.swift */; };
+		23AF8D3E203F0BC70044F2D8 /* EntityObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23AF8D3D203F0BC70044F2D8 /* EntityObserverTests.swift */; };
+		23AF8D3F203F0BC70044F2D8 /* EntityObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23AF8D3D203F0BC70044F2D8 /* EntityObserverTests.swift */; };
+		23AF8D40203F0BC70044F2D8 /* EntityObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23AF8D3D203F0BC70044F2D8 /* EntityObserverTests.swift */; };
 		23B5807B1F94FEDF00A365C0 /* CoreDataPlus.h in Headers */ = {isa = PBXBuildFile; fileRef = 23B5806D1F94FEDF00A365C0 /* CoreDataPlus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		23B580931F94FFF700A365C0 /* NSFetchRequest+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B580871F94FFF600A365C0 /* NSFetchRequest+Utils.swift */; };
 		23B580941F94FFF700A365C0 /* NSFetchRequestResult+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B580881F94FFF600A365C0 /* NSFetchRequestResult+CoreData.swift */; };
@@ -206,6 +209,7 @@
 		23948D1E1F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSEntityDescriptionUtilsTests.swift; sourceTree = "<group>"; };
 		23A8A44C1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSFetchRequestResultCoreDataTests.swift; sourceTree = "<group>"; };
 		23A8A4501F9F89670038DE3A /* CoreDataPlusError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPlusError.swift; sourceTree = "<group>"; };
+		23AF8D3D203F0BC70044F2D8 /* EntityObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityObserverTests.swift; sourceTree = "<group>"; };
 		23B5806A1F94FEDF00A365C0 /* CoreDataPlus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreDataPlus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		23B5806D1F94FEDF00A365C0 /* CoreDataPlus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreDataPlus.h; sourceTree = "<group>"; };
 		23B5806E1F94FEDF00A365C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -366,6 +370,7 @@
 				2383AC631FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift */,
 				23C3B2B51FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift */,
 				23C6493920396FFA00AA514A /* NSManagedObjectContextObserversTests.swift */,
+				23AF8D3D203F0BC70044F2D8 /* EntityObserverTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -821,6 +826,7 @@
 				23EEF5451F962E5700A2E72F /* Car.swift in Sources */,
 				2341306B1F95FF90002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */,
 				234130661F95FF90002BE7FC /* SampleModelVersion.swift in Sources */,
+				23AF8D3E203F0BC70044F2D8 /* EntityObserverTests.swift in Sources */,
 				234130671F95FF90002BE7FC /* ModelVersionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -845,6 +851,7 @@
 				23EEF5461F962E5700A2E72F /* Car.swift in Sources */,
 				234130721F95FF91002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */,
 				2341306D1F95FF91002BE7FC /* SampleModelVersion.swift in Sources */,
+				23AF8D3F203F0BC70044F2D8 /* EntityObserverTests.swift in Sources */,
 				2341306E1F95FF91002BE7FC /* ModelVersionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -869,6 +876,7 @@
 				23EEF5471F962E5700A2E72F /* Car.swift in Sources */,
 				234130791F95FF91002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */,
 				234130741F95FF91002BE7FC /* SampleModelVersion.swift in Sources */,
+				23AF8D40203F0BC70044F2D8 /* EntityObserverTests.swift in Sources */,
 				234130751F95FF91002BE7FC /* ModelVersionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

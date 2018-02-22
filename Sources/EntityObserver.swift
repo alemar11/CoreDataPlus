@@ -172,7 +172,7 @@ public class EntityObserver<T: NSManagedObject> {
 
   // MARK: - Initializers
 
-  public init(context: NSManagedObjectContext, entity: NSEntityDescription, frequency: ObserverFrequency, filterBy predicate: NSPredicate? = nil) {
+  public init(context: NSManagedObjectContext, entity: NSEntityDescription = T.entity(), frequency: ObserverFrequency, filterBy predicate: NSPredicate? = nil) {
     self.context = context
     self.entity = entity
     self.frequency = frequency
