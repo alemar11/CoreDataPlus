@@ -146,13 +146,13 @@ public class EntityObserver<T: NSManagedObject> {
 
   // MARK: - Public Read-Only Properties
 
-  private(set) let context: NSManagedObjectContext
+  let context: NSManagedObjectContext
 
-  private(set) let entity: NSEntityDescription
+  let entity: NSEntityDescription
 
-  private(set) let frequency: ObserverFrequency
+  let frequency: ObserverFrequency
 
-  private(set) let filterPredicate: NSPredicate?
+  let filterPredicate: NSPredicate?
 
   // MARK: - Private Properties
 
