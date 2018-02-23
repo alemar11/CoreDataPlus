@@ -75,7 +75,7 @@ public struct ObserverFrequency: OptionSet {
   public let rawValue: UInt
 
   public init(rawValue: UInt) {
-    precondition(1...2 ~= rawValue, "\(rawValue) is not a defined option.")
+    precondition(1...3 ~= rawValue, "\(rawValue) is not a defined option.")
     self.rawValue = rawValue
   }
 
@@ -148,7 +148,7 @@ public class EntityObserver<T: NSManagedObject> {
 
   let context: NSManagedObjectContext
 
-  let entity: NSEntityDescription
+  let entity = T.entity()
 
   let frequency: ObserverFrequency
 
@@ -172,9 +172,8 @@ public class EntityObserver<T: NSManagedObject> {
 
   // MARK: - Initializers
 
-  public init(context: NSManagedObjectContext, entity: NSEntityDescription = T.entity(), frequency: ObserverFrequency, filterBy predicate: NSPredicate? = nil) {
+  public init(context: NSManagedObjectContext, frequency: ObserverFrequency, filterBy predicate: NSPredicate? = nil) {
     self.context = context
-    self.entity = entity
     self.frequency = frequency
     self.filterPredicate = predicate
 

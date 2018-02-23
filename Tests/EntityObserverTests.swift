@@ -31,8 +31,14 @@ class EntityObserverTests: XCTestCase {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
     let delegate = AnyEntityObserverDelegate(DummyCarEntityObserverDelegate())
-    let entityObserver = EntityObserver<Car>(context: context, entity: Car.entity(), frequency: .onChange)
+    let entityObserver = EntityObserver<Car>(context: context, frequency: .all)
     entityObserver.delegate = delegate
+
+    let sportCar = Car(context: context)
+    sportCar.maker = "McLaren"
+    sportCar.model = "570GT"
+    sportCar.numberPlate = "203"
+    
   }
 
 
