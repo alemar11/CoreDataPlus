@@ -33,7 +33,8 @@ public protocol EntityObserverDelegate: class {
   ///
   /// - parameter observer: The `EntityObserver` posting the callback.
   /// - parameter entities: The set of inserted objects.
-  func entityObserver(_ observer: EntityObserver<ManagedObject>, inserted: Set<ManagedObject>)
+  /// - parameter event: The entity change event type.
+  func entityObserver(_ observer: EntityObserver<ManagedObject>, inserted: Set<ManagedObject>, event: ObserverFrequency)
 
   /// **CoreDataPlus**
   ///
@@ -41,7 +42,8 @@ public protocol EntityObserverDelegate: class {
   ///
   /// - parameter observer: The `EntityObserver` posting the callback.
   /// - parameter entities: The set of deleted objects.
-  func entityObserver(_ observer: EntityObserver<ManagedObject>, deleted: Set<ManagedObject>)
+  /// - parameter event: The entity change event type.
+  func entityObserver(_ observer: EntityObserver<ManagedObject>, deleted: Set<ManagedObject>, event: ObserverFrequency)
 
   /// **CoreDataPlus**
   ///
@@ -49,7 +51,8 @@ public protocol EntityObserverDelegate: class {
   ///
   /// - parameter observer: The `EntityObserver` posting the callback.
   /// - parameter entities: The set of updated objects.
-  func entityObserver(_ observer: EntityObserver<ManagedObject>, updated: Set<ManagedObject>)
+  /// - parameter event: The entity change event type.
+  func entityObserver(_ observer: EntityObserver<ManagedObject>, updated: Set<ManagedObject>, event: ObserverFrequency)
 
   /// **CoreDataPlus**
   ///
@@ -57,7 +60,8 @@ public protocol EntityObserverDelegate: class {
   ///
   /// - parameter observer: The `EntityObserver` posting the callback.
   /// - parameter entities: The set of refreshed objects.
-  func entityObserver(_ observer: EntityObserver<ManagedObject>, refreshed: Set<ManagedObject>)
+  /// - parameter event: The entity change event type.
+  func entityObserver(_ observer: EntityObserver<ManagedObject>, refreshed: Set<ManagedObject>, event: ObserverFrequency)
 
   /// **CoreDataPlus**
   ///
@@ -65,7 +69,8 @@ public protocol EntityObserverDelegate: class {
   ///
   /// - parameter observer: The `EntityObserver` posting the callback.
   /// - parameter entities: The set of invalidated objects.
-  func entityObserver(_ observer: EntityObserver<ManagedObject>, invalidated: Set<ManagedObject>)
+  /// - parameter event: The entity change event type.
+  func entityObserver(_ observer: EntityObserver<ManagedObject>, invalidated: Set<ManagedObject>, event: ObserverFrequency)
 }
 
 /// **CoreDataPlus**
@@ -75,7 +80,7 @@ public struct ObserverFrequency: OptionSet {
   public let rawValue: UInt
 
   public init(rawValue: UInt) {
-    precondition(1...3 ~= rawValue, "\(rawValue) is not a defined option.")
+    //precondition(1...3 ~= rawValue, "\(rawValue) is not a defined option.")
     self.rawValue = rawValue
   }
 
@@ -93,38 +98,38 @@ public class AnyEntityObserverDelegate<T: NSManagedObject>: EntityObserverDelega
   fileprivate typealias EntitySet = Set<T>
   public typealias ManagedObject = T
 
-  private let _deleted: (EntityObserver<T>, Set<T>) -> Void
-  private let _inserted: (EntityObserver<T>, Set<T>) -> Void
-  private let _updated: (EntityObserver<T>, Set<T>) -> Void
-  private let _refreshed: (EntityObserver<T>, Set<T>) -> Void
-  private let _invalidated: (EntityObserver<T>, Set<T>) -> Void
+  private let _deleted: (EntityObserver<T>, Set<T>, ObserverFrequency) -> Void
+  private let _inserted: (EntityObserver<T>, Set<T>, ObserverFrequency) -> Void
+  private let _updated: (EntityObserver<T>, Set<T>, ObserverFrequency) -> Void
+  private let _refreshed: (EntityObserver<T>, Set<T>, ObserverFrequency) -> Void
+  private let _invalidated: (EntityObserver<T>, Set<T>, ObserverFrequency) -> Void
 
   public required init<D: EntityObserverDelegate>(_ delegate: D) where D.ManagedObject == T {
-    _deleted = delegate.entityObserver(_:deleted:)
-    _inserted = delegate.entityObserver(_:inserted:)
-    _updated = delegate.entityObserver(_:updated:)
-    _refreshed = delegate.entityObserver(_:refreshed:)
-    _invalidated = delegate.entityObserver(_:invalidated:)
+    _deleted = delegate.entityObserver(_:deleted:event:)
+    _inserted = delegate.entityObserver(_:inserted:event:)
+    _updated = delegate.entityObserver(_:updated:event:)
+    _refreshed = delegate.entityObserver(_:refreshed:event:)
+    _invalidated = delegate.entityObserver(_:invalidated:event:)
   }
 
-  public func entityObserver(_ observer: EntityObserver<T>, inserted: Set<T>) {
-    _deleted(observer, inserted)
+  public func entityObserver(_ observer: EntityObserver<T>, inserted: Set<T>, event: ObserverFrequency) {
+    _inserted(observer, inserted, event)
   }
 
-  public func entityObserver(_ observer: EntityObserver<T>, deleted: Set<T>) {
-    _deleted(observer, deleted)
+  public func entityObserver(_ observer: EntityObserver<T>, deleted: Set<T>, event: ObserverFrequency) {
+    _deleted(observer, deleted, event)
   }
 
-  public func entityObserver(_ observer: EntityObserver<T>, updated: Set<T>) {
-    _updated(observer, updated)
+  public func entityObserver(_ observer: EntityObserver<T>, updated: Set<T>, event: ObserverFrequency) {
+    _updated(observer, updated, event)
   }
 
-  public func entityObserver(_ observer: EntityObserver<ManagedObject>, refreshed: Set<ManagedObject>) {
-    _refreshed(observer, refreshed)
+  public func entityObserver(_ observer: EntityObserver<ManagedObject>, refreshed: Set<ManagedObject>, event: ObserverFrequency) {
+    _refreshed(observer, refreshed, event)
 }
 
-  public func entityObserver(_ observer: EntityObserver<ManagedObject>, invalidated: Set<ManagedObject>) {
-    _invalidated(observer, invalidated)
+  public func entityObserver(_ observer: EntityObserver<ManagedObject>, invalidated: Set<ManagedObject>, event: ObserverFrequency) {
+    _invalidated(observer, invalidated, event)
   }
 
 }
@@ -202,7 +207,7 @@ public class EntityObserver<T: NSManagedObject> {
     if frequency.contains(.onChange) {
       let token = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { [weak self] notification in
         guard let `self` = self else { return }
-        self.handleChanges(in: notification)
+        self.handleChanges(in: notification, for: .onChange)
       }
 
       tokens.append(token)
@@ -211,14 +216,14 @@ public class EntityObserver<T: NSManagedObject> {
     if frequency.contains(.onSave) {
       let token = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { [weak self] notification in
         guard let `self` = self else { return }
-        self.handleChanges(in: notification)
+        self.handleChanges(in: notification, for: .onSave)
       }
 
       tokens.append(token)
     }
   }
 
-  private func handleChanges(in notification: NSManagedObjectContextObserving) {
+  private func handleChanges(in notification: NSManagedObjectContextObserving, for event: ObserverFrequency) {
     guard let delegate = delegate else { return }
 
     context.performAndWait {
@@ -233,19 +238,19 @@ public class EntityObserver<T: NSManagedObject> {
       let invalidatedAll = notification.invalidatedAllObjects
 
       if !inserted.isEmpty {
-        delegate.entityObserver(self, inserted: inserted)
+        delegate.entityObserver(self, inserted: inserted, event: event)
       }
 
       if !deleted.isEmpty {
-        delegate.entityObserver(self, deleted: deleted)
+        delegate.entityObserver(self, deleted: deleted, event: event)
       }
 
       if !updated.isEmpty {
-        delegate.entityObserver(self, updated: updated)
+        delegate.entityObserver(self, updated: updated, event: event)
       }
 
       if !invalidated.isEmpty {
-        delegate.entityObserver(self, updated: invalidated)
+        delegate.entityObserver(self, updated: invalidated, event: event)
       }
 
       if invalidatedAll {
