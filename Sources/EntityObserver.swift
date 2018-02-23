@@ -181,11 +181,6 @@ public class EntityObserver<T: NSManagedObject> {
     self.context = context
     self.frequency = frequency
     self.filterPredicate = predicate
-
-    guard let entityClass = NSClassFromString(entity.managedObjectClassName) else {
-      preconditionFailure("The entity Description is missing a class name or does not represent a class")
-    }
-    precondition(entityClass == T.self, "The Class generic type must match the entity descripton type.")
   }
 
   deinit {
