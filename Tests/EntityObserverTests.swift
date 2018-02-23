@@ -25,7 +25,16 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
+/**
+ - Complete onSave tests
+ - Add more tests with filters
+ - Add tests for both onSave & onChange
+ - Add tests with different contexts
+ */
+
 class EntityObserverTests: XCTestCase {
+
+  // MARK: - Change Event
 
   func testInsertedOnChangeEvent() {
     let stack = CoreDataStack.stack()
@@ -348,6 +357,119 @@ class EntityObserverTests: XCTestCase {
 
     waitForExpectations(timeout: 10)
   }
+
+  // MARK: - Save Event
+
+  func testInsertedOnSaveEvent() throws {
+    let stack = CoreDataStack.stack()
+    let context = stack.mainContext
+    let observedEvent = ObserverFrequency.onSave
+    let entityObserver = EntityObserver<SportCar>(context: context, frequency: observedEvent)
+
+    let expectation1 = expectation(description: "\(#function)\(#line)")
+
+    let delegate = DummyEntityObserverDelegate<SportCar>()
+    delegate.onInserted = { inserted, event, observer in
+      XCTAssertTrue(observer === entityObserver)
+      XCTAssertEqual(observedEvent, event)
+      XCTAssertEqual(inserted.count, 2)
+      expectation1.fulfill()
+    }
+
+    delegate.onDeleted = { deleted, event, observer in
+      XCTFail("There shouldn't be deleted objects.")
+    }
+
+    delegate.onUpdated = { updated, event, observer in
+      XCTFail("There shouldn't be updated objects.")
+    }
+
+    delegate.onRefreshed = { refreshed, event, observer in
+      XCTFail("There shouldn't be refreshed objects.")
+    }
+
+    delegate.onInvalidated = { invalidated, event, observer in
+      XCTFail("There shouldn't be invalidated objects.")
+    }
+
+    let anyDelegate = AnyEntityObserverDelegate(delegate)
+    entityObserver.delegate = anyDelegate
+
+    let sportCar = SportCar(context: context)
+    sportCar.maker = "McLaren"
+    sportCar.model = "570GT"
+    sportCar.numberPlate = "203"
+
+    let sportCar2 = SportCar(context: context)
+    sportCar2.maker = "Lamborghini "
+    sportCar2.model = "Aventador LP750-4"
+    sportCar2.numberPlate = "204"
+
+    let car = Car(context: context)
+    car.maker = "FIAT"
+    car.model = "Panda"
+    car.numberPlate = "1"
+
+    let person1 = Person(context: context)
+    person1.firstName = "Edythe"
+    person1.lastName = "Moreton"
+
+    try context.save()
+
+    waitForExpectations(timeout: 10)
+  }
+
+  func testInsertedWithoutSavingOnSaveEvent() {
+    let stack = CoreDataStack.stack()
+    let context = stack.mainContext
+    let observedEvent = ObserverFrequency.onSave
+    let entityObserver = EntityObserver<SportCar>(context: context, frequency: observedEvent)
+
+    let expectation1 = expectation(description: "\(#function)\(#line)")
+    expectation1.isInverted = true
+
+    let delegate = DummyEntityObserverDelegate<SportCar>()
+    delegate.onInserted = { inserted, event, observer in
+      expectation1.fulfill()
+    }
+
+    delegate.onDeleted = { deleted, event, observer in
+      XCTFail("There shouldn't be deleted objects.")
+    }
+
+    delegate.onUpdated = { updated, event, observer in
+      XCTFail("There shouldn't be updated objects.")
+    }
+
+    delegate.onRefreshed = { refreshed, event, observer in
+      XCTFail("There shouldn't be refreshed objects.")
+    }
+
+    delegate.onInvalidated = { invalidated, event, observer in
+      XCTFail("There shouldn't be invalidated objects.")
+    }
+
+    let anyDelegate = AnyEntityObserverDelegate(delegate)
+    entityObserver.delegate = anyDelegate
+
+    let sportCar = SportCar(context: context)
+    sportCar.maker = "McLaren"
+    sportCar.model = "570GT"
+    sportCar.numberPlate = "203"
+
+    let car = Car(context: context)
+    car.maker = "FIAT"
+    car.model = "Panda"
+    car.numberPlate = "1"
+
+    let person1 = Person(context: context)
+    person1.firstName = "Edythe"
+    person1.lastName = "Moreton"
+
+    waitForExpectations(timeout: 10)
+  }
+
+  // MARK: - Change and Save Events
 
   // MARK: - Utils
 
