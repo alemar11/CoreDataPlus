@@ -544,6 +544,77 @@ class EntityObserverTests: XCTestCase {
     waitForExpectations(timeout: 10)
   }
 
+  func testDeleteOnSaveEvent() throws {
+    let stack = CoreDataStack.stack()
+    let context = stack.mainContext
+    let observedEvent = ObserverFrequency.onSave
+    let expectation1 = expectation(description: "\(#function)\(#line)")
+    let expectation2 = expectation(description: "\(#function)\(#line)")
+
+    let sportCar = SportCar(context: context)
+    sportCar.maker = "McLaren"
+    sportCar.model = "570GT"
+    sportCar.numberPlate = "203"
+
+    let sportCar2 = SportCar(context: context)
+    sportCar2.maker = "Lamborghini "
+    sportCar2.model = "Aventador LP750-4"
+    sportCar2.numberPlate = "204"
+
+    let car = Car(context: context)
+    car.maker = "FIAT"
+    car.model = "Panda"
+    car.numberPlate = "1"
+
+    try context.save()
+
+    let entityObserver = EntityObserver<SportCar>(context: context, frequency: observedEvent)
+    let delegate = DummyEntityObserverDelegate<SportCar>()
+    delegate.onInserted = { inserted, event, observer in
+      XCTFail("There shouldn't be inserted objects.")
+    }
+
+    delegate.onDeleted = { deleted, event, observer in
+      XCTAssertTrue(observer === entityObserver)
+      XCTAssertEqual(observedEvent, event)
+      XCTAssertEqual(deleted.count, 1)
+      XCTAssertTrue(deleted.first === sportCar)
+      expectation2.fulfill()
+    }
+
+    delegate.onUpdated = { updated, event, observer in
+      XCTAssertTrue(observer === entityObserver)
+      XCTAssertEqual(observedEvent, event)
+      XCTAssertEqual(updated.count, 1)
+      XCTAssertTrue(updated.first === sportCar2)
+      expectation1.fulfill()
+    }
+
+    delegate.onRefreshed = { refreshed, event, observer in
+      XCTFail("There shouldn't be refreshed objects.")
+    }
+
+    delegate.onInvalidated = { invalidated, event, observer in
+      XCTFail("There shouldn't be invalidated objects.")
+    }
+
+    let anyDelegate = AnyEntityObserverDelegate(delegate)
+    entityObserver.delegate = anyDelegate
+
+    let person1 = Person(context: context)
+    person1.firstName = "Edythe"
+    person1.lastName = "Moreton"
+
+    car.numberPlate = car.numberPlate + " Updated"
+    sportCar.numberPlate = sportCar.numberPlate + " Updated"
+    sportCar2.numberPlate = sportCar.numberPlate + " Updated"
+    context.delete(sportCar)
+
+    try context.save()
+
+    waitForExpectations(timeout: 10)
+  }
+
   // MARK: - Change and Save Events
 
   // MARK: - Utils
