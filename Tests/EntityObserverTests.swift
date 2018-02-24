@@ -39,7 +39,7 @@ class EntityObserverTests: XCTestCase {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
     let observedEvent = ObservedEvent.onChange
-    let entityObserver = EntityObserver<SportCar>(context: context, frequency: observedEvent)
+    let entityObserver = EntityObserver<SportCar>(context: context, event: observedEvent)
 
     let personz = NSEntityDescription.insertNewObject(forEntityName: "Person", into: context) as? Person
 XCTAssertNotNil(personz)
@@ -107,7 +107,7 @@ XCTAssertNotNil(personz)
     
     try context.save()
     
-    let entityObserver = EntityObserver<SportCar>(context: context, frequency: observedEvent)
+    let entityObserver = EntityObserver<SportCar>(context: context, event: observedEvent)
     let delegate = DummyEntityObserverDelegate<SportCar>()
     delegate.onInserted = { inserted, event, observer in
       XCTFail("There shouldn't be inserted objects.")
@@ -169,7 +169,7 @@ XCTAssertNotNil(personz)
     
     try context.save()
     
-    let entityObserver = EntityObserver<SportCar>(context: context, frequency: observedEvent)
+    let entityObserver = EntityObserver<SportCar>(context: context, event: observedEvent)
     let delegate = DummyEntityObserverDelegate<SportCar>()
     delegate.onInserted = { inserted, event, observer in
       XCTFail("There shouldn't be inserted objects.")
@@ -244,7 +244,7 @@ XCTAssertNotNil(personz)
     try context.save()
     
     let predicate = NSPredicate(format: "SELF == %@", sportCar2)
-    let entityObserver = EntityObserver<SportCar>(context: context, frequency: observedEvent, filterBy: predicate)
+    let entityObserver = EntityObserver<SportCar>(context: context, event: observedEvent, filterBy: predicate)
     
     let delegate = DummyEntityObserverDelegate<SportCar>()
     delegate.onInserted = { inserted, event, observer in
@@ -316,7 +316,7 @@ XCTAssertNotNil(personz)
 
     try context.save()
 
-    let entityObserver = EntityObserver<SportCar>(context: context, frequency: observedEvent)
+    let entityObserver = EntityObserver<SportCar>(context: context, event: observedEvent)
 
     let delegate = DummyEntityObserverDelegate<SportCar>()
     delegate.onInserted = { inserted, event, observer in
@@ -399,7 +399,7 @@ XCTAssertNotNil(personz)
     
     try context.save()
     
-    let entityObserver = EntityObserver<SportCar>(context: context, frequency: observedEvent)
+    let entityObserver = EntityObserver<SportCar>(context: context, event: observedEvent)
     
     let delegate = DummyEntityObserverDelegate<SportCar>()
     delegate.onInserted = { inserted, event, observer in
@@ -445,7 +445,7 @@ XCTAssertNotNil(personz)
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
     let observedEvent = ObservedEvent.onSave
-    let entityObserver = EntityObserver<SportCar>(context: context, frequency: observedEvent)
+    let entityObserver = EntityObserver<SportCar>(context: context, event: observedEvent)
     
     let expectation1 = expectation(description: "\(#function)\(#line)")
     
@@ -504,7 +504,7 @@ XCTAssertNotNil(personz)
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
     let observedEvent = ObservedEvent.onSave
-    let entityObserver = EntityObserver<SportCar>(context: context, frequency: observedEvent)
+    let entityObserver = EntityObserver<SportCar>(context: context, event: observedEvent)
     
     let expectation1 = expectation(description: "\(#function)\(#line)")
     expectation1.isInverted = true
@@ -583,7 +583,7 @@ XCTAssertNotNil(personz)
     
     try context.save()
     
-    let entityObserver = EntityObserver<SportCar>(context: context, frequency: observedEvent)
+    let entityObserver = EntityObserver<SportCar>(context: context, event: observedEvent)
     
     let delegate = DummyEntityObserverDelegate<SportCar>()
     delegate.onInserted = { inserted, event, observer in
@@ -656,7 +656,7 @@ XCTAssertNotNil(personz)
     try context.save()
     
     let predicate = NSPredicate(format: "SELF == %@", sportCar2)
-    let entityObserver = EntityObserver<SportCar>(context: context, frequency: observedEvent, filterBy: predicate)
+    let entityObserver = EntityObserver<SportCar>(context: context, event: observedEvent, filterBy: predicate)
     
     let delegate = DummyEntityObserverDelegate<SportCar>()
     delegate.onInserted = { inserted, event, observer in
@@ -725,7 +725,7 @@ XCTAssertNotNil(personz)
     
     try context.save()
     
-    let entityObserver = EntityObserver<SportCar>(context: context, frequency: observedEvent)
+    let entityObserver = EntityObserver<SportCar>(context: context, event: observedEvent)
     let delegate = DummyEntityObserverDelegate<SportCar>()
     delegate.onInserted = { inserted, event, observer in
       XCTFail("There shouldn't be inserted objects.")

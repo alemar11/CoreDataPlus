@@ -184,9 +184,9 @@ public class EntityObserver<T: NSManagedObject> {
 
   // MARK: - Initializers
 
-  public init(context: NSManagedObjectContext, frequency: ObservedEvent, filterBy predicate: NSPredicate? = nil) {
+  public init(context: NSManagedObjectContext, event: ObservedEvent, filterBy predicate: NSPredicate? = nil) {
     self.context = context
-    self.event = frequency
+    self.event = event
     self.filterPredicate = predicate
   }
 
