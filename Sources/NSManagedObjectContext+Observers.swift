@@ -133,7 +133,8 @@ extension NSManagedObjectContextObserving {
   /// Returns `true` if *all* the objects in the context have been invalidated.
   public var invalidatedAllObjects: Bool {
     // ObjectsDidChangeNotification only
-    return notification.userInfo?[NSInvalidatedAllObjectsKey] != nil //TODO: returns a set?
+    //let objects = notification.userInfo?[NSInvalidatedAllObjectsKey] as! Array<NSManagedObjectID>
+    return notification.userInfo?[NSInvalidatedAllObjectsKey] != nil
   }
 
 }

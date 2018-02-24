@@ -261,7 +261,7 @@ public class EntityObserver<T: NSManagedObject> {
       }
 
       if invalidatedAll {
-
+        //delegate.entityObserver(self, updated: invalidated, event: event)
       }
 
     }
