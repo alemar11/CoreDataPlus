@@ -86,7 +86,7 @@ XCTAssertNotNil(personz)
     person1.firstName = "Edythe"
     person1.lastName = "Moreton"
     
-    waitForExpectations(timeout: 10)
+    waitForExpectations(timeout: 2)
   }
   
   func testUpdatedOnChangeEvent() throws {
@@ -142,7 +142,7 @@ XCTAssertNotNil(personz)
     car.numberPlate = car.numberPlate + " Updated"
     sportCar.numberPlate = sportCar.numberPlate + " Updated"
     
-    waitForExpectations(timeout: 10)
+    waitForExpectations(timeout: 2)
   }
   
   func testDeleteOnChangeEvent() throws {
@@ -211,7 +211,7 @@ XCTAssertNotNil(personz)
     sportCar2.numberPlate = sportCar.numberPlate + " Updated"
     context.delete(sportCar)
     
-    waitForExpectations(timeout: 10)
+    waitForExpectations(timeout: 2)
   }
   
   func testFilteredUpdatedOnChangeEvent() throws {
@@ -283,7 +283,7 @@ XCTAssertNotNil(personz)
     sportCar2.numberPlate = sportCar2.numberPlate + " Updated"
     expensiveSportCar1.numberPlate = expensiveSportCar1.numberPlate + " Updated"
     
-    waitForExpectations(timeout: 10)
+    waitForExpectations(timeout: 2)
   }
 
   func testRefreshedOnChangeEvent() throws {
@@ -363,7 +363,7 @@ XCTAssertNotNil(personz)
     sportCar1.refresh(mergeChanges: true)
     sportCar2.refresh(mergeChanges: false)
 
-    waitForExpectations(timeout: 10)
+    waitForExpectations(timeout: 2)
   }
   
   func testRelationshipUpdatedOnChangeEvent() throws {
@@ -436,7 +436,7 @@ XCTAssertNotNil(personz)
     person1.cars = [sportCar1, sportCar2]
     expensiveSportCar1.numberPlate = expensiveSportCar1.numberPlate + " Updated"
     
-    waitForExpectations(timeout: 10)
+    waitForExpectations(timeout: 2)
   }
   
   // MARK: - Save Event
@@ -497,7 +497,7 @@ XCTAssertNotNil(personz)
     
     try context.save()
     
-    waitForExpectations(timeout: 10)
+    waitForExpectations(timeout: 2)
   }
   
   func testInsertedWithoutSavingOnSaveEvent() {
@@ -547,7 +547,7 @@ XCTAssertNotNil(personz)
     person1.firstName = "Edythe"
     person1.lastName = "Moreton"
     
-    waitForExpectations(timeout: 10)
+    waitForExpectations(timeout: 2)
   }
   
   func testRelationshipUpdatedOnSaveEvent() throws {
@@ -622,7 +622,7 @@ XCTAssertNotNil(personz)
     
     try context.save()
     
-    waitForExpectations(timeout: 10)
+    waitForExpectations(timeout: 2)
   }
   
   
@@ -697,7 +697,7 @@ XCTAssertNotNil(personz)
     
     try context.save()
     
-    waitForExpectations(timeout: 10)
+    waitForExpectations(timeout: 2)
   }
   
   
@@ -769,7 +769,7 @@ XCTAssertNotNil(personz)
     
     try context.save()
     
-    waitForExpectations(timeout: 10)
+    waitForExpectations(timeout: 2)
   }
   
   // MARK: - Change and Save Events
