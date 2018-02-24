@@ -126,7 +126,7 @@ public class AnyEntityObserverDelegate<T: NSManagedObject>: EntityObserverDelega
 
   public func entityObserver(_ observer: EntityObserver<ManagedObject>, refreshed: Set<ManagedObject>, event: ObserverFrequency) {
     _refreshed(observer, refreshed, event)
-}
+  }
 
   public func entityObserver(_ observer: EntityObserver<ManagedObject>, invalidated: Set<ManagedObject>, event: ObserverFrequency) {
     _invalidated(observer, invalidated, event)
@@ -138,7 +138,7 @@ public class EntityObserver<T: NSManagedObject> {
 
   fileprivate typealias EntitySet = Set<T>
 
- // MARK: - Public Properties
+  // MARK: - Public Properties
 
   public weak var delegate: AnyEntityObserverDelegate<T>? {
     willSet {
@@ -165,7 +165,14 @@ public class EntityObserver<T: NSManagedObject> {
 
   private var tokens = [NSObjectProtocol]()
 
-  private lazy var entityPredicate: NSPredicate = { return NSPredicate(format: "entity == %@", entity) }()
+  private lazy var entityPredicate: NSPredicate = {
+    // Attention: sometimes entity() returns nil due to a CoreData bug occurring in the Unit Test targets or when Generics are used.
+    //return NSPredicate(format: "entity == %@", entity)
+    guard let entityDescription = NSEntityDescription.entity(forEntityName: T.entityName, in: context) else {
+      preconditionFailure("Missing NSEntityDescription for \(T.entityName)")
+    }
+    return NSPredicate(format: "entity == %@", entityDescription)
+  }()
 
   private lazy var combinedPredicate: NSPredicate = {
     if let filterPredicate = self.filterPredicate {
