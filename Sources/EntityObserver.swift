@@ -236,6 +236,7 @@ public class EntityObserver<T: NSManagedObject> {
       let deleted = process(notification.deletedObjects)
       let inserted = process(notification.insertedObjects)
       let updated = process(notification.updatedObjects)
+      let refreshed = process(notification.refreshedObjects)
       let invalidated = process(notification.invalidatedObjects)
       let invalidatedAll = notification.invalidatedAllObjects
 
@@ -245,6 +246,10 @@ public class EntityObserver<T: NSManagedObject> {
 
       if !deleted.isEmpty {
         delegate.entityObserver(self, deleted: deleted, event: event)
+      }
+
+      if !refreshed.isEmpty {
+        delegate.entityObserver(self, refreshed: refreshed, event: event)
       }
 
       if !updated.isEmpty {
