@@ -38,7 +38,7 @@ class EntityObserverTests: XCTestCase {
   func testInsertedOnChangeEvent() {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let observedEvent = ObserverFrequency.onChange
+    let observedEvent = ObservedEvent.onChange
     let entityObserver = EntityObserver<SportCar>(context: context, frequency: observedEvent)
 
     let personz = NSEntityDescription.insertNewObject(forEntityName: "Person", into: context) as? Person
@@ -92,7 +92,7 @@ XCTAssertNotNil(personz)
   func testUpdatedOnChangeEvent() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let observedEvent = ObserverFrequency.onChange
+    let observedEvent = ObservedEvent.onChange
     let expectation1 = expectation(description: "\(#function)\(#line)")
     
     let sportCar = SportCar(context: context)
@@ -148,7 +148,7 @@ XCTAssertNotNil(personz)
   func testDeleteOnChangeEvent() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let observedEvent = ObserverFrequency.onChange
+    let observedEvent = ObservedEvent.onChange
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let expectation2 = expectation(description: "\(#function)\(#line)")
     
@@ -217,7 +217,7 @@ XCTAssertNotNil(personz)
   func testFilteredUpdatedOnChangeEvent() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let observedEvent = ObserverFrequency.onChange
+    let observedEvent = ObservedEvent.onChange
     let expectation1 = expectation(description: "\(#function)\(#line)")
     
     let sportCar1 = SportCar(context: context)
@@ -289,7 +289,7 @@ XCTAssertNotNil(personz)
   func testRefreshedOnChangeEvent() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let observedEvent = ObserverFrequency.onChange
+    let observedEvent = ObservedEvent.onChange
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let expectation2 = expectation(description: "\(#function)\(#line)")
 
@@ -369,7 +369,7 @@ XCTAssertNotNil(personz)
   func testRelationshipUpdatedOnChangeEvent() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let observedEvent = ObserverFrequency.onChange
+    let observedEvent = ObservedEvent.onChange
     let expectation1 = expectation(description: "\(#function)\(#line)")
     
     let sportCar1 = SportCar(context: context)
@@ -444,7 +444,7 @@ XCTAssertNotNil(personz)
   func testInsertedOnSaveEvent() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let observedEvent = ObserverFrequency.onSave
+    let observedEvent = ObservedEvent.onSave
     let entityObserver = EntityObserver<SportCar>(context: context, frequency: observedEvent)
     
     let expectation1 = expectation(description: "\(#function)\(#line)")
@@ -503,7 +503,7 @@ XCTAssertNotNil(personz)
   func testInsertedWithoutSavingOnSaveEvent() {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let observedEvent = ObserverFrequency.onSave
+    let observedEvent = ObservedEvent.onSave
     let entityObserver = EntityObserver<SportCar>(context: context, frequency: observedEvent)
     
     let expectation1 = expectation(description: "\(#function)\(#line)")
@@ -553,7 +553,7 @@ XCTAssertNotNil(personz)
   func testRelationshipUpdatedOnSaveEvent() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let observedEvent = ObserverFrequency.onSave
+    let observedEvent = ObservedEvent.onSave
     let expectation1 = expectation(description: "\(#function)\(#line)")
     
     let sportCar1 = SportCar(context: context)
@@ -629,7 +629,7 @@ XCTAssertNotNil(personz)
   func testFilteredUpdatedOnSaveEvent() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let observedEvent = ObserverFrequency.onSave
+    let observedEvent = ObservedEvent.onSave
     let expectation1 = expectation(description: "\(#function)\(#line)")
     
     let sportCar1 = SportCar(context: context)
@@ -704,7 +704,7 @@ XCTAssertNotNil(personz)
   func testDeleteOnSaveEvent() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let observedEvent = ObserverFrequency.onSave
+    let observedEvent = ObservedEvent.onSave
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let expectation2 = expectation(description: "\(#function)\(#line)")
     
@@ -779,29 +779,29 @@ XCTAssertNotNil(personz)
   fileprivate class DummyEntityObserverDelegate<T: NSManagedObject> : EntityObserverDelegate {
     typealias ManagedObject = T
     
-    var onInserted: (Set<ManagedObject>, ObserverFrequency, EntityObserver<ManagedObject>) -> Void = { _,_,_ in }
-    var onDeleted: (Set<ManagedObject>, ObserverFrequency, EntityObserver<ManagedObject>) -> Void = { _,_,_ in }
-    var onUpdated: (Set<ManagedObject>, ObserverFrequency, EntityObserver<ManagedObject>) -> Void = { _,_,_ in }
-    var onRefreshed: (Set<ManagedObject>, ObserverFrequency, EntityObserver<ManagedObject>) -> Void = { _,_,_ in }
-    var onInvalidated: (Set<ManagedObject>, ObserverFrequency, EntityObserver<ManagedObject>) -> Void = { _,_,_ in}
+    var onInserted: (Set<ManagedObject>, ObservedEvent, EntityObserver<ManagedObject>) -> Void = { _,_,_ in }
+    var onDeleted: (Set<ManagedObject>, ObservedEvent, EntityObserver<ManagedObject>) -> Void = { _,_,_ in }
+    var onUpdated: (Set<ManagedObject>, ObservedEvent, EntityObserver<ManagedObject>) -> Void = { _,_,_ in }
+    var onRefreshed: (Set<ManagedObject>, ObservedEvent, EntityObserver<ManagedObject>) -> Void = { _,_,_ in }
+    var onInvalidated: (Set<ManagedObject>, ObservedEvent, EntityObserver<ManagedObject>) -> Void = { _,_,_ in}
     
-    func entityObserver(_ observer: EntityObserver<ManagedObject>, inserted: Set<ManagedObject>, event: ObserverFrequency) {
+    func entityObserver(_ observer: EntityObserver<ManagedObject>, inserted: Set<ManagedObject>, event: ObservedEvent) {
       onInserted(inserted, event, observer)
     }
     
-    func entityObserver(_ observer: EntityObserver<ManagedObject>, deleted: Set<ManagedObject>, event: ObserverFrequency) {
+    func entityObserver(_ observer: EntityObserver<ManagedObject>, deleted: Set<ManagedObject>, event: ObservedEvent) {
       onDeleted(deleted, event, observer)
     }
     
-    func entityObserver(_ observer: EntityObserver<ManagedObject>, updated: Set<ManagedObject>, event: ObserverFrequency) {
+    func entityObserver(_ observer: EntityObserver<ManagedObject>, updated: Set<ManagedObject>, event: ObservedEvent) {
       onUpdated(updated, event, observer)
     }
     
-    func entityObserver(_ observer: EntityObserver<ManagedObject>, refreshed: Set<ManagedObject>, event: ObserverFrequency) {
+    func entityObserver(_ observer: EntityObserver<ManagedObject>, refreshed: Set<ManagedObject>, event: ObservedEvent) {
       onRefreshed(refreshed, event, observer)
     }
     
-    func entityObserver(_ observer: EntityObserver<ManagedObject>, invalidated: Set<ManagedObject>, event: ObserverFrequency) {
+    func entityObserver(_ observer: EntityObserver<ManagedObject>, invalidated: Set<ManagedObject>, event: ObservedEvent) {
       onInvalidated(invalidated, event, observer)
     }
   }
