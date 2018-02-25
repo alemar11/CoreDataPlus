@@ -535,9 +535,9 @@ class NSManagedObjectContextObserversTests: XCTestCase {
 
     try context.save()
     let request = Person.fetchRequest()
-
     // request.addSortDescriptors([NSSortDescriptor(key: "firstName", ascending: false)]) // with a descriptors the context will materialize all the Person objects
     request.addSortDescriptors([])
+
     let delegate = FetchedResultsControllerMockDelegate()
     let frc = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
     frc.delegate = delegate
@@ -585,6 +585,82 @@ class NSManagedObjectContextObserversTests: XCTestCase {
 
     XCTAssertEqual(expectedIds, foundIds)
     notificationCenter.removeObserver(token1)
+  }
+
+  func testNSFetchedResultControllerWithContextReset() throws {
+    let stack = CoreDataStack.stack()
+    let context = stack.mainContext
+
+    let person1 = Person(context: context)
+    person1.firstName = "Edythe"
+    person1.lastName = "Moreton"
+
+    let person2 = Person(context: context)
+    person2.firstName = "Ellis"
+    person2.lastName = "Khoury"
+
+    let car1 = Car(context: context)
+    car1.maker = "Renault"
+    car1.model = "Clio"
+    car1.numberPlate = "14"
+
+    try context.save()
+    let request = Person.fetchRequest()
+    request.addSortDescriptors([])
+
+    let delegate = FetchedResultsControllerMockDelegate()
+    let frc = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+    frc.delegate = delegate
+    try frc.performFetch()
+
+    let expectation1 = expectation(description: "\(#function)\(#line)")
+    let expectation2 = expectation(description: "\(#function)\(#line)")
+    let notificationCenter = NotificationCenter.default
+
+    let token1 = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+      XCTAssertEqual(notification.insertedObjects.count, 0)
+      XCTAssertEqual(notification.updatedObjects.count, 0)
+      XCTAssertEqual(notification.deletedObjects.count, 0)
+      XCTAssertEqual(notification.invalidatedObjects.count, 0)
+
+      context.performAndWaitMergeChanges(from: notification)
+      expectation1.fulfill()
+    }
+
+    let token2 = context.addObjectsDidChangeNotificationObserver { notification in
+      XCTAssertTrue(notification.invalidatedAllObjects)
+      expectation2.fulfill()
+    }
+
+    let persons = try Person.fetch(in: context)
+
+    // Insert a new car object on anohterContext
+    let car2 = SportCar(context: context)
+    car2.maker = "BMW"
+    car2.model = "M6 Coupe"
+    car2.numberPlate = "200"
+
+    // Insert a new person object on anohterContext
+    let person3 = Person(context: context)
+    person3.firstName = "Alessandro"
+    person3.lastName = "Marzoli"
+
+    // Update a faulted relationship
+    let firstPerson = persons.filter { $0.firstName == person1.firstName }.first!
+    firstPerson.cars = Set([car2])
+
+    context.reset()
+    try context.save() // the command will do nothing, the FRC delegate is exepcted to have 0 changed objects
+
+    waitForExpectations(timeout: 5)
+
+    XCTAssertEqual(delegate.updatedObjects.count, 0)
+    XCTAssertEqual(delegate.deletedObjects.count, 0)
+    XCTAssertEqual(delegate.insertedObjects.count, 0)
+    XCTAssertEqual(delegate.movedObjects.count, 0)
+
+    notificationCenter.removeObserver(token1)
+    notificationCenter.removeObserver(token2)
   }
 
   /**
