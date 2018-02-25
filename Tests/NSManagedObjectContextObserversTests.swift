@@ -520,17 +520,20 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
 
-    let person1_inserted = Person(context: context)
-    person1_inserted.firstName = "Edythe"
-    person1_inserted.lastName = "Moreton"
+    let person1 = Person(context: context)
+    person1.firstName = "Edythe"
+    person1.lastName = "Moreton"
 
-    let person2_inserted = Person(context: context)
-    person2_inserted.firstName = "Ellis"
-    person2_inserted.lastName = "Khoury"
+    let person2 = Person(context: context)
+    person2.firstName = "Ellis"
+    person2.lastName = "Khoury"
+
+    let car1 = Car(context: context)
+    car1.maker = "Renault"
+    car1.model = "Clio"
+    car1.numberPlate = "14"
 
     try context.save()
-    context.reset()
-    XCTAssertTrue(context.registeredObjects.isEmpty)
 
     let request = Person.fetchRequest()
     request.addSortDescriptors([])
@@ -544,25 +547,50 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     let anotherContext = stack.mainContext.newBackgroundContext(asChildContext: false)
 
     let token1 = anotherContext.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+      XCTAssertEqual(notification.insertedObjects.count, 2) // 1 person and 1 car
+      XCTAssertEqual(notification.updatedObjects.count, 1) // 1 person
+      
       context.performAndWaitMergeChanges(from: notification)
+
+      // person1, being updated, will be refreshed (and turned into a fault)
+      // person2 will be the same
+      // person3 will be inserted as fault
+      // car1 will be the same
+      XCTAssertEqual(context.registeredObjects.count, 4)
+      context.registeredObjects.enumerated().forEach({ (offset, object) in
+        switch (object.objectID) {
+        case person2.objectID, car1.objectID: XCTAssertFalse(object.isFault)
+        default: XCTAssertTrue(object.isFault)
+        }
+
+      })
+
       expectation1.fulfill()
     }
 
     let persons = try Person.fetch(in: anotherContext)
 
-    // Updating a faulted relationship
-    let car = SportCar(context: anotherContext)
-    car.maker = "BMW"
-    car.model = "M6 Coupe"
-    car.numberPlate = "200"
+    // Insert a new car object on anohterContext
+    let car2 = SportCar(context: anotherContext)
+    car2.maker = "BMW"
+    car2.model = "M6 Coupe"
+    car2.numberPlate = "200"
+
+    // Insert a new person object on anohterContext
+    let person3 = Person(context: anotherContext)
+    person3.firstName = "Alessandro"
+    person3.lastName = "Marzoli"
+
+    // Update a faulted relationship
     let firstPerson = persons.first!
-    firstPerson.cars = Set([car])
+    firstPerson.cars = Set([car2])
 
     try anotherContext.save()
 
     waitForExpectations(timeout: 2)
 
     XCTAssertEqual(delegate.updatedObjects.count, 1)
+    XCTAssertEqual(delegate.insertedObjects.count, 1) // the FRC monitors only for Person object
     let updatedObject = delegate.updatedObjects.first! as! Person
     XCTAssertEqual(updatedObject.objectID, firstPerson.objectID)
 

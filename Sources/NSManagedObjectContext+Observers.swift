@@ -251,6 +251,8 @@ extension NSManagedObjectContext {
   /// **CoreDataPlus**
   ///
   /// Asynchronously merges the changes specified in a given notification.
+  /// This method refreshes any objects which have been updated in the other context,
+  /// faults in any newly-inserted objects, and invokes delete(_:): on those which have been deleted.
   ///
   /// - Parameters:
   ///   - notification: An instance of an `NSManagedObjectContextDidSave` notification posted by another context.
@@ -265,6 +267,8 @@ extension NSManagedObjectContext {
   /// **CoreDataPlus**
   ///
   /// Synchronously merges the changes specified in a given notification.
+  /// This method refreshes any objects which have been updated in the other context,
+  /// faults in any newly-inserted objects, and invokes delete(_:): on those which have been deleted.
   ///
   /// - Parameters:
   ///   - notification: An instance of an `NSManagedObjectContextDidSave` notification posted by another context.
