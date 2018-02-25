@@ -27,6 +27,8 @@ import CoreData
 public protocol EntityObserverDelegate: class {
   associatedtype ManagedObject: NSManagedObject
 
+  // TODO: better description, remove the "matching the predicate"
+
   /// **CoreDataPlus**
   ///
   /// Called when objects matching the predicate have been inserted.
@@ -74,12 +76,12 @@ public protocol EntityObserverDelegate: class {
 
   /// **CoreDataPlus**
   ///
-  /// Called when *all* the objects in the observed context (matching the predicate or not) have been invalidated.
+  /// Called when *all* the objects in the observed context have been invalidated.
   ///
   /// - Parameters:
   ///   - observer: The `EntityObserver` posting the callback.
   ///   - allObjectsInvalidatedForEvent: The entity change event type.
-  func entityObserver(_ observer: EntityObserver<ManagedObject>, allObjectsInvalidatedForEvent: ObservedEvent)
+  func entityObserver(_ observer: EntityObserver<ManagedObject>, allObjectsInvalidatedForEvent: ObservedEvent) //TODO: update this method to returns a set of IDs
 }
 
 /// **CoreDataPlus**
@@ -180,6 +182,15 @@ public class EntityObserver<T: NSManagedObject> {
 
   private var tokens = [NSObjectProtocol]()
 
+  private lazy var observedEntity: NSEntityDescription = {
+    // Attention: sometimes entity() returns nil due to a CoreData bug occurring in the Unit Test targets or when Generics are used.
+    // return T.entity()
+    guard let entity = NSEntityDescription.entity(forEntityName: T.entityName, in: context) else {
+      preconditionFailure("Missing NSEntityDescription for \(T.entityName)")
+    }
+    return entity
+  }()
+
   private lazy var entityPredicate: NSPredicate = {
     // Attention: sometimes entity() returns nil due to a CoreData bug occurring in the Unit Test targets or when Generics are used.
     //return NSPredicate(format: "entity == %@", entity)
@@ -245,7 +256,9 @@ public class EntityObserver<T: NSManagedObject> {
 
     context.performAndWait {
       func process(_ value: Set<NSManagedObject>) -> EntitySet {
-        return (value as NSSet).filtered(using: entityPredicate) as? EntitySet ?? []
+        // FIXME: work in progress
+        //return (value as NSSet).filtered(using: entityPredicate) as? EntitySet ?? []
+        return value.filter { $0.entity == observedEntity} as? EntitySet ?? []
       }
 
       let deleted = process(notification.deletedObjects)
@@ -264,10 +277,11 @@ public class EntityObserver<T: NSManagedObject> {
         delegate.entityObserver(self, updated: updated, event: event)
       }
 
+      // FIXME: is it correct having 2 kind of notifications?
       if let newNotification = notification as? NSManagedObjectContextReloadableObserving {
         let refreshed = process(newNotification.refreshedObjects)
         let invalidated = process(newNotification.invalidatedObjects)
-        let invalidatedAll = newNotification.invalidatedAllObjects
+        let invalidatedAll = newNotification.invalidatedAllObjects.filter { $0.entity == observedEntity } // TODO: add specific tests
 
         if !refreshed.isEmpty {
           delegate.entityObserver(self, refreshed: refreshed, event: event)
@@ -277,7 +291,7 @@ public class EntityObserver<T: NSManagedObject> {
           delegate.entityObserver(self, updated: invalidated, event: event)
         }
 
-        if invalidatedAll {
+        if !invalidatedAll.isEmpty {
           delegate.entityObserver(self, allObjectsInvalidatedForEvent: event)
         }
 

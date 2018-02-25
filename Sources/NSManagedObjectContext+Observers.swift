@@ -89,8 +89,8 @@ public protocol NSManagedObjectContextReloadableObserving: NSManagedObjectContex
 
   /// **CoreDataPlus**
   ///
-  /// Returns `true` if *all* the objects in the context have been invalidated.
-  var invalidatedAllObjects: Bool { get }
+  /// When all the object in the context have been invalidated, returns a `Set` containing all the invalidated objects' NSManagedObjectID.
+  var invalidatedAllObjects: Set<NSManagedObjectID> { get }
 }
 
 extension NSManagedObjectContextObserving {
@@ -136,11 +136,13 @@ extension NSManagedObjectContextReloadableObserving {
 
   /// **CoreDataPlus**
   ///
-  /// Returns `true` if *all* the objects in the context have been invalidated.
-  public var invalidatedAllObjects: Bool {
+  /// When all the object in the context have been invalidated, returns a `Set` containing all the invalidated objects' NSManagedObjectID.
+  public var invalidatedAllObjects: Set<NSManagedObjectID> {
     // ObjectsDidChangeNotification only
-    //let objects = notification.userInfo?[NSInvalidatedAllObjectsKey] as! Array<NSManagedObjectID>
-    return notification.userInfo?[NSInvalidatedAllObjectsKey] != nil
+    guard let objectsID = notification.userInfo?[NSInvalidatedAllObjectsKey] as? Array<NSManagedObjectID> else {
+      return Set()
+    }
+    return Set(objectsID)
   }
 }
 

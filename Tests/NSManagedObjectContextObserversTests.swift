@@ -74,7 +74,8 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     let notificationCenter = NotificationCenter.default
 
     let token1 = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
-      XCTAssertTrue(notification.invalidatedAllObjects)
+      XCTAssertTrue(!notification.invalidatedAllObjects.isEmpty)
+      XCTAssertEqual(notification.invalidatedAllObjects.count, 2)
       XCTAssertEqual(notification.invalidatedObjects.count, 0)
       expectation1.fulfill()
     }
@@ -260,7 +261,7 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     var updatedObjects = 0
     var refreshedObjects = 0
     var invalidatedObjects = 0
-    var invalidatedAllObjects = false
+    var invalidatedAllObjects = 0
 
     var didSaveDeletedObjects = 0
     var didSaveInsertedObjects = 0
@@ -288,8 +289,7 @@ class NSManagedObjectContextObserversTests: XCTestCase {
       updatedObjects += notification.updatedObjects.count
       refreshedObjects += notification.refreshedObjects.count
       invalidatedObjects += notification.invalidatedObjects.count
-
-      invalidatedAllObjects = invalidatedAllObjects || notification.invalidatedAllObjects
+      invalidatedAllObjects += notification.invalidatedAllObjects.count
     }
 
     let person1_inserted = Person(context: context)
@@ -357,6 +357,7 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     XCTAssertEqual(updatedObjects, 4)
     XCTAssertEqual(refreshedObjects, 1)
     XCTAssertEqual(invalidatedObjects, 0)
+    XCTAssertEqual(invalidatedAllObjects, 0)
     XCTAssertEqual(didSaveDeletedObjects, 2)
     XCTAssertEqual(didSaveInsertedObjects, 9)
     XCTAssertEqual(didSaveUpdatedObjects, 4)
@@ -627,7 +628,7 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     }
 
     let token2 = context.addObjectsDidChangeNotificationObserver { notification in
-      XCTAssertTrue(notification.invalidatedAllObjects)
+      XCTAssertFalse(notification.invalidatedAllObjects.isEmpty)
       expectation2.fulfill()
     }
 

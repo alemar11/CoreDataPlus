@@ -51,7 +51,7 @@ final class ManagedObjectObserver {
   fileprivate func changeType(of object: NSManagedObject, in notification: ObjectsDidChangeNotification) -> ChangeType? {
     let deleted = notification.deletedObjects.union(notification.invalidatedObjects)
 
-    if notification.invalidatedAllObjects || deleted.containsObjectIdentical(to: object) {
+    if !notification.invalidatedAllObjects.isEmpty || deleted.containsObjectIdentical(to: object) {
       return .delete
     }
 
