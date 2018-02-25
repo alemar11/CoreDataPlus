@@ -621,7 +621,6 @@ class NSManagedObjectContextObserversTests: XCTestCase {
       XCTAssertEqual(notification.insertedObjects.count, 0)
       XCTAssertEqual(notification.updatedObjects.count, 0)
       XCTAssertEqual(notification.deletedObjects.count, 0)
-      XCTAssertEqual(notification.invalidatedObjects.count, 0)
 
       context.performAndWaitMergeChanges(from: notification)
       expectation1.fulfill()

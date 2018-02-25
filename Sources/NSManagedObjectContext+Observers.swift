@@ -74,6 +74,9 @@ public protocol NSManagedObjectContextObserving: NSManagedObjectContextNotificat
   /// Returns a `Set`of objects that were marked for deletion during the previous event.
   var deletedObjects: Set<NSManagedObject> { get }
 
+}
+
+public protocol NSManagedObjectContextReloadableObserving: NSManagedObjectContextObserving {
   /// **CoreDataPlus**
   ///
   /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
@@ -112,6 +115,9 @@ extension NSManagedObjectContextObserving {
     return objects(forKey: NSDeletedObjectsKey)
   }
 
+}
+
+extension NSManagedObjectContextReloadableObserving {
   /// **CoreDataPlus**
   ///
   /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
@@ -124,7 +130,7 @@ extension NSManagedObjectContextObserving {
   ///
   /// A `Set` of objects that were invalidated.
   public var invalidatedObjects: Set<NSManagedObject> {
-     // ObjectsDidChangeNotification only
+    // ObjectsDidChangeNotification only
     return objects(forKey: NSInvalidatedObjectsKey)
   }
 
@@ -136,7 +142,6 @@ extension NSManagedObjectContextObserving {
     //let objects = notification.userInfo?[NSInvalidatedAllObjectsKey] as! Array<NSManagedObjectID>
     return notification.userInfo?[NSInvalidatedAllObjectsKey] != nil
   }
-
 }
 
 // MARK: - NSManagedObjectContextDidSave
@@ -184,7 +189,7 @@ public struct ContextWillSaveNotification: NSManagedObjectContextNotification {
 
 // MARK: - NSManagedObjectContextObjectsDidChange
 
-public struct ObjectsDidChangeNotification: NSManagedObjectContextObserving {
+public struct ObjectsDidChangeNotification: NSManagedObjectContextReloadableObserving {
 
   public let notification: Notification
 

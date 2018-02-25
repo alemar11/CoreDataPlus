@@ -71,6 +71,15 @@ public protocol EntityObserverDelegate: class {
   /// - parameter entities: The set of invalidated objects.
   /// - parameter event: The entity change event type.
   func entityObserver(_ observer: EntityObserver<ManagedObject>, invalidated: Set<ManagedObject>, event: ObservedEvent)
+
+  /// **CoreDataPlus**
+  ///
+  /// Called when *all* the objects in the observed context (matching the predicate or not) have been invalidated.
+  ///
+  /// - Parameters:
+  ///   - observer: The `EntityObserver` posting the callback.
+  ///   - allObjectsInvalidatedForEvent: The entity change event type.
+  func entityObserver(_ observer: EntityObserver<ManagedObject>, allObjectsInvalidatedForEvent: ObservedEvent)
 }
 
 /// **CoreDataPlus**
@@ -103,6 +112,7 @@ public class AnyEntityObserverDelegate<T: NSManagedObject>: EntityObserverDelega
   private let _updated: (EntityObserver<T>, Set<T>, ObservedEvent) -> Void
   private let _refreshed: (EntityObserver<T>, Set<T>, ObservedEvent) -> Void
   private let _invalidated: (EntityObserver<T>, Set<T>, ObservedEvent) -> Void
+  private let _invalidatedAll: (EntityObserver<T>, ObservedEvent) -> Void
 
   public required init<D: EntityObserverDelegate>(_ delegate: D) where D.ManagedObject == T {
     _deleted = delegate.entityObserver(_:deleted:event:)
@@ -110,6 +120,7 @@ public class AnyEntityObserverDelegate<T: NSManagedObject>: EntityObserverDelega
     _updated = delegate.entityObserver(_:updated:event:)
     _refreshed = delegate.entityObserver(_:refreshed:event:)
     _invalidated = delegate.entityObserver(_:invalidated:event:)
+    _invalidatedAll = delegate.entityObserver(_:allObjectsInvalidatedForEvent:)
   }
 
   public func entityObserver(_ observer: EntityObserver<T>, inserted: Set<T>, event: ObservedEvent) {
@@ -130,6 +141,10 @@ public class AnyEntityObserverDelegate<T: NSManagedObject>: EntityObserverDelega
 
   public func entityObserver(_ observer: EntityObserver<ManagedObject>, invalidated: Set<ManagedObject>, event: ObservedEvent) {
     _invalidated(observer, invalidated, event)
+  }
+
+  public func entityObserver(_ observer: EntityObserver<T>, allObjectsInvalidatedForEvent event: ObservedEvent) {
+    _invalidatedAll(observer, event)
   }
 
 }
@@ -157,7 +172,7 @@ public class EntityObserver<T: NSManagedObject> {
 
   let event: ObservedEvent
 
-  let filterPredicate: NSPredicate?
+  //let filterPredicate: NSPredicate?
 
   // MARK: - Private Properties
 
@@ -174,20 +189,20 @@ public class EntityObserver<T: NSManagedObject> {
     return NSPredicate(format: "entity == %@", entityDescription)
   }()
 
-  private lazy var combinedPredicate: NSPredicate = {
-    if let filterPredicate = self.filterPredicate {
-      return NSCompoundPredicate(andPredicateWithSubpredicates: [self.entityPredicate, filterPredicate])
-    } else {
-      return self.entityPredicate
-    }
-  }()
+//  private lazy var combinedPredicate: NSPredicate = {
+//    if let filterPredicate = self.filterPredicate {
+//      return NSCompoundPredicate(andPredicateWithSubpredicates: [self.entityPredicate, filterPredicate])
+//    } else {
+//      return self.entityPredicate
+//    }
+//  }()
 
   // MARK: - Initializers
 
-  public init(context: NSManagedObjectContext, event: ObservedEvent, filterBy predicate: NSPredicate? = nil) {
+  public init(context: NSManagedObjectContext, event: ObservedEvent) {
     self.context = context
     self.event = event
-    self.filterPredicate = predicate
+    //self.filterPredicate = predicate
   }
 
   deinit {
@@ -230,15 +245,12 @@ public class EntityObserver<T: NSManagedObject> {
 
     context.performAndWait {
       func process(_ value: Set<NSManagedObject>) -> EntitySet {
-        return (value as NSSet).filtered(using: combinedPredicate) as? EntitySet ?? []
+        return (value as NSSet).filtered(using: entityPredicate) as? EntitySet ?? []
       }
 
       let deleted = process(notification.deletedObjects)
       let inserted = process(notification.insertedObjects)
       let updated = process(notification.updatedObjects)
-      let refreshed = process(notification.refreshedObjects)
-      let invalidated = process(notification.invalidatedObjects)
-      let invalidatedAll = notification.invalidatedAllObjects
 
       if !inserted.isEmpty {
         delegate.entityObserver(self, inserted: inserted, event: event)
@@ -248,20 +260,27 @@ public class EntityObserver<T: NSManagedObject> {
         delegate.entityObserver(self, deleted: deleted, event: event)
       }
 
-      if !refreshed.isEmpty {
-        delegate.entityObserver(self, refreshed: refreshed, event: event)
-      }
-
       if !updated.isEmpty {
         delegate.entityObserver(self, updated: updated, event: event)
       }
 
-      if !invalidated.isEmpty {
-        delegate.entityObserver(self, updated: invalidated, event: event)
-      }
+      if let newNotification = notification as? NSManagedObjectContextReloadableObserving {
+        let refreshed = process(newNotification.refreshedObjects)
+        let invalidated = process(newNotification.invalidatedObjects)
+        let invalidatedAll = newNotification.invalidatedAllObjects
 
-      if invalidatedAll {
-        //delegate.entityObserver(self, updated: invalidated, event: event)
+        if !refreshed.isEmpty {
+          delegate.entityObserver(self, refreshed: refreshed, event: event)
+        }
+
+        if !invalidated.isEmpty {
+          delegate.entityObserver(self, updated: invalidated, event: event)
+        }
+
+        if invalidatedAll {
+          delegate.entityObserver(self, allObjectsInvalidatedForEvent: event)
+        }
+
       }
 
     }
