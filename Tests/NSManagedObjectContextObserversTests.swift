@@ -534,8 +534,9 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     car1.numberPlate = "14"
 
     try context.save()
-
     let request = Person.fetchRequest()
+
+    // request.addSortDescriptors([NSSortDescriptor(key: "firstName", ascending: false)]) // with a descriptors the context will materialize all the Person objects
     request.addSortDescriptors([])
     let delegate = FetchedResultsControllerMockDelegate()
     let frc = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
@@ -551,20 +552,6 @@ class NSManagedObjectContextObserversTests: XCTestCase {
       XCTAssertEqual(notification.updatedObjects.count, 1) // 1 person
       
       context.performAndWaitMergeChanges(from: notification)
-
-      // person1, being updated, will be refreshed (and turned into a fault)
-      // person2 will be the same
-      // person3 will be inserted as fault
-      // car1 will be the same
-      XCTAssertEqual(context.registeredObjects.count, 4)
-      context.registeredObjects.enumerated().forEach({ (offset, object) in
-        switch (object.objectID) {
-        case person2.objectID, car1.objectID: XCTAssertFalse(object.isFault)
-        default: XCTAssertTrue(object.isFault)
-        }
-
-      })
-
       expectation1.fulfill()
     }
 
@@ -582,18 +569,21 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     person3.lastName = "Marzoli"
 
     // Update a faulted relationship
-    let firstPerson = persons.first!
+    let firstPerson = persons.filter { $0.firstName == person1.firstName }.first!
     firstPerson.cars = Set([car2])
 
     try anotherContext.save()
 
-    waitForExpectations(timeout: 2)
+    waitForExpectations(timeout: 5)
 
-    XCTAssertEqual(delegate.updatedObjects.count, 1)
+    XCTAssertEqual(delegate.updatedObjects.count + delegate.movedObjects.count, 1)
     XCTAssertEqual(delegate.insertedObjects.count, 1) // the FRC monitors only for Person object
-    let updatedObject = delegate.updatedObjects.first! as! Person
-    XCTAssertEqual(updatedObject.objectID, firstPerson.objectID)
 
+    XCTAssertEqual(context.registeredObjects.count, 4)
+    let expectedIds = Set([person1.objectID, person2.objectID, person3.objectID, car1.objectID])
+    let foundIds = Set(context.registeredObjects.flatMap { $0.objectID })
+
+    XCTAssertEqual(expectedIds, foundIds)
     notificationCenter.removeObserver(token1)
   }
 
