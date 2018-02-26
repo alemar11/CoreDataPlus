@@ -170,7 +170,7 @@ public class EntityObserver<T: NSManagedObject> {
 
   let context: NSManagedObjectContext
 
-  let entity = T.entity()
+  //let entity = T.entity()
 
   let event: ObservedEvent
 
@@ -256,9 +256,7 @@ public class EntityObserver<T: NSManagedObject> {
 
     context.performAndWait {
       func process(_ value: Set<NSManagedObject>) -> EntitySet {
-        // FIXME: work in progress
-        //return (value as NSSet).filtered(using: entityPredicate) as? EntitySet ?? []
-        return value.filter { $0.entity == observedEntity} as? EntitySet ?? []
+        return value.filter { $0.entity == observedEntity } as? EntitySet ?? []
       }
 
       let deleted = process(notification.deletedObjects)
