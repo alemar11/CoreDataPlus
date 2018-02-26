@@ -81,7 +81,7 @@ public protocol EntityObserverDelegate: class {
   /// - Parameters:
   ///   - observer: The `EntityObserver` posting the callback.
   ///   - allObjectsInvalidatedForEvent: The entity change event type.
-  func entityObserver(_ observer: EntityObserver<ManagedObject>, allObjectsInvalidatedForEvent: ObservedEvent) //TODO: update this method to returns a set of IDs
+  func entityObserver(_ observer: EntityObserver<ManagedObject>, allObjectsInvalidated: Set<NSManagedObjectID>, event: ObservedEvent) //TODO: update this method to returns a set of IDs
 }
 
 /// **CoreDataPlus**
@@ -114,7 +114,7 @@ public class AnyEntityObserverDelegate<T: NSManagedObject>: EntityObserverDelega
   private let _updated: (EntityObserver<T>, Set<T>, ObservedEvent) -> Void
   private let _refreshed: (EntityObserver<T>, Set<T>, ObservedEvent) -> Void
   private let _invalidated: (EntityObserver<T>, Set<T>, ObservedEvent) -> Void
-  private let _invalidatedAll: (EntityObserver<T>, ObservedEvent) -> Void
+  private let _invalidatedAll: (EntityObserver<T>, Set<NSManagedObjectID>, ObservedEvent) -> Void
 
   public required init<D: EntityObserverDelegate>(_ delegate: D) where D.ManagedObject == T {
     _deleted = delegate.entityObserver(_:deleted:event:)
@@ -122,7 +122,7 @@ public class AnyEntityObserverDelegate<T: NSManagedObject>: EntityObserverDelega
     _updated = delegate.entityObserver(_:updated:event:)
     _refreshed = delegate.entityObserver(_:refreshed:event:)
     _invalidated = delegate.entityObserver(_:invalidated:event:)
-    _invalidatedAll = delegate.entityObserver(_:allObjectsInvalidatedForEvent:)
+    _invalidatedAll = delegate.entityObserver(_:allObjectsInvalidated:event:)
   }
 
   public func entityObserver(_ observer: EntityObserver<T>, inserted: Set<T>, event: ObservedEvent) {
@@ -145,8 +145,8 @@ public class AnyEntityObserverDelegate<T: NSManagedObject>: EntityObserverDelega
     _invalidated(observer, invalidated, event)
   }
 
-  public func entityObserver(_ observer: EntityObserver<T>, allObjectsInvalidatedForEvent event: ObservedEvent) {
-    _invalidatedAll(observer, event)
+  public func entityObserver(_ observer: EntityObserver<T>, allObjectsInvalidated: Set<NSManagedObjectID>, event: ObservedEvent) {
+    _invalidatedAll(observer, allObjectsInvalidated, event)
   }
 
 }
@@ -290,7 +290,7 @@ public class EntityObserver<T: NSManagedObject> {
         }
 
         if !invalidatedAll.isEmpty {
-          delegate.entityObserver(self, allObjectsInvalidatedForEvent: event)
+          delegate.entityObserver(self, allObjectsInvalidated: invalidatedAll, event: event)
         }
 
       }
