@@ -139,7 +139,7 @@ extension NSManagedObjectContextReloadableObserving {
   /// When all the object in the context have been invalidated, returns a `Set` containing all the invalidated objects' NSManagedObjectID.
   public var invalidatedAllObjects: Set<NSManagedObjectID> {
     // ObjectsDidChangeNotification only
-    guard let objectsID = notification.userInfo?[NSInvalidatedAllObjectsKey] as? Array<NSManagedObjectID> else {
+    guard let objectsID = notification.userInfo?[NSInvalidatedAllObjectsKey] as? [NSManagedObjectID] else {
       return Set()
     }
     return Set(objectsID)

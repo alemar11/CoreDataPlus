@@ -551,7 +551,7 @@ class NSManagedObjectContextObserversTests: XCTestCase {
     let token1 = anotherContext.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       XCTAssertEqual(notification.insertedObjects.count, 2) // 1 person and 1 car
       XCTAssertEqual(notification.updatedObjects.count, 1) // 1 person
-      
+
       context.performAndWaitMergeChanges(from: notification)
       expectation1.fulfill()
     }

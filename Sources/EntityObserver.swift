@@ -169,11 +169,7 @@ public class EntityObserver<T: NSManagedObject> {
 
   let context: NSManagedObjectContext
 
-  //let entity = T.entity()
-
   let event: ObservedEvent
-
-  //let filterPredicate: NSPredicate?
 
   // MARK: - Private Properties
 
@@ -198,14 +194,6 @@ public class EntityObserver<T: NSManagedObject> {
     }
     return NSPredicate(format: "entity == %@", entityDescription)
   }()
-
-//  private lazy var combinedPredicate: NSPredicate = {
-//    if let filterPredicate = self.filterPredicate {
-//      return NSCompoundPredicate(andPredicateWithSubpredicates: [self.entityPredicate, filterPredicate])
-//    } else {
-//      return self.entityPredicate
-//    }
-//  }()
 
   // MARK: - Initializers
 
