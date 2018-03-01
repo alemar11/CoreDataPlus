@@ -27,50 +27,48 @@ import CoreData
 public protocol EntityObserverDelegate: class {
   associatedtype ManagedObject: NSManagedObject
 
-  // TODO: better description, remove the "matching the predicate"
-
   /// **CoreDataPlus**
   ///
-  /// Called when objects matching the predicate have been inserted.
+  /// Called when some objects have been inserted.
   ///
   /// - parameter observer: The `EntityObserver` posting the callback.
-  /// - parameter entities: The set of inserted objects.
+  /// - parameter entities: The set of inserted objects for the observer entity.
   /// - parameter event: The entity change event type.
   func entityObserver(_ observer: EntityObserver<ManagedObject>, inserted: Set<ManagedObject>, event: ObservedEvent)
 
   /// **CoreDataPlus**
   ///
-  /// Called when objects matching the predicate have been deleted.
+  /// Called when some objects have been deleted.
   ///
   /// - parameter observer: The `EntityObserver` posting the callback.
-  /// - parameter entities: The set of deleted objects.
+  /// - parameter entities: The set of deleted objects for the observer entity.
   /// - parameter event: The entity change event type.
   func entityObserver(_ observer: EntityObserver<ManagedObject>, deleted: Set<ManagedObject>, event: ObservedEvent)
 
   /// **CoreDataPlus**
   ///
-  /// Called when objects matching the predicate have been deleted.
+  /// Called when some objects have been deleted.
   ///
   /// - parameter observer: The `EntityObserver` posting the callback.
-  /// - parameter entities: The set of updated objects.
+  /// - parameter entities: The set of updated objects for the observer entity.
   /// - parameter event: The entity change event type.
   func entityObserver(_ observer: EntityObserver<ManagedObject>, updated: Set<ManagedObject>, event: ObservedEvent)
 
   /// **CoreDataPlus**
   ///
-  /// Called when objects matching the predicate have been refreshed.
+  /// Called when some objects have been refreshed.
   ///
   /// - parameter observer: The `EntityObserver` posting the callback.
-  /// - parameter entities: The set of refreshed objects.
+  /// - parameter entities: The set of refreshed objects for the observer entity.
   /// - parameter event: The entity change event type.
   func entityObserver(_ observer: EntityObserver<ManagedObject>, refreshed: Set<ManagedObject>, event: ObservedEvent)
 
   /// **CoreDataPlus**
   ///
-  /// Called when objects matching the predicate have been invalidated.
+  /// Called when some objects have been invalidated.
   ///
   /// - parameter observer: The `EntityObserver` posting the callback.
-  /// - parameter entities: The set of invalidated objects.
+  /// - parameter entities: The set of invalidated objects for the observer entity.
   /// - parameter event: The entity change event type.
   func entityObserver(_ observer: EntityObserver<ManagedObject>, invalidated: Set<ManagedObject>, event: ObservedEvent)
 
@@ -80,8 +78,9 @@ public protocol EntityObserverDelegate: class {
   ///
   /// - Parameters:
   ///   - observer: The `EntityObserver` posting the callback.
-  ///   - allObjectsInvalidatedForEvent: The entity change event type.
-  func entityObserver(_ observer: EntityObserver<ManagedObject>, allObjectsInvalidatedForEvent: ObservedEvent) //TODO: update this method to returns a set of IDs
+  ///   - invalidatedAll: The set of invalidated objects for the observer entity.
+  ///   - event: The entity change event type.
+  func entityObserver(_ observer: EntityObserver<ManagedObject>, invalidatedAll: Set<NSManagedObjectID>, event: ObservedEvent)
 }
 
 /// **CoreDataPlus**
@@ -114,7 +113,7 @@ public class AnyEntityObserverDelegate<T: NSManagedObject>: EntityObserverDelega
   private let _updated: (EntityObserver<T>, Set<T>, ObservedEvent) -> Void
   private let _refreshed: (EntityObserver<T>, Set<T>, ObservedEvent) -> Void
   private let _invalidated: (EntityObserver<T>, Set<T>, ObservedEvent) -> Void
-  private let _invalidatedAll: (EntityObserver<T>, ObservedEvent) -> Void
+  private let _invalidatedAll: (EntityObserver<T>, Set<NSManagedObjectID>, ObservedEvent) -> Void
 
   public required init<D: EntityObserverDelegate>(_ delegate: D) where D.ManagedObject == T {
     _deleted = delegate.entityObserver(_:deleted:event:)
@@ -122,7 +121,7 @@ public class AnyEntityObserverDelegate<T: NSManagedObject>: EntityObserverDelega
     _updated = delegate.entityObserver(_:updated:event:)
     _refreshed = delegate.entityObserver(_:refreshed:event:)
     _invalidated = delegate.entityObserver(_:invalidated:event:)
-    _invalidatedAll = delegate.entityObserver(_:allObjectsInvalidatedForEvent:)
+    _invalidatedAll = delegate.entityObserver(_:invalidatedAll:event:)
   }
 
   public func entityObserver(_ observer: EntityObserver<T>, inserted: Set<T>, event: ObservedEvent) {
@@ -145,8 +144,8 @@ public class AnyEntityObserverDelegate<T: NSManagedObject>: EntityObserverDelega
     _invalidated(observer, invalidated, event)
   }
 
-  public func entityObserver(_ observer: EntityObserver<T>, allObjectsInvalidatedForEvent event: ObservedEvent) {
-    _invalidatedAll(observer, event)
+  public func entityObserver(_ observer: EntityObserver<T>, invalidatedAll: Set<NSManagedObjectID>, event: ObservedEvent) {
+    _invalidatedAll(observer, invalidatedAll, event)
   }
 
 }
@@ -292,7 +291,7 @@ public class EntityObserver<T: NSManagedObject> {
         }
 
         if !invalidatedAll.isEmpty {
-          delegate.entityObserver(self, allObjectsInvalidatedForEvent: event)
+          delegate.entityObserver(self, invalidatedAll: invalidatedAll, event: event)
         }
 
       }
