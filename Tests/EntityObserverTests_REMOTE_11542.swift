@@ -66,7 +66,7 @@ class EntityObserverTests: XCTestCase {
       XCTFail("There shouldn't be invalidated objects.")
     }
 
-    delegate.onIvalidatedAll = { invalidatedAll, event, observer in
+    delegate.onIvalidatedAll = { invalidated, event, observer in
       XCTFail("There shouldn't an invalidated all event.")
     }
     
@@ -133,7 +133,7 @@ class EntityObserverTests: XCTestCase {
       XCTFail("There shouldn't be invalidated objects.")
     }
 
-    delegate.onIvalidatedAll = { invalidatedAll, event, observer in
+    delegate.onIvalidatedAll = { invalidated, event, observer in
       XCTFail("There shouldn't an invalidated all event.")
     }
     
@@ -204,7 +204,7 @@ class EntityObserverTests: XCTestCase {
       XCTFail("There shouldn't be invalidated objects.")
     }
 
-    delegate.onIvalidatedAll = { invalidatedAll, event, observer in
+    delegate.onIvalidatedAll = { invalidated, event, observer in
       XCTFail("There shouldn't an invalidated all event.")
     }
     
@@ -359,7 +359,7 @@ class EntityObserverTests: XCTestCase {
       XCTFail("There shouldn't be invalidated objects.")
     }
 
-    delegate.onIvalidatedAll = { invalidatedAll, event, observer in
+    delegate.onIvalidatedAll = { invalidated, event, observer in
       XCTFail("There shouldn't an invalidated all event.")
     }
 
@@ -435,7 +435,7 @@ class EntityObserverTests: XCTestCase {
       XCTFail("There shouldn't be invalidated objects.")
     }
 
-    delegate.onIvalidatedAll = { invalidatedAll, event, observer in
+    delegate.onIvalidatedAll = { invalidated, event, observer in
       expectation1.fulfill()
     }
 
@@ -525,7 +525,7 @@ class EntityObserverTests: XCTestCase {
       XCTFail("There shouldn't be invalidated objects.")
     }
 
-    delegate.onIvalidatedAll = { invalidatedAll, event, observer in
+    delegate.onIvalidatedAll = { invalidated, event, observer in
       XCTFail("There shouldn't an invalidated all event.")
     }
     
@@ -572,7 +572,7 @@ class EntityObserverTests: XCTestCase {
       XCTFail("There shouldn't be invalidated objects.")
     }
 
-    delegate.onIvalidatedAll = { invalidatedAll, event, observer in
+    delegate.onIvalidatedAll = { invalidated, vent, observer in
       XCTFail("There shouldn't an invalidated all event.")
     }
     
@@ -633,7 +633,7 @@ class EntityObserverTests: XCTestCase {
       XCTFail("There shouldn't be invalidated objects.")
     }
 
-    delegate.onIvalidatedAll = { invalidatedAll, event, observer in
+    delegate.onIvalidatedAll = { invalidated, event, observer in
       XCTFail("There shouldn't an invalidated all event.")
     }
     
@@ -721,7 +721,7 @@ class EntityObserverTests: XCTestCase {
       XCTFail("There shouldn't be invalidated objects.")
     }
 
-    delegate.onIvalidatedAll = { invalidatedAll, event, observer in
+    delegate.onIvalidatedAll = { invalidated, event, observer in
       XCTFail("There shouldn't an invalidated all event.")
     }
     
@@ -870,7 +870,7 @@ class EntityObserverTests: XCTestCase {
       XCTFail("There shouldn't be invalidated objects.")
     }
 
-    delegate.onIvalidatedAll = { invalidatedAll, event, observer in
+    delegate.onIvalidatedAll = { invalidated, event, observer in
       XCTFail("There shouldn't an invalidated all event.")
     }
     
@@ -925,8 +925,8 @@ class EntityObserverTests: XCTestCase {
       onInvalidated(invalidated, event, observer)
     }
 
-    func entityObserver(_ observer: EntityObserver<T>, invalidatedAll: Set<NSManagedObjectID>, event: ObservedEvent) {
-      onIvalidatedAll(invalidatedAll, event, observer)
+    func entityObserver(_ observer: EntityObserver<T>, allObjectsInvalidated: Set<NSManagedObjectID>, event: ObservedEvent) {
+      onIvalidatedAll(allObjectsInvalidated, event, observer)
     }
   }
   

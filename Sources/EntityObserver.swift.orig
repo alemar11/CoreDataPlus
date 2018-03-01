@@ -78,9 +78,14 @@ public protocol EntityObserverDelegate: class {
   ///
   /// - Parameters:
   ///   - observer: The `EntityObserver` posting the callback.
+<<<<<<< HEAD
   ///   - invalidatedAll: The set of invalidated objects for the observer entity.
   ///   - event: The entity change event type.
   func entityObserver(_ observer: EntityObserver<ManagedObject>, invalidatedAll: Set<NSManagedObjectID>, event: ObservedEvent)
+=======
+  ///   - allObjectsInvalidatedForEvent: The entity change event type.
+  func entityObserver(_ observer: EntityObserver<ManagedObject>, allObjectsInvalidated: Set<NSManagedObjectID>, event: ObservedEvent) //TODO: update this method to returns a set of IDs
+>>>>>>> 6d79e901c6c89066059a04ef5d9291c4362b9532
 }
 
 /// **CoreDataPlus**
@@ -121,7 +126,11 @@ public class AnyEntityObserverDelegate<T: NSManagedObject>: EntityObserverDelega
     _updated = delegate.entityObserver(_:updated:event:)
     _refreshed = delegate.entityObserver(_:refreshed:event:)
     _invalidated = delegate.entityObserver(_:invalidated:event:)
+<<<<<<< HEAD
     _invalidatedAll = delegate.entityObserver(_:invalidatedAll:event:)
+=======
+    _invalidatedAll = delegate.entityObserver(_:allObjectsInvalidated:event:)
+>>>>>>> 6d79e901c6c89066059a04ef5d9291c4362b9532
   }
 
   public func entityObserver(_ observer: EntityObserver<T>, inserted: Set<T>, event: ObservedEvent) {
@@ -144,8 +153,13 @@ public class AnyEntityObserverDelegate<T: NSManagedObject>: EntityObserverDelega
     _invalidated(observer, invalidated, event)
   }
 
+<<<<<<< HEAD
   public func entityObserver(_ observer: EntityObserver<T>, invalidatedAll: Set<NSManagedObjectID>, event: ObservedEvent) {
     _invalidatedAll(observer, invalidatedAll, event)
+=======
+  public func entityObserver(_ observer: EntityObserver<T>, allObjectsInvalidated: Set<NSManagedObjectID>, event: ObservedEvent) {
+    _invalidatedAll(observer, allObjectsInvalidated, event)
+>>>>>>> 6d79e901c6c89066059a04ef5d9291c4362b9532
   }
 
 }
@@ -289,7 +303,11 @@ public class EntityObserver<T: NSManagedObject> {
         }
 
         if !invalidatedAll.isEmpty {
+<<<<<<< HEAD
           delegate.entityObserver(self, invalidatedAll: invalidatedAll, event: event)
+=======
+          delegate.entityObserver(self, allObjectsInvalidated: invalidatedAll, event: event)
+>>>>>>> 6d79e901c6c89066059a04ef5d9291c4362b9532
         }
 
       }

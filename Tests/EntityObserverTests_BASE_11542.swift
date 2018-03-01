@@ -40,6 +40,9 @@ class EntityObserverTests: XCTestCase {
     let context = stack.mainContext
     let observedEvent = ObservedEvent.onChange
     let entityObserver = EntityObserver<SportCar>(context: context, event: observedEvent)
+
+    let personz = NSEntityDescription.insertNewObject(forEntityName: "Person", into: context) as? Person
+XCTAssertNotNil(personz)
     let expectation1 = expectation(description: "\(#function)\(#line)")
     
     let delegate = DummyEntityObserverDelegate<SportCar>()
@@ -66,7 +69,7 @@ class EntityObserverTests: XCTestCase {
       XCTFail("There shouldn't be invalidated objects.")
     }
 
-    delegate.onIvalidatedAll = { invalidatedAll, event, observer in
+    delegate.onIvalidatedAll = { event, observer in
       XCTFail("There shouldn't an invalidated all event.")
     }
     
@@ -133,7 +136,7 @@ class EntityObserverTests: XCTestCase {
       XCTFail("There shouldn't be invalidated objects.")
     }
 
-    delegate.onIvalidatedAll = { invalidatedAll, event, observer in
+    delegate.onIvalidatedAll = { event, observer in
       XCTFail("There shouldn't an invalidated all event.")
     }
     
@@ -204,7 +207,7 @@ class EntityObserverTests: XCTestCase {
       XCTFail("There shouldn't be invalidated objects.")
     }
 
-    delegate.onIvalidatedAll = { invalidatedAll, event, observer in
+    delegate.onIvalidatedAll = { event, observer in
       XCTFail("There shouldn't an invalidated all event.")
     }
     
@@ -223,81 +226,81 @@ class EntityObserverTests: XCTestCase {
     waitForExpectations(timeout: 2)
   }
   
-  //  func testFilteredUpdatedOnChangeEvent() throws {
-  //    let stack = CoreDataStack.stack()
-  //    let context = stack.mainContext
-  //    let observedEvent = ObservedEvent.onChange
-  //    let expectation1 = expectation(description: "\(#function)\(#line)")
-  //
-  //    let sportCar1 = SportCar(context: context)
-  //    sportCar1.maker = "McLaren"
-  //    sportCar1.model = "570GT"
-  //    sportCar1.numberPlate = "203"
-  //
-  //    let sportCar2 = SportCar(context: context)
-  //    sportCar2.maker = "Lamborghini "
-  //    sportCar2.model = "Aventador LP750-4"
-  //    sportCar2.numberPlate = "204"
-  //
-  //    let expensiveSportCar1 = ExpensiveSportCar(context: context)
-  //    expensiveSportCar1.maker = "BMW"
-  //    expensiveSportCar1.model = "M6 Coupe"
-  //    expensiveSportCar1.numberPlate = "300"
-  //    expensiveSportCar1.isLimitedEdition = true
-  //
-  //    let car1 = Car(context: context)
-  //    car1.maker = "FIAT"
-  //    car1.model = "Panda"
-  //    car1.numberPlate = "1"
-  //
-  //    try context.save()
-  //
-  //    let predicate = NSPredicate(format: "SELF == %@", sportCar2)
-  //    let entityObserver = EntityObserver<SportCar>(context: context, event: observedEvent, filterBy: predicate)
-  //
-  //    let delegate = DummyEntityObserverDelegate<SportCar>()
-  //    delegate.onInserted = { inserted, event, observer in
-  //      XCTFail("There shouldn't be inserted objects.")
-  //    }
-  //
-  //    delegate.onDeleted = { deleted, event, observer in
-  //      XCTFail("There shouldn't be deleted objects.")
-  //    }
-  //
-  //    delegate.onUpdated = { updated, event, observer in
-  //      XCTAssertTrue(observer === entityObserver)
-  //      XCTAssertEqual(observedEvent, event)
-  //      XCTAssertEqual(updated.count, 1)
-  //      XCTAssertTrue(updated.first! === sportCar2)
-  //      expectation1.fulfill()
-  //    }
-  //
-  //    delegate.onRefreshed = { refreshed, event, observer in
-  //      XCTFail("There shouldn't be refreshed objects.")
-  //    }
-  //
-  //    delegate.onInvalidated = { invalidated, event, observer in
-  //      XCTFail("There shouldn't be invalidated objects.")
-  //    }
-  //
-  //    delegate.onIvalidatedAll = { event, observer in
-  //      XCTFail("There shouldn't an invalidated all event.")
-  //    }
-  //
-  //    let anyDelegate = AnyEntityObserverDelegate(delegate)
-  //    entityObserver.delegate = anyDelegate
-  //
-  //    let person1 = Person(context: context)
-  //    person1.firstName = "Edythe"
-  //    person1.lastName = "Moreton"
-  //
-  //    context.delete(car1)
-  //    sportCar1.numberPlate = sportCar1.numberPlate + " Updated"
-  //    sportCar2.numberPlate = sportCar2.numberPlate + " Updated"
-  //    expensiveSportCar1.numberPlate = expensiveSportCar1.numberPlate + " Updated"
-  //
-  //    waitForExpectations(timeout: 2)
-  //  }
+//  func testFilteredUpdatedOnChangeEvent() throws {
+//    let stack = CoreDataStack.stack()
+//    let context = stack.mainContext
+//    let observedEvent = ObservedEvent.onChange
+//    let expectation1 = expectation(description: "\(#function)\(#line)")
+//
+//    let sportCar1 = SportCar(context: context)
+//    sportCar1.maker = "McLaren"
+//    sportCar1.model = "570GT"
+//    sportCar1.numberPlate = "203"
+//
+//    let sportCar2 = SportCar(context: context)
+//    sportCar2.maker = "Lamborghini "
+//    sportCar2.model = "Aventador LP750-4"
+//    sportCar2.numberPlate = "204"
+//
+//    let expensiveSportCar1 = ExpensiveSportCar(context: context)
+//    expensiveSportCar1.maker = "BMW"
+//    expensiveSportCar1.model = "M6 Coupe"
+//    expensiveSportCar1.numberPlate = "300"
+//    expensiveSportCar1.isLimitedEdition = true
+//
+//    let car1 = Car(context: context)
+//    car1.maker = "FIAT"
+//    car1.model = "Panda"
+//    car1.numberPlate = "1"
+//
+//    try context.save()
+//
+//    let predicate = NSPredicate(format: "SELF == %@", sportCar2)
+//    let entityObserver = EntityObserver<SportCar>(context: context, event: observedEvent, filterBy: predicate)
+//
+//    let delegate = DummyEntityObserverDelegate<SportCar>()
+//    delegate.onInserted = { inserted, event, observer in
+//      XCTFail("There shouldn't be inserted objects.")
+//    }
+//
+//    delegate.onDeleted = { deleted, event, observer in
+//      XCTFail("There shouldn't be deleted objects.")
+//    }
+//
+//    delegate.onUpdated = { updated, event, observer in
+//      XCTAssertTrue(observer === entityObserver)
+//      XCTAssertEqual(observedEvent, event)
+//      XCTAssertEqual(updated.count, 1)
+//      XCTAssertTrue(updated.first! === sportCar2)
+//      expectation1.fulfill()
+//    }
+//
+//    delegate.onRefreshed = { refreshed, event, observer in
+//      XCTFail("There shouldn't be refreshed objects.")
+//    }
+//
+//    delegate.onInvalidated = { invalidated, event, observer in
+//      XCTFail("There shouldn't be invalidated objects.")
+//    }
+//
+//    delegate.onIvalidatedAll = { event, observer in
+//      XCTFail("There shouldn't an invalidated all event.")
+//    }
+//
+//    let anyDelegate = AnyEntityObserverDelegate(delegate)
+//    entityObserver.delegate = anyDelegate
+//
+//    let person1 = Person(context: context)
+//    person1.firstName = "Edythe"
+//    person1.lastName = "Moreton"
+//
+//    context.delete(car1)
+//    sportCar1.numberPlate = sportCar1.numberPlate + " Updated"
+//    sportCar2.numberPlate = sportCar2.numberPlate + " Updated"
+//    expensiveSportCar1.numberPlate = expensiveSportCar1.numberPlate + " Updated"
+//
+//    waitForExpectations(timeout: 2)
+//  }
 
   func testRefreshedOnChangeEvent() throws {
     let stack = CoreDataStack.stack()
@@ -359,7 +362,7 @@ class EntityObserverTests: XCTestCase {
       XCTFail("There shouldn't be invalidated objects.")
     }
 
-    delegate.onIvalidatedAll = { invalidatedAll, event, observer in
+    delegate.onIvalidatedAll = { event, observer in
       XCTFail("There shouldn't an invalidated all event.")
     }
 
@@ -435,7 +438,7 @@ class EntityObserverTests: XCTestCase {
       XCTFail("There shouldn't be invalidated objects.")
     }
 
-    delegate.onIvalidatedAll = { invalidatedAll, event, observer in
+    delegate.onIvalidatedAll = { event, observer in
       expectation1.fulfill()
     }
 
@@ -525,7 +528,7 @@ class EntityObserverTests: XCTestCase {
       XCTFail("There shouldn't be invalidated objects.")
     }
 
-    delegate.onIvalidatedAll = { invalidatedAll, event, observer in
+    delegate.onIvalidatedAll = { event, observer in
       XCTFail("There shouldn't an invalidated all event.")
     }
     
@@ -572,7 +575,7 @@ class EntityObserverTests: XCTestCase {
       XCTFail("There shouldn't be invalidated objects.")
     }
 
-    delegate.onIvalidatedAll = { invalidatedAll, event, observer in
+    delegate.onIvalidatedAll = { event, observer in
       XCTFail("There shouldn't an invalidated all event.")
     }
     
@@ -633,7 +636,7 @@ class EntityObserverTests: XCTestCase {
       XCTFail("There shouldn't be invalidated objects.")
     }
 
-    delegate.onIvalidatedAll = { invalidatedAll, event, observer in
+    delegate.onIvalidatedAll = { event, observer in
       XCTFail("There shouldn't an invalidated all event.")
     }
     
@@ -721,7 +724,7 @@ class EntityObserverTests: XCTestCase {
       XCTFail("There shouldn't be invalidated objects.")
     }
 
-    delegate.onIvalidatedAll = { invalidatedAll, event, observer in
+    delegate.onIvalidatedAll = { event, observer in
       XCTFail("There shouldn't an invalidated all event.")
     }
     
@@ -737,83 +740,83 @@ class EntityObserverTests: XCTestCase {
   }
 
   
-  //  func testFilteredUpdatedOnSaveEvent() throws {
-  //    let stack = CoreDataStack.stack()
-  //    let context = stack.mainContext
-  //    let observedEvent = ObservedEvent.onSave
-  //    let expectation1 = expectation(description: "\(#function)\(#line)")
-  //
-  //    let sportCar1 = SportCar(context: context)
-  //    sportCar1.maker = "McLaren"
-  //    sportCar1.model = "570GT"
-  //    sportCar1.numberPlate = "203"
-  //
-  //    let sportCar2 = SportCar(context: context)
-  //    sportCar2.maker = "Lamborghini "
-  //    sportCar2.model = "Aventador LP750-4"
-  //    sportCar2.numberPlate = "204"
-  //
-  //    let expensiveSportCar1 = ExpensiveSportCar(context: context)
-  //    expensiveSportCar1.maker = "BMW"
-  //    expensiveSportCar1.model = "M6 Coupe"
-  //    expensiveSportCar1.numberPlate = "300"
-  //    expensiveSportCar1.isLimitedEdition = true
-  //
-  //    let car1 = Car(context: context)
-  //    car1.maker = "FIAT"
-  //    car1.model = "Panda"
-  //    car1.numberPlate = "1"
-  //
-  //    try context.save()
-  //
-  //    let predicate = NSPredicate(format: "SELF == %@", sportCar2)
-  //    let entityObserver = EntityObserver<SportCar>(context: context, event: observedEvent, filterBy: predicate)
-  //
-  //    let delegate = DummyEntityObserverDelegate<SportCar>()
-  //    delegate.onInserted = { inserted, event, observer in
-  //      XCTFail("There shouldn't be inserted objects.")
-  //    }
-  //
-  //    delegate.onDeleted = { deleted, event, observer in
-  //      XCTFail("There shouldn't be deleted objects.")
-  //    }
-  //
-  //    delegate.onUpdated = { updated, event, observer in
-  //      XCTAssertTrue(observer === entityObserver)
-  //      XCTAssertEqual(observedEvent, event)
-  //      XCTAssertEqual(updated.count, 1)
-  //      XCTAssertTrue(updated.first! === sportCar2)
-  //      expectation1.fulfill()
-  //    }
-  //
-  //    delegate.onRefreshed = { refreshed, event, observer in
-  //      XCTFail("There shouldn't be refreshed objects.")
-  //    }
-  //
-  //    delegate.onInvalidated = { invalidated, event, observer in
-  //      XCTFail("There shouldn't be invalidated objects.")
-  //    }
-  //
-  //    delegate.onIvalidatedAll = { event, observer in
-  //      XCTFail("There shouldn't an invalidated all event.")
-  //    }
-  //
-  //    let anyDelegate = AnyEntityObserverDelegate(delegate)
-  //    entityObserver.delegate = anyDelegate
-  //
-  //    let person1 = Person(context: context)
-  //    person1.firstName = "Edythe"
-  //    person1.lastName = "Moreton"
-  //
-  //    context.delete(car1)
-  //    sportCar1.numberPlate = sportCar1.numberPlate + " Updated"
-  //    sportCar2.numberPlate = sportCar2.numberPlate + " Updated"
-  //    expensiveSportCar1.numberPlate = expensiveSportCar1.numberPlate + " Updated"
-  //
-  //    try context.save()
-  //
-  //    waitForExpectations(timeout: 2)
-  //  }
+//  func testFilteredUpdatedOnSaveEvent() throws {
+//    let stack = CoreDataStack.stack()
+//    let context = stack.mainContext
+//    let observedEvent = ObservedEvent.onSave
+//    let expectation1 = expectation(description: "\(#function)\(#line)")
+//    
+//    let sportCar1 = SportCar(context: context)
+//    sportCar1.maker = "McLaren"
+//    sportCar1.model = "570GT"
+//    sportCar1.numberPlate = "203"
+//    
+//    let sportCar2 = SportCar(context: context)
+//    sportCar2.maker = "Lamborghini "
+//    sportCar2.model = "Aventador LP750-4"
+//    sportCar2.numberPlate = "204"
+//    
+//    let expensiveSportCar1 = ExpensiveSportCar(context: context)
+//    expensiveSportCar1.maker = "BMW"
+//    expensiveSportCar1.model = "M6 Coupe"
+//    expensiveSportCar1.numberPlate = "300"
+//    expensiveSportCar1.isLimitedEdition = true
+//    
+//    let car1 = Car(context: context)
+//    car1.maker = "FIAT"
+//    car1.model = "Panda"
+//    car1.numberPlate = "1"
+//    
+//    try context.save()
+//    
+//    let predicate = NSPredicate(format: "SELF == %@", sportCar2)
+//    let entityObserver = EntityObserver<SportCar>(context: context, event: observedEvent, filterBy: predicate)
+//    
+//    let delegate = DummyEntityObserverDelegate<SportCar>()
+//    delegate.onInserted = { inserted, event, observer in
+//      XCTFail("There shouldn't be inserted objects.")
+//    }
+//    
+//    delegate.onDeleted = { deleted, event, observer in
+//      XCTFail("There shouldn't be deleted objects.")
+//    }
+//    
+//    delegate.onUpdated = { updated, event, observer in
+//      XCTAssertTrue(observer === entityObserver)
+//      XCTAssertEqual(observedEvent, event)
+//      XCTAssertEqual(updated.count, 1)
+//      XCTAssertTrue(updated.first! === sportCar2)
+//      expectation1.fulfill()
+//    }
+//    
+//    delegate.onRefreshed = { refreshed, event, observer in
+//      XCTFail("There shouldn't be refreshed objects.")
+//    }
+//    
+//    delegate.onInvalidated = { invalidated, event, observer in
+//      XCTFail("There shouldn't be invalidated objects.")
+//    }
+//
+//    delegate.onIvalidatedAll = { event, observer in
+//      XCTFail("There shouldn't an invalidated all event.")
+//    }
+//    
+//    let anyDelegate = AnyEntityObserverDelegate(delegate)
+//    entityObserver.delegate = anyDelegate
+//    
+//    let person1 = Person(context: context)
+//    person1.firstName = "Edythe"
+//    person1.lastName = "Moreton"
+//    
+//    context.delete(car1)
+//    sportCar1.numberPlate = sportCar1.numberPlate + " Updated"
+//    sportCar2.numberPlate = sportCar2.numberPlate + " Updated"
+//    expensiveSportCar1.numberPlate = expensiveSportCar1.numberPlate + " Updated"
+//    
+//    try context.save()
+//    
+//    waitForExpectations(timeout: 2)
+//  }
   
   
   func testDeleteOnSaveEvent() throws {
@@ -870,7 +873,7 @@ class EntityObserverTests: XCTestCase {
       XCTFail("There shouldn't be invalidated objects.")
     }
 
-    delegate.onIvalidatedAll = { invalidatedAll, event, observer in
+    delegate.onIvalidatedAll = { event, observer in
       XCTFail("There shouldn't an invalidated all event.")
     }
     
@@ -903,7 +906,7 @@ class EntityObserverTests: XCTestCase {
     var onUpdated: (Set<ManagedObject>, ObservedEvent, EntityObserver<ManagedObject>) -> Void = { _,_,_ in }
     var onRefreshed: (Set<ManagedObject>, ObservedEvent, EntityObserver<ManagedObject>) -> Void = { _,_,_ in }
     var onInvalidated: (Set<ManagedObject>, ObservedEvent, EntityObserver<ManagedObject>) -> Void = { _,_,_ in}
-    var onIvalidatedAll: (Set<NSManagedObjectID>, ObservedEvent, EntityObserver<ManagedObject>) -> Void = { _,_,_  in }
+    var onIvalidatedAll: (ObservedEvent, EntityObserver<ManagedObject>) -> Void = { _,_  in }
     
     func entityObserver(_ observer: EntityObserver<ManagedObject>, inserted: Set<ManagedObject>, event: ObservedEvent) {
       onInserted(inserted, event, observer)
@@ -925,8 +928,8 @@ class EntityObserverTests: XCTestCase {
       onInvalidated(invalidated, event, observer)
     }
 
-    func entityObserver(_ observer: EntityObserver<T>, invalidatedAll: Set<NSManagedObjectID>, event: ObservedEvent) {
-      onIvalidatedAll(invalidatedAll, event, observer)
+    func entityObserver(_ observer: EntityObserver<T>, allObjectsInvalidatedForEvent event: ObservedEvent) {
+      onIvalidatedAll(event, observer)
     }
   }
   
