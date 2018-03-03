@@ -42,11 +42,15 @@ public extension NSManagedObjectContextNotification {
     return context
   }
 
+  /// **CoreDataPlus**
+  ///
   /// Returns a `Set` of objects for a given `key`.
   fileprivate func objects(forKey key: String) -> Set<NSManagedObject> {
     return (notification.userInfo?[key] as? Set<NSManagedObject>) ?? Set()
   }
 
+  /// **CoreDataPlus**
+  ///
   /// Returns an `AnyIterator<NSManagedObject>` of objects for a given `key`.
   fileprivate func iterator(forKey key: String) -> AnyIterator<NSManagedObject> {
     guard let set = notification.userInfo?[key] as? NSSet else { return AnyIterator { nil } }
