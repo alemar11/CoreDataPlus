@@ -121,8 +121,8 @@ extension NSManagedObjectContextReloadableObserving {
   /// **CoreDataPlus**
   ///
   /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
-  // ObjectsDidChangeNotification only
   public var refreshedObjects: Set<NSManagedObject> {
+    // fired only with ObjectsDidChangeNotification
     return objects(forKey: NSRefreshedObjectsKey)
   }
 
@@ -130,7 +130,7 @@ extension NSManagedObjectContextReloadableObserving {
   ///
   /// A `Set` of objects that were invalidated.
   public var invalidatedObjects: Set<NSManagedObject> {
-    // ObjectsDidChangeNotification only
+    // fired only with ObjectsDidChangeNotification only
     return objects(forKey: NSInvalidatedObjectsKey)
   }
 
@@ -138,7 +138,7 @@ extension NSManagedObjectContextReloadableObserving {
   ///
   /// When all the object in the context have been invalidated, returns a `Set` containing all the invalidated objects' NSManagedObjectID.
   public var invalidatedAllObjects: Set<NSManagedObjectID> {
-    // ObjectsDidChangeNotification only
+    // fired only with ObjectsDidChangeNotification
     guard let objectsID = notification.userInfo?[NSInvalidatedAllObjectsKey] as? [NSManagedObjectID] else {
       return Set()
     }
