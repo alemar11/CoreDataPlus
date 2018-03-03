@@ -394,7 +394,7 @@ class NSManagedObjectContextObserversTests: XCTestCase {
       // [1] - When you perform changes in this way, you will get changes in NSRefreshedObjectsKey in "context"
       context.performAndWaitMergeChanges(from: notification) // it will fire [2]
       context.performAndWait {
-        try! context.save() // it will fire [3]
+        try! context.save()
       }
       expectation2.fulfill()
     }
