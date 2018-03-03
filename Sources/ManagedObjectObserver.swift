@@ -24,68 +24,113 @@
 import CoreData
 
 final public class ManagedObjectObserver {
-  public typealias ManagedObject = NSManagedObject
 
-  enum ObservedChange {
-    case delete
-    case update
+  enum ObservedChange: Int {
+    case inserted = 1
+    case deleted
+    case updated
+    case refreshed
+    case invalidated
   }
 
   let observedObject: NSManagedObject
+  let event: ObservedEvent
+
+  private var tokens = [NSObjectProtocol]()
+  private var notificationCenter =  NotificationCenter.default
+
 
   private let handler: (ObservedChange, ObservedEvent) -> Void
-  private let entityObserver: EntityObserver<ManagedObject>
 
-  init?(object: ManagedObject, event: ObservedEvent, changeHandler: @escaping (ObservedChange, ObservedEvent) -> Void) {
-    guard let context = object.managedObjectContext else { return nil }
+  init?(object: NSManagedObject, event: ObservedEvent, changeHandler: @escaping (ObservedChange, ObservedEvent) -> Void) {
+    guard let _ = object.managedObjectContext else { return nil }
 
-    observedObject = object
-    handler = changeHandler
-    entityObserver = EntityObserver(context: context, event: event)
-    entityObserver.delegate = AnyEntityObserverDelegate(self)
+    self.event = event
+    self.observedObject = object
+    self.handler = changeHandler
+
+    setupObservers()
   }
 
   deinit {
-    entityObserver.delegate = nil
+    removeObservers()
   }
 
-}
+  // MARK: - Private implementation
 
-// MARK: - EntityObserverDelegate
+  private func removeObservers() {
+    tokens.forEach { token in
+      notificationCenter.removeObserver(token)
+    }
 
-extension ManagedObjectObserver: EntityObserverDelegate {
-
-  public func entityObserver(_ observer: EntityObserver<NSManagedObject>, inserted: Set<NSManagedObject>, event: ObservedEvent) {
-    preconditionFailure("It's impossible to observe an object that is not yet inserted in a context.")
+    tokens.removeAll()
   }
 
-  public func entityObserver(_ observer: EntityObserver<NSManagedObject>, updated: Set<NSManagedObject>, event: ObservedEvent) {
-    if updated.contains(where: { $0 === observedObject }) {
-      handler(.update, event)
+  private func setupObservers() {
+    guard let context = observedObject.managedObjectContext else { return }
+    
+    if event.contains(.onChange) {
+      let token = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { [weak self] notification in
+        guard let `self` = self else { return }
+        self.handleChanges(in: notification, for: .onChange)
+      }
+
+      tokens.append(token)
+    }
+
+    if event.contains(.onSave) {
+      let token = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { [weak self] notification in
+        guard let `self` = self else { return }
+        self.handleChanges(in: notification, for: .onSave)
+      }
+
+      tokens.append(token)
     }
   }
 
-  public func entityObserver(_ observer: EntityObserver<NSManagedObject>, refreshed: Set<NSManagedObject>, event: ObservedEvent) {
-    if refreshed.contains(where: { $0 === observedObject }) {
-      handler(.update, event)
-    }
-  }
+  private func handleChanges(in notification: NSManagedObjectContextObserving, for event: ObservedEvent) {
+    guard let context = observedObject.managedObjectContext else { return }
 
-  public func entityObserver(_ observer: EntityObserver<NSManagedObject>, deleted: Set<NSManagedObject>, event: ObservedEvent) {
-    if deleted.contains(where: { $0 === observedObject }) {
-      handler(.delete, event)
-    }
-  }
+    context.performAndWait {
 
-  public func entityObserver(_ observer: EntityObserver<NSManagedObject>, invalidated: Set<NSManagedObject>, event: ObservedEvent) {
-    if invalidated.contains(where: { $0 === observedObject }) {
-      handler(.delete, event)
-    }
-  }
+      let deleted = notification.deletedObjects.filter {$0 === observedObject}
+      let inserted = notification.insertedObjects.filter {$0 === observedObject}
+      let updated = notification.updatedObjects.filter {$0 === observedObject}
 
-  public func entityObserver(_ observer: EntityObserver<NSManagedObject>, invalidatedAll: Set<NSManagedObjectID>, event: ObservedEvent) {
-    if invalidatedAll.contains(where: {$0 == observedObject.objectID}) {
-      handler(.delete, event)
+      if !inserted.isEmpty { //TODO: count == 1
+        handler(.inserted, event)
+      }
+
+      if !deleted.isEmpty {
+        handler(.deleted, event)
+      }
+
+      if !updated.isEmpty {
+        handler(.updated, event)
+      }
+
+      // FIXME: is it correct having 2 kind of notifications?
+      if let notification = notification as? NSManagedObjectContextReloadableObserving {
+        let refreshed = notification.refreshedObjects.filter {$0 === observedObject}
+        let invalidated = notification.invalidatedObjects.filter {$0 === observedObject}
+        let invalidatedAll = notification.invalidatedAllObjects.filter { $0.entity == observedObject.entity }
+
+        if !refreshed.isEmpty {
+          if !updated.isEmpty {
+            handler(.refreshed, event)
+          }
+        }
+
+        if !invalidated.isEmpty {
+            handler(.invalidated, event)
+        }
+
+        if !invalidatedAll.isEmpty {
+          handler(.invalidated, event)
+        }
+
+      }
     }
+
   }
 }

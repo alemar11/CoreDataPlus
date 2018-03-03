@@ -173,7 +173,7 @@ public class EntityObserver<T: NSManagedObject> {
 
   // MARK: - Private Properties
 
-  private let notificationCenter = NotificationCenter.default
+  private let notificationCenter: NotificationCenter
 
   private var tokens = [NSObjectProtocol]()
 
@@ -197,10 +197,10 @@ public class EntityObserver<T: NSManagedObject> {
 
   // MARK: - Initializers
 
-  public init(context: NSManagedObjectContext, event: ObservedEvent) {
+  public init(context: NSManagedObjectContext, event: ObservedEvent, notificationCenter: NotificationCenter = .default) {
     self.context = context
     self.event = event
-    //self.filterPredicate = predicate
+    self.notificationCenter = notificationCenter
   }
 
   deinit {
@@ -239,7 +239,7 @@ public class EntityObserver<T: NSManagedObject> {
   }
 
   private func handleChanges(in notification: NSManagedObjectContextObserving, for event: ObservedEvent) {
-    guard let delegate = delegate else { return }
+    guard let delegate = self.delegate else { return }
 
     context.performAndWait {
       func process(_ value: Set<NSManagedObject>) -> EntitySet {
@@ -263,10 +263,10 @@ public class EntityObserver<T: NSManagedObject> {
       }
 
       // FIXME: is it correct having 2 kind of notifications?
-      if let newNotification = notification as? NSManagedObjectContextReloadableObserving {
-        let refreshed = process(newNotification.refreshedObjects)
-        let invalidated = process(newNotification.invalidatedObjects)
-        let invalidatedAll = newNotification.invalidatedAllObjects.filter { $0.entity == observedEntity } // TODO: add specific tests
+      if let notification = notification as? NSManagedObjectContextReloadableObserving {
+        let refreshed = process(notification.refreshedObjects)
+        let invalidated = process(notification.invalidatedObjects)
+        let invalidatedAll = notification.invalidatedAllObjects.filter { $0.entity == observedEntity } // TODO: add specific tests
 
         if !refreshed.isEmpty {
           delegate.entityObserver(self, refreshed: refreshed, event: event)
