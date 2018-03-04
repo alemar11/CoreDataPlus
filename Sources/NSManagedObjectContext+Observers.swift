@@ -95,23 +95,6 @@ public protocol NSManagedObjectContextObserving: NSManagedObjectContextNotificat
 
 }
 
-//public protocol NSManagedObjectContextReloadableObserving: NSManagedObjectContextObserving {
-//  /// **CoreDataPlus**
-//  ///
-//  /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
-//  var refreshedObjects: Set<NSManagedObject> { get }
-//
-//  /// **CoreDataPlus**
-//  ///
-//  /// A `Set` of objects that were invalidated.
-//  var invalidatedObjects: Set<NSManagedObject> { get }
-//
-//  /// **CoreDataPlus**
-//  ///
-//  /// When all the object in the context have been invalidated, returns a `Set` containing all the invalidated objects' NSManagedObjectID.
-//  var invalidatedAllObjects: Set<NSManagedObjectID> { get }
-//}
-
 extension NSManagedObjectContextObserving {
   /// **CoreDataPlus**
   ///
@@ -162,35 +145,6 @@ extension NSManagedObjectContextObserving {
   }
 
 }
-
-//extension NSManagedObjectContextReloadableObserving {
-//  /// **CoreDataPlus**
-//  ///
-//  /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
-//  public var refreshedObjects: Set<NSManagedObject> {
-//    // fired only with ObjectsDidChangeNotification
-//    return objects(forKey: NSRefreshedObjectsKey)
-//  }
-//
-//  /// **CoreDataPlus**
-//  ///
-//  /// A `Set` of objects that were invalidated.
-//  public var invalidatedObjects: Set<NSManagedObject> {
-//    // fired only with ObjectsDidChangeNotification only
-//    return objects(forKey: NSInvalidatedObjectsKey)
-//  }
-//
-//  /// **CoreDataPlus**
-//  ///
-//  /// When all the object in the context have been invalidated, returns a `Set` containing all the invalidated objects' NSManagedObjectID.
-//  public var invalidatedAllObjects: Set<NSManagedObjectID> {
-//    // fired only with ObjectsDidChangeNotification
-//    guard let objectsID = notification.userInfo?[NSInvalidatedAllObjectsKey] as? [NSManagedObjectID] else {
-//      return Set()
-//    }
-//    return Set(objectsID)
-//  }
-//}
 
 // MARK: - NSManagedObjectContextDidSave
 
