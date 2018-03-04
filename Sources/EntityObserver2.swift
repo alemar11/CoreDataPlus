@@ -112,7 +112,7 @@ fileprivate typealias EntitySet = Set<T>
       let updated = process(notification.updatedObjects)
 
       // FIXME: is it correct having 2 kind of notifications?
-      if let notification = notification as? NSManagedObjectContextReloadableObserving {
+      //if let notification = notification as? NSManagedObjectContextReloadableObserving {
         let refreshed = process(notification.refreshedObjects)
         let invalidated = process(notification.invalidatedObjects)
         let invalidatedAll = notification.invalidatedAllObjects.filter { $0.entity == observedEntity } // TODO: add specific tests
@@ -122,7 +122,7 @@ fileprivate typealias EntitySet = Set<T>
         if change.hasChanges() {
         handler(change, event)
         }
-      }
+      //}
 
     }
   }

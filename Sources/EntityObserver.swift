@@ -262,24 +262,20 @@ public class EntityObserver<T: NSManagedObject> {
         delegate.entityObserver(self, updated: updated, event: event)
       }
 
-      // FIXME: is it correct having 2 kind of notifications?
-      if let notification = notification as? NSManagedObjectContextReloadableObserving {
-        let refreshed = process(notification.refreshedObjects)
-        let invalidated = process(notification.invalidatedObjects)
-        let invalidatedAll = notification.invalidatedAllObjects.filter { $0.entity == observedEntity } // TODO: add specific tests
+      let refreshed = process(notification.refreshedObjects)
+      let invalidated = process(notification.invalidatedObjects)
+      let invalidatedAll = notification.invalidatedAllObjects.filter { $0.entity == observedEntity } // TODO: add specific tests
 
-        if !refreshed.isEmpty {
-          delegate.entityObserver(self, refreshed: refreshed, event: event)
-        }
+      if !refreshed.isEmpty {
+        delegate.entityObserver(self, refreshed: refreshed, event: event)
+      }
 
-        if !invalidated.isEmpty {
-          delegate.entityObserver(self, updated: invalidated, event: event)
-        }
+      if !invalidated.isEmpty {
+        delegate.entityObserver(self, updated: invalidated, event: event)
+      }
 
-        if !invalidatedAll.isEmpty {
-          delegate.entityObserver(self, invalidatedAll: invalidatedAll, event: event)
-        }
-
+      if !invalidatedAll.isEmpty {
+        delegate.entityObserver(self, invalidatedAll: invalidatedAll, event: event)
       }
 
     }

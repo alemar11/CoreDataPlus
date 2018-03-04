@@ -111,7 +111,7 @@ final public class ManagedObjectStatusObserver {
       }
 
       // FIXME: is it correct having 2 kind of notifications?
-      if let notification = notification as? NSManagedObjectContextReloadableObserving {
+      //if let notification = notification as? NSManagedObjectContextReloadableObserving {
         let refreshed = notification.refreshedObjects.filter {$0 === observedObject}
         let invalidated = notification.invalidatedObjects.filter {$0 === observedObject}
         let invalidatedAll = notification.invalidatedAllObjects.filter { $0.entity == observedObject.entity }
@@ -130,7 +130,7 @@ final public class ManagedObjectStatusObserver {
           handler(.invalidated, event)
         }
 
-      }
+      //}
     }
 
   }
