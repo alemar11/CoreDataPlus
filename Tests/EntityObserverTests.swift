@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2018 Tinrobots.
@@ -32,7 +32,7 @@ class EntityObserverTests: XCTestCase {
   func testInsertedOnChangeEvent() {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let observedEvent = ObservedEvent.onChange
+    let observedEvent = ObservedEvent.change
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let observer = EntityObserver<SportCar>(context: context, event: observedEvent) { (change, event) in
@@ -45,6 +45,7 @@ class EntityObserverTests: XCTestCase {
       XCTAssertTrue(change.invalidatedAll.isEmpty)
       expectation1.fulfill()
     }
+    XCTAssertEqual(observer.event, observedEvent)
 
     let sportCar = SportCar(context: context)
     sportCar.maker = "McLaren"
@@ -66,7 +67,7 @@ class EntityObserverTests: XCTestCase {
   func testUpdatedOnChangeEvent() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let observedEvent = ObservedEvent.onChange
+    let observedEvent = ObservedEvent.change
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar = SportCar(context: context)
@@ -91,6 +92,7 @@ class EntityObserverTests: XCTestCase {
       XCTAssertTrue(change.invalidatedAll.isEmpty)
       expectation1.fulfill()
     }
+    XCTAssertEqual(observer.event, observedEvent)
 
     let person1 = Person(context: context)
     person1.firstName = "Edythe"
@@ -105,7 +107,7 @@ class EntityObserverTests: XCTestCase {
   func testInsertedAndUpdatedOnChangeEvent() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let observedEvent = ObservedEvent.onChange
+    let observedEvent = ObservedEvent.change
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar1 = SportCar(context: context)
@@ -130,6 +132,7 @@ class EntityObserverTests: XCTestCase {
       XCTAssertTrue(change.invalidatedAll.isEmpty)
       expectation1.fulfill()
     }
+    XCTAssertEqual(observer.event, observedEvent)
 
     let person1 = Person(context: context)
     person1.firstName = "Edythe"
@@ -149,7 +152,7 @@ class EntityObserverTests: XCTestCase {
   func testDeleteOnChangeEvent() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let observedEvent = ObservedEvent.onChange
+    let observedEvent = ObservedEvent.change
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar = SportCar(context: context)
@@ -181,6 +184,7 @@ class EntityObserverTests: XCTestCase {
       XCTAssertTrue(change.invalidatedAll.isEmpty)
       expectation1.fulfill()
     }
+    XCTAssertEqual(observer.event, observedEvent)
 
     let person1 = Person(context: context)
     person1.firstName = "Edythe"
@@ -198,7 +202,7 @@ class EntityObserverTests: XCTestCase {
   func testRefreshedOnChangeEvent() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let observedEvent = ObservedEvent.onChange
+    let observedEvent = ObservedEvent.change
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar1 = SportCar(context: context)
@@ -235,6 +239,7 @@ class EntityObserverTests: XCTestCase {
       XCTAssertTrue(change.invalidatedAll.isEmpty)
       expectation1.fulfill()
     }
+    XCTAssertEqual(observer.event, observedEvent)
 
     let person1 = Person(context: context)
     person1.firstName = "Edythe"
@@ -256,7 +261,7 @@ class EntityObserverTests: XCTestCase {
   func testInvalidatedAllOnChangeEvent() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let observedEvent = ObservedEvent.onChange
+    let observedEvent = ObservedEvent.change
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar1 = SportCar(context: context)
@@ -294,6 +299,7 @@ class EntityObserverTests: XCTestCase {
       XCTAssertTrue(change.invalidatedAll.contains(sportCar2.objectID))
       expectation1.fulfill()
     }
+    XCTAssertEqual(observer.event, observedEvent)
 
     let person1 = Person(context: context)
     person1.firstName = "Edythe"
@@ -317,7 +323,7 @@ class EntityObserverTests: XCTestCase {
   func testRelationshipUpdatedOnChangeEvent() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let observedEvent = ObservedEvent.onChange
+    let observedEvent = ObservedEvent.change
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar1 = SportCar(context: context)
@@ -357,6 +363,7 @@ class EntityObserverTests: XCTestCase {
       XCTAssertTrue(change.invalidatedAll.isEmpty)
       expectation1.fulfill()
     }
+    XCTAssertEqual(observer.event, observedEvent)
 
     person1.cars = [sportCar1, sportCar2]
     expensiveSportCar1.numberPlate = expensiveSportCar1.numberPlate + " Updated"
@@ -369,7 +376,7 @@ class EntityObserverTests: XCTestCase {
   func testInsertedOnSaveEvent() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let observedEvent = ObservedEvent.onSave
+    let observedEvent = ObservedEvent.save
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let observer = EntityObserver<SportCar>(context: context, event: observedEvent) { (change, event) in
@@ -382,6 +389,7 @@ class EntityObserverTests: XCTestCase {
       XCTAssertTrue(change.invalidatedAll.isEmpty)
       expectation1.fulfill()
     }
+    XCTAssertEqual(observer.event, observedEvent)
 
     let sportCar = SportCar(context: context)
     sportCar.maker = "McLaren"
@@ -410,7 +418,7 @@ class EntityObserverTests: XCTestCase {
   func testInsertedWithoutSavingOnSaveEvent() {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let observedEvent = ObservedEvent.onSave
+    let observedEvent = ObservedEvent.save
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
     expectation1.isInverted = true
@@ -418,6 +426,7 @@ class EntityObserverTests: XCTestCase {
     let observer = EntityObserver<SportCar>(context: context, event: observedEvent) { (change, event) in
      expectation1.fulfill()
     }
+    XCTAssertEqual(observer.event, observedEvent)
 
     let sportCar = SportCar(context: context)
     sportCar.maker = "McLaren"
@@ -439,7 +448,7 @@ class EntityObserverTests: XCTestCase {
   func testRelationshipUpdatedOnSaveEvent() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let observedEvent = ObservedEvent.onSave
+    let observedEvent = ObservedEvent.save
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar1 = SportCar(context: context)
@@ -482,6 +491,7 @@ class EntityObserverTests: XCTestCase {
       XCTAssertTrue(change.invalidatedAll.isEmpty)
       expectation1.fulfill()
     }
+    XCTAssertEqual(observer.event, observedEvent)
 
     person1.cars = [sportCar1, sportCar2]
     expensiveSportCar1.numberPlate = expensiveSportCar1.numberPlate + " Updated"
@@ -494,7 +504,7 @@ class EntityObserverTests: XCTestCase {
   func testDeleteOnSaveEvent() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
-    let observedEvent = ObservedEvent.onSave
+    let observedEvent = ObservedEvent.save
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar = SportCar(context: context)
@@ -526,6 +536,7 @@ class EntityObserverTests: XCTestCase {
       XCTAssertTrue(change.invalidatedAll.isEmpty)
       expectation1.fulfill()
     }
+    XCTAssertEqual(observer.event, observedEvent)
 
     let person1 = Person(context: context)
     person1.firstName = "Edythe"
@@ -538,6 +549,78 @@ class EntityObserverTests: XCTestCase {
 
     try context.save()
 
+    waitForExpectations(timeout: 2)
+  }
+
+  // MARK: - Change and Save Event
+
+  func testMixChangesOnUpdateAndOnSave() throws {
+    let stack = CoreDataStack.stack()
+    let context = stack.mainContext
+    let observedEvent = ObservedEvent.all
+    let expectation1 = expectation(description: "\(#function)\(#line)")
+    let expectation2 = expectation(description: "\(#function)\(#line)")
+
+    let sportCar1 = SportCar(context: context)
+    sportCar1.maker = "McLaren"
+    sportCar1.model = "570GT"
+    sportCar1.numberPlate = "203"
+
+    let sportCar2 = SportCar(context: context)
+    sportCar2.maker = "Lamborghini "
+    sportCar2.model = "Aventador LP750-4"
+    sportCar2.numberPlate = "204"
+
+    let car = Car(context: context)
+    car.maker = "FIAT"
+    car.model = "Panda"
+    car.numberPlate = "1"
+
+    try context.save()
+
+    let observer = EntityObserver<SportCar>(context: context, event: observedEvent) { (change, event) in
+      XCTAssertNotEqual(observedEvent, event)
+      if event == .change {
+        XCTAssertEqual(change.inserted.count, 1)
+        XCTAssertEqual(change.deleted.count, 1)
+
+        XCTAssertEqual(change.refreshed.count, 1)
+        XCTAssertEqual(change.updated.count, 1)
+
+        XCTAssertTrue(change.invalidated.isEmpty)
+        XCTAssertTrue(change.invalidatedAll.isEmpty)
+        expectation1.fulfill()
+
+      } else if event == .save {
+        XCTAssertEqual(change.inserted.count, 1)
+        XCTAssertEqual(change.deleted.count, 1)
+
+        XCTAssertEqual(change.refreshed.count, 0)
+        XCTAssertEqual(change.updated.count, 1)
+
+        XCTAssertTrue(change.invalidated.isEmpty)
+        XCTAssertTrue(change.invalidatedAll.isEmpty)
+        expectation2.fulfill()
+      } else {
+        XCTFail("The observed event doesn't exists.")
+      }
+
+    }
+    XCTAssertEqual(observer.event, observedEvent)
+
+    // Update sportCar1 and refreshed with merge
+    // Delete sportCar2
+    // Insert SportCar3
+
+    sportCar1.numberPlate! += "Updated"
+    sportCar1.refresh()
+    context.delete(sportCar2)
+    let sportCar3 = SportCar(context: context)
+    sportCar3.maker = "Maserati"
+    sportCar3.model = "GranTurismo MC"
+    sportCar3.numberPlate = "202"
+
+    try context.save()
     waitForExpectations(timeout: 2)
   }
 

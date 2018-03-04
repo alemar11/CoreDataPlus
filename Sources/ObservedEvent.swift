@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2018 Tinrobots.
@@ -36,15 +36,15 @@ public struct ObservedEvent: OptionSet {
   /// **CoreDataPlus**
   ///
   /// Notifications will be sent upon `NSManagedObjectContext` being changed.
-  public static let onChange = ObservedEvent(rawValue: 1 << 0)
+  public static let change = ObservedEvent(rawValue: 1 << 0)
 
   /// **CoreDataPlus**
   ///
   /// Notifications will be sent upon `NSManagedObjectContext` being saved.
-  public static let onSave = ObservedEvent(rawValue: 1 << 1)
+  public static let save = ObservedEvent(rawValue: 1 << 1)
 
   /// **CoreDataPlus**
   ///
   /// Notifications will be sent upon `NSManagedObjectContext` being saved or changed.
-  public static let all: ObservedEvent = [.onChange, .onSave]
+  public static let all: ObservedEvent = [.change, .save]
 }

@@ -52,17 +52,20 @@ public extension NSManagedObjectContextNotification {
   /// **CoreDataPlus**
   ///
   /// Returns an `AnyIterator<NSManagedObject>` of objects for a given `key`.
-  fileprivate func iterator(forKey key: String) -> AnyIterator<NSManagedObject> {
-    guard let set = notification.userInfo?[key] as? NSSet else { return AnyIterator { nil } }
-
-    var innerIterator = set.makeIterator()
-    return AnyIterator { return innerIterator.next() as? NSManagedObject }
-  }
+//  fileprivate func iterator(forKey key: String) -> AnyIterator<NSManagedObject> {
+//    guard let set = notification.userInfo?[key] as? NSSet else { return AnyIterator { nil } }
+//
+//    var innerIterator = set.makeIterator()
+//    return AnyIterator { return innerIterator.next() as? NSManagedObject }
+//  }
 }
 
 // MARK: - NSManagedObjectContextObserving
 
-public protocol NSManagedObjectContextObserving: NSManagedObjectContextNotification {
+/// **CoreDataPlus**
+///
+/// Types conforming to this protocol contains all the `NSManagedObjectContext` changes contained by a notification.
+public protocol NSManagedObjectContextObservable: NSManagedObjectContextNotification {
   /// **CoreDataPlus**
   ///
   /// Returns a `Set` of objects that were inserted into the context.
@@ -95,7 +98,7 @@ public protocol NSManagedObjectContextObserving: NSManagedObjectContextNotificat
 
 }
 
-extension NSManagedObjectContextObserving {
+extension NSManagedObjectContextObservable {
   /// **CoreDataPlus**
   ///
   /// Returns a `Set` of objects that were inserted into the context.
@@ -148,7 +151,10 @@ extension NSManagedObjectContextObserving {
 
 // MARK: - NSManagedObjectContextDidSave
 
-public struct ContextDidSaveNotification: NSManagedObjectContextObserving {
+/// **CoreDataPlus**
+///
+/// A type safe `NSManagedObjectContextDidSave` notification.
+public struct ContextDidSaveNotification: NSManagedObjectContextObservable {
 
   public let notification: Notification
 
@@ -159,14 +165,17 @@ public struct ContextDidSaveNotification: NSManagedObjectContextObserving {
 
 }
 
-//TODO
 extension ContextDidSaveNotification: CustomDebugStringConvertible {
 
   public var debugDescription: String {
     var components = [notification.name.rawValue]
     components.append(managedObjectContext.description)
 
-    for (name, set) in [("inserted", insertedObjects), ("updated", updatedObjects), ("deleted", deletedObjects)] {
+    for (name, set) in [("inserted", insertedObjects),
+                        ("updated", updatedObjects),
+                        ("deleted", deletedObjects),
+                        ("refreshed", refreshedObjects),
+                        ("invalidated", invalidatedObjects)] {
       let all = set.map { $0.objectID.description }.joined(separator: ", ")
       components.append("\(name): {\(all)})")
     }
@@ -178,6 +187,9 @@ extension ContextDidSaveNotification: CustomDebugStringConvertible {
 
 // MARK: - NSManagedObjectContextWillSave
 
+/// **CoreDataPlus**
+///
+/// A type safe `NSManagedObjectContextWillSave` notification.
 public struct ContextWillSaveNotification: NSManagedObjectContextNotification {
 
   public let notification: Notification
@@ -191,7 +203,10 @@ public struct ContextWillSaveNotification: NSManagedObjectContextNotification {
 
 // MARK: - NSManagedObjectContextObjectsDidChange
 
-public struct ObjectsDidChangeNotification: NSManagedObjectContextObserving {
+/// **CoreDataPlus**
+///
+/// A type safe `NSManagedObjectContextObjectsDidChange` notification.
+public struct ObjectsDidChangeNotification: NSManagedObjectContextObservable {
 
   public let notification: Notification
 
@@ -199,6 +214,31 @@ public struct ObjectsDidChangeNotification: NSManagedObjectContextObserving {
     // Notification when objects in a context changed:  the user info dictionary contains information about the objects that changed and what changed
     guard notification.name == .NSManagedObjectContextObjectsDidChange else { fatalError("Invalid NSManagedObjectContextObjectsDidChange notification object.") }
     self.notification = notification
+  }
+
+}
+
+extension ObjectsDidChangeNotification: CustomDebugStringConvertible {
+
+  public var debugDescription: String {
+    var components = [notification.name.rawValue]
+    components.append(managedObjectContext.description)
+
+    for (name, set) in [("inserted", insertedObjects),
+                        ("updated", updatedObjects),
+                        ("deleted", deletedObjects),
+                        ("refreshed", refreshedObjects),
+                        ("invalidated", invalidatedObjects)] {
+                          let all = set.map { $0.objectID.description }.joined(separator: ", ")
+                          components.append("\(name): {\(all)})")
+    }
+
+    for (name, set) in [("invalidatedAll", invalidatedAllObjects)] {
+      let all = set.map { $0.description}.joined(separator: ", ")
+      components.append("\(name): {\(all)})")
+    }
+
+    return components.joined(separator: " ")
   }
 
 }
