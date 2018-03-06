@@ -141,6 +141,41 @@ class NSManagedObjectUtilsTests: XCTestCase {
     }
   }
 
+  func testFault() throws {
+    let stack = CoreDataStack.stack(type: .sqlite)
+    let context = stack.mainContext
+
+    // Given
+    let sportCar1 = SportCar(context: context)
+    sportCar1.maker = "McLaren"
+    sportCar1.model = "570GT"
+    sportCar1.numberPlate = "203"
+    XCTAssertFalse(sportCar1.isFault)
+
+    // When
+    sportCar1.fault()
+
+    // Then
+    XCTAssertTrue(sportCar1.isFault)
+  }
+
+  func testDelete() {
+    let stack = CoreDataStack.stack(type: .sqlite)
+    let context = stack.mainContext
+
+    // Given
+    let sportCar1 = SportCar(context: context)
+    sportCar1.maker = "McLaren"
+    sportCar1.model = "570GT"
+    sportCar1.numberPlate = "203"
+
+    // When
+    sportCar1.delete()
+
+    // Then
+    XCTAssertTrue(sportCar1.isDeleted)
+  }
+
 }
 
 
