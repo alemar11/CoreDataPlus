@@ -9,6 +9,8 @@ let package = Package(
         .library(name: "CoreDataPlus", targets: ["CoreDataPlus"])
     ],
     targets: [
-        .target(name: "CoreDataPlus", path: "Sources")
-    ]
+        .target(name: "CoreDataPlus", path: "Sources"),
+        .testTarget(name: "Tests", dependencies: ["CoreDataPlus"], path: "Tests")
+    ],
+    swiftLanguageVersions: [4]
 )
