@@ -38,13 +38,13 @@ extension NSManagedObjectContext {
     switch object {
     case let managedObject? where managedObject.managedObjectContext != nil && managedObject.managedObjectContext !== self:
       // TODO: - better management
-      if !ProcessInfo.isRunningXcodeUnitTests {
+      if !ProcessInfo.isRunningUnitTests {
         assertionFailure("The managedObject \(managedObject.objectID) has a NSManagedObjectContext \(managedObject.managedObjectContext!) different from \(self) and it will be not cached.")
       }
 
     case let managedObject? where managedObject.managedObjectContext == nil:
       // TODO: - better management
-      if !ProcessInfo.isRunningXcodeUnitTests {
+      if !ProcessInfo.isRunningUnitTests {
         assertionFailure("The managedObject \(managedObject.objectID) doesn't have a NSManagedObjectContext and it will be not cached.")
       }
 

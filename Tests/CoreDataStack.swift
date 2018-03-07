@@ -36,6 +36,7 @@ final class CoreDataStack {
     let managedObjectModel: NSManagedObjectModel
 
     XCTAssertTrue(ProcessInfo.isRunningUnitTests)
+    
     if ProcessInfo.isRunningSwiftPackageTests {
       managedObjectModel = SampleModelVersion.currentVersion.managedObjectModel_swift_package_tests()
     } else {
