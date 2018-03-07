@@ -45,11 +45,12 @@ extension Person {
   public override func awakeFromInsert() {
     super.awakeFromInsert()
     primitiveUpdatedAt = Date()
+    //setPrimitiveValue(NSDate(), forKey: "updatedAt") // we can use one of these two options to set the value
   }
 
   public override func willSave() {
     super.willSave()
-    refreshUpdateDate()
+    refreshUpdateDate(observingChanges: false) // we don't want to get notified when this value changes.
   }
 
 }

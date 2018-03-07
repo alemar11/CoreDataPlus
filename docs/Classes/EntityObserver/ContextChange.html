@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ContextChange Structure Reference</title>
+    <link rel="stylesheet" type="text/css" href="../../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../../js/jquery.min.js" defer></script>
+    <script src="../../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Struct/ContextChange" class="dashAnchor"></a>
+    <a title="ContextChange Structure Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../../index.html">CoreDataPlus Docs</a> (87% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../../index.html">CoreDataPlus Reference</a>
+        <img id="carat" src="../../img/carat.png" />
+        ContextChange Structure Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Classes/EntityObserver.html">EntityObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/EntityObserver/ContextChange.html">– ContextChange</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Enums/CoreDataPlusError.html">CoreDataPlusError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Extensions/Collection.html">Collection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Extensions/NSBatchDeleteResult.html">NSBatchDeleteResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Extensions/NSFetchRequest.html">NSFetchRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Extensions/NSFetchRequestResult.html">NSFetchRequestResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Extensions/NSManagedObject.html">NSManagedObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Extensions/NSManagedObjectContext.html">NSManagedObjectContext</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Protocols/DelayedDeletable.html">DelayedDeletable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/ModelVersion.html">ModelVersion</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/NSManagedObjectContextNotification.html">NSManagedObjectContextNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/NSManagedObjectContextObservable.html">NSManagedObjectContextObservable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/UpdateTimestampable.html">UpdateTimestampable</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Structs/ContextDidSaveNotification.html">ContextDidSaveNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/ContextWillSaveNotification.html">ContextWillSaveNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/ObjectsDidChangeNotification.html">ObjectsDidChangeNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/ObservedEvent.html">ObservedEvent</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>ContextChange</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ContextChange</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">:</span> <span class="kt">NSManagedObject</span><span class="o">&gt;</span></code></pre>
+
+                </div>
+              </div>
+            <p><strong>CoreDataPlus</strong></p>
+
+<p>Contains all the changes taking place in a <code>NSManagedObjectContext</code> for each notification.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus14EntityObserverC13ContextChangeV8inserteds3SetVyqd__Gv"></a>
+                    <a name="//apple_ref/swift/Property/inserted" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus14EntityObserverC13ContextChangeV8inserteds3SetVyqd__Gv">inserted</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Returns a <code>Set</code> of objects that were inserted into the context.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">inserted</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus14EntityObserverC13ContextChangeV7updateds3SetVyqd__Gv"></a>
+                    <a name="//apple_ref/swift/Property/updated" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus14EntityObserverC13ContextChangeV7updateds3SetVyqd__Gv">updated</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Returns a <code>Set</code> of objects that were updated into the context.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">updated</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus14EntityObserverC13ContextChangeV7deleteds3SetVyqd__Gv"></a>
+                    <a name="//apple_ref/swift/Property/deleted" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus14EntityObserverC13ContextChangeV7deleteds3SetVyqd__Gv">deleted</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Returns a <code>Set</code> of objects that were deleted into the context.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">deleted</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus14EntityObserverC13ContextChangeV9refresheds3SetVyqd__Gv"></a>
+                    <a name="//apple_ref/swift/Property/refreshed" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus14EntityObserverC13ContextChangeV9refresheds3SetVyqd__Gv">refreshed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Returns a <code>Set</code> of objects that were refreshed into the context.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">refreshed</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus14EntityObserverC13ContextChangeV11invalidateds3SetVyqd__Gv"></a>
+                    <a name="//apple_ref/swift/Property/invalidated" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus14EntityObserverC13ContextChangeV11invalidateds3SetVyqd__Gv">invalidated</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Returns a <code>Set</code> of objects that were invalidated into the context.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">invalidated</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus14EntityObserverC13ContextChangeV14invalidatedAlls3SetVySo17NSManagedObjectIDCGv"></a>
+                    <a name="//apple_ref/swift/Property/invalidatedAll" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus14EntityObserverC13ContextChangeV14invalidatedAlls3SetVySo17NSManagedObjectIDCGv">invalidatedAll</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>When all the object in the context have been invalidated, returns a <code>Set</code> containing all the invalidated objects&rsquo; NSManagedObjectID.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">invalidatedAll</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">NSManagedObjectID</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus14EntityObserverC13ContextChangeV7isEmptySbyF"></a>
+                    <a name="//apple_ref/swift/Method/isEmpty()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus14EntityObserverC13ContextChangeV7isEmptySbyF">isEmpty()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Returns <code>true</code> if there aren&rsquo;t any kind of changes.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">isEmpty</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2018 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2018-03-04)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

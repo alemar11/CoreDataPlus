@@ -29,7 +29,7 @@ extension NSManagedObjectContext {
   ///
   /// The persistent stores associated with the receiver (if any).
   public final var persistentStores: [NSPersistentStore] {
-    if !ProcessInfo.isRunningUnitTests {
+    if !ProcessInfo.isRunningXcodeUnitTests {
       assertionFailure("\(self.description) doesn't have a Persistent Store Coordinator.")
     }
     return persistentStoreCoordinator?.persistentStores ?? []
