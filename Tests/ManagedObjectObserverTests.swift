@@ -25,29 +25,29 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-class ManagedObjectObserverTests: XCTestCase {
+final class ManagedObjectObserverTests: XCTestCase {
 
-//    func testMemoryLeak() throws {
-//      let stack = CoreDataStack.stack()
-//      let context = stack.mainContext
-//
-//      let car = Car(context: context)
-//      car.maker = "FIAT"
-//      car.model = "Panda"
-//      car.numberPlate = "1"
-//
-//      let expectation1 = expectation(description: "\(#function)\(#line)")
-//      var observer = ManagedObjectObserver(object: car, event: .onChange) { (change, event) in
-//        expectation1.fulfill()
-//      }
-//      weak var weakObserver = observer
-//
-//      car.numberPlate = "111"
-//
-//      waitForExpectations(timeout: 2)
-//      XCTAssertNotNil(weakObserver)
-//      observer = ManagedObjectObserver(object: car, event: .all) { (change, event) in }
-//      XCTAssertNil(weakObserver)
-//    }
+  //    func testMemoryLeak() throws {
+  //      let stack = CoreDataStack.stack()
+  //      let context = stack.mainContext
+  //
+  //      let car = Car(context: context)
+  //      car.maker = "FIAT"
+  //      car.model = "Panda"
+  //      car.numberPlate = "1"
+  //
+  //      let expectation1 = expectation(description: "\(#function)\(#line)")
+  //      var observer = ManagedObjectObserver(object: car, event: .onChange) { (change, event) in
+  //        expectation1.fulfill()
+  //      }
+  //      weak var weakObserver = observer
+  //
+  //      car.numberPlate = "111"
+  //
+  //      waitForExpectations(timeout: 2)
+  //      XCTAssertNotNil(weakObserver)
+  //      observer = ManagedObjectObserver(object: car, event: .all) { (change, event) in }
+  //      XCTAssertNil(weakObserver)
+  //    }
 
 }

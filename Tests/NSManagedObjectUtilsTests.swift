@@ -25,14 +25,14 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-class NSManagedObjectUtilsTests: XCTestCase {
-
+final class NSManagedObjectUtilsTests: XCTestCase {
+  
   func testRefresh() {
     let stack = CoreDataStack.stack(type: .sqlite)
-
+    
     // Given
     let context = stack.mainContext
-
+    
     do {
       // When
       let person = Person(context: context)
@@ -46,7 +46,7 @@ class NSManagedObjectUtilsTests: XCTestCase {
       person.refresh()
       XCTAssertTrue(!person.isFault)
     }
-
+    
     do {
       // When
       let person = Person(context: context)
@@ -61,17 +61,17 @@ class NSManagedObjectUtilsTests: XCTestCase {
       XCTAssertTrue(person.isFault)
       XCTAssertTrue(person.firstName == "Myname2")
     }
-
+    
   }
-
-
+  
+  
   func testChangedAndCommittedValue() throws {
     let stack = CoreDataStack.stack(type: .sqlite)
     let context = stack.mainContext
-
+    
     let carNumberPlate = #keyPath(Car.numberPlate)
     let carModel = #keyPath(Car.model)
-
+    
     // Given
     // https://cocoacasts.com/how-to-observe-a-managed-object-context/
     // http://mentalfaculty.tumblr.com/post/65682908577/how-does-core-data-save
@@ -92,7 +92,7 @@ class NSManagedObjectUtilsTests: XCTestCase {
       XCTAssertEqual(car.changedValue(forKey: carNumberPlate) as! String, "123456")
       XCTAssertNil(car.committedValue(forKey: carNumberPlate))
       XCTAssertNil(car.committedValue(forKey: carModel))
-
+      
       // When
       try context.save()
       XCTAssertNotNil(car.committedValue(forKey: carNumberPlate))
@@ -102,13 +102,13 @@ class NSManagedObjectUtilsTests: XCTestCase {
       // Then
       XCTAssertNil(car.changedValue(forKey: carNumberPlate))
       XCTAssertNil(car.changedValue(forKey: carModel))
-
+      
       // When
       car.numberPlate = "101"
       // Then
       XCTAssertEqual(car.changedValue(forKey: carNumberPlate) as! String, "101")
       XCTAssertNotNil(car.committedValue(forKey: carNumberPlate))
-
+      
       // When
       car.numberPlate = "202"
       // Then
@@ -116,13 +116,13 @@ class NSManagedObjectUtilsTests: XCTestCase {
       XCTAssertNotNil(car.committedValue(forKey: carNumberPlate))
       XCTAssertEqual(car.changedValue(forKey: carNumberPlate) as! String, "202")
       XCTAssertEqual(car.committedValue(forKey: carNumberPlate) as! String, "123456")
-
+      
       // When
       try context.save()
       // Then
       XCTAssertNil(car.changedValue(forKey: carNumberPlate))
       XCTAssertNotNil(car.committedValue(forKey: carNumberPlate))
-
+      
       let request = NSFetchRequest<Car>(entityName: "Car")
       request.predicate = NSPredicate(format: "\(#keyPath(Car.model)) == %@ AND \(#keyPath(Car.numberPlate)) == %@", "MyModel", "202")
       request.fetchBatchSize = 1
@@ -140,42 +140,42 @@ class NSManagedObjectUtilsTests: XCTestCase {
       }
     }
   }
-
+  
   func testFault() throws {
     let stack = CoreDataStack.stack(type: .sqlite)
     let context = stack.mainContext
-
+    
     // Given
     let sportCar1 = SportCar(context: context)
     sportCar1.maker = "McLaren"
     sportCar1.model = "570GT"
     sportCar1.numberPlate = "203"
     XCTAssertFalse(sportCar1.isFault)
-
+    
     // When
     sportCar1.fault()
-
+    
     // Then
     XCTAssertTrue(sportCar1.isFault)
   }
-
+  
   func testDelete() {
     let stack = CoreDataStack.stack(type: .sqlite)
     let context = stack.mainContext
-
+    
     // Given
     let sportCar1 = SportCar(context: context)
     sportCar1.maker = "McLaren"
     sportCar1.model = "570GT"
     sportCar1.numberPlate = "203"
-
+    
     // When
     sportCar1.delete()
-
+    
     // Then
     XCTAssertTrue(sportCar1.isDeleted)
   }
-
+  
 }
 
 

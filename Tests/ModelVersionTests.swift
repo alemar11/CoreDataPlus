@@ -24,12 +24,12 @@
 import XCTest
 @testable import CoreDataPlus
 
-class ModelVersionTests: XCTestCase {
-
-    func testVersionModelSetup() {
-      XCTAssertTrue(SampleModelVersion.currentVersion == .version1)
-      XCTAssertTrue(SampleModelVersion.allVersions == [.version1])
-      XCTAssertTrue(SampleModelVersion.version1.successor == nil)
-    }
-
+final class ModelVersionTests: XCTestCase {
+  
+  func testVersionModelSetup() {
+    XCTAssertTrue(SampleModelVersion.currentVersion == .version1)
+    XCTAssertTrue(SampleModelVersion.allVersions == [.version1])
+    XCTAssertTrue(SampleModelVersion.version1.successor == nil)
+  }
+  
 }
