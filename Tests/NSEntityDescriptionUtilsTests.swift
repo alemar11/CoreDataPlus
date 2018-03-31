@@ -32,7 +32,7 @@ class NSEntityDescriptionUtilsTests: XCTestCase {
     let context = stack.mainContext
 
     let expensiveCar = ExpensiveSportCar(context: context)
-    let entityNames = expensiveCar.entity.hierarchyEntities().flatMap { $0.name}
+    let entityNames = expensiveCar.entity.hierarchyEntities().compactMap { $0.name}
     XCTAssertTrue(entityNames.count == 3)
     XCTAssertTrue(entityNames.contains(Car.entityName))
     XCTAssertTrue(entityNames.contains(SportCar.entityName))

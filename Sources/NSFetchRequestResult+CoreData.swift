@@ -288,7 +288,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// all the objects that aren't a fault matching for a given predicate.
   /// Faulted objects are not considered to prevent Core Data to make a round trip to the persistent store.
   public static func findMaterializedObjects(in context: NSManagedObjectContext, where predicate: NSPredicate) -> [Self] {
-    let results = context.registeredObjects.filter { !$0.isFault && $0 is Self}.filter { predicate.evaluate(with: $0) }.flatMap { $0 as? Self}
+    let results = context.registeredObjects.filter { !$0.isFault && $0 is Self}.filter { predicate.evaluate(with: $0) }.compactMap { $0 as? Self}
 
     return results
   }

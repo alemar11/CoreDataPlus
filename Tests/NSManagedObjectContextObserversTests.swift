@@ -580,7 +580,7 @@ class NSManagedObjectContextObserversTests: XCTestCase {
 
     XCTAssertEqual(context.registeredObjects.count, 4)
     let expectedIds = Set([person1.objectID, person2.objectID, person3.objectID, car1.objectID])
-    let foundIds = Set(context.registeredObjects.flatMap { $0.objectID })
+    let foundIds = Set(context.registeredObjects.compactMap { $0.objectID })
 
     XCTAssertEqual(expectedIds, foundIds)
     notificationCenter.removeObserver(token1)
