@@ -114,11 +114,11 @@ extension NSManagedObjectContext {
   ///   - changes: Changes to be applied in the current context before the saving operation.
   ///   - completion: Block executed (on the context’s queue.) at the end of the saving operation.
   public final func performSave(after changes: @escaping () -> Void, completion: ( (Error?) -> Void )? = nil ) {
-    perform { [unowned unownoedSelf = self] in
+    perform { [unowned unownedSelf = self] in
       changes()
       let result: Error?
       do {
-        try unownoedSelf.saveOrRollBack()
+        try unownedSelf.saveOrRollBack()
         result = nil
       } catch {
         result = error
@@ -135,10 +135,10 @@ extension NSManagedObjectContext {
   public final func performSaveAndWait(after changes: () -> Void) throws {
     try withoutActuallyEscaping(changes) { work in
       var saveError: Error? = nil
-      performAndWait { [unowned unownoedSelf = self] in
+      performAndWait { [unowned unownedSelf = self] in
         work()
         do {
-          try unownoedSelf.saveOrRollBack()
+          try unownedSelf.saveOrRollBack()
         } catch {
           saveError = error
         }
