@@ -213,3 +213,46 @@ extension NSManagedObjectContext {
   }
 
 }
+
+// MARK: Perform
+
+extension NSManagedObjectContext {
+
+  /// **CoreDataPlus**
+  ///
+  /// Synchronously performs a given block on the context’s queue and returns the final result.
+  public func performAndWait<T>(_ block: (NSManagedObjectContext) throws -> T) rethrows -> T {
+    return try _performAndWait(
+      fn: performAndWait, execute: block, rescue: { throw $0 }
+    )
+  }
+
+  /// Helper function for convincing the type checker that
+  /// the rethrows invariant holds for performAndWait.
+  ///
+  /// Source: https://oleb.net/blog/2018/02/performandwait/
+  /// Source: https://github.com/apple/swift/blob/bb157a070ec6534e4b534456d208b03adc07704b/stdlib/public/SDK/Dispatch/Queue.swift#L228-L249
+  private func _performAndWait<T>(
+    fn: (() -> Void) -> Void,
+    execute work: (NSManagedObjectContext) throws -> T,
+    rescue: ((Error) throws -> (T))) rethrows -> T
+  {
+    var result: T?
+    var error: Error?
+    withoutActuallyEscaping(work) { _work in
+      fn {
+        do {
+          result = try _work(self)
+        } catch let e {
+          error = e
+        }
+      }
+    }
+    if let e = error {
+      return try rescue(e)
+    } else {
+      return result!
+    }
+  }
+
+}
