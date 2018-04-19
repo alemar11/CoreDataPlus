@@ -113,30 +113,31 @@ extension NSManagedObjectContext {
   /// - Parameters:
   ///   - changes: Changes to be applied in the current context before the saving operation. If they fail throwing an execption, the context will be reset.
   ///   - completion: Block executed (on the context’s queue.) at the end of the saving operation.
-  public final func performSave(after changes: @escaping () throws -> Void, completion: ( (Error?) -> Void )? = nil ) {
-    //TODO: remove @escaping
-    perform { [unowned unownedSelf = self] in
-      var result: Error?
-      do {
-         try changes()
-        result = nil
-      } catch {
-        result = error
-      }
+  public final func performSave(after changes: () throws -> Void, completion: ( (Error?) -> Void )? = nil ) {
+    withoutActuallyEscaping(changes) { _changes in
+      perform { [unowned unownedSelf = self] in
+        var result: Error?
+        do {
+          try _changes()
+          result = nil
+        } catch {
+          result = error
+        }
 
-      guard result == nil else {
-        unownedSelf.reset()
+        guard result == nil else {
+          unownedSelf.reset()
+          completion?(result)
+          return
+        }
+
+        do {
+          try unownedSelf.saveOrRollBack()
+          result = nil
+        } catch {
+          result = error
+        }
         completion?(result)
-        return
       }
-
-      do {
-        try unownedSelf.saveOrRollBack()
-        result = nil
-      } catch {
-        result = error
-      }
-      completion?(result)
     }
   }
 
