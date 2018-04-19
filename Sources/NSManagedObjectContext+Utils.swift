@@ -114,6 +114,7 @@ extension NSManagedObjectContext {
   ///   - changes: Changes to be applied in the current context before the saving operation. If they fail throwing an execption, the context will be reset.
   ///   - completion: Block executed (on the context’s queue.) at the end of the saving operation.
   public final func performSave(after changes: () throws -> Void, completion: ( (Error?) -> Void )? = nil ) {
+    // swiftlint:disable:next identifier_name
     withoutActuallyEscaping(changes) { _changes in
       perform { [unowned unownedSelf = self] in
         var result: Error?
@@ -147,13 +148,14 @@ extension NSManagedObjectContext {
   ///
   /// - Throws: An error in cases of a saving operation failure.
   public final func performSaveAndWait(after changes: () throws -> Void) throws {
-    try withoutActuallyEscaping(changes) { work in
+    // swiftlint:disable:next identifier_name
+    try withoutActuallyEscaping(changes) { _changes in
       var closureError: Error? = nil
       var saveError: Error? = nil
 
       performAndWait { [unowned unownedSelf = self] in
         do {
-          try changes()
+          try _changes()
         } catch {
           closureError = error
         }
@@ -168,7 +170,7 @@ extension NSManagedObjectContext {
         } catch {
           saveError = error
         }
-        
+
       }
 
       if let error = closureError { throw CoreDataPlusError.executionFailed(error: error) }

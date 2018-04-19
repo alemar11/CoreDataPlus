@@ -26,13 +26,13 @@ import CoreData
 @testable import CoreDataPlus
 
 final class NSManagedObjectContextCacheTests: XCTestCase {
-  
+
   func testManagedContextCachingSystem() {
     let stack = CoreDataStack.stack()
-    
+
     let mainContext = stack.mainContext
     let backgroundContext = mainContext.newBackgroundContext()
-    
+
     // Given
     let person1 = Person(context: stack.mainContext)
     person1.firstName = "Tin"
@@ -52,7 +52,7 @@ final class NSManagedObjectContextCacheTests: XCTestCase {
     XCTAssertNotNil(cachedFirstCarForPerson1)
     XCTAssertNotNil(cachedCar1)
     XCTAssertEqual(person1, cachedPerson1)
-    
+
     // Given
     let person2 = Person(context: stack.mainContext)
     person2.firstName = "Tin2"
@@ -64,7 +64,7 @@ final class NSManagedObjectContextCacheTests: XCTestCase {
     XCTAssertNotNil(cachedPerson2)
     XCTAssertNotEqual(person1, cachedPerson2)
     XCTAssertEqual(person2, cachedPerson2)
-    
+
     // Given
     let person3 = Person(context: backgroundContext)
     person3.firstName = "Tin3"
@@ -75,7 +75,7 @@ final class NSManagedObjectContextCacheTests: XCTestCase {
     /// different contexts have different caches
     XCTAssertNotNil(backgroundContext.cachedManagedObject(forKey: "testKey")) // person3
     XCTAssertNotNil(mainContext.cachedManagedObject(forKey: "testKey")) // person2
-    
+
     // Given
     let person4 = Person(context: mainContext)
     person4.firstName = "Tin4"
@@ -87,7 +87,7 @@ final class NSManagedObjectContextCacheTests: XCTestCase {
     /// caching an object in a different context should be impossible
     XCTAssertNil(backgroundContext.cachedManagedObject(forKey: "testKey3"))
     XCTAssertEqual(person3, backgroundContext.cachedManagedObject(forKey: "testKey")) // the previous cached object is not overwritten
-    
+
     // Given
     let entityDescription = NSEntityDescription.entity(forEntityName: Person.entityName, in: mainContext)
     XCTAssertNotNil(entityDescription)
@@ -102,7 +102,7 @@ final class NSManagedObjectContextCacheTests: XCTestCase {
     /// caching an object without context should be impossible
     XCTAssertNil(backgroundContext.cachedManagedObject(forKey: "testKey4"))
     XCTAssertEqual(person3, backgroundContext.cachedManagedObject(forKey: "testKey")) // the previous cached object is not overwritten
-    
+
     // Given
     let person6 = Person(context: mainContext)
     person6.firstName = "Tin6"
@@ -114,13 +114,13 @@ final class NSManagedObjectContextCacheTests: XCTestCase {
     /// caching nil, clears the previous cached values if any
     mainContext.setCachedManagedObject(nil, forKey: "testKey5")
     XCTAssertNil(mainContext.cachedManagedObject(forKey: "testKey5"))
-    
+
     // Given, When
     mainContext.clearCachedManagedObjects()
     // Then
     XCTAssertNil(mainContext.cachedManagedObject(forKey: "testKey"))
     XCTAssertNil(mainContext.cachedManagedObject(forKey: "testKey2"))
-    
+
     // Given, When
     backgroundContext.clearCachedManagedObjects()
     // Then

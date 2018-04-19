@@ -98,7 +98,7 @@ public class EntityObserver<T: NSManagedObject> {
   private var tokens = [NSObjectProtocol]()
 
   // MARK: - Initializers
-  
+
   /// **CoreDataPlus**
   ///
   /// Initializes a new `EntityObserver` object.
