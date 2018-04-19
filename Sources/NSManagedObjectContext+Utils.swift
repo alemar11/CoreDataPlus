@@ -111,38 +111,65 @@ extension NSManagedObjectContext {
   /// Asynchronously performs changes and then saves them or **rollbacks** if any error occurs.
   ///
   /// - Parameters:
-  ///   - changes: Changes to be applied in the current context before the saving operation.
+  ///   - changes: Changes to be applied in the current context before the saving operation. If they fail throwing an execption, the context will be reset.
   ///   - completion: Block executed (on the context’s queue.) at the end of the saving operation.
-  public final func performSave(after changes: @escaping () -> Void, completion: ( (Error?) -> Void )? = nil ) {
+  public final func performSave(after changes: @escaping () throws -> Void, completion: ( (Error?) -> Void )? = nil ) {
     perform { [unowned unownedSelf = self] in
-      changes()
-      let result: Error?
+      var result: Error?
+      do {
+         try changes()
+        result = nil
+      } catch {
+        result = error
+      }
+
+      guard result == nil else {
+        unownedSelf.reset()
+        completion?(result)
+        return
+      }
+
       do {
         try unownedSelf.saveOrRollBack()
         result = nil
       } catch {
         result = error
       }
-      completion?(result) // completion is escaping by default
+      completion?(result)
     }
   }
 
   /// **CoreDataPlus**
   ///
-  /// Synchronously performs changes and then saves them or **rollbacks** if any error occurs.
+  /// Synchronously performs changes and then saves them or **rollbacks** if any error occurs. If the changes fail throwing an execption, the context will be reset.
   ///
   /// - Throws: An error in cases of a saving operation failure.
-  public final func performSaveAndWait(after changes: () -> Void) throws {
+  public final func performSaveAndWait(after changes: () throws -> Void) throws {
     try withoutActuallyEscaping(changes) { work in
+      var closureError: Error? = nil
       var saveError: Error? = nil
+
       performAndWait { [unowned unownedSelf = self] in
-        work()
+        do {
+          try changes()
+        } catch {
+          closureError = error
+        }
+
+        guard closureError == nil else {
+          rollback()
+          return
+        }
+
         do {
           try unownedSelf.saveOrRollBack()
         } catch {
           saveError = error
         }
+        
       }
+
+      if let error = closureError { throw CoreDataPlusError.executionFailed(error: error) }
       if let error = saveError { throw CoreDataPlusError.saveFailed(error: error) }
     }
   }

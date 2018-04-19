@@ -212,6 +212,67 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
     }
   }
   
+  func testSaveAndWaitWithThrow() {
+    let stack = CoreDataStack(type: .sqlite)
+    let expectation1 = expectation(description: "\(#function)\(#line)")
+    if let stack = stack {
+      let context = stack.mainContext
+      
+      do {
+        try context.performSaveAndWait {
+          let person = Person(context: context)
+          person.firstName = "Tin1"
+          person.lastName = "Robots1"
+          throw NSError(domain: "test", code: 1, userInfo: nil)
+        }
+      } catch let catchedError {
+        if case CoreDataPlusError.executionFailed(error: let error) = catchedError {
+          let nsError = error as NSError
+          XCTAssertEqual(nsError.code, 1)
+          XCTAssertEqual(nsError.domain, "test")
+          
+        } else {
+          XCTFail("Wrong error type.")
+        }
+        expectation1.fulfill()
+      }
+      waitForExpectations(timeout: 2)
+      
+      XCTAssertTrue(context.registeredObjects.isEmpty)
+    }
+  }
+  
+  func testSaveAndThrow() {
+    let stack = CoreDataStack(type: .sqlite)
+    if let stack = stack {
+      let context = stack.mainContext.newBackgroundContext()
+      
+      let expectation1 = expectation(description: "\(#function)\(#line)")
+      context.performSave(after: {
+        let person = Person(context: context)
+        person.firstName = "T"
+        person.lastName = "R"
+        throw NSError(domain: "test", code: 1, userInfo: nil)
+        
+      }) { catchedError in
+        XCTAssertNotNil(catchedError)
+        if let nsError = catchedError as NSError? {
+          XCTAssertEqual(nsError.code, 1)
+          XCTAssertEqual(nsError.domain, "test")
+        } else {
+          XCTFail("Wrong error type.")
+        }
+        
+        expectation1.fulfill()
+      }
+      
+      waitForExpectations(timeout: 2)
+      
+      XCTAssertTrue(context.registeredObjects.isEmpty)
+      
+    }
+  }
+  
   func testSave() {
     // Given, When
     let stack = CoreDataStack(type: .sqlite)
