@@ -132,6 +132,28 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
     
   }
   
+  func testSaveAndWaitWithReset() {
+    let stack = CoreDataStack(type: .sqlite)
+    if let stack = stack {
+      let context = stack.mainContext
+      XCTAssertNoThrow(
+        try context.performSaveAndWait {
+          let person1 = Person(context: context)
+          person1.firstName = "T1"
+          person1.lastName = "R1"
+          
+          let person2 = Person(context: context)
+          person2.firstName = "T2"
+          person2.lastName = "R2"
+          
+          context.reset()
+        }
+      )
+      
+      XCTAssertTrue(context.registeredObjects.isEmpty)
+    }
+  }
+  
   func testSaveAndWait() {
     // Given, When
     let stack = CoreDataStack(type: .sqlite)
@@ -149,7 +171,7 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
       )
       
       XCTAssertNoThrow(
-        try context.performSaveAndWait {})
+        try context.performSaveAndWait { })
       
       XCTAssertNoThrow(
         try context.performSaveAndWait {
