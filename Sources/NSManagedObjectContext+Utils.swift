@@ -222,9 +222,7 @@ extension NSManagedObjectContext {
   ///
   /// Synchronously performs a given block on the context’s queue and returns the final result.
   public func performAndWait<T>(_ block: (NSManagedObjectContext) throws -> T) rethrows -> T {
-    return try _performAndWait(
-      fn: performAndWait, execute: block, rescue: { throw $0 }
-    )
+    return try _performAndWait(function: performAndWait, execute: block, rescue: { throw $0 })
   }
 
   /// Helper function for convincing the type checker that
@@ -232,24 +230,21 @@ extension NSManagedObjectContext {
   ///
   /// Source: https://oleb.net/blog/2018/02/performandwait/
   /// Source: https://github.com/apple/swift/blob/bb157a070ec6534e4b534456d208b03adc07704b/stdlib/public/SDK/Dispatch/Queue.swift#L228-L249
-  private func _performAndWait<T>(
-    fn: (() -> Void) -> Void,
-    execute work: (NSManagedObjectContext) throws -> T,
-    rescue: ((Error) throws -> (T))) rethrows -> T
-  {
+  private func _performAndWait<T>(function: (() -> Void) -> Void, execute work: (NSManagedObjectContext) throws -> T, rescue: ((Error) throws -> (T))) rethrows -> T {
     var result: T?
     var error: Error?
+    // swiftlint:disable:next identifier_name
     withoutActuallyEscaping(work) { _work in
-      fn {
+      function {
         do {
           result = try _work(self)
-        } catch let e {
-          error = e
+        } catch let catchedError {
+          error = catchedError
         }
       }
     }
-    if let e = error {
-      return try rescue(e)
+    if let error = error {
+      return try rescue(error)
     } else {
       return result!
     }
