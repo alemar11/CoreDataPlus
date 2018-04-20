@@ -1,5 +1,12 @@
 # Changelog
 
+### 0.8.0
+
+- `performSaveAndWait(after:)` and `performSave(after:)` now accepts throwing closures.
+- Added a new `performAndWait(:)` overload.
+- New tests.
+- Fixes.
+
 ### 0.7.0
 
 - Swift 4.1

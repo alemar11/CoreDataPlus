@@ -52,12 +52,12 @@ public extension NSManagedObjectContextNotification {
   /// **CoreDataPlus**
   ///
   /// Returns an `AnyIterator<NSManagedObject>` of objects for a given `key`.
-//  fileprivate func iterator(forKey key: String) -> AnyIterator<NSManagedObject> {
-//    guard let set = notification.userInfo?[key] as? NSSet else { return AnyIterator { nil } }
-//
-//    var innerIterator = set.makeIterator()
-//    return AnyIterator { return innerIterator.next() as? NSManagedObject }
-//  }
+  //  fileprivate func iterator(forKey key: String) -> AnyIterator<NSManagedObject> {
+  //    guard let set = notification.userInfo?[key] as? NSSet else { return AnyIterator { nil } }
+  //
+  //    var innerIterator = set.makeIterator()
+  //    return AnyIterator { return innerIterator.next() as? NSManagedObject }
+  //  }
 }
 
 // MARK: - NSManagedObjectContextObserving
@@ -176,8 +176,8 @@ extension ContextDidSaveNotification: CustomDebugStringConvertible {
                         ("deleted", deletedObjects),
                         ("refreshed", refreshedObjects),
                         ("invalidated", invalidatedObjects)] {
-      let all = set.map { $0.objectID.description }.joined(separator: ", ")
-      components.append("\(name): {\(all)})")
+                          let all = set.map { $0.objectID.description }.joined(separator: ", ")
+                          components.append("\(name): {\(all)})")
     }
 
     return components.joined(separator: " ")
@@ -304,11 +304,15 @@ extension NSManagedObjectContext {
   /// - Parameters:
   ///   - notification: An instance of an `NSManagedObjectContextDidSave` notification posted by another context.
   ///   - completion: The block to be executed after the merge completes.
-  public func performMergeChanges(from notification: ContextDidSaveNotification, completion: @escaping () -> Void = {}) {
-    perform {
-      self.mergeChanges(fromContextDidSave: notification.notification)
-      completion()
+  public func performMergeChanges(from notification: ContextDidSaveNotification, completion: () -> Void = {}) {
+    // swiftlint:disable:next identifier_name
+    withoutActuallyEscaping(completion) { (_completion) -> Void in
+      perform {
+        self.mergeChanges(fromContextDidSave: notification.notification)
+        _completion()
+      }
     }
+
   }
 
   /// **CoreDataPlus**

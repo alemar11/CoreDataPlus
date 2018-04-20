@@ -111,38 +111,69 @@ extension NSManagedObjectContext {
   /// Asynchronously performs changes and then saves them or **rollbacks** if any error occurs.
   ///
   /// - Parameters:
-  ///   - changes: Changes to be applied in the current context before the saving operation.
+  ///   - changes: Changes to be applied in the current context before the saving operation. If they fail throwing an execption, the context will be reset.
   ///   - completion: Block executed (on the context’s queue.) at the end of the saving operation.
-  public final func performSave(after changes: @escaping () -> Void, completion: ( (Error?) -> Void )? = nil ) {
-    perform { [unowned unownoedSelf = self] in
-      changes()
-      let result: Error?
-      do {
-        try unownoedSelf.saveOrRollBack()
-        result = nil
-      } catch {
-        result = error
+  public final func performSave(after changes: () throws -> Void, completion: ( (Error?) -> Void )? = nil ) {
+    // swiftlint:disable:next identifier_name
+    withoutActuallyEscaping(changes) { _changes in
+      perform { [unowned unownedSelf = self] in
+        var result: Error?
+        do {
+          try _changes()
+          result = nil
+        } catch {
+          result = error
+        }
+
+        guard result == nil else {
+          unownedSelf.reset()
+          completion?(result)
+          return
+        }
+
+        do {
+          try unownedSelf.saveOrRollBack()
+          result = nil
+        } catch {
+          result = error
+        }
+        completion?(result)
       }
-      completion?(result) // completion is escaping by default
     }
   }
 
   /// **CoreDataPlus**
   ///
-  /// Synchronously performs changes and then saves them or **rollbacks** if any error occurs.
+  /// Synchronously performs changes and then saves them or **rollbacks** if any error occurs. If the changes fail throwing an execption, the context will be reset.
   ///
   /// - Throws: An error in cases of a saving operation failure.
-  public final func performSaveAndWait(after changes: () -> Void) throws {
-    try withoutActuallyEscaping(changes) { work in
+  public final func performSaveAndWait(after changes: () throws -> Void) throws {
+    // swiftlint:disable:next identifier_name
+    try withoutActuallyEscaping(changes) { _changes in
+      var closureError: Error? = nil
       var saveError: Error? = nil
-      performAndWait { [unowned unownoedSelf = self] in
-        work()
+
+      performAndWait { [unowned unownedSelf = self] in
         do {
-          try unownoedSelf.saveOrRollBack()
+          try _changes()
+        } catch {
+          closureError = error
+        }
+
+        guard closureError == nil else {
+          rollback()
+          return
+        }
+
+        do {
+          try unownedSelf.saveOrRollBack()
         } catch {
           saveError = error
         }
+
       }
+
+      if let error = closureError { throw CoreDataPlusError.executionFailed(error: error) }
       if let error = saveError { throw CoreDataPlusError.saveFailed(error: error) }
     }
   }
@@ -178,6 +209,44 @@ extension NSManagedObjectContext {
       }
       parentContext = parentContext!.parent
       if let error = saveError { throw CoreDataPlusError.saveFailed(error: error) }
+    }
+  }
+
+}
+
+// MARK: Perform
+
+extension NSManagedObjectContext {
+
+  /// **CoreDataPlus**
+  ///
+  /// Synchronously performs a given block on the context’s queue and returns the final result.
+  public func performAndWait<T>(_ block: (NSManagedObjectContext) throws -> T) rethrows -> T {
+    return try _performAndWait(function: performAndWait, execute: block, rescue: { throw $0 })
+  }
+
+  /// Helper function for convincing the type checker that
+  /// the rethrows invariant holds for performAndWait.
+  ///
+  /// Source: https://oleb.net/blog/2018/02/performandwait/
+  /// Source: https://github.com/apple/swift/blob/bb157a070ec6534e4b534456d208b03adc07704b/stdlib/public/SDK/Dispatch/Queue.swift#L228-L249
+  private func _performAndWait<T>(function: (() -> Void) -> Void, execute work: (NSManagedObjectContext) throws -> T, rescue: ((Error) throws -> (T))) rethrows -> T {
+    var result: T?
+    var error: Error?
+    // swiftlint:disable:next identifier_name
+    withoutActuallyEscaping(work) { _work in
+      function {
+        do {
+          result = try _work(self)
+        } catch let catchedError {
+          error = catchedError
+        }
+      }
+    }
+    if let error = error {
+      return try rescue(error)
+    } else {
+      return result!
     }
   }
 
