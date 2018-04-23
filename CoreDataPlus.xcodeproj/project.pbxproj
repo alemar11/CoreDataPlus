@@ -149,6 +149,10 @@
 		23CAFC8A204B196400E016D3 /* EntityObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CAFC89204B196400E016D3 /* EntityObserverTests.swift */; };
 		23CAFC8B204B196400E016D3 /* EntityObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CAFC89204B196400E016D3 /* EntityObserverTests.swift */; };
 		23CAFC8C204B196400E016D3 /* EntityObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CAFC89204B196400E016D3 /* EntityObserverTests.swift */; };
+		23CFA589208E23CA006848EC /* FetchedResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CFA588208E23CA006848EC /* FetchedResultController.swift */; };
+		23CFA58A208E23CA006848EC /* FetchedResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CFA588208E23CA006848EC /* FetchedResultController.swift */; };
+		23CFA58B208E23CA006848EC /* FetchedResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CFA588208E23CA006848EC /* FetchedResultController.swift */; };
+		23CFA58C208E23CA006848EC /* FetchedResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CFA588208E23CA006848EC /* FetchedResultController.swift */; };
 		23DAFA2A1F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23DAFA291F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift */; };
 		23DAFA2B1F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23DAFA291F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift */; };
 		23DAFA2C1F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23DAFA291F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift */; };
@@ -235,6 +239,7 @@
 		23CAFC80204AAF7300E016D3 /* ManagedObjectObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectObserverTests.swift; sourceTree = "<group>"; };
 		23CAFC84204AC53A00E016D3 /* EntityObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityObserver.swift; sourceTree = "<group>"; };
 		23CAFC89204B196400E016D3 /* EntityObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityObserverTests.swift; sourceTree = "<group>"; };
+		23CFA588208E23CA006848EC /* FetchedResultController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedResultController.swift; sourceTree = "<group>"; };
 		23DAFA241F9641BD0058654B /* SampleModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel.xcdatamodel; sourceTree = "<group>"; };
 		23DAFA291F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSFetchRequestResultUtilsTests.swift; sourceTree = "<group>"; };
 		23EEF5441F962E5700A2E72F /* Car.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Car.swift; sourceTree = "<group>"; };
@@ -366,6 +371,7 @@
 				23C6492F20396A4600AA514A /* NSManagedObjectContext+Observers.swift */,
 				23CAFC84204AC53A00E016D3 /* EntityObserver.swift */,
 				2319729B204C6A66001008FA /* ObservedEvent.swift */,
+				23CFA588208E23CA006848EC /* FetchedResultController.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -731,6 +737,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23CFA58A208E23CA006848EC /* FetchedResultController.swift in Sources */,
 				236350B91F95F11C00B3A16A /* NSManagedObjectContext+Cache.swift in Sources */,
 				23948D161F99332A00B3738D /* NSEntityDescription+Utils.swift in Sources */,
 				2319729D204C6A66001008FA /* ObservedEvent.swift in Sources */,
@@ -755,6 +762,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23CFA58B208E23CA006848EC /* FetchedResultController.swift in Sources */,
 				236350C41F95F11C00B3A16A /* NSManagedObjectContext+Cache.swift in Sources */,
 				23948D171F99332A00B3738D /* NSEntityDescription+Utils.swift in Sources */,
 				2319729E204C6A66001008FA /* ObservedEvent.swift in Sources */,
@@ -779,6 +787,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23CFA58C208E23CA006848EC /* FetchedResultController.swift in Sources */,
 				236350CF1F95F11D00B3A16A /* NSManagedObjectContext+Cache.swift in Sources */,
 				23948D181F99332A00B3738D /* NSEntityDescription+Utils.swift in Sources */,
 				2319729F204C6A66001008FA /* ObservedEvent.swift in Sources */,
@@ -803,6 +812,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23CFA589208E23CA006848EC /* FetchedResultController.swift in Sources */,
 				23948D151F99332A00B3738D /* NSEntityDescription+Utils.swift in Sources */,
 				23B580981F94FFF700A365C0 /* NSManagedObject+DelayedDeletable.swift in Sources */,
 				2319729C204C6A66001008FA /* ObservedEvent.swift in Sources */,
