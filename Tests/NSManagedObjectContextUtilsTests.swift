@@ -201,12 +201,6 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
     let stack = CoreDataStack.stack(type: .sqlite)
     let context = stack.mainContext.newBackgroundContext()
 
-    //TODO: add a test for this scenario
-//    let person = Person(context: context)
-//    person.firstName = "Alessandro"
-//    person.lastName = "Test"
-//    try! context.save()
-
     let expectation1 = expectation(description: "\(#function)\(#line)")
     
     do {
@@ -230,7 +224,42 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
     waitForExpectations(timeout: 2)
     
     XCTAssertTrue(context.registeredObjects.isEmpty)
-    
+  }
+
+  func testSaveAndWaitWithAContextSaveDoneBeforeTheThrow() throws {
+    let stack = CoreDataStack.stack(type: .sqlite)
+    let context = stack.mainContext.newBackgroundContext()
+
+    let person = Person(context: context)
+    person.firstName = "Alessandro"
+    person.lastName = "Test"
+    try! context.save()
+
+    let expectation1 = expectation(description: "\(#function)\(#line)")
+
+    do {
+      try context.performSaveAndWait {
+        let person = Person(context: context)
+        person.firstName = "Tin1"
+        person.lastName = "Robots1"
+        throw NSError(domain: "test", code: 1, userInfo: nil)
+      }
+    } catch let catchedError {
+      if case CoreDataPlusError.executionFailed(error: let error) = catchedError {
+        let nsError = error as NSError
+        XCTAssertEqual(nsError.code, 1)
+        XCTAssertEqual(nsError.domain, "test")
+
+      } else {
+        XCTFail("Wrong error type.")
+      }
+      expectation1.fulfill()
+    }
+    waitForExpectations(timeout: 2)
+
+    XCTAssertEqual(context.registeredObjects.count, 1)
+    let object = context.registeredObjects.first!
+    XCTAssertEqual(object, person)
   }
   
   func testSaveAndThrow() {
