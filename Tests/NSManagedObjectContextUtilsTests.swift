@@ -200,6 +200,13 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
   func testSaveAndWaitWithThrow() {
     let stack = CoreDataStack.stack(type: .sqlite)
     let context = stack.mainContext.newBackgroundContext()
+
+    //TODO: add a test for this scenario
+//    let person = Person(context: context)
+//    person.firstName = "Alessandro"
+//    person.lastName = "Test"
+//    try! context.save()
+
     let expectation1 = expectation(description: "\(#function)\(#line)")
     
     do {

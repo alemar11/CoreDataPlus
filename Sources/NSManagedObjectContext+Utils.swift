@@ -113,7 +113,7 @@ extension NSManagedObjectContext {
   /// - Parameters:
   ///   - changes: Changes to be applied in the current context before the saving operation. If they fail throwing an execption, the context will be reset.
   ///   - completion: Block executed (on the context’s queue.) at the end of the saving operation.
-  public final func performSave(after changes: () throws -> Void, completion: ( (Error?) -> Void )? = nil ) {
+  public final func performSave(enableRollback: Bool = true, after changes: () throws -> Void, completion: ( (Error?) -> Void )? = nil ) {
     // swiftlint:disable:next identifier_name
     withoutActuallyEscaping(changes) { _changes in
       perform { [unowned unownedSelf = self] in
@@ -126,13 +126,13 @@ extension NSManagedObjectContext {
         }
 
         guard result == nil else {
-          unownedSelf.reset()
+          if enableRollback { unownedSelf.rollback() } // TODO: tests
           completion?(result)
           return
         }
 
         do {
-          try unownedSelf.saveOrRollBack()
+          try enableRollback ? unownedSelf.saveOrRollBack() : unownedSelf.save() // TODO: tests
           result = nil
         } catch {
           result = error
@@ -146,14 +146,14 @@ extension NSManagedObjectContext {
   ///
   /// Synchronously performs changes and then saves them or **rollbacks** if any error occurs. If the changes fail throwing an execption, the context will be reset.
   ///
-  /// - Throws: An error in cases of a saving operation failure.
-  public final func performSaveAndWait(after changes: () throws -> Void) throws {
+  /// - Throws: An error in case of a saving operation failure.
+  public final func performSaveAndWait(enableRollback: Bool = true, after changes: () throws -> Void) throws {
     // swiftlint:disable:next identifier_name
     try withoutActuallyEscaping(changes) { _changes in
       var closureError: Error? = nil
       var saveError: Error? = nil
 
-      performAndWait { [unowned unownedSelf = self] in
+      performAndWait {
         do {
           try _changes()
         } catch {
@@ -161,12 +161,17 @@ extension NSManagedObjectContext {
         }
 
         guard closureError == nil else {
-          rollback()
+          if enableRollback { rollback() } // TODO: tests
           return
         }
 
         do {
-          try unownedSelf.saveOrRollBack()
+          try enableRollback ? saveOrRollBack() : save() // TODO: tests
+//          if enableRollback {
+//            try saveOrRollBack()
+//          } else {
+//            try save()
+//          }
         } catch {
           saveError = error
         }
