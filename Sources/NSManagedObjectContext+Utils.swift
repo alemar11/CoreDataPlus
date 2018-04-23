@@ -147,6 +147,7 @@ extension NSManagedObjectContext {
   /// Synchronously performs changes and then saves them or **rollbacks** if any error occurs. If the changes fail throwing an execption, the context will be reset.
   ///
   /// - Throws: An error in case of a saving operation failure.
+    /// - Note: The rollback removes everything from the undo stack, discards all insertions and deletions, and restores updated objects to their last committed values.
   public final func performSaveAndWait(enableRollback: Bool = true, after changes: () throws -> Void) throws {
     // swiftlint:disable:next identifier_name
     try withoutActuallyEscaping(changes) { _changes in
@@ -186,12 +187,13 @@ extension NSManagedObjectContext {
   /// **CoreDataPlus**
   ///
   /// Saves the `NSManagedObjectContext` if changes are present or **rollbacks** if any error occurs.
+  /// - Note: The rollback removes everything from the undo stack, discards all insertions and deletions, and restores updated objects to their last committed values.
   private final func saveOrRollBack() throws {
     guard hasChanges else { return }
     do {
       try save()
     } catch {
-      rollback()
+      rollback() // rolls back the pending changes
       throw CoreDataPlusError.saveFailed(error: error)
     }
   }
