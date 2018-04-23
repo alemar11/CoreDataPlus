@@ -230,8 +230,7 @@ extension NSManagedObjectContext {
     return try _performAndWait(function: performAndWait, execute: block, rescue: { throw $0 })
   }
 
-  /// Helper function for convincing the type checker that
-  /// the rethrows invariant holds for performAndWait.
+  /// Helper function for convincing the type checker that the rethrows invariant holds for performAndWait.
   ///
   /// Source: https://oleb.net/blog/2018/02/performandwait/
   /// Source: https://github.com/apple/swift/blob/bb157a070ec6534e4b534456d208b03adc07704b/stdlib/public/SDK/Dispatch/Queue.swift#L228-L249
