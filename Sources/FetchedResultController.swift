@@ -157,21 +157,6 @@ public class FetchedResultsController<T: NSManagedObject> {
   /// The objects that match the fetch request.
   public var fetchedObjects: [T]? { return internalFetchedResultsController.fetchedObjects }
 
-//  /// **CoreDataPlus**
-//  ///
-//  /// The first object matching the fetch request.
-//  public var first: T? { return fetchedObjects?.first }
-//
-//  /// **CoreDataPlus**
-//  ///
-//  /// The number of objects matching the fetch request.
-//  public var count: Int { return fetchedObjects?.count ?? 0 }
-//
-//  /// **CoreDataPlus**
-//  ///
-//  /// The number of sections matching the fetch request.
-//  public var sectionCount: Int { return sections?.count ?? 0 }
-
   /// **CoreDataPlus**
   ///
   /// The sections returned by the `FetchedResultsController` see `FetchedResultsSectionInfo`.
