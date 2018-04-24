@@ -197,17 +197,32 @@ public class FetchedResultsController<T: NSManagedObject> {
 
   deinit {
     // Core Data does not yet use weak references for delegates; the delegate must be set to nil for thread safety reasons.
+    _delegate = nil
     internalFetchedResultsController.delegate = nil
   }
 
   // MARK: - Public Functions
 
+  private var _delegate: WrapperFetchedResultsControllerDelegate<T>?
+
   /// **CoreDataPlus**
   ///
-  /// Sets the `FetchedResultsControllerDelegate` that will receive callback events.
-  /// - parameter U: Your delegate must implement the methods in `FetchedResultsControllerDelegate`.
-  public func setDelegate<U: FetchedResultsControllerDelegate>(_ delegate: U) where U.T == T {
-    self.delegateHost = ForwardingFetchedResultsControllerDelegate<U>(owner: self, delegate: delegate)
+  /// The `AnyFetchedResultsControllerDelegate` that will receive callback events.
+  public var delegate: AnyFetchedResultsControllerDelegate<T>? {
+
+    set {
+      if let value = newValue {
+        _delegate = WrapperFetchedResultsControllerDelegate<T>(owner: self, delegate: value)
+        internalFetchedResultsController.delegate = _delegate
+      } else {
+        _delegate = nil
+      }
+    }
+
+    get {
+      return _delegate?.delegate
+    }
+
   }
 
   /// **CoreDataPlus**
@@ -216,7 +231,7 @@ public class FetchedResultsController<T: NSManagedObject> {
   /// - throws: Any errors produced by the `NSFetchResultsController`s `performFetch()` function.
   public func performFetch() throws {
     defer {
-      delegateHost?.fetchedResultsControllerDidPerformFetch()
+      _delegate?.fetchedResultsControllerDidPerformFetch()
     }
     try internalFetchedResultsController.performFetch()
   }
@@ -225,11 +240,6 @@ public class FetchedResultsController<T: NSManagedObject> {
 
   private let internalFetchedResultsController: NSFetchedResultsController<T>
 
-  private var delegateHost: BaseFetchedResultsControllerDelegate<T>? {
-    didSet {
-      internalFetchedResultsController.delegate = delegateHost
-    }
-  }
 }
 
 private extension FetchedResultsObjectChange {
@@ -293,63 +303,78 @@ fileprivate extension FetchedResultsSectionChange {
 
 }
 
-private class BaseFetchedResultsControllerDelegate<T>: NSObject, NSFetchedResultsControllerDelegate {
+public class AnyFetchedResultsControllerDelegate<T: NSManagedObject>: FetchedResultsControllerDelegate {
 
-  func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-    fatalError()
+  public func fetchedResultsController(_ controller: FetchedResultsController<T>, didChangeObject change: FetchedResultsObjectChange<T>){
+    _fetchedResultsControllerDidChangeObject(controller, change)
   }
 
-  func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-    fatalError()
+  public func fetchedResultsController(_ controller: FetchedResultsController<T>, didChangeSection change: FetchedResultsSectionChange<T>){
+    _fetchedResultsControllerDidChangeSection(controller, change)
   }
 
-  func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-    fatalError()
+  public func fetchedResultsControllerWillChangeContent(_ controller: FetchedResultsController<T>){
+    _fetchedResultsControllerWillChangeContent(controller)
   }
 
-  func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-    fatalError()
+  public func fetchedResultsControllerDidChangeContent(_ controller: FetchedResultsController<T>){
+    _fetchedResultsControllerDidChangeContent(controller)
   }
 
-  func fetchedResultsControllerDidPerformFetch() {
-    fatalError()
+  public func fetchedResultsControllerDidPerformFetch(_ controller: FetchedResultsController<T>){
+    _fetchedResultsControllerDidPerformFetch(controller)
   }
+
+  public required init<U: FetchedResultsControllerDelegate>(_ delegate: U) where U.T == T {
+    _fetchedResultsControllerWillChangeContent = delegate.fetchedResultsControllerWillChangeContent(_:)
+    _fetchedResultsControllerDidChangeContent = delegate.fetchedResultsControllerDidChangeContent(_:)
+    _fetchedResultsControllerDidChangeObject = delegate.fetchedResultsController(_:didChangeObject:)
+    _fetchedResultsControllerDidChangeSection = delegate.fetchedResultsController(_:didChangeSection:)
+    _fetchedResultsControllerDidPerformFetch = delegate.fetchedResultsControllerDidPerformFetch(_:)
+  }
+
+  private var _fetchedResultsControllerDidChangeObject: (FetchedResultsController<T>, FetchedResultsObjectChange<T>) -> Void
+  private var _fetchedResultsControllerDidChangeSection: (FetchedResultsController<T>, FetchedResultsSectionChange<T>) -> ()
+  private var _fetchedResultsControllerWillChangeContent: (FetchedResultsController<T>) -> Void
+  private var _fetchedResultsControllerDidChangeContent: (FetchedResultsController<T>) -> Void
+  private var _fetchedResultsControllerDidPerformFetch: (FetchedResultsController<T>) -> Void
 
 }
 
-private final class ForwardingFetchedResultsControllerDelegate<Delegate: FetchedResultsControllerDelegate>: BaseFetchedResultsControllerDelegate<Delegate.T> {
-  typealias Owner = FetchedResultsController<Delegate.T>
 
-  weak var delegate: Delegate?
+fileprivate class WrapperFetchedResultsControllerDelegate<T: NSManagedObject>: NSObject, NSFetchedResultsControllerDelegate {
 
-  unowned let owner: Owner
+  unowned var owner: FetchedResultsController<T>
+  weak var delegate: AnyFetchedResultsControllerDelegate<T>?
 
-  init(owner: Owner, delegate: Delegate) {
-    self.delegate = delegate
+  init(owner: FetchedResultsController<T>, delegate: AnyFetchedResultsControllerDelegate<T>) {
     self.owner = owner
+    self.delegate = delegate
   }
 
-  override func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+  func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
     delegate?.fetchedResultsControllerWillChangeContent(owner)
   }
 
-  override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+  func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
     delegate?.fetchedResultsControllerDidChangeContent(owner)
   }
 
-  override func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-    guard let object = anObject as? Delegate.T else { return }
-    guard let change = FetchedResultsObjectChange<Delegate.T>(object: object, indexPath: indexPath, changeType: type, newIndexPath: newIndexPath) else { return }
+  func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+    guard let object = anObject as? T else { return }
+    guard let change = FetchedResultsObjectChange<T>(object: object, indexPath: indexPath, changeType: type, newIndexPath: newIndexPath) else { return }
 
     delegate?.fetchedResultsController(owner, didChangeObject: change)
   }
 
-  override func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-    let change = FetchedResultsSectionChange<Delegate.T>(section: sectionInfo, index: sectionIndex, changeType: type)
+  func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+    let change = FetchedResultsSectionChange<T>(section: sectionInfo, index: sectionIndex, changeType: type)
     delegate?.fetchedResultsController(owner, didChangeSection: change)
   }
 
-  override func fetchedResultsControllerDidPerformFetch() {
+  func fetchedResultsControllerDidPerformFetch() {
     delegate?.fetchedResultsControllerDidPerformFetch(owner)
   }
+
 }
+
