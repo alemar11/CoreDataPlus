@@ -24,7 +24,7 @@
 import CoreData
 
 extension NSManagedObjectContext {
-
+  
   /// **CoreDataPlus**
   ///
   /// The persistent stores associated with the receiver (if any).
@@ -35,16 +35,16 @@ extension NSManagedObjectContext {
     }
     return persistentStoreCoordinator?.persistentStores ?? []
   }
-
+  
   /// **CoreDataPlus**
   ///
   /// Returns a dictionary that contains the metadata currently stored or to-be-stored in a given persistent store.
   public final func metaData(for store: NSPersistentStore) -> [String: Any] {
     guard let persistentStoreCoordinator = persistentStoreCoordinator else { preconditionFailure("\(self.description) doesn't have a Persistent Store Coordinator.") }
-
+    
     return persistentStoreCoordinator.metadata(for: store)
   }
-
+  
   /// **CoreDataPlus**
   ///
   /// Adds an `object` to the store's metadata and saves it **asynchronously**.
@@ -58,7 +58,7 @@ extension NSManagedObjectContext {
     performSave(after: { [weak self] in
       guard let strongSelf = self else { return }
       guard let persistentStoreCoordinator = strongSelf.persistentStoreCoordinator else { preconditionFailure("\(strongSelf.description) doesn't have a Persistent Store Coordinator.") }
-
+      
       var metaData = persistentStoreCoordinator.metadata(for: store)
       metaData[key] = object
       persistentStoreCoordinator.setMetadata(metaData, for: store)
@@ -66,23 +66,23 @@ extension NSManagedObjectContext {
         handler?(error)
     })
   }
-
+  
   /// **CoreDataPlus**
   ///
   /// Returns the entity with the specified name (if any) from the managed object model associated with the specified managed object context’s persistent store coordinator.
   public final func entity(forEntityName name: String) -> NSEntityDescription? {
     guard let persistentStoreCoordinator = persistentStoreCoordinator else { preconditionFailure("\(self.description) doesn't have a Persistent Store Coordinator.") }
     let entity = persistentStoreCoordinator.managedObjectModel.entitiesByName[name]
-
+    
     return entity
   }
-
+  
 }
 
 // MARK: - Child Context
 
 extension NSManagedObjectContext {
-
+  
   /// **CoreDataPlus**
   ///
   /// - Returns: a `new` background `NSManagedObjectContext`.
@@ -90,105 +90,92 @@ extension NSManagedObjectContext {
   ///   - asChildContext: Specifies if this new context is a child context of the current context (default *false*).
   public final func newBackgroundContext(asChildContext isChildContext: Bool = false) -> NSManagedObjectContext {
     let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-
+    
     if isChildContext {
       context.parent = self
     } else {
       context.persistentStoreCoordinator = persistentStoreCoordinator
     }
-
+    
     return context
   }
-
+  
 }
 
 // MARK: - Save
 
 extension NSManagedObjectContext {
-
+  
   /// **CoreDataPlus**
   ///
-  /// Asynchronously performs changes and then saves them or **rollbacks** if any error occurs.
+  /// Asynchronously performs changes and then saves them.
   ///
   /// - Parameters:
   ///   - changes: Changes to be applied in the current context before the saving operation. If they fail throwing an execption, the context will be reset.
   ///   - completion: Block executed (on the context’s queue.) at the end of the saving operation.
-  public final func performSave(enableRollback: Bool = true, after changes: () throws -> Void, completion: ( (Error?) -> Void )? = nil ) {
+  public final func performSave(after changes: () throws -> Void, completion: ( (CoreDataPlusError?) -> Void )? = nil ) {
     // swiftlint:disable:next identifier_name
     withoutActuallyEscaping(changes) { _changes in
       perform { [unowned unownedSelf = self] in
-        var result: Error?
+        var internalError: CoreDataPlusError?
+        
         do {
           try _changes()
-          result = nil
         } catch {
-          result = error
+          internalError = CoreDataPlusError.executionFailed(error: error)
         }
-
-        guard result == nil else {
-          if enableRollback { unownedSelf.rollback() } // TODO: tests
-          completion?(result)
+        
+        guard internalError == nil else {
+          completion?(internalError)
           return
         }
-
+        
         do {
-          try enableRollback ? unownedSelf.saveOrRollBack() : unownedSelf.save() // TODO: tests
-          result = nil
+          try unownedSelf.save()
         } catch {
-          result = error
+          internalError = CoreDataPlusError.saveFailed(error: error)
         }
-        completion?(result)
+        completion?(internalError)
       }
     }
   }
-
+  
   /// **CoreDataPlus**
   ///
-  /// Synchronously performs changes and then saves them or **rollbacks** if any error occurs. If the changes fail throwing an execption, the context will be reset.
+  /// Synchronously performs changes and then saves them: if the changes fail throwing an execption, the context will be reset.
   ///
-  /// - Throws: An error in case of a saving operation failure.
-    /// - Note: The rollback removes everything from the undo stack, discards all insertions and deletions, and restores updated objects to their last committed values.
-  public final func performSaveAndWait(enableRollback: Bool = true, after changes: () throws -> Void) throws {
+  /// - Throws: It throws an error in cases of failure (while applying changes or saving).
+  public final func performSaveAndWait(after changes: () throws -> Void) throws {
     // swiftlint:disable:next identifier_name
     try withoutActuallyEscaping(changes) { _changes in
-      var closureError: Error? = nil
-      var saveError: Error? = nil
-
+      var internalError: CoreDataPlusError? = nil
+      
       performAndWait {
         do {
           try _changes()
         } catch {
-          closureError = error
+          internalError = CoreDataPlusError.executionFailed(error: error)
         }
-
-        guard closureError == nil else {
-          if enableRollback { rollback() } // TODO: tests
-          return
-        }
-
+        
+        guard internalError == nil else { return }
+        
         do {
-          try enableRollback ? saveOrRollBack() : save() // TODO: tests
-//          if enableRollback {
-//            try saveOrRollBack()
-//          } else {
-//            try save()
-//          }
+          try save()
         } catch {
-          saveError = error
+          internalError = CoreDataPlusError.saveFailed(error: error)
         }
-
+        
       }
-
-      if let error = closureError { throw CoreDataPlusError.executionFailed(error: error) }
-      if let error = saveError { throw CoreDataPlusError.saveFailed(error: error) }
+      
+      if let error = internalError { throw error }
     }
   }
-
+  
   /// **CoreDataPlus**
   ///
   /// Saves the `NSManagedObjectContext` if changes are present or **rollbacks** if any error occurs.
   /// - Note: The rollback removes everything from the undo stack, discards all insertions and deletions, and restores updated objects to their last committed values.
-  private final func saveOrRollBack() throws {
+  public final func saveOrRollBack() throws {
     guard hasChanges else { return }
     do {
       try save()
@@ -197,16 +184,16 @@ extension NSManagedObjectContext {
       throw CoreDataPlusError.saveFailed(error: error)
     }
   }
-
+  
   /// **CoreDataPlus**
   ///
   /// Saves the `NSManagedObjectContext` up to the last parent `NSManagedObjectContext`.
   private final func performSaveUpToTheLastParentContextAndWait() throws {
     var parentContext: NSManagedObjectContext? = self
-
+    
     while parentContext != nil {
       var saveError: Error? = nil
-
+      
       parentContext!.performAndWait {
         do {
           try parentContext!.save()
@@ -218,20 +205,20 @@ extension NSManagedObjectContext {
       if let error = saveError { throw CoreDataPlusError.saveFailed(error: error) }
     }
   }
-
+  
 }
 
 // MARK: Perform
 
 extension NSManagedObjectContext {
-
+  
   /// **CoreDataPlus**
   ///
   /// Synchronously performs a given block on the context’s queue and returns the final result.
   public func performAndWait<T>(_ block: (NSManagedObjectContext) throws -> T) rethrows -> T {
     return try _performAndWait(function: performAndWait, execute: block, rescue: { throw $0 })
   }
-
+  
   /// Helper function for convincing the type checker that the rethrows invariant holds for performAndWait.
   ///
   /// Source: https://oleb.net/blog/2018/02/performandwait/
@@ -255,5 +242,5 @@ extension NSManagedObjectContext {
       return result!
     }
   }
-
+  
 }

@@ -123,74 +123,7 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
     XCTAssertNotEqual(backgroundContext2.parent,stack.mainContext)
   }
 
-  /*
-   By default, the managed object context only keeps a strong reference to managed objects that have pending changes.
-   This means that objects your code doesn’t have a strong reference to will be removed from the context’s registeredObjects set and be deallocated.
-   (Unless we set retainsRegisteredObjects to `true`)
-   */
-
-  func testSimpleSaveAndWait() throws {
-    // Given, When
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext.newBackgroundContext()
-
-    // Then
-    try context.performSaveAndWait {
-      let person = Person(context: context)
-      person.firstName = "T"
-      person.lastName = "R"
-
-      XCTAssertEqual(context.registeredObjects.count, 1)
-    }
-    XCTAssertEqual(context.registeredObjects.count, 0, "There shouldn't be any inserted, updated or deleted objects.")
-  }
-
   func testMultipleSaveAndWait() throws {
-    // Given, When
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext.newBackgroundContext()
-
-    // Then
-    try context.performSaveAndWait {
-      let person = Person(context: context)
-      person.firstName = "T"
-      person.lastName = "R"
-
-      let person2 = Person(context: context)
-      person2.firstName = "T2"
-      person2.lastName = "R2"
-
-      let car3 = Car(context: context)
-      car3.maker = "FIAT"
-      car3.model = "Punto"
-      car3.numberPlate = "3"
-
-      person2.cars = [car3]
-
-      XCTAssertEqual(context.registeredObjects.count, 3)
-    }
-
-    /*
-     Once relationships come into play, managed objects can have references to other managed objects.
-     An object and its data may therefore be kept alive by the context simply because it’s referenced by another object.
-     And because relationships are bidirectional, once a relationship has been traversed in both directions, we’ll end up with a reference cycle.
-     */
-    context.refreshAllObjects()
-    XCTAssertEqual(context.registeredObjects.count, 0, "There shouldn't be any inserted, updated or deleted objects.")
-
-    try context.performSaveAndWait { }
-    XCTAssertEqual(context.registeredObjects.count, 0, "There shouldn't be any inserted, updated or deleted objects.")
-
-    try context.performSaveAndWait {
-      let person = Person(context: context)
-      person.firstName = "Tin"
-      person.lastName = "Robots"
-    }
-
-    XCTAssertEqual(context.registeredObjects.count, 0, "There shouldn't be any inserted, updated or deleted objects.")
-  }
-
-  func testSaveAndWaithWithThrowOnContextSave() {
     // Given, When
     let stack = CoreDataStack.stack(type: .sqlite)
     let context = stack.mainContext.newBackgroundContext()
@@ -198,74 +131,30 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
     // Then
     XCTAssertNoThrow(
       try context.performSaveAndWait {
-        let car = Car(context: context)
-        car.maker = "FIAT"
-        car.model = "Punto"
-        car.numberPlate = "3"
-
         let person = Person(context: context)
         person.firstName = "T"
         person.lastName = "R"
-        person.cars = [car]
 
         let person2 = Person(context: context)
         person2.firstName = "T2"
         person2.lastName = "R2"
 
+        let car3 = Car(context: context)
+        car3.maker = "FIAT"
+        car3.model = "Punto"
+        car3.numberPlate = "3"
+
+        person2.cars = [car3]
+
         XCTAssertEqual(context.registeredObjects.count, 3)
-      }
-    )
+      })
 
-    XCTAssertEqual(context.registeredObjects.count, 2) // reference cycle between person and car
-    context.refreshAllObjects()
-    XCTAssertFalse(context.hasChanges)
-    XCTAssertEqual(context.registeredObjects.count, 0, "There shouldn't be any inserted, updated or deleted objects.")
-
-    XCTAssertThrowsError(
-      try context.performSaveAndWait(enableRollback: false) {
+    XCTAssertNoThrow(
+      try context.performSaveAndWait {
         let person = Person(context: context)
-        person.firstName = "T"
-        person.lastName = "R"
-        person.cars = nil
-
-//        let car = Car(context: context)
-//        car.maker = "FIAT"
-//        car.model = "Tipo"
-//        car.numberPlate = "11"
-//
-//        let car2 = Car(context: context)
-//        car2.maker = "FIAT"
-//        car2.model = "Tipo"
-//        car2.numberPlate = "11"
-//
-//        let person2 = Person(context: context)
-//        person2.firstName = "T"
-//        person2.lastName = "R"
-//        person2.cars = nil
-
-
-      }
-    ) { (error) in
-      XCTAssertNotNil(error)
-    }
-
-// user undo? https://stackoverflow.com/questions/10304121/how-to-use-undomanager-with-a-core-data-entity?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-    // http://www.cimgf.com/2011/10/11/core-data-and-the-undo-manager/
-
-    context.refreshAllObjects()
-    XCTAssertTrue(context.hasChanges) //TODO?
-    XCTAssertEqual(context.registeredObjects.count, 1)
-    //print(context.registeredObjects.first!.hasChanges)
-    //let registeredObject = context.registeredObjects.first! as! Person
-    //XCTAssertEqual(registeredObject.cars?.count, 1) // The rollback has discarded all the changes done since the last save
-
-    for o in context.registeredObjects {
-      let p = o as! Person
-      print(p.firstName)
-      print(p.cars?.count)
-      print(p.isUpdated)
-
-    }
+        person.firstName = "Tin"
+        person.lastName = "Robots"
+      })
 
   }
 
@@ -291,16 +180,9 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
         car3.numberPlate = "3"
 
         person2.cars = [car3]
-
-        //XCTAssertEqual(context.registeredObjects.count, 1)
       }
     )
 
-    XCTAssertEqual(context.registeredObjects.count, 0, "There shouldn't be any inserted, updated or deleted objects.")
-    
-    XCTAssertNoThrow(try context.performSaveAndWait { })
-    XCTAssertEqual(context.registeredObjects.count, 0, "There shouldn't be any inserted, updated or deleted objects.")
-    
     XCTAssertNoThrow(
       try context.performSaveAndWait {
         let person = Person(context: context)
@@ -309,8 +191,7 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
       }
     )
 
-    XCTAssertEqual(context.registeredObjects.count, 0, "There shouldn't be any inserted, updated or deleted objects.")
-    
+
     XCTAssertThrowsError(
       try context.performSaveAndWait {
         let car1 = Car(context: context)
@@ -328,27 +209,17 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
         person.lastName = "Robots"
         person.cars = [car1, car2]
 
-        XCTAssertEqual(context.registeredObjects.count, 1)
       }
     ) { (error) in
       XCTAssertNotNil(error)
     }
-    let o = context.registeredObjects.first! as! Person
-    print(o.firstName)
-    XCTAssertTrue(context.registeredObjects.isEmpty)
-    
+
+    context.rollback() // discards all the failing changes
+
     XCTAssertNoThrow(
       try context.performSaveAndWait {
         let person = Person(context: context)
         person.firstName = "Tin_"
-        person.lastName = "Robots"
-      }
-    )
-    
-    XCTAssertNoThrow(
-      try context.performSaveAndWait {
-        let person = Person(context: context)
-        person.firstName = "Tin"
         person.lastName = "Robots_"
       }
     )
@@ -374,29 +245,6 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
     XCTAssertTrue(context.registeredObjects.isEmpty)
   }
 
-  func testSaveAndWaitWithRollbackDisabled() {
-    // Given, When
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext.newBackgroundContext()
-
-    let person = Person(context: context)
-    person.firstName = "Tin"
-    person.lastName = "Robots"
-
-    XCTAssertThrowsError(
-      try context.performSaveAndWait {
-        let person = Person(context: context)
-        person.firstName = "Tin"
-        person.lastName = "Robots"
-      }
-    ) { (error) in
-      XCTAssertNotNil(error)
-    }
-
-    print(context.registeredObjects.count) // add this check on the other tests
-
-  }
-  
   func testSaveAndWaitWithThrow() {
     let stack = CoreDataStack.stack(type: .sqlite)
     let context = stack.mainContext.newBackgroundContext()
@@ -422,8 +270,6 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
       expectation1.fulfill()
     }
     waitForExpectations(timeout: 2)
-    
-    XCTAssertTrue(context.registeredObjects.isEmpty)
   }
 
   func testSaveAndWaitWithAContextSaveDoneBeforeTheThrow() throws {
@@ -456,10 +302,6 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
       expectation1.fulfill()
     }
     waitForExpectations(timeout: 2)
-
-    XCTAssertEqual(context.registeredObjects.count, 1)
-    let object = context.registeredObjects.first!
-    XCTAssertEqual(object, person)
   }
   
   func testSaveAndThrow() {
@@ -467,27 +309,26 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
     let context = stack.mainContext.newBackgroundContext()
     
     let expectation1 = expectation(description: "\(#function)\(#line)")
+
     context.performSave(after: {
       let person = Person(context: context)
       person.firstName = "T"
       person.lastName = "R"
       throw NSError(domain: "test", code: 1, userInfo: nil)
-      
-    }) { catchedError in
-      XCTAssertNotNil(catchedError)
-      if let nsError = catchedError as NSError? {
+
+    }, completion: { catchedError in
+      if let catchedError = catchedError, case CoreDataPlusError.executionFailed(error: let error) = catchedError {
+        let nsError = error as NSError
         XCTAssertEqual(nsError.code, 1)
         XCTAssertEqual(nsError.domain, "test")
+
       } else {
         XCTFail("Wrong error type.")
       }
-      
       expectation1.fulfill()
-    }
-    
+    })
+
     waitForExpectations(timeout: 2)
-    
-    XCTAssertTrue(context.registeredObjects.isEmpty)
   }
   
   func testSave() {
@@ -531,7 +372,8 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
     }
     
     wait(for: [saveExpectation3], timeout: 10)
-    
+    context.rollback() // remove not valid changes
+
     let saveExpectation4 = expectation(description: "Save 4")
     context.performSave(after: {
       let person = Person(context: context)
@@ -629,6 +471,39 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
     
     waitForExpectations(timeout: 2)
   }
-  
+
+  func testSaveOrRollback() {
+
+    let stack = CoreDataStack.stack()
+    let context = stack.mainContext
+
+    let car1 = Car(context: context)
+    car1.maker = "FIAT"
+    car1.model = "Panda"
+    car1.numberPlate = "1"
+
+    let person1 = Person(context: context)
+    person1.firstName = "Tin"
+    person1.lastName = "Robots"
+
+    person1.cars = [car1]
+
+    XCTAssertNoThrow(try context.saveOrRollBack())
+    
+    XCTAssertEqual(context.registeredObjects.count, 2) // person1 and car1 with a circular reference cycle
+
+    let person2 = Person(context: context)
+    person2.firstName = "Tin"
+    person2.lastName = "Robots"
+    person2.cars = nil
+
+    XCTAssertEqual(context.registeredObjects.count, 3)
+
+    XCTAssertThrowsError(try context.saveOrRollBack())
+
+    XCTAssertEqual(context.registeredObjects.count, 2) // person2 is discarded because it cannot be saved
+
+  }
+
 }
 
