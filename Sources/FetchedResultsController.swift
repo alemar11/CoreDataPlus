@@ -66,6 +66,23 @@ public enum FetchedResultsSectionChange<T: NSManagedObject> {
   case delete(info: FetchedResultsSectionInfo<T>, index: Int)
 }
 
+fileprivate extension FetchedResultsSectionChange {
+
+  init(section sectionInfo: NSFetchedResultsSectionInfo, index sectionIndex: Int, changeType type: NSFetchedResultsChangeType) {
+    let info = FetchedResultsSectionInfo<T>(sectionInfo)
+
+    switch type {
+    case .insert:
+      self = .insert(info: info, index: sectionIndex)
+    case .delete:
+      self = .delete(info: info, index: sectionIndex)
+    case .move, .update:
+      preconditionFailure("Invalid section change type reported by NSFetchedResultsController")
+    }
+  }
+
+}
+
 /// **CoreDataPlus**
 ///
 /// Protocol for delegate callbacks of Inserts, Deletes, Updates and Moves of `NSManagedObjects` as well as Inserts and Deletes of Sections.
@@ -284,23 +301,6 @@ private extension FetchedResultsObjectChange {
 
     default:
       preconditionFailure("Invalid change. Missing a required index path for corresponding change type.")
-    }
-  }
-
-}
-
-fileprivate extension FetchedResultsSectionChange {
-
-  init(section sectionInfo: NSFetchedResultsSectionInfo, index sectionIndex: Int, changeType type: NSFetchedResultsChangeType) {
-    let info = FetchedResultsSectionInfo<T>(sectionInfo)
-
-    switch type {
-    case .insert:
-      self = .insert(info: info, index: sectionIndex)
-    case .delete:
-      self = .delete(info: info, index: sectionIndex)
-    case .move, .update:
-      preconditionFailure("Invalid section change type reported by NSFetchedResultsController")
     }
   }
 
