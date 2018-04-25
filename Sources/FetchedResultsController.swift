@@ -199,7 +199,6 @@ public class FetchedResultsController<T: NSManagedObject> {
   /// The objects that match the fetch request.
   public var fetchedObjects: [T]? { return internalFetchedResultsController.fetchedObjects as? [T] }
 
-
   /// **CoreDataPlus**
   ///
   /// The sections returned by the `FetchedResultsController` see `FetchedResultsSectionInfo`.
@@ -223,6 +222,7 @@ public class FetchedResultsController<T: NSManagedObject> {
   ///
   /// Subscript access to the sections.
   /// - Note: If indexPath does not describe a valid index path in the fetch results, an exception is raised.
+  // swiftlint:disable:next force_cast
   public subscript(indexPath: IndexPath) -> T { return internalFetchedResultsController.object(at: indexPath) as! T }
 
   /// **CoreDataPlus**
@@ -242,7 +242,8 @@ public class FetchedResultsController<T: NSManagedObject> {
   // MARK: - Private Properties
 
   /// The underlaying `NSFetchedResultsController`
-  /// - Note: using a `SectionIndexCustomizableFetchedResultsController` permits to export an API to customize the section index titles but it costs some force_cast (but that's okay because a crash should always happen otherwise).
+  /// - Note: using a `SectionIndexCustomizableFetchedResultsController` permits to export an API to customize the section index titles
+  /// but it costs some force_cast (but that's okay because a crash should always happen otherwise).
   private let internalFetchedResultsController: SectionIndexCustomizableFetchedResultsController<T>
 
   /// Used only for internal unit tests.
