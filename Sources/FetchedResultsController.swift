@@ -91,13 +91,13 @@ public protocol FetchedResultsControllerDelegate: class {
 
   /// **CoreDataPlus**
   ///
-  /// Callback immediately before content will be changed.
+  /// Notifies the receiver that the fetched results controller is about to start processing of one or more changes due to an add, remove, move, or update.
   /// - parameter controller: The `FetchedResultsController` posting the callback
   func fetchedResultsControllerWillChangeContent(_ controller: FetchedResultsController<T>)
 
   /// **CoreDataPlus**
   ///
-  /// Callback immediately after content has been changed.
+  /// Notifies the receiver that the fetched results controller has completed processing of one or more changes due to an add, remove, move, or update.
   /// - parameter controller: The `FetchedResultsController` posting the callback
   func fetchedResultsControllerDidChangeContent(_ controller: FetchedResultsController<T>)
 
@@ -225,6 +225,9 @@ public class FetchedResultsController<T: NSManagedObject> {
 
   }
 
+  /// Used only for tests.
+  internal var __wrappedDelegate: WrapperFetchedResultsControllerDelegate<T>? { return _delegate }
+
   /// **CoreDataPlus**
   ///
   /// Executes the fetch request tied to the `FetchedResultsController`.
@@ -342,37 +345,37 @@ public class AnyFetchedResultsControllerDelegate<T: NSManagedObject>: FetchedRes
 }
 
 
-fileprivate class WrapperFetchedResultsControllerDelegate<T: NSManagedObject>: NSObject, NSFetchedResultsControllerDelegate {
+internal class WrapperFetchedResultsControllerDelegate<T: NSManagedObject>: NSObject, NSFetchedResultsControllerDelegate {
 
-  unowned var owner: FetchedResultsController<T>
-  weak var delegate: AnyFetchedResultsControllerDelegate<T>?
+  internal unowned var owner: FetchedResultsController<T>
+  internal weak var delegate: AnyFetchedResultsControllerDelegate<T>?
 
-  init(owner: FetchedResultsController<T>, delegate: AnyFetchedResultsControllerDelegate<T>) {
+  fileprivate init(owner: FetchedResultsController<T>, delegate: AnyFetchedResultsControllerDelegate<T>) {
     self.owner = owner
     self.delegate = delegate
   }
 
-  func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+  internal func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
     delegate?.fetchedResultsControllerWillChangeContent(owner)
   }
 
-  func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+  internal func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
     delegate?.fetchedResultsControllerDidChangeContent(owner)
   }
 
-  func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+  internal func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
     guard let object = anObject as? T else { return }
     guard let change = FetchedResultsObjectChange<T>(object: object, indexPath: indexPath, changeType: type, newIndexPath: newIndexPath) else { return }
 
     delegate?.fetchedResultsController(owner, didChangeObject: change)
   }
 
-  func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+  internal func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
     let change = FetchedResultsSectionChange<T>(section: sectionInfo, index: sectionIndex, changeType: type)
     delegate?.fetchedResultsController(owner, didChangeSection: change)
   }
 
-  func fetchedResultsControllerDidPerformFetch() {
+  internal func fetchedResultsControllerDidPerformFetch() {
     delegate?.fetchedResultsControllerDidPerformFetch(owner)
   }
 
