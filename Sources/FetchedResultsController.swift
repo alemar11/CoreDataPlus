@@ -191,12 +191,14 @@ public class FetchedResultsController<T: NSManagedObject> {
   /// **CoreDataPlus**
   ///
   /// The `NSFetchRequest` being used by the `FetchedResultsController`.
-  public var fetchRequest: NSFetchRequest<T> { return internalFetchedResultsController.fetchRequest }
+  // swiftlint:disable:next force_cast
+  public var fetchRequest: NSFetchRequest<T> { return internalFetchedResultsController.fetchRequest as! NSFetchRequest<T> }
 
   /// **CoreDataPlus**
   ///
   /// The objects that match the fetch request.
-  public var fetchedObjects: [T]? { return internalFetchedResultsController.fetchedObjects }
+  public var fetchedObjects: [T]? { return internalFetchedResultsController.fetchedObjects as? [T] }
+
 
   /// **CoreDataPlus**
   ///
@@ -214,16 +216,34 @@ public class FetchedResultsController<T: NSManagedObject> {
 
   /// **CoreDataPlus**
   ///
+  /// Returns the array of section index titles.
+  public var sectionIndexTitles: [String] { return internalFetchedResultsController.sectionIndexTitles }
+
+  /// **CoreDataPlus**
+  ///
   /// Subscript access to the sections.
-  public subscript(indexPath: IndexPath) -> T { return internalFetchedResultsController.object(at: indexPath) }
+  /// - Note: If indexPath does not describe a valid index path in the fetch results, an exception is raised.
+  public subscript(indexPath: IndexPath) -> T { return internalFetchedResultsController.object(at: indexPath) as! T }
 
   /// **CoreDataPlus**
   ///
   /// The `NSIndexPath` for a specific object in the fetchedObjects.
   public func indexPathForObject(_ object: T) -> IndexPath? { return internalFetchedResultsController.indexPath(forObject: object) }
 
+  /// **CoreDataPlus**
+  ///
+  /// An handler to customize the index title for each section given its `name`.
+  public var customSectionIndexTitleHandler: ((String) -> String?)? = nil {
+    didSet {
+      internalFetchedResultsController.sectionIndexTitleClosure = customSectionIndexTitleHandler
+    }
+  }
+
   // MARK: - Private Properties
-  private let internalFetchedResultsController: NSFetchedResultsController<T>
+
+  /// The underlaying `NSFetchedResultsController`
+  /// - Note: using a `SectionIndexCustomizableFetchedResultsController` permits to export an API to customize the section index titles but it costs some force_cast (but that's okay because a crash should always happen otherwise).
+  private let internalFetchedResultsController: SectionIndexCustomizableFetchedResultsController<T>
 
   /// Used only for internal unit tests.
   // swiftlint:disable:next identifier_name
@@ -243,7 +263,10 @@ public class FetchedResultsController<T: NSManagedObject> {
   /// - parameter sectionNameKeyPath: An optional key path used for grouping results.
   /// - parameter cacheName: An optional unique name used for caching results see `NSFetchedResultsController` for details.
   public init(fetchRequest: NSFetchRequest<T>, managedObjectContext context: NSManagedObjectContext, sectionNameKeyPath: String? = nil, cacheName: String? = nil) {
-    internalFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: sectionNameKeyPath, cacheName: cacheName)
+    internalFetchedResultsController = SectionIndexCustomizableFetchedResultsController(fetchRequest: fetchRequest,
+                                                                                        managedObjectContext: context,
+                                                                                        sectionNameKeyPath: sectionNameKeyPath,
+                                                                                        cacheName: cacheName)
   }
 
   deinit {
@@ -395,6 +418,45 @@ internal class WrapperFetchedResultsControllerDelegate<T: NSManagedObject>: NSOb
 
   internal func fetchedResultsControllerDidPerformFetch() {
     delegate?.fetchedResultsControllerDidPerformFetch(owner)
+  }
+
+}
+
+/// This subclass of `NSFetchedResultsController` permits to customize the sections index titles.
+private class SectionIndexCustomizableFetchedResultsController<T: NSFetchRequestResult>: NSFetchedResultsController<NSFetchRequestResult> {
+
+  init(fetchRequest: NSFetchRequest<T>, managedObjectContext context: NSManagedObjectContext, sectionNameKeyPath: String?, cacheName name: String?) {
+    // swiftlint:disable:next force_cast
+    let request = fetchRequest as! NSFetchRequest<NSFetchRequestResult>
+    super.init(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: sectionNameKeyPath, cacheName: name)
+  }
+
+  var sectionIndexTitleClosure: ((String) -> String?)?
+
+  var customizedSectionIndexTitles: [String]?
+
+  /// Returns the corresponding section index entry for a given section name.
+  /// Default implementation returns the **capitalized first letter** of the section name.
+  /// Developers that need different behavior can implement the delegate method -(NSString*)controller:(NSFetchedResultsController *)controller sectionIndexTitleForSectionName
+  /// Only needed if a section index is used.
+  override func sectionIndexTitle(forSectionName sectionName: String) -> String? {
+    if let closure = sectionIndexTitleClosure {
+      return closure(sectionName)
+    } else {
+      return super.sectionIndexTitle(forSectionName: sectionName)
+    }
+  }
+
+  /// Returns the array of section index titles.
+  /// Default implementation returns the array created by calling sectionIndexTitleForSectionName: on all the known sections.
+  /// Developers should override this method if they wish to return a different array for the section index.
+  /// Only needed if a section index is used.
+  override var sectionIndexTitles: [String] {
+    if let titles = customizedSectionIndexTitles {
+      return titles
+    } else {
+      return super.sectionIndexTitles
+    }
   }
 
 }

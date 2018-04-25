@@ -81,6 +81,25 @@ final class FetchedResultsControllerTests: XCTestCase {
     XCTAssertFalse(controller.fetchedObjects!.isEmpty)
   }
 
+  func testNoFetchedObject() throws {
+    // Given
+    let stack = CoreDataStack.stack()
+    let context = stack.mainContext
+    context.fillWithSampleData()
+    try context.save()
+
+    let request = Person.newFetchRequest()
+    request.predicate = NSPredicate(format: "lastName == %@", "QWERTY123")
+    request.addSortDescriptors([NSSortDescriptor(key: #keyPath(Person.firstName), ascending: false)]) // at least a descriptor is required
+    let controller = FetchedResultsController<Person>(fetchRequest: request, managedObjectContext: context)
+
+    // Then
+    try controller.performFetch()
+
+    // When
+    XCTAssertTrue(controller.fetchedObjects!.isEmpty)
+  }
+
   func testDealloc() throws {
     // Given
     let stack = CoreDataStack.stack()
@@ -387,6 +406,7 @@ final class FetchedResultsControllerTests: XCTestCase {
     XCTAssertNotNil(controller.fetchedObjects)
     XCTAssertEqual(controller.fetchedObjects?.count, 20)
     XCTAssertEqual(controller.sections?.count, 18)
+    print(controller.sectionIndexTitles)
 
     // Section change: none
     // Add an Alvis member (from 1 to 2)
@@ -429,6 +449,46 @@ final class FetchedResultsControllerTests: XCTestCase {
           XCTFail("Unexpected section deletion: \(change)")
         }
       }
+    }
+  }
+
+  func testCustomSectionIndexTitles() throws {
+    let stack = CoreDataStack.stack()
+    let context = stack.mainContext
+    context.fillWithSampleData()
+    try context.save()
+
+    let request = Person.newFetchRequest()
+    request.addSortDescriptors([NSSortDescriptor(key: #keyPath(Person.lastName), ascending: true)])
+    request.addSortDescriptors([NSSortDescriptor(key: #keyPath(Person.firstName), ascending: true)])
+
+    let controller = FetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: #keyPath(Person.lastName))
+    controller.customSectionIndexTitleHandler = { sectionName in
+      let firstLetter = String(sectionName.first!)
+      if firstLetter.lowercased() == "w" {
+        return "❗️" + firstLetter.lowercased()
+      }
+      return "🔹" + firstLetter
+    }
+    try controller.performFetch()
+    //print(controller.sections!.enumerated().map { $0.element.name })
+
+    // Sections
+    // ["Alves", "Boosalis", "Chuang", "Coster", "Distefano", "Gleaves", "Hurowitz", "Khoury", "Meadow", "Moreton", "Munger", "Nabokov", "Pyke", "Rathbun", "Reynolds", "Stone", "Wade", "Wigner"]
+
+    // Defaults index titles: A, B, C, D, G, H, K, M, N, P, R, S, W
+
+    XCTAssertEqual(controller.sections?.count, 18)
+    XCTAssertEqual(controller.sectionIndexTitles.count, 13)
+
+    let expectedValues = ["🔹A", "🔹B", "🔹C", "🔹D", "🔹G", "🔹H", "🔹K", "🔹M", "🔹N", "🔹P", "🔹R", "🔹S", "❗️w"]
+    for title in controller.sectionIndexTitles {
+      print(title)
+      guard expectedValues.contains(title) else {
+        XCTFail("\(title) doesn't start with 🔹")
+        return
+      }
+
     }
   }
 
