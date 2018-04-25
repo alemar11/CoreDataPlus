@@ -320,19 +320,19 @@ private extension FetchedResultsObjectChange {
 public class AnyFetchedResultsControllerDelegate<T: NSManagedObject>: FetchedResultsControllerDelegate {
 
   public func fetchedResultsController(_ controller: FetchedResultsController<T>, didChangeObject change: FetchedResultsObjectChange<T>) {
-    _fetchedResultsControllerDidChangeObject(controller, change)
+    fetchedResultsControllerDidChangeObject(controller, change)
   }
 
   public func fetchedResultsController(_ controller: FetchedResultsController<T>, didChangeSection change: FetchedResultsSectionChange<T>) {
-    _fetchedResultsControllerDidChangeSection(controller, change)
+    fetchedResultsControllerDidChangeSection(controller, change)
   }
 
   public func fetchedResultsControllerWillChangeContent(_ controller: FetchedResultsController<T>) {
-    _fetchedResultsControllerWillChangeContent(controller)
+    fetchedResultsControllerWillChangeContent(controller)
   }
 
   public func fetchedResultsControllerDidChangeContent(_ controller: FetchedResultsController<T>) {
-    _fetchedResultsControllerDidChangeContent(controller)
+    fetchedResultsControllerDidChangeContent(controller)
   }
 
   public func fetchedResultsControllerDidPerformFetch(_ controller: FetchedResultsController<T>) {
