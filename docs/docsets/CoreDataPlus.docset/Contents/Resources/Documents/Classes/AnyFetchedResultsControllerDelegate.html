@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>CoreDataPlusError Enumeration Reference</title>
+    <title>AnyFetchedResultsControllerDelegate Class Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Enum/CoreDataPlusError" class="dashAnchor"></a>
-    <a title="CoreDataPlusError Enumeration Reference"></a>
+    <a name="//apple_ref/swift/Class/AnyFetchedResultsControllerDelegate" class="dashAnchor"></a>
+    <a title="AnyFetchedResultsControllerDelegate Class Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">CoreDataPlus Docs</a> (89% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">CoreDataPlus Reference</a>
         <img id="carat" src="../img/carat.png" />
-        CoreDataPlusError Enumeration Reference
+        AnyFetchedResultsControllerDelegate Class Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -132,25 +132,16 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>CoreDataPlusError</h1>
+            <h1>AnyFetchedResultsControllerDelegate</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">CoreDataPlusError</span> <span class="p">:</span> <span class="kt">Error</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">AnyFetchedResultsControllerDelegate</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/FetchedResultsControllerDelegate.html">FetchedResultsControllerDelegate</a></span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt">NSManagedObject</span></code></pre>
 
                 </div>
               </div>
             <p><strong>CoreDataPlus</strong></p>
 
-<p><code>CoreDataPlusError</code> is the error type returned by CoreDataPlus.</p>
-
-<ul>
-<li>executionFailed: A context executions failed.</li>
-<li>fetchCountNotFound: A count fetch operation failed.</li>
-<li>fetchExpectingOneObjectFailed: A fetch operation expecting only one object failed.</li>
-<li>fetchFailed: A fetch operation failed with an underlying system error.</li>
-<li>persistentStoreCoordinator: The NSPersistentStoreCoordinator is missing.</li>
-<li>saveFailed: A save oepration failed with an underlying system error</li>
-</ul>
+<p>A type-erased wrapper over any <code><a href="../Protocols/FetchedResultsControllerDelegate.html">FetchedResultsControllerDelegate</a></code>.</p>
 
           </section>
           <section class="section task-group-section">
@@ -159,211 +150,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:12CoreDataPlus0abC5ErrorO15executionFailedACs0D0_p5error_tcACmF"></a>
-                    <a name="//apple_ref/swift/Element/executionFailed" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus0abC5ErrorO15executionFailedACs0D0_p5error_tcACmF">executionFailed</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">executionFailed</span><span class="p">(</span><span class="nv">error</span><span class="p">:</span> <span class="kt">Error</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:12CoreDataPlus0abC5ErrorO18fetchCountNotFoundA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/fetchCountNotFound" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus0abC5ErrorO18fetchCountNotFoundA2CmF">fetchCountNotFound</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">fetchCountNotFound</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:12CoreDataPlus0abC5ErrorO29fetchExpectingOneObjectFailedA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/fetchExpectingOneObjectFailed" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus0abC5ErrorO29fetchExpectingOneObjectFailedA2CmF">fetchExpectingOneObjectFailed</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">fetchExpectingOneObjectFailed</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:12CoreDataPlus0abC5ErrorO11fetchFailedACs0D0_p5error_tcACmF"></a>
-                    <a name="//apple_ref/swift/Element/fetchFailed" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus0abC5ErrorO11fetchFailedACs0D0_p5error_tcACmF">fetchFailed</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">fetchFailed</span><span class="p">(</span><span class="nv">error</span><span class="p">:</span> <span class="kt">Error</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:12CoreDataPlus0abC5ErrorO34persistentStoreCoordinatorNotFoundACSo22NSManagedObjectContextC7context_tcACmF"></a>
-                    <a name="//apple_ref/swift/Element/persistentStoreCoordinatorNotFound" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus0abC5ErrorO34persistentStoreCoordinatorNotFoundACSo22NSManagedObjectContextC7context_tcACmF">persistentStoreCoordinatorNotFound</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">persistentStoreCoordinatorNotFound</span><span class="p">(</span><span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:12CoreDataPlus0abC5ErrorO10saveFailedACs0D0_p5error_tcACmF"></a>
-                    <a name="//apple_ref/swift/Element/saveFailed" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus0abC5ErrorO10saveFailedACs0D0_p5error_tcACmF">saveFailed</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">saveFailed</span><span class="p">(</span><span class="nv">error</span><span class="p">:</span> <span class="kt">Error</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:12CoreDataPlus0abC5ErrorO010underlyingD0s0D0_pSgvp"></a>
-                    <a name="//apple_ref/swift/Property/underlyingError" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus0abC5ErrorO010underlyingD0s0D0_pSgvp">underlyingError</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>The <code>Error</code> returned by a system framework associated with a CoreDataPlus failure error.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">underlyingError</span><span class="p">:</span> <span class="nf">Error</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/LocalizedError"></a>
-                <a name="//apple_ref/swift/Section/LocalizedError" class="dashAnchor"></a>
-                <a href="#/LocalizedError">
-                  <h3 class="section-name">LocalizedError</h3>
-                </a>
-              </div>
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10Foundation14LocalizedErrorP16errorDescriptionSSSgvp"></a>
-                    <a name="//apple_ref/swift/Property/errorDescription" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10Foundation14LocalizedErrorP16errorDescriptionSSSgvp">errorDescription</a>
+                    <a name="/s:12CoreDataPlus32FetchedResultsControllerDelegateP07fetchedeF0yAA0deF0Cy1TQzG_AA0dE12ObjectChangeOyAHG03didjI0tF"></a>
+                    <a name="//apple_ref/swift/Method/fetchedResultsController(_:didChangeObject:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus32FetchedResultsControllerDelegateP07fetchedeF0yAA0deF0Cy1TQzG_AA0dE12ObjectChangeOyAHG03didjI0tF">fetchedResultsController(_:didChangeObject:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -377,7 +166,138 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">errorDescription</span><span class="p">:</span> <span class="nf">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchedResultsController</span><span class="p">(</span><span class="n">_</span> <span class="nv">controller</span><span class="p">:</span> <span class="kt"><a href="../Classes/FetchedResultsController.html">FetchedResultsController</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">didChangeObject</span> <span class="nv">change</span><span class="p">:</span> <span class="kt"><a href="../Enums/FetchedResultsObjectChange.html">FetchedResultsObjectChange</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus32FetchedResultsControllerDelegateP07fetchedeF0yAA0deF0Cy1TQzG_AA0dE13SectionChangeOyAHG03didjI0tF"></a>
+                    <a name="//apple_ref/swift/Method/fetchedResultsController(_:didChangeSection:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus32FetchedResultsControllerDelegateP07fetchedeF0yAA0deF0Cy1TQzG_AA0dE13SectionChangeOyAHG03didjI0tF">fetchedResultsController(_:didChangeSection:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchedResultsController</span><span class="p">(</span><span class="n">_</span> <span class="nv">controller</span><span class="p">:</span> <span class="kt"><a href="../Classes/FetchedResultsController.html">FetchedResultsController</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">didChangeSection</span> <span class="nv">change</span><span class="p">:</span> <span class="kt"><a href="../Enums/FetchedResultsSectionChange.html">FetchedResultsSectionChange</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus32FetchedResultsControllerDelegateP07fetchedeF17WillChangeContentyAA0deF0Cy1TQzGF"></a>
+                    <a name="//apple_ref/swift/Method/fetchedResultsControllerWillChangeContent(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus32FetchedResultsControllerDelegateP07fetchedeF17WillChangeContentyAA0deF0Cy1TQzGF">fetchedResultsControllerWillChangeContent(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchedResultsControllerWillChangeContent</span><span class="p">(</span><span class="n">_</span> <span class="nv">controller</span><span class="p">:</span> <span class="kt"><a href="../Classes/FetchedResultsController.html">FetchedResultsController</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus32FetchedResultsControllerDelegateP07fetchedeF16DidChangeContentyAA0deF0Cy1TQzGF"></a>
+                    <a name="//apple_ref/swift/Method/fetchedResultsControllerDidChangeContent(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus32FetchedResultsControllerDelegateP07fetchedeF16DidChangeContentyAA0deF0Cy1TQzGF">fetchedResultsControllerDidChangeContent(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchedResultsControllerDidChangeContent</span><span class="p">(</span><span class="n">_</span> <span class="nv">controller</span><span class="p">:</span> <span class="kt"><a href="../Classes/FetchedResultsController.html">FetchedResultsController</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus32FetchedResultsControllerDelegateP07fetchedeF15DidPerformFetchyAA0deF0Cy1TQzGF"></a>
+                    <a name="//apple_ref/swift/Method/fetchedResultsControllerDidPerformFetch(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus32FetchedResultsControllerDelegateP07fetchedeF15DidPerformFetchyAA0deF0Cy1TQzGF">fetchedResultsControllerDidPerformFetch(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchedResultsControllerDidPerformFetch</span><span class="p">(</span><span class="n">_</span> <span class="nv">controller</span><span class="p">:</span> <span class="kt"><a href="../Classes/FetchedResultsController.html">FetchedResultsController</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus35AnyFetchedResultsControllerDelegateCACyxGqd__c1TQyd__RszAA0efgH0Rd__lufc"></a>
+                    <a name="//apple_ref/swift/Method/init(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus35AnyFetchedResultsControllerDelegateCACyxGqd__c1TQyd__RszAA0efgH0Rd__lufc">init(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">required</span> <span class="kd">init</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">delegate</span><span class="p">:</span> <span class="kt">U</span><span class="p">)</span> <span class="k">where</span> <span class="kt">T</span> <span class="o">==</span> <span class="kt">U</span><span class="o">.</span><span class="kt">T</span><span class="p">,</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/FetchedResultsControllerDelegate.html">FetchedResultsControllerDelegate</a></span></code></pre>
 
                         </div>
                       </div>
