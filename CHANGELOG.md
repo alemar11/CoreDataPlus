@@ -1,5 +1,10 @@
 # Changelog
 
+### 0.9.0
+
+- Added a typed `FetchedResultsController`.
+- Fixes.
+
 ### 0.8.0
 
 - `performSaveAndWait(after:)` and `performSave(after:)` now accepts throwing closures.
