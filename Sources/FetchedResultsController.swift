@@ -336,7 +336,7 @@ public class AnyFetchedResultsControllerDelegate<T: NSManagedObject>: FetchedRes
   }
 
   public func fetchedResultsControllerDidPerformFetch(_ controller: FetchedResultsController<T>) {
-    _fetchedResultsControllerDidPerformFetch(controller)
+    fetchedResultsControllerDidPerformFetch(controller)
   }
 
   public required init<U: FetchedResultsControllerDelegate>(_ delegate: U) where U.T == T {
