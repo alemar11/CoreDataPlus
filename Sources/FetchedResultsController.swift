@@ -202,7 +202,7 @@ public class FetchedResultsController<T: NSManagedObject> {
 
   /// **CoreDataPlus**
   ///
-  /// Initializer for the `FetchedResultsController`.
+  /// Create a new instance of `FetchedResultsController`.
   ///
   /// - parameter fetchRequest: The `NSFetchRequest` used to filter the objects displayed. Note the entityName must match the specialized type <T> of this class.
   /// - parameter context: The `NSManagedObjectContext` being observed for changes
@@ -242,9 +242,6 @@ public class FetchedResultsController<T: NSManagedObject> {
 
   }
 
-  /// Used only for tests.
-  internal var __wrappedDelegate: WrapperFetchedResultsControllerDelegate<T>? { return _delegate }
-
   /// **CoreDataPlus**
   ///
   /// Executes the fetch request tied to the `FetchedResultsController`.
@@ -259,6 +256,9 @@ public class FetchedResultsController<T: NSManagedObject> {
   // MARK: - Internal/Private Information
 
   private let internalFetchedResultsController: NSFetchedResultsController<T>
+
+  /// Used only for tests.
+  internal var __wrappedDelegate: WrapperFetchedResultsControllerDelegate<T>? { return _delegate }
 
 }
 
