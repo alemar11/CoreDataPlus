@@ -242,7 +242,7 @@ public class FetchedResultsController<T: NSManagedObject> {
   // MARK: - Private Properties
 
   /// The underlaying `NSFetchedResultsController`
-  /// - Note: using a `SectionIndexCustomizableFetchedResultsController` permits to export an API to customize the section index titles
+  /// - Note: using a `SectionIndexCustomizableFetchedResultsController` permits to expose an API to customize the section index titles
   /// but it costs some force_cast (but that's okay because a crash should always happen otherwise).
   private let internalFetchedResultsController: SectionIndexCustomizableFetchedResultsController<T>
 
@@ -263,7 +263,10 @@ public class FetchedResultsController<T: NSManagedObject> {
   /// - parameter context: The `NSManagedObjectContext` being observed for changes.
   /// - parameter sectionNameKeyPath: An optional key path used for grouping results.
   /// - parameter cacheName: An optional unique name used for caching results see `NSFetchedResultsController` for details.
-  public init(fetchRequest: NSFetchRequest<T>, managedObjectContext context: NSManagedObjectContext, sectionNameKeyPath: String? = nil, cacheName: String? = nil) {
+  public init(fetchRequest: NSFetchRequest<T>,
+              managedObjectContext context: NSManagedObjectContext,
+              sectionNameKeyPath: String? = nil,
+              cacheName: String? = nil) {
     internalFetchedResultsController = SectionIndexCustomizableFetchedResultsController(fetchRequest: fetchRequest,
                                                                                         managedObjectContext: context,
                                                                                         sectionNameKeyPath: sectionNameKeyPath,
