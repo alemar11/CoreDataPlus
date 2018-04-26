@@ -435,8 +435,10 @@ private class SectionIndexCustomizableFetchedResultsController<T: NSFetchRequest
     super.init(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: sectionNameKeyPath, cacheName: name)
   }
 
+  /// Handler to customize the index name for each section.
   var sectionIndexTitleClosure: ((String) -> String?)?
 
+  /// Used to configure a custom array of section index titles.
   var customizedSectionIndexTitles: [String]?
 
   /// Returns the corresponding section index entry for a given section name.
