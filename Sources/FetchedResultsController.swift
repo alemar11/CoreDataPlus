@@ -176,7 +176,7 @@ public class FetchedResultsController<T: NSManagedObject> {
     set {
       if let value = newValue {
         _delegate = WrapperFetchedResultsControllerDelegate<T>(owner: self, delegate: value)
-        internalFetchedResultsController.delegate = _delegate
+         underlyingFetchedResultsController.delegate = _delegate
       } else {
         _delegate = nil
       }
@@ -192,18 +192,18 @@ public class FetchedResultsController<T: NSManagedObject> {
   ///
   /// The `NSFetchRequest` being used by the `FetchedResultsController`.
   // swiftlint:disable:next force_cast
-  public var fetchRequest: NSFetchRequest<T> { return internalFetchedResultsController.fetchRequest as! NSFetchRequest<T> }
+  public var fetchRequest: NSFetchRequest<T> { return  underlyingFetchedResultsController.fetchRequest as! NSFetchRequest<T> }
 
   /// **CoreDataPlus**
   ///
   /// The objects that match the fetch request.
-  public var fetchedObjects: [T]? { return internalFetchedResultsController.fetchedObjects as? [T] }
+  public var fetchedObjects: [T]? { return  underlyingFetchedResultsController.fetchedObjects as? [T] }
 
   /// **CoreDataPlus**
   ///
   /// The sections returned by the `FetchedResultsController` see `FetchedResultsSectionInfo`.
   public var sections: LazyMapCollection<[NSFetchedResultsSectionInfo], FetchedResultsSectionInfo<T>>? {
-    guard let sections = internalFetchedResultsController.sections else { return nil }
+    guard let sections =  underlyingFetchedResultsController.sections else { return nil }
 
     return sections.lazy.map(FetchedResultsSectionInfo<T>.init)
   }
@@ -211,40 +211,40 @@ public class FetchedResultsController<T: NSManagedObject> {
   /// **CoreDataPlus**
   ///
   /// The name of the file used to cache section information.
-  public var cacheName: String? { return internalFetchedResultsController.cacheName }
+  public var cacheName: String? { return  underlyingFetchedResultsController.cacheName }
 
   /// **CoreDataPlus**
   ///
   /// Returns the array of section index titles.
-  public var sectionIndexTitles: [String] { return internalFetchedResultsController.sectionIndexTitles }
+  public var sectionIndexTitles: [String] { return  underlyingFetchedResultsController.sectionIndexTitles }
 
   /// **CoreDataPlus**
   ///
   /// Subscript access to the sections.
   /// - Note: If indexPath does not describe a valid index path in the fetch results, an exception is raised.
   // swiftlint:disable:next force_cast
-  public subscript(indexPath: IndexPath) -> T { return internalFetchedResultsController.object(at: indexPath) as! T }
+  public subscript(indexPath: IndexPath) -> T { return  underlyingFetchedResultsController.object(at: indexPath) as! T }
 
   /// **CoreDataPlus**
   ///
   /// The `NSIndexPath` for a specific object in the fetchedObjects.
-  public func indexPathForObject(_ object: T) -> IndexPath? { return internalFetchedResultsController.indexPath(forObject: object) }
+  public func indexPathForObject(_ object: T) -> IndexPath? { return  underlyingFetchedResultsController.indexPath(forObject: object) }
 
   /// **CoreDataPlus**
   ///
   /// An handler to customize the index title for each section given its `name`.
   public var customSectionIndexTitleHandler: ((String) -> String?)? = nil {
     didSet {
-      internalFetchedResultsController.sectionIndexTitleClosure = customSectionIndexTitleHandler
+       underlyingFetchedResultsController.sectionIndexTitleClosure = customSectionIndexTitleHandler
     }
   }
 
   // MARK: - Private Properties
 
-  /// The underlaying `NSFetchedResultsController`
+  /// The  underlying `NSFetchedResultsController`
   /// - Note: using a `SectionIndexCustomizableFetchedResultsController` permits to expose an API to customize the section index titles
   /// but it costs some force_cast (but that's okay because a crash should always happen otherwise).
-  private let internalFetchedResultsController: SectionIndexCustomizableFetchedResultsController<T>
+  private let  underlyingFetchedResultsController: SectionIndexCustomizableFetchedResultsController<T>
 
   /// Used only for internal unit tests.
   // swiftlint:disable:next identifier_name
@@ -267,7 +267,7 @@ public class FetchedResultsController<T: NSManagedObject> {
               managedObjectContext context: NSManagedObjectContext,
               sectionNameKeyPath: String? = nil,
               cacheName: String? = nil) {
-    internalFetchedResultsController = SectionIndexCustomizableFetchedResultsController(fetchRequest: fetchRequest,
+     underlyingFetchedResultsController = SectionIndexCustomizableFetchedResultsController(fetchRequest: fetchRequest,
                                                                                         managedObjectContext: context,
                                                                                         sectionNameKeyPath: sectionNameKeyPath,
                                                                                         cacheName: cacheName)
@@ -276,7 +276,7 @@ public class FetchedResultsController<T: NSManagedObject> {
   deinit {
     // Core Data does not yet use weak references for delegates; the delegate must be set to nil for thread safety reasons.
     _delegate = nil
-    internalFetchedResultsController.delegate = nil
+     underlyingFetchedResultsController.delegate = nil
   }
 
   // MARK: - Public Functions
@@ -290,7 +290,7 @@ public class FetchedResultsController<T: NSManagedObject> {
       _delegate?.fetchedResultsControllerDidPerformFetch()
     }
     do {
-      try internalFetchedResultsController.performFetch()
+      try  underlyingFetchedResultsController.performFetch()
     } catch {
       throw CoreDataPlusError.fetchFailed(error: error)
     }

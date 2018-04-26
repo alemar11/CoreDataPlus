@@ -215,6 +215,7 @@ final class FetchedResultsControllerTests: XCTestCase {
     XCTAssertNil(controller.cacheName)
     XCTAssertEqual(controller.sections?.count, 1)
     XCTAssertEqual(controller.fetchedObjects!.count, 20)
+    XCTAssertTrue(controller.sectionIndexTitles.isEmpty)
 
     let newPerson1 = Person(context: context)
     newPerson1.firstName = "zzz1"
@@ -434,7 +435,7 @@ final class FetchedResultsControllerTests: XCTestCase {
     XCTAssertNotNil(controller.fetchedObjects)
     XCTAssertEqual(controller.fetchedObjects?.count, 20)
     XCTAssertEqual(controller.sections?.count, 18)
-    print(controller.sectionIndexTitles)
+    // print(controller.sectionIndexTitles)
 
     // Section change: none
     // Add an Alvis member (from 1 to 2)
@@ -511,7 +512,6 @@ final class FetchedResultsControllerTests: XCTestCase {
 
     let expectedValues = ["🔹A", "🔹B", "🔹C", "🔹D", "🔹G", "🔹H", "🔹K", "🔹M", "🔹N", "🔹P", "🔹R", "🔹S", "❗️w"]
     for title in controller.sectionIndexTitles {
-      print(title)
       guard expectedValues.contains(title) else {
         XCTFail("\(title) doesn't start with 🔹")
         return
