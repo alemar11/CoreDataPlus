@@ -108,85 +108,79 @@ extension NSManagedObjectContext {
 
   /// **CoreDataPlus**
   ///
-  /// Asynchronously performs changes and then saves them or **rollbacks** if any error occurs.
+  /// Asynchronously performs changes and then saves them.
   ///
   /// - Parameters:
   ///   - changes: Changes to be applied in the current context before the saving operation. If they fail throwing an execption, the context will be reset.
   ///   - completion: Block executed (on the context’s queue.) at the end of the saving operation.
-  public final func performSave(after changes: () throws -> Void, completion: ( (Error?) -> Void )? = nil ) {
+  public final func performSave(after changes: () throws -> Void, completion: ( (CoreDataPlusError?) -> Void )? = nil ) {
     // swiftlint:disable:next identifier_name
     withoutActuallyEscaping(changes) { _changes in
       perform { [unowned unownedSelf = self] in
-        var result: Error?
+        var internalError: CoreDataPlusError?
+
         do {
           try _changes()
-          result = nil
         } catch {
-          result = error
+          internalError = CoreDataPlusError.executionFailed(error: error)
         }
 
-        guard result == nil else {
-          unownedSelf.reset()
-          completion?(result)
+        guard internalError == nil else {
+          completion?(internalError)
           return
         }
 
         do {
-          try unownedSelf.saveOrRollBack()
-          result = nil
+          try unownedSelf.save()
         } catch {
-          result = error
+          internalError = CoreDataPlusError.saveFailed(error: error)
         }
-        completion?(result)
+        completion?(internalError)
       }
     }
   }
 
   /// **CoreDataPlus**
   ///
-  /// Synchronously performs changes and then saves them or **rollbacks** if any error occurs. If the changes fail throwing an execption, the context will be reset.
+  /// Synchronously performs changes and then saves them: if the changes fail throwing an execption, the context will be reset.
   ///
-  /// - Throws: An error in cases of a saving operation failure.
+  /// - Throws: It throws an error in cases of failure (while applying changes or saving).
   public final func performSaveAndWait(after changes: () throws -> Void) throws {
     // swiftlint:disable:next identifier_name
     try withoutActuallyEscaping(changes) { _changes in
-      var closureError: Error? = nil
-      var saveError: Error? = nil
+      var internalError: CoreDataPlusError? = nil
 
-      performAndWait { [unowned unownedSelf = self] in
+      performAndWait {
         do {
           try _changes()
         } catch {
-          closureError = error
+          internalError = CoreDataPlusError.executionFailed(error: error)
         }
 
-        guard closureError == nil else {
-          rollback()
-          return
-        }
+        guard internalError == nil else { return }
 
         do {
-          try unownedSelf.saveOrRollBack()
+          try save()
         } catch {
-          saveError = error
+          internalError = CoreDataPlusError.saveFailed(error: error)
         }
 
       }
 
-      if let error = closureError { throw CoreDataPlusError.executionFailed(error: error) }
-      if let error = saveError { throw CoreDataPlusError.saveFailed(error: error) }
+      if let error = internalError { throw error }
     }
   }
 
   /// **CoreDataPlus**
   ///
   /// Saves the `NSManagedObjectContext` if changes are present or **rollbacks** if any error occurs.
-  private final func saveOrRollBack() throws {
+  /// - Note: The rollback removes everything from the undo stack, discards all insertions and deletions, and restores updated objects to their last committed values.
+  public final func saveOrRollBack() throws {
     guard hasChanges else { return }
     do {
       try save()
     } catch {
-      rollback()
+      rollback() // rolls back the pending changes
       throw CoreDataPlusError.saveFailed(error: error)
     }
   }
@@ -225,8 +219,7 @@ extension NSManagedObjectContext {
     return try _performAndWait(function: performAndWait, execute: block, rescue: { throw $0 })
   }
 
-  /// Helper function for convincing the type checker that
-  /// the rethrows invariant holds for performAndWait.
+  /// Helper function for convincing the type checker that the rethrows invariant holds for performAndWait.
   ///
   /// Source: https://oleb.net/blog/2018/02/performandwait/
   /// Source: https://github.com/apple/swift/blob/bb157a070ec6534e4b534456d208b03adc07704b/stdlib/public/SDK/Dispatch/Queue.swift#L228-L249

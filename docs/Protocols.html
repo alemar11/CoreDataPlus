@@ -10,6 +10,7 @@
     
   </head>
   <body>
+    <a name="//apple_ref/swift/Section/Protocols" class="dashAnchor"></a>
     <a title="Protocols  Reference"></a>
     <header>
       <div class="content-wrapper">
@@ -30,18 +31,30 @@
             <a href="Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="Classes/AnyFetchedResultsControllerDelegate.html">AnyFetchedResultsControllerDelegate</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/EntityObserver.html">EntityObserver</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/EntityObserver/ContextChange.html">– ContextChange</a>
               </li>
+              <li class="nav-group-task">
+                <a href="Classes/FetchedResultsController.html">FetchedResultsController</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
-            <a href="Enums.html">Enums</a>
+            <a href="Enums.html">Enumerations</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="Enums/CoreDataPlusError.html">CoreDataPlusError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/FetchedResultsObjectChange.html">FetchedResultsObjectChange</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/FetchedResultsSectionChange.html">FetchedResultsSectionChange</a>
               </li>
             </ul>
           </li>
@@ -78,6 +91,9 @@
                 <a href="Protocols/DelayedDeletable.html">DelayedDeletable</a>
               </li>
               <li class="nav-group-task">
+                <a href="Protocols/FetchedResultsControllerDelegate.html">FetchedResultsControllerDelegate</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols/ModelVersion.html">ModelVersion</a>
               </li>
               <li class="nav-group-task">
@@ -92,13 +108,16 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a href="Structs.html">Structs</a>
+            <a href="Structs.html">Structures</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="Structs/ContextDidSaveNotification.html">ContextDidSaveNotification</a>
               </li>
               <li class="nav-group-task">
                 <a href="Structs/ContextWillSaveNotification.html">ContextWillSaveNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/FetchedResultsSectionInfo.html">FetchedResultsSectionInfo</a>
               </li>
               <li class="nav-group-task">
                 <a href="Structs/ObjectsDidChangeNotification.html">ObjectsDidChangeNotification</a>
@@ -118,6 +137,74 @@
 
           </section>
           <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus32FetchedResultsControllerDelegateP"></a>
+                    <a name="//apple_ref/swift/Protocol/FetchedResultsControllerDelegate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus32FetchedResultsControllerDelegateP">FetchedResultsControllerDelegate</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Protocol for delegate callbacks of inserts, deletes, updates and moves of <code>NSManagedObjects</code> as well as inserts and deletes of <code>Sections</code>.</p>
+
+                        <a href="Protocols/FetchedResultsControllerDelegate.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">FetchedResultsControllerDelegate</span> <span class="p">:</span> <span class="kt">AnyObject</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus12ModelVersionP"></a>
+                    <a name="//apple_ref/swift/Protocol/ModelVersion" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus12ModelVersionP">ModelVersion</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Types adopting the <code>ModelVersion</code> protocol can be used to describe a Core Data Model and its versioning.</p>
+
+                        <a href="Protocols/ModelVersion.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ModelVersion</span> <span class="p">:</span> <span class="kt">Equatable</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
             <div class="task-group">
               <ul>
                 <li class="item">
@@ -143,7 +230,41 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">DelayedDeletable</span><span class="p">:</span> <span class="kd">class</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">DelayedDeletable</span> <span class="p">:</span> <span class="kt">AnyObject</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus19UpdateTimestampableP"></a>
+                    <a name="//apple_ref/swift/Protocol/UpdateTimestampable" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus19UpdateTimestampableP">UpdateTimestampable</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Objects adopting the <code>UpdateTimestampable</code> have an <code>updateAt</code> property.</p>
+
+                        <a href="Protocols/UpdateTimestampable.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">UpdateTimestampable</span> <span class="p">:</span> <span class="kt">AnyObject</span></code></pre>
 
                         </div>
                       </div>
@@ -182,7 +303,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">NSManagedObjectContextNotification</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">NSManagedObjectContextNotification</span></code></pre>
 
                         </div>
                       </div>
@@ -223,75 +344,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">NSManagedObjectContextObservable</span><span class="p">:</span> <span class="kt"><a href="Protocols/NSManagedObjectContextNotification.html">NSManagedObjectContextNotification</a></span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:12CoreDataPlus12ModelVersionP"></a>
-                    <a name="//apple_ref/swift/Protocol/ModelVersion" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus12ModelVersionP">ModelVersion</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Types adopting the <code>ModelVersion</code> protocol can be used to describe a Core Data Model and its versioning.</p>
-
-                        <a href="Protocols/ModelVersion.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ModelVersion</span><span class="p">:</span> <span class="kt">Equatable</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:12CoreDataPlus19UpdateTimestampableP"></a>
-                    <a name="//apple_ref/swift/Protocol/UpdateTimestampable" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus19UpdateTimestampableP">UpdateTimestampable</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Objects adopting the <code>UpdateTimestampable</code> have an <code>updateAt</code> property.</p>
-
-                        <a href="Protocols/UpdateTimestampable.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">UpdateTimestampable</span><span class="p">:</span> <span class="kd">class</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">NSManagedObjectContextObservable</span> <span class="p">:</span> <span class="kt"><a href="Protocols/NSManagedObjectContextNotification.html">NSManagedObjectContextNotification</a></span></code></pre>
 
                         </div>
                       </div>
@@ -303,8 +356,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2018-04-19)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2018 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2018-04-26)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

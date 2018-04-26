@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>DelayedDeletable Protocol Reference</title>
+    <title>FetchedResultsSectionInfo Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Protocol/DelayedDeletable" class="dashAnchor"></a>
-    <a title="DelayedDeletable Protocol Reference"></a>
+    <a name="//apple_ref/swift/Struct/FetchedResultsSectionInfo" class="dashAnchor"></a>
+    <a title="FetchedResultsSectionInfo Structure Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">CoreDataPlus Docs</a> (88% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">CoreDataPlus Reference</a>
         <img id="carat" src="../img/carat.png" />
-        DelayedDeletable Protocol Reference
+        FetchedResultsSectionInfo Structure Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -132,16 +132,16 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>DelayedDeletable</h1>
+            <h1>FetchedResultsSectionInfo</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">DelayedDeletable</span> <span class="p">:</span> <span class="kt">AnyObject</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">FetchedResultsSectionInfo</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt">NSManagedObject</span></code></pre>
 
                 </div>
               </div>
             <p><strong>CoreDataPlus</strong></p>
 
-<p>Objects adopting the <code>DelayedDeletable</code> support <em>two-step</em> deletion.</p>
+<p>Section info used during the notification of a section being inserted or deleted.</p>
 
           </section>
           <section class="section task-group-section">
@@ -150,13 +150,10 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:12CoreDataPlus16DelayedDeletableP013hasChangedForD8DeletionSbvp"></a>
-                    <a name="//apple_ref/swift/Property/hasChangedForDelayedDeletion" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus16DelayedDeletableP013hasChangedForD8DeletionSbvp">hasChangedForDelayedDeletion</a>
+                    <a name="/s:12CoreDataPlus25FetchedResultsSectionInfoV15numberOfObjectsSivp"></a>
+                    <a name="//apple_ref/swift/Property/numberOfObjects" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus25FetchedResultsSectionInfoV15numberOfObjectsSivp">numberOfObjects</a>
                     </code>
-                      <span class="declaration-note">
-                        Default implementation
-                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -165,25 +162,14 @@
                       <div class="abstract">
                         <p><strong>CoreDataPlus</strong></p>
 
-<p>Protocol <code>DelayedDeletable</code>.</p>
-
-<p>Checks whether or not the managed object’s <code>markedForDeletion</code> property has unsaved changes.</p>
-
-                      </div>
-                      <h4>Default Implementation</h4>
-                      <div class="default_impl abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Protocol <code>DelayedDeletable</code>.</p>
-
-<p>Returns true if <code>self</code> has been marked for deletion.</p>
+<p>The number of objects belonging to the section.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">hasChangedForDelayedDeletion</span><span class="p">:</span> <span class="nf">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">numberOfObjects</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
 
                         </div>
                       </div>
@@ -193,9 +179,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:12CoreDataPlus16DelayedDeletableP21markedForDeletionAsOf10Foundation4DateVSgvp"></a>
-                    <a name="//apple_ref/swift/Property/markedForDeletionAsOf" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus16DelayedDeletableP21markedForDeletionAsOf10Foundation4DateVSgvp">markedForDeletionAsOf</a>
+                    <a name="/s:12CoreDataPlus25FetchedResultsSectionInfoV7objectsSayxGvp"></a>
+                    <a name="//apple_ref/swift/Property/objects" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus25FetchedResultsSectionInfoV7objectsSayxGvp">objects</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -205,16 +191,14 @@
                       <div class="abstract">
                         <p><strong>CoreDataPlus</strong></p>
 
-<p>Protocol <code>DelayedDeletable</code>.</p>
-
-<p>This object can be deleted starting from this particular date.</p>
+<p>Array of objects belonging to the section.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">markedForDeletionAsOf</span><span class="p">:</span> <span class="nf">Date</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt">T</span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
@@ -224,13 +208,10 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:12CoreDataPlus16DelayedDeletableP07markForD8DeletionyyF"></a>
-                    <a name="//apple_ref/swift/Method/markForDelayedDeletion()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus16DelayedDeletableP07markForD8DeletionyyF">markForDelayedDeletion()</a>
+                    <a name="/s:12CoreDataPlus25FetchedResultsSectionInfoV4nameSSvp"></a>
+                    <a name="//apple_ref/swift/Property/name" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus25FetchedResultsSectionInfoV4nameSSvp">name</a>
                     </code>
-                      <span class="declaration-note">
-                        Default implementation
-                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -239,69 +220,14 @@
                       <div class="abstract">
                         <p><strong>CoreDataPlus</strong></p>
 
-<p>Protocol <code>DelayedDeletable</code>.</p>
-
-<p>Marks an object to be deleted at a later point in time.</p>
-
-                      </div>
-                      <h4>Default Implementation</h4>
-                      <div class="default_impl abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Marks an object to be deleted at a later point in time (if not already marked).
-An object marked for local deletion will no longer match the <code>notMarkedForDeletionPredicate</code>.</p>
+<p>The name of the section</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">markForDelayedDeletion</span><span class="p">()</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/DelayedDeletable%20Extension"></a>
-                <a name="//apple_ref/swift/Section/DelayedDeletable Extension" class="dashAnchor"></a>
-                <a href="#/DelayedDeletable%20Extension">
-                  <h3 class="section-name">DelayedDeletable Extension</h3>
-                </a>
-              </div>
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:12CoreDataPlus16DelayedDeletablePAAE34notMarkedForLocalDeletionPredicateSo11NSPredicateCvpZ"></a>
-                    <a name="//apple_ref/swift/Variable/notMarkedForLocalDeletionPredicate" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus16DelayedDeletablePAAE34notMarkedForLocalDeletionPredicateSo11NSPredicateCvpZ">notMarkedForLocalDeletionPredicate</a>
-                    </code>
-                      <span class="declaration-note">
-                        Extension method
-                      </span>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Protocol <code>DelayedDeletable</code>.</p>
-
-<p>Predicate to filter for objects that haven’t a deletion date.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">notMarkedForLocalDeletionPredicate</span><span class="p">:</span> <span class="nf">NSPredicate</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
@@ -311,13 +237,10 @@ An object marked for local deletion will no longer match the <code>notMarkedForD
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:12CoreDataPlus16DelayedDeletablePAAE31markedForLocalDeletionPredicateSo11NSPredicateCvpZ"></a>
-                    <a name="//apple_ref/swift/Variable/markedForLocalDeletionPredicate" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus16DelayedDeletablePAAE31markedForLocalDeletionPredicateSo11NSPredicateCvpZ">markedForLocalDeletionPredicate</a>
+                    <a name="/s:12CoreDataPlus25FetchedResultsSectionInfoV10indexTitleSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/indexTitle" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus25FetchedResultsSectionInfoV10indexTitleSSSgvp">indexTitle</a>
                     </code>
-                      <span class="declaration-note">
-                        Extension method
-                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -326,16 +249,14 @@ An object marked for local deletion will no longer match the <code>notMarkedForD
                       <div class="abstract">
                         <p><strong>CoreDataPlus</strong></p>
 
-<p>Protocol <code>DelayedDeletable</code>.</p>
-
-<p>Predicate to filter for objects that have a deletion date.</p>
+<p>The string used as an index title of the section.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">markedForLocalDeletionPredicate</span><span class="p">:</span> <span class="nf">NSPredicate</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">indexTitle</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>

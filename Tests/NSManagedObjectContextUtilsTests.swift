@@ -95,7 +95,6 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
       let updatedMetaData = stack.mainContext.metaData(for: firstPersistentStore)
       XCTAssertNotNil(updatedMetaData["testKey"])
       XCTAssertEqual(updatedMetaData["testKey"] as? String, "Test")
-      
     }
     
   }
@@ -124,6 +123,108 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
     XCTAssertNotEqual(backgroundContext2.parent,stack.mainContext)
   }
   
+  func testMultipleSaveAndWait() throws {
+    // Given, When
+    let stack = CoreDataStack.stack(type: .sqlite)
+    let context = stack.mainContext.newBackgroundContext()
+    
+    // Then
+    XCTAssertNoThrow(
+      try context.performSaveAndWait {
+        let person = Person(context: context)
+        person.firstName = "T"
+        person.lastName = "R"
+        
+        let person2 = Person(context: context)
+        person2.firstName = "T2"
+        person2.lastName = "R2"
+        
+        let car3 = Car(context: context)
+        car3.maker = "FIAT"
+        car3.model = "Punto"
+        car3.numberPlate = "3"
+        
+        person2.cars = [car3]
+        
+        XCTAssertEqual(context.registeredObjects.count, 3)
+      })
+    
+    XCTAssertNoThrow(
+      try context.performSaveAndWait {
+        let person = Person(context: context)
+        person.firstName = "Tin"
+        person.lastName = "Robots"
+      })
+    
+  }
+  
+  func testSaveAndWait() {
+    // Given, When
+    let stack = CoreDataStack.stack(type: .sqlite)
+    let context = stack.mainContext.newBackgroundContext()
+    
+    // Then
+    XCTAssertNoThrow(
+      try context.performSaveAndWait {
+        let person = Person(context: context)
+        person.firstName = "T"
+        person.lastName = "R"
+        
+        let person2 = Person(context: context)
+        person2.firstName = "T2"
+        person2.lastName = "R2"
+        
+        let car3 = Car(context: context)
+        car3.maker = "FIAT"
+        car3.model = "Punto"
+        car3.numberPlate = "3"
+        
+        person2.cars = [car3]
+      }
+    )
+    
+    XCTAssertNoThrow(
+      try context.performSaveAndWait {
+        let person = Person(context: context)
+        person.firstName = "Tin"
+        person.lastName = "Robots"
+      }
+    )
+    
+    
+    XCTAssertThrowsError(
+      try context.performSaveAndWait {
+        let car1 = Car(context: context)
+        car1.maker = "FIAT"
+        car1.model = "Panda"
+        car1.numberPlate = "1"
+        
+        let car2 = Car(context: context)
+        car2.maker = "FIAT"
+        car2.model = "Punto"
+        car2.numberPlate = "2"
+        
+        let person = Person(context: context)
+        person.firstName = "Tin"
+        person.lastName = "Robots"
+        person.cars = [car1, car2]
+        
+      }
+    ) { (error) in
+      XCTAssertNotNil(error)
+    }
+    
+    context.rollback() // discards all the failing changes
+    
+    XCTAssertNoThrow(
+      try context.performSaveAndWait {
+        let person = Person(context: context)
+        person.firstName = "Tin_"
+        person.lastName = "Robots_"
+      }
+    )
+  }
+  
   func testSaveAndWaitWithReset() {
     let stack = CoreDataStack.stack(type: .sqlite)
     let context = stack.mainContext.newBackgroundContext()
@@ -144,62 +245,10 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
     XCTAssertTrue(context.registeredObjects.isEmpty)
   }
   
-  func testSaveAndWait() {
-    // Given, When
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext.newBackgroundContext()
-    
-    // Then
-    
-    XCTAssertNoThrow(
-      try context.performSaveAndWait {
-        let person = Person(context: context)
-        person.firstName = "T"
-        person.lastName = "R"
-      }
-    )
-    
-    XCTAssertNoThrow(
-      try context.performSaveAndWait { })
-    
-    XCTAssertNoThrow(
-      try context.performSaveAndWait {
-        let person = Person(context: context)
-        person.firstName = "Tin"
-        person.lastName = "Robots"
-      }
-    )
-    
-    XCTAssertThrowsError(
-      try context.performSaveAndWait {
-        let person = Person(context: context)
-        person.firstName = "Tin"
-        person.lastName = "Robots"
-      }
-    ) { (error) in
-      XCTAssertNotNil(error)
-    }
-    
-    XCTAssertNoThrow(
-      try context.performSaveAndWait {
-        let person = Person(context: context)
-        person.firstName = "Tin_"
-        person.lastName = "Robots"
-      }
-    )
-    
-    XCTAssertNoThrow(
-      try context.performSaveAndWait {
-        let person = Person(context: context)
-        person.firstName = "Tin"
-        person.lastName = "Robots_"
-      }
-    )
-  }
-  
   func testSaveAndWaitWithThrow() {
     let stack = CoreDataStack.stack(type: .sqlite)
     let context = stack.mainContext.newBackgroundContext()
+    
     let expectation1 = expectation(description: "\(#function)\(#line)")
     
     do {
@@ -221,9 +270,38 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
       expectation1.fulfill()
     }
     waitForExpectations(timeout: 2)
+  }
+  
+  func testSaveAndWaitWithAContextSaveDoneBeforeTheThrow() throws {
+    let stack = CoreDataStack.stack(type: .sqlite)
+    let context = stack.mainContext.newBackgroundContext()
     
-    XCTAssertTrue(context.registeredObjects.isEmpty)
+    let person = Person(context: context)
+    person.firstName = "Alessandro"
+    person.lastName = "Test"
+    try! context.save()
     
+    let expectation1 = expectation(description: "\(#function)\(#line)")
+    
+    do {
+      try context.performSaveAndWait {
+        let person = Person(context: context)
+        person.firstName = "Tin1"
+        person.lastName = "Robots1"
+        throw NSError(domain: "test", code: 1, userInfo: nil)
+      }
+    } catch let catchedError {
+      if case CoreDataPlusError.executionFailed(error: let error) = catchedError {
+        let nsError = error as NSError
+        XCTAssertEqual(nsError.code, 1)
+        XCTAssertEqual(nsError.domain, "test")
+        
+      } else {
+        XCTFail("Wrong error type.")
+      }
+      expectation1.fulfill()
+    }
+    waitForExpectations(timeout: 2)
   }
   
   func testSaveAndThrow() {
@@ -231,27 +309,26 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
     let context = stack.mainContext.newBackgroundContext()
     
     let expectation1 = expectation(description: "\(#function)\(#line)")
+    
     context.performSave(after: {
       let person = Person(context: context)
       person.firstName = "T"
       person.lastName = "R"
       throw NSError(domain: "test", code: 1, userInfo: nil)
       
-    }) { catchedError in
-      XCTAssertNotNil(catchedError)
-      if let nsError = catchedError as NSError? {
+    }, completion: { catchedError in
+      if let catchedError = catchedError, case CoreDataPlusError.executionFailed(error: let error) = catchedError {
+        let nsError = error as NSError
         XCTAssertEqual(nsError.code, 1)
         XCTAssertEqual(nsError.domain, "test")
+        
       } else {
         XCTFail("Wrong error type.")
       }
-      
       expectation1.fulfill()
-    }
+    })
     
     waitForExpectations(timeout: 2)
-    
-    XCTAssertTrue(context.registeredObjects.isEmpty)
   }
   
   func testSave() {
@@ -295,6 +372,7 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
     }
     
     wait(for: [saveExpectation3], timeout: 10)
+    context.rollback() // remove not valid changes
     
     let saveExpectation4 = expectation(description: "Save 4")
     context.performSave(after: {
@@ -392,6 +470,67 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
     }
     
     waitForExpectations(timeout: 2)
+  }
+  
+  func testSaveOrRollback() {
+    let stack = CoreDataStack.stack()
+    let context = stack.mainContext
+    
+    let car1 = Car(context: context)
+    car1.maker = "FIAT"
+    car1.model = "Panda"
+    car1.numberPlate = "1"
+    
+    let person1 = Person(context: context)
+    person1.firstName = "Tin"
+    person1.lastName = "Robots"
+    
+    person1.cars = [car1]
+    
+    XCTAssertNoThrow(try context.saveOrRollBack())
+    
+    XCTAssertEqual(context.registeredObjects.count, 2) // person1 and car1 with a circular reference cycle
+    
+    let person2 = Person(context: context)
+    person2.firstName = "Tin"
+    person2.lastName = "Robots"
+    person2.cars = nil
+    
+    XCTAssertEqual(context.registeredObjects.count, 3)
+    
+    XCTAssertThrowsError(try context.saveOrRollBack())
+    
+    XCTAssertEqual(context.registeredObjects.count, 2) // person2 is discarded because it cannot be saved
+  }
+  
+  func testCollectionDelete() {
+    let stack = CoreDataStack.stack()
+    let context = stack.mainContext
+    
+    let car1 = Car(context: context)
+    car1.maker = "FIAT"
+    car1.model = "Panda"
+    car1.numberPlate = "1"
+    
+    let person1 = Person(context: context)
+    person1.firstName = "Tin"
+    person1.lastName = "Robots"
+    
+    let person2 = Person()
+    person1.firstName = "Tin2"
+    person1.lastName = "Robots2"
+    
+    let list = [car1, person1, person2]
+    list.delete()
+    
+    for mo in list {
+      if mo === person2 {
+        XCTAssertNil(mo.managedObjectContext)
+      } else {
+        XCTAssertTrue(mo.isDeleted)
+      }
+    }
+    
   }
   
 }
