@@ -344,6 +344,34 @@ final class FetchedResultsControllerTests: XCTestCase {
 
   }
 
+  func testThrownError() {
+    // Given
+    let stack = CoreDataStack.stack()
+    let context = stack.mainContext
+    context.fillWithSampleData()
+    try! context.save()
+
+    let request = Person.newFetchRequest()
+    request.addSortDescriptors([NSSortDescriptor(key: #keyPath(Person.firstName), ascending: true)])
+
+    let expectation1 = expectation(description: "\(#function)\(#line)")
+
+    let controller = FetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: #keyPath(Person.lastName))
+
+    // When, Then
+    XCTAssertThrowsError(try controller.performFetch()) { error in
+      XCTAssertTrue(error is CoreDataPlusError)
+      if case CoreDataPlusError.fetchFailed = error {
+        // do nothing
+      } else {
+        XCTFail("Expected an error of type fetchFailed")
+      }
+      expectation1.fulfill()
+    }
+
+    waitForExpectations(timeout: 3)
+  }
+
   func testSectionsChanges() throws {
     // Given
     let stack = CoreDataStack.stack()
