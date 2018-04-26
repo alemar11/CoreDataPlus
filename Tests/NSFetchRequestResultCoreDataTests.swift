@@ -140,7 +140,6 @@ final class NSFetchRequestResultCoreDataTests: XCTestCase {
     XCTAssertNoThrow(try Car.deleteAll(in: context, except: sportCar))
     let carsAfterDelete = try Car.fetch(in: context)
     XCTAssertTrue(carsAfterDelete.count == 3)
-
   }
 
 }
