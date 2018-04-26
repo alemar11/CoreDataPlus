@@ -304,8 +304,8 @@ private extension FetchedResultsObjectChange {
     guard let object = object as? T else { return nil }
     switch (type, indexPath, newIndexPath) {
     case (.insert, _?, _):
-      // Work around a bug in Xcode 7.0 and 7.1 when running on iOS 8 - updated objects sometimes result in both an Update *and* and Insert call to didChangeObject, which makes no sense.
-      //Thankfully the bad Inserts have a non-nil "old" indexPath (which also makes no sense) - we check for that here and ignore those erroneous messages.
+      // Work around a bug in Xcode 7.0 and 7.1 on iOS 8: updated objects sometimes result in both an Update *and* and Insert call to didChangeObject.
+      // Thankfully the bad Inserts have a non-nil "old" indexPath.
       // For more discussion, see https://forums.developer.apple.com/thread/12184
       return nil
 
@@ -316,19 +316,17 @@ private extension FetchedResultsObjectChange {
       self = .delete(object: object, indexPath: indexPath)
 
     case let (.update, indexPath?, _):
-      // in pre iOS 9 runtimes a newIndexPath value is also passed in
+      // before iOS 9, a newIndexPath value was also passed in.
       self = .update(object: object, indexPath: indexPath)
 
     case let (.move, fromIndexPath?, toIndexPath?):
       // There are at least two different .move-related bugs running on Xcode 7.3.1:
-      //
-      // * iOS 8.4 sometimes reports both an .update and a .move (with identical index paths) for the same object.
-      // * iOS 9.3 sometimes reports _just_ a .move (with identical index paths) and no .update for an object.
+      // - iOS 8.4 sometimes reports both an .update and a .move (with identical index paths) for the same object.
+      // - iOS 9.3 sometimes reports just a .move (with identical index paths) and no .update for an object.
       //
       // According to https://developer.apple.com/library/ios/releasenotes/iPhone/NSFetchedResultsChangeMoveReportedAsNSFetchedResultsChangeUpdate/
-      // we shouldn't get moves with identical index paths, but we have to work around this somehow.
-      // For now, we'll convert identical-indexPath-.Moves into .Updates (just like that document claims NSFetchedResultsController does).
-      // This means we'll get correct behavior on iOS 9.3. iOS 8.4 will get "double updates" sometimes, but _hopefully_ that's ok.
+      // there shouldn't be moves with identical index paths.
+      // Work around: identical indexPath are converted .moves into .updates (it fixes the wrong behavior on iOS 9.3; iOS 8.4 will get "double updates" sometimes, but hopefully that's ok).
       if fromIndexPath == toIndexPath {
         self = .update(object: object, indexPath: fromIndexPath)
       } else {
