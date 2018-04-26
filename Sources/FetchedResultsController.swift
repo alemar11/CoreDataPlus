@@ -172,7 +172,6 @@ public class FetchedResultsController<T: NSManagedObject> {
   ///
   /// The `AnyFetchedResultsControllerDelegate` that will receive callback events.
   public var delegate: AnyFetchedResultsControllerDelegate<T>? {
-
     set {
       if let value = newValue {
         _delegate = WrapperFetchedResultsControllerDelegate<T>(owner: self, delegate: value)
@@ -185,7 +184,6 @@ public class FetchedResultsController<T: NSManagedObject> {
     get {
       return _delegate?.delegate
     }
-
   }
 
   /// **CoreDataPlus**
