@@ -194,6 +194,11 @@ public class FetchedResultsController<T: NSManagedObject> {
 
   /// **CoreDataPlus**
   ///
+  /// The managed object context used to fetch objects.
+  public var managedObjectContext: NSManagedObjectContext { return underlyingFetchedResultsController.managedObjectContext }
+
+  /// **CoreDataPlus**
+  ///
   /// The objects that match the fetch request.
   public var fetchedObjects: [T]? { return  underlyingFetchedResultsController.fetchedObjects as? [T] }
 
@@ -227,6 +232,12 @@ public class FetchedResultsController<T: NSManagedObject> {
   ///
   /// The `NSIndexPath` for a specific object in the fetchedObjects.
   public func indexPathForObject(_ object: T) -> IndexPath? { return  underlyingFetchedResultsController.indexPath(forObject: object) }
+
+  /// **CoreDataPlus**
+  ///
+  /// - Parameter indexPath: An index path in the fetch results. If indexPath does not describe a valid index path in the fetch results, an exception is raised.
+  /// - Returns: Returns the fetched object at a given indexPath.
+  open func object(at indexPath: IndexPath) -> T { return underlyingFetchedResultsController.object(at: indexPath) as! T }
 
   /// **CoreDataPlus**
   ///
