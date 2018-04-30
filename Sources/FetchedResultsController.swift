@@ -237,6 +237,7 @@ public class FetchedResultsController<T: NSManagedObject> {
   ///
   /// - Parameter indexPath: An index path in the fetch results. If indexPath does not describe a valid index path in the fetch results, an exception is raised.
   /// - Returns: Returns the fetched object at a given indexPath.
+  // swiftlint:disable:next force_cast
   open func object(at indexPath: IndexPath) -> T { return underlyingFetchedResultsController.object(at: indexPath) as! T }
 
   /// **CoreDataPlus**
