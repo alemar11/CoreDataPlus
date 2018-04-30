@@ -29,7 +29,7 @@ private let updateTimestampKey = "updatedAt"
 ///
 /// Objects adopting the `UpdateTimestampable` have an `updateAt` property.
 public protocol UpdateTimestampable: class {
-  var updatedAt: Date { get set}
+  var updatedAt: Date { get set }
 }
 
 extension UpdateTimestampable where Self: NSManagedObject {

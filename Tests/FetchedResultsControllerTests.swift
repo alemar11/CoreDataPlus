@@ -75,7 +75,9 @@ final class FetchedResultsControllerTests: XCTestCase {
 
     // Then
     waitForExpectations(timeout: 3)
+    XCTAssertEqual(context, controller.managedObjectContext)
     XCTAssertNotNil(controller.fetchedObjects)
+    XCTAssertEqual(controller.object(at: IndexPath(item: 0, section: 0)), controller.fetchedObjects?.first)
     XCTAssertEqual(controller.fetchRequest, request)
     XCTAssertTrue(anyDelegate === controller.delegate)
     XCTAssertFalse(controller.fetchedObjects!.isEmpty)
@@ -212,6 +214,7 @@ final class FetchedResultsControllerTests: XCTestCase {
     try controller.performFetch()
 
     XCTAssertNotNil(controller.fetchedObjects)
+    XCTAssertEqual(controller.object(at: IndexPath(item: 0, section: 0)), controller.fetchedObjects?.first)
     XCTAssertNil(controller.cacheName)
     XCTAssertEqual(controller.sections?.count, 1)
     XCTAssertEqual(controller.fetchedObjects!.count, 20)

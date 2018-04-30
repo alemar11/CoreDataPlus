@@ -29,7 +29,7 @@ extension NSManagedObjectContext {
   ///
   /// The persistent stores associated with the receiver (if any).
   public final var persistentStores: [NSPersistentStore] {
-    //TODO: better management?
+    // TODO: better management?
     if !ProcessInfo.isRunningUnitTests {
       assertionFailure("\(self.description) doesn't have a Persistent Store Coordinator.")
     }
@@ -177,6 +177,7 @@ extension NSManagedObjectContext {
   /// - Note: The rollback removes everything from the undo stack, discards all insertions and deletions, and restores updated objects to their last committed values.
   public final func saveOrRollBack() throws {
     guard hasChanges else { return }
+
     do {
       try save()
     } catch {

@@ -234,7 +234,7 @@ extension ObjectsDidChangeNotification: CustomDebugStringConvertible {
     }
 
     for (name, set) in [("invalidatedAll", invalidatedAllObjects)] {
-      let all = set.map { $0.description}.joined(separator: ", ")
+      let all = set.map { $0.description }.joined(separator: ", ")
       components.append("\(name): {\(all)})")
     }
 
