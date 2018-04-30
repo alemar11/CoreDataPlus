@@ -95,6 +95,7 @@ extension DelayedDeletable where Self: NSManagedObject {
   /// An object marked for local deletion will no longer match the `notMarkedForDeletionPredicate`.
   public func markForDelayedDeletion() {
     guard markedForDeletionAsOf == nil else { return }
+
     markedForDeletionAsOf = Date()
   }
 

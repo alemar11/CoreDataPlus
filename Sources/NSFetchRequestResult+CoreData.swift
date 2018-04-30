@@ -86,7 +86,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
   public static func findOneOrCreate(in context: NSManagedObjectContext, where predicate: NSPredicate, with configuration: (Self) -> Void) throws -> Self {
     guard let object = try findOneOrFetch(in: context, where: predicate) else {
-      let newObject: Self = Self(context: context)
+      let newObject = Self(context: context)
       configuration(newObject)
 
       return newObject
@@ -115,7 +115,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
           request.predicate = predicate
           request.returnsObjectsAsFaults = false
           request.fetchLimit = 1
-          }.first
+        }.first
       } catch {
         throw CoreDataPlusError.fetchFailed(error: error)
       }
@@ -140,7 +140,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
   public static func findUniqueOrCreate(in context: NSManagedObjectContext, where predicate: NSPredicate, with configuration: (Self) -> Void) throws -> Self {
     guard let object = try findUniqueOrFetch(in: context, where: predicate) else {
-      let newObject: Self = Self(context: context)
+      let newObject = Self(context: context)
       configuration(newObject)
 
       return newObject
@@ -228,7 +228,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
         request.includesPropertyValues = false
         request.includesSubentities = includingSubentities
         request.predicate = predicate
-        }.lazy.forEach(context.delete(_:))
+      }.lazy.forEach(context.delete(_:))
     } catch {
       throw CoreDataPlusError.fetchFailed(error: error)
     }
@@ -288,7 +288,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// all the objects that aren't a fault matching for a given predicate.
   /// Faulted objects are not considered to prevent Core Data to make a round trip to the persistent store.
   public static func findMaterializedObjects(in context: NSManagedObjectContext, where predicate: NSPredicate) -> [Self] {
-    let results = context.registeredObjects.filter { !$0.isFault && $0 is Self}.filter { predicate.evaluate(with: $0) }.compactMap { $0 as? Self}
+    let results = context.registeredObjects.filter { !$0.isFault && $0 is Self }.filter { predicate.evaluate(with: $0) }.compactMap { $0 as? Self }
 
     return results
   }
@@ -364,7 +364,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
     do {
       // swiftlint:disable:next force_cast
-      return  try context.execute(batchRequest) as! NSBatchDeleteResult
+      return try context.execute(batchRequest) as! NSBatchDeleteResult
     } catch {
       throw CoreDataPlusError.executionFailed(error: error)
     }

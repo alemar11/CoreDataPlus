@@ -29,7 +29,6 @@ extension Collection where Element: NSManagedObject {
 
   /// Specifies that all the `NSManagedObject` objects (with a `NSManangedObjectContext`) should be removed from its persistent store when changes are committed.
   public func delete() {
-    //TODO: add unit tests
    let managedObjectsWithtContext = self.filter { $0.managedObjectContext != nil }
     for object in managedObjectsWithtContext {
       object.delete()

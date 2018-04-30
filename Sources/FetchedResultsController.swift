@@ -190,7 +190,7 @@ public class FetchedResultsController<T: NSManagedObject> {
   ///
   /// The `NSFetchRequest` being used by the `FetchedResultsController`.
   // swiftlint:disable:next force_cast
-  public var fetchRequest: NSFetchRequest<T> { return  underlyingFetchedResultsController.fetchRequest as! NSFetchRequest<T> }
+  public var fetchRequest: NSFetchRequest<T> { return underlyingFetchedResultsController.fetchRequest as! NSFetchRequest<T> }
 
   /// **CoreDataPlus**
   ///
@@ -200,13 +200,13 @@ public class FetchedResultsController<T: NSManagedObject> {
   /// **CoreDataPlus**
   ///
   /// The objects that match the fetch request.
-  public var fetchedObjects: [T]? { return  underlyingFetchedResultsController.fetchedObjects as? [T] }
+  public var fetchedObjects: [T]? { return underlyingFetchedResultsController.fetchedObjects as? [T] }
 
   /// **CoreDataPlus**
   ///
   /// The sections returned by the `FetchedResultsController` see `FetchedResultsSectionInfo`.
   public var sections: LazyMapCollection<[NSFetchedResultsSectionInfo], FetchedResultsSectionInfo<T>>? {
-    guard let sections =  underlyingFetchedResultsController.sections else { return nil }
+    guard let sections = underlyingFetchedResultsController.sections else { return nil }
 
     return sections.lazy.map(FetchedResultsSectionInfo<T>.init)
   }
@@ -214,24 +214,24 @@ public class FetchedResultsController<T: NSManagedObject> {
   /// **CoreDataPlus**
   ///
   /// The name of the file used to cache section information.
-  public var cacheName: String? { return  underlyingFetchedResultsController.cacheName }
+  public var cacheName: String? { return underlyingFetchedResultsController.cacheName }
 
   /// **CoreDataPlus**
   ///
   /// Returns the array of section index titles.
-  public var sectionIndexTitles: [String] { return  underlyingFetchedResultsController.sectionIndexTitles }
+  public var sectionIndexTitles: [String] { return underlyingFetchedResultsController.sectionIndexTitles }
 
   /// **CoreDataPlus**
   ///
   /// Subscript access to the sections.
   /// - Note: If indexPath does not describe a valid index path in the fetch results, an exception is raised.
   // swiftlint:disable:next force_cast
-  public subscript(indexPath: IndexPath) -> T { return  underlyingFetchedResultsController.object(at: indexPath) as! T }
+  public subscript(indexPath: IndexPath) -> T { return underlyingFetchedResultsController.object(at: indexPath) as! T }
 
   /// **CoreDataPlus**
   ///
   /// The `NSIndexPath` for a specific object in the fetchedObjects.
-  public func indexPathForObject(_ object: T) -> IndexPath? { return  underlyingFetchedResultsController.indexPath(forObject: object) }
+  public func indexPathForObject(_ object: T) -> IndexPath? { return underlyingFetchedResultsController.indexPath(forObject: object) }
 
   /// **CoreDataPlus**
   ///
@@ -254,7 +254,7 @@ public class FetchedResultsController<T: NSManagedObject> {
   /// The  underlying `NSFetchedResultsController`
   /// - Note: using a `SectionIndexCustomizableFetchedResultsController` permits to expose an API to customize the section index titles
   /// but it costs some force_cast (but that's okay because a crash should always happen otherwise).
-  private let  underlyingFetchedResultsController: SectionIndexCustomizableFetchedResultsController<T>
+  private let underlyingFetchedResultsController: SectionIndexCustomizableFetchedResultsController<T>
 
   /// Used only for internal unit tests.
   // swiftlint:disable:next identifier_name
@@ -300,7 +300,7 @@ public class FetchedResultsController<T: NSManagedObject> {
       _delegate?.fetchedResultsControllerDidPerformFetch()
     }
     do {
-      try  underlyingFetchedResultsController.performFetch()
+      try underlyingFetchedResultsController.performFetch()
     } catch {
       throw CoreDataPlusError.fetchFailed(error: error)
     }
@@ -312,6 +312,7 @@ private extension FetchedResultsObjectChange {
 
   init?(object: AnyObject, indexPath: IndexPath?, changeType type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
     guard let object = object as? T else { return nil }
+
     switch (type, indexPath, newIndexPath) {
     case (.insert, _?, _):
       // Work around a bug in Xcode 7.0 and 7.1 on iOS 8: updated objects sometimes result in both an Update *and* and Insert call to didChangeObject.

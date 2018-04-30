@@ -102,8 +102,8 @@ extension ModelVersion {
     /**
      As of iOS 11, Apple is advising that opening the .omo file for a managed object model is not supported, since the file format can change from release to release
      **/
-    //let omoURL = modelBundle.url(forResource: versionName, withExtension: "\(ModelVersionKey.omo)", subdirectory: momd)
-    //guard let url = omoURL ?? momURL else { fatalError("Model version \(self) not found.") }
+    // let omoURL = modelBundle.url(forResource: versionName, withExtension: "\(ModelVersionKey.omo)", subdirectory: momd)
+    // guard let url = omoURL ?? momURL else { fatalError("Model version \(self) not found.") }
 
     guard let url = momURL else { preconditionFailure("Model version '\(self)' not found.") }
     guard let model = NSManagedObjectModel(contentsOf: url) else { preconditionFailure("Error initializing Managed Object Model: cannot open model at \(url).") }
