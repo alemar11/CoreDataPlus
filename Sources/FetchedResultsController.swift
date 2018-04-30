@@ -77,7 +77,7 @@ fileprivate extension FetchedResultsSectionChange {
     case .delete:
       self = .delete(info: info, index: sectionIndex)
     case .move, .update:
-      preconditionFailure("Invalid section change type reported by NSFetchedResultsController")
+      preconditionFailure("Invalid section change type reported by NSFetchedResultsController.")
     }
   }
 
@@ -469,9 +469,8 @@ private class SectionIndexCustomizableFetchedResultsController<T: NSFetchRequest
   override var sectionIndexTitles: [String] {
     if let titles = customizedSectionIndexTitles {
       return titles
-    } else {
-      return super.sectionIndexTitles
     }
+    return super.sectionIndexTitles
   }
 
 }
