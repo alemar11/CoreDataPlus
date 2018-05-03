@@ -83,6 +83,45 @@ final class FetchedResultsControllerTests: XCTestCase {
     XCTAssertFalse(controller.fetchedObjects!.isEmpty)
   }
 
+  func testMultipleFetchInvocations() throws {
+    // Given
+    let stack = CoreDataStack.stack()
+    let context = stack.mainContext
+    context.fillWithSampleData()
+    try context.save()
+
+    let request = Person.newFetchRequest()
+    request.addSortDescriptors([NSSortDescriptor(key: #keyPath(Person.firstName), ascending: false)]) // at least a descriptor is required
+
+    let delegate = MockPersonFetchedResultsControllerDelegate()
+
+    let expectation1 = expectation(description: "\(#function)\(#line)")
+    let expectation2 = expectation(description: "\(#function)\(#line)")
+    var count = 0
+    delegate.didPerformFetch = { controller in
+      if count == 0 {
+      expectation1.fulfill()
+      } else if count == 1 {
+        expectation2.fulfill()
+      } else {
+        XCTFail("didPerformFetch called too many times: \(count).")
+      }
+      count += 1
+    }
+
+    let anyDelegate = AnyFetchedResultsControllerDelegate(delegate)
+
+    // When
+    let controller = FetchedResultsController<Person>(fetchRequest: request, managedObjectContext: context)
+    controller.delegate = anyDelegate
+
+    try controller.performFetch()
+    try controller.performFetch()
+
+    // Then
+    waitForExpectations(timeout: 3)
+  }
+
   func testNoFetchedObject() throws {
     // Given
     let stack = CoreDataStack.stack()
