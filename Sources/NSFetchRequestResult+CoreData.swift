@@ -337,6 +337,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Throws: It throws an error in cases of failure.
   /// - Note: A batch delete can only be done on a SQLite store.
   @available(iOS 9, tvOS 9, watchOS 2, macOS 10.12, *)
+  @discardableResult
   // swiftlint:disable:next line_length
   public static func batchDeleteObjects(with context: NSManagedObjectContext, where predicate: NSPredicate, resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly) throws -> NSBatchDeleteResult {
     return try batchDeleteObjects(with: context, where: predicate) { $0.resultType = resultType }
@@ -353,6 +354,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Throws: It throws an error in cases of failure.
   /// - Note: A batch delete can only be done on a SQLite store.
   @available(iOS 9, tvOS 9, watchOS 2, macOS 10.12, *)
+  @discardableResult
   public static func batchDeleteObjects(with context: NSManagedObjectContext, where predicate: NSPredicate, and configuration: (NSBatchDeleteRequest) -> Void) throws -> NSBatchDeleteResult {
     guard context.persistentStoreCoordinator != nil else { throw CoreDataPlusError.persistentStoreCoordinatorNotFound(context: context) }
 
