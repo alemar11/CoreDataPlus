@@ -286,7 +286,7 @@ final class FetchedResultsControllerTests: XCTestCase {
     XCTAssertEqual(controller.indexPathForObject(newPerson1), IndexPath(item: 20, section: 0))
     XCTAssertEqual(controller.indexPathForObject(newPerson2), IndexPath(item: 21, section: 0))
 
-    // Wehn
+    // When
     let firstPerson = controller[IndexPath(item: 0, section: 0)]
     try Person.deleteAll(in: context, except: [firstPerson, newPerson1, newPerson2])
 

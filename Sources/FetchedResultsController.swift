@@ -66,9 +66,9 @@ public enum FetchedResultsSectionChange<T: NSManagedObject> {
   case delete(info: FetchedResultsSectionInfo<T>, index: Int)
 }
 
-fileprivate extension FetchedResultsSectionChange {
+extension FetchedResultsSectionChange {
 
-  init(section sectionInfo: NSFetchedResultsSectionInfo, index sectionIndex: Int, changeType type: NSFetchedResultsChangeType) {
+  init?(section sectionInfo: NSFetchedResultsSectionInfo, index sectionIndex: Int, changeType type: NSFetchedResultsChangeType) {
     let info = FetchedResultsSectionInfo<T>(sectionInfo)
 
     switch type {
@@ -77,7 +77,8 @@ fileprivate extension FetchedResultsSectionChange {
     case .delete:
       self = .delete(info: info, index: sectionIndex)
     case .move, .update:
-      preconditionFailure("Invalid section change type reported by NSFetchedResultsController.")
+      //preconditionFailure("Invalid section change type reported by NSFetchedResultsController.")
+      return nil
     }
   }
 
@@ -308,9 +309,9 @@ public class FetchedResultsController<T: NSManagedObject> {
 
 }
 
-private extension FetchedResultsObjectChange {
+extension FetchedResultsObjectChange {
 
-  init?(object: AnyObject, indexPath: IndexPath?, changeType type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+  init?(object: Any, indexPath: IndexPath?, changeType type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
     guard let object = object as? T else { return nil }
 
     switch (type, indexPath, newIndexPath) {
@@ -425,8 +426,9 @@ internal class WrapperFetchedResultsControllerDelegate<T: NSManagedObject>: NSOb
                            didChange sectionInfo: NSFetchedResultsSectionInfo,
                            atSectionIndex sectionIndex: Int,
                            for type: NSFetchedResultsChangeType) {
-    let change = FetchedResultsSectionChange<T>(section: sectionInfo, index: sectionIndex, changeType: type)
+    if let change = FetchedResultsSectionChange<T>(section: sectionInfo, index: sectionIndex, changeType: type) {
     delegate?.fetchedResultsController(owner, didChangeSection: change)
+    }
   }
 
   internal func fetchedResultsControllerDidPerformFetch() {
