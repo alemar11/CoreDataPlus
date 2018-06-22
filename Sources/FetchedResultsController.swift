@@ -68,7 +68,7 @@ public enum FetchedResultsSectionChange<T: NSManagedObject> {
 
 extension FetchedResultsSectionChange {
 
-  init?(section sectionInfo: NSFetchedResultsSectionInfo, index sectionIndex: Int, changeType type: NSFetchedResultsChangeType) {
+  public init?(section sectionInfo: NSFetchedResultsSectionInfo, index sectionIndex: Int, changeType type: NSFetchedResultsChangeType) {
     let info = FetchedResultsSectionInfo<T>(sectionInfo)
 
     switch type {
@@ -311,7 +311,7 @@ public class FetchedResultsController<T: NSManagedObject> {
 
 extension FetchedResultsObjectChange {
 
-  init?(object: Any, indexPath: IndexPath?, changeType type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+  public init?(object: Any, indexPath: IndexPath?, changeType type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
     guard let object = object as? T else { return nil }
 
     switch (type, indexPath, newIndexPath) {
