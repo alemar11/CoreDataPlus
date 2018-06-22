@@ -21,6 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+/**
 import XCTest
 @testable import CoreDataPlus
 
@@ -593,3 +594,4 @@ fileprivate final class MockPersonFetchedResultsControllerDelegate: FetchedResul
   }
 
 }
+ **/
