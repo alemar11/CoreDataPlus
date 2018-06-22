@@ -14,7 +14,7 @@
     <a title="FetchedResultsSectionChange Enumeration Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">CoreDataPlus Docs</a> (88% documented)</p>
+        <p><a href="../index.html">CoreDataPlus Docs</a> (89% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -31,16 +31,10 @@
             <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Classes/AnyFetchedResultsControllerDelegate.html">AnyFetchedResultsControllerDelegate</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Classes/EntityObserver.html">EntityObserver</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/EntityObserver/ContextChange.html">– ContextChange</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/FetchedResultsController.html">FetchedResultsController</a>
               </li>
             </ul>
           </li>
@@ -91,9 +85,6 @@
                 <a href="../Protocols/DelayedDeletable.html">DelayedDeletable</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/FetchedResultsControllerDelegate.html">FetchedResultsControllerDelegate</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Protocols/ModelVersion.html">ModelVersion</a>
               </li>
               <li class="nav-group-task">
@@ -141,7 +132,7 @@
               </div>
             <p><strong>CoreDataPlus</strong></p>
 
-<p>An <code>enum</code> representing the two type of section changes a <code><a href="../Classes/FetchedResultsController.html">FetchedResultsController</a></code> can notify.</p>
+<p>An <code>enum</code> representing the two type of section changes a <code>FetchedResultsController</code> can notify.</p>
 
           </section>
           <section class="section task-group-section">
@@ -265,10 +256,93 @@
                 </li>
               </ul>
             </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Section"></a>
+                <a name="//apple_ref/swift/Section/Section" class="dashAnchor"></a>
+                <a href="#/Section">
+                  <h3 class="section-name">Section</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus27FetchedResultsSectionChangeOACyxGSgSo09NSFetchedeF4Info_p7section_Si5indexSC0heG4TypeO06changeL0tcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(section:index:changeType:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus27FetchedResultsSectionChangeOACyxGSgSo09NSFetchedeF4Info_p7section_Si5indexSC0heG4TypeO06changeL0tcfc">init(section:index:changeType:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Creates a new FetchedResultsSectionChange element.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">?(</span><span class="n">section</span> <span class="nv">sectionInfo</span><span class="p">:</span> <span class="kt">NSFetchedResultsSectionInfo</span><span class="p">,</span> <span class="n">index</span> <span class="nv">sectionIndex</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">changeType</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">NSFetchedResultsChangeType</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>sectionInfo</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>NSFetchedResultsSectionInfo</code> instance</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>sectionIndex</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The section index</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The type of the reported change</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2018-04-30)</p>
+          <p>&copy; 2018 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2018-06-22)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
