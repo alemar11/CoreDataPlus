@@ -115,6 +115,7 @@ final class NSManagedObjectContextCacheTests: XCTestCase {
     let person6 = Person(context: mainContext)
     person6.firstName = "Tin6"
     person6.lastName = "Robots6"
+
     // When
     mainContext.setCachedManagedObject(person6, forKey: "testKey5")
     XCTAssertNotNil(mainContext.cachedManagedObject(forKey: "testKey5"))

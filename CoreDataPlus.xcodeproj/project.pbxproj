@@ -114,6 +114,10 @@
 		23948D1F1F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23948D1E1F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift */; };
 		23948D201F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23948D1E1F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift */; };
 		23948D211F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23948D1E1F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift */; };
+		23A35D532103D0EF00388BEA /* ThredSafeAccessible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A35D522103D0EF00388BEA /* ThredSafeAccessible.swift */; };
+		23A35D542103D0EF00388BEA /* ThredSafeAccessible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A35D522103D0EF00388BEA /* ThredSafeAccessible.swift */; };
+		23A35D552103D0EF00388BEA /* ThredSafeAccessible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A35D522103D0EF00388BEA /* ThredSafeAccessible.swift */; };
+		23A35D562103D0EF00388BEA /* ThredSafeAccessible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A35D522103D0EF00388BEA /* ThredSafeAccessible.swift */; };
 		23A8A44D1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A8A44C1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift */; };
 		23A8A44E1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A8A44C1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift */; };
 		23A8A44F1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A8A44C1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift */; };
@@ -226,6 +230,7 @@
 		23948D141F99332A00B3738D /* NSEntityDescription+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSEntityDescription+Utils.swift"; sourceTree = "<group>"; };
 		23948D1E1F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSEntityDescriptionUtilsTests.swift; sourceTree = "<group>"; };
 		23A35D512103995100388BEA /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = SOURCE_ROOT; };
+		23A35D522103D0EF00388BEA /* ThredSafeAccessible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThredSafeAccessible.swift; sourceTree = "<group>"; };
 		23A8A44C1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSFetchRequestResultCoreDataTests.swift; sourceTree = "<group>"; };
 		23A8A4501F9F89670038DE3A /* CoreDataPlusError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPlusError.swift; sourceTree = "<group>"; };
 		23B5806A1F94FEDF00A365C0 /* CoreDataPlus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreDataPlus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -384,6 +389,7 @@
 				2319729B204C6A66001008FA /* ObservedEvent.swift */,
 				23CFA588208E23CA006848EC /* FetchedResultsController.swift */,
 				2371895D20DD231900350F6E /* FetchedResultsChanges.swift */,
+				23A35D522103D0EF00388BEA /* ThredSafeAccessible.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -750,6 +756,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23A35D542103D0EF00388BEA /* ThredSafeAccessible.swift in Sources */,
 				23CFA58A208E23CA006848EC /* FetchedResultsController.swift in Sources */,
 				236350B91F95F11C00B3A16A /* NSManagedObjectContext+Cache.swift in Sources */,
 				23948D161F99332A00B3738D /* NSEntityDescription+Utils.swift in Sources */,
@@ -776,6 +783,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23A35D552103D0EF00388BEA /* ThredSafeAccessible.swift in Sources */,
 				23CFA58B208E23CA006848EC /* FetchedResultsController.swift in Sources */,
 				236350C41F95F11C00B3A16A /* NSManagedObjectContext+Cache.swift in Sources */,
 				23948D171F99332A00B3738D /* NSEntityDescription+Utils.swift in Sources */,
@@ -802,6 +810,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23A35D562103D0EF00388BEA /* ThredSafeAccessible.swift in Sources */,
 				23CFA58C208E23CA006848EC /* FetchedResultsController.swift in Sources */,
 				236350CF1F95F11D00B3A16A /* NSManagedObjectContext+Cache.swift in Sources */,
 				23948D181F99332A00B3738D /* NSEntityDescription+Utils.swift in Sources */,
@@ -828,6 +837,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23A35D532103D0EF00388BEA /* ThredSafeAccessible.swift in Sources */,
 				23CFA589208E23CA006848EC /* FetchedResultsController.swift in Sources */,
 				23948D151F99332A00B3738D /* NSEntityDescription+Utils.swift in Sources */,
 				23B580981F94FFF700A365C0 /* NSManagedObject+DelayedDeletable.swift in Sources */,

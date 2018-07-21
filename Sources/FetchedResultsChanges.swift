@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2018 Tinrobots.
@@ -177,7 +177,7 @@ extension FetchedResultsSectionChange {
     case .delete:
       self = .delete(info: info, index: sectionIndex)
     case .move, .update:
-      //preconditionFailure("Invalid section change type reported by NSFetchedResultsController.")
+      // preconditionFailure("Invalid section change type reported by NSFetchedResultsController.")
       return nil
     }
   }
