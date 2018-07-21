@@ -69,4 +69,26 @@ extension NSManagedObject {
     managedObjectContext?.delete(self)
   }
 
+  /// **CoreDataPlus**
+  ///
+  /// Performs the given block in the right context avoiding thread access issues.
+  public final func safeAccess<T>(_ block: (NSManagedObjectContext) throws -> T) rethrows -> T {
+    guard let context = managedObjectContext else { fatalError("The managed object doesn't have a context.") }
+
+    return try context.performAndWait { context -> T in
+      return try block(context)
+    }
+  }
+
+  /// **CoreDataPlus**
+  ///
+  /// Performs the given block in the right context avoiding thread access issues.
+  public final func safeAccess<T>(_ block: () throws -> T) rethrows -> T {
+    guard let context = managedObjectContext else { fatalError("The managed object doesn't have a context.") }
+
+    return try context.performAndWait { _ -> T in
+      return try block()
+    }
+  }
+
 }
