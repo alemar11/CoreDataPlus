@@ -225,6 +225,7 @@
 		2383AC631FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectDelayedDeletableTests.swift; sourceTree = "<group>"; };
 		23948D141F99332A00B3738D /* NSEntityDescription+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSEntityDescription+Utils.swift"; sourceTree = "<group>"; };
 		23948D1E1F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSEntityDescriptionUtilsTests.swift; sourceTree = "<group>"; };
+		23A35D512103995100388BEA /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = SOURCE_ROOT; };
 		23A8A44C1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSFetchRequestResultCoreDataTests.swift; sourceTree = "<group>"; };
 		23A8A4501F9F89670038DE3A /* CoreDataPlusError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPlusError.swift; sourceTree = "<group>"; };
 		23B5806A1F94FEDF00A365C0 /* CoreDataPlus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreDataPlus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -350,6 +351,7 @@
 		23B580841F94FF0300A365C0 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				23A35D512103995100388BEA /* CHANGELOG.md */,
 				23BAC1181FA7A7D8002EE4F1 /* Package.swift */,
 				236351241F95F53900B3A16A /* IDETemplateMacros.plist */,
 				236350E11F95F1A900B3A16A /* Info-Tests.plist */,
