@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.0.0
+
+- All the tests run with  `-com.apple.CoreData.ConcurrencyDebug 1`
+
 ### 0.9.1
 
 - Added more public APIs for `FetchedResultsController`.
