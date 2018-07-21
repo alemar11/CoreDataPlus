@@ -111,11 +111,18 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
     let sportCar1 = SportCar(context: context1)
     sportCar1.numberPlate = "sportCar1-testBatchFaultingWithDifferentContexts"
 
-    let person2 = Person(context: context2)
-    person2.firstName = "firstName-testBatchFaultingWithDifferentContexts"
-    person2.lastName = "lastName-testBatchFaultingWithDifferentContexts"
-    let car2 = Car(context: context2)
-    car2.numberPlate = "car2-testBatchFaultingWithDifferentContexts"
+    let person2 = context2.performAndWait { context -> Person in
+      let person = Person(context: context2)
+      person.firstName = "firstName-testBatchFaultingWithDifferentContexts"
+      person.lastName = "lastName-testBatchFaultingWithDifferentContexts"
+      return person
+    }
+
+    let car2 = context2.performAndWait { context -> Car in
+      let car = Car(context: context2)
+      car.numberPlate = "car2-testBatchFaultingWithDifferentContexts"
+      return car
+    }
 
     context1.performAndWait {
       try! context1.save()
@@ -127,7 +134,9 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
 
     // When
     context1.refreshAllObjects()
-    context2.refreshAllObjects()
+    context2.performAndWait {
+      context2.refreshAllObjects()
+    }
 
     let objects = [car1, sportCar1, person2, car2]
 
@@ -501,13 +510,17 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
     XCTAssertNotNil(context.cachedManagedObject(forKey: "cached-person"))
 
     let newContext = context.newBackgroundContext()
-
-    XCTAssertNil(newContext.cachedManagedObject(forKey: "cached-person"))
+    newContext.performAndWait {
+      XCTAssertNil(newContext.cachedManagedObject(forKey: "cached-person"))
+    }
 
     do {
-      _  = try Person.fetchCachedObject(in: newContext, forKey: "cached-person-2") { request in
-        request.predicate = NSPredicate(value: true)
+      _ = try newContext.performAndWait { context in
+        _  = try Person.fetchCachedObject(in: context, forKey: "cached-person-2") { request in
+          request.predicate = NSPredicate(value: true)
+        }
       }
+
     } catch {
       XCTAssertTrue(error is CoreDataPlusError)
       if case CoreDataPlusError.fetchExpectingOneObjectFailed = error {

@@ -191,7 +191,6 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
       }
     )
 
-
     XCTAssertThrowsError(
       try context.performSaveAndWait {
         let car1 = Car(context: context)
@@ -211,10 +210,14 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
 
       }
     ) { (error) in
-      XCTAssertNotNil(error)
+      context.performAndWait {
+ XCTAssertNotNil(error)
+      }
     }
 
+    context.performAndWait {
     context.rollback() // discards all the failing changes
+    }
 
     XCTAssertNoThrow(
       try context.performSaveAndWait {
@@ -242,7 +245,9 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
       }
     )
 
+    context.performAndWait {
     XCTAssertTrue(context.registeredObjects.isEmpty)
+    }
   }
 
   func testSaveAndWaitWithThrow() {
@@ -276,10 +281,12 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
     let stack = CoreDataStack.stack(type: .sqlite)
     let context = stack.mainContext.newBackgroundContext()
 
+    context.performAndWait {
     let person = Person(context: context)
     person.firstName = "Alessandro"
     person.lastName = "Test"
     try! context.save()
+    }
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
@@ -372,7 +379,9 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
     }
 
     wait(for: [saveExpectation3], timeout: 10)
+    context.performAndWait {
     context.rollback() // remove not valid changes
+    }
 
     let saveExpectation4 = expectation(description: "Save 4")
     context.performSave(after: {
