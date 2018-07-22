@@ -326,6 +326,34 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
 extension NSFetchRequestResult where Self: NSManagedObject {
 
+  // TODO: work in progress
+  internal static func batchUpdateObjects(properties: [PartialKeyPath<Self>: Any?], with context: NSManagedObjectContext, where predicate: NSPredicate, resultType: NSBatchUpdateRequestResultType = .statusOnlyResultType) throws -> NSBatchUpdateResult  {
+    guard context.persistentStoreCoordinator != nil else { throw CoreDataPlusError.persistentStoreCoordinatorNotFound(context: context) }
+
+    let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+    request.predicate = predicate
+
+    let batchRequest = NSBatchUpdateRequest(entityName: entityName)
+    //batchRequest.includesSubentities
+
+    let nilKeys = properties.filter { $0.value == nil }.keys
+    var copy = properties
+    for key in nilKeys {
+      copy[key] = NSExpression(forConstantValue: nil)
+    }
+    // https://stackoverflow.com/questions/32383112/setting-core-data-attribute-to-nil-with-nsbatchupdaterequest
+
+    batchRequest.propertiesToUpdate = copy
+    //configuration(batchRequest)
+
+    do {
+      // swiftlint:disable:next force_cast
+      return try context.execute(batchRequest) as! NSBatchUpdateResult
+    } catch {
+      throw CoreDataPlusError.executionFailed(error: error)
+    }
+  }
+
   /// **CoreDataPlus**
   ///
   /// Executes a batch delete on the context's persistent store coordinator.
