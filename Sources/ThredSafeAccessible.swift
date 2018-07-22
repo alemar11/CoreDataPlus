@@ -36,21 +36,6 @@ extension ThredSafeAccessible where Self: NSManagedObject {
   /// Performs the given block in the right thread for the `NSManagedObject`'s managedObjectContext.
   ///
   /// - Parameter block: The closure to be performed.
-  /// `block` accepts the current NSManagedObject's managedObjectContext as its argument and returns a value of the same or different type.
-  /// - Throws: It throws an error in cases of failure.
-  public func safeAccess<T>(_ block: (NSManagedObjectContext) throws -> T) rethrows -> T {
-    guard let context = managedObjectContext else { fatalError("\(self) doesn't have a managedObjectContext.") }
-
-    return try context.performAndWait { context -> T in
-      return try block(context)
-    }
-  }
-
-  /// **CoreDataPlus**
-  ///
-  /// Performs the given block in the right thread for the `NSManagedObject`'s managedObjectContext.
-  ///
-  /// - Parameter block: The closure to be performed.
   /// `block` accepts the current NSManagedObject as its argument and returns a value of the same or different type.
   /// - Throws: It throws an error in cases of failure.
   public func safeAccess<T>(_ block: (Self) throws -> T) rethrows -> T {
@@ -68,19 +53,6 @@ extension ThredSafeAccessible where Self: NSManagedObject {
 extension NSFetchedResultsController: ThredSafeAccessible { }
 
 extension ThredSafeAccessible where Self: NSFetchedResultsController<NSFetchRequestResult> {
-
-  /// **CoreDataPlus**
-  ///
-  /// Performs the given block in the right thread for the `NSFetchedResultsController`'s managedObjectContext.
-  ///
-  /// - Parameter block: The closure to be performed.
-  /// `block` accepts the current NSFetchedResultsController managedObjectContext as its argument and returns a value of the same or different type.
-  /// - Throws: It throws an error in cases of failure.
-  public func safeAccess<T>(_ block: (NSManagedObjectContext) throws -> T) rethrows -> T {
-    return try managedObjectContext.performAndWait { context -> T in
-      return try block(context)
-    }
-  }
 
   /// **CoreDataPlus**
   ///

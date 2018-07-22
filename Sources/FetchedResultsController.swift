@@ -20,7 +20,6 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-
 /**
 import CoreData
 
@@ -79,7 +78,7 @@ public class FetchedResultsController<T: NSManagedObject> {
     set {
       if let value = newValue {
         _delegate = WrapperFetchedResultsControllerDelegate<T>(owner: self, delegate: value)
-         underlyingFetchedResultsController.delegate = _delegate
+        underlyingFetchedResultsController.delegate = _delegate
       } else {
         _delegate = nil
       }
@@ -149,7 +148,7 @@ public class FetchedResultsController<T: NSManagedObject> {
   /// An handler to customize the index title for each section given its `name`.
   public var customSectionIndexTitleHandler: ((String) -> String?)? = nil {
     didSet {
-       underlyingFetchedResultsController.sectionIndexTitleClosure = customSectionIndexTitleHandler
+      underlyingFetchedResultsController.sectionIndexTitleClosure = customSectionIndexTitleHandler
     }
   }
 
@@ -181,18 +180,18 @@ public class FetchedResultsController<T: NSManagedObject> {
               managedObjectContext context: NSManagedObjectContext,
               sectionNameKeyPath: String? = nil,
               cacheName: String? = nil) {
-     underlyingFetchedResultsController = SectionIndexCustomizableFetchedResultsController(fetchRequest: fetchRequest,
-                                                                                        managedObjectContext: context,
-                                                                                        sectionNameKeyPath: sectionNameKeyPath,
-                                                                                        cacheName: cacheName)
+    underlyingFetchedResultsController = SectionIndexCustomizableFetchedResultsController(fetchRequest: fetchRequest,
+                                                                                          managedObjectContext: context,
+                                                                                          sectionNameKeyPath: sectionNameKeyPath,
+                                                                                          cacheName: cacheName)
   }
 
   deinit {
     // Core Data does not yet use weak references for delegates; the delegate must be set to nil for thread safety reasons.
     _delegate = nil
-     underlyingFetchedResultsController.delegate = nil
+    underlyingFetchedResultsController.delegate = nil
   }
-
+  
   // MARK: - Public Functions
 
   /// **CoreDataPlus**
@@ -288,7 +287,7 @@ internal class WrapperFetchedResultsControllerDelegate<T: NSManagedObject>: NSOb
                            atSectionIndex sectionIndex: Int,
                            for type: NSFetchedResultsChangeType) {
     if let change = FetchedResultsSectionChange<T>(section: sectionInfo, index: sectionIndex, changeType: type) {
-    delegate?.fetchedResultsController(owner, didChangeSection: change)
+      delegate?.fetchedResultsController(owner, didChangeSection: change)
     }
   }
 
@@ -337,4 +336,4 @@ private class SectionIndexCustomizableFetchedResultsController<T: NSFetchRequest
   }
 
 }
-**/
+*/

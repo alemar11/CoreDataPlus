@@ -20,7 +20,6 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-
 /**
 import XCTest
 @testable import CoreDataPlus
@@ -40,9 +39,11 @@ final class FetchedResultsControllerTests: XCTestCase {
   func testSetup() throws {
     // Given
     let stack = CoreDataStack.stack()
-    let context = stack.mainContext
-    context.fillWithSampleData()
-    try context.save()
+    let context = stack.mainContext.newBackgroundContext()
+    try context.performAndWait { _ in
+      context.fillWithSampleData()
+      try context.save()
+    }
 
     let request = Person.newFetchRequest()
     request.addSortDescriptors([NSSortDescriptor(key: #keyPath(Person.firstName), ascending: false)]) // at least a descriptor is required
@@ -77,7 +78,10 @@ final class FetchedResultsControllerTests: XCTestCase {
     // Then
     waitForExpectations(timeout: 3)
     XCTAssertEqual(context, controller.managedObjectContext)
-    XCTAssertNotNil(controller.fetchedObjects)
+    controller.managedObjectContext.performAndWait {
+      XCTAssertNotNil(controller.fetchedObjects)
+    }
+
     XCTAssertEqual(controller.object(at: IndexPath(item: 0, section: 0)), controller.fetchedObjects?.first)
     XCTAssertEqual(controller.fetchRequest, request)
     XCTAssertTrue(anyDelegate === controller.delegate)
