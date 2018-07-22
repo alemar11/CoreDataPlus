@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.0.0
+### 1.0.0 (WIP)
 
 - All the tests run with  `-com.apple.CoreData.ConcurrencyDebug 1`
 
