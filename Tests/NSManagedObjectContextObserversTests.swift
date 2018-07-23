@@ -47,10 +47,12 @@ final class NSManagedObjectContextObserversTests: XCTestCase {
     }
 
     let token2 = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+      print(notification.debugDescription)
       expectation2.fulfill()
     }
 
     let token3 = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
+      print(notification.debugDescription)
       expectation3.fulfill()
     }
 

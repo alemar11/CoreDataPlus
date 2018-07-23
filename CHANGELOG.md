@@ -2,6 +2,7 @@
 
 ### 1.0.0 (WIP)
 
+- Added utils for batch updates and deletes.
 - All the tests run with  `-com.apple.CoreData.ConcurrencyDebug 1`
 
 ### 0.9.1

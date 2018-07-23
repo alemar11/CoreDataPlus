@@ -541,7 +541,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
     try context.save()
 
     let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
-    let result = try Car.batchDeleteObjects(with: context, where: fiatPredicate, resultType: .resultTypeStatusOnly)
+    let result = try Car.batchDeleteObjects(with: context, resultType: .resultTypeStatusOnly) { $0.predicate = fiatPredicate }
 
     XCTAssertNotNil(result.status)
     XCTAssertTrue(result.status! == true)
@@ -556,7 +556,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
     try context.save()
 
     let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
-    let result = try Car.batchDeleteObjects(with: context, where: fiatPredicate, resultType: .resultTypeCount)
+    let result = try Car.batchDeleteObjects(with: context, resultType: .resultTypeCount) { $0.predicate = fiatPredicate }
 
     XCTAssertNotNil(result.count)
     XCTAssertTrue(result.count! > 1)
@@ -570,7 +570,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
     try context.save()
 
     let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
-    let result = try Car.batchDeleteObjects(with: context, where: fiatPredicate, resultType: .resultTypeObjectIDs)
+    let result = try Car.batchDeleteObjects(with: context, resultType: .resultTypeObjectIDs) { $0.predicate = fiatPredicate }
 
     XCTAssertNotNil(result.changes)
     XCTAssertTrue(result.changes!.keys.count == 1)
@@ -579,26 +579,26 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
 
   }
 
-  func testBatchDeleteObjectsWithResultTypeStatusOnlyThrowingAnException() {
+  func testBatchDeleteObjectsWithResultTypeStatusOnlyThrowingAnException() throws {
     // Given
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-    context.fillWithSampleData()
 
     // When, Then
-    do {
-      let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
-      try _ = Car.batchDeleteObjects(with: context, where: fiatPredicate, resultType: .resultTypeStatusOnly)
-    } catch {
-      switch error {
-      case CoreDataPlusError.persistentStoreCoordinatorNotFound(let errorContext):
-        let coreDataPlusError = error as! CoreDataPlusError
-        XCTAssertTrue(errorContext == context)
-        XCTAssertNil(coreDataPlusError.underlyingError)
-        XCTAssertNotNil(coreDataPlusError.localizedDescription)
-      default:
-        XCTFail("Unexepcted error type.")
-      }
+    let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
+    XCTAssertThrowsError(try Car.batchDeleteObjects(with: context, resultType: .resultTypeStatusOnly) { $0.predicate = fiatPredicate },
+                         "There should be an exception because the context doesn't have PSC") { (error) in
+                          switch error {
+                          case CoreDataPlusError.persistentStoreCoordinatorNotFound(let errorContext):
+                            let coreDataPlusError = error as! CoreDataPlusError
+                            XCTAssertTrue(errorContext == context)
+                            XCTAssertNil(coreDataPlusError.underlyingError)
+                            XCTAssertNotNil(coreDataPlusError.localizedDescription)
+                          default:
+                            XCTFail("Unexepcted error type.")
+                          }
     }
+
+
   }
 
   func testBatchDeleteAllEntities() throws {
@@ -638,11 +638,66 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
     XCTAssertTrue(result.status!)
 
     context.reset()
-    context.reset()
     let sportCarCount = try SportCar.count(in: context)
     let expensiveSportCarCount = try ExpensiveSportCar.count(in: context)
     XCTAssertEqual(sportCarCount, expectedRemainingSportCartCount)
     XCTAssertEqual(expensiveSportCarCount, preDeleteExpensiveSportCarCount)
+  }
+
+  func testBatchDeleteObjectsMarkedForDeletion() throws {
+    // Given
+    let stack = CoreDataStack.stack(type: .sqlite)
+    let context = stack.mainContext
+    context.fillWithSampleData()
+    try context.save()
+
+    let kias = [9, 10, 11]
+    let kiasCars = try Car.fetch(in: context, with: { $0.predicate = NSPredicate(format: "%K IN %@", #keyPath(Car.numberPlate), kias) })
+    XCTAssertEqual(kiasCars.count, 3)
+    kiasCars.forEach { car in
+      car.markForDelayedDeletion()
+    }
+    try context.save()
+
+    let result = try Car.batchDeleteObjectsMarkedForDeletion(with: context, olderThan: Date(), resultType: .resultTypeStatusOnly)
+    XCTAssertTrue(result.status!)
+
+    try context.save()
+    let kiasCars2 = try Car.fetch(in: context, with: { $0.predicate = NSPredicate(format: "%K IN %@", #keyPath(Car.numberPlate), kias) })
+    XCTAssertEqual(kiasCars2.count, 0)
+  }
+
+  // MARK: Batch Update
+
+  func testBatchUpdateObjectsWithResultTypeStatusOnly() throws {
+    // Given
+    let stack = CoreDataStack.stack(type: .sqlite)
+    let context = stack.mainContext
+    context.fillWithSampleData()
+    try context.save()
+    
+    let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
+    let fcaPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FCA")
+
+    let fiatCount = try Car.count(in: context) { $0.predicate = fiatPredicate }
+    let fcaCount = try Car.count(in: context) { $0.predicate = fcaPredicate }
+    XCTAssertEqual(fcaCount, 0)
+
+    let result = try Car.batchUpdateObjects(with: context) {
+      $0.predicate = fiatPredicate
+      $0.propertiesToUpdate = [#keyPath(Car.maker): "FCA"]
+    }
+
+    XCTAssertNotNil(result.result)
+    XCTAssertTrue(result.result as! Bool)
+
+    context.reset()
+    let newFiatCount = try Car.count(in: context) { $0.predicate = fiatPredicate }
+    XCTAssertEqual(newFiatCount, 0)
+    let newFCACount = try Car.count(in: context) { $0.predicate = fcaPredicate }
+    XCTAssertEqual(newFCACount, fiatCount)
+
+    // NSExpression(forConstantValue: nil)
   }
 
 }
