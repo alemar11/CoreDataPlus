@@ -38,10 +38,6 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-com.apple.CoreData.SyntaxtColoredLogging YES"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
             argument = "-com.apple.CoreData.ThreadingDebug 3"
             isEnabled = "YES">
          </CommandLineArgument>

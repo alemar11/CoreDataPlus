@@ -327,21 +327,18 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 extension NSFetchRequestResult where Self: NSManagedObject {
 
   // TODO: work in progress
-  internal static func batchUpdateObjects(properties: [AnyHashable : Any], with context: NSManagedObjectContext, where predicate: NSPredicate, resultType: NSBatchUpdateRequestResultType = .statusOnlyResultType) throws -> NSBatchUpdateResult  {
+  internal static func batchUpdateObjects(properties: [String : Any],
+                                          with context: NSManagedObjectContext,
+                                          resultType: NSBatchUpdateRequestResultType = .statusOnlyResultType,
+                                          configuration: ((NSFetchRequest<Self>) -> Void)? = nil) throws -> NSBatchUpdateResult {
     guard context.persistentStoreCoordinator != nil else { throw CoreDataPlusError.persistentStoreCoordinatorNotFound(context: context) }
 
-    let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-    request.predicate = predicate
+    let request = NSFetchRequest<Self>(entityName: entityName)
+    configuration?(request)
 
     let batchRequest = NSBatchUpdateRequest(entityName: entityName)
-    //batchRequest.includesSubentities
-
-
-    // https://stackoverflow.com/questions/32383112/setting-core-data-attribute-to-nil-with-nsbatchupdaterequest
-    // NSExpression(forConstantValue: nil)
-    // TODO: conver [AnyHashable : Any] into [String, Any?]
+    batchRequest.includesSubentities = request.includesSubentities //TODO
     batchRequest.propertiesToUpdate = properties
-    //configuration(batchRequest)
 
     do {
       // swiftlint:disable:next force_cast
@@ -365,7 +362,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   @discardableResult
   // swiftlint:disable:next line_length
   public static func batchDeleteObjects(with context: NSManagedObjectContext, where predicate: NSPredicate, resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly) throws -> NSBatchDeleteResult {
-    return try batchDeleteObjects(with: context, where: predicate) { $0.resultType = resultType }
+    return try batchDeleteObjects(with: context, resultType: resultType, configuration: { $0.predicate = predicate })
   }
 
   /// **CoreDataPlus**
@@ -373,21 +370,23 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// Executes a batch delete on the context's persistent store coordinator.
   /// - Parameters:
   ///   - context: The context whose the persistent store coordinator will be used to execute the batch delete.
-  ///   - predicate: The predicate used to delete objects.
-  ///   - configuration: Configurable batch delete request.
+  ///   - resultType: The type of the batch delete result (default: `NSBatchDeleteRequestResultType.resultTypeStatusOnly`).
+  ///   - configuration: An handler to configure the request.
   /// - Returns: a NSBatchDeleteResult result.
   /// - Throws: It throws an error in cases of failure.
   /// - Note: A batch delete can only be done on a SQLite store.
   @available(iOS 9, tvOS 9, watchOS 2, macOS 10.12, *)
   @discardableResult
-  public static func batchDeleteObjects(with context: NSManagedObjectContext, where predicate: NSPredicate, and configuration: (NSBatchDeleteRequest) -> Void) throws -> NSBatchDeleteResult {
+  public static func batchDeleteObjects(with context: NSManagedObjectContext,
+                                         resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly,
+                                         configuration: ((NSFetchRequest<Self>) -> Void)? = nil) throws -> NSBatchDeleteResult {
     guard context.persistentStoreCoordinator != nil else { throw CoreDataPlusError.persistentStoreCoordinatorNotFound(context: context) }
 
-    let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-    request.predicate = predicate
+    let request = NSFetchRequest<Self>(entityName: entityName)
+    configuration?(request)
 
-    let batchRequest = NSBatchDeleteRequest(fetchRequest: request)
-    configuration(batchRequest)
+    let batchRequest = NSBatchDeleteRequest(fetchRequest: request as! NSFetchRequest<NSFetchRequestResult>)
+    batchRequest.resultType = resultType
 
     do {
       // swiftlint:disable:next force_cast

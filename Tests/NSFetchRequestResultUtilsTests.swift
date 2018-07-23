@@ -601,4 +601,48 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
     }
   }
 
+  func testBatchDeleteAllEntities() throws {
+    // Given
+    let stack = CoreDataStack.stack(type: .sqlite)
+    let context = stack.mainContext
+    context.fillWithSampleData()
+    try context.save()
+
+    // When, Then
+    let result = try SportCar.batchDeleteObjects(with: context, resultType: .resultTypeStatusOnly)
+    XCTAssertTrue(result.status!)
+
+    context.reset()
+    let sportCarCount = try ExpensiveSportCar.count(in: context)
+    let expensiveSportCarCount = try ExpensiveSportCar.count(in: context)
+    XCTAssertEqual(sportCarCount, 0)
+    XCTAssertEqual(expensiveSportCarCount, 0)
+  }
+
+  func testBatchDeleteEntitiesExcludingSubEntities() throws {
+    // Given
+    let stack = CoreDataStack.stack(type: .sqlite)
+    let context = stack.mainContext
+    context.fillWithSampleData()
+    try context.save()
+
+    let preDeleteSportCarCount = try SportCar.count(in: context) // This count include all the subentities
+    let preDeleteExpensiveSportCarCount = try ExpensiveSportCar.count(in: context)
+    let expectedRemovedCarCount = preDeleteSportCarCount - preDeleteExpensiveSportCarCount
+    let expectedRemainingSportCartCount = preDeleteSportCarCount - expectedRemovedCarCount
+
+    // When, Then
+    let result = try SportCar.batchDeleteObjects(with: context, resultType: .resultTypeStatusOnly) { request in
+      request.includesSubentities = false
+    }
+    XCTAssertTrue(result.status!)
+
+    context.reset()
+    context.reset()
+    let sportCarCount = try SportCar.count(in: context)
+    let expensiveSportCarCount = try ExpensiveSportCar.count(in: context)
+    XCTAssertEqual(sportCarCount, expectedRemainingSportCartCount)
+    XCTAssertEqual(expensiveSportCarCount, preDeleteExpensiveSportCarCount)
+  }
+
 }
