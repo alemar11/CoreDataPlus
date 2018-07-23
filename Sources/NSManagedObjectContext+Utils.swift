@@ -113,30 +113,27 @@ extension NSManagedObjectContext {
   /// - Parameters:
   ///   - changes: Changes to be applied in the current context before the saving operation. If they fail throwing an execption, the context will be reset.
   ///   - completion: Block executed (on the context’s queue.) at the end of the saving operation.
-  public final func performSave(after changes: () throws -> Void, completion: ( (CoreDataPlusError?) -> Void )? = nil ) {
-    // swiftlint:disable:next identifier_name
-    withoutActuallyEscaping(changes) { _changes in
-      perform { [unowned unownedSelf = self] in
-        var internalError: CoreDataPlusError?
+  public final func performSave(after changes: @escaping () throws -> Void, completion: ( (CoreDataPlusError?) -> Void )? = nil ) {
+    perform { [unowned unownedSelf = self] in
+      var internalError: CoreDataPlusError?
 
-        do {
-          try _changes()
-        } catch {
-          internalError = CoreDataPlusError.executionFailed(error: error)
-        }
-
-        guard internalError == nil else {
-          completion?(internalError)
-          return
-        }
-
-        do {
-          try unownedSelf.save()
-        } catch {
-          internalError = CoreDataPlusError.saveFailed(error: error)
-        }
-        completion?(internalError)
+      do {
+        try changes()
+      } catch {
+        internalError = CoreDataPlusError.executionFailed(error: error)
       }
+
+      guard internalError == nil else {
+        completion?(internalError)
+        return
+      }
+
+      do {
+        try unownedSelf.save()
+      } catch {
+        internalError = CoreDataPlusError.saveFailed(error: error)
+      }
+      completion?(internalError)
     }
   }
 
@@ -189,13 +186,15 @@ extension NSManagedObjectContext {
   /// **CoreDataPlus**
   ///
   /// Saves the `NSManagedObjectContext` up to the last parent `NSManagedObjectContext`.
-  private final func performSaveUpToTheLastParentContextAndWait() throws {
+  internal final func performSaveUpToTheLastParentContextAndWait() throws {
     var parentContext: NSManagedObjectContext? = self
 
     while parentContext != nil {
       var saveError: Error? = nil
 
       parentContext!.performAndWait {
+        guard parentContext!.hasChanges else { return }
+
         do {
           try parentContext!.save()
         } catch {
@@ -203,7 +202,10 @@ extension NSManagedObjectContext {
         }
       }
       parentContext = parentContext!.parent
-      if let error = saveError { throw CoreDataPlusError.saveFailed(error: error) }
+
+      if let error = saveError {
+        throw CoreDataPlusError.saveFailed(error: error)
+      }
     }
   }
 
@@ -216,6 +218,7 @@ extension NSManagedObjectContext {
   /// **CoreDataPlus**
   ///
   /// Synchronously performs a given block on the context’s queue and returns the final result.
+  /// - Throws: It throws an error in cases of failure.
   public func performAndWait<T>(_ block: (NSManagedObjectContext) throws -> T) rethrows -> T {
     return try _performAndWait(function: performAndWait, execute: block, rescue: { throw $0 })
   }

@@ -25,38 +25,41 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSManagedObjectDelayedDeletableTests: XCTestCase {
+class ThreadSafeAccessibleTests: XCTestCase {
 
-  func testMarkAsDelayedDeletable() {
+  func testManagedObjectThreadSafeAccess() {
     let stack = CoreDataStack.stack()
-    let context = stack.mainContext
-    context.fillWithSampleData()
+    let context = stack.mainContext.newBackgroundContext()
+    let car = context.performAndWait { return Car(context: $0) }
+    car.safeAccess { XCTAssertEqual($0.managedObjectContext, context) }
+  }
 
-    // Given
-    let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
-    let cars = try! Car.fetch(in: context) { $0.predicate = fiatPredicate }
+  func testFetchedResultsControllerThreadSafeAccess() throws {
+    let stack = CoreDataStack.stack()
+    let context = stack.mainContext.newBackgroundContext()
+    try context.performAndWait { _ in
+      context.fillWithSampleData()
+      try context.save()
+    }
 
-    // When, Then
-    for car in cars {
-      XCTAssertNil(car.markedForDeletionAsOf)
-      XCTAssertFalse(car.hasChangedForDelayedDeletion)
-      car.markForDelayedDeletion()
+    let request = Car.newFetchRequest()
+    request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Car.numberPlate), ascending: true)]
+    let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+    try controller.performFetch()
+
+    let cars = controller.fetchedObjects!
+    let firstCar = controller.object(at: IndexPath(item: 0, section: 0)) as Car
+
+    firstCar.safeAccess {
+      XCTAssertEqual(controller.managedObjectContext, $0.managedObjectContext)
     }
 
     for car in cars {
-      XCTAssertNotNil(car.markedForDeletionAsOf)
-      XCTAssertTrue(car.hasChangedForDelayedDeletion)
+      _ = car.safeAccess { car -> String in
+        XCTAssertEqual(controller.managedObjectContext, context)
+        return car.numberPlate
+      }
     }
-
-    // When, Then
-    try! context.save()
-    let fiatNotDeletablePredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [fiatPredicate, Car.notMarkedForLocalDeletionPredicate])
-    let notDeletableCars = try! Car.fetch(in: context) { $0.predicate = fiatNotDeletablePredicate }
-    XCTAssertTrue(notDeletableCars.isEmpty)
-
-    let fiatDeletablePredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [fiatPredicate, Car.markedForLocalDeletionPredicate])
-    let deletableCars = try! Car.fetch(in: context) { $0.predicate = fiatDeletablePredicate }
-    XCTAssertTrue(deletableCars.count > 0)
   }
 
 }

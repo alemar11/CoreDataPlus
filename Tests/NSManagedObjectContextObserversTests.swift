@@ -47,10 +47,12 @@ final class NSManagedObjectContextObserversTests: XCTestCase {
     }
 
     let token2 = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+      print(notification.debugDescription)
       expectation2.fulfill()
     }
 
     let token3 = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
+      print(notification.debugDescription)
       expectation3.fulfill()
     }
 
@@ -158,12 +160,16 @@ final class NSManagedObjectContextObserversTests: XCTestCase {
       expectation3.fulfill()
     }
 
-    anotherContext.fillWithSampleData()
-    try anotherContext.save()
+    try anotherContext.performAndWait { context in
+      context.fillWithSampleData()
+      try context.save()
+    }
 
     waitForExpectations(timeout: 2)
     XCTAssertFalse(context.hasChanges)
-    XCTAssertFalse(anotherContext.hasChanges)
+    anotherContext.performAndWait {
+      XCTAssertFalse(anotherContext.hasChanges)
+    }
 
     notificationCenter.removeObserver(token1)
     notificationCenter.removeObserver(token2)
@@ -196,12 +202,16 @@ final class NSManagedObjectContextObserversTests: XCTestCase {
       expectation3.fulfill()
     }
 
-    anotherContext.fillWithSampleData()
-    try anotherContext.save()
+    try anotherContext.performAndWait { context in
+      context.fillWithSampleData()
+      try context.save()
+    }
 
     waitForExpectations(timeout: 2)
     XCTAssertTrue(context.hasChanges) // dirtied by the parent-child relationship
-    XCTAssertFalse(anotherContext.hasChanges)
+    anotherContext.performAndWait {
+      XCTAssertFalse(anotherContext.hasChanges)
+    }
 
     notificationCenter.removeObserver(token1)
     notificationCenter.removeObserver(token2)
@@ -431,24 +441,29 @@ final class NSManagedObjectContextObserversTests: XCTestCase {
       expectation5.fulfill()
     }
 
-    let persons = try Person.fetch(in: anotherContext)
+    try anotherContext.performAndWait { _ in
+      let persons = try Person.fetch(in: anotherContext)
 
-    for person in persons {
-      person.firstName += " Updated"
-    }
+      for person in persons {
+        person.firstName += " Updated"
+      }
 
-    let person3_inserted = Person(context: anotherContext)
-    person3_inserted.firstName = "Alessandro"
-    person3_inserted.lastName = "Marzoli"
+      let person3_inserted = Person(context: anotherContext)
+      person3_inserted.firstName = "Alessandro"
+      person3_inserted.lastName = "Marzoli"
 
-    anotherContext.performAndWait {
+
       try! anotherContext.save() // it will fire [1]
     }
 
     waitForExpectations(timeout: 20)
     XCTAssertFalse(context.hasChanges)
-    XCTAssertFalse(anotherContext.hasChanges)
-    XCTAssertEqual(try Person.count(in: anotherContext), 3)
+
+    try anotherContext.performAndWait { _ in
+      XCTAssertFalse(anotherContext.hasChanges)
+      XCTAssertEqual(try Person.count(in: anotherContext), 3)
+
+    }
 
     notificationCenter.removeObserver(token1)
     notificationCenter.removeObserver(token2)
@@ -493,22 +508,27 @@ final class NSManagedObjectContextObserversTests: XCTestCase {
 
     try context.save()
 
-    let persons = try Person.fetch(in: anotherContext)
+    try anotherContext.performAndWait {_ in
+      let persons = try Person.fetch(in: anotherContext)
 
-    for person in persons {
-      person.firstName += " Updated"
+      for person in persons {
+        person.firstName += " Updated"
+      }
+
+      let person3_inserted = Person(context: anotherContext)
+      person3_inserted.firstName = "Alessandro"
+      person3_inserted.lastName = "Marzoli"
+
+      try anotherContext.save()
     }
 
-    let person3_inserted = Person(context: anotherContext)
-    person3_inserted.firstName = "Alessandro"
-    person3_inserted.lastName = "Marzoli"
-
-    try anotherContext.save()
 
     waitForExpectations(timeout: 2)
     XCTAssertFalse(context.hasChanges)
-    XCTAssertFalse(anotherContext.hasChanges)
-    XCTAssertEqual(try Person.count(in: anotherContext), 3)
+    try anotherContext.performAndWait { _ in
+      XCTAssertFalse(anotherContext.hasChanges)
+      XCTAssertEqual(try Person.count(in: anotherContext), 3)
+    }
 
     notificationCenter.removeObserver(token1)
     notificationCenter.removeObserver(token2)
@@ -533,6 +553,7 @@ final class NSManagedObjectContextObserversTests: XCTestCase {
     car1.numberPlate = "14"
 
     try context.save()
+
     let request = Person.fetchRequest()
     // request.addSortDescriptors([NSSortDescriptor(key: "firstName", ascending: false)]) // with a descriptors the context will materialize all the Person objects
     request.addSortDescriptors([])
@@ -554,32 +575,38 @@ final class NSManagedObjectContextObserversTests: XCTestCase {
       expectation1.fulfill()
     }
 
-    let persons = try Person.fetch(in: anotherContext)
+    var person3ObjectId: NSManagedObjectID?
 
-    // Insert a new car object on anohterContext
-    let car2 = SportCar(context: anotherContext)
-    car2.maker = "BMW"
-    car2.model = "M6 Coupe"
-    car2.numberPlate = "200"
+    try anotherContext.performAndWait { _ in
+      let persons = try Person.fetch(in: anotherContext)
 
-    // Insert a new person object on anohterContext
-    let person3 = Person(context: anotherContext)
-    person3.firstName = "Alessandro"
-    person3.lastName = "Marzoli"
+      // Insert a new car object on anohterContext
+      let car2 = SportCar(context: anotherContext)
+      car2.maker = "BMW"
+      car2.model = "M6 Coupe"
+      car2.numberPlate = "200"
 
-    // Update a faulted relationship
-    let firstPerson = persons.filter { $0.firstName == person1.firstName }.first!
-    firstPerson.cars = Set([car2])
+      // Insert a new person object on anohterContext
+      let person3 = Person(context: anotherContext)
+      person3.firstName = "Alessandro"
+      person3.lastName = "Marzoli"
 
-    try anotherContext.save()
+      // Update a faulted relationship
+      let firstPerson = persons.filter { $0.firstName == person1.firstName }.first!
+      firstPerson.cars = Set([car2])
+
+      try anotherContext.save()
+      person3ObjectId = person3.objectID
+    }
 
     waitForExpectations(timeout: 5)
 
     XCTAssertEqual(delegate.updatedObjects.count + delegate.movedObjects.count, 1)
-    XCTAssertEqual(delegate.insertedObjects.count, 1) // the FRC monitors only for Person object
+    XCTAssertEqual(delegate.insertedObjects.count, 1) // the FRC monitors only for Person objects
 
     XCTAssertEqual(context.registeredObjects.count, 4)
-    let expectedIds = Set([person1.objectID, person2.objectID, person3.objectID, car1.objectID])
+
+    let expectedIds = Set([person1.objectID, person2.objectID, person3ObjectId!, car1.objectID])
     let foundIds = Set(context.registeredObjects.compactMap { $0.objectID })
 
     XCTAssertEqual(expectedIds, foundIds)

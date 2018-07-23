@@ -29,57 +29,62 @@ extension Collection where Element: NSManagedObject {
 
   /// Specifies that all the `NSManagedObject` objects (with a `NSManangedObjectContext`) should be removed from its persistent store when changes are committed.
   public func delete() {
-   let managedObjectsWithtContext = self.filter { $0.managedObjectContext != nil }
+    let managedObjectsWithtContext = self.filter { $0.managedObjectContext != nil }
     for object in managedObjectsWithtContext {
-      object.delete()
+      object.safeAccess {
+        $0.delete()
+      }
     }
   }
 
-    /// **CoreDataPlus**
-    ///
-    /// Fetches all the faulted object in one batch executing a single fetch request for all objects of the same type (or ancestor) that we’re interested in.
-    /// - Throws: It throws an error in cases of failure.
-    /// - Note: Materializing all objects in one batch is faster than triggering the fault for each object on its own.
-    public func fetchFaultedObjects() throws {
-        guard !self.isEmpty else { return }
+  /// **CoreDataPlus**
+  ///
+  /// Fetches all the faulted object in one batch executing a single fetch request for all objects of the same type (or ancestor) that we’re interested in.
+  /// - Throws: It throws an error in cases of failure.
+  /// - Note: Materializing all objects in one batch is faster than triggering the fault for each object on its own.
+  public func fetchFaultedObjects() throws {
+    guard !self.isEmpty else { return }
 
-        let faults = self.filter { $0.isFault }
-        guard faults.count > 0 else { return }
+    let faults = self.filter { $0.isFault }
+    guard faults.count > 0 else { return }
 
-        let managedObjectsWithoutContext = self.filter { $0.managedObjectContext == nil }
-        precondition(managedObjectsWithoutContext.isEmpty, "\(managedObjectsWithoutContext) haven't a NSManagedObjectContext.")
+    let managedObjectsWithoutContext = self.filter { $0.managedObjectContext == nil }
+    precondition(managedObjectsWithoutContext.isEmpty, "\(managedObjectsWithoutContext) haven't a NSManagedObjectContext.")
 
-        let groupedManagedObjects = Dictionary(grouping: self) { ObjectIdentifier($0.managedObjectContext!) }
+    let groupedManagedObjects = Dictionary(grouping: self) { ObjectIdentifier($0.managedObjectContext!) }
 
-        for (_, objects) in groupedManagedObjects where !objects.isEmpty {
+    for (_, objects) in groupedManagedObjects where !objects.isEmpty {
 
-            let context = objects.first!.managedObjectContext!
+      let context = objects.first!.managedObjectContext!
 
-            // avoid multiple fetches for subclass entities.
-            let entities = objects.entities().entitiesKeepingOnlyCommonEntityAncestors()
+      // avoid multiple fetches for subclass entities.
+      let entities = objects.entities().entitiesKeepingOnlyCommonEntityAncestors()
 
-            for entity in entities {
-                let request = NSFetchRequest<NSFetchRequestResult>()
-                request.entity = entity
-                request.returnsObjectsAsFaults = false
-                request.predicate = NSPredicate(format: "self IN %@", faults)
+      for entity in entities {
+        let request = NSFetchRequest<NSFetchRequestResult>()
+        request.entity = entity
+        request.returnsObjectsAsFaults = false
+        request.predicate = NSPredicate(format: "self IN %@", faults)
 
-                do {
-                    try context.fetch(request)
-                } catch {
-                    throw CoreDataPlusError.fetchFailed(error: error)
-                }
-            }
-
+        do {
+          _ = try context.performAndWait { _ in
+            try context.fetch(request)
+          }
+        } catch {
+          throw CoreDataPlusError.fetchFailed(error: error)
         }
-    }
 
-    /// **CoreDataPlus**
-    ///
-    /// Returns all the different `NSEntityDescription` defined in the collection.
-    public func entities() -> Set<NSEntityDescription> {
-        return Set(self.map { $0.entity })
+      }
+
     }
+  }
+
+  /// **CoreDataPlus**
+  ///
+  /// Returns all the different `NSEntityDescription` defined in the collection.
+  public func entities() -> Set<NSEntityDescription> {
+    return Set(self.map { $0.entity })
+  }
 
 }
 
@@ -87,38 +92,38 @@ extension Collection where Element: NSManagedObject {
 
 extension Collection where Element: NSEntityDescription {
 
-    /// **CoreDataPlus**
-    ///
-    /// Returns a collection of `NSEntityDescription` with only the commong entity ancestors.
-    internal func entitiesKeepingOnlyCommonEntityAncestors() -> Set<NSEntityDescription> {
-        let grouped = Dictionary(grouping: self) { return $0.topMostEntity }
-        var result = [NSEntityDescription]()
+  /// **CoreDataPlus**
+  ///
+  /// Returns a collection of `NSEntityDescription` with only the commong entity ancestors.
+  internal func entitiesKeepingOnlyCommonEntityAncestors() -> Set<NSEntityDescription> {
+    let grouped = Dictionary(grouping: self) { return $0.topMostEntity }
+    var result = [NSEntityDescription]()
 
-        grouped.forEach { _, entities in
-            let set = Set(entities)
-            let test = set.reduce([]) { (result, entity) -> [NSEntityDescription] in
-                var newResult = result
-                guard !newResult.isEmpty else { return [entity] }
+    grouped.forEach { _, entities in
+      let set = Set(entities)
+      let test = set.reduce([]) { (result, entity) -> [NSEntityDescription] in
+        var newResult = result
+        guard !newResult.isEmpty else { return [entity] }
 
-                for (index, entityResult) in result.enumerated() {
-                    if let ancestor = entityResult.commonEntityAncestor(with: entity) {
-                        if !newResult.contains(ancestor) {
-                            newResult.remove(at: index)
-                            newResult.append(ancestor)
-                        }
-                    } else { // this condition should be never verified
-                        newResult.append(entity)
-                    }
-                }
-
-                return newResult
+        for (index, entityResult) in result.enumerated() {
+          if let ancestor = entityResult.commonEntityAncestor(with: entity) {
+            if !newResult.contains(ancestor) {
+              newResult.remove(at: index)
+              newResult.append(ancestor)
             }
-
-            result.append(contentsOf: test)
-
+          } else { // this condition should be never verified
+            newResult.append(entity)
+          }
         }
 
-        return Set(result)
+        return newResult
+      }
+
+      result.append(contentsOf: test)
+
     }
+
+    return Set(result)
+  }
 
 }

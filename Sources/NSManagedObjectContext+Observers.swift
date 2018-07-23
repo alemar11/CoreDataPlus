@@ -304,13 +304,10 @@ extension NSManagedObjectContext {
   /// - Parameters:
   ///   - notification: An instance of an `NSManagedObjectContextDidSave` notification posted by another context.
   ///   - completion: The block to be executed after the merge completes.
-  public func performMergeChanges(from notification: ContextDidSaveNotification, completion: () -> Void = {}) {
-    // swiftlint:disable:next identifier_name
-    withoutActuallyEscaping(completion) { (_completion) -> Void in
-      perform {
-        self.mergeChanges(fromContextDidSave: notification.notification)
-        _completion()
-      }
+  public func performMergeChanges(from notification: ContextDidSaveNotification, completion: @escaping () -> Void = {}) {
+    perform {
+      self.mergeChanges(fromContextDidSave: notification.notification)
+      completion()
     }
 
   }
