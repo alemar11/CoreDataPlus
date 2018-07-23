@@ -8,12 +8,12 @@
 
 ### 0.9.1
 
-- Added more public APIs for `FetchedResultsController`.
+- Added more public API.
 - More tests.
 
 ### 0.9.0
 
-- Added a typed `FetchedResultsController`.
+- Added  `FetchedResultsObjectChange` and  `FetchedResultsSectionInfo`.
 - Fixes.
 
 ### 0.8.0
