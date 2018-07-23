@@ -186,7 +186,7 @@ extension NSManagedObjectContext {
   /// **CoreDataPlus**
   ///
   /// Saves the `NSManagedObjectContext` up to the last parent `NSManagedObjectContext`.
-  private final func performSaveUpToTheLastParentContextAndWait() throws {
+  internal final func performSaveUpToTheLastParentContextAndWait() throws {
     var parentContext: NSManagedObjectContext? = self
 
     while parentContext != nil {
@@ -200,7 +200,10 @@ extension NSManagedObjectContext {
         }
       }
       parentContext = parentContext!.parent
-      if let error = saveError { throw CoreDataPlusError.saveFailed(error: error) }
+
+      if let error = saveError {
+        throw CoreDataPlusError.saveFailed(error: error)
+      }
     }
   }
 

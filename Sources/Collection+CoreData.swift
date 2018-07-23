@@ -31,7 +31,9 @@ extension Collection where Element: NSManagedObject {
   public func delete() {
     let managedObjectsWithtContext = self.filter { $0.managedObjectContext != nil }
     for object in managedObjectsWithtContext {
-      object.delete()
+      object.safeAccess {
+        $0.delete()
+      }
     }
   }
 

@@ -512,9 +512,10 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
     XCTAssertEqual(context.registeredObjects.count, 2) // person2 is discarded because it cannot be saved
   }
 
-  func testCollectionDelete() {
+  func testCollectionDelete() throws {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext
+    let newContext = context.newBackgroundContext()
 
     let car1 = Car(context: context)
     car1.maker = "FIAT"
@@ -529,14 +530,24 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
     person1.firstName = "Tin2"
     person1.lastName = "Robots2"
 
-    let list = [car1, person1, person2]
+    let person3 = newContext.performAndWait({ context -> Person in
+      let person3 = Person(context: context)
+      person3.firstName = "Tin"
+      person3.lastName = "Robots"
+      return person3
+    })
+
+
+    let list = [car1, person1, person2, person3]
     list.delete()
 
     for mo in list {
-      if mo === person2 {
-        XCTAssertNil(mo.managedObjectContext)
-      } else {
-        XCTAssertTrue(mo.isDeleted)
+      mo.managedObjectContext?.performAndWait {
+        if mo === person2 {
+          XCTAssertNil(mo.managedObjectContext)
+        } else {
+          XCTAssertTrue(mo.isDeleted)
+        }
       }
     }
 
