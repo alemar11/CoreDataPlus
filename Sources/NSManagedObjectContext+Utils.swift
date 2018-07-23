@@ -193,6 +193,8 @@ extension NSManagedObjectContext {
       var saveError: Error? = nil
 
       parentContext!.performAndWait {
+        guard parentContext!.hasChanges else { return }
+        
         do {
           try parentContext!.save()
         } catch {

@@ -553,5 +553,42 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
 
   }
 
+  func testPerformSaveUpToTheLastParentContextAndWait() throws {
+    let stack = CoreDataStack.stack()
+    let mainContext = stack.mainContext
+    let backgroundContext = mainContext.newBackgroundContext(asChildContext: true) // main context children
+    let childBackgroundContext = backgroundContext.newBackgroundContext(asChildContext: true) // background context children
+
+    childBackgroundContext.performAndWait { context in
+      let person = Person(context: context)
+      person.firstName = "Alessandro"
+      person.lastName = "Marzoli"
+    }
+
+    try childBackgroundContext.performSaveUpToTheLastParentContextAndWait()
+    try backgroundContext.performAndWait { _ in
+      let count = try Person.count(in: backgroundContext)
+      XCTAssertEqual(count, 1)
+    }
+
+    let count = try Person.count(in: mainContext)
+    XCTAssertEqual(count, 1)
+  }
+
+  func testPerformSaveUpToTheLastParentContextAndWaitWithoutChanges() throws {
+    let stack = CoreDataStack.stack()
+    let mainContext = stack.mainContext
+    let backgroundContext = mainContext.newBackgroundContext(asChildContext: true) // main context children
+    let childBackgroundContext = backgroundContext.newBackgroundContext(asChildContext: true) // background context children
+
+    try childBackgroundContext.performSaveUpToTheLastParentContextAndWait()
+    try backgroundContext.performAndWait { _ in
+      let count = try Person.count(in: backgroundContext)
+      XCTAssertEqual(count, 0)
+    }
+
+    let count = try Person.count(in: mainContext)
+    XCTAssertEqual(count, 0)
+  }
 }
 

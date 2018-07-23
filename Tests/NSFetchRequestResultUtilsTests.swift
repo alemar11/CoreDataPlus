@@ -287,7 +287,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
 
     /// new object
     do {
-      let car = try Car.findOneOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-new"), with: { car in
+      let car = try Car.findUniqueOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-new"), with: { car in
         XCTAssertNil(car.numberPlate)
         car.numberPlate = "304-new"
         car.model = "test"
