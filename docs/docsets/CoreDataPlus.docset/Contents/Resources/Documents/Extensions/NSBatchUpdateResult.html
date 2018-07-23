@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ProcessInfo Extension Reference</title>
+    <title>NSBatchUpdateResult Extension Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Extension/ProcessInfo" class="dashAnchor"></a>
-    <a title="ProcessInfo Extension Reference"></a>
+    <a name="//apple_ref/swift/Extension/NSBatchUpdateResult" class="dashAnchor"></a>
+    <a title="NSBatchUpdateResult Extension Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">CoreDataPlus Docs</a> (88% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">CoreDataPlus Reference</a>
         <img id="carat" src="../img/carat.png" />
-        ProcessInfo Extension Reference
+        NSBatchUpdateResult Extension Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -129,10 +129,10 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>ProcessInfo</h1>
+            <h1>NSBatchUpdateResult</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">ProcessInfo</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">NSBatchUpdateResult</span> <span class="p">:</span> <span class="kt">NSPersistentStoreResult</span></code></pre>
 
                 </div>
               </div>
@@ -144,9 +144,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So11ProcessInfoC12CoreDataPlusE26isRunningSwiftPackageTestsSbvpZ"></a>
-                    <a name="//apple_ref/swift/Variable/isRunningSwiftPackageTests" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So11ProcessInfoC12CoreDataPlusE26isRunningSwiftPackageTestsSbvpZ">isRunningSwiftPackageTests</a>
+                    <a name="/s:So19NSBatchUpdateResultC12CoreDataPlusE7changess10DictionaryVySSSaySo17NSManagedObjectIDCGGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/changes" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So19NSBatchUpdateResultC12CoreDataPlusE7changess10DictionaryVySSSaySo17NSManagedObjectIDCGGSgvp">changes</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -154,16 +154,21 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><em>CoreDataPlus</em>*</p>
+                        <p><strong>CoreDataPlus</strong></p>
 
-<p>Returns true if SwiftPackage tests are running.</p>
+<p>Returns a dictionary containig all the updated <code>NSManagedObjectID</code> instances.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Make sure the resultType of the <code>NSBatchUpdateResult</code> is set to <code>NSBatchUpdateRequestResultType.updatedObjectIDsResultType</code> before the request is executed otherwise the value is nil.
+
+</div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">isRunningSwiftPackageTests</span><span class="p">:</span> <span class="nf">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">changes</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="p">[</span><span class="kt">NSManagedObjectID</span><span class="p">]]?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -173,9 +178,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So11ProcessInfoC12CoreDataPlusE18isRunningUnitTestsSbvpZ"></a>
-                    <a name="//apple_ref/swift/Variable/isRunningUnitTests" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So11ProcessInfoC12CoreDataPlusE18isRunningUnitTestsSbvpZ">isRunningUnitTests</a>
+                    <a name="/s:So19NSBatchUpdateResultC12CoreDataPlusE5countSiSgvp"></a>
+                    <a name="//apple_ref/swift/Property/count" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So19NSBatchUpdateResultC12CoreDataPlusE5countSiSgvp">count</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -183,16 +188,55 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><em>CoreDataPlus</em>*</p>
+                        <p><strong>CoreDataPlus</strong></p>
 
-<p>Returns true if Xcode or SwiftPackage Unit Tests are running.</p>
+<p>Returns the number of updated objcts.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Make sure the resultType of the <code>NSBatchUpdateResult</code> is set to <code>NSBatchUpdateRequestResultType.updatedObjectsCountResultType</code> before the request is executed otherwise the value is nil.
+
+</div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">isRunningUnitTests</span><span class="p">:</span> <span class="nf">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">count</span><span class="p">:</span> <span class="nf">Int</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So19NSBatchUpdateResultC12CoreDataPlusE6statusSbSgvp"></a>
+                    <a name="//apple_ref/swift/Property/status" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So19NSBatchUpdateResultC12CoreDataPlusE6statusSbSgvp">status</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Returns <code>true</code> if the batch update operation has been completed successfully.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Make sure the resultType of the <code>NSBatchUpdateResult</code> is set to <code>NSBatchUpdateRequestResultType.statusOnlyResultType</code> before the request is executed otherwise the value is nil.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">status</span><span class="p">:</span> <span class="nf">Bool</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>

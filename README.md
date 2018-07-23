@@ -43,7 +43,7 @@ Documentation is [available online](http://www.tinrobots.org/CoreDataPlus/).
 $ gem install cocoapods
 ```
 
-> CocoaPods 1.1.0+ is required to build CoreDataPlus 0.9.0+.
+> CocoaPods 1.1.0+ is required to build CoreDataPlus 1.0.0+.
 
 To integrate CoreDataPlus into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
@@ -53,7 +53,7 @@ platform :ios, '10.0'
 use_frameworks!
 
 target '<Your Target Name>' do
-    pod 'CoreDataPlus', '~> 0.9.0'
+    pod 'CoreDataPlus', '~> 1.0.0'
 end
 ```
 
@@ -77,7 +77,7 @@ $ brew install carthage
 To integrate CoreDataPlus into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "tinrobots/CoreDataPlus" ~> 0.9.0
+github "tinrobots/CoreDataPlus" ~> 1.0.0
 ```
 
 Run `carthage update` to build the framework and drag the built `CoreDataPlus.framework` into your Xcode project.
@@ -89,7 +89,7 @@ Once you have your Swift package set up, adding CoreDataPlus as a dependency is 
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/tinrobots/CoreDataPlus.git", from: "0.9.0")
+    .package(url: "https://github.com/tinrobots/CoreDataPlus.git", from: "1.0.0")
 ]
 ```
 

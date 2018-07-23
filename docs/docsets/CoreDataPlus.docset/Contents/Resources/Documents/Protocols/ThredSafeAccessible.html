@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ProcessInfo Extension Reference</title>
+    <title>ThredSafeAccessible Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Extension/ProcessInfo" class="dashAnchor"></a>
-    <a title="ProcessInfo Extension Reference"></a>
+    <a name="//apple_ref/swift/Protocol/ThredSafeAccessible" class="dashAnchor"></a>
+    <a title="ThredSafeAccessible Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">CoreDataPlus Docs</a> (88% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">CoreDataPlus Reference</a>
         <img id="carat" src="../img/carat.png" />
-        ProcessInfo Extension Reference
+        ThredSafeAccessible Protocol Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -129,72 +129,79 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>ProcessInfo</h1>
+            <h1>ThredSafeAccessible</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">ProcessInfo</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ThredSafeAccessible</span></code></pre>
 
                 </div>
               </div>
-            
+            <p>Undocumented</p>
+
           </section>
           <section class="section task-group-section">
             <div class="task-group">
+              <div class="task-name-container">
+                <a name="/NSManagedObject"></a>
+                <a name="//apple_ref/swift/Section/NSManagedObject" class="dashAnchor"></a>
+                <a href="#/NSManagedObject">
+                  <h3 class="section-name">NSManagedObject</h3>
+                </a>
+              </div>
               <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So11ProcessInfoC12CoreDataPlusE26isRunningSwiftPackageTestsSbvpZ"></a>
-                    <a name="//apple_ref/swift/Variable/isRunningSwiftPackageTests" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So11ProcessInfoC12CoreDataPlusE26isRunningSwiftPackageTestsSbvpZ">isRunningSwiftPackageTests</a>
+                    <a name="/s:12CoreDataPlus19ThredSafeAccessiblePAASo15NSManagedObjectCRbzrlE10safeAccessqd__qd__xKcKlF"></a>
+                    <a name="//apple_ref/swift/Method/safeAccess(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus19ThredSafeAccessiblePAASo15NSManagedObjectCRbzrlE10safeAccessqd__qd__xKcKlF">safeAccess(_:)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><em>CoreDataPlus</em>*</p>
+                        <p><strong>CoreDataPlus</strong></p>
 
-<p>Returns true if SwiftPackage tests are running.</p>
+<p>Performs the given block in the right thread for the <code>NSManagedObject</code>&lsquo;s managedObjectContext.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    It throws an error in cases of failure.
 
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">isRunningSwiftPackageTests</span><span class="p">:</span> <span class="nf">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:So11ProcessInfoC12CoreDataPlusE18isRunningUnitTestsSbvpZ"></a>
-                    <a name="//apple_ref/swift/Variable/isRunningUnitTests" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So11ProcessInfoC12CoreDataPlusE18isRunningUnitTestsSbvpZ">isRunningUnitTests</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p><em>CoreDataPlus</em>*</p>
-
-<p>Returns true if Xcode or SwiftPackage Unit Tests are running.</p>
+</div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">isRunningUnitTests</span><span class="p">:</span> <span class="nf">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">safeAccess</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">block</span><span class="p">:</span> <span class="p">(</span><span class="k">Self</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">T</span><span class="p">)</span> <span class="k">rethrows</span> <span class="o">-&gt;</span> <span class="kt">T</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>block</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The closure to be performed.
+<code>block</code> accepts the current NSManagedObject as its argument and returns a value of the same or different type.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
