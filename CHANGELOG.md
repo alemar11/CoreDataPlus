@@ -13,7 +13,7 @@
 
 ### 0.9.0
 
-- Added  `FetchedResultsObjectChange` and  `FetchedResultsSectionInfo`.
+- Added `FetchedResultsObjectChange` and  `FetchedResultsSectionInfo`.
 - Fixes.
 
 ### 0.8.0
