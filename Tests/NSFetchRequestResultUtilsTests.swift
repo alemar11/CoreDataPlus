@@ -688,16 +688,74 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
       $0.propertiesToUpdate = [#keyPath(Car.maker): "FCA"]
     }
 
-    XCTAssertNotNil(result.result)
-    XCTAssertTrue(result.result as! Bool)
+    XCTAssertTrue(result.status!)
 
     context.reset()
     let newFiatCount = try Car.count(in: context) { $0.predicate = fiatPredicate }
     XCTAssertEqual(newFiatCount, 0)
     let newFCACount = try Car.count(in: context) { $0.predicate = fcaPredicate }
     XCTAssertEqual(newFCACount, fiatCount)
+  }
 
-    // NSExpression(forConstantValue: nil)
+  func testBatchUpdateObjectsWithResultCountType() throws {
+    // Given
+    let stack = CoreDataStack.stack(type: .sqlite)
+    let context = stack.mainContext
+    context.fillWithSampleData()
+    try context.save()
+
+    let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
+    let fcaPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FCA")
+
+    let fiatCount = try Car.count(in: context) { $0.predicate = fiatPredicate }
+    let fcaCount = try Car.count(in: context) { $0.predicate = fcaPredicate }
+    XCTAssertEqual(fcaCount, 0)
+
+    let result = try Car.batchUpdateObjects(with: context) {
+      $0.predicate = fiatPredicate
+      $0.propertiesToUpdate = [#keyPath(Car.maker): "FCA"]
+      $0.resultType = .updatedObjectsCountResultType
+    }
+
+    XCTAssertEqual(result.count!, fiatCount)
+
+    context.reset()
+    let newFiatCount = try Car.count(in: context) { $0.predicate = fiatPredicate }
+    XCTAssertEqual(newFiatCount, 0)
+    let newFCACount = try Car.count(in: context) { $0.predicate = fcaPredicate }
+    XCTAssertEqual(newFCACount, fiatCount)
+  }
+
+  func testBatchUpdateObjectsWithResultObjectIDsType() throws {
+    // Given
+    let stack = CoreDataStack.stack(type: .sqlite)
+    let context = stack.mainContext
+    context.fillWithSampleData()
+    try context.save()
+
+    let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
+    let fcaPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FCA")
+
+    let fiatCount = try Car.count(in: context) { $0.predicate = fiatPredicate }
+    let fcaCount = try Car.count(in: context) { $0.predicate = fcaPredicate }
+    XCTAssertEqual(fcaCount, 0)
+
+    let result = try Car.batchUpdateObjects(with: context) {
+      $0.predicate = fiatPredicate
+      $0.propertiesToUpdate = [#keyPath(Car.maker): "FCA"]
+      $0.resultType = .updatedObjectIDsResultType
+    }
+
+    let changes = result.changes!
+    XCTAssertEqual(changes.keys.count, 1)
+    let ids = changes["deleted"]!
+    XCTAssertEqual(ids.count, 103)
+
+    context.reset()
+    let newFiatCount = try Car.count(in: context) { $0.predicate = fiatPredicate }
+    XCTAssertEqual(newFiatCount, 0)
+    let newFCACount = try Car.count(in: context) { $0.predicate = fcaPredicate }
+    XCTAssertEqual(newFCACount, fiatCount)
   }
 
 }
