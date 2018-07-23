@@ -54,6 +54,9 @@ final class NSManagedObjectDelayedDeletableTests: XCTestCase {
     let notDeletableCars = try! Car.fetch(in: context) { $0.predicate = fiatNotDeletablePredicate }
     XCTAssertTrue(notDeletableCars.isEmpty)
 
+    let fiatDeletablePredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [fiatPredicate, Car.markedForLocalDeletionPredicate])
+    let deletableCars = try! Car.fetch(in: context) { $0.predicate = fiatDeletablePredicate }
+    XCTAssertTrue(deletableCars.count > 0)
   }
 
 }
