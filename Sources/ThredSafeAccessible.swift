@@ -47,24 +47,3 @@ extension ThredSafeAccessible where Self: NSManagedObject {
   }
 
 }
-
-// MARK: - NSFetchedResultsController
-
-extension NSFetchedResultsController: ThredSafeAccessible { }
-
-extension ThredSafeAccessible where Self: NSFetchedResultsController<NSFetchRequestResult> {
-
-  /// **CoreDataPlus**
-  ///
-  /// Performs the given block in the right thread for the `NSFetchedResultsController`'s managedObjectContext.
-  ///
-  /// - Parameter block: The closure to be performed.
-  /// `block` accepts the current NSFetchedResultsController as its argument and returns a value of the same or different type.
-  /// - Throws: It throws an error in cases of failure.
-  public func safeAccess<T>(_ block: (Self) throws -> T) rethrows -> T {
-    return try managedObjectContext.performAndWait { _ -> T in
-      return try block(self)
-    }
-  }
-
-}
