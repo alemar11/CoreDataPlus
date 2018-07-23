@@ -675,7 +675,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
     let context = stack.mainContext
     context.fillWithSampleData()
     try context.save()
-    
+
     let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
     let fcaPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FCA")
 

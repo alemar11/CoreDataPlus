@@ -194,7 +194,7 @@ extension NSManagedObjectContext {
 
       parentContext!.performAndWait {
         guard parentContext!.hasChanges else { return }
-        
+
         do {
           try parentContext!.save()
         } catch {

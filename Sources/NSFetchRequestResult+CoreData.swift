@@ -115,7 +115,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
           request.predicate = predicate
           request.returnsObjectsAsFaults = false
           request.fetchLimit = 1
-          }.first
+        }.first
       } catch {
         throw CoreDataPlusError.fetchFailed(error: error)
       }
@@ -228,7 +228,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
         request.includesPropertyValues = false
         request.includesSubentities = includingSubentities
         request.predicate = predicate
-        }.lazy.forEach(context.delete(_:))
+      }.lazy.forEach(context.delete(_:))
     } catch {
       throw CoreDataPlusError.fetchFailed(error: error)
     }

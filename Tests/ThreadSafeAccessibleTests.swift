@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2018 Tinrobots.
@@ -26,7 +26,7 @@ import CoreData
 @testable import CoreDataPlus
 
 class ThreadSafeAccessibleTests: XCTestCase {
-    
+
   func testManagedObjectThreadSafeAccess() {
     let stack = CoreDataStack.stack()
     let context = stack.mainContext.newBackgroundContext()
@@ -41,7 +41,7 @@ class ThreadSafeAccessibleTests: XCTestCase {
       context.fillWithSampleData()
       try context.save()
     }
-    
+
     let request = Car.newFetchRequest()
     request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Car.numberPlate), ascending: true)]
     let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
@@ -61,5 +61,5 @@ class ThreadSafeAccessibleTests: XCTestCase {
       }
     }
   }
-    
+
 }
