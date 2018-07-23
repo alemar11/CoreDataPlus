@@ -27,7 +27,7 @@ extension NSBatchUpdateResult {
 
   /// **CoreDataPlus**
   ///
-  /// Returns a dictionary containig all the deleted `NSManagedObjectID` instances.
+  /// Returns a dictionary containig all the updated `NSManagedObjectID` instances.
   /// - Note: Make sure the resultType of the `NSBatchUpdateResult` is set to `NSBatchUpdateRequestResultType.updatedObjectIDsResultType` before the request is executed otherwise the value is nil.
   public var changes: [String: [NSManagedObjectID]]? {
 
@@ -37,7 +37,7 @@ extension NSBatchUpdateResult {
 
     case .updatedObjectIDsResultType:
       guard let objectIDs = result as? [NSManagedObjectID] else { return nil }
-      let changes = [NSDeletedObjectsKey: objectIDs]
+      let changes = [NSUpdatedObjectsKey: objectIDs]
       return changes
     }
 
@@ -45,7 +45,7 @@ extension NSBatchUpdateResult {
 
   /// **CoreDataPlus**
   ///
-  /// Returns the number of deleted objcts.
+  /// Returns the number of updated objcts.
   /// - Note: Make sure the resultType of the `NSBatchUpdateResult` is set to `NSBatchUpdateRequestResultType.updatedObjectsCountResultType` before the request is executed otherwise the value is nil.
   public var count: Int? {
 
@@ -60,7 +60,7 @@ extension NSBatchUpdateResult {
 
   /// **CoreDataPlus**
   ///
-  /// Returns `true` if the batc delete operation has been completed successfully.
+  /// Returns `true` if the batch update operation has been completed successfully.
   /// - Note: Make sure the resultType of the `NSBatchUpdateResult` is set to `NSBatchUpdateRequestResultType.statusOnlyResultType` before the request is executed otherwise the value is nil.
   public var status: Bool? {
 

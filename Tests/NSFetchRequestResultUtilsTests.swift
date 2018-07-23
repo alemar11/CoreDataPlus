@@ -748,7 +748,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
 
     let changes = result.changes!
     XCTAssertEqual(changes.keys.count, 1)
-    let ids = changes["deleted"]!
+    let ids = changes["updated"]!
     XCTAssertEqual(ids.count, 103)
 
     context.reset()
