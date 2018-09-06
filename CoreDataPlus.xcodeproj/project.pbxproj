@@ -208,6 +208,7 @@
 /* Begin PBXFileReference section */
 		230B3A65204EE1B000A87EB6 /* VersionInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = VersionInfo.plist; sourceTree = "<group>"; };
 		230B3A66204EE1B000A87EB6 /* SampleModel.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = SampleModel.mom; sourceTree = "<group>"; };
+		230C087A214179D400A1B6CB /* SampleModel2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel2.xcdatamodel; sourceTree = "<group>"; };
 		2319729B204C6A66001008FA /* ObservedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservedEvent.swift; sourceTree = "<group>"; };
 		233654361F9E1644007F8D3D /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		236350741F95EC1A00B3A16A /* CoreDataPlus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreDataPlus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1570,6 +1571,7 @@
 		23DAFA231F9641BD0058654B /* SampleModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				230C087A214179D400A1B6CB /* SampleModel2.xcdatamodel */,
 				23DAFA241F9641BD0058654B /* SampleModel.xcdatamodel */,
 			);
 			currentVersion = 23DAFA241F9641BD0058654B /* SampleModel.xcdatamodel */;

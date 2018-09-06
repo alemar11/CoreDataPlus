@@ -27,13 +27,22 @@ import XCTest
 
 public enum SampleModelVersion: String {
   case version1 = "SampleModel"
+  case version2 = "SampleModel2"
 }
 
 extension SampleModelVersion: ModelVersion {
 
-  public static var allVersions: [SampleModelVersion] { return [.version1] }
+  public static var allVersions: [SampleModelVersion] { return [.version1, .version2] }
 
   public static var currentVersion: SampleModelVersion { return .version1 }
+
+  public var successor: SampleModelVersion? {
+    switch self {
+    case .version1: return .version2
+    //case .version2: return .version3
+    default: return nil
+    }
+  }
 
   public var versionName: String { return rawValue }
 
@@ -43,7 +52,7 @@ extension SampleModelVersion: ModelVersion {
   }
 
   /// Hack-ish way to load the NSManagedObjectModel without using the Bundle.
-  /// - Note: This is not enought to run the spm tests because the enviroment doesn't contain the "required" values.
+  /// - Note: This is not enough to run the spm tests because the enviroment doesn't contain the "required" values.
   public func managedObjectModel_swift_package_tests() -> NSManagedObjectModel {
     let sampleFolderURL = URL(fileURLWithPath: #file, isDirectory: false).deletingLastPathComponent()
     let momUrl = sampleFolderURL.appendingPathComponent("\(versionName).momd/\(versionName).mom")
