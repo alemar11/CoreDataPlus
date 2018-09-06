@@ -76,6 +76,8 @@ public protocol ModelVersion: Equatable {
   /// Model name.
   var modelName: String { get }
 
+
+  func mappingModelsToNextModelVersion() -> [NSMappingModel]?
 }
 
 extension ModelVersion {
@@ -93,6 +95,25 @@ extension ModelVersion {
 
   /// **CoreDataPlus**
   ///
+  /// Initializes a ModelVersion from a `NSPersistentStore` URL.
+  public init?(persistentStoreURL: URL) {
+    guard let metadata = try? NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: persistentStoreURL, options: nil) else {
+      return nil
+    }
+
+    let version = Self.allVersions.first {
+      $0.managedObjectModel().isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
+    }
+
+    guard let modelVersion = version else {
+      return nil
+    }
+
+    self = modelVersion
+  }
+
+  /// **CoreDataPlus**
+  ///
   /// Protocol `ModelVersion`.
   ///
   /// Return the NSManagedObjectModel for this `ModelVersion`.
@@ -105,10 +126,61 @@ extension ModelVersion {
     // let omoURL = modelBundle.url(forResource: versionName, withExtension: "\(ModelVersionKey.omo)", subdirectory: momd)
     // guard let url = omoURL ?? momURL else { fatalError("Model version \(self) not found.") }
 
-    guard let url = momURL else { preconditionFailure("Model version '\(self)' not found.") }
-    guard let model = NSManagedObjectModel(contentsOf: url) else { preconditionFailure("Error initializing Managed Object Model: cannot open model at \(url).") }
+    guard let url = momURL else {
+      preconditionFailure("Model version '\(self)' not found.")
+    }
+
+    guard let model = NSManagedObjectModel(contentsOf: url) else {
+      preconditionFailure("Error initializing Managed Object Model: cannot open model at \(url).")
+    }
 
     return model
+  }
+
+  public func mappingModelsToNextModelVersion() -> [NSMappingModel]? {
+    guard let mapping = mappingModelToNextModelVersion() else {
+      return nil
+    }
+
+    return [mapping]
+  }
+
+  public func mappingModelToNextModelVersion() -> NSMappingModel? {
+    guard let nextVersion = successor else {
+      return nil
+    }
+
+    guard let mappingModel = NSMappingModel(from: [modelBundle], forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel()) else {
+      fatalError("No mapping model found for \(self) to \(nextVersion).")
+    }
+
+    return mappingModel
+  }
+
+  /// Returns a newly created mapping model that will migrate data from the source to the destination model.
+  /// A model will be created only if all changes are simple enough to be able to reasonably infer a mapping
+  /// (for example, removing or renaming an attribute, adding an optional attribute or relationship, or adding renaming or deleting an entity).
+  /// Element IDs are used to track renamed properties and entities.
+  public func inferredMappingModelToNextModelVersion() -> NSMappingModel? {
+    guard let nextVersion = successor else {
+      return nil
+    }
+
+    return try? NSMappingModel.inferredMappingModel(forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel())
+  }
+
+  public func migrationSteps(to version: Self) -> [MigrationStep] {
+    guard self != version else {
+      return []
+    }
+
+    guard let mappings = mappingModelsToNextModelVersion(), let nextVersion = successor else {
+      fatalError("Couldn't find mapping models")
+    }
+
+    let step = MigrationStep(source: managedObjectModel(), destination: nextVersion.managedObjectModel(), mappings: mappings)
+
+    return [step] + nextVersion.migrationSteps(to: version)
   }
 
 }
@@ -120,4 +192,16 @@ extension ModelVersion {
   /// The next model version.
   public var successor: Self? { return nil }
 
+}
+
+public final class MigrationStep {
+  var source: NSManagedObjectModel
+  var destination: NSManagedObjectModel
+  var mappings: [NSMappingModel]
+
+  init(source: NSManagedObjectModel, destination: NSManagedObjectModel, mappings: [NSMappingModel]) {
+    self.source = source
+    self.destination = destination
+    self.mappings = mappings
+  }
 }
