@@ -166,7 +166,12 @@ extension ModelVersion {
       return nil
     }
 
-    return try? NSMappingModel.inferredMappingModel(forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel())
+    do {
+    return try NSMappingModel.inferredMappingModel(forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel())
+    } catch {
+      print(error)
+      return nil
+    }
   }
 
   public func migrationSteps(to version: Self) -> [MigrationStep] {

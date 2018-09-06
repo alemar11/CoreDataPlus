@@ -32,6 +32,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		230C087C21417E1900A1B6CB /* MigrationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230C087B21417E1900A1B6CB /* MigrationsTests.swift */; };
+		230C087D21417E1900A1B6CB /* MigrationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230C087B21417E1900A1B6CB /* MigrationsTests.swift */; };
+		230C087E21417E1900A1B6CB /* MigrationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230C087B21417E1900A1B6CB /* MigrationsTests.swift */; };
 		2319729C204C6A66001008FA /* ObservedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2319729B204C6A66001008FA /* ObservedEvent.swift */; };
 		2319729D204C6A66001008FA /* ObservedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2319729B204C6A66001008FA /* ObservedEvent.swift */; };
 		2319729E204C6A66001008FA /* ObservedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2319729B204C6A66001008FA /* ObservedEvent.swift */; };
@@ -209,6 +212,7 @@
 		230B3A65204EE1B000A87EB6 /* VersionInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = VersionInfo.plist; sourceTree = "<group>"; };
 		230B3A66204EE1B000A87EB6 /* SampleModel.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = SampleModel.mom; sourceTree = "<group>"; };
 		230C087A214179D400A1B6CB /* SampleModel2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel2.xcdatamodel; sourceTree = "<group>"; };
+		230C087B21417E1900A1B6CB /* MigrationsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationsTests.swift; sourceTree = "<group>"; };
 		2319729B204C6A66001008FA /* ObservedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservedEvent.swift; sourceTree = "<group>"; };
 		233654361F9E1644007F8D3D /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		236350741F95EC1A00B3A16A /* CoreDataPlus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreDataPlus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -413,6 +417,7 @@
 				236351061F95F28C00B3A16A /* NSManagedObjectUtilsTests.swift */,
 				23EEF5431F962DA600A2E72F /* Sample Model */,
 				236CBA3721064D9A00FAE00D /* ThreadSafeAccessibleTests.swift */,
+				230C087B21417E1900A1B6CB /* MigrationsTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -871,6 +876,7 @@
 				23C6493A20396FFA00AA514A /* NSManagedObjectContextObserversTests.swift in Sources */,
 				23DAFA2A1F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift in Sources */,
 				23EEF5491F962E6A00A2E72F /* Person.swift in Sources */,
+				230C087C21417E1900A1B6CB /* MigrationsTests.swift in Sources */,
 				234130691F95FF90002BE7FC /* NSManagedObjectContextCacheTests.swift in Sources */,
 				23F8E9E01F965B2000C65565 /* SampleModel.xcdatamodeld in Sources */,
 				2383AC641FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift in Sources */,
@@ -898,6 +904,7 @@
 				23C6493B20396FFA00AA514A /* NSManagedObjectContextObserversTests.swift in Sources */,
 				23DAFA2B1F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift in Sources */,
 				23EEF54A1F962E6A00A2E72F /* Person.swift in Sources */,
+				230C087D21417E1900A1B6CB /* MigrationsTests.swift in Sources */,
 				234130701F95FF91002BE7FC /* NSManagedObjectContextCacheTests.swift in Sources */,
 				23F8E9E11F965B2100C65565 /* SampleModel.xcdatamodeld in Sources */,
 				2383AC651FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift in Sources */,
@@ -925,6 +932,7 @@
 				23C6493C20396FFA00AA514A /* NSManagedObjectContextObserversTests.swift in Sources */,
 				23DAFA2C1F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift in Sources */,
 				23EEF54B1F962E6A00A2E72F /* Person.swift in Sources */,
+				230C087E21417E1900A1B6CB /* MigrationsTests.swift in Sources */,
 				234130771F95FF91002BE7FC /* NSManagedObjectContextCacheTests.swift in Sources */,
 				23F8E9E21F965B2200C65565 /* SampleModel.xcdatamodeld in Sources */,
 				2383AC661FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift in Sources */,

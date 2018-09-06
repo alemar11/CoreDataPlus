@@ -54,7 +54,7 @@ final class CoreDataStack {
       }
 
     case .sqlite:
-      let storeURL = URL(fileURLWithPath: "\(NSTemporaryDirectory())\(UUID().uuidString).sqlite" )
+      let storeURL = URL.temporary.appendingPathComponent("SampleData.sqlite")
       let persistentStoreDescription = NSPersistentStoreDescription(url: storeURL)
 
       print("🔸 \(storeURL)")
@@ -65,7 +65,7 @@ final class CoreDataStack {
       persistentStoreDescription.shouldAddStoreAsynchronously = false // default
 
       persistentStoreCoordinator.addPersistentStore(with: persistentStoreDescription, completionHandler: { (persistentStoreDescription, error) in
-        if let error = error { XCTFail("\(error.localizedDescription)") }
+        if let error = error { XCTFail(error.localizedDescription) }
       })
     }
 
@@ -84,5 +84,11 @@ extension CoreDataStack {
       fatalError()
     }
     return stack
+  }
+}
+
+extension URL {
+  static var temporary: URL {
+    return URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString)
   }
 }
