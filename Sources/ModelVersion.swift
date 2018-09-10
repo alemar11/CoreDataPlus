@@ -226,6 +226,9 @@ public final class MigrationStep {
   }
 }
 
+// https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmLightweightMigration.html
+// https://developer.apple.com/documentation/coredata/heavyweight_migration
+// https://www.objc.io/issues/4-core-data/core-data-migration/
 public func migrateStore<Version: ModelVersion>(from sourceURL: URL, to targetURL: URL, targetVersion: Version, deleteSource: Bool = false, progress: Progress? = nil) throws {
   guard let sourceVersion = Version(persistentStoreURL: sourceURL as URL) else {
     fatalError("unknown store version at URL \(sourceURL)")
@@ -234,12 +237,21 @@ public func migrateStore<Version: ModelVersion>(from sourceURL: URL, to targetUR
   var currentURL = sourceURL
   let migrationSteps = sourceVersion.migrationSteps(to: targetVersion)
   var migrationProgress: Progress?
+  // https://github.com/objcio/issue-4-core-data-migration/blob/02002c93a4531ebcf8f40ee4c77986d01abc790e/BookMigration/MHWMigrationManager.m
+  let metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: sourceURL, options: nil)
+  let finalModel = targetVersion.managedObjectModel()
+
+  guard !finalModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata) else {
+    // TODO: check if the initial and final version are the same
+    return
+  }
 
   if let p = progress {
     migrationProgress = Progress(totalUnitCount: Int64(migrationSteps.count), parent: p, pendingUnitCount: p.totalUnitCount)
   }
 
   for step in migrationSteps {
+    //TODO: autoreleasepool
     migrationProgress?.becomeCurrent(withPendingUnitCount: 1)
     let manager = NSMigrationManager(sourceModel: step.source, destinationModel: step.destination)
     migrationProgress?.resignCurrent()

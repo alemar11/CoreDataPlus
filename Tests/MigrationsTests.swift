@@ -27,7 +27,9 @@ import CoreData
 
 class MigrationsTests: XCTestCase {
 
-  func testLightWeightMigrationFromVersion1ToVersion2() throws {
+  // MARK: - LightWeight Migration
+
+  func testtMigrationFromVersion1ToVersion2() throws {
     let stack = CoreDataStack.stack(type: .sqlite)
     let context = stack.mainContext
     context.fillWithSampleData()
@@ -70,9 +72,19 @@ class MigrationsTests: XCTestCase {
 
   }
 
-  func testMigrationFromVersion1ToVersion2() {
-    
+  func testMigrationFromVersion2ToVersion3() {
+    // heavyweight
   }
+
+  func testMigrationFromVersion3ToVersion4() {
+    // policies
+  }
+
+  func testMigrationFromVersion4ToVersion5() {
+    // multiple mapping models?
+    //
+  }
+
 
 }
 
