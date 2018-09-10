@@ -73,3 +73,19 @@ extension SampleModelVersion: ModelVersion {
 
 }
 
+extension SampleModelVersion {
+
+  public func mappingModelsToNextModelVersion() -> [NSMappingModel]? {
+    switch self {
+    case .version1:
+      let mapping = SampleModelVersion.version1.inferredMappingModelToNextModelVersion()!
+      // Renamed ExpensiveSportCar as LuxuryCar using a "renaming id" on entity ExpensiveSportCar
+      // Added the index: byMakerAndNumberPlate on entity Car
+      return [mapping]
+    default:
+      return []
+    }
+  }
+
+}
+

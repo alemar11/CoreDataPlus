@@ -6,13 +6,17 @@
         <attribute name="model" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="numberPlate" attributeType="String" syncable="YES"/>
         <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Person" inverseName="cars" inverseEntity="Person" syncable="YES"/>
+        <fetchIndex name="byMakerAndNumberPlate">
+            <fetchIndexElement property="maker" type="Binary" order="ascending"/>
+            <fetchIndexElement property="numberPlate" type="Binary" order="ascending"/>
+        </fetchIndex>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="numberPlate"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="ExpensiveSportCar" representedClassName="ExpensiveSportCar" parentEntity="SportCar" syncable="YES">
+    <entity name="LuxuryCar" representedClassName="LuxuryCar" parentEntity="SportCar" elementID="ExpensiveSportCar" syncable="YES">
         <attribute name="isLimitedEdition" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <entity name="Person" representedClassName="Person" syncable="YES">
@@ -30,7 +34,7 @@
     <entity name="SportCar" representedClassName="SportCar" parentEntity="Car" syncable="YES"/>
     <elements>
         <element name="Car" positionX="-54" positionY="-9" width="128" height="120"/>
-        <element name="ExpensiveSportCar" positionX="-56" positionY="-189" width="128" height="58"/>
+        <element name="LuxuryCar" positionX="-56" positionY="-189" width="128" height="60"/>
         <element name="Person" positionX="-326" positionY="9" width="128" height="105"/>
         <element name="SportCar" positionX="-54" positionY="-90" width="128" height="45"/>
     </elements>

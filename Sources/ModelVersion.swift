@@ -137,6 +137,8 @@ extension ModelVersion {
     return model
   }
 
+  /// Returns a list of mapping models needed to migrate the current version of the database to the next one.
+  /// - Note: By default it calls on // TODO
   public func mappingModelsToNextModelVersion() -> [NSMappingModel]? {
     guard let mapping = mappingModelToNextModelVersion() else {
       return nil
@@ -145,6 +147,7 @@ extension ModelVersion {
     return [mapping]
   }
 
+  /// Returns a `NSMappingModel` for a 
   public func mappingModelToNextModelVersion() -> NSMappingModel? {
     guard let nextVersion = successor else {
       return nil
@@ -165,6 +168,18 @@ extension ModelVersion {
     guard let nextVersion = successor else {
       return nil
     }
+
+    /*
+     INFERRED MAPPING MODEL LIMITATIONS
+    Adding, removing, and renaming attributes
+    Adding, removing, and renaming relationships
+    Adding, removing, and renaming entities
+    Changing the optional status of attributes
+    Adding or removing indexes on attributes
+    Adding, removing, or changing compound indexes on entities
+    Adding, removing, or changing unique constraints on entities
+    There are a few gotchas to this list. First, if you change an attribute from optional to non-optional, you have to specify a default value. The second, more subtle pitfall is that changing indexes (on attributes as well as compound indexes) won’t be picked up as a model change. You have to specify a hash modifier on the changed attributes or entities in order to force Core Data to do the right thing during migration.
+     */
 
     do {
     return try NSMappingModel.inferredMappingModel(forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel())
@@ -210,3 +225,44 @@ public final class MigrationStep {
     self.mappings = mappings
   }
 }
+
+public func migrateStore<Version: ModelVersion>(from sourceURL: URL, to targetURL: URL, targetVersion: Version, deleteSource: Bool = false, progress: Progress? = nil) throws {
+  guard let sourceVersion = Version(persistentStoreURL: sourceURL as URL) else {
+    fatalError("unknown store version at URL \(sourceURL)")
+  }
+
+  var currentURL = sourceURL
+  let migrationSteps = sourceVersion.migrationSteps(to: targetVersion)
+  var migrationProgress: Progress?
+
+  if let p = progress {
+    migrationProgress = Progress(totalUnitCount: Int64(migrationSteps.count), parent: p, pendingUnitCount: p.totalUnitCount)
+  }
+
+  for step in migrationSteps {
+    migrationProgress?.becomeCurrent(withPendingUnitCount: 1)
+    let manager = NSMigrationManager(sourceModel: step.source, destinationModel: step.destination)
+    migrationProgress?.resignCurrent()
+    let destinationURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString)
+
+    for mapping in step.mappings {
+      try manager.migrateStore(from: currentURL, sourceType: NSSQLiteStoreType, options: nil, with: mapping, toDestinationURL: destinationURL, destinationType: NSSQLiteStoreType, destinationOptions: nil)
+    }
+
+    if currentURL != sourceURL {
+      NSPersistentStoreCoordinator.destroyStore(at: currentURL)
+    }
+    currentURL = destinationURL
+  }
+
+  try NSPersistentStoreCoordinator.replaceStore(at: targetURL, withStoreAt: currentURL)
+
+  if (currentURL != sourceURL) {
+    NSPersistentStoreCoordinator.destroyStore(at: currentURL)
+  }
+
+  if (targetURL != sourceURL && deleteSource) {
+    NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
+  }
+}
+

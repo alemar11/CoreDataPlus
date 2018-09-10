@@ -28,8 +28,9 @@ final class CoreDataStack {
 
   enum StoreType { case sqlite, inMemory }
 
-  var persistentStoreCoordinator: NSPersistentStoreCoordinator
-  var mainContext: NSManagedObjectContext
+  private(set) var persistentStoreCoordinator: NSPersistentStoreCoordinator
+  private(set) var mainContext: NSManagedObjectContext
+  private(set) var storeURL: URL?
 
   init?(type: StoreType = .inMemory) {
 
@@ -54,13 +55,11 @@ final class CoreDataStack {
       }
 
     case .sqlite:
-      let storeURL = URL.temporary.appendingPathComponent("SampleData.sqlite")
-      let persistentStoreDescription = NSPersistentStoreDescription(url: storeURL)
-
-      print("🔸 \(storeURL)")
+      storeURL = URL.temporary.appendingPathComponent("SampleModel.sqlite")
+      let persistentStoreDescription = NSPersistentStoreDescription(url: storeURL!)
 
       persistentStoreDescription.type = NSSQLiteStoreType
-      persistentStoreDescription.shouldMigrateStoreAutomatically = true // default behaviour
+      persistentStoreDescription.shouldMigrateStoreAutomatically = true // default behaviour: true
       persistentStoreDescription.shouldInferMappingModelAutomatically = true // default behaviour
       persistentStoreDescription.shouldAddStoreAsynchronously = false // default
 
@@ -88,7 +87,9 @@ extension CoreDataStack {
 }
 
 extension URL {
+
   static var temporary: URL {
     return URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString)
   }
+
 }
