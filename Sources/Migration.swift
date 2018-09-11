@@ -34,7 +34,7 @@ import CoreData
 ///   - sourceURL: the current store URL.
 ///   - targetVersion: the ModelVersion to which the store is needed to migrate to.
 ///   - progress: a Progress instance to monitor the migration.
-  /// - Throws: It throws an error in cases of failure.
+/// - Throws: It throws an error in cases of failure.
 public func migrateStore<Version: ModelVersion>(at sourceURL: URL, targetVersion: Version, progress: Progress? = nil) throws {
   try migrateStore(from: sourceURL, to: sourceURL, targetVersion: targetVersion, deleteSource: false, progress: progress)
 }
@@ -49,46 +49,39 @@ public func migrateStore<Version: ModelVersion>(at sourceURL: URL, targetVersion
 ///   - targetVersion: the ModelVersion to which the store is needed to migrate to.
 ///   - deleteSource: if `true` the initial store will be deleted after the migration phase.
 ///   - progress: a Progress instance to monitor the migration.
-  /// - Throws: It throws an error in cases of failure.
+/// - Throws: It throws an error in cases of failure.
 public func migrateStore<Version: ModelVersion>(from sourceURL: URL, to targetURL: URL, targetVersion: Version, deleteSource: Bool = false, progress: Progress? = nil) throws {
   guard let sourceVersion = Version(persistentStoreURL: sourceURL as URL) else {
     fatalError("A ModelVersion for the store at URL \(sourceURL) could not be found.")
   }
-
+  
   do {
-    let metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: sourceURL, options: nil)
-    let targetModel = targetVersion.managedObjectModel()
-
-    // Avoid unnecessary migrations
-    guard !targetModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata) else {
+    guard try sourceVersion.isMigrationNeeded(for: sourceURL, to: targetVersion) else {
       return
     }
-  } catch {
-    throw CoreDataPlusError.migrationFailed(error: error)
-  }
-
-  var currentURL = sourceURL
-  let steps = sourceVersion.migrationSteps(to: targetVersion)
-
-  guard steps.count > 0 else {
-    return
-  }
-
-  var migrationProgress: Progress?
-
-  if let progress = progress {
-    migrationProgress = Progress(totalUnitCount: Int64(steps.count), parent: progress, pendingUnitCount: progress.totalUnitCount)
-  }
-
-  do {
+    
+    var currentURL = sourceURL
+    let steps = sourceVersion.migrationSteps(to: targetVersion)
+    
+    guard steps.count > 0 else {
+      return
+    }
+    
+    var migrationProgress: Progress?
+    
+    if let progress = progress {
+      migrationProgress = Progress(totalUnitCount: Int64(steps.count), parent: progress, pendingUnitCount: progress.totalUnitCount)
+    }
+    
+    
     for step in steps {
       try autoreleasepool {
         migrationProgress?.becomeCurrent(withPendingUnitCount: 1)
         let manager = NSMigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
         migrationProgress?.resignCurrent()
-
+        
         let destinationURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString)
-
+        
         for mapping in step.mappings {
           try manager.migrateStore(from: currentURL,
                                    sourceType: NSSQLiteStoreType,
@@ -98,26 +91,26 @@ public func migrateStore<Version: ModelVersion>(from sourceURL: URL, to targetUR
                                    destinationType: NSSQLiteStoreType,
                                    destinationOptions: nil)
         }
-
+        
         if currentURL != sourceURL {
           try NSPersistentStoreCoordinator.destroyStore(at: currentURL)
         }
         currentURL = destinationURL
       }
     }
-
+    
     try NSPersistentStoreCoordinator.replaceStore(at: targetURL, withStoreAt: currentURL)
-
+    
     if (currentURL != sourceURL) {
       try NSPersistentStoreCoordinator.destroyStore(at: currentURL)
     }
-
+    
     if (targetURL != sourceURL && deleteSource) {
       try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
     }
-
+    
   } catch {
     throw CoreDataPlusError.migrationFailed(error: error)
   }
-
+  
 }

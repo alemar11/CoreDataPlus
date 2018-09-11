@@ -149,6 +149,21 @@ extension ModelVersion {
 
   /// **CoreDataPlus**
   ///
+  /// Returns `true` if a migration is needed for the current store to a given `ModelVersion`.
+  ///
+  /// - Parameters:
+  ///   - storeURL: the current store URL.
+  ///   - version: the ModelVersion to which the store is compared.
+  /// - Throws: It throws an error in cases of failure.
+  public func isMigrationNeeded<Version: ModelVersion>(for storeURL: URL, to version: Version) throws -> Bool {
+    let metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: storeURL, options: nil)
+    let targetModel = version.managedObjectModel()
+
+    return !targetModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
+  }
+
+  /// **CoreDataPlus**
+  ///
   /// Returns a `NSMappingModel` that specifies how to map a model to the next version model.
   public func mappingModelToNextModelVersion() -> NSMappingModel? {
     guard let nextVersion = successor else {
@@ -191,7 +206,7 @@ extension ModelVersion {
 
   /// **CoreDataPlus**
   ///
-  /// Returns a list of `MigrationStep` needed to mirate to the next version of the store.
+  /// Returns a list of `MigrationStep` needed to mirate to the next `version` of the store.
   public func migrationSteps(to version: Self) -> [MigrationStep] {
     guard self != version else {
       return []
