@@ -136,6 +136,9 @@
 		23A38AF32147D84C0086C22A /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A38AF12147D84C0086C22A /* Migration.swift */; };
 		23A38AF42147D84C0086C22A /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A38AF12147D84C0086C22A /* Migration.swift */; };
 		23A38AF52147D84C0086C22A /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A38AF12147D84C0086C22A /* Migration.swift */; };
+		23A38AFC214803CA0086C22A /* SampleModel2 - SampleModel3 v2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 23A38AF72148015C0086C22A /* SampleModel2 - SampleModel3 v2.xcmappingmodel */; };
+		23A38AFD214803CA0086C22A /* SampleModel2 - SampleModel3 v2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 23A38AF72148015C0086C22A /* SampleModel2 - SampleModel3 v2.xcmappingmodel */; };
+		23A38AFE214803CA0086C22A /* SampleModel2 - SampleModel3 v2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 23A38AF72148015C0086C22A /* SampleModel2 - SampleModel3 v2.xcmappingmodel */; };
 		23A8A44D1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A8A44C1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift */; };
 		23A8A44E1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A8A44C1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift */; };
 		23A8A44F1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A8A44C1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift */; };
@@ -260,6 +263,7 @@
 		23A38AE82147C29E0086C22A /* SampleModel2 - SampleModel3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "SampleModel2 - SampleModel3.xcmappingmodel"; sourceTree = "<group>"; };
 		23A38AEC2147D81B0086C22A /* MigrationSep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationSep.swift; sourceTree = "<group>"; };
 		23A38AF12147D84C0086C22A /* Migration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Migration.swift; sourceTree = "<group>"; };
+		23A38AF72148015C0086C22A /* SampleModel2 - SampleModel3 v2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "SampleModel2 - SampleModel3 v2.xcmappingmodel"; sourceTree = "<group>"; };
 		23A8A44C1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSFetchRequestResultCoreDataTests.swift; sourceTree = "<group>"; };
 		23A8A4501F9F89670038DE3A /* CoreDataPlusError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPlusError.swift; sourceTree = "<group>"; };
 		23B5806A1F94FEDF00A365C0 /* CoreDataPlus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreDataPlus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -363,6 +367,7 @@
 			isa = PBXGroup;
 			children = (
 				23A38AE82147C29E0086C22A /* SampleModel2 - SampleModel3.xcmappingmodel */,
+				23A38AF72148015C0086C22A /* SampleModel2 - SampleModel3 v2.xcmappingmodel */,
 			);
 			path = MappingModels;
 			sourceTree = "<group>";
@@ -943,6 +948,7 @@
 				2341306A1F95FF90002BE7FC /* NSManagedObjectContextUtilsTests.swift in Sources */,
 				23C3B2B61FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift in Sources */,
 				23EEF5451F962E5700A2E72F /* Car.swift in Sources */,
+				23A38AFC214803CA0086C22A /* SampleModel2 - SampleModel3 v2.xcmappingmodel in Sources */,
 				2341306B1F95FF90002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */,
 				234130661F95FF90002BE7FC /* SampleModelVersion.swift in Sources */,
 				234130671F95FF90002BE7FC /* ModelVersionTests.swift in Sources */,
@@ -972,6 +978,7 @@
 				234130711F95FF91002BE7FC /* NSManagedObjectContextUtilsTests.swift in Sources */,
 				23C3B2B71FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift in Sources */,
 				23EEF5461F962E5700A2E72F /* Car.swift in Sources */,
+				23A38AFD214803CA0086C22A /* SampleModel2 - SampleModel3 v2.xcmappingmodel in Sources */,
 				234130721F95FF91002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */,
 				2341306D1F95FF91002BE7FC /* SampleModelVersion.swift in Sources */,
 				2341306E1F95FF91002BE7FC /* ModelVersionTests.swift in Sources */,
@@ -1001,6 +1008,7 @@
 				234130781F95FF91002BE7FC /* NSManagedObjectContextUtilsTests.swift in Sources */,
 				23C3B2B81FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift in Sources */,
 				23EEF5471F962E5700A2E72F /* Car.swift in Sources */,
+				23A38AFE214803CA0086C22A /* SampleModel2 - SampleModel3 v2.xcmappingmodel in Sources */,
 				234130791F95FF91002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */,
 				234130741F95FF91002BE7FC /* SampleModelVersion.swift in Sources */,
 				234130751F95FF91002BE7FC /* ModelVersionTests.swift in Sources */,

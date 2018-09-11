@@ -92,11 +92,14 @@ class MigrationsTests: XCTestCase {
     let targetURL = stack.storeURL! //TODO new path?
 
     try migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version2)
+    let test = SampleModelVersion.version2.inferredMappingModelToNextModelVersion()
+    let k = SampleModelVersion.version2._mappingModelListToNextVersion()
     try migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3)
 
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
-
+    let makers = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Maker"))
+    
     cars.forEach { object in
       let owner = object.value(forKey: "owner") as? NSManagedObject
       let previousOwners = object.value(forKey: "previousOwners") as! Set<NSManagedObject>

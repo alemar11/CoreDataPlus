@@ -20,6 +20,14 @@
     <entity name="LuxuryCar" representedClassName="LuxuryCar" parentEntity="SportCar" elementID="ExpensiveSportCar" syncable="YES">
         <attribute name="isLimitedEdition" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
     </entity>
+    <entity name="Maker" representedClassName="Maker" syncable="YES">
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="name"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
     <entity name="Person" representedClassName="Person" syncable="YES">
         <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
@@ -39,5 +47,6 @@
         <element name="LuxuryCar" positionX="-56" positionY="-189" width="128" height="60"/>
         <element name="Person" positionX="-398" positionY="8" width="128" height="118"/>
         <element name="SportCar" positionX="-54" positionY="-90" width="128" height="45"/>
+        <element name="Maker" positionX="-225" positionY="-45" width="128" height="60"/>
     </elements>
 </model>

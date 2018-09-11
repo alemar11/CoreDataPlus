@@ -45,6 +45,14 @@ extension SampleModelVersion: ModelVersion {
     }
   }
 
+  public var mappingModelNamesToNextModelVersion: [String] {
+      switch self {
+      case .version1: return []
+      case .version2: return ["SampleModel2 - SampleModel3", "SampleModel2 - SampleModel3 v2"]
+      default: return []
+    }
+  }
+
   public var versionName: String { return rawValue }
 
 //  public var persistentStoreURL: URL {
