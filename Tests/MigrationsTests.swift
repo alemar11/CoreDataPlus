@@ -70,10 +70,41 @@ class MigrationsTests: XCTestCase {
       XCTAssertTrue(propertyNames.contains("maker") && propertyNames.contains("numberPlate"))
     }
 
+
+    // TODO: this migration shouldn't happen and it should throw an error
+     try migrateStore(from: sourceURL, to: targetURL, targetVersion: targetVersion)
   }
 
-  func testMigrationFromVersion2ToVersion3() {
-    // heavyweight
+  // MARK: - HeavyWeight Migration
+
+  func testMigrationFromVersion2ToVersion3() throws {
+    let stack = CoreDataStack.stack(type: .sqlite)
+    let context = stack.mainContext
+    context.fillWithSampleData()
+    try context.save()
+
+    let sourceURL = stack.storeURL!
+    let targetURL = stack.storeURL! //TODO new path?
+
+    try migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version2)
+    try migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3)
+
+    let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
+    let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
+
+    cars.forEach { object in
+      let owner = object.value(forKey: "owner") as? NSManagedObject
+      let previousOwners = object.value(forKey: "previousOwners") as! Set<NSManagedObject>
+
+      if let carOwner = owner {
+        XCTAssertTrue(previousOwners.contains(carOwner))
+        let previousCars = carOwner.value(forKey: "previousCars") as! Set<NSManagedObject>
+        XCTAssertTrue(previousCars.contains(object))
+      } else {
+        XCTAssertEqual(previousOwners.count, 0)
+      }
+    }
+
   }
 
   func testMigrationFromVersion3ToVersion4() {

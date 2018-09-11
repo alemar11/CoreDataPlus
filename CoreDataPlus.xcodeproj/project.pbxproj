@@ -125,6 +125,17 @@
 		23A35D542103D0EF00388BEA /* ThredSafeAccessible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A35D522103D0EF00388BEA /* ThredSafeAccessible.swift */; };
 		23A35D552103D0EF00388BEA /* ThredSafeAccessible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A35D522103D0EF00388BEA /* ThredSafeAccessible.swift */; };
 		23A35D562103D0EF00388BEA /* ThredSafeAccessible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A35D522103D0EF00388BEA /* ThredSafeAccessible.swift */; };
+		23A38AE92147C29E0086C22A /* SampleModel2 - SampleModel3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 23A38AE82147C29E0086C22A /* SampleModel2 - SampleModel3.xcmappingmodel */; };
+		23A38AEA2147C29E0086C22A /* SampleModel2 - SampleModel3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 23A38AE82147C29E0086C22A /* SampleModel2 - SampleModel3.xcmappingmodel */; };
+		23A38AEB2147C29E0086C22A /* SampleModel2 - SampleModel3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 23A38AE82147C29E0086C22A /* SampleModel2 - SampleModel3.xcmappingmodel */; };
+		23A38AED2147D81B0086C22A /* MigrationSep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A38AEC2147D81B0086C22A /* MigrationSep.swift */; };
+		23A38AEE2147D81B0086C22A /* MigrationSep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A38AEC2147D81B0086C22A /* MigrationSep.swift */; };
+		23A38AEF2147D81B0086C22A /* MigrationSep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A38AEC2147D81B0086C22A /* MigrationSep.swift */; };
+		23A38AF02147D81B0086C22A /* MigrationSep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A38AEC2147D81B0086C22A /* MigrationSep.swift */; };
+		23A38AF22147D84C0086C22A /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A38AF12147D84C0086C22A /* Migration.swift */; };
+		23A38AF32147D84C0086C22A /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A38AF12147D84C0086C22A /* Migration.swift */; };
+		23A38AF42147D84C0086C22A /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A38AF12147D84C0086C22A /* Migration.swift */; };
+		23A38AF52147D84C0086C22A /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A38AF12147D84C0086C22A /* Migration.swift */; };
 		23A8A44D1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A8A44C1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift */; };
 		23A8A44E1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A8A44C1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift */; };
 		23A8A44F1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A8A44C1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift */; };
@@ -157,10 +168,10 @@
 		23C6493A20396FFA00AA514A /* NSManagedObjectContextObserversTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C6493920396FFA00AA514A /* NSManagedObjectContextObserversTests.swift */; };
 		23C6493B20396FFA00AA514A /* NSManagedObjectContextObserversTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C6493920396FFA00AA514A /* NSManagedObjectContextObserversTests.swift */; };
 		23C6493C20396FFA00AA514A /* NSManagedObjectContextObserversTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C6493920396FFA00AA514A /* NSManagedObjectContextObserversTests.swift */; };
-		23C9D943214663540050244E /* NSPersistentStoreCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9D942214663540050244E /* NSPersistentStoreCoordinator.swift */; };
-		23C9D944214663540050244E /* NSPersistentStoreCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9D942214663540050244E /* NSPersistentStoreCoordinator.swift */; };
-		23C9D945214663540050244E /* NSPersistentStoreCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9D942214663540050244E /* NSPersistentStoreCoordinator.swift */; };
-		23C9D946214663540050244E /* NSPersistentStoreCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9D942214663540050244E /* NSPersistentStoreCoordinator.swift */; };
+		23C9D943214663540050244E /* NSPersistentStoreCoordinator+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9D942214663540050244E /* NSPersistentStoreCoordinator+Utils.swift */; };
+		23C9D944214663540050244E /* NSPersistentStoreCoordinator+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9D942214663540050244E /* NSPersistentStoreCoordinator+Utils.swift */; };
+		23C9D945214663540050244E /* NSPersistentStoreCoordinator+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9D942214663540050244E /* NSPersistentStoreCoordinator+Utils.swift */; };
+		23C9D946214663540050244E /* NSPersistentStoreCoordinator+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9D942214663540050244E /* NSPersistentStoreCoordinator+Utils.swift */; };
 		23C9D94A21469CB70050244E /* TestEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9D94921469CB70050244E /* TestEntity.swift */; };
 		23C9D94B21469CB70050244E /* TestEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9D94921469CB70050244E /* TestEntity.swift */; };
 		23C9D94C21469CB70050244E /* TestEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9D94921469CB70050244E /* TestEntity.swift */; };
@@ -245,6 +256,10 @@
 		23948D1E1F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSEntityDescriptionUtilsTests.swift; sourceTree = "<group>"; };
 		23A35D512103995100388BEA /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = SOURCE_ROOT; };
 		23A35D522103D0EF00388BEA /* ThredSafeAccessible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThredSafeAccessible.swift; sourceTree = "<group>"; };
+		23A38AE72147C08E0086C22A /* SampleModel3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel3.xcdatamodel; sourceTree = "<group>"; };
+		23A38AE82147C29E0086C22A /* SampleModel2 - SampleModel3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "SampleModel2 - SampleModel3.xcmappingmodel"; sourceTree = "<group>"; };
+		23A38AEC2147D81B0086C22A /* MigrationSep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationSep.swift; sourceTree = "<group>"; };
+		23A38AF12147D84C0086C22A /* Migration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Migration.swift; sourceTree = "<group>"; };
 		23A8A44C1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSFetchRequestResultCoreDataTests.swift; sourceTree = "<group>"; };
 		23A8A4501F9F89670038DE3A /* CoreDataPlusError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPlusError.swift; sourceTree = "<group>"; };
 		23B5806A1F94FEDF00A365C0 /* CoreDataPlus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreDataPlus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -265,7 +280,7 @@
 		23C3B2B91FB0B82100799E72 /* NSBatchDeleteResult+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSBatchDeleteResult+Utils.swift"; sourceTree = "<group>"; };
 		23C6492F20396A4600AA514A /* NSManagedObjectContext+Observers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+Observers.swift"; sourceTree = "<group>"; };
 		23C6493920396FFA00AA514A /* NSManagedObjectContextObserversTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectContextObserversTests.swift; sourceTree = "<group>"; };
-		23C9D942214663540050244E /* NSPersistentStoreCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSPersistentStoreCoordinator.swift; sourceTree = "<group>"; };
+		23C9D942214663540050244E /* NSPersistentStoreCoordinator+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSPersistentStoreCoordinator+Utils.swift"; sourceTree = "<group>"; };
 		23C9D94921469CB70050244E /* TestEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestEntity.swift; sourceTree = "<group>"; };
 		23CAFC84204AC53A00E016D3 /* EntityObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityObserver.swift; sourceTree = "<group>"; };
 		23CAFC89204B196400E016D3 /* EntityObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityObserverTests.swift; sourceTree = "<group>"; };
@@ -405,7 +420,9 @@
 				2319729B204C6A66001008FA /* ObservedEvent.swift */,
 				237EF68B1FA4851800B54A7A /* ProcessInfo+Utils.swift */,
 				23A35D522103D0EF00388BEA /* ThredSafeAccessible.swift */,
-				23C9D942214663540050244E /* NSPersistentStoreCoordinator.swift */,
+				23C9D942214663540050244E /* NSPersistentStoreCoordinator+Utils.swift */,
+				23A38AEC2147D81B0086C22A /* MigrationSep.swift */,
+				23A38AF12147D84C0086C22A /* Migration.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -442,6 +459,7 @@
 				23EEF5441F962E5700A2E72F /* Car.swift */,
 				23EEF5481F962E6A00A2E72F /* Person.swift */,
 				23DAFA231F9641BD0058654B /* SampleModel.xcdatamodeld */,
+				23A38AE82147C29E0086C22A /* SampleModel2 - SampleModel3.xcmappingmodel */,
 				233654361F9E1644007F8D3D /* SampleData.swift */,
 				23C9D94921469CB70050244E /* TestEntity.swift */,
 			);
@@ -782,7 +800,8 @@
 				23C6493120396A4600AA514A /* NSManagedObjectContext+Observers.swift in Sources */,
 				236350C11F95F11C00B3A16A /* NSFetchRequestResult+CoreData.swift in Sources */,
 				237EF68D1FA4851800B54A7A /* ProcessInfo+Utils.swift in Sources */,
-				23C9D944214663540050244E /* NSPersistentStoreCoordinator.swift in Sources */,
+				23C9D944214663540050244E /* NSPersistentStoreCoordinator+Utils.swift in Sources */,
+				23A38AEE2147D81B0086C22A /* MigrationSep.swift in Sources */,
 				23A8A4521F9F89670038DE3A /* CoreDataPlusError.swift in Sources */,
 				23CAFC86204AC53A00E016D3 /* EntityObserver.swift in Sources */,
 				236350BC1F95F11C00B3A16A /* NSManagedObject+DelayedDeletable.swift in Sources */,
@@ -795,6 +814,7 @@
 				236350C21F95F11C00B3A16A /* CoreDataPlus.swift in Sources */,
 				236350BB1F95F11C00B3A16A /* NSManagedObject+Utils.swift in Sources */,
 				236350C01F95F11C00B3A16A /* NSFetchRequest+Utils.swift in Sources */,
+				23A38AF32147D84C0086C22A /* Migration.swift in Sources */,
 				236CBA342106477E00FAE00D /* NSBatchUpdateResult+Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -811,7 +831,8 @@
 				23C6493220396A4600AA514A /* NSManagedObjectContext+Observers.swift in Sources */,
 				236350CC1F95F11C00B3A16A /* NSFetchRequestResult+CoreData.swift in Sources */,
 				237EF68E1FA4851800B54A7A /* ProcessInfo+Utils.swift in Sources */,
-				23C9D945214663540050244E /* NSPersistentStoreCoordinator.swift in Sources */,
+				23C9D945214663540050244E /* NSPersistentStoreCoordinator+Utils.swift in Sources */,
+				23A38AEF2147D81B0086C22A /* MigrationSep.swift in Sources */,
 				23A8A4531F9F89670038DE3A /* CoreDataPlusError.swift in Sources */,
 				23CAFC87204AC53A00E016D3 /* EntityObserver.swift in Sources */,
 				236350C71F95F11C00B3A16A /* NSManagedObject+DelayedDeletable.swift in Sources */,
@@ -824,6 +845,7 @@
 				236350CD1F95F11C00B3A16A /* CoreDataPlus.swift in Sources */,
 				236350C61F95F11C00B3A16A /* NSManagedObject+Utils.swift in Sources */,
 				236350CB1F95F11C00B3A16A /* NSFetchRequest+Utils.swift in Sources */,
+				23A38AF42147D84C0086C22A /* Migration.swift in Sources */,
 				236CBA352106477E00FAE00D /* NSBatchUpdateResult+Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -840,7 +862,8 @@
 				23C6493320396A4600AA514A /* NSManagedObjectContext+Observers.swift in Sources */,
 				236350D71F95F11D00B3A16A /* NSFetchRequestResult+CoreData.swift in Sources */,
 				237EF68F1FA4851800B54A7A /* ProcessInfo+Utils.swift in Sources */,
-				23C9D946214663540050244E /* NSPersistentStoreCoordinator.swift in Sources */,
+				23C9D946214663540050244E /* NSPersistentStoreCoordinator+Utils.swift in Sources */,
+				23A38AF02147D81B0086C22A /* MigrationSep.swift in Sources */,
 				23A8A4541F9F89670038DE3A /* CoreDataPlusError.swift in Sources */,
 				23CAFC88204AC53A00E016D3 /* EntityObserver.swift in Sources */,
 				236350D21F95F11D00B3A16A /* NSManagedObject+DelayedDeletable.swift in Sources */,
@@ -853,6 +876,7 @@
 				236350D81F95F11D00B3A16A /* CoreDataPlus.swift in Sources */,
 				236350D11F95F11D00B3A16A /* NSManagedObject+Utils.swift in Sources */,
 				236350D61F95F11D00B3A16A /* NSFetchRequest+Utils.swift in Sources */,
+				23A38AF52147D84C0086C22A /* Migration.swift in Sources */,
 				236CBA362106477E00FAE00D /* NSBatchUpdateResult+Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -869,7 +893,8 @@
 				23C6493020396A4600AA514A /* NSManagedObjectContext+Observers.swift in Sources */,
 				237EF68C1FA4851800B54A7A /* ProcessInfo+Utils.swift in Sources */,
 				23A8A4511F9F89670038DE3A /* CoreDataPlusError.swift in Sources */,
-				23C9D943214663540050244E /* NSPersistentStoreCoordinator.swift in Sources */,
+				23C9D943214663540050244E /* NSPersistentStoreCoordinator+Utils.swift in Sources */,
+				23A38AED2147D81B0086C22A /* MigrationSep.swift in Sources */,
 				23B580931F94FFF700A365C0 /* NSFetchRequest+Utils.swift in Sources */,
 				23CAFC85204AC53A00E016D3 /* EntityObserver.swift in Sources */,
 				23B580991F94FFF700A365C0 /* NSManagedObjectContext+Utils.swift in Sources */,
@@ -882,6 +907,7 @@
 				23B5809A1F94FFF700A365C0 /* NSManagedObjectContext+Cache.swift in Sources */,
 				23B5809C1F94FFF700A365C0 /* Collection+CoreData.swift in Sources */,
 				23B580961F94FFF700A365C0 /* NSManagedObject+UpdateTimestampable.swift in Sources */,
+				23A38AF22147D84C0086C22A /* Migration.swift in Sources */,
 				236CBA332106477E00FAE00D /* NSBatchUpdateResult+Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -900,6 +926,7 @@
 				234130691F95FF90002BE7FC /* NSManagedObjectContextCacheTests.swift in Sources */,
 				23F8E9E01F965B2000C65565 /* SampleModel.xcdatamodeld in Sources */,
 				2383AC641FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift in Sources */,
+				23A38AE92147C29E0086C22A /* SampleModel2 - SampleModel3.xcmappingmodel in Sources */,
 				234130651F95FF90002BE7FC /* CoreDataStack.swift in Sources */,
 				234130681F95FF90002BE7FC /* NSFetchRequestUtilsTests.swift in Sources */,
 				23CAFC8A204B196400E016D3 /* EntityObserverTests.swift in Sources */,
@@ -928,6 +955,7 @@
 				234130701F95FF91002BE7FC /* NSManagedObjectContextCacheTests.swift in Sources */,
 				23F8E9E11F965B2100C65565 /* SampleModel.xcdatamodeld in Sources */,
 				2383AC651FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift in Sources */,
+				23A38AEA2147C29E0086C22A /* SampleModel2 - SampleModel3.xcmappingmodel in Sources */,
 				2341306C1F95FF91002BE7FC /* CoreDataStack.swift in Sources */,
 				2341306F1F95FF91002BE7FC /* NSFetchRequestUtilsTests.swift in Sources */,
 				23CAFC8B204B196400E016D3 /* EntityObserverTests.swift in Sources */,
@@ -956,6 +984,7 @@
 				234130771F95FF91002BE7FC /* NSManagedObjectContextCacheTests.swift in Sources */,
 				23F8E9E21F965B2200C65565 /* SampleModel.xcdatamodeld in Sources */,
 				2383AC661FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift in Sources */,
+				23A38AEB2147C29E0086C22A /* SampleModel2 - SampleModel3.xcmappingmodel in Sources */,
 				234130731F95FF91002BE7FC /* CoreDataStack.swift in Sources */,
 				234130761F95FF91002BE7FC /* NSFetchRequestUtilsTests.swift in Sources */,
 				23CAFC8C204B196400E016D3 /* EntityObserverTests.swift in Sources */,
@@ -1599,6 +1628,7 @@
 		23DAFA231F9641BD0058654B /* SampleModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				23A38AE72147C08E0086C22A /* SampleModel3.xcdatamodel */,
 				230C087A214179D400A1B6CB /* SampleModel2.xcdatamodel */,
 				23DAFA241F9641BD0058654B /* SampleModel.xcdatamodel */,
 			);

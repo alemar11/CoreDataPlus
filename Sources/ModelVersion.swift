@@ -147,7 +147,9 @@ extension ModelVersion {
     return [mapping]
   }
 
-  /// Returns a `NSMappingModel` for a 
+  /// **CoreDataPlus**
+  ///
+  /// Returns a `NSMappingModel` that specifies how to map a model to the next version model.
   public func mappingModelToNextModelVersion() -> NSMappingModel? {
     guard let nextVersion = successor else {
       return nil
@@ -160,33 +162,31 @@ extension ModelVersion {
     return mappingModel
   }
 
+  /// **CoreDataPlus**
+  ///
   /// Returns a newly created mapping model that will migrate data from the source to the destination model.
-  /// A model will be created only if all changes are simple enough to be able to reasonably infer a mapping
-  /// (for example, removing or renaming an attribute, adding an optional attribute or relationship, or adding renaming or deleting an entity).
-  /// Element IDs are used to track renamed properties and entities.
+  ///
+  /// - Note:
+  /// A model will be created only if all changes are simple enough to be able to reasonably infer a mapping such as:
+  ///
+  ///  - Adding, removing, and renaming attributes
+  ///  - Adding, removing, and renaming relationships
+  ///  - Adding, removing, and renaming entities
+  ///  - Changing the optional status of attributes
+  ///  - Adding or removing indexes on attributes
+  ///  - Adding, removing, or changing compound indexes on entities
+  ///  - Adding, removing, or changing unique constraints on entities
+  ///
+  ///  There are a few gotchas to this list:
+  ///
+  /// - if you change an attribute from optional to non-optional, specify a default value.
+  /// - changing indexes (on attributes as well as compound indexes) won’t be picked up as a model change; specify a hash modifier on the changed attributes or entities in order to force Core Data to do the right thing during migration.
   public func inferredMappingModelToNextModelVersion() -> NSMappingModel? {
     guard let nextVersion = successor else {
       return nil
     }
 
-    /*
-     INFERRED MAPPING MODEL LIMITATIONS
-    Adding, removing, and renaming attributes
-    Adding, removing, and renaming relationships
-    Adding, removing, and renaming entities
-    Changing the optional status of attributes
-    Adding or removing indexes on attributes
-    Adding, removing, or changing compound indexes on entities
-    Adding, removing, or changing unique constraints on entities
-    There are a few gotchas to this list. First, if you change an attribute from optional to non-optional, you have to specify a default value. The second, more subtle pitfall is that changing indexes (on attributes as well as compound indexes) won’t be picked up as a model change. You have to specify a hash modifier on the changed attributes or entities in order to force Core Data to do the right thing during migration.
-     */
-
-    do {
-    return try NSMappingModel.inferredMappingModel(forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel())
-    } catch {
-      print(error)
-      return nil
-    }
+    return try? NSMappingModel.inferredMappingModel(forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel())
   }
 
   public func migrationSteps(to version: Self) -> [MigrationStep] {
@@ -195,7 +195,7 @@ extension ModelVersion {
     }
 
     guard let mappings = mappingModelsToNextModelVersion(), let nextVersion = successor else {
-      fatalError("Couldn't find mapping models")
+      fatalError("Couldn't find any mapping models.")
     }
 
     let step = MigrationStep(source: managedObjectModel(), destination: nextVersion.managedObjectModel(), mappings: mappings)
@@ -212,69 +212,5 @@ extension ModelVersion {
   /// The next model version.
   public var successor: Self? { return nil }
 
-}
-
-public final class MigrationStep {
-  var source: NSManagedObjectModel
-  var destination: NSManagedObjectModel
-  var mappings: [NSMappingModel]
-
-  init(source: NSManagedObjectModel, destination: NSManagedObjectModel, mappings: [NSMappingModel]) {
-    self.source = source
-    self.destination = destination
-    self.mappings = mappings
-  }
-}
-
-// https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmLightweightMigration.html
-// https://developer.apple.com/documentation/coredata/heavyweight_migration
-// https://www.objc.io/issues/4-core-data/core-data-migration/
-public func migrateStore<Version: ModelVersion>(from sourceURL: URL, to targetURL: URL, targetVersion: Version, deleteSource: Bool = false, progress: Progress? = nil) throws {
-  guard let sourceVersion = Version(persistentStoreURL: sourceURL as URL) else {
-    fatalError("unknown store version at URL \(sourceURL)")
-  }
-
-  var currentURL = sourceURL
-  let migrationSteps = sourceVersion.migrationSteps(to: targetVersion)
-  var migrationProgress: Progress?
-  // https://github.com/objcio/issue-4-core-data-migration/blob/02002c93a4531ebcf8f40ee4c77986d01abc790e/BookMigration/MHWMigrationManager.m
-  let metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: sourceURL, options: nil)
-  let finalModel = targetVersion.managedObjectModel()
-
-  guard !finalModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata) else {
-    // TODO: check if the initial and final version are the same
-    return
-  }
-
-  if let p = progress {
-    migrationProgress = Progress(totalUnitCount: Int64(migrationSteps.count), parent: p, pendingUnitCount: p.totalUnitCount)
-  }
-
-  for step in migrationSteps {
-    //TODO: autoreleasepool
-    migrationProgress?.becomeCurrent(withPendingUnitCount: 1)
-    let manager = NSMigrationManager(sourceModel: step.source, destinationModel: step.destination)
-    migrationProgress?.resignCurrent()
-    let destinationURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString)
-
-    for mapping in step.mappings {
-      try manager.migrateStore(from: currentURL, sourceType: NSSQLiteStoreType, options: nil, with: mapping, toDestinationURL: destinationURL, destinationType: NSSQLiteStoreType, destinationOptions: nil)
-    }
-
-    if currentURL != sourceURL {
-      NSPersistentStoreCoordinator.destroyStore(at: currentURL)
-    }
-    currentURL = destinationURL
-  }
-
-  try NSPersistentStoreCoordinator.replaceStore(at: targetURL, withStoreAt: currentURL)
-
-  if (currentURL != sourceURL) {
-    NSPersistentStoreCoordinator.destroyStore(at: currentURL)
-  }
-
-  if (targetURL != sourceURL && deleteSource) {
-    NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
-  }
 }
 

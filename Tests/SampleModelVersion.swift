@@ -27,19 +27,20 @@ import XCTest
 
 public enum SampleModelVersion: String {
   case version1 = "SampleModel"
-  case version2 = "SampleModel2" // is equal to version1
+  case version2 = "SampleModel2"
+  case version3 = "SampleModel3"
 }
 
 extension SampleModelVersion: ModelVersion {
 
-  public static var allVersions: [SampleModelVersion] { return [.version1, .version2] }
+  public static var allVersions: [SampleModelVersion] { return [.version1, .version2, .version3] } //TODO: Swift 4.2
 
   public static var currentVersion: SampleModelVersion { return .version1 }
 
   public var successor: SampleModelVersion? {
     switch self {
     case .version1: return .version2
-    //case .version2: return .version3
+    case .version2: return .version3
     default: return nil
     }
   }
@@ -82,6 +83,9 @@ extension SampleModelVersion {
       // Renamed ExpensiveSportCar as LuxuryCar using a "renaming id" on entity ExpensiveSportCar
       // Added the index: byMakerAndNumberPlate on entity Car
       return [mapping]
+    case .version2:
+      let mappings = SampleModelVersion.version2.mappingModelToNextModelVersion()!
+      return [mappings]
     default:
       return []
     }

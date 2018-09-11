@@ -41,13 +41,14 @@ public enum CoreDataPlusError: Error {
   case fetchFailed(error: Error)
   case persistentStoreCoordinatorNotFound(context: NSManagedObjectContext)
   case saveFailed(error: Error)
+  case migrationFailed(error: Error)
 
   /// **CoreDataPlus**
   ///
   /// The `Error` returned by a system framework associated with a CoreDataPlus failure error.
   public var underlyingError: Error? {
     switch self {
-    case .fetchFailed(let error), .saveFailed(let error):
+    case .executionFailed(let error), .fetchFailed(let error), .saveFailed(let error), .migrationFailed(error: let error):
       return error
     default:
       return nil
@@ -79,6 +80,9 @@ extension CoreDataPlusError: LocalizedError {
 
     case .saveFailed(let error):
       return "The save operation could not be completed because of error:\n\(error.localizedDescription)"
+
+    case .migrationFailed(error: let error):
+      return "The migration could not be completed because of error:\n\(error.localizedDescription)"
     }
   }
 

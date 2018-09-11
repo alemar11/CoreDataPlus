@@ -1,4 +1,4 @@
-//
+// 
 // CoreDataPlus
 //
 // Copyright © 2016-2018 Tinrobots.
@@ -21,15 +21,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import XCTest
-@testable import CoreDataPlus
+import CoreData
 
-final class ModelVersionTests: XCTestCase {
+/// **CoreDataPlus**
+///
+/// Represents a single step during the migration process.
+public final class MigrationStep {
+  var sourceModel: NSManagedObjectModel
+  var destinationModel: NSManagedObjectModel
+  var mappings: [NSMappingModel]
 
-  func testVersionModelSetup() {
-    XCTAssertTrue(SampleModelVersion.currentVersion == .version1)
-    XCTAssertTrue(SampleModelVersion.allVersions == [.version1, .version2, .version3])
-    XCTAssertTrue(SampleModelVersion.version1.successor == .version2)
+  init(source: NSManagedObjectModel, destination: NSManagedObjectModel, mappings: [NSMappingModel]) {
+    self.sourceModel = source
+    self.destinationModel = destination
+    self.mappings = mappings
   }
-
 }
