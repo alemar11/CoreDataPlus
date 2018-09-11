@@ -26,10 +26,16 @@ import XCTest
 
 final class ModelVersionTests: XCTestCase {
 
+  func testInvalidInitialization() {
+    XCTAssertNil(SampleModelVersion(persistentStoreURL: URL(string: "wrong-url")!))
+  }
+
   func testVersionModelSetup() {
     XCTAssertTrue(SampleModelVersion.currentVersion == .version1)
     XCTAssertTrue(SampleModelVersion.allVersions == [.version1, .version2, .version3])
     XCTAssertTrue(SampleModelVersion.version1.successor == .version2)
+
+    XCTAssertNil(SampleModelVersion.version3.mappingModelToNextModelVersion())
   }
 
 }

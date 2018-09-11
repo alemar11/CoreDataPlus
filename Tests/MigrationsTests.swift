@@ -29,6 +29,13 @@ class MigrationsTests: XCTestCase {
 
   // MARK: - LightWeight Migration
 
+  func testNoMigrationSteps() throws {
+    let stack = CoreDataStack.stack(type: .sqlite)
+    let context = stack.mainContext
+    context.fillWithSampleData()
+    try context.save()
+  }
+
   func testtMigrationFromVersion1ToVersion2() throws {
     let stack = CoreDataStack.stack(type: .sqlite)
     let context = stack.mainContext
@@ -38,7 +45,7 @@ class MigrationsTests: XCTestCase {
     let allCars = try Car.fetch(in: context)
     let sportCars = try ExpensiveSportCar.fetch(in: context)
 
-    if #available(iOS 11, tvOS 11, macOS 10.12, *) {
+    if #available(iOS 11, tvOS 11, macOS 10.13, *) {
       XCTAssertEqual(allCars.first!.entity.indexes.count, 0)
     }
 
@@ -47,10 +54,10 @@ class MigrationsTests: XCTestCase {
     XCTAssertEqual(steps.count, 1)
 
     let sourceURL = stack.storeURL!
-    let targetURL = stack.storeURL! //TODO new path?
+    let targetURL = stack.storeURL!
 
     // When
-    try migrateStore(from: sourceURL, to: targetURL, targetVersion: targetVersion)
+    try migrateStore(at: sourceURL, targetVersion: targetVersion)
 
     let migratedContext = NSManagedObjectContext(model: targetVersion.managedObjectModel(), storeURL: targetURL)
 
@@ -60,7 +67,7 @@ class MigrationsTests: XCTestCase {
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
     XCTAssertNotNil(cars.first)
 
-    if #available(iOS 11, tvOS 11, macOS 10.12, *) {
+    if #available(iOS 11, tvOS 11, macOS 10.13, *) {
       let car = cars.first!
       let index = car.entity.indexes.first
       XCTAssertNotNil(index)
@@ -70,8 +77,6 @@ class MigrationsTests: XCTestCase {
       XCTAssertTrue(propertyNames.contains("maker") && propertyNames.contains("numberPlate"))
     }
 
-
-    // TODO: this migration shouldn't happen and it should throw an error
      try migrateStore(from: sourceURL, to: targetURL, targetVersion: targetVersion)
   }
 

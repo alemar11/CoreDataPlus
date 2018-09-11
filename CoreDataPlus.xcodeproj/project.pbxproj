@@ -359,6 +359,14 @@
 			path = SampleModel.momd;
 			sourceTree = "<group>";
 		};
+		23A38AF62147F0990086C22A /* MappingModels */ = {
+			isa = PBXGroup;
+			children = (
+				23A38AE82147C29E0086C22A /* SampleModel2 - SampleModel3.xcmappingmodel */,
+			);
+			path = MappingModels;
+			sourceTree = "<group>";
+		};
 		23B580601F94FEDF00A365C0 = {
 			isa = PBXGroup;
 			children = (
@@ -453,13 +461,13 @@
 		23EEF5431F962DA600A2E72F /* Sample Model */ = {
 			isa = PBXGroup;
 			children = (
+				23A38AF62147F0990086C22A /* MappingModels */,
 				230B3A64204EE1B000A87EB6 /* SampleModel.momd */,
 				2363510B1F95F28C00B3A16A /* SampleModelVersion.swift */,
 				236351081F95F28C00B3A16A /* CoreDataStack.swift */,
 				23EEF5441F962E5700A2E72F /* Car.swift */,
 				23EEF5481F962E6A00A2E72F /* Person.swift */,
 				23DAFA231F9641BD0058654B /* SampleModel.xcdatamodeld */,
-				23A38AE82147C29E0086C22A /* SampleModel2 - SampleModel3.xcmappingmodel */,
 				233654361F9E1644007F8D3D /* SampleData.swift */,
 				23C9D94921469CB70050244E /* TestEntity.swift */,
 			);

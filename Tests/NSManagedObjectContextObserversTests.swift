@@ -283,6 +283,8 @@ final class NSManagedObjectContextObserversTests: XCTestCase {
     let token2 = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       XCTAssertEqual(notification.managedObjectContext, context)
 
+      debugPrint(notification)
+
       didSaveDeletedObjects += notification.deletedObjects.count
       didSaveInsertedObjects += notification.insertedObjects.count
       didSaveUpdatedObjects += notification.updatedObjects.count
@@ -291,6 +293,8 @@ final class NSManagedObjectContextObserversTests: XCTestCase {
 
     let token3 = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
       XCTAssertEqual(notification.managedObjectContext, context)
+
+      debugPrint(notification)
 
       deletedObjects += notification.deletedObjects.count
       insertedObjects += notification.insertedObjects.count

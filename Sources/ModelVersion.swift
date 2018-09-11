@@ -32,7 +32,7 @@ private enum ModelVersionExtension {
 /// **CoreDataPlus**
 ///
 /// Types adopting the `ModelVersion` protocol can be used to describe a Core Data Model and its versioning.
-public protocol ModelVersion: Equatable {
+public protocol ModelVersion: Equatable, RawRepresentable {
 
   /// **CoreDataPlus**
   ///
@@ -76,7 +76,11 @@ public protocol ModelVersion: Equatable {
   /// Model name.
   var modelName: String { get }
 
-
+  /// **CoreDataPlus**
+  ///
+  /// Protocol `ModelVersion`.
+  ///
+  /// Returns a list of mapping models needed to migrate the current version of the database to the next one.
   func mappingModelsToNextModelVersion() -> [NSMappingModel]?
 }
 
@@ -95,7 +99,7 @@ extension ModelVersion {
 
   /// **CoreDataPlus**
   ///
-  /// Initializes a ModelVersion from a `NSPersistentStore` URL.
+  /// Initializes a `ModelVersion` from a `NSPersistentStore` URL.
   public init?(persistentStoreURL: URL) {
     guard let metadata = try? NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: persistentStoreURL, options: nil) else {
       return nil
@@ -131,21 +135,17 @@ extension ModelVersion {
     }
 
     guard let model = NSManagedObjectModel(contentsOf: url) else {
-      preconditionFailure("Error initializing Managed Object Model: cannot open model at \(url).")
+      preconditionFailure("Error initializing Managed Object Model: cannot open the model at \(url).")
     }
 
     return model
   }
+  
+}
 
-  /// Returns a list of mapping models needed to migrate the current version of the database to the next one.
-  /// - Note: By default it calls on // TODO
-  public func mappingModelsToNextModelVersion() -> [NSMappingModel]? {
-    guard let mapping = mappingModelToNextModelVersion() else {
-      return nil
-    }
+// MARK: - Migration
 
-    return [mapping]
-  }
+extension ModelVersion {
 
   /// **CoreDataPlus**
   ///
@@ -156,7 +156,7 @@ extension ModelVersion {
     }
 
     guard let mappingModel = NSMappingModel(from: [modelBundle], forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel()) else {
-      fatalError("No mapping model found for \(self) to \(nextVersion).")
+      fatalError("No NSMappingModel found for \(self) to \(nextVersion).")
     }
 
     return mappingModel
@@ -189,6 +189,9 @@ extension ModelVersion {
     return try? NSMappingModel.inferredMappingModel(forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel())
   }
 
+  /// **CoreDataPlus**
+  ///
+  /// Returns a list of `MigrationStep` needed to mirate to the next version of the store.
   public func migrationSteps(to version: Self) -> [MigrationStep] {
     guard self != version else {
       return []
@@ -202,15 +205,6 @@ extension ModelVersion {
 
     return [step] + nextVersion.migrationSteps(to: version)
   }
-
-}
-
-extension ModelVersion {
-
-  /// **CoreDataPlus**
-  ///
-  /// The next model version.
-  public var successor: Self? { return nil }
 
 }
 

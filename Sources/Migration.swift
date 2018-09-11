@@ -20,28 +20,47 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+// https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmLightweightMigration.html
+// https://developer.apple.com/documentation/coredata/heavyweight_migration
+// https://www.objc.io/issues/4-core-data/core-data-migration/
 
 import CoreData
 
+/// **CoreDataPlus**
+///
+/// Migrates a store to a given version.
+///
+/// - Parameters:
+///   - sourceURL: the current store URL.
+///   - targetVersion: the ModelVersion to which the store is needed to migrate to.
+///   - progress: a Progress instance to monitor the migration.
+  /// - Throws: It throws an error in cases of failure.
 public func migrateStore<Version: ModelVersion>(at sourceURL: URL, targetVersion: Version, progress: Progress? = nil) throws {
   try migrateStore(from: sourceURL, to: sourceURL, targetVersion: targetVersion, deleteSource: false, progress: progress)
 }
 
-// https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmLightweightMigration.html
-// https://developer.apple.com/documentation/coredata/heavyweight_migration
-// https://www.objc.io/issues/4-core-data/core-data-migration/
-// https://github.com/objcio/issue-4-core-data-migration/blob/02002c93a4531ebcf8f40ee4c77986d01abc790e/BookMigration/MHWMigrationManager.m
+/// **CoreDataPlus**
+///
+/// Migrates a store to a given version.
+///
+/// - Parameters:
+///   - sourceURL: the current store URL.
+///   - targetURL: the store URL after the migration phase.
+///   - targetVersion: the ModelVersion to which the store is needed to migrate to.
+///   - deleteSource: if `true` the initial store will be deleted after the migration phase.
+///   - progress: a Progress instance to monitor the migration.
+  /// - Throws: It throws an error in cases of failure.
 public func migrateStore<Version: ModelVersion>(from sourceURL: URL, to targetURL: URL, targetVersion: Version, deleteSource: Bool = false, progress: Progress? = nil) throws {
   guard let sourceVersion = Version(persistentStoreURL: sourceURL as URL) else {
-    fatalError("unknown store version at URL \(sourceURL)")
+    fatalError("A ModelVersion for the store at URL \(sourceURL) could not be found.")
   }
 
   do {
     let metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: sourceURL, options: nil)
-    let finalModel = targetVersion.managedObjectModel()
+    let targetModel = targetVersion.managedObjectModel()
 
     // Avoid unnecessary migrations
-    guard !finalModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata) else {
+    guard !targetModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata) else {
       return
     }
   } catch {
@@ -67,6 +86,7 @@ public func migrateStore<Version: ModelVersion>(from sourceURL: URL, to targetUR
         migrationProgress?.becomeCurrent(withPendingUnitCount: 1)
         let manager = NSMigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
         migrationProgress?.resignCurrent()
+
         let destinationURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString)
 
         for mapping in step.mappings {
