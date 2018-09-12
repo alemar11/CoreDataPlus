@@ -60,7 +60,7 @@ final class CoreDataStack {
 
       persistentStoreDescription.type = NSSQLiteStoreType
       persistentStoreDescription.shouldMigrateStoreAutomatically = true // default behaviour: true
-      persistentStoreDescription.shouldInferMappingModelAutomatically = true // default behaviour
+      persistentStoreDescription.shouldInferMappingModelAutomatically = false // default behaviour (lightweight)
       persistentStoreDescription.shouldAddStoreAsynchronously = false // default
 
       persistentStoreCoordinator.addPersistentStore(with: persistentStoreDescription, completionHandler: { (persistentStoreDescription, error) in

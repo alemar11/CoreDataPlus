@@ -97,9 +97,15 @@ class MigrationsTests: XCTestCase {
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
     let makers = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Maker"))
-    
+    XCTAssertEqual(makers.count, 11)
+
+    //try cars.fetchFaultedObjects()
+    //print(cars)
+
     cars.forEach { object in
       let owner = object.value(forKey: "owner") as? NSManagedObject
+      let maker = object.value(forKey: "createdBy") as? NSManagedObject
+      XCTAssertNotNil(maker)
       let previousOwners = object.value(forKey: "previousOwners") as! Set<NSManagedObject>
 
       if let carOwner = owner {

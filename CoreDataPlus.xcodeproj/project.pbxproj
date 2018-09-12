@@ -110,9 +110,9 @@
 		237728652148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237728642148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift */; };
 		237728662148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237728642148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift */; };
 		237728672148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237728642148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift */; };
-		2377286D2148FE6200FDAF32 /* V2ToV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2377286C2148FE6100FDAF32 /* V2ToV3.xcmappingmodel */; };
-		2377286E2148FE6200FDAF32 /* V2ToV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2377286C2148FE6100FDAF32 /* V2ToV3.xcmappingmodel */; };
-		2377286F2148FE6200FDAF32 /* V2ToV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2377286C2148FE6100FDAF32 /* V2ToV3.xcmappingmodel */; };
+		2377287121490B9D00FDAF32 /* V2toV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2377287021490B9D00FDAF32 /* V2toV3.xcmappingmodel */; };
+		2377287221490B9D00FDAF32 /* V2toV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2377287021490B9D00FDAF32 /* V2toV3.xcmappingmodel */; };
+		2377287321490B9D00FDAF32 /* V2toV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2377287021490B9D00FDAF32 /* V2toV3.xcmappingmodel */; };
 		237EF68C1FA4851800B54A7A /* ProcessInfo+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237EF68B1FA4851800B54A7A /* ProcessInfo+Utils.swift */; };
 		237EF68D1FA4851800B54A7A /* ProcessInfo+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237EF68B1FA4851800B54A7A /* ProcessInfo+Utils.swift */; };
 		237EF68E1FA4851800B54A7A /* ProcessInfo+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237EF68B1FA4851800B54A7A /* ProcessInfo+Utils.swift */; };
@@ -254,7 +254,7 @@
 		236CBA3721064D9A00FAE00D /* ThreadSafeAccessibleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafeAccessibleTests.swift; sourceTree = "<group>"; };
 		2371895D20DD231900350F6E /* FetchedResultsChanges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedResultsChanges.swift; sourceTree = "<group>"; };
 		237728642148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V2to3MakerPolicyPolicy.swift; sourceTree = "<group>"; };
-		2377286C2148FE6100FDAF32 /* V2ToV3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = V2ToV3.xcmappingmodel; sourceTree = "<group>"; };
+		2377287021490B9D00FDAF32 /* V2toV3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = V2toV3.xcmappingmodel; sourceTree = "<group>"; };
 		237EF68B1FA4851800B54A7A /* ProcessInfo+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProcessInfo+Utils.swift"; sourceTree = "<group>"; };
 		2383AC631FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectDelayedDeletableTests.swift; sourceTree = "<group>"; };
 		23948D141F99332A00B3738D /* NSEntityDescription+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSEntityDescription+Utils.swift"; sourceTree = "<group>"; };
@@ -366,8 +366,8 @@
 		23A38AF62147F0990086C22A /* MappingModels */ = {
 			isa = PBXGroup;
 			children = (
-				2377286C2148FE6100FDAF32 /* V2ToV3.xcmappingmodel */,
 				237728642148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift */,
+				2377287021490B9D00FDAF32 /* V2toV3.xcmappingmodel */,
 			);
 			path = MappingModels;
 			sourceTree = "<group>";
@@ -933,7 +933,6 @@
 				233654371F9E1644007F8D3D /* SampleData.swift in Sources */,
 				236CBA3821064D9A00FAE00D /* ThreadSafeAccessibleTests.swift in Sources */,
 				23C6493A20396FFA00AA514A /* NSManagedObjectContextObserversTests.swift in Sources */,
-				2377286D2148FE6200FDAF32 /* V2ToV3.xcmappingmodel in Sources */,
 				23DAFA2A1F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift in Sources */,
 				23EEF5491F962E6A00A2E72F /* Person.swift in Sources */,
 				230C087C21417E1900A1B6CB /* MigrationsTests.swift in Sources */,
@@ -948,6 +947,7 @@
 				23D1056B20D7EFEF00AE84CC /* FetchedResultsChangesTests.swift in Sources */,
 				2341306A1F95FF90002BE7FC /* NSManagedObjectContextUtilsTests.swift in Sources */,
 				23C3B2B61FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift in Sources */,
+				2377287121490B9D00FDAF32 /* V2toV3.xcmappingmodel in Sources */,
 				23EEF5451F962E5700A2E72F /* Car.swift in Sources */,
 				2341306B1F95FF90002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */,
 				234130661F95FF90002BE7FC /* SampleModelVersion.swift in Sources */,
@@ -963,7 +963,6 @@
 				233654381F9E1644007F8D3D /* SampleData.swift in Sources */,
 				236CBA3921064D9A00FAE00D /* ThreadSafeAccessibleTests.swift in Sources */,
 				23C6493B20396FFA00AA514A /* NSManagedObjectContextObserversTests.swift in Sources */,
-				2377286E2148FE6200FDAF32 /* V2ToV3.xcmappingmodel in Sources */,
 				23DAFA2B1F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift in Sources */,
 				23EEF54A1F962E6A00A2E72F /* Person.swift in Sources */,
 				230C087D21417E1900A1B6CB /* MigrationsTests.swift in Sources */,
@@ -978,6 +977,7 @@
 				23D1056C20D7EFEF00AE84CC /* FetchedResultsChangesTests.swift in Sources */,
 				234130711F95FF91002BE7FC /* NSManagedObjectContextUtilsTests.swift in Sources */,
 				23C3B2B71FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift in Sources */,
+				2377287221490B9D00FDAF32 /* V2toV3.xcmappingmodel in Sources */,
 				23EEF5461F962E5700A2E72F /* Car.swift in Sources */,
 				234130721F95FF91002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */,
 				2341306D1F95FF91002BE7FC /* SampleModelVersion.swift in Sources */,
@@ -993,7 +993,6 @@
 				233654391F9E1644007F8D3D /* SampleData.swift in Sources */,
 				236CBA3A21064D9A00FAE00D /* ThreadSafeAccessibleTests.swift in Sources */,
 				23C6493C20396FFA00AA514A /* NSManagedObjectContextObserversTests.swift in Sources */,
-				2377286F2148FE6200FDAF32 /* V2ToV3.xcmappingmodel in Sources */,
 				23DAFA2C1F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift in Sources */,
 				23EEF54B1F962E6A00A2E72F /* Person.swift in Sources */,
 				230C087E21417E1900A1B6CB /* MigrationsTests.swift in Sources */,
@@ -1008,6 +1007,7 @@
 				23D1056D20D7EFEF00AE84CC /* FetchedResultsChangesTests.swift in Sources */,
 				234130781F95FF91002BE7FC /* NSManagedObjectContextUtilsTests.swift in Sources */,
 				23C3B2B81FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift in Sources */,
+				2377287321490B9D00FDAF32 /* V2toV3.xcmappingmodel in Sources */,
 				23EEF5471F962E5700A2E72F /* Car.swift in Sources */,
 				234130791F95FF91002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */,
 				234130741F95FF91002BE7FC /* SampleModelVersion.swift in Sources */,

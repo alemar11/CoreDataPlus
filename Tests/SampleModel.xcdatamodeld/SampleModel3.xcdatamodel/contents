@@ -18,7 +18,7 @@
     </entity>
     <entity name="Maker" representedClassName="Maker" syncable="YES">
         <attribute name="name" attributeType="String" syncable="YES"/>
-        <relationship name="cars" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Car" inverseName="createdBy" inverseEntity="Car" syncable="YES"/>
+        <relationship name="cars" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Car" inverseName="createdBy" inverseEntity="Car" syncable="YES"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="name"/>

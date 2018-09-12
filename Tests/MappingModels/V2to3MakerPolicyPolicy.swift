@@ -28,53 +28,58 @@ final class V2to3MakerPolicyPolicy: NSEntityMigrationPolicy {
   override func createDestinationInstances(forSource sInstance: NSManagedObject, in mapping: NSEntityMapping, manager: NSMigrationManager) throws {
     try super.createDestinationInstances(forSource: sInstance, in: mapping, manager: manager)
 
-//    guard let continentCode = sInstance.isoContinent else { return }
-//    guard let country = manager.destinationInstances(forEntityMappingName: mapping.name, sourceInstances: [sInstance]).first
-//      else { fatalError("must return country") }
-//    guard let context = country.managedObjectContext else { fatalError("must have context") }
-//    let continent = context.findOrCreateContinent(withISOCode: continentCode)
-//    country.setContinent(continent)
+    guard let makerName = sInstance.value(forKey: MakerKey) as? String else {
+      return
+    }
 
+    guard let car = manager.destinationInstances(forEntityMappingName: mapping.name, sourceInstances: [sInstance]).first else {
+      fatalError("must return car") }
+
+    guard let context = car.managedObjectContext else {
+      fatalError("must have context")
+    }
+
+    let maker = context.findOrCreateMaker(withName: makerName)
+    if var currentCars = maker.value(forKey: CarsKey) as? Set<NSManagedObject> {
+      currentCars.insert(car)
+      maker.setValue(currentCars, forKey: CarsKey)
+    } else {
+      var cars = Set<NSManagedObject>()
+      cars.insert(car)
+      maker.setValue(cars, forKey: CarsKey)
+    }
   }
 
 }
 
+private let CarsKey = "cars"
+private let MakerKey = "maker"
+private let NameKey = "name"
+private let MakerEntityName = "Maker"
+private let CountryEntityName = "Country"
 
-//private let NumericISO3166CodeKey = "numericISO3166Code"
-//private let IsoContinentKey = "isoContinent"
-//private let ContinentKey = "continent"
-//private let ContinentEntityName = "Continent"
-//private let CountryEntityName = "Country"
-//
-//extension NSManagedObject {
-//  fileprivate var isoContinent: NSNumber? {
-//    return value(forKey: IsoContinentKey) as? NSNumber
-//  }
-//
-//  fileprivate func setContinent(_ continent: NSManagedObject) {
-//    setValue(continent, forKey: ContinentKey)
-//  }
-//
-//  fileprivate func isContinent(withCode code: NSNumber) -> Bool {
-//    return entity.name == ContinentEntityName && (value(forKey: NumericISO3166CodeKey) as? NSNumber) == code
-//  }
-//}
-//
-//extension NSManagedObjectContext {
-//  fileprivate func findOrCreateContinent(withISOCode isoCode: NSNumber) -> NSManagedObject {
-//    guard let continent = materializedObject(matching: { $0.isContinent(withCode:isoCode) }) else {
-//      let continent = NSEntityDescription.insertNewObject(forEntityName: ContinentEntityName, into: self)
-//      continent.setValue(isoCode, forKey: NumericISO3166CodeKey)
-//      return continent
-//    }
-//    return continent
-//  }
-//
-//  fileprivate func materializedObject(matching condition: (NSManagedObject) -> Bool) -> NSManagedObject? {
-//    for object in registeredObjects where !object.isFault {
-//      guard condition(object) else { continue }
-//      return object
-//    }
-//    return nil
-//  }
-//}
+extension NSManagedObject {
+  fileprivate func isMaker(withName name: String) -> Bool {
+    return entity.name == MakerEntityName && (value(forKey: NameKey) as? String) == name
+  }
+}
+
+
+extension NSManagedObjectContext {
+  fileprivate func findOrCreateMaker(withName name: String) -> NSManagedObject {
+    guard let maker = materializedObject(matching: { $0.isMaker(withName: name) }) else {
+      let maker = NSEntityDescription.insertNewObject(forEntityName: MakerEntityName, into: self)
+      maker.setValue(name, forKey: NameKey)
+      return maker
+    }
+    return maker
+  }
+
+  fileprivate func materializedObject(matching condition: (NSManagedObject) -> Bool) -> NSManagedObject? {
+    for object in registeredObjects where !object.isFault {
+      guard condition(object) else { continue }
+      return object
+    }
+    return nil
+  }
+}
