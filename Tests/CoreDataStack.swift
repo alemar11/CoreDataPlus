@@ -58,6 +58,8 @@ final class CoreDataStack {
       storeURL = URL.temporary.appendingPathComponent("SampleModel.sqlite")
       let persistentStoreDescription = NSPersistentStoreDescription(url: storeURL!)
 
+      print("🔸 \(storeURL!)")
+
       persistentStoreDescription.type = NSSQLiteStoreType
       persistentStoreDescription.shouldMigrateStoreAutomatically = true // default behaviour: true
       persistentStoreDescription.shouldInferMappingModelAutomatically = true // default behaviour (lightweight)
