@@ -83,6 +83,8 @@ public protocol ModelVersion: Equatable, RawRepresentable {
   ///
   /// Returns a list of mapping models needed to migrate the current version of the database to the next one.
   func mappingModelsToNextModelVersion() -> [NSMappingModel]?
+
+  func __managedObjectModel() -> NSManagedObjectModel?
 }
 
 extension ModelVersion {
@@ -107,7 +109,7 @@ extension ModelVersion {
     }
 
     let version = Self.allVersions.first {
-      $0.managedObjectModel().isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
+      $0._managedObjectModel().isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
     }
 
     guard let modelVersion = version else {
@@ -142,6 +144,18 @@ extension ModelVersion {
     return model
   }
 
+  private func _managedObjectModel() -> NSManagedObjectModel {
+    if let mom = __managedObjectModel() {
+      return mom
+    }
+
+    return managedObjectModel()
+  }
+
+  internal func __managedObjectModel() -> NSManagedObjectModel? {
+    return nil
+  }
+
 }
 
 // MARK: - Migration
@@ -158,8 +172,7 @@ extension ModelVersion {
   /// - Throws: It throws an error in cases of failure.
   public func isMigrationPossible<Version: ModelVersion>(for storeURL: URL, to version: Version) throws -> Bool {
     let metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: storeURL, options: nil)
-    let targetModel = version.managedObjectModel()
-
+    let targetModel = version._managedObjectModel()
     return !targetModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
   }
 
@@ -175,7 +188,7 @@ extension ModelVersion {
       fatalError("Couldn't find any mapping models.")
     }
 
-    let step = MigrationStep(source: managedObjectModel(), destination: nextVersion.managedObjectModel(), mappings: mappings)
+    let step = MigrationStep(source: _managedObjectModel(), destination: nextVersion._managedObjectModel(), mappings: mappings)
 
     return [step] + nextVersion.migrationSteps(to: version)
   }
@@ -188,7 +201,7 @@ extension ModelVersion {
       return nil
     }
 
-    guard let mappingModel = NSMappingModel(from: [modelBundle], forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel()) else {
+    guard let mappingModel = NSMappingModel(from: [modelBundle], forSourceModel: _managedObjectModel(), destinationModel: nextVersion._managedObjectModel()) else {
       fatalError("No NSMappingModel found for \(self) to \(nextVersion).")
     }
 
@@ -220,7 +233,7 @@ extension ModelVersion {
       return nil
     }
 
-    return try? NSMappingModel.inferredMappingModel(forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel())
+    return try? NSMappingModel.inferredMappingModel(forSourceModel: _managedObjectModel(), destinationModel: nextVersion._managedObjectModel())
   }
 
   /// **CoreDataPlus**

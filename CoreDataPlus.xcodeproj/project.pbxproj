@@ -231,8 +231,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		230B3A65204EE1B000A87EB6 /* VersionInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = VersionInfo.plist; sourceTree = "<group>"; };
-		230B3A66204EE1B000A87EB6 /* SampleModel.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = SampleModel.mom; sourceTree = "<group>"; };
 		230C087A214179D400A1B6CB /* SampleModel2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel2.xcdatamodel; sourceTree = "<group>"; };
 		230C087B21417E1900A1B6CB /* MigrationsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationsTests.swift; sourceTree = "<group>"; };
 		2319729B204C6A66001008FA /* ObservedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservedEvent.swift; sourceTree = "<group>"; };
@@ -255,6 +253,12 @@
 		2371895D20DD231900350F6E /* FetchedResultsChanges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedResultsChanges.swift; sourceTree = "<group>"; };
 		237728642148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V2to3MakerPolicyPolicy.swift; sourceTree = "<group>"; };
 		2377287021490B9D00FDAF32 /* V2toV3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = V2toV3.xcmappingmodel; sourceTree = "<group>"; };
+		2377287D2149654000FDAF32 /* VersionInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = VersionInfo.plist; sourceTree = "<group>"; };
+		2377287E2149654000FDAF32 /* SampleModel.omo */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleModel.omo; sourceTree = "<group>"; };
+		2377287F2149654000FDAF32 /* SampleModel3.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = SampleModel3.mom; sourceTree = "<group>"; };
+		237728802149654000FDAF32 /* SampleModel2.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = SampleModel2.mom; sourceTree = "<group>"; };
+		237728812149654000FDAF32 /* SampleModel.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = SampleModel.mom; sourceTree = "<group>"; };
+		237728822149654A00FDAF32 /* V2toV3.cdm */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = V2toV3.cdm; sourceTree = "<group>"; };
 		237EF68B1FA4851800B54A7A /* ProcessInfo+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProcessInfo+Utils.swift"; sourceTree = "<group>"; };
 		2383AC631FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectDelayedDeletableTests.swift; sourceTree = "<group>"; };
 		23948D141F99332A00B3738D /* NSEntityDescription+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSEntityDescription+Utils.swift"; sourceTree = "<group>"; };
@@ -354,11 +358,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		230B3A64204EE1B000A87EB6 /* SampleModel.momd */ = {
+		2377287C2149654000FDAF32 /* SampleModel.momd */ = {
 			isa = PBXGroup;
 			children = (
-				230B3A65204EE1B000A87EB6 /* VersionInfo.plist */,
-				230B3A66204EE1B000A87EB6 /* SampleModel.mom */,
+				2377287D2149654000FDAF32 /* VersionInfo.plist */,
+				2377287E2149654000FDAF32 /* SampleModel.omo */,
+				2377287F2149654000FDAF32 /* SampleModel3.mom */,
+				237728802149654000FDAF32 /* SampleModel2.mom */,
+				237728812149654000FDAF32 /* SampleModel.mom */,
 			);
 			path = SampleModel.momd;
 			sourceTree = "<group>";
@@ -466,8 +473,9 @@
 		23EEF5431F962DA600A2E72F /* Sample Model */ = {
 			isa = PBXGroup;
 			children = (
+				237728822149654A00FDAF32 /* V2toV3.cdm */,
+				2377287C2149654000FDAF32 /* SampleModel.momd */,
 				23A38AF62147F0990086C22A /* MappingModels */,
-				230B3A64204EE1B000A87EB6 /* SampleModel.momd */,
 				2363510B1F95F28C00B3A16A /* SampleModelVersion.swift */,
 				236351081F95F28C00B3A16A /* CoreDataStack.swift */,
 				23EEF5441F962E5700A2E72F /* Car.swift */,

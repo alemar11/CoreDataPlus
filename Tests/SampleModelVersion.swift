@@ -29,6 +29,8 @@ public enum SampleModelVersion: String {
   case version1 = "SampleModel"
   case version2 = "SampleModel2"
   case version3 = "SampleModel3"
+
+  public var name: String { return "SampleModel" }
 }
 
 extension SampleModelVersion: ModelVersion {
@@ -56,7 +58,7 @@ extension SampleModelVersion: ModelVersion {
   /// - Note: This is not enough to run the spm tests because the enviroment doesn't contain the "required" values.
   public func managedObjectModel_swift_package_tests() -> NSManagedObjectModel {
     let sampleFolderURL = URL(fileURLWithPath: #file, isDirectory: false).deletingLastPathComponent()
-    let momUrl = sampleFolderURL.appendingPathComponent("\(versionName).momd/\(versionName).mom")
+    let momUrl = sampleFolderURL.appendingPathComponent("\(name).momd/\(versionName).mom")
 
     XCTAssertTrue(FileManager.default.fileExists(atPath: momUrl.path))
 
@@ -65,22 +67,53 @@ extension SampleModelVersion: ModelVersion {
     return model
   }
 
+  public func __managedObjectModel() -> NSManagedObjectModel? {
+    if ProcessInfo.isRunningSwiftPackageTests {
+    let sampleFolderURL = URL(fileURLWithPath: #file, isDirectory: false).deletingLastPathComponent()
+    let momUrl = sampleFolderURL.appendingPathComponent("\(name).momd/\(versionName).mom")
+
+    XCTAssertTrue(FileManager.default.fileExists(atPath: momUrl.path))
+
+    guard let model = NSManagedObjectModel(contentsOf: momUrl) else { preconditionFailure("Error initializing Managed Object Model: cannot open model at \(momUrl).") }
+
+    return model
+    }
+
+    return nil
+  }
+
   public var modelName: String { return "SampleModel" }
 
 }
 
 extension SampleModelVersion {
 
+//  public func inferredMappingModelToNextModelVersion_swift_package_test() -> NSMappingModel? {
+//    guard let nextVersion = successor else {
+//      return nil
+//    }
+//
+//    return try? NSMappingModel.inferredMappingModel(forSourceModel: self.__managedObjectModel(), destinationModel: nextVersion.managedObjectModel_swift_package_tests())
+//  }
+
   public func mappingModelsToNextModelVersion() -> [NSMappingModel]? {
     switch self {
     case .version1:
+//      if !ProcessInfo.isRunningSwiftPackageTests {
+
       let mapping = SampleModelVersion.version1.inferredMappingModelToNextModelVersion()!
+
+
       // Renamed ExpensiveSportCar as LuxuryCar using a "renaming id" on entity ExpensiveSportCar
       // Added the index: byMakerAndNumberPlate on entity Car
       return [mapping]
+//      } else {
+//         let mapping = SampleModelVersion.version1.inferredMappingModelToNextModelVersion_swift_package_test()!
+//        print("------>\(mapping)") //TODO
+//         return [mapping]
+//      }
     case .version2:
       let mappings = SampleModelVersion.version2.mappingModelToNextModelVersion()!
-
       //let mappings = SampleModelVersion.version2.mappingModels(for: ["V2toV3"]).first!
       for e in mappings.entityMappings {
         if let em = e.entityMigrationPolicyClassName, em.contains("V2to3MakerPolicyPolicy") {
