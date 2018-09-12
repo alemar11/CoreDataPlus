@@ -83,8 +83,6 @@ public protocol ModelVersion: Equatable, RawRepresentable {
   ///
   /// Returns a list of mapping models needed to migrate the current version of the database to the next one.
   func mappingModelsToNextModelVersion() -> [NSMappingModel]?
-
-  var mappingModelNamesToNextModelVersion: [String] { get }
 }
 
 extension ModelVersion {

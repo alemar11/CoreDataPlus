@@ -45,14 +45,6 @@ extension SampleModelVersion: ModelVersion {
     }
   }
 
-  public var mappingModelNamesToNextModelVersion: [String] {
-      switch self {
-      case .version1: return []
-      case .version2: return ["SampleModel2 - SampleModel3", "SampleModel2 - SampleModel3 v2"]
-      default: return []
-    }
-  }
-
   public var versionName: String { return rawValue }
 
 //  public var persistentStoreURL: URL {
@@ -92,7 +84,22 @@ extension SampleModelVersion {
       // Added the index: byMakerAndNumberPlate on entity Car
       return [mapping]
     case .version2:
-      let mappings = SampleModelVersion.version2.mappingModelToNextModelVersion()!
+      //let mappings = SampleModelVersion.version2.mappingModelToNextModelVersion()!
+
+      let mappings = SampleModelVersion.version2.mappingModels(for: ["V2toV3"]).first!
+      for e in mappings.entityMappings {
+        if let em = e.entityMigrationPolicyClassName, em.contains("V2to3MakerPolicyPolicy") {
+          /// Hack: we need to change the project module depending on the test target
+          /// default value: CoreDataPlus_Tests_macOS.V2to3MakerPolicyPolicy
+          #if os(iOS)
+          e.entityMigrationPolicyClassName = "CoreDataPlus_Tests_iOS.V2to3MakerPolicyPolicy"
+          #elseif os(tvOS)
+           e.entityMigrationPolicyClassName = "CoreDataPlus_Tests_tvOS.V2to3MakerPolicyPolicy"
+          #endif
+
+        }
+      }
+
       return [mappings]
     default:
       return []
