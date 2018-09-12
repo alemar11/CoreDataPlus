@@ -47,11 +47,6 @@ extension SampleModelVersion: ModelVersion {
 
   public var versionName: String { return rawValue }
 
-//  public var persistentStoreURL: URL {
-//    class Object {} // used to get the current bundle 🤓
-//    return Bundle(for: Object.self).url(forResource: versionName, withExtension: ".sqlite")!
-//  }
-
   public var modelBundle: Bundle {
     class Object {} // used to get the current bundle 🤓
     return Bundle(for: Object.self)
