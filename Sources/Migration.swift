@@ -26,91 +26,97 @@
 
 import CoreData
 
-/// **CoreDataPlus**
-///
-/// Migrates a store to a given version.
-///
-/// - Parameters:
-///   - sourceURL: the current store URL.
-///   - targetVersion: the ModelVersion to which the store is needed to migrate to.
-///   - progress: a Progress instance to monitor the migration.
-/// - Throws: It throws an error in cases of failure.
-public func migrateStore<Version: ModelVersion>(at sourceURL: URL, targetVersion: Version, progress: Progress? = nil) throws {
-  try migrateStore(from: sourceURL, to: sourceURL, targetVersion: targetVersion, deleteSource: false, progress: progress)
-}
+public struct Migration {
 
-/// **CoreDataPlus**
-///
-/// Migrates a store to a given version.
-///
-/// - Parameters:
-///   - sourceURL: the current store URL.
-///   - targetURL: the store URL after the migration phase.
-///   - targetVersion: the ModelVersion to which the store is needed to migrate to.
-///   - deleteSource: if `true` the initial store will be deleted after the migration phase.
-///   - progress: a Progress instance to monitor the migration.
-/// - Throws: It throws an error in cases of failure.
-public func migrateStore<Version: ModelVersion>(from sourceURL: URL, to targetURL: URL, targetVersion: Version, deleteSource: Bool = false, progress: Progress? = nil) throws {
-  guard let sourceVersion = Version(persistentStoreURL: sourceURL as URL) else {
-    fatalError("A ModelVersion for the store at URL \(sourceURL) could not be found.")
+  private init() { }
+
+  /// **CoreDataPlus**
+  ///
+  /// Migrates a store to a given version.
+  ///
+  /// - Parameters:
+  ///   - sourceURL: the current store URL.
+  ///   - targetVersion: the ModelVersion to which the store is needed to migrate to.
+  ///   - progress: a Progress instance to monitor the migration.
+  /// - Throws: It throws an error in cases of failure.
+  public static func migrateStore<Version: ModelVersion>(at sourceURL: URL, targetVersion: Version, progress: Progress? = nil) throws {
+    try migrateStore(from: sourceURL, to: sourceURL, targetVersion: targetVersion, deleteSource: false, progress: progress)
   }
-  
-  do {
-    guard try sourceVersion.isMigrationPossible(for: sourceURL, to: targetVersion) else {
-      return
+
+  /// **CoreDataPlus**
+  ///
+  /// Migrates a store to a given version.
+  ///
+  /// - Parameters:
+  ///   - sourceURL: the current store URL.
+  ///   - targetURL: the store URL after the migration phase.
+  ///   - targetVersion: the ModelVersion to which the store is needed to migrate to.
+  ///   - deleteSource: if `true` the initial store will be deleted after the migration phase.
+  ///   - progress: a Progress instance to monitor the migration.
+  /// - Throws: It throws an error in cases of failure.
+  public static func migrateStore<Version: ModelVersion>(from sourceURL: URL, to targetURL: URL, targetVersion: Version, deleteSource: Bool = false, progress: Progress? = nil) throws {
+    guard let sourceVersion = Version(persistentStoreURL: sourceURL as URL) else {
+      fatalError("A ModelVersion for the store at URL \(sourceURL) could not be found.")
     }
-    
-    var currentURL = sourceURL
-    let steps = sourceVersion.migrationSteps(to: targetVersion)
-    
-    guard steps.count > 0 else {
-      return
-    }
-    
-    var migrationProgress: Progress?
-    
-    if let progress = progress {
-      migrationProgress = Progress(totalUnitCount: Int64(steps.count), parent: progress, pendingUnitCount: progress.totalUnitCount)
-    }
-    
-    
-    for step in steps {
-      try autoreleasepool {
-        migrationProgress?.becomeCurrent(withPendingUnitCount: 1)
-        let manager = NSMigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
-        migrationProgress?.resignCurrent()
-        
-        let destinationURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString)
-        
-        for mapping in step.mappings {
-          try manager.migrateStore(from: currentURL,
-                                   sourceType: NSSQLiteStoreType,
-                                   options: nil,
-                                   with: mapping,
-                                   toDestinationURL: destinationURL,
-                                   destinationType: NSSQLiteStoreType,
-                                   destinationOptions: nil)
-        }
-        
-        if currentURL != sourceURL {
-          try NSPersistentStoreCoordinator.destroyStore(at: currentURL)
-        }
-        currentURL = destinationURL
+
+    do {
+      guard try sourceVersion.isMigrationPossible(for: sourceURL, to: targetVersion) else {
+        return
       }
+
+      var currentURL = sourceURL
+      let steps = sourceVersion.migrationSteps(to: targetVersion)
+
+      guard steps.count > 0 else {
+        return
+      }
+
+      var migrationProgress: Progress?
+
+      if let progress = progress {
+        migrationProgress = Progress(totalUnitCount: Int64(steps.count), parent: progress, pendingUnitCount: progress.totalUnitCount)
+      }
+
+
+      for step in steps {
+        try autoreleasepool {
+          migrationProgress?.becomeCurrent(withPendingUnitCount: 1)
+          let manager = NSMigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
+          migrationProgress?.resignCurrent()
+
+          let destinationURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString)
+
+          for mapping in step.mappings {
+            try manager.migrateStore(from: currentURL,
+                                     sourceType: NSSQLiteStoreType,
+                                     options: nil,
+                                     with: mapping,
+                                     toDestinationURL: destinationURL,
+                                     destinationType: NSSQLiteStoreType,
+                                     destinationOptions: nil)
+          }
+
+          if currentURL != sourceURL {
+            try NSPersistentStoreCoordinator.destroyStore(at: currentURL)
+          }
+          currentURL = destinationURL
+        }
+      }
+
+      try NSPersistentStoreCoordinator.replaceStore(at: targetURL, withStoreAt: currentURL)
+
+      if (currentURL != sourceURL) {
+        try NSPersistentStoreCoordinator.destroyStore(at: currentURL)
+      }
+
+      if (targetURL != sourceURL && deleteSource) {
+        try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
+      }
+
+    } catch {
+      throw CoreDataPlusError.migrationFailed(error: error)
     }
-    
-    try NSPersistentStoreCoordinator.replaceStore(at: targetURL, withStoreAt: currentURL)
-    
-    if (currentURL != sourceURL) {
-      try NSPersistentStoreCoordinator.destroyStore(at: currentURL)
-    }
-    
-    if (targetURL != sourceURL && deleteSource) {
-      try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
-    }
-    
-  } catch {
-    throw CoreDataPlusError.migrationFailed(error: error)
+
   }
-  
+
 }

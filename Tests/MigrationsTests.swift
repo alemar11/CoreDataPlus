@@ -57,7 +57,7 @@ class MigrationsTests: XCTestCase {
     let targetURL = stack.storeURL!
 
     // When
-    try migrateStore(at: sourceURL, targetVersion: targetVersion)
+    try Migration.migrateStore(at: sourceURL, targetVersion: targetVersion)
 
     let migratedContext = NSManagedObjectContext(model: targetVersion.managedObjectModel(), storeURL: targetURL)
 
@@ -77,7 +77,7 @@ class MigrationsTests: XCTestCase {
       XCTAssertTrue(propertyNames.contains("maker") && propertyNames.contains("numberPlate"))
     }
 
-     try migrateStore(from: sourceURL, to: targetURL, targetVersion: targetVersion)
+     try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: targetVersion)
   }
 
   // MARK: - HeavyWeight Migration
@@ -91,8 +91,8 @@ class MigrationsTests: XCTestCase {
     let sourceURL = stack.storeURL!
     let targetURL = stack.storeURL! //TODO new path?
 
-    try migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version2)
-    try migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3)
+    try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version2)
+    try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3)
 
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
