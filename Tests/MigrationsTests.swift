@@ -92,8 +92,6 @@ class MigrationsTests: XCTestCase {
     let targetURL = stack.storeURL! //TODO new path?
 
     try migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version2)
-    let test = SampleModelVersion.version2.inferredMappingModelToNextModelVersion()
-    let k = SampleModelVersion.version2._mappingModelListToNextVersion()
     try migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3)
 
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
@@ -115,23 +113,15 @@ class MigrationsTests: XCTestCase {
 
   }
 
-  func testMigrationFromVersion3ToVersion4() {
-    // policies
-  }
-
-  func testMigrationFromVersion4ToVersion5() {
-    // multiple mapping models?
-    //
-  }
-
-
 }
 
 extension NSManagedObjectContext {
+
   convenience init(model: NSManagedObjectModel, storeURL: URL) {
     let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
     try! psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
     self.init(concurrencyType: .mainQueueConcurrencyType)
     persistentStoreCoordinator = psc
   }
+
 }

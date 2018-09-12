@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17G65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="2">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17G65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="3">
     <entity name="Car" representedClassName="Car" syncable="YES">
-        <attribute name="maker" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="markedForDeletionAsOf" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="model" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="numberPlate" attributeType="String" syncable="YES"/>
+        <relationship name="createdBy" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Maker" inverseName="cars" inverseEntity="Maker" syncable="YES"/>
         <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Person" inverseName="cars" inverseEntity="Person" syncable="YES"/>
         <relationship name="previousOwners" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Person" inverseName="previousCars" inverseEntity="Person" syncable="YES"/>
-        <fetchIndex name="byMakerAndNumberPlate">
-            <fetchIndexElement property="maker" type="Binary" order="ascending"/>
-            <fetchIndexElement property="numberPlate" type="Binary" order="ascending"/>
-        </fetchIndex>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="numberPlate"/>
@@ -22,6 +18,7 @@
     </entity>
     <entity name="Maker" representedClassName="Maker" syncable="YES">
         <attribute name="name" attributeType="String" syncable="YES"/>
+        <relationship name="cars" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Car" inverseName="createdBy" inverseEntity="Car" syncable="YES"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="name"/>
@@ -45,8 +42,8 @@
     <elements>
         <element name="Car" positionX="-54" positionY="-9" width="128" height="133"/>
         <element name="LuxuryCar" positionX="-56" positionY="-189" width="128" height="60"/>
-        <element name="Person" positionX="-398" positionY="8" width="128" height="118"/>
+        <element name="Maker" positionX="243" positionY="18" width="128" height="73"/>
+        <element name="Person" positionX="-369" positionY="8" width="128" height="118"/>
         <element name="SportCar" positionX="-54" positionY="-90" width="128" height="45"/>
-        <element name="Maker" positionX="-225" positionY="-45" width="128" height="60"/>
     </elements>
 </model>

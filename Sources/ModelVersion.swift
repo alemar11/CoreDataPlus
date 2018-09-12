@@ -152,13 +152,13 @@ extension ModelVersion {
 
   /// **CoreDataPlus**
   ///
-  /// Returns `true` if a migration is needed for the current store to a given `ModelVersion`.
+  /// Returns `true` if a migration is possible for the current store to a given `ModelVersion`.
   ///
   /// - Parameters:
   ///   - storeURL: the current store URL.
   ///   - version: the ModelVersion to which the store is compared.
   /// - Throws: It throws an error in cases of failure.
-  public func isMigrationNeeded<Version: ModelVersion>(for storeURL: URL, to version: Version) throws -> Bool {
+  public func isMigrationPossible<Version: ModelVersion>(for storeURL: URL, to version: Version) throws -> Bool {
     let metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: storeURL, options: nil)
     let targetModel = version.managedObjectModel()
 
@@ -224,33 +224,30 @@ extension ModelVersion {
     return try? NSMappingModel.inferredMappingModel(forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel())
   }
 
-  public func _mappingModelListToNextVersion() -> [NSMappingModel] {
- var results = [NSMappingModel]()
-//    guard let nextVersion = successor else {
-//      return []
-//    }
+  /// **CoreDataPlus**
+  ///
+  /// - Returns: Returns a list of `NSMappingModel` given a list of mapping model names.
+  public func mappingModels(for mappingModelNames: [String]) ->  [NSMappingModel] {
+    var results = [NSMappingModel]()
 
-    print((modelBundle.urls(forResourcesWithExtension: ModelVersionExtension.cdm, subdirectory: nil)))
-
-    let allMappingModels = modelBundle.urls(forResourcesWithExtension: ModelVersionExtension.cdm, subdirectory: nil) ?? []
-    guard allMappingModels.count > 0 else {
+    guard mappingModelNames.count > 0 else {
       return results
     }
 
+    guard
+      let allMappingModelsURLs = modelBundle.urls(forResourcesWithExtension: ModelVersionExtension.cdm, subdirectory: nil),
+      allMappingModelsURLs.count > 0 else {
+        return results
+    }
 
-//    mappingModelNamesToNextModelVersion.forEach { name in
-//      allMappingModels.map({ (url) -> Bool in
-//        let k = url.deletingPathExtension()
-//
-//        if name == k.lastPathComponent, let mm = NSMappingModel(contentsOf: url) {
-//         results.append(mm)
-//        }
-//      })
-//    }
-      //.filter { mappingModelNamesToNextModelVersion.contains($0.lastPathComponent) }
-      //.compactMap { NSMappingModel(contentsOf: $0) }) ?? []
-
-
+    mappingModelNames.forEach { name in
+      let expectedFileName = "\(name).\(ModelVersionExtension.cdm)"
+      if
+        let url = (allMappingModelsURLs.filter { $0.lastPathComponent == expectedFileName }).first,
+        let mappingModel = NSMappingModel(contentsOf: url) {
+        results.append(mappingModel)
+      }
+    }
 
     return results
   }
@@ -259,42 +256,5 @@ extension ModelVersion {
 
 // https://github.com/azone/WYZCoreDataMigrationManager/blob/master/NSMappingModel%2BWYZAdditions.m
 // https://gist.github.com/horseshoe7/0083ce48cba98ae107a18de06a39767f
-/**
- + (NSArray *)wyz_mappingModelsFromBundles:(NSArray *)bundles forSourceModel:(NSManagedObjectModel *)sourceModel destinationModel:(NSManagedObjectModel *)destinationModel {
- NSMutableSet *mappings = [NSMutableSet set];
- NSSet *sourceEntityVersionHashes = [NSSet setWithArray:[sourceModel.entityVersionHashesByName allValues]];
- NSSet *destinationEntityVersionHashes = [NSSet setWithArray:[destinationModel.entityVersionHashesByName allValues]];
- if (!bundles) {
- bundles = @[[NSBundle mainBundle]];
- }
- for (NSBundle *bundle in bundles) {
- NSArray *foundMappingModelURLs = [bundle URLsForResourcesWithExtension:@"cdm" subdirectory:nil];
- for (NSURL *mappingModelURL in foundMappingModelURLs) {
- NSMappingModel *mappingModel = [[NSMappingModel alloc] initWithContentsOfURL:mappingModelURL];
- NSSet *mappingModelSourceEntityVersionHashes = [NSSet setWithArray:[[mappingModel.entityMappingsByName allValues] valueForKeyPath:@"sourceEntityVersionHash"]];
- NSSet *mappingModelDestinationEntityVersionHashes = [NSSet setWithArray:[[mappingModel.entityMappingsByName allValues] valueForKeyPath:@"destinationEntityVersionHash"]];
- if ([mappingModelSourceEntityVersionHashes isSubsetOfSet:sourceEntityVersionHashes]
- && [mappingModelDestinationEntityVersionHashes isSubsetOfSet:destinationEntityVersionHashes]) {
- BOOL shouldContinue = NO;
- for (NSMappingModel *mappingModelInSet in mappings) {
- NSSet *mappingModelInSetSourceEntityVersionHashes = [NSSet setWithArray:[[mappingModelInSet.entityMappingsByName allValues] valueForKeyPath:@"sourceEntityVersionHash"]];
- NSSet *mappingModelInSetDestinationEntityVersionHashes = [NSSet setWithArray:[[mappingModelInSet.entityMappingsByName allValues] valueForKeyPath:@"destinationEntityVersionHash"]];
 
- if ([mappingModelInSetSourceEntityVersionHashes isEqualToSet:mappingModelSourceEntityVersionHashes]
- && [mappingModelInSetDestinationEntityVersionHashes isEqualToSet:mappingModelDestinationEntityVersionHashes]) {
- shouldContinue = YES;
- break;
- }
- }
- if (shouldContinue) {
- continue;
- }
- [mappings addObject:mappingModel];
- }
- }
- }
-
- return [mappings allObjects];
- }
- **/
 

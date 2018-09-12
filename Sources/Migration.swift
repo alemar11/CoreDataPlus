@@ -56,7 +56,7 @@ public func migrateStore<Version: ModelVersion>(from sourceURL: URL, to targetUR
   }
   
   do {
-    guard try sourceVersion.isMigrationNeeded(for: sourceURL, to: targetVersion) else {
+    guard try sourceVersion.isMigrationPossible(for: sourceURL, to: targetVersion) else {
       return
     }
     
