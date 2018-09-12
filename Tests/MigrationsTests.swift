@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2018 Tinrobots.
@@ -26,6 +26,8 @@ import CoreData
 @testable import CoreDataPlus
 
 class MigrationsTests: XCTestCase {
+
+  let fileManager = FileManager.default
 
   // MARK: - LightWeight Migration
 
@@ -77,7 +79,7 @@ class MigrationsTests: XCTestCase {
       XCTAssertTrue(propertyNames.contains("maker") && propertyNames.contains("numberPlate"))
     }
 
-     try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: targetVersion)
+    try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: targetVersion)
   }
 
   // MARK: - HeavyWeight Migration
@@ -89,7 +91,7 @@ class MigrationsTests: XCTestCase {
     try context.save()
 
     let sourceURL = stack.storeURL!
-    let targetURL = stack.storeURL! //TODO new path?
+    let targetURL = stack.storeURL!
 
     try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version2)
     try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3)
@@ -106,6 +108,8 @@ class MigrationsTests: XCTestCase {
       let owner = object.value(forKey: "owner") as? NSManagedObject
       let maker = object.value(forKey: "createdBy") as? NSManagedObject
       XCTAssertNotNil(maker)
+      let name = maker!.value(forKey: "name") as! String
+      maker!.setValue("--\(name)--", forKey: "name")
       let previousOwners = object.value(forKey: "previousOwners") as! Set<NSManagedObject>
 
       if let carOwner = owner {
@@ -117,25 +121,39 @@ class MigrationsTests: XCTestCase {
       }
     }
 
+    try migratedContext.save()
+    XCTAssertTrue(fileManager.fileExists(atPath: targetURL.path))
   }
 
-func testMigrationFromVersion1dToVersion3() throws {
-  let stack = CoreDataStack.stack(type: .sqlite)
-  let context = stack.mainContext
-  context.fillWithSampleData()
-  try context.save()
+  func testMigrationFromVersion1dToVersion3() throws {
+    let stack = CoreDataStack.stack(type: .sqlite)
+    let context = stack.mainContext
+    context.fillWithSampleData()
+    try context.save()
 
-  let sourceURL = stack.storeURL!
-  let targetURL = stack.storeURL! //TODO new path?
+    let sourceURL = stack.storeURL!
+    let targetURL = URL.temporary.appendingPathComponent("SampleModel").appendingPathExtension("sqlite")
 
-  let progress = Progress(parent: nil, userInfo: nil)
+    let progress = Progress(parent: nil, userInfo: nil)
 
-  let observer = progress.observe(\.fractionCompleted) { (progress, change) in
-    print(change)
+    //    let observer = progress.observe(\.fractionCompleted) { (progress, change) in
+    //      print(change)
+    //    }
+    try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3, deleteSource: true, progress: progress)
+
+    let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
+    let makers = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Maker"))
+    XCTAssertEqual(makers.count, 11)
+
+    makers.forEach { (maker) in
+      let name = maker.value(forKey: "name") as! String
+      maker.setValue("--\(name)--", forKey: "name")
+    }
+    try migratedContext.save()
+
+    XCTAssertFalse(fileManager.fileExists(atPath: sourceURL.path))
+    XCTAssertTrue(fileManager.fileExists(atPath: targetURL.path))
   }
-  try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3, deleteSource: true, progress: progress)
-
-}
 }
 
 extension NSManagedObjectContext {

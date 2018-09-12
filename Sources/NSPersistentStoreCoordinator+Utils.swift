@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2018 Tinrobots.
@@ -27,9 +27,24 @@ import CoreData
 
 extension NSPersistentStoreCoordinator {
 
+  /// Safely deletes a store at a given url.
   internal static func destroyStore(at url: URL) throws {
     let persistentStoreCoordinator = self.init(managedObjectModel: NSManagedObjectModel())
+    /// destroyPersistentStore safely deletes everything in the database and leaves an empty database behind.
     try persistentStoreCoordinator.destroyPersistentStore(at: url, ofType: NSSQLiteStoreType, options: nil)
+
+    let fileManager = FileManager.default
+
+    let storePath = url.path
+    if fileManager.fileExists(atPath: storePath) {
+      try fileManager.removeItem(atPath: storePath)
+
+      let writeAheadLog = storePath + "-wal"
+      _ = try? fileManager.removeItem(atPath: writeAheadLog)
+
+      let sharedMemoryfile = storePath + "-shm"
+      _ = try? fileManager.removeItem(atPath: sharedMemoryfile)
+    }
   }
 
   internal static func replaceStore(at targetURL: URL, withStoreAt sourceURL: URL) throws {
@@ -38,4 +53,3 @@ extension NSPersistentStoreCoordinator {
   }
 
 }
-

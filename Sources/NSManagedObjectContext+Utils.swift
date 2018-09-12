@@ -145,7 +145,7 @@ extension NSManagedObjectContext {
   public final func performSaveAndWait(after changes: () throws -> Void) throws {
     // swiftlint:disable:next identifier_name
     try withoutActuallyEscaping(changes) { _changes in
-      var internalError: CoreDataPlusError? = nil
+      var internalError: CoreDataPlusError?
 
       performAndWait {
         do {
@@ -190,7 +190,7 @@ extension NSManagedObjectContext {
     var parentContext: NSManagedObjectContext? = self
 
     while parentContext != nil {
-      var saveError: Error? = nil
+      var saveError: Error?
 
       parentContext!.performAndWait {
         guard parentContext!.hasChanges else { return }

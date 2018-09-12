@@ -60,8 +60,15 @@ final class CoreDataStack {
 
       persistentStoreDescription.type = NSSQLiteStoreType
       persistentStoreDescription.shouldMigrateStoreAutomatically = true // default behaviour: true
-      persistentStoreDescription.shouldInferMappingModelAutomatically = false // default behaviour (lightweight)
+      persistentStoreDescription.shouldInferMappingModelAutomatically = true // default behaviour (lightweight)
       persistentStoreDescription.shouldAddStoreAsynchronously = false // default
+
+//      let disableWal = false
+//      if disableWal {
+//        persistentStoreDescription.setValue(NSString(string: "DELETE"), forPragmaNamed: "journal_mode")
+//      } disableWal {
+//        persistentStoreDescription.setValue(NSString(string: "WAL"), forPragmaNamed: "journal_mode")
+//      }
 
       persistentStoreCoordinator.addPersistentStore(with: persistentStoreDescription, completionHandler: { (persistentStoreDescription, error) in
         if let error = error { XCTFail(error.localizedDescription) }
@@ -89,7 +96,9 @@ extension CoreDataStack {
 extension URL {
 
   static var temporary: URL {
-    return URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString)
+    let url =  URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory:true).appendingPathComponent("CoreDataPlus-Test-\(UUID().uuidString)")
+    try! FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
+    return url
   }
 
 }

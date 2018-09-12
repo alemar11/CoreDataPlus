@@ -141,7 +141,7 @@ extension ModelVersion {
 
     return model
   }
-  
+
 }
 
 // MARK: - Migration
@@ -213,7 +213,8 @@ extension ModelVersion {
   ///  There are a few gotchas to this list:
   ///
   /// - if you change an attribute from optional to non-optional, specify a default value.
-  /// - changing indexes (on attributes as well as compound indexes) won’t be picked up as a model change; specify a hash modifier on the changed attributes or entities in order to force Core Data to do the right thing during migration.
+  /// - changing indexes (on attributes as well as compound indexes) won’t be picked up as a model change; specify a hash modifier on the changed
+  /// attributes or entities in order to force Core Data to do the right thing during migration.
   public func inferredMappingModelToNextModelVersion() -> NSMappingModel? {
     guard let nextVersion = successor else {
       return nil
@@ -225,7 +226,7 @@ extension ModelVersion {
   /// **CoreDataPlus**
   ///
   /// - Returns: Returns a list of `NSMappingModel` given a list of mapping model names.
-  public func mappingModels(for mappingModelNames: [String]) ->  [NSMappingModel] {
+  public func mappingModels(for mappingModelNames: [String]) -> [NSMappingModel] {
     var results = [NSMappingModel]()
 
     guard mappingModelNames.count > 0 else {
@@ -241,8 +242,9 @@ extension ModelVersion {
     mappingModelNames.forEach { name in
       let expectedFileName = "\(name).\(ModelVersionExtension.cdm)"
       if
-        let url = (allMappingModelsURLs.filter { $0.lastPathComponent == expectedFileName }).first,
-        let mappingModel = NSMappingModel(contentsOf: url) {
+        let url = allMappingModelsURLs.first(where: { $0.lastPathComponent == expectedFileName })
+      (allMappingModelsURLs.filter { $0.lastPathComponent == expectedFileName }).first,
+      let mappingModel = NSMappingModel(contentsOf: url) {
         results.append(mappingModel)
       }
     }
@@ -251,8 +253,3 @@ extension ModelVersion {
   }
 
 }
-
-// https://github.com/azone/WYZCoreDataMigrationManager/blob/master/NSMappingModel%2BWYZAdditions.m
-// https://gist.github.com/horseshoe7/0083ce48cba98ae107a18de06a39767f
-
-

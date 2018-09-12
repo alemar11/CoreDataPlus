@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2018 Tinrobots.
@@ -77,7 +77,6 @@ public struct Migration {
         migrationProgress = Progress(totalUnitCount: Int64(steps.count), parent: progress, pendingUnitCount: progress.totalUnitCount)
       }
 
-
       for step in steps {
         try autoreleasepool {
           migrationProgress?.becomeCurrent(withPendingUnitCount: 1)
@@ -105,11 +104,11 @@ public struct Migration {
 
       try NSPersistentStoreCoordinator.replaceStore(at: targetURL, withStoreAt: currentURL)
 
-      if (currentURL != sourceURL) {
+      if currentURL != sourceURL {
         try NSPersistentStoreCoordinator.destroyStore(at: currentURL)
       }
 
-      if (targetURL != sourceURL && deleteSource) {
+      if targetURL != sourceURL && deleteSource {
         try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
       }
 
