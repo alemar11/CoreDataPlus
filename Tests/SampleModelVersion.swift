@@ -84,9 +84,9 @@ extension SampleModelVersion {
       // Added the index: byMakerAndNumberPlate on entity Car
       return [mapping]
     case .version2:
-      //let mappings = SampleModelVersion.version2.mappingModelToNextModelVersion()!
+      let mappings = SampleModelVersion.version2.mappingModelToNextModelVersion()!
 
-      let mappings = SampleModelVersion.version2.mappingModels(for: ["V2toV3"]).first!
+      //let mappings = SampleModelVersion.version2.mappingModels(for: ["V2toV3"]).first!
       for e in mappings.entityMappings {
         if let em = e.entityMigrationPolicyClassName, em.contains("V2to3MakerPolicyPolicy") {
           /// Hack: we need to change the project module depending on the test target

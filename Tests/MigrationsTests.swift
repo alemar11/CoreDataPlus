@@ -119,6 +119,23 @@ class MigrationsTests: XCTestCase {
 
   }
 
+func testMigrationFromVersion1dToVersion3() throws {
+  let stack = CoreDataStack.stack(type: .sqlite)
+  let context = stack.mainContext
+  context.fillWithSampleData()
+  try context.save()
+
+  let sourceURL = stack.storeURL!
+  let targetURL = stack.storeURL! //TODO new path?
+
+  let progress = Progress(parent: nil, userInfo: nil)
+
+  let observer = progress.observe(\.fractionCompleted) { (progress, change) in
+    print(change)
+  }
+  try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3, deleteSource: true, progress: progress)
+
+}
 }
 
 extension NSManagedObjectContext {
