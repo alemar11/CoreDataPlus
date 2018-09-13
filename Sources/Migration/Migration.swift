@@ -55,7 +55,6 @@ public struct Migration {
   ///   - progress: a Progress instance to monitor the migration.
   /// - Throws: It throws an error in cases of failure.
   public static func migrateStore<Version: ModelVersion>(from sourceURL: URL, to targetURL: URL, targetVersion: Version, deleteSource: Bool = false, progress: Progress? = nil) throws {
-    print("\n\n---------------------\n\n")
     guard let sourceVersion = Version(persistentStoreURL: sourceURL as URL) else {
       fatalError("A ModelVersion for the store at URL \(sourceURL) could not be found.")
     }

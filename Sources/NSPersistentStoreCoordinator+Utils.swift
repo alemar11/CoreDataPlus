@@ -23,8 +23,6 @@
 
 import CoreData
 
-  // TODO Migrate these to NSPersistentContainer
-
 extension NSPersistentStoreCoordinator {
 
   /// Safely deletes a store at a given url.

@@ -88,33 +88,34 @@ extension SampleModelVersion: ModelVersion {
 
 extension SampleModelVersion {
 
-//  public func inferredMappingModelToNextModelVersion_swift_package_test() -> NSMappingModel? {
-//    guard let nextVersion = successor else {
-//      return nil
-//    }
-//
-//    return try? NSMappingModel.inferredMappingModel(forSourceModel: self.__managedObjectModel(), destinationModel: nextVersion.managedObjectModel_swift_package_tests())
-//  }
+  func mappingModel_swift_package_tests() -> [NSMappingModel] {
+    switch self {
+    case .version2:
+      let sampleFolderURL = URL(fileURLWithPath: #file, isDirectory: false).deletingLastPathComponent()
+      let cdmUrl = sampleFolderURL.appendingPathComponent("V2toV3.cdm")
+      if let mapping = NSMappingModel(contentsOf: cdmUrl) {
+        return [mapping]
+      }
+      return []
+    default: return []
+    }
+  }
 
   public func mappingModelsToNextModelVersion() -> [NSMappingModel]? {
     switch self {
     case .version1:
-//      if !ProcessInfo.isRunningSwiftPackageTests {
-
       let mapping = SampleModelVersion.version1.inferredMappingModelToNextModelVersion()!
-
-
       // Renamed ExpensiveSportCar as LuxuryCar using a "renaming id" on entity ExpensiveSportCar
       // Added the index: byMakerAndNumberPlate on entity Car
       return [mapping]
-//      } else {
-//         let mapping = SampleModelVersion.version1.inferredMappingModelToNextModelVersion_swift_package_test()!
-//        print("------>\(mapping)") //TODO
-//         return [mapping]
-//      }
+
     case .version2:
-      let mappings = SampleModelVersion.version2.mappingModelToNextModelVersion()!
-      //let mappings = SampleModelVersion.version2.mappingModels(for: ["V2toV3"]).first!
+       let mappings: NSMappingModel
+      if ProcessInfo.isRunningSwiftPackageTests {
+        mappings = mappingModel_swift_package_tests().first!
+      } else {
+        mappings = SampleModelVersion.version2.mappingModelToNextModelVersion()!
+       }
       for e in mappings.entityMappings {
         if let em = e.entityMigrationPolicyClassName, em.contains("V2to3MakerPolicyPolicy") {
           /// Hack: we need to change the project module depending on the test target
@@ -124,6 +125,10 @@ extension SampleModelVersion {
           #elseif os(tvOS)
            e.entityMigrationPolicyClassName = "CoreDataPlus_Tests_tvOS.V2to3MakerPolicyPolicy"
           #endif
+
+          if ProcessInfo.isRunningSwiftPackageTests {
+            XCTFail("NSEntityMigrationPolicy doesn't work on Swift Package testing.")
+          }
 
         }
       }

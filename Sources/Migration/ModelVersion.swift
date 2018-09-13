@@ -87,6 +87,10 @@ public protocol ModelVersion: Equatable, RawRepresentable {
   func __managedObjectModel() -> NSManagedObjectModel?
 }
 
+//public final class MappingModelsToNextVersion {
+//
+//}
+
 extension ModelVersion {
 
   /// **CoreDataPlus**
