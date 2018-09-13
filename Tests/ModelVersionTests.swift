@@ -38,4 +38,21 @@ final class ModelVersionTests: XCTestCase {
     XCTAssertNil(SampleModelVersion.version3.mappingModelToNextModelVersion())
   }
 
+  func testMappingModelsByName() {
+    if ProcessInfo.isRunningSwiftPackageTests {
+      print("Not implemented")
+      return
+    }
+    
+    do {
+    let models = SampleModelVersion.version2.mappingModels(for: ["V2toV3"])
+    XCTAssertEqual(models.count, 1)
+    }
+
+    do {
+      let models = SampleModelVersion.version2.mappingModels(for: ["V2toV3_"])
+      XCTAssertTrue(models.isEmpty)
+    }
+  }
+
 }

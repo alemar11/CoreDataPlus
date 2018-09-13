@@ -86,6 +86,7 @@ class MigrationsTests: XCTestCase {
 
   func testMigrationFromVersion2ToVersion3() throws {
     if ProcessInfo.isRunningSwiftPackageTests {
+      print("Not implemented")
       return
     }
 
@@ -132,6 +133,7 @@ class MigrationsTests: XCTestCase {
 
   func testMigrationFromVersion1dToVersion3() throws {
     if ProcessInfo.isRunningSwiftPackageTests {
+      print("Not implemented")
       return
     }
 

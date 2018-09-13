@@ -129,7 +129,7 @@ extension ModelVersion {
   /// Protocol `ModelVersion`.
   ///
   /// Return the NSManagedObjectModel for this `ModelVersion`.
-  private func managedObjectModel() -> NSManagedObjectModel {
+  public func managedObjectModel() -> NSManagedObjectModel {
     return _managedObjectModel()
   }
 
@@ -137,10 +137,8 @@ extension ModelVersion {
   internal func _managedObjectModel() -> NSManagedObjectModel {
     let momURL = modelBundle.url(forResource: versionName, withExtension: "\(ModelVersionExtension.mom)", subdirectory: momd)
 
-    /**
-     As of iOS 11, Apple is advising that opening the .omo file for a managed object model is not supported, since the file format can change from release to release
-     **/
-    // let omoURL = modelBundle.url(forResource: versionName, withExtension: "\(ModelVersionKey.omo)", subdirectory: momd)
+    ///  As of iOS 11, Apple is advising that opening the .omo file for a managed object model is not supported, since the file format can change from release to release
+    // let omoURL = modelBundle.url(forResource: versionName, withExtension: "\(ModelVersionExtension.omo)", subdirectory: momd)
     // guard let url = omoURL ?? momURL else { fatalError("Model version \(self) not found.") }
 
     guard let url = momURL else {
@@ -237,6 +235,7 @@ extension ModelVersion {
   /// **CoreDataPlus**
   ///
   /// - Returns: Returns a list of `NSMappingModel` given a list of mapping model names.
+  /// - Note: The mapping models must be inside the NSBundle object containing the model file.
   public func mappingModels(for mappingModelNames: [String]) -> [NSMappingModel] {
     var results = [NSMappingModel]()
 
