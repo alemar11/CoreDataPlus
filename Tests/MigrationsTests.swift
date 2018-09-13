@@ -70,7 +70,7 @@ class MigrationsTests: XCTestCase {
     if #available(iOS 11, tvOS 11, macOS 10.13, *) {
       let car = cars.first!
       let index = car.entity.indexes.first
-      XCTAssertNotNil(index)
+      XCTAssertNotNil(index, "There should be a compound index")
       XCTAssertEqual(index!.elements.count, 2)
 
       let propertyNames = car.entity.indexes.flatMap { $0.elements }.compactMap { $0.propertyName }
