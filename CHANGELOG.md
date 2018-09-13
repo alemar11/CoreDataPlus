@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.1.0
+- Added migration between model versions.
+- Refinements.
+
 ### 1.0.0
 
 - Refinements.
