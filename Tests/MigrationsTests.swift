@@ -61,13 +61,11 @@ class MigrationsTests: XCTestCase {
     // When
     try Migration.migrateStore(at: sourceURL, targetVersion: targetVersion)
     let migratedContext = NSManagedObjectContext(model: targetVersion.managedObjectModel(), storeURL: targetURL)
-    XCTAssertNotNil(NSEntityDescription.entity(forEntityName: "LuxuryCar", in: migratedContext)!)
-
     let luxuryCars = try LuxuryCar.fetch(in: migratedContext)
     XCTAssertEqual(sportCars.count, luxuryCars.count)
 
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
-    XCTAssertNotNil(cars.first)
+    XCTAssertTrue(cars.count >= 1)
 
     if #available(iOS 11, tvOS 11, macOS 10.13, *) {
       let car = cars.first!
