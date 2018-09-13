@@ -79,12 +79,17 @@ public protocol ModelVersion: Equatable, RawRepresentable {
 
   /// **CoreDataPlus**
   ///
+  /// Protocol `ModelVersions`.
+  ///
+  /// Return the NSManagedObjectModel for this `ModelVersion`.
+  func managedObjectModel() -> NSManagedObjectModel
+
+  /// **CoreDataPlus**
+  ///
   /// Protocol `ModelVersion`.
   ///
   /// Returns a list of mapping models needed to migrate the current version of the database to the next one.
   func mappingModelsToNextModelVersion() -> [NSMappingModel]?
-
-  func managedObjectModel() -> NSManagedObjectModel
 }
 
 extension ModelVersion {

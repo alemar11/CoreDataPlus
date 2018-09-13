@@ -73,16 +73,16 @@ extension CoreDataPlusError: LocalizedError {
       return "Returned multiple objects, expected max 1."
 
     case .fetchFailed(let error):
-      return "The fetch could not be completed because of error:\n\(error.localizedDescription)"
+      return "The fetch could not be completed because of error:\n\(error)"
 
     case .persistentStoreCoordinatorNotFound(let context):
       return "\(context.description) doesn't have a NSPersistentStoreCoordinator."
 
     case .saveFailed(let error):
-      return "The save operation could not be completed because of error:\n\(error.localizedDescription)"
+      return "The save operation could not be completed because of error:\n\(error)"
 
     case .migrationFailed(error: let error):
-      return "The migration could not be completed because of error:\n\(error.localizedDescription)"
+      return "The migration could not be completed because of error:\n\(error)"
     }
   }
 
