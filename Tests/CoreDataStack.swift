@@ -38,11 +38,11 @@ final class CoreDataStack {
 
     XCTAssertTrue(ProcessInfo.isRunningUnitTests)
 
-    if ProcessInfo.isRunningSwiftPackageTests {
-      managedObjectModel = SampleModelVersion.currentVersion.managedObjectModel_swift_package_tests()
-    } else {
+//    if ProcessInfo.isRunningSwiftPackageTests {
+//      managedObjectModel = SampleModelVersion.currentVersion.managedObjectModel_swift_package_tests()
+//    } else {
       managedObjectModel = SampleModelVersion.currentVersion.managedObjectModel()
-    }
+//    }
     persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
 
     switch (type) {

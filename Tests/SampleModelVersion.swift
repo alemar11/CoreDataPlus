@@ -29,16 +29,16 @@ public enum SampleModelVersion: String {
   case version1 = "SampleModel"
   case version2 = "SampleModel2"
   case version3 = "SampleModel3"
-
-  public var name: String { return "SampleModel" }
 }
 
 extension SampleModelVersion: ModelVersion {
-
+  
+  public var modelName: String { return "SampleModel" }
+  
   public static var allVersions: [SampleModelVersion] { return [.version1, .version2, .version3] } //TODO: Swift 4.2
-
+  
   public static var currentVersion: SampleModelVersion { return .version1 }
-
+  
   public var successor: SampleModelVersion? {
     switch self {
     case .version1: return .version2
@@ -46,48 +46,34 @@ extension SampleModelVersion: ModelVersion {
     default: return nil
     }
   }
-
+  
   public var versionName: String { return rawValue }
-
+  
   public var modelBundle: Bundle {
     class Object {} // used to get the current bundle 🤓
     return Bundle(for: Object.self)
   }
-
-  /// Hack-ish way to load the NSManagedObjectModel without using the Bundle.
-  /// - Note: This is not enough to run the spm tests because the enviroment doesn't contain the "required" values.
-  public func managedObjectModel_swift_package_tests() -> NSManagedObjectModel {
-    let sampleFolderURL = URL(fileURLWithPath: #file, isDirectory: false).deletingLastPathComponent()
-    let momUrl = sampleFolderURL.appendingPathComponent("\(name).momd/\(versionName).mom")
-
-    XCTAssertTrue(FileManager.default.fileExists(atPath: momUrl.path))
-
-    guard let model = NSManagedObjectModel(contentsOf: momUrl) else { preconditionFailure("Error initializing Managed Object Model: cannot open model at \(momUrl).") }
-
-    return model
-  }
-
-  public func __managedObjectModel() -> NSManagedObjectModel? {
+  
+  public func managedObjectModel() -> NSManagedObjectModel {
     if ProcessInfo.isRunningSwiftPackageTests {
-    let sampleFolderURL = URL(fileURLWithPath: #file, isDirectory: false).deletingLastPathComponent()
-    let momUrl = sampleFolderURL.appendingPathComponent("\(name).momd/\(versionName).mom")
-
-    XCTAssertTrue(FileManager.default.fileExists(atPath: momUrl.path))
-
-    guard let model = NSManagedObjectModel(contentsOf: momUrl) else { preconditionFailure("Error initializing Managed Object Model: cannot open model at \(momUrl).") }
-
-    return model
+      let sampleFolderURL = URL(fileURLWithPath: #file, isDirectory: false).deletingLastPathComponent()
+      let momUrl = sampleFolderURL.appendingPathComponent("\(modelName).momd/\(versionName).mom")
+      
+      XCTAssertTrue(FileManager.default.fileExists(atPath: momUrl.path))
+      
+      guard let model = NSManagedObjectModel(contentsOf: momUrl) else {
+        preconditionFailure("Error initializing Managed Object Model: cannot open model at \(momUrl).")
+      }
+      
+      return model
     }
-
-    return nil
+    return _managedObjectModel()
   }
-
-  public var modelName: String { return "SampleModel" }
-
+  
 }
 
 extension SampleModelVersion {
-
+  
   func mappingModel_swift_package_tests() -> [NSMappingModel] {
     switch self {
     case .version2:
@@ -100,7 +86,7 @@ extension SampleModelVersion {
     default: return []
     }
   }
-
+  
   public func mappingModelsToNextModelVersion() -> [NSMappingModel]? {
     switch self {
     case .version1:
@@ -108,14 +94,14 @@ extension SampleModelVersion {
       // Renamed ExpensiveSportCar as LuxuryCar using a "renaming id" on entity ExpensiveSportCar
       // Added the index: byMakerAndNumberPlate on entity Car
       return [mapping]
-
+      
     case .version2:
-       let mappings: NSMappingModel
+      let mappings: NSMappingModel
       if ProcessInfo.isRunningSwiftPackageTests {
         mappings = mappingModel_swift_package_tests().first!
       } else {
         mappings = SampleModelVersion.version2.mappingModelToNextModelVersion()!
-       }
+      }
       for e in mappings.entityMappings {
         if let em = e.entityMigrationPolicyClassName, em.contains("V2to3MakerPolicyPolicy") {
           /// Hack: we need to change the project module depending on the test target
@@ -123,21 +109,21 @@ extension SampleModelVersion {
           #if os(iOS)
           e.entityMigrationPolicyClassName = "CoreDataPlus_Tests_iOS.V2to3MakerPolicyPolicy"
           #elseif os(tvOS)
-           e.entityMigrationPolicyClassName = "CoreDataPlus_Tests_tvOS.V2to3MakerPolicyPolicy"
+          e.entityMigrationPolicyClassName = "CoreDataPlus_Tests_tvOS.V2to3MakerPolicyPolicy"
           #endif
-
+          
           if ProcessInfo.isRunningSwiftPackageTests {
             XCTFail("NSEntityMigrationPolicy doesn't work on Swift Package testing.")
           }
-
+          
         }
       }
-
+      
       return [mappings]
     default:
       return []
     }
   }
-
+  
 }
 

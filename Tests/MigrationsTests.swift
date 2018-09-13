@@ -60,7 +60,7 @@ class MigrationsTests: XCTestCase {
 
     // When
     try Migration.migrateStore(at: sourceURL, targetVersion: targetVersion)
-    let migratedContext = NSManagedObjectContext(model: targetVersion.__managedObjectModel()!, storeURL: targetURL)
+    let migratedContext = NSManagedObjectContext(model: targetVersion.managedObjectModel(), storeURL: targetURL)
     XCTAssertNotNil(NSEntityDescription.entity(forEntityName: "LuxuryCar", in: migratedContext)!)
 
     let luxuryCars = try LuxuryCar.fetch(in: migratedContext)
