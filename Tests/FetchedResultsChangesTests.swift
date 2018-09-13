@@ -173,7 +173,6 @@ fileprivate final class MockNSFetchedResultControllerDelegate<T: NSManagedObject
   var didChangeExpectation = XCTestExpectation(description: "\(#function)\(#line)")
 
   public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-    print(anObject)
     if let change = FetchedResultsObjectChange<Person>(object: anObject, indexPath: indexPath, changeType: type, newIndexPath: newIndexPath) {
       changes.append(change)
     }

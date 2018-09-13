@@ -38,7 +38,10 @@ public extension NSManagedObjectContextNotification {
   ///
   /// Returns the notification's `NSManagedObjectContext`.
   public var managedObjectContext: NSManagedObjectContext {
-    guard let context = notification.object as? NSManagedObjectContext else { fatalError("Invalid notification object.") }
+    guard let context = notification.object as? NSManagedObjectContext else {
+      fatalError("Invalid Notification object.")
+    }
+
     return context
   }
 
@@ -159,7 +162,10 @@ public struct ContextDidSaveNotification: NSManagedObjectContextObservable {
   public let notification: Notification
 
   public init(notification: Notification) {
-    guard notification.name == .NSManagedObjectContextDidSave else { fatalError("Invalid NSManagedObjectContextDidSave notification object.") }
+    guard notification.name == .NSManagedObjectContextDidSave else {
+      fatalError("Invalid NSManagedObjectContextDidSave notification object.")
+    }
+
     self.notification = notification
   }
 
@@ -195,7 +201,10 @@ public struct ContextWillSaveNotification: NSManagedObjectContextNotification {
   public let notification: Notification
 
   public init(notification: Notification) {
-    guard notification.name == .NSManagedObjectContextWillSave else { fatalError("Invalid NSManagedObjectContextWillSave notification object.") }
+    guard notification.name == .NSManagedObjectContextWillSave else {
+      fatalError("Invalid NSManagedObjectContextWillSave notification object.")
+    }
+
     self.notification = notification
   }
 
@@ -211,8 +220,11 @@ public struct ObjectsDidChangeNotification: NSManagedObjectContextObservable {
   public let notification: Notification
 
   public init(notification: Notification) {
-    // Notification when objects in a context changed:  the user info dictionary contains information about the objects that changed and what changed
-    guard notification.name == .NSManagedObjectContextObjectsDidChange else { fatalError("Invalid NSManagedObjectContextObjectsDidChange notification object.") }
+    // Notification when objects in a context changed: the user info dictionary contains information about the objects that changed and what changed
+    guard notification.name == .NSManagedObjectContextObjectsDidChange else {
+      fatalError("Invalid NSManagedObjectContextObjectsDidChange notification object.")
+    }
+
     self.notification = notification
   }
 

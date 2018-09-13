@@ -44,3 +44,9 @@ public class SportCar: Car { }
 final public class ExpensiveSportCar: SportCar {
   @NSManaged public var isLimitedEdition: Bool
 }
+
+// V2
+@objc(LuxuryCar)
+final public class LuxuryCar: SportCar {
+  @NSManaged public var isLimitedEdition: Bool
+}

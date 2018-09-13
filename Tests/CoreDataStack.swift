@@ -28,8 +28,9 @@ final class CoreDataStack {
 
   enum StoreType { case sqlite, inMemory }
 
-  var persistentStoreCoordinator: NSPersistentStoreCoordinator
-  var mainContext: NSManagedObjectContext
+  private(set) var persistentStoreCoordinator: NSPersistentStoreCoordinator
+  private(set) var mainContext: NSManagedObjectContext
+  private(set) var storeURL: URL?
 
   init?(type: StoreType = .inMemory) {
 
@@ -37,11 +38,11 @@ final class CoreDataStack {
 
     XCTAssertTrue(ProcessInfo.isRunningUnitTests)
 
-    if ProcessInfo.isRunningSwiftPackageTests {
-      managedObjectModel = SampleModelVersion.currentVersion.managedObjectModel_swift_package_tests()
-    } else {
+//    if ProcessInfo.isRunningSwiftPackageTests {
+//      managedObjectModel = SampleModelVersion.currentVersion.managedObjectModel_swift_package_tests()
+//    } else {
       managedObjectModel = SampleModelVersion.currentVersion.managedObjectModel()
-    }
+//    }
     persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
 
     switch (type) {
@@ -54,18 +55,25 @@ final class CoreDataStack {
       }
 
     case .sqlite:
-      let storeURL = URL(fileURLWithPath: "\(NSTemporaryDirectory())\(UUID().uuidString).sqlite" )
-      let persistentStoreDescription = NSPersistentStoreDescription(url: storeURL)
+      storeURL = URL.temporary.appendingPathComponent("SampleModel.sqlite")
+      let persistentStoreDescription = NSPersistentStoreDescription(url: storeURL!)
 
-      print("🔸 \(storeURL)")
+      print("🔸 \(storeURL!)")
 
       persistentStoreDescription.type = NSSQLiteStoreType
-      persistentStoreDescription.shouldMigrateStoreAutomatically = true // default behaviour
-      persistentStoreDescription.shouldInferMappingModelAutomatically = true // default behaviour
+      persistentStoreDescription.shouldMigrateStoreAutomatically = true // default behaviour: true
+      persistentStoreDescription.shouldInferMappingModelAutomatically = true // default behaviour (lightweight)
       persistentStoreDescription.shouldAddStoreAsynchronously = false // default
 
+//      let disableWal = false
+//      if disableWal {
+//        persistentStoreDescription.setValue(NSString(string: "DELETE"), forPragmaNamed: "journal_mode")
+//      } disableWal {
+//        persistentStoreDescription.setValue(NSString(string: "WAL"), forPragmaNamed: "journal_mode")
+//      }
+
       persistentStoreCoordinator.addPersistentStore(with: persistentStoreDescription, completionHandler: { (persistentStoreDescription, error) in
-        if let error = error { XCTFail("\(error.localizedDescription)") }
+        if let error = error { XCTFail(error.localizedDescription) }
       })
     }
 
@@ -85,4 +93,14 @@ extension CoreDataStack {
     }
     return stack
   }
+}
+
+extension URL {
+
+  static var temporary: URL {
+    let url =  URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory:true).appendingPathComponent("CoreDataPlus-Test-\(UUID().uuidString)")
+    try! FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
+    return url
+  }
+
 }

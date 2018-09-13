@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17G65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="3">
+    <entity name="Car" representedClassName="Car" syncable="YES">
+        <attribute name="markedForDeletionAsOf" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="model" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="numberPlate" attributeType="String" syncable="YES"/>
+        <relationship name="createdBy" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Maker" inverseName="cars" inverseEntity="Maker" syncable="YES"/>
+        <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Person" inverseName="cars" inverseEntity="Person" syncable="YES"/>
+        <relationship name="previousOwners" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Person" inverseName="previousCars" inverseEntity="Person" syncable="YES"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="numberPlate"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="LuxuryCar" representedClassName="LuxuryCar" parentEntity="SportCar" elementID="ExpensiveSportCar" syncable="YES">
+        <attribute name="isLimitedEdition" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="Maker" representedClassName="Maker" syncable="YES">
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <relationship name="cars" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Car" inverseName="createdBy" inverseEntity="Car" syncable="YES"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="name"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="Person" representedClassName="Person" syncable="YES">
+        <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updatedAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="cars" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Car" inverseName="owner" inverseEntity="Car" syncable="YES"/>
+        <relationship name="previousCars" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Car" inverseName="previousOwners" inverseEntity="Car" syncable="YES"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="firstName"/>
+                <constraint value="lastName"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="SportCar" representedClassName="SportCar" parentEntity="Car" syncable="YES"/>
+    <elements>
+        <element name="Car" positionX="-54" positionY="-9" width="128" height="133"/>
+        <element name="LuxuryCar" positionX="-56" positionY="-189" width="128" height="60"/>
+        <element name="Maker" positionX="243" positionY="18" width="128" height="73"/>
+        <element name="Person" positionX="-369" positionY="8" width="128" height="118"/>
+        <element name="SportCar" positionX="-54" positionY="-90" width="128" height="45"/>
+    </elements>
+</model>

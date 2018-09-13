@@ -526,6 +526,8 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
     person1.firstName = "Tin"
     person1.lastName = "Robots"
 
+    /// This code will output: CoreData: error: CoreData: error: Failed to call designated initializer on NSManagedObject class 'Person'
+    /// but it is fine for this test.
     let person2 = Person()
     person1.firstName = "Tin2"
     person1.lastName = "Robots2"
