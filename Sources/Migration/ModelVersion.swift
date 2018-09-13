@@ -34,72 +34,72 @@ private enum ModelVersionExtension {
 ///
 /// Types adopting the `ModelVersion` protocol can be used to describe a Core Data Model and its versioning.
 public protocol ModelVersion: Equatable, RawRepresentable {
-  
+
   /// **CoreDataPlus**
   ///
   /// Protocol `ModelVersion`.
   ///
   /// List with all versions until now.
   static var allVersions: [Self] { get }
-  
+
   /// **CoreDataPlus**
   ///
   /// Protocol `ModelVersion`.
   ///
   /// Current model version.
   static var currentVersion: Self { get }
-  
+
   /// **CoreDataPlus**
   ///
   /// Protocol `ModelVersion`.
   ///
   /// Version name.
   var versionName: String { get }
-  
+
   /// **CoreDataPlus**
   ///
   /// Protocol `ModelVersion`.
   ///
   /// The next `ModelVersion` in the progressive migration.
   var successor: Self? { get }
-  
+
   /// **CoreDataPlus**
   ///
   /// Protocol `ModelVersion`.
   ///
   /// NSBundle object containing the model file.
   var modelBundle: Bundle { get }
-  
+
   /// **CoreDataPlus**
   ///
   /// Protocol `ModelVersion`.
   ///
   /// Model name.
   var modelName: String { get }
-  
+
   /// **CoreDataPlus**
   ///
   /// Protocol `ModelVersion`.
   ///
   /// Returns a list of mapping models needed to migrate the current version of the database to the next one.
   func mappingModelsToNextModelVersion() -> [NSMappingModel]?
-  
+
   func managedObjectModel() -> NSManagedObjectModel
 }
 
 extension ModelVersion {
-  
+
   /// **CoreDataPlus**
   ///
   /// Protocol `ModelVersion`.
   ///
   /// Model file name.
   var momd: String { return "\(modelName).\(ModelVersionExtension.momd)" }
-  
+
 }
 
 extension ModelVersion {
-  
+
   /// **CoreDataPlus**
   ///
   /// Initializes a `ModelVersion` from a `NSPersistentStore` URL.
@@ -107,18 +107,18 @@ extension ModelVersion {
     guard let metadata = try? NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: persistentStoreURL, options: nil) else {
       return nil
     }
-    
+
     let version = Self.allVersions.first {
       $0.managedObjectModel().isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
     }
-    
+
     guard let modelVersion = version else {
       return nil
     }
-    
+
     self = modelVersion
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Protocol `ModelVersion`.
@@ -127,33 +127,34 @@ extension ModelVersion {
   private func managedObjectModel() -> NSManagedObjectModel {
     return _managedObjectModel()
   }
-  
+
+  // swiftlint:disable:next identifier_name
   internal func _managedObjectModel() -> NSManagedObjectModel {
     let momURL = modelBundle.url(forResource: versionName, withExtension: "\(ModelVersionExtension.mom)", subdirectory: momd)
-    
+
     /**
      As of iOS 11, Apple is advising that opening the .omo file for a managed object model is not supported, since the file format can change from release to release
      **/
     // let omoURL = modelBundle.url(forResource: versionName, withExtension: "\(ModelVersionKey.omo)", subdirectory: momd)
     // guard let url = omoURL ?? momURL else { fatalError("Model version \(self) not found.") }
-    
+
     guard let url = momURL else {
       preconditionFailure("Model version '\(self)' not found.")
     }
-    
+
     guard let model = NSManagedObjectModel(contentsOf: url) else {
       preconditionFailure("Error initializing Managed Object Model: cannot open the model at \(url).")
     }
-    
+
     return model
   }
-  
+
 }
 
 // MARK: - Migration
 
 extension ModelVersion {
-  
+
   /// **CoreDataPlus**
   ///
   /// Returns `true` if a migration is possible for the current store to a given `ModelVersion`.
@@ -167,7 +168,7 @@ extension ModelVersion {
     let targetModel = version.managedObjectModel()
     return !targetModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Returns a list of `MigrationStep` needed to mirate to the next `version` of the store.
@@ -175,16 +176,16 @@ extension ModelVersion {
     guard self != version else {
       return []
     }
-    
+
     guard let mappings = mappingModelsToNextModelVersion(), let nextVersion = successor else {
       fatalError("Couldn't find any mapping models.")
     }
-    
+
     let step = MigrationStep(source: managedObjectModel(), destination: nextVersion.managedObjectModel(), mappings: mappings)
-    
+
     return [step] + nextVersion.migrationSteps(to: version)
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Returns a `NSMappingModel` that specifies how to map a model to the next version model.
@@ -192,14 +193,14 @@ extension ModelVersion {
     guard let nextVersion = successor else {
       return nil
     }
-    
+
     guard let mappingModel = NSMappingModel(from: [modelBundle], forSourceModel: managedObjectModel(), destinationModel: nextVersion._managedObjectModel()) else {
       fatalError("No NSMappingModel found for \(self) to \(nextVersion).")
     }
-    
+
     return mappingModel
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Returns a newly created mapping model that will migrate data from the source to the destination model.
@@ -224,26 +225,26 @@ extension ModelVersion {
     guard let nextVersion = successor else {
       return nil
     }
-    
+
     return try? NSMappingModel.inferredMappingModel(forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel())
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// - Returns: Returns a list of `NSMappingModel` given a list of mapping model names.
   public func mappingModels(for mappingModelNames: [String]) -> [NSMappingModel] {
     var results = [NSMappingModel]()
-    
+
     guard mappingModelNames.count > 0 else {
       return results
     }
-    
+
     guard
       let allMappingModelsURLs = modelBundle.urls(forResourcesWithExtension: ModelVersionExtension.cdm, subdirectory: nil),
       allMappingModelsURLs.count > 0 else {
         return results
     }
-    
+
     mappingModelNames.forEach { name in
       let expectedFileName = "\(name).\(ModelVersionExtension.cdm)"
       if
@@ -252,8 +253,8 @@ extension ModelVersion {
         results.append(mappingModel)
       }
     }
-    
+
     return results
   }
-  
+
 }

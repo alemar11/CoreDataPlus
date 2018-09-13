@@ -63,7 +63,7 @@ public struct Migration {
       guard try sourceVersion.isMigrationPossible(for: sourceURL, to: targetVersion) else {
         return
       }
-      
+
       var currentURL = sourceURL
       let steps = sourceVersion.migrationSteps(to: targetVersion)
 
@@ -94,7 +94,7 @@ public struct Migration {
                                      destinationType: NSSQLiteStoreType,
                                      destinationOptions: nil)
           }
-          
+
           if currentURL != sourceURL {
             try NSPersistentStoreCoordinator.destroyStore(at: currentURL)
           }

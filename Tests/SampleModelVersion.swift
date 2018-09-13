@@ -32,13 +32,13 @@ public enum SampleModelVersion: String {
 }
 
 extension SampleModelVersion: ModelVersion {
-  
+
   public var modelName: String { return "SampleModel" }
-  
+
   public static var allVersions: [SampleModelVersion] { return [.version1, .version2, .version3] } //TODO: Swift 4.2
-  
+
   public static var currentVersion: SampleModelVersion { return .version1 }
-  
+
   public var successor: SampleModelVersion? {
     switch self {
     case .version1: return .version2
@@ -46,34 +46,34 @@ extension SampleModelVersion: ModelVersion {
     default: return nil
     }
   }
-  
+
   public var versionName: String { return rawValue }
-  
+
   public var modelBundle: Bundle {
     class Object {} // used to get the current bundle 🤓
     return Bundle(for: Object.self)
   }
-  
+
   public func managedObjectModel() -> NSManagedObjectModel {
     if ProcessInfo.isRunningSwiftPackageTests {
       let sampleFolderURL = URL(fileURLWithPath: #file, isDirectory: false).deletingLastPathComponent()
       let momUrl = sampleFolderURL.appendingPathComponent("\(modelName).momd/\(versionName).mom")
-      
+
       XCTAssertTrue(FileManager.default.fileExists(atPath: momUrl.path))
-      
+
       guard let model = NSManagedObjectModel(contentsOf: momUrl) else {
         preconditionFailure("Error initializing Managed Object Model: cannot open model at \(momUrl).")
       }
-      
+
       return model
     }
     return _managedObjectModel()
   }
-  
+
 }
 
 extension SampleModelVersion {
-  
+
   func mappingModel_swift_package_tests() -> [NSMappingModel] {
     switch self {
     case .version2:
@@ -86,7 +86,7 @@ extension SampleModelVersion {
     default: return []
     }
   }
-  
+
   public func mappingModelsToNextModelVersion() -> [NSMappingModel]? {
     switch self {
     case .version1:
@@ -94,7 +94,7 @@ extension SampleModelVersion {
       // Renamed ExpensiveSportCar as LuxuryCar using a "renaming id" on entity ExpensiveSportCar
       // Added the index: byMakerAndNumberPlate on entity Car
       return [mapping]
-      
+
     case .version2:
       let mappings: NSMappingModel
       if ProcessInfo.isRunningSwiftPackageTests {
@@ -111,19 +111,19 @@ extension SampleModelVersion {
           #elseif os(tvOS)
           e.entityMigrationPolicyClassName = "CoreDataPlus_Tests_tvOS.V2to3MakerPolicyPolicy"
           #endif
-          
+
           if ProcessInfo.isRunningSwiftPackageTests {
             XCTFail("NSEntityMigrationPolicy doesn't work on Swift Package testing.")
           }
-          
+
         }
       }
-      
+
       return [mappings]
     default:
       return []
     }
   }
-  
+
 }
 
