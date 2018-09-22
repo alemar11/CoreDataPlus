@@ -24,6 +24,9 @@
 import XCTest
 import CoreData
 
+// On Xcode 10, if we load the model for each test we get a lot of errors.
+fileprivate let currentModel = SampleModelVersion.currentVersion.managedObjectModel()
+
 final class CoreDataStack {
 
   enum StoreType { case sqlite, inMemory }
@@ -41,7 +44,7 @@ final class CoreDataStack {
 //    if ProcessInfo.isRunningSwiftPackageTests {
 //      managedObjectModel = SampleModelVersion.currentVersion.managedObjectModel_swift_package_tests()
 //    } else {
-      managedObjectModel = SampleModelVersion.currentVersion.managedObjectModel()
+      managedObjectModel = currentModel
 //    }
     persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
 

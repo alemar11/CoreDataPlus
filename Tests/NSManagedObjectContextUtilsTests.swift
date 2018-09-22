@@ -482,7 +482,7 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
   }
 
   func testCollectionDelete() throws {
-    let stack = CoreDataStack.stack() //TODO: in memory not working on iOS 12
+    let stack = CoreDataStack.stack()
     let context = stack.mainContext
     let newContext = context.newBackgroundContext()
 

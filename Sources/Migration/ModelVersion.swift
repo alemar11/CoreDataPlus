@@ -135,6 +135,7 @@ extension ModelVersion {
 
   // swiftlint:disable:next identifier_name
   internal func _managedObjectModel() -> NSManagedObjectModel {
+    print("🔴")
     let momURL = modelBundle.url(forResource: versionName, withExtension: "\(ModelVersionExtension.mom)", subdirectory: momd)
 
     ///  As of iOS 11, Apple is advising that opening the .omo file for a managed object model is not supported, since the file format can change from release to release
