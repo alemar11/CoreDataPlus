@@ -198,7 +198,7 @@ extension ModelVersion {
       return nil
     }
 
-    guard let mappingModel = NSMappingModel(from: [modelBundle], forSourceModel: managedObjectModel(), destinationModel: nextVersion._managedObjectModel()) else {
+    guard let mappingModel = NSMappingModel(from: [modelBundle], forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel()) else {
       fatalError("No NSMappingModel found for \(self) to \(nextVersion).")
     }
 
