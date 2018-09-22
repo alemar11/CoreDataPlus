@@ -31,13 +31,6 @@ class MigrationsTests: XCTestCase {
 
   // MARK: - LightWeight Migration
 
-  func testNoMigrationSteps() throws {
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext
-    context.fillWithSampleData()
-    try context.save()
-  }
-
   func testMigrationFromVersion1ToVersion2() throws {
     let stack = CoreDataStack.stack(type: .sqlite)
     let context = stack.mainContext
@@ -88,15 +81,10 @@ class MigrationsTests: XCTestCase {
       return
     }
 
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext
-    context.fillWithSampleData()
-    try context.save()
+    let bundle = Bundle(for: MigrationsTests.self)
+    let sourceURL = bundle.url(forResource: "SampleModelV2", withExtension: "sqlite")!
+    let targetURL = sourceURL
 
-    let sourceURL = stack.storeURL!
-    let targetURL = stack.storeURL!
-
-    try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version2)
     try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3)
 
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
@@ -129,21 +117,17 @@ class MigrationsTests: XCTestCase {
   }
 
 
-  func testMigrationFromVersion1dToVersion3() throws {
+  func testMigrationFromVersion1ToVersion3() throws {
     if ProcessInfo.isRunningSwiftPackageTests {
       print("Not implemented")
       return
     }
 
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext
-    context.fillWithSampleData()
-    try context.save()
-
-    let sourceURL = stack.storeURL!
+    let bundle = Bundle(for: MigrationsTests.self)
+    let sourceURL = bundle.url(forResource: "SampleModelV1", withExtension: "sqlite")!
     let targetURL = URL.temporary.appendingPathComponent("SampleModel").appendingPathExtension("sqlite")
 
-    let progress = Progress(parent: nil, userInfo: nil) //TODO: test it
+    let progress = Progress(parent: nil, userInfo: nil) //TODO: test
     try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3, deleteSource: true, progress: progress)
 
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
@@ -171,3 +155,4 @@ extension NSManagedObjectContext {
   }
 
 }
+
