@@ -61,13 +61,19 @@ class MigrationsTests: XCTestCase {
     XCTAssertTrue(cars.count >= 1)
 
     if #available(iOS 11, tvOS 11, macOS 10.13, *) {
-      let car = cars.first!
+      let car = cars.first { $0 is Car }!
       let index = car.entity.indexes.first
       XCTAssertNotNil(index, "There should be a compound index")
       XCTAssertEqual(index!.elements.count, 2)
 
       let propertyNames = car.entity.indexes.flatMap { $0.elements }.compactMap { $0.propertyName }
       XCTAssertTrue(propertyNames.contains("maker") && propertyNames.contains("numberPlate"))
+
+      let sportCar = cars.first { $0 is SportCar }!
+      XCTAssertEqual(sportCar.entity.indexes.count, 0)
+
+      let luxuryCar = cars.first { $0 is LuxuryCar }!
+      XCTAssertEqual(luxuryCar.entity.indexes.count, 0)
     }
 
     try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: targetVersion)
