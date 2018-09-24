@@ -451,7 +451,7 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
   }
 
   func testSaveOrRollback() {
-    let stack = CoreDataStack.stack(type: .inMemory) // iOS 12 not working for in memory
+    let stack = CoreDataStack.stack(type: .inMemory) // TODO: iOS 12 not working for in memory
     let context = stack.mainContext
 
     let car1 = Car(context: context)
