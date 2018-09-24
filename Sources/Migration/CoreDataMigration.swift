@@ -26,7 +26,7 @@
 
 import CoreData
 
-public struct Migration {
+public struct CoreDataMigration {
 
   private init() { }
 
@@ -39,7 +39,7 @@ public struct Migration {
   ///   - targetVersion: the ModelVersion to which the store is needed to migrate to.
   ///   - progress: a Progress instance to monitor the migration.
   /// - Throws: It throws an error in cases of failure.
-  public static func migrateStore<Version: ModelVersion>(at sourceURL: URL, targetVersion: Version, progress: Progress? = nil) throws {
+  public static func migrateStore<Version: CoreDataModelVersion>(at sourceURL: URL, targetVersion: Version, progress: Progress? = nil) throws {
     try migrateStore(from: sourceURL, to: sourceURL, targetVersion: targetVersion, deleteSource: false, progress: progress)
   }
 
@@ -54,7 +54,7 @@ public struct Migration {
   ///   - deleteSource: if `true` the initial store will be deleted after the migration phase.
   ///   - progress: a Progress instance to monitor the migration.
   /// - Throws: It throws an error in cases of failure.
-  public static func migrateStore<Version: ModelVersion>(from sourceURL: URL, to targetURL: URL, targetVersion: Version, deleteSource: Bool = false, progress: Progress? = nil) throws {
+  public static func migrateStore<Version: CoreDataModelVersion>(from sourceURL: URL, to targetURL: URL, targetVersion: Version, deleteSource: Bool = false, progress: Progress? = nil) throws {
     guard let sourceVersion = Version(persistentStoreURL: sourceURL as URL) else {
       fatalError("A ModelVersion for the store at URL \(sourceURL) could not be found.")
     }

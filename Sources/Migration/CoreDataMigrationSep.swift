@@ -26,7 +26,7 @@ import CoreData
 /// **CoreDataPlus**
 ///
 /// Represents a single step during the migration process.
-public final class MigrationStep {
+public final class CoreDataMigrationStep {
   var sourceModel: NSManagedObjectModel
   var destinationModel: NSManagedObjectModel
   var mappings: [NSMappingModel]

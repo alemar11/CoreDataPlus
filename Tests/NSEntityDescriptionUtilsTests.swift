@@ -58,7 +58,7 @@ final class NSEntityDescriptionUtilsTests: XCTestCase {
   }
 
   func testCommonEntityAncestor() {
-    let stack = CoreDataStack()!
+    let stack = CoreDataStack.stack()
     let context = stack.mainContext
 
     do {
@@ -134,7 +134,7 @@ final class NSEntityDescriptionUtilsTests: XCTestCase {
 
 
   func testEntitiesKeepingOnlyCommonEntityAncestors() {
-    let stack = CoreDataStack()!
+    let stack = CoreDataStack.stack()
     let context = stack.mainContext
 
     do {

@@ -25,13 +25,15 @@ import CoreData
 import XCTest
 @testable import CoreDataPlus
 
+private var cache = [String: NSManagedObjectModel]()
+
 public enum SampleModelVersion: String {
   case version1 = "SampleModel"
   case version2 = "SampleModel2"
   case version3 = "SampleModel3"
 }
 
-extension SampleModelVersion: ModelVersion {
+extension SampleModelVersion: CoreDataModelVersion {
 
   public var modelName: String { return "SampleModel" }
 
@@ -55,6 +57,11 @@ extension SampleModelVersion: ModelVersion {
   }
 
   public func managedObjectModel() -> NSManagedObjectModel {
+
+    if let model = cache[self.versionName], #available(iOS 12.0, tvOS 12.0, watchOS 5.0, macOS 10.14, *) {
+      return model
+    }
+
     if ProcessInfo.isRunningSwiftPackageTests {
       let sampleFolderURL = URL(fileURLWithPath: #file, isDirectory: false).deletingLastPathComponent()
       let momUrl = sampleFolderURL.appendingPathComponent("\(modelName).momd/\(versionName).mom")
@@ -65,9 +72,13 @@ extension SampleModelVersion: ModelVersion {
         preconditionFailure("Error initializing Managed Object Model: cannot open model at \(momUrl).")
       }
 
+      cache[self.versionName] = model
       return model
     }
-    return _managedObjectModel()
+
+    let model = _managedObjectModel()
+    cache[self.versionName] = model
+    return model
   }
 
 }

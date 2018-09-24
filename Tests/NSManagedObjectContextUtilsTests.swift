@@ -42,7 +42,6 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
   }
 
   func testMetaData() {
-    do {
       // Given
       let stack = CoreDataStack.stack(type: .sqlite)
 
@@ -67,36 +66,6 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
       let updatedMetaData = stack.mainContext.metaData(for: firstPersistentStore)
       XCTAssertNotNil(updatedMetaData["testKey"])
       XCTAssertEqual(updatedMetaData["testKey"] as? String, "Test")
-
-    }
-
-    do {
-      // Given
-      let stack = CoreDataStack.stack(type: .sqlite)
-
-      // When
-      guard let firstPersistentStore = stack.mainContext.persistentStores.first else {
-        XCTAssertNotNil(stack.mainContext.persistentStores.first)
-        return
-      }
-      // Then
-      let metaData = stack.mainContext.metaData(for: firstPersistentStore)
-      XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[Car.entityName])
-      XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[Person.entityName])
-      XCTAssertNotNil(metaData["NSStoreType"] as? String)
-
-      let addMetaDataExpectation = expectation(description: "Add MetaData Expectation")
-      stack.mainContext.setMetaDataObject("Test", with: "testKey", for: firstPersistentStore){ error in
-        XCTAssertNil(error)
-        addMetaDataExpectation.fulfill()
-      }
-      waitForExpectations(timeout: 5.0, handler: nil)
-
-      let updatedMetaData = stack.mainContext.metaData(for: firstPersistentStore)
-      XCTAssertNotNil(updatedMetaData["testKey"])
-      XCTAssertEqual(updatedMetaData["testKey"] as? String, "Test")
-    }
-
   }
 
   func testEntityDescription() {
@@ -482,7 +451,7 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
   }
 
   func testSaveOrRollback() {
-    let stack = CoreDataStack.stack()
+    let stack = CoreDataStack.stack(type: .inMemory) // TODO: iOS 12 not working for in memory
     let context = stack.mainContext
 
     let car1 = Car(context: context)
