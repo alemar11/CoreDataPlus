@@ -1,6 +1,12 @@
 # Changelog
 
+### 1.2.0
+
+- Mechanica is now completely migrated to **Swift 4.2**.
+- CoreData migration refinements.
+
 ### 1.1.0
+
 - Added migration between model versions.
 - Refinements.
 
