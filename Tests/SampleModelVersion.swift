@@ -33,7 +33,7 @@ public enum SampleModelVersion: String {
   case version3 = "SampleModel3"
 }
 
-extension SampleModelVersion: ModelVersion {
+extension SampleModelVersion: CoreDataModelVersion {
 
   public var modelName: String { return "SampleModel" }
 
@@ -59,7 +59,6 @@ extension SampleModelVersion: ModelVersion {
   public func managedObjectModel() -> NSManagedObjectModel {
 
     if let model = cache[self.versionName], #available(iOS 12.0, tvOS 12.0, watchOS 5.0, macOS 10.14, *) {
-      print("🚩 found \(self.versionName)")
       return model
     }
 
@@ -73,13 +72,11 @@ extension SampleModelVersion: ModelVersion {
         preconditionFailure("Error initializing Managed Object Model: cannot open model at \(momUrl).")
       }
 
-      print("🏁 caching \(self.versionName)")
       cache[self.versionName] = model
       return model
     }
 
     let model = _managedObjectModel()
-    print("🏁 caching \(self.versionName)")
     cache[self.versionName] = model
     return model
   }

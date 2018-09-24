@@ -26,81 +26,80 @@ import CoreData
 @testable import CoreDataPlus
 
 class MigrationsTests: XCTestCase {
-
+  
   let fileManager = FileManager.default
-
+  
   // MARK: - LightWeight Migration
-
+  
   func testMigrationFromVersion1ToVersion2() throws {
     let stack = CoreDataStack.stack(type: .sqlite)
     let context = stack.mainContext
     context.fillWithSampleData()
     try context.save()
-
+    
     let allCars = try Car.fetch(in: context)
     let sportCars = try ExpensiveSportCar.fetch(in: context)
-
+    
     if #available(iOS 11, tvOS 11, macOS 10.13, *) {
       XCTAssertEqual(allCars.first!.entity.indexes.count, 0)
     }
-
+    
     let targetVersion = SampleModelVersion.version2
     let steps = SampleModelVersion.version1.migrationSteps(to: .version2)
     XCTAssertEqual(steps.count, 1)
-
+    
     let sourceURL = stack.storeURL!
     let targetURL = stack.storeURL!
-
+    
     // When
-    try Migration.migrateStore(at: sourceURL, targetVersion: targetVersion)
+    try CoreDataMigration.migrateStore(at: sourceURL, targetVersion: targetVersion)
     let migratedContext = NSManagedObjectContext(model: targetVersion.managedObjectModel(), storeURL: targetURL)
     let luxuryCars = try LuxuryCar.fetch(in: migratedContext)
     XCTAssertEqual(sportCars.count, luxuryCars.count)
-
+    
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
     XCTAssertTrue(cars.count >= 1)
-
+    
     if #available(iOS 11, tvOS 11, macOS 10.13, *) {
-      let car = cars.first { $0 is Car }!
-      let index = car.entity.indexes.first
-      XCTAssertNotNil(index, "There should be a compound index")
-      XCTAssertEqual(index!.elements.count, 2)
-
-      let propertyNames = car.entity.indexes.flatMap { $0.elements }.compactMap { $0.propertyName }
-      XCTAssertTrue(propertyNames.contains("maker") && propertyNames.contains("numberPlate"))
-
-      let sportCar = cars.first { $0 is SportCar }!
-      XCTAssertEqual(sportCar.entity.indexes.count, 0)
-
-      let luxuryCar = cars.first { $0 is LuxuryCar }!
-      XCTAssertEqual(luxuryCar.entity.indexes.count, 0)
+      cars.forEach { car in
+        if car is LuxuryCar || car is SportCar {
+          XCTAssertEqual(car.entity.indexes.count, 0)
+        } else if car is Car {
+          let index = car.entity.indexes.first
+          XCTAssertNotNil(index, "There should be a compound index")
+          XCTAssertEqual(index!.elements.count, 2)
+        } else {
+          XCTFail("Undefined")
+        }
+      }
+      
     }
-
-    try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: targetVersion)
+    
+    try CoreDataMigration.migrateStore(from: sourceURL, to: targetURL, targetVersion: targetVersion)
   }
-
+  
   // MARK: - HeavyWeight Migration
-
+  
   func testMigrationFromVersion2ToVersion3() throws {
     if ProcessInfo.isRunningSwiftPackageTests {
       print("Not implemented")
       return
     }
-
+    
     let bundle = Bundle(for: MigrationsTests.self)
     let sourceURL = bundle.url(forResource: "SampleModelV2", withExtension: "sqlite")!
     let targetURL = sourceURL
-
-    try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3)
-
+    
+    try CoreDataMigration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3)
+    
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
     let makers = try Maker.fetch(in: migratedContext)
     XCTAssertEqual(makers.count, 11)
-
+    
     //try cars.fetchFaultedObjects()
     //print(cars)
-
+    
     cars.forEach { object in
       let owner = object.value(forKey: "owner") as? NSManagedObject
       let maker = object.value(forKey: "createdBy") as? NSManagedObject
@@ -108,7 +107,7 @@ class MigrationsTests: XCTestCase {
       let name = maker!.value(forKey: "name") as! String
       maker!.setValue("--\(name)--", forKey: "name")
       let previousOwners = object.value(forKey: "previousOwners") as! Set<NSManagedObject>
-
+      
       if let carOwner = owner {
         XCTAssertTrue(previousOwners.contains(carOwner))
         let previousCars = carOwner.value(forKey: "previousCars") as! Set<NSManagedObject>
@@ -117,48 +116,48 @@ class MigrationsTests: XCTestCase {
         XCTAssertEqual(previousOwners.count, 0)
       }
     }
-
+    
     try migratedContext.save()
     XCTAssertTrue(fileManager.fileExists(atPath: targetURL.path))
   }
-
-
+  
+  
   func testMigrationFromVersion1ToVersion3() throws {
     if ProcessInfo.isRunningSwiftPackageTests {
       print("Not implemented")
       return
     }
-
+    
     let bundle = Bundle(for: MigrationsTests.self)
     let sourceURL = bundle.url(forResource: "SampleModelV1", withExtension: "sqlite")!
     let targetURL = URL.temporary.appendingPathComponent("SampleModel").appendingPathExtension("sqlite")
-
+    
     let progress = Progress(parent: nil, userInfo: nil) //TODO: test
-    try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3, deleteSource: true, progress: progress)
-
+    try CoreDataMigration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3, deleteSource: true, progress: progress)
+    
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
     let makers = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Maker"))
     XCTAssertEqual(makers.count, 11)
-
+    
     makers.forEach { (maker) in
       let name = maker.value(forKey: "name") as! String
       maker.setValue("--\(name)--", forKey: "name")
     }
     try migratedContext.save()
-
+    
     XCTAssertFalse(fileManager.fileExists(atPath: sourceURL.path))
     XCTAssertTrue(fileManager.fileExists(atPath: targetURL.path))
   }
 }
 
 extension NSManagedObjectContext {
-
+  
   convenience init(model: NSManagedObjectModel, storeURL: URL) {
     let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
     try! psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
     self.init(concurrencyType: .mainQueueConcurrencyType)
     persistentStoreCoordinator = psc
   }
-
+  
 }
 

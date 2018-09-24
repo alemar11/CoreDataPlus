@@ -39,47 +39,47 @@ private enum ModelVersionFileExtension {
 
 /// **CoreDataPlus**
 ///
-/// Types adopting the `ModelVersion` protocol can be used to describe a Core Data Model and its versioning.
-public protocol ModelVersion: Equatable, RawRepresentable {
+/// Types adopting the `CoreDataModelVersion` protocol can be used to describe a Core Data Model and its versioning.
+public protocol CoreDataModelVersion: Equatable, RawRepresentable {
 
   /// **CoreDataPlus**
   ///
-  /// Protocol `ModelVersion`.
+  /// Protocol `CoreDataModelVersion`.
   ///
   /// List with all versions until now.
   static var allVersions: [Self] { get }
 
   /// **CoreDataPlus**
   ///
-  /// Protocol `ModelVersion`.
+  /// Protocol `CoreDataModelVersion`.
   ///
   /// Current model version.
   static var currentVersion: Self { get }
 
   /// **CoreDataPlus**
   ///
-  /// Protocol `ModelVersion`.
+  /// Protocol `CoreDataModelVersion`.
   ///
   /// Version name.
   var versionName: String { get }
 
   /// **CoreDataPlus**
   ///
-  /// Protocol `ModelVersion`.
+  /// Protocol `CoreDataModelVersion`.
   ///
-  /// The next `ModelVersion` in the progressive migration.
+  /// The next `CoreDataModelVersion` in the progressive migration.
   var successor: Self? { get }
 
   /// **CoreDataPlus**
   ///
-  /// Protocol `ModelVersion`.
+  /// Protocol `CoreDataModelVersion`.
   ///
   /// NSBundle object containing the model file.
   var modelBundle: Bundle { get }
 
   /// **CoreDataPlus**
   ///
-  /// Protocol `ModelVersion`.
+  /// Protocol `CoreDataModelVersion`.
   ///
   /// Model name.
   var modelName: String { get }
@@ -88,33 +88,33 @@ public protocol ModelVersion: Equatable, RawRepresentable {
   ///
   /// Protocol `ModelVersions`.
   ///
-  /// Return the NSManagedObjectModel for this `ModelVersion`.
+  /// Return the NSManagedObjectModel for this `CoreDataModelVersion`.
   func managedObjectModel() -> NSManagedObjectModel
 
   /// **CoreDataPlus**
   ///
-  /// Protocol `ModelVersion`.
+  /// Protocol `CoreDataModelVersion`.
   ///
   /// Returns a list of mapping models needed to migrate the current version of the database to the next one.
   func mappingModelsToNextModelVersion() -> [NSMappingModel]?
 }
 
-extension ModelVersion {
+extension CoreDataModelVersion {
 
   /// **CoreDataPlus**
   ///
-  /// Protocol `ModelVersion`.
+  /// Protocol `CoreDataModelVersion`.
   ///
   /// Model file name.
   var momd: String { return "\(modelName).\(ModelVersionFileExtension.momd)" }
 
 }
 
-extension ModelVersion {
+extension CoreDataModelVersion {
 
   /// **CoreDataPlus**
   ///
-  /// Initializes a `ModelVersion` from a `NSPersistentStore` URL.
+  /// Initializes a `CoreDataModelVersion` from a `NSPersistentStore` URL.
   public init?(persistentStoreURL: URL) {
     guard let metadata = try? NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: persistentStoreURL, options: nil) else {
       return nil
@@ -133,16 +133,15 @@ extension ModelVersion {
 
   /// **CoreDataPlus**
   ///
-  /// Protocol `ModelVersion`.
+  /// Protocol `CoreDataModelVersion`.
   ///
-  /// Return the NSManagedObjectModel for this `ModelVersion`.
+  /// Return the NSManagedObjectModel for this `CoreDataModelVersion`.
   public func managedObjectModel() -> NSManagedObjectModel {
     return _managedObjectModel()
   }
 
   // swiftlint:disable:next identifier_name
   internal func _managedObjectModel() -> NSManagedObjectModel {
-    print("🔴")
     let momURL = modelBundle.url(forResource: versionName, withExtension: "\(ModelVersionFileExtension.mom)", subdirectory: momd)
 
     ///  As of iOS 11, Apple is advising that opening the .omo file for a managed object model is not supported, since the file format can change from release to release
@@ -164,17 +163,17 @@ extension ModelVersion {
 
 // MARK: - Migration
 
-extension ModelVersion {
+extension CoreDataModelVersion {
 
   /// **CoreDataPlus**
   ///
-  /// Returns `true` if a migration is possible for the current store to a given `ModelVersion`.
+  /// Returns `true` if a migration is possible for the current store to a given `CoreDataModelVersion`.
   ///
   /// - Parameters:
   ///   - storeURL: the current store URL.
   ///   - version: the ModelVersion to which the store is compared.
   /// - Throws: It throws an error in cases of failure.
-  public func isMigrationPossible<Version: ModelVersion>(for storeURL: URL, to version: Version) throws -> Bool {
+  public func isMigrationPossible<Version: CoreDataModelVersion>(for storeURL: URL, to version: Version) throws -> Bool {
     let metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: storeURL, options: nil)
     let targetModel = version.managedObjectModel()
     return !targetModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
@@ -183,7 +182,7 @@ extension ModelVersion {
   /// **CoreDataPlus**
   ///
   /// Returns a list of `MigrationStep` needed to mirate to the next `version` of the store.
-  public func migrationSteps(to version: Self) -> [MigrationStep] {
+  public func migrationSteps(to version: Self) -> [CoreDataMigrationStep] {
     guard self != version else {
       return []
     }
@@ -192,7 +191,7 @@ extension ModelVersion {
       fatalError("Couldn't find any mapping models.")
     }
 
-    let step = MigrationStep(source: managedObjectModel(), destination: nextVersion.managedObjectModel(), mappings: mappings)
+    let step = CoreDataMigrationStep(source: managedObjectModel(), destination: nextVersion.managedObjectModel(), mappings: mappings)
 
     return [step] + nextVersion.migrationSteps(to: version)
   }
