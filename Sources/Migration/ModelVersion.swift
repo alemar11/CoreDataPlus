@@ -23,10 +23,17 @@
 
 import CoreData
 
-private enum ModelVersionExtension {
+/// Describes a Core Data model file exention type based on the
+/// [Model File Format and Versions](https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmModelFormat.html)
+/// documentation.
+private enum ModelVersionFileExtension {
+  /// The extension for a model bundle, or a `.xcdatamodeld` file package.
   static let momd = "momd"
-  static let omo  = "omo"
+  /// The extension for a versioned model file, or a `.xcdatamodel` file.
   static let mom  = "mom"
+  /// The extension for an optimized version for the '.mom' file
+  static let omo  = "omo"
+  /// The extension for a mapping model file, or a `.xcmappingmodel` file.
   static let cdm  = "cdm"
 }
 
@@ -99,7 +106,7 @@ extension ModelVersion {
   /// Protocol `ModelVersion`.
   ///
   /// Model file name.
-  var momd: String { return "\(modelName).\(ModelVersionExtension.momd)" }
+  var momd: String { return "\(modelName).\(ModelVersionFileExtension.momd)" }
 
 }
 
@@ -136,7 +143,7 @@ extension ModelVersion {
   // swiftlint:disable:next identifier_name
   internal func _managedObjectModel() -> NSManagedObjectModel {
     print("🔴")
-    let momURL = modelBundle.url(forResource: versionName, withExtension: "\(ModelVersionExtension.mom)", subdirectory: momd)
+    let momURL = modelBundle.url(forResource: versionName, withExtension: "\(ModelVersionFileExtension.mom)", subdirectory: momd)
 
     ///  As of iOS 11, Apple is advising that opening the .omo file for a managed object model is not supported, since the file format can change from release to release
     // let omoURL = modelBundle.url(forResource: versionName, withExtension: "\(ModelVersionExtension.omo)", subdirectory: momd)
@@ -245,13 +252,13 @@ extension ModelVersion {
     }
 
     guard
-      let allMappingModelsURLs = modelBundle.urls(forResourcesWithExtension: ModelVersionExtension.cdm, subdirectory: nil),
+      let allMappingModelsURLs = modelBundle.urls(forResourcesWithExtension: ModelVersionFileExtension.cdm, subdirectory: nil),
       allMappingModelsURLs.count > 0 else {
         return results
     }
 
     mappingModelNames.forEach { name in
-      let expectedFileName = "\(name).\(ModelVersionExtension.cdm)"
+      let expectedFileName = "\(name).\(ModelVersionFileExtension.cdm)"
       if
         let url = allMappingModelsURLs.first(where: { $0.lastPathComponent == expectedFileName }),
         let mappingModel = NSMappingModel(contentsOf: url) {
