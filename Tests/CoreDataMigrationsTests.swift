@@ -25,7 +25,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-class MigrationsTests: XCTestCase {
+class CoreDataMigrationsTests: XCTestCase {
   
   let fileManager = FileManager.default
   
@@ -81,12 +81,7 @@ class MigrationsTests: XCTestCase {
   // MARK: - HeavyWeight Migration
   
   func testMigrationFromVersion2ToVersion3() throws {
-    if ProcessInfo.isRunningSwiftPackageTests {
-      print("Not implemented")
-      return
-    }
-    
-    let bundle = Bundle(for: MigrationsTests.self)
+    let bundle = Bundle(for: CoreDataMigrationsTests.self)
     let sourceURL = bundle.url(forResource: "SampleModelV2", withExtension: "sqlite")!
     let targetURL = sourceURL
     
@@ -123,12 +118,7 @@ class MigrationsTests: XCTestCase {
   
   
   func testMigrationFromVersion1ToVersion3() throws {
-    if ProcessInfo.isRunningSwiftPackageTests {
-      print("Not implemented")
-      return
-    }
-    
-    let bundle = Bundle(for: MigrationsTests.self)
+    let bundle = Bundle(for: CoreDataMigrationsTests.self)
     let sourceURL = bundle.url(forResource: "SampleModelV1", withExtension: "sqlite")!
     let targetURL = URL.temporary.appendingPathComponent("SampleModel").appendingPathExtension("sqlite")
     
