@@ -25,12 +25,11 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-class FetchedResultsChangesTests: XCTestCase {
+class FetchedResultsChangesTests: CoreDataPlusTestCase {
 
   func testNoChanges() throws {
     // Given
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
 
@@ -58,8 +57,7 @@ class FetchedResultsChangesTests: XCTestCase {
 
   func testObjectsChanges() throws {
     // Given
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
 
@@ -123,8 +121,7 @@ class FetchedResultsChangesTests: XCTestCase {
 
   func testSectionsChanges() throws {
     // Given
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
 

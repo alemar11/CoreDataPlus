@@ -25,19 +25,17 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSManagedObjectContextCacheTests: XCTestCase {
+final class NSManagedObjectContextCacheTests: CoreDataPlusTestCase {
 
   func testManagedContextCachingSystem() {
-    let stack = CoreDataStack.stack()
-
-    let mainContext = stack.mainContext
+    let mainContext = container.viewContext
     let backgroundContext = mainContext.newBackgroundContext()
 
     // Given
-    let person1 = Person(context: stack.mainContext)
+    let person1 = Person(context: container.viewContext)
     person1.firstName = "Tin"
     person1.lastName = "Robots"
-    let car1 = Car(context: stack.mainContext)
+    let car1 = Car(context: container.viewContext)
     car1.maker = "Alessandro"
     car1.model = "Model 1"
     car1.owner = person1
@@ -54,7 +52,7 @@ final class NSManagedObjectContextCacheTests: XCTestCase {
     XCTAssertEqual(person1, cachedPerson1)
 
     // Given
-    let person2 = Person(context: stack.mainContext)
+    let person2 = Person(context: container.viewContext)
     person2.firstName = "Tin2"
     person2.lastName = "Robots2"
     // When

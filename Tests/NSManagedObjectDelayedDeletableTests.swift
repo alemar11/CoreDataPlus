@@ -25,11 +25,10 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSManagedObjectDelayedDeletableTests: XCTestCase {
+final class NSManagedObjectDelayedDeletableTests: CoreDataPlusTestCase {
 
-  func testMarkAsDelayedDeletable() {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+  func testMarkAsDelayedDeletable() throws {
+    let context = container.viewContext
     context.fillWithSampleData()
 
     // Given
@@ -49,7 +48,7 @@ final class NSManagedObjectDelayedDeletableTests: XCTestCase {
     }
 
     // When, Then
-    try! context.save()
+    try context.save()
     let fiatNotDeletablePredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [fiatPredicate, Car.notMarkedForLocalDeletionPredicate])
     let notDeletableCars = try! Car.fetch(in: context) { $0.predicate = fiatNotDeletablePredicate }
     XCTAssertTrue(notDeletableCars.isEmpty)

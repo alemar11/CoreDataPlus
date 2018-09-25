@@ -25,33 +25,26 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSManagedObjectUpdateTimestampableTests: CoreDataPlusTestCase {
+let model = SampleModelVersion.version1.managedObjectModel()
 
-  func testRefreshUpdateDate() throws {
-    let context = container.viewContext
-    context.fillWithSampleData()
+class CoreDataPlusTestCase: XCTestCase {
 
-    // Given
-    let people = try! Person.fetch(in: context) { $0.predicate = NSPredicate(value: true) }
-    var updates = [String: Date]()
+  var container: NSPersistentContainer!
 
-    // When, Then
-    for person in people {
-      XCTAssertNotNil(person.updatedAt)
-      updates["\(person.firstName) - \(person.lastName)"] = person.updatedAt
-      person.refreshUpdateDate()
-      XCTAssertTrue(updates["\(person.firstName) - \(person.lastName)"] == person.updatedAt)
+  override func setUp() {
+    super.setUp()
+
+    container = NSPersistentContainer(name: "SampleModel", managedObjectModel: model)
+    container.persistentStoreDescriptions[0].url = URL(fileURLWithPath: "/dev/null")
+    container.loadPersistentStores { (description, error) in
+      XCTAssertNil(error)
     }
+  }
 
-    // When, Then
-    try context.save()
-
-    for person in people {
-      XCTAssertTrue(updates["\(person.firstName) - \(person.lastName)"] == person.updatedAt)
-      person.refreshUpdateDate()
-      XCTAssertTrue(updates["\(person.firstName) - \(person.lastName)"] != person.updatedAt)
-    }
-
+  override func tearDown() {
+    container = nil
+    super.tearDown()
   }
 
 }
+

@@ -25,13 +25,11 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSManagedObjectUtilsTests: XCTestCase {
+final class NSManagedObjectUtilsTests: CoreDataPlusTestCase {
 
   func testRefresh() {
-    let stack = CoreDataStack.stack(type: .sqlite)
-
     // Given
-    let context = stack.mainContext
+    let context = container.viewContext
 
     do {
       // When
@@ -66,8 +64,7 @@ final class NSManagedObjectUtilsTests: XCTestCase {
 
 
   func testChangedAndCommittedValue() throws {
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext
+    let context = container.viewContext
 
     let carNumberPlate = #keyPath(Car.numberPlate)
     let carModel = #keyPath(Car.model)
@@ -142,8 +139,7 @@ final class NSManagedObjectUtilsTests: XCTestCase {
   }
 
   func testFault() throws {
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext
+    let context = container.viewContext
 
     // Given
     let sportCar1 = SportCar(context: context)
@@ -160,8 +156,7 @@ final class NSManagedObjectUtilsTests: XCTestCase {
   }
 
   func testDelete() {
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext
+    let context = container.viewContext
 
     // Given
     let sportCar1 = SportCar(context: context)
