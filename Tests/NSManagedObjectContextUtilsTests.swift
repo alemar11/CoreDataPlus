@@ -539,7 +539,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
   }
 
   func testPerformSaveUpToTheLastParentContextAndWaitWithoutChanges() throws {
-    
+
     let mainContext = container.viewContext
     let backgroundContext = mainContext.newBackgroundContext(asChildContext: true) // main context children
     let childBackgroundContext = backgroundContext.newBackgroundContext(asChildContext: true) // background context children

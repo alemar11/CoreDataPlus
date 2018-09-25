@@ -26,10 +26,10 @@ import CoreData
 @testable import CoreDataPlus
 
 class CoreDataMigrationsTests: XCTestCase {
-  
+
   let fileManager = FileManager.default
   var containerSQLite: NSPersistentContainer!
-  
+
   override func setUp() {
     super.setUp()
     containerSQLite = NSPersistentContainer(name: "SampleModel-\(UUID())", managedObjectModel: model)
@@ -37,7 +37,7 @@ class CoreDataMigrationsTests: XCTestCase {
       XCTAssertNil(error)
     }
   }
-  
+
   override func tearDown() {
     containerSQLite.persistentStoreDescriptions.forEach { description in
       if let url = description.url {
@@ -47,38 +47,38 @@ class CoreDataMigrationsTests: XCTestCase {
     containerSQLite = nil
     super.tearDown()
   }
-  
+
   // MARK: - LightWeight Migration
-  
+
   func testMigrationFromVersion1ToVersion2() throws {
     let context = containerSQLite.viewContext
     let url = containerSQLite.persistentStoreDescriptions[0].url!
     context.fillWithSampleData()
     try context.save()
-    
+
     let allCars = try Car.fetch(in: context) //125
     let sportCars = try ExpensiveSportCar.fetch(in: context) // 5
-    
+
     if #available(iOS 11, tvOS 11, macOS 10.13, *) {
       XCTAssertEqual(allCars.first!.entity.indexes.count, 0)
     }
-    
+
     let targetVersion = SampleModelVersion.version2
     let steps = SampleModelVersion.version1.migrationSteps(to: .version2)
     XCTAssertEqual(steps.count, 1)
-    
+
     let sourceURL = url
     let targetURL = url
-    
+
     // When
     try CoreDataMigration.migrateStore(at: sourceURL, targetVersion: targetVersion)
     let migratedContext = NSManagedObjectContext(model: targetVersion.managedObjectModel(), storeURL: targetURL)
     let luxuryCars = try LuxuryCar.fetch(in: migratedContext)
     XCTAssertEqual(sportCars.count, luxuryCars.count)
-    
+
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
     XCTAssertTrue(cars.count >= 1)
-    
+
     if #available(iOS 11, tvOS 11, macOS 10.13, *) {
       cars.forEach { car in
         if car is LuxuryCar || car is SportCar {
@@ -92,24 +92,24 @@ class CoreDataMigrationsTests: XCTestCase {
         }
       }
     }
-    
+
     try CoreDataMigration.migrateStore(from: sourceURL, to: targetURL, targetVersion: targetVersion)
   }
-  
+
   // MARK: - HeavyWeight Migration
-  
+
   func testMigrationFromVersion2ToVersion3() throws {
     let bundle = Bundle(for: CoreDataMigrationsTests.self)
     let sourceURL = bundle.url(forResource: "SampleModelV2", withExtension: "sqlite")!
     let targetURL = sourceURL
-    
+
     try CoreDataMigration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3)
-    
+
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
     let makers = try Maker.fetch(in: migratedContext)
     XCTAssertEqual(makers.count, 11)
-        
+
     cars.forEach { object in
       let owner = object.value(forKey: "owner") as? NSManagedObject
       let maker = object.value(forKey: "createdBy") as? NSManagedObject
@@ -117,7 +117,7 @@ class CoreDataMigrationsTests: XCTestCase {
       let name = maker!.value(forKey: "name") as! String
       maker!.setValue("--\(name)--", forKey: "name")
       let previousOwners = object.value(forKey: "previousOwners") as! Set<NSManagedObject>
-      
+
       if let carOwner = owner {
         XCTAssertTrue(previousOwners.contains(carOwner))
         let previousCars = carOwner.value(forKey: "previousCars") as! Set<NSManagedObject>
@@ -126,44 +126,44 @@ class CoreDataMigrationsTests: XCTestCase {
         XCTAssertEqual(previousOwners.count, 0)
       }
     }
-    
+
     try migratedContext.save()
     XCTAssertTrue(fileManager.fileExists(atPath: targetURL.path))
   }
-  
-  
+
+
   func testMigrationFromVersion1ToVersion3() throws {
     let bundle = Bundle(for: CoreDataMigrationsTests.self)
     let sourceURL = bundle.url(forResource: "SampleModelV1", withExtension: "sqlite")!
     let targetURL = URL.temporary.appendingPathComponent("SampleModel").appendingPathExtension("sqlite")
-    
+
     let progress = Progress(parent: nil, userInfo: nil) //TODO: test
     try CoreDataMigration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3, deleteSource: true, progress: progress)
-    
+
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
     let makers = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Maker"))
     XCTAssertEqual(makers.count, 11)
-    
+
     makers.forEach { (maker) in
       let name = maker.value(forKey: "name") as! String
       maker.setValue("--\(name)--", forKey: "name")
     }
     try migratedContext.save()
-    
+
     XCTAssertFalse(fileManager.fileExists(atPath: sourceURL.path))
     XCTAssertTrue(fileManager.fileExists(atPath: targetURL.path))
   }
 }
 
 extension NSManagedObjectContext {
-  
+
   convenience init(model: NSManagedObjectModel, storeURL: URL) {
     let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
     try! psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
     self.init(concurrencyType: .mainQueueConcurrencyType)
     persistentStoreCoordinator = psc
   }
-  
+
 }
 
 extension URL {
