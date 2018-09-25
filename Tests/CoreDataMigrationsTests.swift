@@ -91,7 +91,6 @@ class CoreDataMigrationsTests: XCTestCase {
           XCTFail("Undefined")
         }
       }
-      
     }
     
     try CoreDataMigration.migrateStore(from: sourceURL, to: targetURL, targetVersion: targetVersion)
@@ -110,10 +109,7 @@ class CoreDataMigrationsTests: XCTestCase {
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
     let makers = try Maker.fetch(in: migratedContext)
     XCTAssertEqual(makers.count, 11)
-    
-    //try cars.fetchFaultedObjects()
-    //print(cars)
-    
+        
     cars.forEach { object in
       let owner = object.value(forKey: "owner") as? NSManagedObject
       let maker = object.value(forKey: "createdBy") as? NSManagedObject
