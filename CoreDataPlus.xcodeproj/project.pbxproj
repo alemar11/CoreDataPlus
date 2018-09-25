@@ -54,21 +54,18 @@
 		233654371F9E1644007F8D3D /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233654361F9E1644007F8D3D /* SampleData.swift */; };
 		233654381F9E1644007F8D3D /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233654361F9E1644007F8D3D /* SampleData.swift */; };
 		233654391F9E1644007F8D3D /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233654361F9E1644007F8D3D /* SampleData.swift */; };
-		234130651F95FF90002BE7FC /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351081F95F28C00B3A16A /* CoreDataStack.swift */; };
 		234130661F95FF90002BE7FC /* SampleModelVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2363510B1F95F28C00B3A16A /* SampleModelVersion.swift */; };
 		234130671F95FF90002BE7FC /* ModelVersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351041F95F28B00B3A16A /* ModelVersionTests.swift */; };
 		234130681F95FF90002BE7FC /* NSFetchRequestUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351071F95F28C00B3A16A /* NSFetchRequestUtilsTests.swift */; };
 		234130691F95FF90002BE7FC /* NSManagedObjectContextCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351051F95F28C00B3A16A /* NSManagedObjectContextCacheTests.swift */; };
 		2341306A1F95FF90002BE7FC /* NSManagedObjectContextUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351031F95F28B00B3A16A /* NSManagedObjectContextUtilsTests.swift */; };
 		2341306B1F95FF90002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351061F95F28C00B3A16A /* NSManagedObjectUtilsTests.swift */; };
-		2341306C1F95FF91002BE7FC /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351081F95F28C00B3A16A /* CoreDataStack.swift */; };
 		2341306D1F95FF91002BE7FC /* SampleModelVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2363510B1F95F28C00B3A16A /* SampleModelVersion.swift */; };
 		2341306E1F95FF91002BE7FC /* ModelVersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351041F95F28B00B3A16A /* ModelVersionTests.swift */; };
 		2341306F1F95FF91002BE7FC /* NSFetchRequestUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351071F95F28C00B3A16A /* NSFetchRequestUtilsTests.swift */; };
 		234130701F95FF91002BE7FC /* NSManagedObjectContextCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351051F95F28C00B3A16A /* NSManagedObjectContextCacheTests.swift */; };
 		234130711F95FF91002BE7FC /* NSManagedObjectContextUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351031F95F28B00B3A16A /* NSManagedObjectContextUtilsTests.swift */; };
 		234130721F95FF91002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351061F95F28C00B3A16A /* NSManagedObjectUtilsTests.swift */; };
-		234130731F95FF91002BE7FC /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351081F95F28C00B3A16A /* CoreDataStack.swift */; };
 		234130741F95FF91002BE7FC /* SampleModelVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2363510B1F95F28C00B3A16A /* SampleModelVersion.swift */; };
 		234130751F95FF91002BE7FC /* ModelVersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351041F95F28B00B3A16A /* ModelVersionTests.swift */; };
 		234130761F95FF91002BE7FC /* NSFetchRequestUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351071F95F28C00B3A16A /* NSFetchRequestUtilsTests.swift */; };
@@ -259,7 +256,6 @@
 		236351051F95F28C00B3A16A /* NSManagedObjectContextCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSManagedObjectContextCacheTests.swift; sourceTree = "<group>"; };
 		236351061F95F28C00B3A16A /* NSManagedObjectUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSManagedObjectUtilsTests.swift; sourceTree = "<group>"; };
 		236351071F95F28C00B3A16A /* NSFetchRequestUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSFetchRequestUtilsTests.swift; sourceTree = "<group>"; };
-		236351081F95F28C00B3A16A /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		2363510B1F95F28C00B3A16A /* SampleModelVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleModelVersion.swift; sourceTree = "<group>"; };
 		236351241F95F53900B3A16A /* IDETemplateMacros.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = IDETemplateMacros.plist; path = CoreDataPlus.xcodeproj/xcshareddata/IDETemplateMacros.plist; sourceTree = SOURCE_ROOT; };
 		236526AA215A46C200A51C9F /* CoreDataPlusTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPlusTestCase.swift; sourceTree = "<group>"; };
@@ -509,7 +505,6 @@
 				2377287C2149654000FDAF32 /* SampleModel.momd */,
 				23A38AF62147F0990086C22A /* MappingModels */,
 				2363510B1F95F28C00B3A16A /* SampleModelVersion.swift */,
-				236351081F95F28C00B3A16A /* CoreDataStack.swift */,
 				234DA7AE214A5D4700D5C24F /* Entities */,
 				23DAFA231F9641BD0058654B /* SampleModel.xcdatamodeld */,
 				233654361F9E1644007F8D3D /* SampleData.swift */,
@@ -981,7 +976,6 @@
 				237728652148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift in Sources */,
 				23F8E9E01F965B2000C65565 /* SampleModel.xcdatamodeld in Sources */,
 				2383AC641FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift in Sources */,
-				234130651F95FF90002BE7FC /* CoreDataStack.swift in Sources */,
 				234130681F95FF90002BE7FC /* NSFetchRequestUtilsTests.swift in Sources */,
 				236526AB215A46C200A51C9F /* CoreDataPlusTestCase.swift in Sources */,
 				23CAFC8A204B196400E016D3 /* EntityObserverTests.swift in Sources */,
@@ -1013,7 +1007,6 @@
 				237728662148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift in Sources */,
 				23F8E9E11F965B2100C65565 /* SampleModel.xcdatamodeld in Sources */,
 				2383AC651FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift in Sources */,
-				2341306C1F95FF91002BE7FC /* CoreDataStack.swift in Sources */,
 				2341306F1F95FF91002BE7FC /* NSFetchRequestUtilsTests.swift in Sources */,
 				236526AC215A46C200A51C9F /* CoreDataPlusTestCase.swift in Sources */,
 				23CAFC8B204B196400E016D3 /* EntityObserverTests.swift in Sources */,
@@ -1045,7 +1038,6 @@
 				237728672148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift in Sources */,
 				23F8E9E21F965B2200C65565 /* SampleModel.xcdatamodeld in Sources */,
 				2383AC661FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift in Sources */,
-				234130731F95FF91002BE7FC /* CoreDataStack.swift in Sources */,
 				234130761F95FF91002BE7FC /* NSFetchRequestUtilsTests.swift in Sources */,
 				236526AD215A46C200A51C9F /* CoreDataPlusTestCase.swift in Sources */,
 				23CAFC8C204B196400E016D3 /* EntityObserverTests.swift in Sources */,
@@ -1108,7 +1100,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 3.0;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
 			name = Debug;
 		};
@@ -1137,7 +1129,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 3.0;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
 			name = Release;
 		};
@@ -1166,7 +1158,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 10.0;
+				TVOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Debug;
 		};
@@ -1195,7 +1187,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 10.0;
+				TVOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Release;
 		};
@@ -1218,7 +1210,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = org.tinrobots.CoreDataPlus;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
 				PRODUCT_NAME = CoreDataPlus;
@@ -1247,7 +1239,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = org.tinrobots.CoreDataPlus;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
 				PRODUCT_NAME = CoreDataPlus;
@@ -1425,7 +1417,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Support/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1457,7 +1449,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Support/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1480,7 +1472,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "Support/Info-Tests.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1499,7 +1491,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "Support/Info-Tests.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1517,6 +1509,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Support/Info-Tests.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1536,6 +1529,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Support/Info-Tests.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
