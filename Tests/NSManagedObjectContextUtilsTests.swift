@@ -25,15 +25,11 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSManagedObjectContextUtilsTests: XCTestCase {
+final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
 
   func testSinglePersistentStore() {
-    // Given, When
-    let stack = CoreDataStack.stack()
-    // Then
-    XCTAssertTrue(stack.mainContext.persistentStores.count == 1)
-    XCTAssertNotNil(stack.mainContext.persistentStores.first)
-
+    XCTAssertTrue(container.viewContext.persistentStores.count == 1)
+    XCTAssertNotNil(container.viewContext.persistentStores.first)
   }
 
   func testMissingPersistentStoreCoordinator() {
@@ -42,60 +38,56 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
   }
 
   func testMetaData() {
-      // Given
-      let stack = CoreDataStack.stack(type: .sqlite)
-
       // When
-      guard let firstPersistentStore = stack.mainContext.persistentStores.first else {
-        XCTAssertNotNil(stack.mainContext.persistentStores.first)
+      guard let firstPersistentStore = container.viewContext.persistentStores.first else {
+        XCTAssertNotNil(container.viewContext.persistentStores.first)
         return
       }
       // Then
-      let metaData = stack.mainContext.metaData(for: firstPersistentStore)
+      let metaData = container.viewContext.metaData(for: firstPersistentStore)
       XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[Car.entityName])
       XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[Person.entityName])
       XCTAssertNotNil(metaData["NSStoreType"] as? String)
 
       let addMetaDataExpectation = expectation(description: "Add MetaData Expectation")
-      stack.mainContext.setMetaDataObject("Test", with: "testKey", for: firstPersistentStore){ error in
+      container.viewContext.setMetaDataObject("Test", with: "testKey", for: firstPersistentStore){ error in
         XCTAssertNil(error)
         addMetaDataExpectation.fulfill()
       }
       waitForExpectations(timeout: 5.0, handler: nil)
 
-      let updatedMetaData = stack.mainContext.metaData(for: firstPersistentStore)
+      let updatedMetaData = container.viewContext.metaData(for: firstPersistentStore)
       XCTAssertNotNil(updatedMetaData["testKey"])
       XCTAssertEqual(updatedMetaData["testKey"] as? String, "Test")
   }
 
   func testEntityDescription() {
     // Given, When
-    let stack = CoreDataStack.stack(type: .sqlite)
 
     // Then
-    XCTAssertNotNil(stack.mainContext.entity(forEntityName: Car.entityName))
-    XCTAssertNotNil(stack.mainContext.entity(forEntityName: Person.entityName))
-    XCTAssertNil(stack.mainContext.entity(forEntityName: "FakeEntity"))
+    XCTAssertNotNil(container.viewContext.entity(forEntityName: Car.entityName))
+    XCTAssertNotNil(container.viewContext.entity(forEntityName: Person.entityName))
+    XCTAssertNil(container.viewContext.entity(forEntityName: "FakeEntity"))
   }
 
   func testNewBackgroundContext() {
     // Given, When
-    let stack = CoreDataStack.stack(type: .sqlite)
+
 
     // Then
-    let backgroundContext = stack.mainContext.newBackgroundContext(asChildContext: true)
+    let backgroundContext = container.viewContext.newBackgroundContext(asChildContext: true)
     XCTAssertEqual(backgroundContext.concurrencyType,.privateQueueConcurrencyType)
-    XCTAssertEqual(backgroundContext.parent,stack.mainContext)
+    XCTAssertEqual(backgroundContext.parent,container.viewContext)
 
-    let backgroundContext2 = stack.mainContext.newBackgroundContext()
+    let backgroundContext2 = container.viewContext.newBackgroundContext()
     XCTAssertEqual(backgroundContext2.concurrencyType,.privateQueueConcurrencyType)
-    XCTAssertNotEqual(backgroundContext2.parent,stack.mainContext)
+    XCTAssertNotEqual(backgroundContext2.parent,container.viewContext)
   }
 
   func testMultipleSaveAndWait() throws {
     // Given, When
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext.newBackgroundContext()
+
+    let context = container.viewContext.newBackgroundContext()
 
     // Then
     XCTAssertNoThrow(
@@ -129,8 +121,8 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
 
   func testSaveAndWait() {
     // Given, When
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext.newBackgroundContext()
+
+    let context = container.viewContext.newBackgroundContext()
 
     // Then
     XCTAssertNoThrow(
@@ -198,8 +190,8 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
   }
 
   func testSaveAndWaitWithReset() {
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext.newBackgroundContext()
+
+    let context = container.viewContext.newBackgroundContext()
     XCTAssertNoThrow(
       try context.performSaveAndWait {
         let person1 = Person(context: context)
@@ -220,8 +212,8 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
   }
 
   func testSaveAndWaitWithThrow() {
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext.newBackgroundContext()
+
+    let context = container.viewContext.newBackgroundContext()
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
@@ -247,8 +239,8 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
   }
 
   func testSaveAndWaitWithAContextSaveDoneBeforeTheThrow() throws {
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext.newBackgroundContext()
+
+    let context = container.viewContext.newBackgroundContext()
 
     context.performAndWait {
     let person = Person(context: context)
@@ -281,8 +273,8 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
   }
 
   func testSaveAndThrow() {
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext.newBackgroundContext()
+
+    let context = container.viewContext.newBackgroundContext()
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
@@ -309,8 +301,8 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
 
   func testSave() {
     // Given, When
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext.newBackgroundContext()
+
+    let context = container.viewContext.newBackgroundContext()
     // Then
     let saveExpectation1 = expectation(description: "Save 1")
     context.performSave(after: {
@@ -412,8 +404,8 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
   }
 
   func testPerformAndWait() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+
+    let context = container.viewContext
     context.fillWithSampleData()
 
     let cars = try context.performAndWait { (_context) -> [Car] in
@@ -426,8 +418,8 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
 
   func testPerformAndWaitWithThrow() {
     let expectation1 = expectation(description: "\(#function)\(#line)")
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+
+    let context = container.viewContext
     context.fillWithSampleData()
 
     do {
@@ -451,8 +443,8 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
   }
 
   func testSaveOrRollback() {
-    let stack = CoreDataStack.stack(type: .inMemory) // TODO: iOS 12 not working for in memory
-    let context = stack.mainContext
+   // let stack = CoreDataStack.stack(type: .inMemory) // TODO: iOS 12 not working for in memory
+    let context = container.viewContext
 
     let car1 = Car(context: context)
     car1.maker = "FIAT"
@@ -482,8 +474,8 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
   }
 
   func testCollectionDelete() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+
+    let context = container.viewContext
     let newContext = context.newBackgroundContext()
 
     let car1 = Car(context: context)
@@ -525,8 +517,8 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
   }
 
   func testPerformSaveUpToTheLastParentContextAndWait() throws {
-    let stack = CoreDataStack.stack()
-    let mainContext = stack.mainContext
+
+    let mainContext = container.viewContext
     let backgroundContext = mainContext.newBackgroundContext(asChildContext: true) // main context children
     let childBackgroundContext = backgroundContext.newBackgroundContext(asChildContext: true) // background context children
 
@@ -547,8 +539,8 @@ final class NSManagedObjectContextUtilsTests: XCTestCase {
   }
 
   func testPerformSaveUpToTheLastParentContextAndWaitWithoutChanges() throws {
-    let stack = CoreDataStack.stack()
-    let mainContext = stack.mainContext
+    
+    let mainContext = container.viewContext
     let backgroundContext = mainContext.newBackgroundContext(asChildContext: true) // main context children
     let childBackgroundContext = backgroundContext.newBackgroundContext(asChildContext: true) // background context children
 

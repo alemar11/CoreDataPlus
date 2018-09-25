@@ -25,11 +25,10 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSFetchRequestResultCoreDataTests: XCTestCase {
+final class NSFetchRequestResultCoreDataTests: CoreDataPlusTestCase {
 
   func testDeleteAllIncludingSubentities() {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
 
     // Given
     context.fillWithSampleData()
@@ -60,8 +59,7 @@ final class NSFetchRequestResultCoreDataTests: XCTestCase {
   }
 
   func testDeleteAllExcludingSubentities() {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
 
     // Given
     context.fillWithSampleData()
@@ -91,8 +89,7 @@ final class NSFetchRequestResultCoreDataTests: XCTestCase {
   }
 
   func testDeleteAllExcludingExceptions() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
     context.fillWithSampleData()
 
     // Given
@@ -130,12 +127,12 @@ final class NSFetchRequestResultCoreDataTests: XCTestCase {
 
   func testDeleteAllWithSubentitiesExcludingExceptions() throws {
     // Given
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
     context.fillWithSampleData()
 
     // When, Then
-    let sportCars = try! SportCar.fetch(in: context, with: { $0.predicate = NSPredicate(format: "%K BETWEEN %@", #keyPath(Car.numberPlate), ["202","204"]) })
+    let predicate = NSPredicate(format: "%K >= %@ && %K <= %@", #keyPath(Car.numberPlate), "202", #keyPath(Car.numberPlate), "204")
+    let sportCars = try SportCar.fetch(in: context, with: { $0.predicate = predicate })
     XCTAssertNotNil(sportCars)
     XCTAssertNoThrow(try Car.deleteAll(in: context, except: sportCars))
     let carsAfterDelete = try Car.fetch(in: context)

@@ -25,11 +25,10 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSManagedObjectUpdateTimestampableTests: XCTestCase {
+final class NSManagedObjectUpdateTimestampableTests: CoreDataPlusTestCase {
 
-  func testRefreshUpdateDate() {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+  func testRefreshUpdateDate() throws {
+    let context = container.viewContext
     context.fillWithSampleData()
 
     // Given
@@ -45,7 +44,7 @@ final class NSManagedObjectUpdateTimestampableTests: XCTestCase {
     }
 
     // When, Then
-    try! context.save()
+    try context.save()
 
     for person in people {
       XCTAssertTrue(updates["\(person.firstName) - \(person.lastName)"] == person.updatedAt)

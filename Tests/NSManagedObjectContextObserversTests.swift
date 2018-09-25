@@ -29,12 +29,11 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSManagedObjectContextObserversTests: XCTestCase {
+final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
 
   /// This is a very generic test case
   func testObservers() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let expectation2 = expectation(description: "\(#function)\(#line)")
@@ -66,8 +65,7 @@ final class NSManagedObjectContextObserversTests: XCTestCase {
   }
 
   func testInvalidatedAllObjects() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
@@ -97,8 +95,7 @@ final class NSManagedObjectContextObserversTests: XCTestCase {
   }
 
   func testObserversWithoutSaving() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let expectation2 = expectation(description: "\(#function)\(#line)")
@@ -132,9 +129,8 @@ final class NSManagedObjectContextObserversTests: XCTestCase {
   }
 
   func testObserversWhenWorkingOnAnotherContext() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
-    let anotherContext = stack.mainContext.newBackgroundContext(asChildContext: false)
+    let context = container.viewContext
+    let anotherContext = container.viewContext.newBackgroundContext(asChildContext: false)
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let expectation2 = expectation(description: "\(#function)\(#line)")
@@ -175,9 +171,8 @@ final class NSManagedObjectContextObserversTests: XCTestCase {
   }
 
   func testObserversWhenWorkingWithChildContext() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
-    let anotherContext = stack.mainContext.newBackgroundContext(asChildContext: true)
+    let context = container.viewContext
+    let anotherContext = container.viewContext.newBackgroundContext(asChildContext: true)
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let expectation2 = expectation(description: "\(#function)\(#line)")
@@ -217,8 +212,7 @@ final class NSManagedObjectContextObserversTests: XCTestCase {
   }
 
   func testObserverEvaluatingChangedObjects() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let notificationCenter = NotificationCenter.default
@@ -382,9 +376,8 @@ final class NSManagedObjectContextObserversTests: XCTestCase {
   }
 
   func testMerge() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
-    let anotherContext = stack.mainContext.newBackgroundContext(asChildContext: false)
+    let context = container.viewContext
+    let anotherContext = container.viewContext.newBackgroundContext(asChildContext: false)
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let expectation2 = expectation(description: "\(#function)\(#line)")
@@ -475,9 +468,8 @@ final class NSManagedObjectContextObserversTests: XCTestCase {
   }
 
   func testAsyncMerge() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
-    let anotherContext = stack.mainContext.newBackgroundContext(asChildContext: false)
+    let context = container.viewContext
+    let anotherContext = container.viewContext.newBackgroundContext(asChildContext: false)
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let expectation2 = expectation(description: "\(#function)\(#line)")
@@ -538,8 +530,7 @@ final class NSManagedObjectContextObserversTests: XCTestCase {
   }
 
   func testNSFetchedResultController() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
 
     let person1 = Person(context: context)
     person1.firstName = "Edythe"
@@ -567,7 +558,7 @@ final class NSManagedObjectContextObserversTests: XCTestCase {
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let notificationCenter = NotificationCenter.default
-    let anotherContext = stack.mainContext.newBackgroundContext(asChildContext: false)
+    let anotherContext = container.viewContext.newBackgroundContext(asChildContext: false)
 
     let token1 = anotherContext.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       XCTAssertEqual(notification.insertedObjects.count, 2) // 1 person and 1 car
@@ -616,8 +607,7 @@ final class NSManagedObjectContextObserversTests: XCTestCase {
   }
 
   func testNSFetchedResultControllerWithContextReset() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
 
     let person1 = Person(context: context)
     person1.firstName = "Edythe"

@@ -28,17 +28,36 @@ import CoreData
 class CoreDataMigrationsTests: XCTestCase {
   
   let fileManager = FileManager.default
+  var containerSQLite: NSPersistentContainer!
+  
+  override func setUp() {
+    super.setUp()
+    containerSQLite = NSPersistentContainer(name: "SampleModel-\(UUID())", managedObjectModel: model)
+    containerSQLite.loadPersistentStores { (description, error) in
+      XCTAssertNil(error)
+    }
+  }
+  
+  override func tearDown() {
+    containerSQLite.persistentStoreDescriptions.forEach { description in
+      if let url = description.url {
+        try! NSPersistentStoreCoordinator.destroyStore(at: url)
+      }
+    }
+    containerSQLite = nil
+    super.tearDown()
+  }
   
   // MARK: - LightWeight Migration
   
   func testMigrationFromVersion1ToVersion2() throws {
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext
+    let context = containerSQLite.viewContext
+    let url = containerSQLite.persistentStoreDescriptions[0].url!
     context.fillWithSampleData()
     try context.save()
     
-    let allCars = try Car.fetch(in: context)
-    let sportCars = try ExpensiveSportCar.fetch(in: context)
+    let allCars = try Car.fetch(in: context) //125
+    let sportCars = try ExpensiveSportCar.fetch(in: context) // 5
     
     if #available(iOS 11, tvOS 11, macOS 10.13, *) {
       XCTAssertEqual(allCars.first!.entity.indexes.count, 0)
@@ -48,8 +67,8 @@ class CoreDataMigrationsTests: XCTestCase {
     let steps = SampleModelVersion.version1.migrationSteps(to: .version2)
     XCTAssertEqual(steps.count, 1)
     
-    let sourceURL = stack.storeURL!
-    let targetURL = stack.storeURL!
+    let sourceURL = url
+    let targetURL = url
     
     // When
     try CoreDataMigration.migrateStore(at: sourceURL, targetVersion: targetVersion)

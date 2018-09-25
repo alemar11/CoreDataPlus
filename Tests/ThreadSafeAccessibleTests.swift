@@ -25,18 +25,16 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-class ThreadSafeAccessibleTests: XCTestCase {
+class ThreadSafeAccessibleTests: CoreDataPlusTestCase {
 
   func testManagedObjectThreadSafeAccess() {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext.newBackgroundContext()
+    let context = container.viewContext.newBackgroundContext()
     let car = context.performAndWait { return Car(context: $0) }
     car.safeAccess { XCTAssertEqual($0.managedObjectContext, context) }
   }
 
   func testFetchedResultsControllerThreadSafeAccess() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext.newBackgroundContext()
+    let context = container.viewContext.newBackgroundContext()
     try context.performAndWait { _ in
       context.fillWithSampleData()
       try context.save()

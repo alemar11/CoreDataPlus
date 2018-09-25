@@ -25,14 +25,13 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSFetchRequestResultUtilsTests: XCTestCase {
+final class NSFetchRequestResultUtilsTests: CoreDataPlusTestCase {
 
   // MARK: - Batch Faulting
 
   func testBatchFaulting() throws {
     // Given
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
 
     context.performAndWait {
       context.fillWithSampleData()
@@ -67,8 +66,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
 
   func testBatchFaultingEdgeCases() throws {
     // Given
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
     context.performAndWait {
       context.fillWithSampleData()
       try! context.save()
@@ -102,8 +100,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
 
   func testBatchFaultingWithDifferentContexts() {
     // Given
-    let stack = CoreDataStack.stack()
-    let context1 = stack.mainContext
+    let context1 = container.viewContext
     let context2 = context1.newBackgroundContext(asChildContext: false)
 
     let car1 = Car(context: context1)
@@ -147,8 +144,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
   }
 
   func testBatchFaultingToManyRelationship() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
 
     context.performAndWait {
       context.fillWithSampleData()
@@ -179,8 +175,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
   // MARK: - Fetch
 
   func testFetch() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
 
     context.performAndWait {
       context.fillWithSampleData()
@@ -206,8 +201,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
   // MARK: - Count
 
   func testCount() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
 
     context.performAndWait {
       context.fillWithSampleData()
@@ -233,8 +227,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
   // MARK: - Unique
 
   func testFetchUniqueObject() throws {
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext
+    let context = container.viewContext
 
     context.performAndWait {
       context.fillWithSampleData()
@@ -267,8 +260,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
   }
 
   func testFindUniqueOrCreate() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
 
     context.performAndWait {
       context.fillWithSampleData()
@@ -317,8 +309,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
   }
 
   func testFindUniqueMaterializedObject() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
 
     context.performAndWait {
       context.fillWithSampleData()
@@ -346,8 +337,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
   // MARK: - First
 
   func testFindFirstOrCreate() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
 
     context.performAndWait {
       context.fillWithSampleData()
@@ -410,8 +400,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
   }
 
   func testFindFirstMaterializedObject() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
 
     context.performAndWait {
       context.fillWithSampleData()
@@ -440,8 +429,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
   // MARK: Materialized Object
 
   func testFindMaterializedObjects() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
 
     context.performAndWait {
       context.fillWithSampleData()
@@ -467,8 +455,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
   // MARK: Cache
 
   func testFetchCachedObject() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
 
     context.performAndWait {
       context.fillWithSampleData()
@@ -535,8 +522,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
 
   func testBatchDeleteObjectsWithResultTypeStatusOnly() throws {
     // Given
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext
+    let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
 
@@ -550,8 +536,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
 
   func testBatchDeleteObjectsWithResultTypeCount() throws {
     // Given
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext
+    let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
 
@@ -564,8 +549,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
 
   func testBatchDeleteObjectsWithResultTypeObjectIDs() throws {
     // Given
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext
+    let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
 
@@ -603,8 +587,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
 
   func testBatchDeleteAllEntities() throws {
     // Given
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext
+    let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
 
@@ -621,8 +604,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
 
   func testBatchDeleteEntitiesExcludingSubEntities() throws {
     // Given
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext
+    let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
 
@@ -646,8 +628,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
 
   func testBatchDeleteObjectsMarkedForDeletion() throws {
     // Given
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext
+    let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
 
@@ -671,8 +652,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
 
   func testBatchUpdateObjectsWithResultTypeStatusOnly() throws {
     // Given
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext
+    let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
 
@@ -699,8 +679,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
 
   func testBatchUpdateObjectsWithResultCountType() throws {
     // Given
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext
+    let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
 
@@ -728,8 +707,7 @@ final class NSFetchRequestResultUtilsTests: XCTestCase {
 
   func testBatchUpdateObjectsWithResultObjectIDsType() throws {
     // Given
-    let stack = CoreDataStack.stack(type: .sqlite)
-    let context = stack.mainContext
+    let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
 

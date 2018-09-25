@@ -25,13 +25,12 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class EntityObserverTests: XCTestCase {
+final class EntityObserverTests: CoreDataPlusTestCase {
 
   // MARK: - Change Event
 
   func testInsertedOnChangeEvent() {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
     let observedEvent = ObservedEvent.change
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
@@ -65,8 +64,7 @@ final class EntityObserverTests: XCTestCase {
   }
 
   func testUpdatedOnChangeEvent() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
     let observedEvent = ObservedEvent.change
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
@@ -105,8 +103,7 @@ final class EntityObserverTests: XCTestCase {
   }
 
   func testInsertedAndUpdatedOnChangeEvent() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
     let observedEvent = ObservedEvent.change
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
@@ -150,8 +147,7 @@ final class EntityObserverTests: XCTestCase {
   }
 
   func testDeleteOnChangeEvent() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
     let observedEvent = ObservedEvent.change
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
@@ -200,8 +196,7 @@ final class EntityObserverTests: XCTestCase {
 
 
   func testRefreshedOnChangeEvent() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
     let observedEvent = ObservedEvent.change
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
@@ -259,8 +254,7 @@ final class EntityObserverTests: XCTestCase {
   }
 
   func testInvalidatedAllOnChangeEvent() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
     let observedEvent = ObservedEvent.change
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
@@ -321,8 +315,7 @@ final class EntityObserverTests: XCTestCase {
   }
 
   func testRelationshipUpdatedOnChangeEvent() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
     let observedEvent = ObservedEvent.change
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
@@ -374,8 +367,7 @@ final class EntityObserverTests: XCTestCase {
   // MARK: - Save Event
 
   func testInsertedOnSaveEvent() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
     let observedEvent = ObservedEvent.save
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
@@ -416,8 +408,7 @@ final class EntityObserverTests: XCTestCase {
   }
 
   func testInsertedWithoutSavingOnSaveEvent() {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
     let observedEvent = ObservedEvent.save
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
@@ -446,8 +437,7 @@ final class EntityObserverTests: XCTestCase {
   }
 
   func testRelationshipUpdatedOnSaveEvent() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
     let observedEvent = ObservedEvent.save
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
@@ -502,8 +492,7 @@ final class EntityObserverTests: XCTestCase {
   }
 
   func testDeleteOnSaveEvent() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
     let observedEvent = ObservedEvent.save
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
@@ -555,8 +544,7 @@ final class EntityObserverTests: XCTestCase {
   // MARK: - Change and Save Event
 
   func testMixChangesOnUpdateAndOnSave() throws {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
     let observedEvent = ObservedEvent.all
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let expectation2 = expectation(description: "\(#function)\(#line)")

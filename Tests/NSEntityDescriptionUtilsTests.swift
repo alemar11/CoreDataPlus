@@ -25,11 +25,10 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSEntityDescriptionUtilsTests: XCTestCase {
+final class NSEntityDescriptionUtilsTests: CoreDataPlusTestCase {
 
   func testEntity() {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
 
     let expensiveCar = ExpensiveSportCar(context: context)
     let entityNames = expensiveCar.entity.hierarchyEntities().compactMap { $0.name}
@@ -40,8 +39,7 @@ final class NSEntityDescriptionUtilsTests: XCTestCase {
   }
 
   func testTopMostEntity() {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
 
     do {
       let expensiveCar = ExpensiveSportCar(context: context)
@@ -58,8 +56,7 @@ final class NSEntityDescriptionUtilsTests: XCTestCase {
   }
 
   func testCommonEntityAncestor() {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
 
     do {
       let expensiveSportCar = ExpensiveSportCar(context: context)
@@ -134,8 +131,7 @@ final class NSEntityDescriptionUtilsTests: XCTestCase {
 
 
   func testEntitiesKeepingOnlyCommonEntityAncestors() {
-    let stack = CoreDataStack.stack()
-    let context = stack.mainContext
+    let context = container.viewContext
 
     do {
       let entities = [ExpensiveSportCar(context: context).entity, ExpensiveSportCar(context: context).entity, SportCar(context: context).entity, SportCar(context: context).entity]

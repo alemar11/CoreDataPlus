@@ -25,78 +25,78 @@ import XCTest
 import CoreData
 
 // On Xcode 10, if we load the model for each test we get a lot of errors.
-fileprivate let currentModel = SampleModelVersion.currentVersion.managedObjectModel()
-
-final class CoreDataStack {
-
-  enum StoreType { case sqlite, inMemory }
-
-  private(set) var persistentStoreCoordinator: NSPersistentStoreCoordinator
-  private(set) var mainContext: NSManagedObjectContext
-  private(set) var storeURL: URL?
-
-  init?(type: StoreType = .inMemory) {
-
-    let managedObjectModel: NSManagedObjectModel
-
-    XCTAssertTrue(ProcessInfo.isRunningUnitTests)
-
-//    if ProcessInfo.isRunningSwiftPackageTests {
-//      managedObjectModel = SampleModelVersion.currentVersion.managedObjectModel_swift_package_tests()
-//    } else {
-      managedObjectModel = currentModel
-//    }
-    persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
-
-    switch (type) {
-
-    case .inMemory:
-      do {
-        try persistentStoreCoordinator.addPersistentStore(ofType: NSInMemoryStoreType, configurationName: nil, at: nil, options: nil)
-      } catch {
-        XCTFail("\(error.localizedDescription)")
-      }
-
-    case .sqlite:
-      storeURL = URL.temporary.appendingPathComponent("SampleModel.sqlite")
-      let persistentStoreDescription = NSPersistentStoreDescription(url: storeURL!)
-
-      print("🔸 \(storeURL!)")
-
-      persistentStoreDescription.type = NSSQLiteStoreType
-      persistentStoreDescription.shouldMigrateStoreAutomatically = true // default behaviour: true
-      persistentStoreDescription.shouldInferMappingModelAutomatically = true // default behaviour (lightweight)
-      persistentStoreDescription.shouldAddStoreAsynchronously = false // default
-
-//      let disableWal = false
-//      if disableWal {
-//        persistentStoreDescription.setValue(NSString(string: "DELETE"), forPragmaNamed: "journal_mode")
-//      } disableWal {
-//        persistentStoreDescription.setValue(NSString(string: "WAL"), forPragmaNamed: "journal_mode")
+//fileprivate let currentModel = SampleModelVersion.currentVersion.managedObjectModel()
+//
+//final class CoreDataStack {
+//
+//  enum StoreType { case sqlite, inMemory }
+//
+//  private(set) var persistentStoreCoordinator: NSPersistentStoreCoordinator
+//  private(set) var mainContext: NSManagedObjectContext
+//  private(set) var storeURL: URL?
+//
+//  init?(type: StoreType = .inMemory) {
+//
+//    let managedObjectModel: NSManagedObjectModel
+//
+//    XCTAssertTrue(ProcessInfo.isRunningUnitTests)
+//
+////    if ProcessInfo.isRunningSwiftPackageTests {
+////      managedObjectModel = SampleModelVersion.currentVersion.managedObjectModel_swift_package_tests()
+////    } else {
+//      managedObjectModel = currentModel
+////    }
+//    persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
+//
+//    switch (type) {
+//
+//    case .inMemory:
+//      do {
+//        try persistentStoreCoordinator.addPersistentStore(ofType: NSInMemoryStoreType, configurationName: nil, at: nil, options: nil)
+//      } catch {
+//        XCTFail("\(error.localizedDescription)")
 //      }
-
-      persistentStoreCoordinator.addPersistentStore(with: persistentStoreDescription, completionHandler: { (persistentStoreDescription, error) in
-        if let error = error { XCTFail(error.localizedDescription) }
-      })
-    }
-
-    let managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-    managedObjectContext.persistentStoreCoordinator = persistentStoreCoordinator
-    mainContext = managedObjectContext
-  }
-
-}
-
-extension CoreDataStack {
-  class func stack(type: StoreType = .inMemory) -> CoreDataStack {
-    let _stack = CoreDataStack(type: type)
-    guard let stack = _stack else {
-      XCTAssertNotNil(_stack)
-      fatalError()
-    }
-    return stack
-  }
-}
+//
+//    case .sqlite:
+//      storeURL = URL.temporary.appendingPathComponent("SampleModel.sqlite")
+//      let persistentStoreDescription = NSPersistentStoreDescription(url: storeURL!)
+//
+//      print("🔸 \(storeURL!)")
+//
+//      persistentStoreDescription.type = NSSQLiteStoreType
+//      persistentStoreDescription.shouldMigrateStoreAutomatically = true // default behaviour: true
+//      persistentStoreDescription.shouldInferMappingModelAutomatically = true // default behaviour (lightweight)
+//      persistentStoreDescription.shouldAddStoreAsynchronously = false // default
+//
+////      let disableWal = false
+////      if disableWal {
+////        persistentStoreDescription.setValue(NSString(string: "DELETE"), forPragmaNamed: "journal_mode")
+////      } disableWal {
+////        persistentStoreDescription.setValue(NSString(string: "WAL"), forPragmaNamed: "journal_mode")
+////      }
+//
+//      persistentStoreCoordinator.addPersistentStore(with: persistentStoreDescription, completionHandler: { (persistentStoreDescription, error) in
+//        if let error = error { XCTFail(error.localizedDescription) }
+//      })
+//    }
+//
+//    let managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+//    managedObjectContext.persistentStoreCoordinator = persistentStoreCoordinator
+//    mainContext = managedObjectContext
+//  }
+//
+//}
+//
+//extension CoreDataStack {
+//  class func stack(type: StoreType = .inMemory) -> CoreDataStack {
+//    let _stack = CoreDataStack(type: type)
+//    guard let stack = _stack else {
+//      XCTAssertNotNil(_stack)
+//      fatalError()
+//    }
+//    return stack
+//  }
+//}
 
 extension URL {
 

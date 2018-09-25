@@ -23,14 +23,17 @@
 
 import XCTest
 import CoreData
+@testable import CoreDataPlus
 
-class CoreDataTestCase: XCTestCase {
+let model = SampleModelVersion.version1.managedObjectModel()
+
+class CoreDataPlusTestCase: XCTestCase {
 
   var container: NSPersistentContainer!
 
   override func setUp() {
     super.setUp()
-    let model = SampleModelVersion.version1.managedObjectModel()
+
     container = NSPersistentContainer(name: "SampleModel", managedObjectModel: model)
     container.persistentStoreDescriptions[0].url = URL(fileURLWithPath: "/dev/null")
     container.loadPersistentStores { (description, error) in
@@ -44,3 +47,4 @@ class CoreDataTestCase: XCTestCase {
   }
 
 }
+
