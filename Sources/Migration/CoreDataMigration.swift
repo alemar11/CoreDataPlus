@@ -55,7 +55,7 @@ public struct CoreDataMigration {
   ///   - progress: a Progress instance to monitor the migration.
   /// - Throws: It throws an error in cases of failure.
   public static func migrateStore<Version: CoreDataModelVersion>(from sourceURL: URL, to targetURL: URL, targetVersion: Version, deleteSource: Bool = false, progress: Progress? = nil) throws {
-    guard FileManager.default.fileExists(atPath: sourceURL.absoluteString) else {
+    guard FileManager.default.fileExists(atPath: sourceURL.relativePath) else {
       return //TODO: add error and tests
     }
 
