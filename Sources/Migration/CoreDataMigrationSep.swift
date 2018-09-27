@@ -27,9 +27,9 @@ import CoreData
 ///
 /// Represents a single step during the migration process.
 public final class CoreDataMigrationStep {
-  var sourceModel: NSManagedObjectModel
-  var destinationModel: NSManagedObjectModel
-  var mappings: [NSMappingModel]
+  public let sourceModel: NSManagedObjectModel
+  public let destinationModel: NSManagedObjectModel
+  public let mappings: [NSMappingModel]
 
   init(source: NSManagedObjectModel, destination: NSManagedObjectModel, mappings: [NSMappingModel]) {
     self.sourceModel = source
