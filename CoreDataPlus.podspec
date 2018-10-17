@@ -8,7 +8,9 @@ Pod::Spec.new do |s|
   s.authors   = { 'Alessandro Marzoli' => 'me@alessandromarzoli.com' }
   s.source    = { :git => 'https://github.com/tinrobots/CoreDataPlus.git', :tag => s.version }
   s.requires_arc = true
-  
+  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.2'}
+
+  s.swift_version = "4.2"
   s.ios.deployment_target     = '11.0'
   s.osx.deployment_target     = '10.13'
   s.tvos.deployment_target    = '11.0'
