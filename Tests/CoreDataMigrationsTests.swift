@@ -102,7 +102,7 @@ class CoreDataMigrationsTests: XCTestCase {
     let bundle = Bundle(for: CoreDataMigrationsTests.self)
     let sourceURL = bundle.url(forResource: "SampleModelV2", withExtension: "sqlite")!
     let targetURL = sourceURL
-
+    //let version = SampleModelVersion(persistentStoreURL: sourceURL as URL) // TODO
     try CoreDataMigration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3)
 
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
@@ -133,11 +133,24 @@ class CoreDataMigrationsTests: XCTestCase {
 
 
   func testMigrationFromVersion1ToVersion3() throws {
-    let bundle = Bundle(for: CoreDataMigrationsTests.self)
-    let sourceURL = bundle.url(forResource: "SampleModelV1", withExtension: "sqlite")!
+    containerSQLite.viewContext.fillWithSampleData()
+    try! containerSQLite.viewContext.save()
+
+    // TODO: to avoid this error: BUG IN CLIENT OF libsqlite3.dylib: database integrity compromised by API violation: vnode unlinked while in use: /Users/a.marzoli/Library/Application Support/xctest/SampleModel-05C38382-3D44-42DD-B56A-5A489DECD041.sqlite
+    // we can save the .sqlite somewhere.
+    let sourceURL = containerSQLite.persistentStoreDescriptions[0].url!
+    let version = SampleModelVersion(persistentStoreURL: sourceURL)
+    XCTAssertTrue(version == .version1)
+
     let targetURL = URL.temporary.appendingPathComponent("SampleModel").appendingPathExtension("sqlite")
 
-    let progress = Progress(parent: nil, userInfo: nil) //TODO: test
+    let progress = Progress(totalUnitCount: 1)
+    var steps = 0
+    var completion = 0.0
+    let token = progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
+      completion = progress.fractionCompleted
+      steps += 1
+    }
     try CoreDataMigration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3, deleteSource: true, progress: progress)
 
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
@@ -150,8 +163,12 @@ class CoreDataMigrationsTests: XCTestCase {
     }
     try migratedContext.save()
 
+    XCTAssertEqual(steps, 2)
+    XCTAssertEqual(completion, 1.0)
+
     XCTAssertFalse(fileManager.fileExists(atPath: sourceURL.path))
     XCTAssertTrue(fileManager.fileExists(atPath: targetURL.path))
+    token.invalidate()
   }
 }
 
