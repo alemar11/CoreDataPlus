@@ -41,6 +41,8 @@ class CoreDataMigrationsTests: XCTestCase {
   override func tearDown() {
     containerSQLite.persistentStoreDescriptions.forEach { description in
       if let url = description.url {
+        /// This command causes a "BUG IN CLIENT OF libsqlite3.dylib: database integrity compromised by API violation: vnode unlinked while in use..."
+        /// but it's not important.
         try! NSPersistentStoreCoordinator.destroyStore(at: url)
       }
     }
@@ -70,8 +72,19 @@ class CoreDataMigrationsTests: XCTestCase {
     let sourceURL = url
     let targetURL = url
 
+    let version = SampleModelVersion(persistentStoreURL: sourceURL as URL)
+    XCTAssertTrue(version == .version1)
+
     // When
-    try CoreDataMigration.migrateStore(at: sourceURL, targetVersion: targetVersion)
+    let progress = Progress(totalUnitCount: 1)
+    var completionSteps = 0
+    var completion = 0.0
+    let token = progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
+      completion = progress.fractionCompleted
+      completionSteps += 1
+    }
+
+    try CoreDataMigration.migrateStore(at: sourceURL, targetVersion: targetVersion, progress: progress)
     let migratedContext = NSManagedObjectContext(model: targetVersion.managedObjectModel(), storeURL: targetURL)
     let luxuryCars = try LuxuryCar.fetch(in: migratedContext)
     XCTAssertEqual(sportCars.count, luxuryCars.count)
@@ -94,6 +107,10 @@ class CoreDataMigrationsTests: XCTestCase {
     }
 
     try CoreDataMigration.migrateStore(from: sourceURL, to: targetURL, targetVersion: targetVersion)
+
+    XCTAssertEqual(completionSteps, 1)
+    XCTAssertEqual(completion, 1.0)
+    token.invalidate()
   }
 
   // MARK: - HeavyWeight Migration
@@ -102,6 +119,9 @@ class CoreDataMigrationsTests: XCTestCase {
     let bundle = Bundle(for: CoreDataMigrationsTests.self)
     let sourceURL = bundle.url(forResource: "SampleModelV2", withExtension: "sqlite")!
     let targetURL = sourceURL
+    let version = SampleModelVersion(persistentStoreURL: sourceURL as URL)
+
+    XCTAssertTrue(version == .version2)
 
     try CoreDataMigration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3)
 
@@ -109,6 +129,7 @@ class CoreDataMigrationsTests: XCTestCase {
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
     let makers = try Maker.fetch(in: migratedContext)
     XCTAssertEqual(makers.count, 11)
+    XCTAssertEqual(cars.count, 125)
 
     cars.forEach { object in
       let owner = object.value(forKey: "owner") as? NSManagedObject
@@ -135,9 +156,19 @@ class CoreDataMigrationsTests: XCTestCase {
   func testMigrationFromVersion1ToVersion3() throws {
     let bundle = Bundle(for: CoreDataMigrationsTests.self)
     let sourceURL = bundle.url(forResource: "SampleModelV1", withExtension: "sqlite")!
+    let version = SampleModelVersion(persistentStoreURL: sourceURL as URL)
+
+    XCTAssertTrue(version == .version1)
+
     let targetURL = URL.temporary.appendingPathComponent("SampleModel").appendingPathExtension("sqlite")
 
-    let progress = Progress(parent: nil, userInfo: nil) //TODO: test
+    let progress = Progress(totalUnitCount: 1)
+    var completionSteps = 0
+    var completion = 0.0
+    let token = progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
+      completion = progress.fractionCompleted
+      completionSteps += 1
+    }
     try CoreDataMigration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3, deleteSource: true, progress: progress)
 
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
@@ -150,8 +181,12 @@ class CoreDataMigrationsTests: XCTestCase {
     }
     try migratedContext.save()
 
+    XCTAssertEqual(completionSteps, 2)
+    XCTAssertEqual(completion, 1.0)
+
     XCTAssertFalse(fileManager.fileExists(atPath: sourceURL.path))
     XCTAssertTrue(fileManager.fileExists(atPath: targetURL.path))
+    token.invalidate()
   }
 }
 
