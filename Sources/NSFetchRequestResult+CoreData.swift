@@ -71,6 +71,32 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
   }
 
+
+  /// **CoreDataPlus**
+  ///
+  /// Fetches all the `NSManagedObjectID` for a given predicate.
+  ///
+  /// - Parameters:
+  ///   - context: Searched context.
+  ///   - includingSubentities: A Boolean value that indicates whether the fetch request includes subentities in the results.
+  ///   - predicate: Matching predicate.
+  /// - Returns: A list of `NSManagedObjectID`.
+  /// - Throws: It throws an error in cases of failure.
+  public static func fetchObjectIDs(in context: NSManagedObjectContext, includingSubentities: Bool = true, where predicate: NSPredicate) throws -> [NSManagedObjectID] {
+    let request = NSFetchRequest<NSManagedObjectID>(entityName: entityName)
+    request.includesPropertyValues = false
+    request.returnsObjectsAsFaults = true
+    request.resultType = .managedObjectIDResultType
+    request.includesSubentities = includingSubentities
+    request.predicate = predicate
+
+    do {
+      return try context.fetch(request)
+    } catch {
+      throw CoreDataPlusError.fetchFailed(error: error)
+    }
+  }
+
   // MARK: - First
 
   /// **CoreDataPlus**
@@ -115,7 +141,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
           request.predicate = predicate
           request.returnsObjectsAsFaults = false
           request.fetchLimit = 1
-        }.first
+          }.first
       } catch {
         throw CoreDataPlusError.fetchFailed(error: error)
       }
@@ -228,7 +254,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
         request.includesPropertyValues = false
         request.includesSubentities = includingSubentities
         request.predicate = predicate
-      }.lazy.forEach(context.delete(_:))
+        }.lazy.forEach(context.delete(_:))
     } catch {
       throw CoreDataPlusError.fetchFailed(error: error)
     }

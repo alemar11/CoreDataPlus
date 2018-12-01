@@ -27,6 +27,37 @@ import CoreData
 
 final class NSFetchRequestResultCoreDataTests: CoreDataPlusTestCase {
 
+  func testFetchObjectsIDs() throws {
+    let context = container.viewContext
+
+    // Given
+    context.fillWithSampleData()
+    try context.save()
+    XCTAssertFalse(context.registeredObjects.isEmpty)
+    context.reset()
+    XCTAssertTrue(context.registeredObjects.isEmpty)
+
+    // When
+    let predicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "McLaren")
+    let ids = try Car.fetchObjectIDs(in: context, where: predicate)
+
+    // Then
+    XCTAssertEqual(ids.count, 2)
+    XCTAssertTrue(context.registeredObjects.isEmpty)
+
+    // Give, When
+    context.reset()
+    let idCar = try Car.fetchObjectIDs(in: context, includingSubentities: false, where: predicate)
+    let idSportCar = try SportCar.fetchObjectIDs(in: context, includingSubentities: false, where: predicate)
+    let idExpensiveSportCar = try ExpensiveSportCar.fetchObjectIDs(in: context, includingSubentities: false, where: predicate)
+
+    // Then
+    XCTAssertEqual(idCar.count, 0)
+    XCTAssertEqual(idSportCar.count, 1)
+    XCTAssertEqual(idExpensiveSportCar.count, 1)
+    XCTAssertTrue(context.registeredObjects.isEmpty)
+  }
+
   func testDeleteAllIncludingSubentities() {
     let context = container.viewContext
 
