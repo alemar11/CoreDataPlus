@@ -6,6 +6,8 @@
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/CoreDataPlus.svg)](https://cocoapods.org/pods/CoreDataPlus)
 
+[![codebeat badge](https://codebeat.co/badges/e07c40a7-3c22-4691-93f5-4c41c7f6152f)](https://codebeat.co/projects/github-com-tinrobots-coredataplus-master)
+
 |Branch|Build Status|Code Coverage|
 |----|----|----|
 |Master|[![Build Status](https://travis-ci.org/tinrobots/CoreDataPlus.svg?branch=master)](https://travis-ci.org/tinrobots/CoreDataPlus)| ![Code Coverage](https://img.shields.io/codecov/c/github/tinrobots/CoreDataPlus/master.svg)|
