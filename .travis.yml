@@ -103,5 +103,8 @@ script:
       fi
     fi
 
-after_success:
-  - sleep 5      
+after_failure:
+  - cat ~/Library/Developer/Xcode/DerivedData/CoreDataPlus-*/Logs/Test/*/*/*/CoreDataPlus*/*/Session-CoreDataPlus*.log
+
+#after_success:
+  #- sleep 5   
