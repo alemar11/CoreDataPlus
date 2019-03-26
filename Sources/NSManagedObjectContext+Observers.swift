@@ -37,7 +37,7 @@ public extension NSManagedObjectContextNotification {
   /// **CoreDataPlus**
   ///
   /// Returns the notification's `NSManagedObjectContext`.
-  public var managedObjectContext: NSManagedObjectContext {
+  var managedObjectContext: NSManagedObjectContext {
     guard let context = notification.object as? NSManagedObjectContext else {
       fatalError("Invalid Notification object.")
     }
