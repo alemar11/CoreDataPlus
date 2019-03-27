@@ -179,6 +179,8 @@ extension FetchedResultsSectionChange {
     case .move, .update:
       // preconditionFailure("Invalid section change type reported by NSFetchedResultsController.")
       return nil
+    @unknown default:
+      return nil
     }
   }
 

@@ -39,6 +39,9 @@ extension NSBatchUpdateResult {
       guard let objectIDs = result as? [NSManagedObjectID] else { return nil }
       let changes = [NSUpdatedObjectsKey: objectIDs]
       return changes
+
+    @unknown default:
+      return nil
     }
 
   }
@@ -55,6 +58,9 @@ extension NSBatchUpdateResult {
 
     case .updatedObjectsCountResultType:
       return result as? Int
+
+    @unknown default:
+      return nil
     }
   }
 
@@ -70,6 +76,9 @@ extension NSBatchUpdateResult {
 
     case .statusOnlyResultType:
       return result as? Bool
+
+    @unknown default:
+      return nil
     }
   }
 

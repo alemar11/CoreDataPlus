@@ -39,6 +39,9 @@ extension NSBatchDeleteResult {
       guard let objectIDs = result as? [NSManagedObjectID] else { return nil }
       let changes = [NSDeletedObjectsKey: objectIDs]
       return changes
+
+    @unknown default:
+      return nil
     }
 
   }
@@ -55,6 +58,9 @@ extension NSBatchDeleteResult {
 
     case .resultTypeCount:
       return result as? Int
+
+    @unknown default:
+      return nil
     }
   }
 
@@ -70,6 +76,9 @@ extension NSBatchDeleteResult {
 
     case .resultTypeStatusOnly:
       return result as? Bool
+
+    @unknown default:
+      return nil
     }
   }
 
