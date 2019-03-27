@@ -1,7 +1,7 @@
 //
 // CoreDataPlus
 //
-// Copyright © 2016-2018 Tinrobots.
+// Copyright © 2016-2019 Tinrobots.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -42,15 +42,17 @@ final class NSEntityDescriptionUtilsTests: CoreDataPlusTestCase {
     let context = container.viewContext
 
     do {
+      guard Car.entity().name != nil else { return }
       let expensiveCar = ExpensiveSportCar(context: context)
       let topMostAncestorEntity = expensiveCar.entity.topMostEntity
-      XCTAssertTrue(topMostAncestorEntity == Car.entity())
+      XCTAssertTrue(topMostAncestorEntity == Car.entity(), "\(topMostAncestorEntity) should be a Car entity.")
     }
 
     do {
+      guard Car.entity().name != nil else { return }
       let car = Car(context: context)
       let topMostAncestorEntity = car.entity.topMostEntity
-      XCTAssertTrue(topMostAncestorEntity == Car.entity())
+      XCTAssertTrue(topMostAncestorEntity == Car.entity(), "\(topMostAncestorEntity) should be a Car entity.")
     }
 
   }

@@ -5,6 +5,14 @@
 - CoreData is now completely migrated to **Swift 5**.
 - Fixes.
 
+### 1.2.2
+
+- Added `fetchObjectIDs` method.
+
+### 1.2.1
+
+- Fixed access level for some utils.
+
 ### 1.2.0
 
 - CoreData is now completely migrated to **Swift 4.2**.
