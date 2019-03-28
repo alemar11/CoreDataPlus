@@ -24,7 +24,6 @@
 import CoreData
 
 extension NSFetchRequestResult where Self: NSManagedObject {
-
   /// **CoreDataPlus**
   ///
   /// The entity name.
@@ -68,7 +67,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     } catch {
       throw CoreDataPlusError.fetchFailed(error: error)
     }
-
   }
 
   /// **CoreDataPlus**
@@ -144,7 +142,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
       } catch {
         throw CoreDataPlusError.fetchFailed(error: error)
       }
-
     }
 
     return object
@@ -186,9 +183,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Throws: It throws an error in cases of failure or if multiple objects are found.
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
   public static func findUniqueOrFetch(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? {
-
     guard let object = try findUniqueMaterializedObject(in: context, where: predicate) else {
-
       do {
         return try fetchUniqueObject(in: context) { request in
           request.predicate = predicate
@@ -196,7 +191,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
       } catch {
         throw CoreDataPlusError.fetchFailed(error: error)
       }
-
     }
 
     return object
@@ -317,13 +311,11 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
     return results
   }
-
 }
 
 // MARK: - Cache
 
 extension NSFetchRequestResult where Self: NSManagedObject {
-
   /// **CoreDataPlus**
   ///
   /// Tries to retrieve an object from the cache; if there’s nothing in the cache executes the fetch request and caches the result (if a single object is found).
@@ -344,13 +336,11 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
     return cached
   }
-
 }
 
 // MARK: - Batch Delete
 
 extension NSFetchRequestResult where Self: NSManagedObject {
-
   /// **CoreDataPlus**
   ///
   /// Executes a batch update on the context's persistent store coordinator.
@@ -409,5 +399,4 @@ extension NSFetchRequestResult where Self: NSManagedObject {
       throw CoreDataPlusError.executionFailed(error: error)
     }
   }
-
 }

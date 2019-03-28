@@ -30,7 +30,6 @@ public protocol ThredSafeAccessible { }
 extension NSManagedObject: ThredSafeAccessible { }
 
 extension ThredSafeAccessible where Self: NSManagedObject {
-
   /// **CoreDataPlus**
   ///
   /// Performs the given block in the right thread for the `NSManagedObject`'s managedObjectContext.
@@ -45,5 +44,4 @@ extension ThredSafeAccessible where Self: NSManagedObject {
       return try block(self)
     }
   }
-
 }

@@ -29,7 +29,6 @@ private let managedObjectsCacheKey = "\(bundleIdentifier).NSManagedObjectContext
 private typealias ManagedObjectsCache = [String: NSManagedObject]
 
 extension NSManagedObjectContext {
-
   /// **CoreDataPlus**
   ///
   /// Caches a NSManagedObject `object` for a `key` in this context.
@@ -72,5 +71,4 @@ extension NSManagedObjectContext {
       userInfo[managedObjectsCacheKey] = nil
     }
   }
-
 }

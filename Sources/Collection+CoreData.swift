@@ -26,7 +26,6 @@ import CoreData
 // MARK: - NSManagedObject
 
 extension Collection where Element: NSManagedObject {
-
   /// Specifies that all the `NSManagedObject` objects (with a `NSManangedObjectContext`) should be removed from its persistent store when changes are committed.
   public func delete() {
     let managedObjectsWithtContext = self.filter { $0.managedObjectContext != nil }
@@ -54,7 +53,6 @@ extension Collection where Element: NSManagedObject {
     let groupedManagedObjects = Dictionary(grouping: self) { ObjectIdentifier($0.managedObjectContext!) }
 
     for (_, objects) in groupedManagedObjects where !objects.isEmpty {
-
       let context = objects.first!.managedObjectContext!
 
       // avoid multiple fetches for subclass entities.
@@ -73,9 +71,7 @@ extension Collection where Element: NSManagedObject {
         } catch {
           throw CoreDataPlusError.fetchFailed(error: error)
         }
-
       }
-
     }
   }
 
@@ -85,13 +81,11 @@ extension Collection where Element: NSManagedObject {
   public func entities() -> Set<NSEntityDescription> {
     return Set(self.map { $0.entity })
   }
-
 }
 
 // MARK: - NSEntityDescription
 
 extension Collection where Element: NSEntityDescription {
-
   /// **CoreDataPlus**
   ///
   /// Returns a collection of `NSEntityDescription` with only the commong entity ancestors.
@@ -120,10 +114,8 @@ extension Collection where Element: NSEntityDescription {
       }
 
       result.append(contentsOf: test)
-
     }
 
     return Set(result)
   }
-
 }

@@ -24,7 +24,6 @@
 import CoreData
 
 extension NSManagedObjectContext {
-
   /// **CoreDataPlus**
   ///
   /// The persistent stores associated with the receiver (if any).
@@ -76,13 +75,11 @@ extension NSManagedObjectContext {
 
     return entity
   }
-
 }
 
 // MARK: - Child Context
 
 extension NSManagedObjectContext {
-
   /// **CoreDataPlus**
   ///
   /// - Returns: a `new` background `NSManagedObjectContext`.
@@ -99,13 +96,11 @@ extension NSManagedObjectContext {
 
     return context
   }
-
 }
 
 // MARK: - Save
 
 extension NSManagedObjectContext {
-
   /// **CoreDataPlus**
   ///
   /// Asynchronously performs changes and then saves them.
@@ -161,7 +156,6 @@ extension NSManagedObjectContext {
         } catch {
           internalError = CoreDataPlusError.saveFailed(error: error)
         }
-
       }
 
       if let error = internalError { throw error }
@@ -208,13 +202,11 @@ extension NSManagedObjectContext {
       }
     }
   }
-
 }
 
 // MARK: Perform
 
 extension NSManagedObjectContext {
-
   /// **CoreDataPlus**
   ///
   /// Synchronously performs a given block on the context’s queue and returns the final result.
@@ -246,5 +238,4 @@ extension NSManagedObjectContext {
       return result!
     }
   }
-
 }

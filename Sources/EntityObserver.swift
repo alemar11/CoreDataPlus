@@ -27,14 +27,12 @@ import CoreData
 ///
 /// An object that observes all the changes happening in a `NSManagedObjectContext` for a specific entity.
 public class EntityObserver<T: NSManagedObject> {
-
   fileprivate typealias EntitySet = Set<T>
 
   /// **CoreDataPlus**
   ///
   /// Contains all the changes taking place in a `NSManagedObjectContext` for each notification.
   public struct ContextChange<T: NSManagedObject> {
-
     /// **CoreDataPlus**
     ///
     /// Returns a `Set` of objects that were inserted into the context.
@@ -134,7 +132,6 @@ public class EntityObserver<T: NSManagedObject> {
 
   /// Add the observers for the event.
   private func setupObservers() {
-
     if event.contains(.change) {
       let token = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { [weak self] notification in
         guard let `self` = self else { return }
@@ -157,7 +154,6 @@ public class EntityObserver<T: NSManagedObject> {
   /// Processes the incoming notification.
   private func handleChanges(in notification: NSManagedObjectContextObservable, for event: ObservedEvent) {
     context.performAndWait {
-
       func process(_ value: Set<NSManagedObject>) -> EntitySet {
         return value.filter { $0.entity == observedEntity } as? EntitySet ?? []
       }
@@ -174,8 +170,6 @@ public class EntityObserver<T: NSManagedObject> {
       if !change.isEmpty() {
         handler(change, event)
       }
-
     }
   }
-
 }

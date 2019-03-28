@@ -24,7 +24,6 @@
 import CoreData
 
 extension NSEntityDescription {
-
   /// **CoreDataPlus**
   ///
   /// Returns the topmost ancestor entity.
@@ -68,5 +67,4 @@ extension NSEntityDescription {
 
     return entity
   }
-
 }

@@ -27,7 +27,6 @@
 import CoreData
 
 public struct CoreDataMigration {
-
   private init() { }
 
   /// **CoreDataPlus**
@@ -115,11 +114,8 @@ public struct CoreDataMigration {
       if targetURL != sourceURL && deleteSource {
         try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
       }
-
     } catch {
       throw CoreDataPlusError.migrationFailed(error: error)
     }
-
   }
-
 }

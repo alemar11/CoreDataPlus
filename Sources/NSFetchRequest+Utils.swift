@@ -24,7 +24,6 @@
 import CoreData
 
 extension NSFetchRequest {
-
   /// **CoreDataPlus**
   ///
   /// Creates a NSFetchRequest.
@@ -80,5 +79,4 @@ extension NSFetchRequest {
       self.sortDescriptors = descriptors
     }
   }
-
 }

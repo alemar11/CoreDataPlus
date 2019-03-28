@@ -24,7 +24,6 @@
 import CoreData
 
 extension NSManagedObject {
-
   /// **CoreDataPlus**
   ///
   /// Returns the value of a persistent property that has been changed since **last fetching** or **saving operation**.
@@ -68,5 +67,4 @@ extension NSManagedObject {
   public final func delete() {
     managedObjectContext?.delete(self)
   }
-
 }

@@ -26,7 +26,6 @@
 import Foundation
 
 extension ProcessInfo {
-
   /// **CoreDataPlus**
   ///
   ///  Returns true if Xcode Unit Tests are running.
@@ -48,11 +47,9 @@ extension ProcessInfo {
   public static var isRunningUnitTests: Bool {
     return isRunningXcodeUnitTests || isRunningSwiftPackageTests
   }
-
 }
 
 extension String {
-
   /// **CoreDataPlus**
   ///
   /// Returns *true* if `self` ends with a given suffix.
@@ -63,5 +60,4 @@ extension String {
 
     return hasSuffix(suffix)
   }
-
 }

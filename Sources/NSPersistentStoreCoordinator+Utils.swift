@@ -24,7 +24,6 @@
 import CoreData
 
 extension NSPersistentStoreCoordinator {
-
   /// Safely deletes a store at a given url.
   public static func destroyStore(at url: URL) throws {
     let persistentStoreCoordinator = self.init(managedObjectModel: NSManagedObjectModel())
@@ -49,5 +48,4 @@ extension NSPersistentStoreCoordinator {
     let persistentStoreCoordinator = self.init(managedObjectModel: NSManagedObjectModel())
     try persistentStoreCoordinator.replacePersistentStore(at: targetURL, destinationOptions: nil, withPersistentStoreFrom: sourceURL, sourceOptions: nil, ofType: NSSQLiteStoreType)
   }
-
 }

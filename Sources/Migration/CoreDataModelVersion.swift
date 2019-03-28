@@ -41,7 +41,6 @@ private enum ModelVersionFileExtension {
 ///
 /// Types adopting the `CoreDataModelVersion` protocol can be used to describe a Core Data Model and its versioning.
 public protocol CoreDataModelVersion: Equatable, RawRepresentable {
-
   /// **CoreDataPlus**
   ///
   /// Protocol `CoreDataModelVersion`.
@@ -100,18 +99,15 @@ public protocol CoreDataModelVersion: Equatable, RawRepresentable {
 }
 
 extension CoreDataModelVersion {
-
   /// **CoreDataPlus**
   ///
   /// Protocol `CoreDataModelVersion`.
   ///
   /// Model file name.
   var momd: String { return "\(modelName).\(ModelVersionFileExtension.momd)" }
-
 }
 
 extension CoreDataModelVersion {
-
   /// **CoreDataPlus**
   ///
   /// Initializes a `CoreDataModelVersion` from a `NSPersistentStore` URL.
@@ -158,13 +154,11 @@ extension CoreDataModelVersion {
 
     return model
   }
-
 }
 
 // MARK: - Migration
 
 extension CoreDataModelVersion {
-
   /// **CoreDataPlus**
   ///
   /// Returns `true` if a migration is possible for the current store to a given `CoreDataModelVersion`.
@@ -267,5 +261,4 @@ extension CoreDataModelVersion {
 
     return results
   }
-
 }

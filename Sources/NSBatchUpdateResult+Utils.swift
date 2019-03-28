@@ -24,13 +24,11 @@
 import CoreData
 
 extension NSBatchUpdateResult {
-
   /// **CoreDataPlus**
   ///
   /// Returns a dictionary containig all the updated `NSManagedObjectID` instances.
   /// - Note: Make sure the resultType of the `NSBatchUpdateResult` is set to `NSBatchUpdateRequestResultType.updatedObjectIDsResultType` before the request is executed otherwise the value is nil.
   public var changes: [String: [NSManagedObjectID]]? {
-
     switch resultType {
     case .statusOnlyResultType, .updatedObjectsCountResultType:
       return nil
@@ -43,7 +41,6 @@ extension NSBatchUpdateResult {
     @unknown default:
       return nil
     }
-
   }
 
   /// **CoreDataPlus**
@@ -51,7 +48,6 @@ extension NSBatchUpdateResult {
   /// Returns the number of updated objcts.
   /// - Note: Make sure the resultType of the `NSBatchUpdateResult` is set to `NSBatchUpdateRequestResultType.updatedObjectsCountResultType` before the request is executed otherwise the value is nil.
   public var count: Int? {
-
     switch resultType {
     case .statusOnlyResultType, .updatedObjectIDsResultType:
       return nil
@@ -69,7 +65,6 @@ extension NSBatchUpdateResult {
   /// Returns `true` if the batch update operation has been completed successfully.
   /// - Note: Make sure the resultType of the `NSBatchUpdateResult` is set to `NSBatchUpdateRequestResultType.statusOnlyResultType` before the request is executed otherwise the value is nil.
   public var status: Bool? {
-
     switch resultType {
     case .updatedObjectsCountResultType, .updatedObjectIDsResultType:
       return nil
@@ -81,5 +76,4 @@ extension NSBatchUpdateResult {
       return nil
     }
   }
-
 }

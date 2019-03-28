@@ -29,7 +29,6 @@ import CoreData
 ///
 /// An `enum` representing the four types of object changes a `FetchedResultsController` can notify.
 public enum FetchedResultsObjectChange<T: NSManagedObject> {
-
   /// An object has been inserted.
   /// - parameter object: The inserted object of type `<T>`
   /// - parameter indexPath: The `NSIndexPath` of the new object
@@ -53,7 +52,6 @@ public enum FetchedResultsObjectChange<T: NSManagedObject> {
 }
 
 extension FetchedResultsObjectChange {
-
   /// **CoreDataPlus**
   ///
   /// Creates a new `FetchedResultsObjectChange` element.
@@ -109,7 +107,6 @@ extension FetchedResultsObjectChange {
 ///
 /// Section info used during the notification of a section being inserted or deleted.
 public struct FetchedResultsSectionInfo<T: NSManagedObject> {
-
   /// **CoreDataPlus**
   ///
   /// The number of objects belonging to the section.
@@ -139,14 +136,12 @@ public struct FetchedResultsSectionInfo<T: NSManagedObject> {
     indexTitle = info.indexTitle
     numberOfObjects = info.numberOfObjects
   }
-
 }
 
 /// **CoreDataPlus**
 ///
 /// An `enum` representing the two type of section changes a `FetchedResultsController` can notify.
 public enum FetchedResultsSectionChange<T: NSManagedObject> {
-
   /// A section has been inserted.
   /// - parameter info: The inserted section's information
   /// - parameter index: The index where the section was inserted
@@ -159,7 +154,6 @@ public enum FetchedResultsSectionChange<T: NSManagedObject> {
 }
 
 extension FetchedResultsSectionChange {
-
   /// **CoreDataPlus**
   ///
   /// Creates a new FetchedResultsSectionChange element.
@@ -183,5 +177,4 @@ extension FetchedResultsSectionChange {
       return nil
     }
   }
-
 }

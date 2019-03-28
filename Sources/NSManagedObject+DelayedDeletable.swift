@@ -49,13 +49,11 @@ public protocol DelayedDeletable: class {
   ///
   /// Marks an object to be deleted at a later point in time.
   func markForDelayedDeletion()
-
 }
 
 // MARK: - DelayedDeletable Extension
 
 extension DelayedDeletable {
-
   /// **CoreDataPlus**
   ///
   /// Protocol `DelayedDeletable`.
@@ -73,13 +71,11 @@ extension DelayedDeletable {
   public static var markedForLocalDeletionPredicate: NSPredicate {
     return NSPredicate(format: "%K != NULL", markedForDeletionKey)
   }
-
 }
 
 // MARK: - NSManagedObject
 
 extension DelayedDeletable where Self: NSManagedObject {
-
   /// **CoreDataPlus**
   ///
   /// Protocol `DelayedDeletable`.
@@ -98,13 +94,11 @@ extension DelayedDeletable where Self: NSManagedObject {
 
     markedForDeletionAsOf = Date()
   }
-
 }
 
 // MARK: - Batch Delete
 
 extension NSFetchRequestResult where Self: NSManagedObject & DelayedDeletable {
-
   /// **CoreDataPlus**
   ///
   /// Makes a batch delete operation for object conforming to `DelayedDeletable` older than the `cutOffDate` date.
@@ -121,5 +115,4 @@ extension NSFetchRequestResult where Self: NSManagedObject & DelayedDeletable {
 
     return try batchDeleteObjects(with: context, resultType: resultType, configuration: { $0.predicate = predicate })
   }
-
 }

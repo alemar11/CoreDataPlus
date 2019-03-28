@@ -34,7 +34,6 @@ import CoreData
 /// - persistentStoreCoordinator: The NSPersistentStoreCoordinator is missing.
 /// - saveFailed: A save oepration failed with an underlying system error
 public enum CoreDataPlusError: Error {
-
   case executionFailed(error: Error)
   case fetchCountNotFound
   case fetchExpectingOneObjectFailed
@@ -54,13 +53,11 @@ public enum CoreDataPlusError: Error {
       return nil
     }
   }
-
 }
 
 // MARK: - LocalizedError
 
 extension CoreDataPlusError: LocalizedError {
-
   public var errorDescription: String? {
     switch self {
     case .executionFailed(let error):
@@ -85,5 +82,4 @@ extension CoreDataPlusError: LocalizedError {
       return "The migration could not be completed because of error:\n\(error)"
     }
   }
-
 }
