@@ -15,20 +15,23 @@ env:
 matrix:
   include:
 
-    # macOS: Swift Tests, CocoaPods and SwiftLint
+    # macOS: Swift Tests, CocoaPods and SwiftLint        
     - os: osx
       osx_image: xcode10.2
       language: objective-c
       before_install:
+        #- gem install cocoapods --pre --no-rdoc --no-ri --no-document --quiet
         - gem install cocoapods --pre --no-document --quiet
         - brew outdated swiftlint || brew upgrade swiftlint
       before_script:
         - swiftlint --reporter "emoji"  
       script:
-        - set -o pipefail  
+        - set -o pipefail
+        - swiftlint version
         - swift --version
+        - swift build
         - swift test -Xswiftc -target -Xswiftc x86_64-apple-macosx10.13
-        - pod lib lint    
+        - pod lib lint
 
     # iOS 11.4 Debug
     - os: osx
