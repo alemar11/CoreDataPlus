@@ -27,6 +27,7 @@ matrix:
         - swiftlint --reporter "emoji"  
       script:
         - set -o pipefail
+        - pod --version
         - swiftlint version
         - swift --version
         - swift test -Xswiftc -target -Xswiftc x86_64-apple-macosx10.13
