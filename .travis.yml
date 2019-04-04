@@ -21,8 +21,7 @@ matrix:
       language: objective-c
       before_install:
         #- gem install cocoapods --pre --no-rdoc --no-ri --no-document --quiet
-        - gem uninstall fourflusher
-        - gem install fourflusher
+        - gem uninstall fourflusher --force && gem install fourflusher
         - gem install cocoapods --pre --no-document --quiet
         - brew outdated swiftlint || brew upgrade swiftlint
       before_script:
