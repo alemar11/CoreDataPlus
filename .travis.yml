@@ -20,15 +20,12 @@ matrix:
       osx_image: xcode10.2
       language: objective-c
       before_install:
-        #- gem install cocoapods --pre --no-document --quiet
-        - gem install cocoapods --pre -v 1.7.0.beta.3
+        - gem install cocoapods --pre --no-document --quiet
         - brew outdated swiftlint || brew upgrade swiftlint
       before_script:
         - swiftlint --reporter "emoji"  
       script:
         - set -o pipefail
-        - pod --version
-        - swiftlint version
         - swift --version
         - swift test -Xswiftc -target -Xswiftc x86_64-apple-macosx10.13
         - pod lib lint --verbose
