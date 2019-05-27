@@ -11,6 +11,7 @@ env:
     - TVOS_SDK=appletvsimulator12.2
     - WATCHOS_SDK=watchsimulator5.2
     - XCODE_RUN_TESTS="NO"
+    - XCODE_CONFIGURATION="DEBUG"
 
 matrix:
   include:
@@ -20,8 +21,7 @@ matrix:
       osx_image: xcode10.2
       language: objective-c
       before_install:
-        #- gem install cocoapods --pre --no-document --quiet
-        - gem install cocoapods 
+        - gem install cocoapods --pre --no-document --quiet
         - brew outdated swiftlint || brew upgrade swiftlint
       before_script:
         - swiftlint --reporter "emoji"  
