@@ -736,4 +736,40 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusTestCase {
     XCTAssertEqual(newFCACount, fiatCount)
   }
 
+  // MARK: - Group By
+
+  // TODO: Wip
+
+//  func testGroupBy() throws {
+//    // https://developer.apple.com/documentation/coredata/nsfetchrequest/1506191-propertiestogroupby
+//    // https://gist.github.com/pronebird/cca9777af004e9c91f9cd36c23cc821c
+//    // http://www.cimgf.com/2015/06/25/core-data-and-aggregate-fetches-in-swift/
+//    // https://medium.com/@cocoanetics/group-by-count-and-sum-in-coredata-63e575fb8bc8
+//    // Given
+//    let context = container.viewContext
+//    context.fillWithSampleData()
+//    try context.save()
+//    let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Car")
+//
+////    let nameExpr = NSExpression(forKeyPath: "maker")
+////    let countExpr = NSExpressionDescription()
+////    //let countVariableExpr = NSExpression(forVariable: "count")
+////
+////    countExpr.name = "count"
+////    countExpr.expression = NSExpression(forFunction: "count:", arguments: [ nameExpr ])
+////    countExpr.expressionResultType = .integer64AttributeType
+//
+//    request.returnsObjectsAsFaults = false
+//   // request.propertiesToGroupBy = ["maker"]
+//    //request.propertiesToFetch = ["maker", countExpr]
+//    request.propertiesToFetch = ["maker"]
+//    request.resultType = .dictionaryResultType
+//
+//    var res = try context.execute(request)
+//    
+//
+//    //var results = res as? [[String: Any]]
+//    print(res)
+//  }
+
 }
