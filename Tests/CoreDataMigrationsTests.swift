@@ -62,7 +62,7 @@ class CoreDataMigrationsTests: XCTestCase {
     context.fillWithSampleData()
     try context.save()
 
-    let allCars = try Car.fetch(in: context) //125
+    let allCars = try Car.fetch(in: context) // 125
     let sportCars = try ExpensiveSportCar.fetch(in: context) // 5
 
     if #available(iOS 11, tvOS 11, macOS 10.13, *) {
