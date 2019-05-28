@@ -693,7 +693,6 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
    Instead, you must call performFetch() to reset the state of the controller then reload the data in the table view (reloadData()).
    **/
   class FetchedResultsControllerMockDelegate: NSObject, NSFetchedResultsControllerDelegate {
-
     var updatedObjects = [Any]()
     var insertedObjects = [Any]()
     var movedObjects = [Any]()
@@ -710,9 +709,10 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
         movedObjects.append(anObject)
       case .update:
         updatedObjects.append(anObject)
+      @unknown default:
+        fatalError("not implemented")
       }
     }
-
   }
 
 }
