@@ -41,8 +41,10 @@ class CoreDataMigrationsTests: XCTestCase {
   override func tearDown() {
     containerSQLite.persistentStoreDescriptions.forEach { description in
       if let url = description.url {
+        // TODO
         /// This command causes a "BUG IN CLIENT OF libsqlite3.dylib: database integrity compromised by API violation: vnode unlinked while in use..."
         /// but it's not important.
+
         try! NSPersistentStoreCoordinator.destroyStore(at: url)
       }
     }
