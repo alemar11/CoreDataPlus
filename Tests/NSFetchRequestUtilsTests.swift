@@ -64,7 +64,6 @@ final class NSFetchRequestUtilsTests: XCTestCase {
       XCTAssertEqual(fetchRequest.fetchBatchSize, 1)
       XCTAssertEqual(fetchRequest.predicate, predicate)
     }
-
   }
 
   func testPredicateAndDescriptorComposition() {
