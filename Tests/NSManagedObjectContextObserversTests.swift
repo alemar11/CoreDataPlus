@@ -699,7 +699,6 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
     var deletedObjects = [Any]()
 
     public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-
       switch (type) {
       case .delete:
         deletedObjects.append(anObject)
