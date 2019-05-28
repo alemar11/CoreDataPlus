@@ -749,27 +749,62 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusTestCase {
 //    let context = container.viewContext
 //    context.fillWithSampleData()
 //    try context.save()
-//    let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Car")
+//    let request = Car.fetchRequest()
 //
-////    let nameExpr = NSExpression(forKeyPath: "maker")
-////    let countExpr = NSExpressionDescription()
-////    //let countVariableExpr = NSExpression(forVariable: "count")
-////
-////    countExpr.name = "count"
-////    countExpr.expression = NSExpression(forFunction: "count:", arguments: [ nameExpr ])
-////    countExpr.expressionResultType = .integer64AttributeType
+//    let nameExpr = NSExpression(forKeyPath: #keyPath(Car.maker))
+//    let countVariableExpr = NSExpression(forVariable: "count")
+//
+//    let countExpr = NSExpressionDescription()
+//    countExpr.name = "count" // alias
+//    countExpr.expression = NSExpression(forFunction: "count:", arguments: [nameExpr])
+//    countExpr.expressionResultType = .integer64AttributeType
 //
 //    request.returnsObjectsAsFaults = false
-//   // request.propertiesToGroupBy = ["maker"]
-//    //request.propertiesToFetch = ["maker", countExpr]
-//    request.propertiesToFetch = ["maker"]
+//    request.propertiesToGroupBy = ["maker"]
+//    request.propertiesToFetch = ["maker", countExpr]
 //    request.resultType = .dictionaryResultType
+//    request.havingPredicate = NSPredicate(format: "%@ > 100", countVariableExpr)
+//    let results = try context.fetch(request) as! [Dictionary<String, Any>]
 //
-//    var res = try context.execute(request)
-//    
-//
-//    //var results = res as? [[String: Any]]
-//    print(res)
+//    print(results)
 //  }
-
+//
+//  // MARK: - Undo
+//
+//  // TODO: the undo manager is needed for undo, redo and rollback
+//  // https://developer.apple.com/documentation/coredata/nsmanagedobjectcontext
+//  // https://stackoverflow.com/questions/10745027/undo-core-data-managed-object
+//  /**
+//   undo: sends an undo message to the NSUndoManager
+//   redo: sends a redo message to the NSUndoManager
+//   rollback: sends undo messages to the NSUndoManager until there is nothing left to undo
+//
+//
+//   undo reverses a single change, rollback reverses all changes up to the previous save.
+//   To enable undo support on iOS you have to set the context's NSUndoManager.
+//   NOTE: https://forums.developer.apple.com/thread/74038 it appears the undoManager is nil by default on macos too.
+//   **/
+//
+//  func testUndo() throws {
+//    do {
+//      let context = container.newBackgroundContext()
+//      context.undoManager = UndoManager() // with the undo manager we can use the undo function
+//      context.performAndWait { context in
+//        context.fillWithSampleData()
+//        context.undo()
+//        XCTAssertTrue(context.insertedObjects.isEmpty)
+//        context.redo()
+//        XCTAssertFalse(context.insertedObjects.isEmpty)
+//      }
+//    }
+//    do {
+//      let context = container.newBackgroundContext()
+//      context.performAndWait { context in
+//        context.fillWithSampleData()
+//        context.undo()
+//        XCTAssertFalse(context.insertedObjects.isEmpty)
+//      }
+//    }
+//  }
 }
+
