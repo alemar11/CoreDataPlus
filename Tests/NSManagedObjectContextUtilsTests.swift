@@ -38,27 +38,27 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
   }
 
   func testMetaData() {
-      // When
-      guard let firstPersistentStore = container.viewContext.persistentStores.first else {
-        XCTAssertNotNil(container.viewContext.persistentStores.first)
-        return
-      }
-      // Then
-      let metaData = container.viewContext.metaData(for: firstPersistentStore)
-      XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[Car.entityName])
-      XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[Person.entityName])
-      XCTAssertNotNil(metaData["NSStoreType"] as? String)
+    // When
+    guard let firstPersistentStore = container.viewContext.persistentStores.first else {
+      XCTAssertNotNil(container.viewContext.persistentStores.first)
+      return
+    }
+    // Then
+    let metaData = container.viewContext.metaData(for: firstPersistentStore)
+    XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[Car.entityName])
+    XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[Person.entityName])
+    XCTAssertNotNil(metaData["NSStoreType"] as? String)
 
-      let addMetaDataExpectation = expectation(description: "Add MetaData Expectation")
-      container.viewContext.setMetaDataObject("Test", with: "testKey", for: firstPersistentStore){ error in
-        XCTAssertNil(error)
-        addMetaDataExpectation.fulfill()
-      }
-      waitForExpectations(timeout: 5.0, handler: nil)
+    let addMetaDataExpectation = expectation(description: "Add MetaData Expectation")
+    container.viewContext.setMetaDataObject("Test", with: "testKey", for: firstPersistentStore){ error in
+      XCTAssertNil(error)
+      addMetaDataExpectation.fulfill()
+    }
+    waitForExpectations(timeout: 5.0, handler: nil)
 
-      let updatedMetaData = container.viewContext.metaData(for: firstPersistentStore)
-      XCTAssertNotNil(updatedMetaData["testKey"])
-      XCTAssertEqual(updatedMetaData["testKey"] as? String, "Test")
+    let updatedMetaData = container.viewContext.metaData(for: firstPersistentStore)
+    XCTAssertNotNil(updatedMetaData["testKey"])
+    XCTAssertEqual(updatedMetaData["testKey"] as? String, "Test")
   }
 
   func testEntityDescription() {
@@ -172,12 +172,12 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
       }
     ) { (error) in
       context.performAndWait {
- XCTAssertNotNil(error)
+        XCTAssertNotNil(error)
       }
     }
 
     context.performAndWait {
-    context.rollback() // discards all the failing changes
+      context.rollback() // discards all the failing changes
     }
 
     XCTAssertNoThrow(
@@ -207,7 +207,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     )
 
     context.performAndWait {
-    XCTAssertTrue(context.registeredObjects.isEmpty)
+      XCTAssertTrue(context.registeredObjects.isEmpty)
     }
   }
 
@@ -243,10 +243,10 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     let context = container.viewContext.newBackgroundContext()
 
     context.performAndWait {
-    let person = Person(context: context)
-    person.firstName = "Alessandro"
-    person.lastName = "Test"
-    try! context.save()
+      let person = Person(context: context)
+      person.firstName = "Alessandro"
+      person.lastName = "Test"
+      try! context.save()
     }
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
@@ -341,7 +341,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
 
     wait(for: [saveExpectation3], timeout: 10)
     context.performAndWait {
-    context.rollback() // remove not valid changes
+      context.rollback() // remove not valid changes
     }
 
     let saveExpectation4 = expectation(description: "Save 4")
@@ -443,7 +443,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
   }
 
   func testSaveOrRollback() {
-   // let stack = CoreDataStack.stack(type: .inMemory) // TODO: iOS 12 not working for in memory
+    // let stack = CoreDataStack.stack(type: .inMemory) // TODO: iOS 12 not working for in memory
     let context = container.viewContext
 
     let car1 = Car(context: context)
