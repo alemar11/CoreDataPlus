@@ -134,7 +134,7 @@ public class EntityObserver<T: NSManagedObject> {
   private func setupObservers() {
     if event.contains(.change) {
       let token = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { [weak self] notification in
-        guard let `self` = self else { return }
+        guard let self = self else { return }
         self.handleChanges(in: notification, for: .change)
       }
 
@@ -143,7 +143,7 @@ public class EntityObserver<T: NSManagedObject> {
 
     if event.contains(.save) {
       let token = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { [weak self] notification in
-        guard let `self` = self else { return }
+        guard let self = self else { return }
         self.handleChanges(in: notification, for: .save)
       }
 
