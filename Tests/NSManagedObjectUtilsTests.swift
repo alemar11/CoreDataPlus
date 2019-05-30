@@ -171,6 +171,27 @@ final class NSManagedObjectUtilsTests: CoreDataPlusTestCase {
     XCTAssertTrue(sportCar1.isDeleted)
   }
 
+  /// Investigation test: KVO is fired whenever a property changes (even if the object is not saved in the context).
+  func testKVO() throws {
+    let context = container.viewContext
+    let expectation = self.expectation(description: "\(#function)\(#line)")
+    let sportCar1 = SportCar(context: context)
+    var count = 0
+    let token = sportCar1.observe(\.maker, options: .new) { (car, changes) in
+      count += 1
+      if count == 2 {
+        expectation.fulfill()
+      }
+    }
+    sportCar1.maker = "McLaren"
+    sportCar1.model = "570GT"
+    sportCar1.numberPlate = "203"
+    sportCar1.maker = "McLaren 2"
+    try context.save()
+
+    waitForExpectations(timeout: 10)
+    token.invalidate()
+  }
 }
 
 
