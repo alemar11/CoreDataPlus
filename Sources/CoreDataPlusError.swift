@@ -43,11 +43,24 @@ public struct CoreDataPlusError: Error {
     case saveFailed
     case migrationFailed
   }
+}
 
+extension CoreDataPlusError: LocalizedError {
+  public var errorDescription: String? {
+    return message
+  }
+}
+
+extension CoreDataPlusError {
   /// A context execution failed.
   static func executionFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> CoreDataPlusError {
+    let description = "\(underlyingError.localizedDescription)"
     return .init(errorCode: ErrorCode.executionFailed.rawValue,
-                 message: "\(underlyingError.localizedDescription)", underlyingError: underlyingError, file: file, line: line, function: function)
+                 message: description,
+                 underlyingError: underlyingError,
+                 file: file,
+                 line: line,
+                 function: function)
   }
 
   /// A count fetch operation failed.
@@ -101,11 +114,5 @@ public struct CoreDataPlusError: Error {
                  file: file,
                  line: line,
                  function: function)
-  }
-}
-
-extension CoreDataPlusError: LocalizedError {
-  public var errorDescription: String? {
-    return message
   }
 }
