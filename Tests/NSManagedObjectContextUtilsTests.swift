@@ -222,7 +222,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
         person.lastName = "Robots1"
         throw NSError(domain: "test", code: 1, userInfo: nil)
       }
-    } catch let catchedError as CoreDataPlusError where catchedError.errorCode == CoreDataPlusError.ErrorCode.executionFailed.rawValue {
+    } catch let catchedError as CoreDataPlusError where catchedError.errorCode == CoreDataPlusError.ErrorCode.saveFailed.rawValue {
       XCTAssertNotNil(catchedError.underlyingError)
       let nsError = catchedError.underlyingError! as NSError
       XCTAssertEqual(nsError.code, 1)
@@ -253,7 +253,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
         person.lastName = "Robots1"
         throw NSError(domain: "test", code: 1, userInfo: nil)
       }
-    } catch let catchedError as CoreDataPlusError where catchedError.errorCode == CoreDataPlusError.ErrorCode.executionFailed.rawValue {
+    } catch let catchedError as CoreDataPlusError where catchedError.errorCode == CoreDataPlusError.ErrorCode.saveFailed.rawValue {
       XCTAssertNotNil(catchedError.underlyingError)
       let nsError = catchedError.underlyingError! as NSError
       XCTAssertEqual(nsError.code, 1)
@@ -276,7 +276,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
       throw NSError(domain: "test", code: 1, userInfo: nil)
 
     }, completion: { catchedError in
-      if let catchedError = catchedError as CoreDataPlusError?, catchedError.errorCode == CoreDataPlusError.ErrorCode.executionFailed.rawValue {
+      if let catchedError = catchedError as CoreDataPlusError?, catchedError.errorCode == CoreDataPlusError.ErrorCode.saveFailed.rawValue {
         XCTAssertNotNil(catchedError.underlyingError)
         let nsError = catchedError.underlyingError! as NSError
         XCTAssertEqual(nsError.code, 1)

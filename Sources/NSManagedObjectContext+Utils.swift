@@ -107,19 +107,8 @@ extension NSManagedObjectContext {
   public final func performSave(after changes: @escaping () throws -> Void, completion: ( (CoreDataPlusError?) -> Void )? = nil ) {
     perform { [unowned unownedSelf = self] in
       var internalError: CoreDataPlusError?
-
       do {
         try changes()
-      } catch {
-        internalError = CoreDataPlusError.executionFailed(underlyingError: error)
-      }
-
-      guard internalError == nil else {
-        completion?(internalError)
-        return
-      }
-
-      do {
         try unownedSelf.save()
       } catch {
         internalError = CoreDataPlusError.saveFailed(underlyingError: error)
@@ -141,13 +130,6 @@ extension NSManagedObjectContext {
       performAndWait {
         do {
           try _changes()
-        } catch {
-          internalError = CoreDataPlusError.executionFailed(underlyingError: error)
-        }
-
-        guard internalError == nil else { return }
-
-        do {
           try save()
         } catch {
           internalError = CoreDataPlusError.saveFailed(underlyingError: error)

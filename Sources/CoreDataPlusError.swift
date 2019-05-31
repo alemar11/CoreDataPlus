@@ -27,21 +27,22 @@ import CoreData
 ///
 /// `CoreDataPlusError` is the error type returned by CoreDataPlus when something bad happens.
 public struct CoreDataPlusError: Error {
-  public private(set) var errorCode: Int
-  public private(set) var message: String
-  public private(set) var underlyingError: Error?
-  public private(set) var file: StaticString
-  public private(set) var line: Int
-  public private(set) var function: StaticString
+  public let errorCode: Int
+  public let message: String
+  public let underlyingError: Error?
+  public let file: StaticString
+  public let line: Int
+  public let function: StaticString
 
   enum ErrorCode: Int {
-    case executionFailed
-    case fetchCountNotFound
+    case persistentStoreCoordinatorNotFound = 1
+    case saveFailed = 2
+    case migrationFailed = 3
+    case fetchFailed = 100
+    case fetchCountFailed
     case fetchExpectingOnlyOneObjectFailed
-    case fetchFailed
-    case persistentStoreCoordinatorNotFound
-    case saveFailed
-    case migrationFailed
+    case batchUpdateFailed = 200
+    case batchDeleteFailed
   }
 }
 
@@ -52,10 +53,21 @@ extension CoreDataPlusError: LocalizedError {
 }
 
 extension CoreDataPlusError {
-  /// A context execution failed.
-  static func executionFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> CoreDataPlusError {
-    let description = "\(underlyingError.localizedDescription)"
-    return .init(errorCode: ErrorCode.executionFailed.rawValue,
+  /// A batch update operation failed.
+  static func batchUpdateFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> CoreDataPlusError {
+    let description = "The batch update operation failed. Check the underlying error."
+    return .init(errorCode: ErrorCode.batchUpdateFailed.rawValue,
+                 message: description,
+                 underlyingError: underlyingError,
+                 file: file,
+                 line: line,
+                 function: function)
+  }
+
+  /// A batch delete operation failed.
+  static func batchDeleteFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> CoreDataPlusError {
+    let description = "The batch delete operation failed. Check the underlying error."
+    return .init(errorCode: ErrorCode.batchDeleteFailed.rawValue,
                  message: description,
                  underlyingError: underlyingError,
                  file: file,
@@ -64,8 +76,8 @@ extension CoreDataPlusError {
   }
 
   /// A count fetch operation failed.
-  static func fetchCountNotFound(file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> CoreDataPlusError {
-    return .init(errorCode: ErrorCode.fetchCountNotFound.rawValue,
+  static func fetchCountFailed(file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> CoreDataPlusError {
+    return .init(errorCode: ErrorCode.fetchCountFailed.rawValue,
                  message: "The fetch count responded with NSNotFound.",
                  underlyingError: nil,
                  file: file,
@@ -86,7 +98,7 @@ extension CoreDataPlusError {
   /// A fetch operation failed with an underlying system error.
   static func fetchFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> CoreDataPlusError {
     return .init(errorCode: ErrorCode.fetchFailed.rawValue,
-                 message: "The fetch could not be completed because of an underlyingError error.",
+                 message: "The fetch could not be completed. Check the underlying error.",
                  underlyingError: underlyingError,
                  file: file,
                  line: line,
@@ -95,21 +107,28 @@ extension CoreDataPlusError {
 
   /// The NSPersistentStoreCoordinator is missing.
   static func persistentStoreCoordinatorNotFound(context: NSManagedObjectContext, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> CoreDataPlusError {
+    let message = "\(context.description) doesn't have a NSPersistentStoreCoordinator."
     return .init(errorCode: ErrorCode.persistentStoreCoordinatorNotFound.rawValue,
-                 message: "\(context.description) doesn't have a NSPersistentStoreCoordinator.",
-      underlyingError: nil, file: file, line: line, function: function)
+                 message: message,
+                 underlyingError: nil,
+                 file: file,
+                 line: line,
+                 function: function)
   }
 
   /// A save oepration failed with an underlying system error.
   static func saveFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> CoreDataPlusError {
     return CoreDataPlusError(errorCode: ErrorCode.saveFailed.rawValue,
-                             message: "The save operation could not be completed because of an underlyingError error.",
-                             underlyingError: underlyingError, file: file, line: line, function: function)
+                             message: "The save operation could not be completed. Check the underlying error.",
+                             underlyingError: underlyingError,
+                             file: file,
+                             line: line,
+                             function: function)
   }
 
   /// A migration operation failed.
   static func migrationFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> CoreDataPlusError {
-    return .init(errorCode: ErrorCode.migrationFailed.rawValue, message: "The migration could not be completed because of an underlyingError error.",
+    return .init(errorCode: ErrorCode.migrationFailed.rawValue, message: "The migration could not be completed. Check the underlying error.",
                  underlyingError: underlyingError,
                  file: file,
                  line: line,
