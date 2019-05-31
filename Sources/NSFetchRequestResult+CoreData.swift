@@ -65,7 +65,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     do {
       return try context.fetch(request)
     } catch {
-      throw CoreDataPlusError.fetchFailed(error: error)
+      throw CoreDataPlusError.fetchFailed(underlyingError: error)
     }
   }
 
@@ -90,7 +90,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     do {
       return try context.fetch(request)
     } catch {
-      throw CoreDataPlusError.fetchFailed(error: error)
+      throw CoreDataPlusError.fetchFailed(underlyingError: error)
     }
   }
 
@@ -140,7 +140,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
           request.fetchLimit = 1
         }.first
       } catch {
-        throw CoreDataPlusError.fetchFailed(error: error)
+        throw CoreDataPlusError.fetchFailed(underlyingError: error)
       }
     }
 
@@ -189,7 +189,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
           request.predicate = predicate
         }
       } catch {
-        throw CoreDataPlusError.fetchFailed(error: error)
+        throw CoreDataPlusError.fetchFailed(underlyingError: error)
       }
     }
 
@@ -205,7 +205,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   public static func findUniqueMaterializedObject(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? {
     let results = findMaterializedObjects(in: context, where: predicate)
     guard results.count <= 1 else {
-      throw CoreDataPlusError.fetchCountNotFound
+      throw CoreDataPlusError.fetchCountNotFound()
     }
     return results.first
   }
@@ -227,7 +227,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     case 1:
       return result[0]
     default:
-      throw CoreDataPlusError.fetchExpectingOneObjectFailed
+      throw CoreDataPlusError.fetchExpectingOneObjectFailed()
     }
   }
 
@@ -251,7 +251,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
         }.lazy.forEach(context.delete(_:))
       }
     } catch {
-      throw CoreDataPlusError.fetchFailed(error: error)
+      throw CoreDataPlusError.fetchFailed(underlyingError: error)
     }
   }
 
@@ -282,7 +282,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     configuration(request)
 
     let result = try context.count(for: request)
-    guard result != NSNotFound else { throw CoreDataPlusError.fetchCountNotFound }
+    guard result != NSNotFound else { throw CoreDataPlusError.fetchCountNotFound() }
 
     return result
   }
@@ -366,7 +366,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
       // swiftlint:disable:next force_cast
       return try context.execute(batchRequest) as! NSBatchUpdateResult
     } catch {
-      throw CoreDataPlusError.executionFailed(error: error)
+      throw CoreDataPlusError.executionFailed(underlyingError: error)
     }
   }
 
@@ -397,7 +397,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
       // swiftlint:disable:next force_cast
       return try context.execute(batchRequest) as! NSBatchDeleteResult
     } catch {
-      throw CoreDataPlusError.executionFailed(error: error)
+      throw CoreDataPlusError.executionFailed(underlyingError: error)
     }
   }
 }

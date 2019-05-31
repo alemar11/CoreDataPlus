@@ -256,7 +256,9 @@ extension NSManagedObjectContext {
   ///   - queue: The operation queue to which block should be added. If you pass nil, the block is run synchronously on the posting thread.
   ///   - handler: The block to be executed when the notification triggers.
   /// - Returns: An opaque object to act as the observer. This must be sent to the `NotificationCenter`'s `removeObserver()`.
-  public func addContextDidSaveNotificationObserver(notificationCenter: NotificationCenter = .default, queue: OperationQueue? = nil, _ handler: @escaping (ContextDidSaveNotification) -> Void) -> NSObjectProtocol {
+  public func addContextDidSaveNotificationObserver(notificationCenter: NotificationCenter = .default,
+                                                    queue: OperationQueue? = nil,
+                                                    _ handler: @escaping (ContextDidSaveNotification) -> Void) -> NSObjectProtocol {
     return notificationCenter.addObserver(forName: .NSManagedObjectContextDidSave, object: self, queue: nil) { notification in
       let didSaveNotification = ContextDidSaveNotification(notification: notification)
       handler(didSaveNotification)
@@ -272,7 +274,9 @@ extension NSManagedObjectContext {
   ///   - queue: The operation queue to which block should be added. If you pass nil, the block is run synchronously on the posting thread.
   ///   - handler: The block to be executed when the notification triggers.
   /// - Returns: An opaque object to act as the observer. This must be sent to the `NotificationCenter`'s `removeObserver()`.
-  public func addContextWillSaveNotificationObserver(notificationCenter: NotificationCenter = .default, queue: OperationQueue? = nil, _ handler: @escaping (ContextWillSaveNotification) -> Void) -> NSObjectProtocol {
+  public func addContextWillSaveNotificationObserver(notificationCenter: NotificationCenter = .default,
+                                                     queue: OperationQueue? = nil,
+                                                     _ handler: @escaping (ContextWillSaveNotification) -> Void) -> NSObjectProtocol {
     return notificationCenter.addObserver(forName: .NSManagedObjectContextWillSave, object: self, queue: queue) { notification in
       let willSaveNotification = ContextWillSaveNotification(notification: notification)
       handler(willSaveNotification)
@@ -288,7 +292,9 @@ extension NSManagedObjectContext {
   ///   - queue: The operation queue to which block should be added. If you pass nil, the block is run synchronously on the posting thread.
   ///   - handler: The block to be executed when the notification triggers.
   /// - Returns: An opaque object to act as the observer. This must be sent to the `NotificationCenter`'s `removeObserver()`.
-  public func addObjectsDidChangeNotificationObserver(notificationCenter: NotificationCenter = .default, queue: OperationQueue? = nil, _ handler: @escaping (ObjectsDidChangeNotification) -> Void) -> NSObjectProtocol {
+  public func addObjectsDidChangeNotificationObserver(notificationCenter: NotificationCenter = .default,
+                                                      queue: OperationQueue? = nil,
+                                                      _ handler: @escaping (ObjectsDidChangeNotification) -> Void) -> NSObjectProtocol {
     return notificationCenter.addObserver(forName: .NSManagedObjectContextObjectsDidChange, object: self, queue: queue) { notification in
       let didChangeNotification = ObjectsDidChangeNotification(notification: notification)
       handler(didChangeNotification)

@@ -2,6 +2,7 @@
 
 ### 2.1.0
 
+- A new shiny `CoreDataPlusError`.
 - `Entity Observer` now can listen to changes happening on subentities. 
 
 ### 2.0.1

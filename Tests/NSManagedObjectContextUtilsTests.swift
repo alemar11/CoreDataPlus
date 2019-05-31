@@ -212,9 +212,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
   }
 
   func testSaveAndWaitWithThrow() {
-
     let context = container.viewContext.newBackgroundContext()
-
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     do {
@@ -224,22 +222,19 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
         person.lastName = "Robots1"
         throw NSError(domain: "test", code: 1, userInfo: nil)
       }
-    } catch let catchedError {
-      if case CoreDataPlusError.executionFailed(error: let error) = catchedError {
-        let nsError = error as NSError
-        XCTAssertEqual(nsError.code, 1)
-        XCTAssertEqual(nsError.domain, "test")
-
-      } else {
-        XCTFail("Wrong error type.")
-      }
+    } catch let catchedError as CoreDataPlusError where catchedError.errorCode == CoreDataPlusError.ErrorCode.executionFailed.rawValue {
+      XCTAssertNotNil(catchedError.underlyingError)
+      let nsError = catchedError.underlyingError! as NSError
+      XCTAssertEqual(nsError.code, 1)
+      XCTAssertEqual(nsError.domain, "test")
       expectation1.fulfill()
+    } catch {
+      XCTFail("Wrong error type.")
     }
     waitForExpectations(timeout: 2)
   }
 
   func testSaveAndWaitWithAContextSaveDoneBeforeTheThrow() throws {
-
     let context = container.viewContext.newBackgroundContext()
 
     context.performAndWait {
@@ -258,24 +253,20 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
         person.lastName = "Robots1"
         throw NSError(domain: "test", code: 1, userInfo: nil)
       }
-    } catch let catchedError {
-      if case CoreDataPlusError.executionFailed(error: let error) = catchedError {
-        let nsError = error as NSError
-        XCTAssertEqual(nsError.code, 1)
-        XCTAssertEqual(nsError.domain, "test")
-
-      } else {
-        XCTFail("Wrong error type.")
-      }
+    } catch let catchedError as CoreDataPlusError where catchedError.errorCode == CoreDataPlusError.ErrorCode.executionFailed.rawValue {
+      XCTAssertNotNil(catchedError.underlyingError)
+      let nsError = catchedError.underlyingError! as NSError
+      XCTAssertEqual(nsError.code, 1)
+      XCTAssertEqual(nsError.domain, "test")
       expectation1.fulfill()
+    } catch {
+      XCTFail("Wrong error type.")
     }
     waitForExpectations(timeout: 2)
   }
 
   func testSaveAndThrow() {
-
     let context = container.viewContext.newBackgroundContext()
-
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     context.performSave(after: {
@@ -285,11 +276,11 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
       throw NSError(domain: "test", code: 1, userInfo: nil)
 
     }, completion: { catchedError in
-      if let catchedError = catchedError, case CoreDataPlusError.executionFailed(error: let error) = catchedError {
-        let nsError = error as NSError
+      if let catchedError = catchedError as CoreDataPlusError?, catchedError.errorCode == CoreDataPlusError.ErrorCode.executionFailed.rawValue {
+        XCTAssertNotNil(catchedError.underlyingError)
+        let nsError = catchedError.underlyingError! as NSError
         XCTAssertEqual(nsError.code, 1)
         XCTAssertEqual(nsError.domain, "test")
-
       } else {
         XCTFail("Wrong error type.")
       }

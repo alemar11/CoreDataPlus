@@ -112,7 +112,10 @@ public class EntityObserver<T: NSManagedObject> {
   ///   - observeSubEntities: If `true`, all the changes happening in the subentities will be observed. (default: `false`)
   ///   - notificationCenter: The `NotificationCenter` listening the the `NSManagedObjectContext` notifications.
   ///   - changedHandler: The completion handler.
-  init(context: NSManagedObjectContext, event: ObservedEvent, observeSubEntities: Bool = false, notificationCenter: NotificationCenter = .default, changedHandler: @escaping (ManagedObjectContextChange<T>, ObservedEvent) -> Void) {
+  init(context: NSManagedObjectContext, event: ObservedEvent,
+       observeSubEntities: Bool = false,
+       notificationCenter: NotificationCenter = .default,
+       changedHandler: @escaping (ManagedObjectContextChange<T>, ObservedEvent) -> Void) {
     self.context = context
     self.event = event
     self.observeSubEntities = observeSubEntities
@@ -142,6 +145,7 @@ public class EntityObserver<T: NSManagedObject> {
     if event.contains(.change) {
       let token = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { [weak self] notification in
         guard let self = self else { return }
+
         self.handleChanges(in: notification, for: .change)
       }
 
@@ -151,6 +155,7 @@ public class EntityObserver<T: NSManagedObject> {
     if event.contains(.save) {
       let token = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { [weak self] notification in
         guard let self = self else { return }
+
         self.handleChanges(in: notification, for: .save)
       }
 

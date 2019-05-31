@@ -25,61 +25,87 @@ import CoreData
 
 /// **CoreDataPlus**
 ///
-/// `CoreDataPlusError` is the error type returned by CoreDataPlus.
-///
-/// - executionFailed: A context executions failed.
-/// - fetchCountNotFound: A count fetch operation failed.
-/// - fetchExpectingOneObjectFailed: A fetch operation expecting only one object failed.
-/// - fetchFailed: A fetch operation failed with an underlying system error.
-/// - persistentStoreCoordinator: The NSPersistentStoreCoordinator is missing.
-/// - saveFailed: A save oepration failed with an underlying system error
-public enum CoreDataPlusError: Error {
-  case executionFailed(error: Error)
-  case fetchCountNotFound
-  case fetchExpectingOneObjectFailed
-  case fetchFailed(error: Error)
-  case persistentStoreCoordinatorNotFound(context: NSManagedObjectContext)
-  case saveFailed(error: Error)
-  case migrationFailed(error: Error)
+/// `CoreDataPlusError` is the error type returned by CoreDataPlus when something bad happens.
+public struct CoreDataPlusError: Error {
+  public private(set) var errorCode: Int
+  public private(set) var message: String
+  public private(set) var underlyingError: Error?
+  public private(set) var file: StaticString
+  public private(set) var line: Int
+  public private(set) var function: StaticString
 
-  /// **CoreDataPlus**
-  ///
-  /// The `Error` returned by a system framework associated with a CoreDataPlus failure error.
-  public var underlyingError: Error? {
-    switch self {
-    case .executionFailed(let error), .fetchFailed(let error), .saveFailed(let error), .migrationFailed(error: let error):
-      return error
-    default:
-      return nil
-    }
+  enum ErrorCode: Int {
+    case executionFailed
+    case fetchCountNotFound
+    case fetchExpectingOneObjectFailed
+    case fetchFailed
+    case persistentStoreCoordinatorNotFound
+    case saveFailed
+    case migrationFailed
+  }
+
+  /// A context execution failed.
+  static func executionFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> CoreDataPlusError {
+    return .init(errorCode: ErrorCode.executionFailed.rawValue,
+                 message: "\(underlyingError.localizedDescription)", underlyingError: underlyingError, file: file, line: line, function: function)
+  }
+
+  /// A count fetch operation failed.
+  static func fetchCountNotFound(file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> CoreDataPlusError {
+    return .init(errorCode: ErrorCode.fetchCountNotFound.rawValue,
+                 message: "The fetch count responded with NSNotFound.",
+                 underlyingError: nil,
+                 file: file,
+                 line: line,
+                 function: function)
+  }
+
+  /// A fetch operation expecting only one object failed.
+  static func fetchExpectingOneObjectFailed(file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> CoreDataPlusError {
+    return .init(errorCode: ErrorCode.fetchExpectingOneObjectFailed.rawValue,
+                 message: "Returned multiple objects, expected max 1.",
+                 underlyingError: nil,
+                 file: file,
+                 line: line,
+                 function: function)
+  }
+
+  /// A fetch operation failed with an underlying system error.
+  static func fetchFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> CoreDataPlusError {
+    return .init(errorCode: ErrorCode.fetchFailed.rawValue,
+                 message: "The fetch could not be completed because of an underlyingError error.",
+                 underlyingError: underlyingError,
+                 file: file,
+                 line: line,
+                 function:function)
+  }
+
+  /// The NSPersistentStoreCoordinator is missing.
+  static func persistentStoreCoordinatorNotFound(context: NSManagedObjectContext, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> CoreDataPlusError {
+    return .init(errorCode: ErrorCode.persistentStoreCoordinatorNotFound.rawValue,
+                 message: "\(context.description) doesn't have a NSPersistentStoreCoordinator.",
+      underlyingError: nil, file: file, line: line, function: function)
+  }
+
+  /// A save oepration failed with an underlying system error.
+  static func saveFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> CoreDataPlusError {
+    return CoreDataPlusError(errorCode: ErrorCode.saveFailed.rawValue,
+                             message: "The save operation could not be completed because of an underlyingError error.",
+                             underlyingError: underlyingError, file: file, line: line, function: function)
+  }
+
+  /// A migration operation failed.
+  static func migrationFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> CoreDataPlusError {
+    return .init(errorCode: ErrorCode.migrationFailed.rawValue, message: "The migration could not be completed because of an underlyingError error.",
+                 underlyingError: underlyingError,
+                 file: file,
+                 line: line,
+                 function: function)
   }
 }
 
-// MARK: - LocalizedError
-
 extension CoreDataPlusError: LocalizedError {
   public var errorDescription: String? {
-    switch self {
-    case .executionFailed(let error):
-      return "\(error.localizedDescription)"
-
-    case .fetchCountNotFound:
-      return "The fetch count responded with NSNotFound."
-
-    case .fetchExpectingOneObjectFailed:
-      return "Returned multiple objects, expected max 1."
-
-    case .fetchFailed(let error):
-      return "The fetch could not be completed because of error:\n\(error)"
-
-    case .persistentStoreCoordinatorNotFound(let context):
-      return "\(context.description) doesn't have a NSPersistentStoreCoordinator."
-
-    case .saveFailed(let error):
-      return "The save operation could not be completed because of error:\n\(error)"
-
-    case .migrationFailed(error: let error):
-      return "The migration could not be completed because of error:\n\(error)"
-    }
+    return message
   }
 }

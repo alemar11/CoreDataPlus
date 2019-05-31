@@ -111,7 +111,7 @@ extension NSManagedObjectContext {
       do {
         try changes()
       } catch {
-        internalError = CoreDataPlusError.executionFailed(error: error)
+        internalError = CoreDataPlusError.executionFailed(underlyingError: error)
       }
 
       guard internalError == nil else {
@@ -122,7 +122,7 @@ extension NSManagedObjectContext {
       do {
         try unownedSelf.save()
       } catch {
-        internalError = CoreDataPlusError.saveFailed(error: error)
+        internalError = CoreDataPlusError.saveFailed(underlyingError: error)
       }
       completion?(internalError)
     }
@@ -142,7 +142,7 @@ extension NSManagedObjectContext {
         do {
           try _changes()
         } catch {
-          internalError = CoreDataPlusError.executionFailed(error: error)
+          internalError = CoreDataPlusError.executionFailed(underlyingError: error)
         }
 
         guard internalError == nil else { return }
@@ -150,7 +150,7 @@ extension NSManagedObjectContext {
         do {
           try save()
         } catch {
-          internalError = CoreDataPlusError.saveFailed(error: error)
+          internalError = CoreDataPlusError.saveFailed(underlyingError: error)
         }
       }
 
@@ -169,7 +169,7 @@ extension NSManagedObjectContext {
       try save()
     } catch {
       rollback() // rolls back the pending changes
-      throw CoreDataPlusError.saveFailed(error: error)
+      throw CoreDataPlusError.saveFailed(underlyingError: error)
     }
   }
 
@@ -194,7 +194,7 @@ extension NSManagedObjectContext {
       parentContext = parentContext!.parent
 
       if let error = saveError {
-        throw CoreDataPlusError.saveFailed(error: error)
+        throw CoreDataPlusError.saveFailed(underlyingError: error)
       }
     }
   }
