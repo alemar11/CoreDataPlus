@@ -38,23 +38,26 @@ final class NSEntityDescriptionUtilsTests: CoreDataPlusTestCase {
     XCTAssertTrue(entityNames.contains(ExpensiveSportCar.entityName))
   }
 
+  // TODO
+  func testStress() {
+    (1...1000).forEach { i in
+      print(i)
+      testTopMostEntity()
+    }
+  }
+
   func testTopMostEntity() {
-    let context = container.viewContext
-
-    do {
-      guard Car.entity().name != nil else { return }
-      let expensiveCar = ExpensiveSportCar(context: context)
-      let topMostAncestorEntity = expensiveCar.entity.topMostEntity
-      XCTAssertTrue(topMostAncestorEntity == Car.entity(), "\(topMostAncestorEntity) should be a Car entity.")
+    guard Car.entity().name != nil else {
+      fatalError("Car entity should have a name.")
     }
 
-    do {
-      guard Car.entity().name != nil else { return }
-      let car = Car(context: context)
-      let topMostAncestorEntity = car.entity.topMostEntity
-      XCTAssertTrue(topMostAncestorEntity == Car.entity(), "\(topMostAncestorEntity) should be a Car entity.")
-    }
+    let expensiveCar = ExpensiveSportCar()
+    let topMostAncestorEntityForExpensiveCar = expensiveCar.entity.topMostEntity
+    XCTAssertTrue(topMostAncestorEntityForExpensiveCar == Car.entity(), "\(topMostAncestorEntityForExpensiveCar) should be a Car entity.")
 
+    let car = Car()
+    let topMostAncestorEntity = car.entity.topMostEntity
+    XCTAssertTrue(topMostAncestorEntity == Car.entity(), "\(topMostAncestorEntity) should be a Car entity.")
   }
 
   func testCommonEntityAncestor() {
