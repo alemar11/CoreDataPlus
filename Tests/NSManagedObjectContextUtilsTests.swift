@@ -91,7 +91,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
 
     // Then
     XCTAssertNoThrow(
-      try context.performSaveAndWait {
+      try context.performSaveAndWait { context in
         let person = Person(context: context)
         person.firstName = "T"
         person.lastName = "R"
@@ -111,7 +111,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
       })
 
     XCTAssertNoThrow(
-      try context.performSaveAndWait {
+      try context.performSaveAndWait { context in
         let person = Person(context: context)
         person.firstName = "Tin"
         person.lastName = "Robots"
@@ -126,7 +126,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
 
     // Then
     XCTAssertNoThrow(
-      try context.performSaveAndWait {
+      try context.performSaveAndWait { context in
         let person = Person(context: context)
         person.firstName = "T"
         person.lastName = "R"
@@ -145,7 +145,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     )
 
     XCTAssertNoThrow(
-      try context.performSaveAndWait {
+      try context.performSaveAndWait { context in
         let person = Person(context: context)
         person.firstName = "Tin"
         person.lastName = "Robots"
@@ -153,7 +153,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     )
 
     XCTAssertThrowsError(
-      try context.performSaveAndWait {
+      try context.performSaveAndWait { context in
         let car1 = Car(context: context)
         car1.maker = "FIAT"
         car1.model = "Panda"
@@ -181,7 +181,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     }
 
     XCTAssertNoThrow(
-      try context.performSaveAndWait {
+      try context.performSaveAndWait { context in
         let person = Person(context: context)
         person.firstName = "Tin_"
         person.lastName = "Robots_"
@@ -193,7 +193,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
 
     let context = container.viewContext.newBackgroundContext()
     XCTAssertNoThrow(
-      try context.performSaveAndWait {
+      try context.performSaveAndWait { context in
         let person1 = Person(context: context)
         person1.firstName = "T1"
         person1.lastName = "R1"
@@ -216,7 +216,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     do {
-      try context.performSaveAndWait {
+      try context.performSaveAndWait { context in
         let person = Person(context: context)
         person.firstName = "Tin1"
         person.lastName = "Robots1"
@@ -247,7 +247,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     do {
-      try context.performSaveAndWait {
+      try context.performSaveAndWait { context in
         let person = Person(context: context)
         person.firstName = "Tin1"
         person.lastName = "Robots1"
@@ -269,7 +269,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     let context = container.viewContext.newBackgroundContext()
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
-    context.performSave(after: {
+    context.performSave(after: { context in
       let person = Person(context: context)
       person.firstName = "T"
       person.lastName = "R"
@@ -296,7 +296,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     let context = container.viewContext.newBackgroundContext()
     // Then
     let saveExpectation1 = expectation(description: "Save 1")
-    context.performSave(after: {
+    context.performSave(after: { context in
       let person = Person(context: context)
       person.firstName = "T"
       person.lastName = "R"
@@ -308,7 +308,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     wait(for: [saveExpectation1], timeout: 10)
 
     let saveExpectation2 = expectation(description: "Save 2")
-    context.performSave(after: {
+    context.performSave(after: { context in
       let person = Person(context: context)
       person.firstName = "Tin"
       person.lastName = "Robots"
@@ -321,7 +321,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
 
     /// saving error
     let saveExpectation3 = expectation(description: "Save 3")
-    context.performSave(after: {
+    context.performSave(after: { context in
       let person = Person(context: context)
       person.firstName = "Tin"
       person.lastName = "Robots"
@@ -336,7 +336,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     }
 
     let saveExpectation4 = expectation(description: "Save 4")
-    context.performSave(after: {
+    context.performSave(after: { context in
       let person = Person(context: context)
       person.firstName = "Tin_"
       person.lastName = "Robots"
@@ -348,7 +348,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     wait(for: [saveExpectation4], timeout: 10)
 
     let saveExpectation5 = expectation(description: "Save 5")
-    context.performSave(after: {
+    context.performSave(after: { context in
       let person = Person(context: context)
       person.firstName = "Tin"
       person.lastName = "Robots_"
@@ -360,7 +360,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     wait(for: [saveExpectation5], timeout: 10)
 
     let saveExpectation6 = expectation(description: "Save 6")
-    context.performSave(after: {
+    context.performSave(after: { context in
       let car = Car(context: context)
       car.numberPlate = "100"
     }) { error in
@@ -371,7 +371,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     wait(for: [saveExpectation6], timeout: 10)
 
     let saveExpectation7 = expectation(description: "Save 7")
-    context.performSave(after: {
+    context.performSave(after: { context in
       let car = SportCar(context: context)
       car.numberPlate = "200"
     }) { error in
@@ -383,7 +383,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
 
     /// saving error
     let saveExpectation8 = expectation(description: "Save 7")
-    context.performSave(after: {
+    context.performSave(after: { context in
       let car = SportCar(context: context)
       car.numberPlate = "200" // same numberPlate
     }) { error in
@@ -530,7 +530,6 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
   }
 
   func testPerformSaveUpToTheLastParentContextAndWaitWithoutChanges() throws {
-
     let mainContext = container.viewContext
     let backgroundContext = mainContext.newBackgroundContext(asChildContext: true) // main context children
     let childBackgroundContext = backgroundContext.newBackgroundContext(asChildContext: true) // background context children
@@ -544,5 +543,38 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     let count = try Person.count(in: mainContext)
     XCTAssertEqual(count, 0)
   }
+
+  // TODO
+//  func testLeak() {
+//    let exp = self.expectation(description: "todo")
+//
+//    var test = TestLeak(context: container.newBackgroundContext())
+//    weak var weakTest = test
+//    test.perform {
+//      sleep(2)
+//      exp.fulfill()
+//    }
+//    test = TestLeak(context: container.newBackgroundContext())
+//    XCTAssertNil(weakTest)
+//    //XCTAssertNil(weakObject)
+//    //waitForExpectations(timeout: 5)
+//    waitForExpectations(timeout: 3)
+//  }
 }
 
+//class TestLeak {
+//  let context: NSManagedObjectContext
+//  init(context: NSManagedObjectContext) {
+//    self.context = context
+//  }
+//  func perform(handler: @escaping () -> Void) {
+//    //DispatchQueue.global().async { [weak self] in
+//    context.performSave(after: { [weak self] context in
+//      print(self)
+//      print(context)
+//
+//    }) { (error) in
+//      print(error)
+//    }
+//  }
+//}
