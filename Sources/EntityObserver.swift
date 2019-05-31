@@ -32,7 +32,7 @@ public class EntityObserver<T: NSManagedObject> {
   /// **CoreDataPlus**
   ///
   /// Contains all the changes taking place in a `NSManagedObjectContext` for each notification.
-  public struct ContextChange<T: NSManagedObject> {
+  public struct ManagedObjectContextChange<T: NSManagedObject> {
     /// **CoreDataPlus**
     ///
     /// Returns a `Set` of objects that were inserted into the context.
@@ -92,7 +92,7 @@ public class EntityObserver<T: NSManagedObject> {
 
   private let context: NSManagedObjectContext
   private let notificationCenter: NotificationCenter
-  private let handler: (ContextChange<T>, ObservedEvent) -> Void
+  private let handler: (ManagedObjectContextChange<T>, ObservedEvent) -> Void
   private var tokens = [NSObjectProtocol]()
 
   // MARK: - Initializers
@@ -106,7 +106,7 @@ public class EntityObserver<T: NSManagedObject> {
   ///   - event: The kind of event observed.
   ///   - notificationCenter: The `NotificationCenter` listening the the `NSManagedObjectContext` notifications.
   ///   - changedHandler: The completion handler.
-  init(context: NSManagedObjectContext, event: ObservedEvent, notificationCenter: NotificationCenter = .default, changedHandler: @escaping (ContextChange<T>, ObservedEvent) -> Void) {
+  init(context: NSManagedObjectContext, event: ObservedEvent, notificationCenter: NotificationCenter = .default, changedHandler: @escaping (ManagedObjectContextChange<T>, ObservedEvent) -> Void) {
     self.context = context
     self.event = event
     self.notificationCenter = notificationCenter
@@ -165,7 +165,7 @@ public class EntityObserver<T: NSManagedObject> {
       let invalidated = process(notification.invalidatedObjects)
       let invalidatedAll = notification.invalidatedAllObjects.filter { $0.entity == observedEntity }
 
-      let change = ContextChange(inserted: inserted, updated: updated, deleted: deleted, refreshed: refreshed, invalidated: invalidated, invalidatedAll: invalidatedAll)
+      let change = ManagedObjectContextChange(inserted: inserted, updated: updated, deleted: deleted, refreshed: refreshed, invalidated: invalidated, invalidatedAll: invalidatedAll)
 
       if !change.isEmpty() {
         handler(change, event)

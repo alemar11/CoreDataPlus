@@ -26,36 +26,54 @@ import CoreData
 
 // TODO: work in progress
 public class ObservedManagedObject<T: NSManagedObject> {
-  private let observedObject: T
+  public let observedObject: T
   private let observedEvent: ObservedEvent
+  private let handler: (ManagedObjectChange, ObservedEvent) -> Void
 
   private lazy var entityObserver: EntityObserver<T> = {
     guard let context = observedObject.managedObjectContext else {
       fatalError("\(observedObject) doesn't have a managedObjectContext.")
     }
 
-    let observer = EntityObserver<T>(context: context, event: observedEvent) { [weak self] (change, event) in
+    let observer = EntityObserver<T>(context: context, event: observedEvent) { [weak self] (changes, event) in
       guard let self = self else { return }
-      guard !change.isEmpty() else { return }
+      guard !changes.isEmpty() else { return }
 
-      let isDeleted = change.deleted.contains(self.observedObject)
-      let isInserted = change.inserted.contains(self.observedObject)
-      let isInvalidated = change.invalidated.contains(self.observedObject) || change.invalidatedAll.contains(self.observedObject.objectID)
-      let isRefreshed = change.refreshed.contains(self.observedObject)
-      let isUpdated = change.updated.contains(self.observedObject)
+      let isDeleted = changes.deleted.contains(self.observedObject)
+      let isInserted = changes.inserted.contains(self.observedObject)
+      let isInvalidated = changes.invalidated.contains(self.observedObject) || changes.invalidatedAll.contains(self.observedObject.objectID)
+      let isRefreshed = changes.refreshed.contains(self.observedObject)
+      let isUpdated = changes.updated.contains(self.observedObject)
+
+      if isDeleted {
+        self.handler(.deleted, event)
+      }
+      if isInserted {
+         self.handler(.inserted, event)
+      }
+      if isInvalidated {
+        self.handler(.invalidated, event)
+      }
+      if isRefreshed {
+        self.handler(.refreshed, event)
+      }
+      if isUpdated {
+        self.handler(.updated, event)
+      }
     }
     return observer
   }()
 
-  init(object: T, event: ObservedEvent = .all) {
+  init(object: T, event: ObservedEvent = .all, changedHandler: @escaping (ManagedObjectChange, ObservedEvent) -> Void) {
     self.observedObject = object
     self.observedEvent = event
+    self.handler = changedHandler
     _ = entityObserver
   }
 }
 
 public extension ObservedManagedObject {
-  enum Observed {
+  enum ManagedObjectChange {
     case deleted
     case inserted
     case invalidated
