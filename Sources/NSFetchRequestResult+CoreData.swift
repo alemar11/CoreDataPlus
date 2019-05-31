@@ -227,7 +227,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     case 1:
       return result[0]
     default:
-      throw CoreDataPlusError.fetchExpectingOneObjectFailed()
+      throw CoreDataPlusError.fetchExpectingOnlyOneObjectFailed()
     }
   }
 

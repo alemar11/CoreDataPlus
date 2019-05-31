@@ -23,13 +23,7 @@
 
 import CoreData
 
-public protocol ThredSafeAccessible { }
-
-// MARK: - NSManagedObject
-
-extension NSManagedObject: ThredSafeAccessible { }
-
-extension ThredSafeAccessible where Self: NSManagedObject {
+extension NSFetchRequestResult where Self: NSManagedObject {
   /// **CoreDataPlus**
   ///
   /// Performs the given block in the right thread for the `NSManagedObject`'s managedObjectContext.

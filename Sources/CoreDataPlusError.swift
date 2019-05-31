@@ -37,7 +37,7 @@ public struct CoreDataPlusError: Error {
   enum ErrorCode: Int {
     case executionFailed
     case fetchCountNotFound
-    case fetchExpectingOneObjectFailed
+    case fetchExpectingOnlyOneObjectFailed
     case fetchFailed
     case persistentStoreCoordinatorNotFound
     case saveFailed
@@ -74,8 +74,8 @@ extension CoreDataPlusError {
   }
 
   /// A fetch operation expecting only one object failed.
-  static func fetchExpectingOneObjectFailed(file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> CoreDataPlusError {
-    return .init(errorCode: ErrorCode.fetchExpectingOneObjectFailed.rawValue,
+  static func fetchExpectingOnlyOneObjectFailed(file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> CoreDataPlusError {
+    return .init(errorCode: ErrorCode.fetchExpectingOnlyOneObjectFailed.rawValue,
                  message: "Returned multiple objects, expected max 1.",
                  underlyingError: nil,
                  file: file,

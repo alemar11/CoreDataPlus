@@ -510,7 +510,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusTestCase {
 
     } catch {
       XCTAssertTrue(error is CoreDataPlusError)
-      if let coreDataPlusError = error as? CoreDataPlusError, coreDataPlusError.errorCode == CoreDataPlusError.ErrorCode.fetchExpectingOneObjectFailed.rawValue {
+      if let coreDataPlusError = error as? CoreDataPlusError, coreDataPlusError.errorCode == CoreDataPlusError.ErrorCode.fetchExpectingOnlyOneObjectFailed.rawValue {
         // do nothing
       } else {
         XCTFail("Expected an error of type CoreDataPlusError.fetchExpectingOneObjectFailed")

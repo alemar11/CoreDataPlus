@@ -2,6 +2,7 @@
 
 ### 2.1.0
 
+- Removed `ThredSafeAccessible` protocol.
 - A new shiny `CoreDataPlusError`.
 - `Entity Observer` now can listen to changes happening on subentities. 
 
