@@ -25,7 +25,7 @@ import Foundation
 import CoreData
 
 // TODO: work in progress
-public class ObservedManagedObject<T: NSManagedObject> {
+public class ManagedObjectObserver<T: NSManagedObject> {
   public let observedObject: T
   private let observedEvent: ObservedEvent
   private let handler: (ManagedObjectChange, ObservedEvent) -> Void
@@ -72,12 +72,37 @@ public class ObservedManagedObject<T: NSManagedObject> {
   }
 }
 
-public extension ObservedManagedObject {
+public extension ManagedObjectObserver {
   enum ManagedObjectChange {
     case deleted
     case inserted
     case invalidated
     case refreshed
     case updated
+  }
+}
+
+public extension NSFetchRequestResult where Self: NSManagedObject {
+  // https://cocoacasts.com/three-common-core-data-mistakes-to-avoid
+  /**
+   The first method, object(with:), returns a managed object that corresponds to the NSManagedObjectID instance. If the managed object context does not have a managed object for that object identifier, it asks the persistent store coordinator. This method always returns a managed object.
+
+   Know that object(with:) throws an exception if no managed object can be found for that object identifier. For example, if the application deleted the record corresponding with the object identifier, Core Data is unable to hand your application the corresponding record. The result is an exception.
+
+   The existingObject(with:) method behaves in a similar fashion. The main difference is that the method throws an error if it cannot fetch the managed object corresponding with the object identifier.
+
+   The third method, registeredObject(for:), only returns a managed object if the record you are asking for is already registered with the managed object context. In other words, the return value is of type optional NSManagedObject?. The managed object context does not fetch the corresponding record from the persistent store if it cannot find it.
+
+   The object identifier of a record is similar, but not identical, to the primary key of a database record. It uniquely identifies the record and enables your application to fetch a particular record regardless of what thread the operation is performed on.
+  **/
+
+
+  /// Accesses `self` in another context.
+  func `in`(_ context: NSManagedObjectContext) -> Self {
+    let _object = try! context.existingObject(with: objectID)
+    guard let object = context.object(with: objectID) as? Self else {
+      fatalError("Cannot find object '\(self)' in context '\(context)'.")
+    }
+    return object
   }
 }

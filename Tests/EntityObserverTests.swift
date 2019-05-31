@@ -608,6 +608,8 @@ final class EntityObserverTests: CoreDataPlusTestCase {
     sportCar3.model = "GranTurismo MC"
     sportCar3.numberPlate = "202"
 
+    car.numberPlate = "11111" // This is ignored because the observed entity is SportCar
+
     try context.save()
     waitForExpectations(timeout: 2)
   }

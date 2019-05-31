@@ -35,10 +35,10 @@
 		230C087C21417E1900A1B6CB /* CoreDataMigrationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230C087B21417E1900A1B6CB /* CoreDataMigrationsTests.swift */; };
 		230C087D21417E1900A1B6CB /* CoreDataMigrationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230C087B21417E1900A1B6CB /* CoreDataMigrationsTests.swift */; };
 		230C087E21417E1900A1B6CB /* CoreDataMigrationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230C087B21417E1900A1B6CB /* CoreDataMigrationsTests.swift */; };
-		230CD4A822A02C2F00CA1A0A /* ObservedManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230CD4A722A02C2F00CA1A0A /* ObservedManagedObject.swift */; };
-		230CD4A922A02E9C00CA1A0A /* ObservedManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230CD4A722A02C2F00CA1A0A /* ObservedManagedObject.swift */; };
-		230CD4AA22A02E9C00CA1A0A /* ObservedManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230CD4A722A02C2F00CA1A0A /* ObservedManagedObject.swift */; };
-		230CD4AB22A02E9C00CA1A0A /* ObservedManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230CD4A722A02C2F00CA1A0A /* ObservedManagedObject.swift */; };
+		230CD4A822A02C2F00CA1A0A /* ManagedObjectObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230CD4A722A02C2F00CA1A0A /* ManagedObjectObserver.swift */; };
+		230CD4A922A02E9C00CA1A0A /* ManagedObjectObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230CD4A722A02C2F00CA1A0A /* ManagedObjectObserver.swift */; };
+		230CD4AA22A02E9C00CA1A0A /* ManagedObjectObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230CD4A722A02C2F00CA1A0A /* ManagedObjectObserver.swift */; };
+		230CD4AB22A02E9C00CA1A0A /* ManagedObjectObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230CD4A722A02C2F00CA1A0A /* ManagedObjectObserver.swift */; };
 		230CD4AD22A032D400CA1A0A /* ObservedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230CD4AC22A032D400CA1A0A /* ObservedEvent.swift */; };
 		230CD4AE22A032D400CA1A0A /* ObservedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230CD4AC22A032D400CA1A0A /* ObservedEvent.swift */; };
 		230CD4AF22A032D400CA1A0A /* ObservedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230CD4AC22A032D400CA1A0A /* ObservedEvent.swift */; };
@@ -242,7 +242,7 @@
 /* Begin PBXFileReference section */
 		230C087A214179D400A1B6CB /* SampleModel2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel2.xcdatamodel; sourceTree = "<group>"; };
 		230C087B21417E1900A1B6CB /* CoreDataMigrationsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataMigrationsTests.swift; sourceTree = "<group>"; };
-		230CD4A722A02C2F00CA1A0A /* ObservedManagedObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservedManagedObject.swift; sourceTree = "<group>"; };
+		230CD4A722A02C2F00CA1A0A /* ManagedObjectObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectObserver.swift; sourceTree = "<group>"; };
 		230CD4AC22A032D400CA1A0A /* ObservedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservedEvent.swift; sourceTree = "<group>"; };
 		231A8BAC2159130A00254816 /* CoreDataMigrationSep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataMigrationSep.swift; sourceTree = "<group>"; };
 		231A8BAD2159130A00254816 /* CoreDataMigration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataMigration.swift; sourceTree = "<group>"; };
@@ -472,7 +472,7 @@
 				237EF68B1FA4851800B54A7A /* ProcessInfo+Utils.swift */,
 				23A35D522103D0EF00388BEA /* ThredSafeAccessible.swift */,
 				23C9D942214663540050244E /* NSPersistentStoreCoordinator+Utils.swift */,
-				230CD4A722A02C2F00CA1A0A /* ObservedManagedObject.swift */,
+				230CD4A722A02C2F00CA1A0A /* ManagedObjectObserver.swift */,
 				230CD4AC22A032D400CA1A0A /* ObservedEvent.swift */,
 			);
 			path = Sources;
@@ -874,7 +874,7 @@
 				231A8BB82159130A00254816 /* CoreDataModelVersion.swift in Sources */,
 				236350BB1F95F11C00B3A16A /* NSManagedObject+Utils.swift in Sources */,
 				236350C01F95F11C00B3A16A /* NSFetchRequest+Utils.swift in Sources */,
-				230CD4A922A02E9C00CA1A0A /* ObservedManagedObject.swift in Sources */,
+				230CD4A922A02E9C00CA1A0A /* ManagedObjectObserver.swift in Sources */,
 				236CBA342106477E00FAE00D /* NSBatchUpdateResult+Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -905,7 +905,7 @@
 				231A8BB92159130A00254816 /* CoreDataModelVersion.swift in Sources */,
 				236350C61F95F11C00B3A16A /* NSManagedObject+Utils.swift in Sources */,
 				236350CB1F95F11C00B3A16A /* NSFetchRequest+Utils.swift in Sources */,
-				230CD4AA22A02E9C00CA1A0A /* ObservedManagedObject.swift in Sources */,
+				230CD4AA22A02E9C00CA1A0A /* ManagedObjectObserver.swift in Sources */,
 				236CBA352106477E00FAE00D /* NSBatchUpdateResult+Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -936,7 +936,7 @@
 				231A8BBB215913E500254816 /* CoreDataModelVersion.swift in Sources */,
 				236350D11F95F11D00B3A16A /* NSManagedObject+Utils.swift in Sources */,
 				236350D61F95F11D00B3A16A /* NSFetchRequest+Utils.swift in Sources */,
-				230CD4AB22A02E9C00CA1A0A /* ObservedManagedObject.swift in Sources */,
+				230CD4AB22A02E9C00CA1A0A /* ManagedObjectObserver.swift in Sources */,
 				236CBA362106477E00FAE00D /* NSBatchUpdateResult+Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -967,7 +967,7 @@
 				231A8BB72159130A00254816 /* CoreDataModelVersion.swift in Sources */,
 				23B5809C1F94FFF700A365C0 /* Collection+CoreData.swift in Sources */,
 				23B580961F94FFF700A365C0 /* NSManagedObject+UpdateTimestampable.swift in Sources */,
-				230CD4A822A02C2F00CA1A0A /* ObservedManagedObject.swift in Sources */,
+				230CD4A822A02C2F00CA1A0A /* ManagedObjectObserver.swift in Sources */,
 				236CBA332106477E00FAE00D /* NSBatchUpdateResult+Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
