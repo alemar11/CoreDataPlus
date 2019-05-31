@@ -614,4 +614,76 @@ final class EntityObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
+  func testMixChangesOnUpdateAndOnSaveInSubEntities() throws {
+    let context = container.viewContext
+    let observedEvent = ObservedEvent.all
+    let expectation1 = expectation(description: "\(#function)\(#line)")
+    let expectation2 = expectation(description: "\(#function)\(#line)")
+
+    let sportCar1 = SportCar(context: context)
+    sportCar1.maker = "McLaren"
+    sportCar1.model = "570GT"
+    sportCar1.numberPlate = "203"
+
+    let sportCar2 = SportCar(context: context)
+    sportCar2.maker = "Lamborghini "
+    sportCar2.model = "Aventador LP750-4"
+    sportCar2.numberPlate = "204"
+
+    let car = Car(context: context)
+    car.maker = "FIAT"
+    car.model = "Panda"
+    car.numberPlate = "1"
+
+    try context.save()
+
+    let observer = EntityObserver<Car>(context: context, event: observedEvent, observeSubEntities: true) { (change, event) in
+      XCTAssertNotEqual(observedEvent, event)
+      if event == .change {
+        XCTAssertEqual(change.inserted.count, 1)
+        XCTAssertEqual(change.deleted.count, 1)
+
+        XCTAssertEqual(change.refreshed.count, 1)
+        XCTAssertEqual(change.updated.count, 2)
+
+        XCTAssertTrue(change.invalidated.isEmpty)
+        XCTAssertTrue(change.invalidatedAll.isEmpty)
+        expectation1.fulfill()
+
+      } else if event == .save {
+        XCTAssertEqual(change.inserted.count, 1)
+        XCTAssertEqual(change.deleted.count, 1)
+
+        XCTAssertEqual(change.refreshed.count, 0)
+        XCTAssertEqual(change.updated.count, 2)
+
+        XCTAssertTrue(change.invalidated.isEmpty)
+        XCTAssertTrue(change.invalidatedAll.isEmpty)
+        expectation2.fulfill()
+      } else {
+        XCTFail("The observed event doesn't exists.")
+      }
+
+    }
+    XCTAssertEqual(observer.event, observedEvent)
+
+    // Update sportCar1 and refreshed with merge
+    // Delete sportCar2
+    // Insert SportCar3
+    // Update car
+
+    sportCar1.numberPlate! += "Updated"
+    sportCar1.refresh()
+    context.delete(sportCar2)
+    let sportCar3 = SportCar(context: context)
+    sportCar3.maker = "Maserati"
+    sportCar3.model = "GranTurismo MC"
+    sportCar3.numberPlate = "202"
+
+    car.numberPlate = "11111"
+
+    try context.save()
+    waitForExpectations(timeout: 2)
+  }
+
 }

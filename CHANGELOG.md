@@ -1,5 +1,13 @@
 # Changelog
 
+### 2.1.0
+
+- `Entity Observer` now can listen to changes happening on subentities. 
+
+### 2.0.1
+
+- Minor refinements.
+
 ### 2.0.0 ⭐
 
 - CoreData is now completely migrated to **Swift 5**.

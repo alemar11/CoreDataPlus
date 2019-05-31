@@ -78,6 +78,11 @@ public class EntityObserver<T: NSManagedObject> {
 
   /// **CoreDataPlus**
   ///
+  /// If `true`, all the changes happening in the subentities will be observed.
+  public let observeSubEntities: Bool
+
+  /// **CoreDataPlus**
+  ///
   /// The observed entity.
   public lazy var observedEntity: NSEntityDescription = {
     // Attention: sometimes entity() returns nil due to a CoreData bug occurring in the Unit Test targets or when Generics are used.
@@ -104,11 +109,13 @@ public class EntityObserver<T: NSManagedObject> {
   /// - Parameters:
   ///   - context: The NSManagedContext where the changes are observed.
   ///   - event: The kind of event observed.
+  ///   - observeSubEntities: If `true`, all the changes happening in the subentities will be observed. (default: `false`)
   ///   - notificationCenter: The `NotificationCenter` listening the the `NSManagedObjectContext` notifications.
   ///   - changedHandler: The completion handler.
-  init(context: NSManagedObjectContext, event: ObservedEvent, notificationCenter: NotificationCenter = .default, changedHandler: @escaping (ManagedObjectContextChange<T>, ObservedEvent) -> Void) {
+  init(context: NSManagedObjectContext, event: ObservedEvent, observeSubEntities: Bool = false, notificationCenter: NotificationCenter = .default, changedHandler: @escaping (ManagedObjectContextChange<T>, ObservedEvent) -> Void) {
     self.context = context
     self.event = event
+    self.observeSubEntities = observeSubEntities
     self.notificationCenter = notificationCenter
     self.handler = changedHandler
 
@@ -155,7 +162,11 @@ public class EntityObserver<T: NSManagedObject> {
   private func handleChanges(in notification: NSManagedObjectContextObservable, for event: ObservedEvent) {
     context.performAndWait {
       func process(_ value: Set<NSManagedObject>) -> EntitySet {
-        return value.filter { $0.entity == observedEntity } as? EntitySet ?? []
+        if observeSubEntities {
+          return value.filter { $0.entity.topMostEntity == observedEntity } as? EntitySet ?? []
+        } else {
+          return value.filter { $0.entity == observedEntity } as? EntitySet ?? []
+        }
       }
 
       let deleted = process(notification.deletedObjects)
@@ -164,7 +175,6 @@ public class EntityObserver<T: NSManagedObject> {
       let refreshed = process(notification.refreshedObjects)
       let invalidated = process(notification.invalidatedObjects)
       let invalidatedAll = notification.invalidatedAllObjects.filter { $0.entity == observedEntity }
-
       let change = ManagedObjectContextChange(inserted: inserted, updated: updated, deleted: deleted, refreshed: refreshed, invalidated: invalidated, invalidatedAll: invalidatedAll)
 
       if !change.isEmpty() {
