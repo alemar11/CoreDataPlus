@@ -47,17 +47,17 @@ final class NSEntityDescriptionUtilsTests: CoreDataPlusTestCase {
   }
 
   func testTopMostEntity() {
-    guard Car.entity().name != nil else {
-      fatalError("Car entity should have a name.")
-    }
-
+    // Car.entity().name can be nil while running tests
+    // To avoid some random failed tests, the entity is created by looking in a context.
+    let carEntity = NSEntityDescription.entity(forEntityName: Car.entityName, in: container.viewContext)
+    
     let expensiveCar = ExpensiveSportCar()
     let topMostAncestorEntityForExpensiveCar = expensiveCar.entity.topMostEntity
-    XCTAssertTrue(topMostAncestorEntityForExpensiveCar == Car.entity(), "\(topMostAncestorEntityForExpensiveCar) should be a Car entity.")
+    XCTAssertTrue(topMostAncestorEntityForExpensiveCar == carEntity, "\(topMostAncestorEntityForExpensiveCar) should be a Car entity.")
 
     let car = Car()
     let topMostAncestorEntity = car.entity.topMostEntity
-    XCTAssertTrue(topMostAncestorEntity == Car.entity(), "\(topMostAncestorEntity) should be a Car entity.")
+    XCTAssertTrue(topMostAncestorEntity == carEntity, "\(topMostAncestorEntity) should be a Car entity.")
   }
 
   func testCommonEntityAncestor() {
