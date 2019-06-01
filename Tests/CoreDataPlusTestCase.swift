@@ -29,17 +29,17 @@ let model = SampleModelVersion.version1.managedObjectModel()
 
 class CoreDataPlusTestCase: XCTestCase {
   var container: NSPersistentContainer!
-  
+
   override func setUp() {
     super.setUp()
-    
+
     container = NSPersistentContainer(name: "SampleModel", managedObjectModel: model)
     container.persistentStoreDescriptions[0].url = URL(fileURLWithPath: "/dev/null")
     container.loadPersistentStores { (description, error) in
       XCTAssertNil(error)
     }
   }
-  
+
   override func tearDown() {
     container = nil
     super.tearDown()

@@ -50,7 +50,7 @@ final class NSEntityDescriptionUtilsTests: CoreDataPlusTestCase {
     // Car.entity().name can be nil while running tests
     // To avoid some random failed tests, the entity is created by looking in a context.
     let carEntity = NSEntityDescription.entity(forEntityName: Car.entityName, in: container.viewContext)
-    
+
     let expensiveCar = ExpensiveSportCar()
     let topMostAncestorEntityForExpensiveCar = expensiveCar.entity.topMostEntity
     XCTAssertTrue(topMostAncestorEntityForExpensiveCar == carEntity, "\(topMostAncestorEntityForExpensiveCar) should be a Car entity.")

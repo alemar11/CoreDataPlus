@@ -27,13 +27,13 @@ import CoreData
 ///
 /// A `Notification` involving the `NSManagedObjectContext`.
 /// - Note: Since these notifications are received only when a NSManagedObject is changed manually, they aren't triggered when executing *NSBatchUpdateRequest*/*NSBatchDeleteRequest*.
-public protocol NSManagedObjectContextNotification {
+public protocol ManagedObjectContextNotification {
   var notification: Notification { get }
   init(notification: Notification)
   var managedObjectContext: NSManagedObjectContext { get }
 }
 
-public extension NSManagedObjectContextNotification {
+public extension ManagedObjectContextNotification {
   /// **CoreDataPlus**
   ///
   /// Returns the notification's `NSManagedObjectContext`.
@@ -68,7 +68,7 @@ public extension NSManagedObjectContextNotification {
 /// **CoreDataPlus**
 ///
 /// Types conforming to this protocol contains all the `NSManagedObjectContext` changes contained by a notification.
-public protocol NSManagedObjectContextObservable: NSManagedObjectContextNotification {
+public protocol ManagedObjectContextObservable: ManagedObjectContextNotification {
   /// **CoreDataPlus**
   ///
   /// Returns a `Set` of objects that were inserted into the context.
@@ -100,7 +100,7 @@ public protocol NSManagedObjectContextObservable: NSManagedObjectContextNotifica
   var invalidatedAllObjects: Set<NSManagedObjectID> { get }
 }
 
-extension NSManagedObjectContextObservable {
+extension ManagedObjectContextObservable {
   /// **CoreDataPlus**
   ///
   /// Returns a `Set` of objects that were inserted into the context.
@@ -155,7 +155,7 @@ extension NSManagedObjectContextObservable {
 /// **CoreDataPlus**
 ///
 /// A type safe `NSManagedObjectContextDidSave` notification.
-public struct ContextDidSaveNotification: NSManagedObjectContextObservable {
+public struct ManagedObjectContextDidSaveNotification: ManagedObjectContextObservable {
   public let notification: Notification
 
   public init(notification: Notification) {
@@ -167,7 +167,7 @@ public struct ContextDidSaveNotification: NSManagedObjectContextObservable {
   }
 }
 
-extension ContextDidSaveNotification: CustomDebugStringConvertible {
+extension ManagedObjectContextDidSaveNotification: CustomDebugStringConvertible {
   /// A textual representation of a `ContextDidSaveNotification`, suitable for debugging.
   public var debugDescription: String {
     var components = [notification.name.rawValue]
@@ -191,7 +191,7 @@ extension ContextDidSaveNotification: CustomDebugStringConvertible {
 /// **CoreDataPlus**
 ///
 /// A type safe `NSManagedObjectContextWillSave` notification.
-public struct ContextWillSaveNotification: NSManagedObjectContextNotification {
+public struct ManagedObjectContextWillSaveNotification: ManagedObjectContextNotification {
   public let notification: Notification
 
   public init(notification: Notification) {
@@ -208,7 +208,7 @@ public struct ContextWillSaveNotification: NSManagedObjectContextNotification {
 /// **CoreDataPlus**
 ///
 /// A type safe `NSManagedObjectContextObjectsDidChange` notification.
-public struct ObjectsDidChangeNotification: NSManagedObjectContextObservable {
+public struct ManagedObjectContextObjectsDidChangeNotification: ManagedObjectContextObservable {
   public let notification: Notification
 
   public init(notification: Notification) {
@@ -221,7 +221,7 @@ public struct ObjectsDidChangeNotification: NSManagedObjectContextObservable {
   }
 }
 
-extension ObjectsDidChangeNotification: CustomDebugStringConvertible {
+extension ManagedObjectContextObjectsDidChangeNotification: CustomDebugStringConvertible {
   public var debugDescription: String {
     var components = [notification.name.rawValue]
     components.append(managedObjectContext.description)
@@ -258,9 +258,9 @@ extension NSManagedObjectContext {
   /// - Returns: An opaque object to act as the observer. This must be sent to the `NotificationCenter`'s `removeObserver()`.
   public func addContextDidSaveNotificationObserver(notificationCenter: NotificationCenter = .default,
                                                     queue: OperationQueue? = nil,
-                                                    _ handler: @escaping (ContextDidSaveNotification) -> Void) -> NSObjectProtocol {
+                                                    _ handler: @escaping (ManagedObjectContextDidSaveNotification) -> Void) -> NSObjectProtocol {
     return notificationCenter.addObserver(forName: .NSManagedObjectContextDidSave, object: self, queue: nil) { notification in
-      let didSaveNotification = ContextDidSaveNotification(notification: notification)
+      let didSaveNotification = ManagedObjectContextDidSaveNotification(notification: notification)
       handler(didSaveNotification)
     }
   }
@@ -276,9 +276,9 @@ extension NSManagedObjectContext {
   /// - Returns: An opaque object to act as the observer. This must be sent to the `NotificationCenter`'s `removeObserver()`.
   public func addContextWillSaveNotificationObserver(notificationCenter: NotificationCenter = .default,
                                                      queue: OperationQueue? = nil,
-                                                     _ handler: @escaping (ContextWillSaveNotification) -> Void) -> NSObjectProtocol {
+                                                     _ handler: @escaping (ManagedObjectContextWillSaveNotification) -> Void) -> NSObjectProtocol {
     return notificationCenter.addObserver(forName: .NSManagedObjectContextWillSave, object: self, queue: queue) { notification in
-      let willSaveNotification = ContextWillSaveNotification(notification: notification)
+      let willSaveNotification = ManagedObjectContextWillSaveNotification(notification: notification)
       handler(willSaveNotification)
     }
   }
@@ -294,9 +294,9 @@ extension NSManagedObjectContext {
   /// - Returns: An opaque object to act as the observer. This must be sent to the `NotificationCenter`'s `removeObserver()`.
   public func addObjectsDidChangeNotificationObserver(notificationCenter: NotificationCenter = .default,
                                                       queue: OperationQueue? = nil,
-                                                      _ handler: @escaping (ObjectsDidChangeNotification) -> Void) -> NSObjectProtocol {
+                                                      _ handler: @escaping (ManagedObjectContextObjectsDidChangeNotification) -> Void) -> NSObjectProtocol {
     return notificationCenter.addObserver(forName: .NSManagedObjectContextObjectsDidChange, object: self, queue: queue) { notification in
-      let didChangeNotification = ObjectsDidChangeNotification(notification: notification)
+      let didChangeNotification = ManagedObjectContextObjectsDidChangeNotification(notification: notification)
       handler(didChangeNotification)
     }
   }
@@ -310,7 +310,7 @@ extension NSManagedObjectContext {
   /// - Parameters:
   ///   - notification: An instance of an `NSManagedObjectContextDidSave` notification posted by another context.
   ///   - completion: The block to be executed after the merge completes.
-  public func performMergeChanges(from notification: ContextDidSaveNotification, completion: @escaping () -> Void = {}) {
+  public func performMergeChanges(from notification: ManagedObjectContextDidSaveNotification, completion: @escaping () -> Void = {}) {
     perform {
       self.mergeChanges(fromContextDidSave: notification.notification)
       completion()
@@ -326,7 +326,7 @@ extension NSManagedObjectContext {
   /// - Parameters:
   ///   - notification: An instance of an `NSManagedObjectContextDidSave` notification posted by another context.
   ///   - completion: The block to be executed after the merge completes.
-  public func performAndWaitMergeChanges(from notification: ContextDidSaveNotification) {
+  public func performAndWaitMergeChanges(from notification: ManagedObjectContextDidSaveNotification) {
     performAndWait {
       self.mergeChanges(fromContextDidSave: notification.notification)
     }

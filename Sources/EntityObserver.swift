@@ -164,7 +164,7 @@ public class EntityObserver<T: NSManagedObject> {
   }
 
   /// Processes the incoming notification.
-  private func handleChanges(in notification: NSManagedObjectContextObservable, for event: ObservedEvent) {
+  private func handleChanges(in notification: ManagedObjectContextObservable, for event: ObservedEvent) {
     context.performAndWait {
       func process(_ value: Set<NSManagedObject>) -> EntitySet {
         if observeSubEntities {
@@ -180,7 +180,12 @@ public class EntityObserver<T: NSManagedObject> {
       let refreshed = process(notification.refreshedObjects)
       let invalidated = process(notification.invalidatedObjects)
       let invalidatedAll = notification.invalidatedAllObjects.filter { $0.entity == observedEntity }
-      let change = ManagedObjectContextChange(inserted: inserted, updated: updated, deleted: deleted, refreshed: refreshed, invalidated: invalidated, invalidatedAll: invalidatedAll)
+      let change = ManagedObjectContextChange(inserted: inserted,
+                                              updated: updated,
+                                              deleted: deleted,
+                                              refreshed: refreshed,
+                                              invalidated: invalidated,
+                                              invalidatedAll: invalidatedAll)
 
       if !change.isEmpty() {
         handler(change, event)
