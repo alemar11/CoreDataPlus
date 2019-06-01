@@ -41,15 +41,15 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
 
     let notificationCenter = NotificationCenter.default
 
-    let token1 = context.addContextWillSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token1 = context.addManagedObjectContextWillSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       expectation1.fulfill()
     }
 
-    let token2 = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token2 = context.addManagedObjectContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       expectation2.fulfill()
     }
 
-    let token3 = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token3 = context.addManagedObjectObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
       expectation3.fulfill()
     }
 
@@ -71,7 +71,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
 
     let notificationCenter = NotificationCenter.default
 
-    let token1 = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token1 = context.addManagedObjectObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
       XCTAssertTrue(!notification.invalidatedAllObjects.isEmpty)
       XCTAssertEqual(notification.invalidatedAllObjects.count, 2)
       XCTAssertEqual(notification.invalidatedObjects.count, 0)
@@ -106,15 +106,15 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
 
     let notificationCenter = NotificationCenter.default
 
-    let token1 = context.addContextWillSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token1 = context.addManagedObjectContextWillSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       expectation1.fulfill()
     }
 
-    let token2 = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token2 = context.addManagedObjectContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       expectation2.fulfill()
     }
 
-    let token3 = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token3 = context.addManagedObjectObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
       expectation3.fulfill()
     }
 
@@ -142,15 +142,15 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
 
     let notificationCenter = NotificationCenter.default
 
-    let token1 = context.addContextWillSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token1 = context.addManagedObjectContextWillSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       expectation1.fulfill()
     }
 
-    let token2 = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token2 = context.addManagedObjectContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       expectation2.fulfill()
     }
 
-    let token3 = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token3 = context.addManagedObjectObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
       expectation3.fulfill()
     }
 
@@ -183,15 +183,15 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
 
     let notificationCenter = NotificationCenter.default
 
-    let token1 = context.addContextWillSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token1 = context.addManagedObjectContextWillSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       expectation1.fulfill()
     }
 
-    let token2 = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token2 = context.addManagedObjectContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       expectation2.fulfill()
     }
 
-    let token3 = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token3 = context.addManagedObjectObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
       expectation3.fulfill()
     }
 
@@ -269,12 +269,12 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
     var didSaveInsertedObjects = 0
     var didSaveUpdatedObjects = 0
 
-    let token1 = context.addContextWillSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token1 = context.addManagedObjectContextWillSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       XCTAssertEqual(notification.managedObjectContext, context)
       expectation1.fulfill()
     }
 
-    let token2 = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token2 = context.addManagedObjectContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       XCTAssertEqual(notification.managedObjectContext, context)
 
       debugPrint(notification)
@@ -285,7 +285,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
 
     }
 
-    let token3 = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token3 = context.addManagedObjectObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
       XCTAssertEqual(notification.managedObjectContext, context)
 
       debugPrint(notification)
@@ -387,11 +387,11 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
 
     let notificationCenter = NotificationCenter.default
 
-    let token1 = anotherContext.addContextWillSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token1 = anotherContext.addManagedObjectContextWillSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       expectation1.fulfill()
     }
 
-    let token2 = anotherContext.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token2 = anotherContext.addManagedObjectContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       XCTAssertEqual(notification.updatedObjects.count, 2)
       XCTAssertEqual(notification.insertedObjects.count, 1)
 
@@ -403,7 +403,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
       expectation2.fulfill()
     }
 
-    let token3 = anotherContext.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token3 = anotherContext.addManagedObjectObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
       XCTAssertEqual(notification.refreshedObjects.count, 0)
       XCTAssertEqual(notification.updatedObjects.count, 2)
       XCTAssertEqual(notification.insertedObjects.count, 1)
@@ -420,7 +420,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
 
     try context.save()
 
-    let token4 = context.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token4 = context.addManagedObjectObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
       // [2] - updates in "anotherContext", in "context", are represented as refreshed objects, inserts are represented as inserts in both contexts.
       XCTAssertEqual(notification.refreshedObjects.count, 2)
       XCTAssertEqual(notification.updatedObjects.count, 0)
@@ -428,7 +428,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
       expectation4.fulfill()
     }
 
-    let token5 = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token5 = context.addManagedObjectContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       // Before saving, we didn't changed anything: we don't expect nothing from this notification.
       XCTAssertEqual(notification.insertedObjects.count, 0)
       XCTAssertEqual(notification.updatedObjects.count, 0)
@@ -477,18 +477,18 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
 
     let notificationCenter = NotificationCenter.default
 
-    let token1 = anotherContext.addContextWillSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token1 = anotherContext.addManagedObjectContextWillSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       expectation1.fulfill()
     }
 
-    let token2 = anotherContext.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token2 = anotherContext.addManagedObjectContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       context.performMergeChanges(from: notification, completion: {
         expectation2.fulfill()
       })
 
     }
 
-    let token3 = anotherContext.addObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token3 = anotherContext.addManagedObjectObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { notification in
       expectation3.fulfill()
     }
 
@@ -560,7 +560,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
     let notificationCenter = NotificationCenter.default
     let anotherContext = container.viewContext.newBackgroundContext(asChildContext: false)
 
-    let token1 = anotherContext.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token1 = anotherContext.addManagedObjectContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       XCTAssertEqual(notification.insertedObjects.count, 2) // 1 person and 1 car
       XCTAssertEqual(notification.updatedObjects.count, 1) // 1 person
 
@@ -635,7 +635,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
     let expectation2 = expectation(description: "\(#function)\(#line)")
     let notificationCenter = NotificationCenter.default
 
-    let token1 = context.addContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
+    let token1 = context.addManagedObjectContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { notification in
       XCTAssertEqual(notification.insertedObjects.count, 0)
       XCTAssertEqual(notification.updatedObjects.count, 0)
       XCTAssertEqual(notification.deletedObjects.count, 0)
@@ -644,7 +644,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
       expectation1.fulfill()
     }
 
-    let token2 = context.addObjectsDidChangeNotificationObserver { notification in
+    let token2 = context.addManagedObjectObjectsDidChangeNotificationObserver { notification in
       XCTAssertFalse(notification.invalidatedAllObjects.isEmpty)
       expectation2.fulfill()
     }
