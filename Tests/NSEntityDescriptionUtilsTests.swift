@@ -25,6 +25,15 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
+public extension NSManagedObject {
+  convenience init(usingContext context: NSManagedObjectContext) {
+    let name = String(describing: type(of: self))
+    let entity = NSEntityDescription.entity(forEntityName: name, in: context)!
+    self.init(entity: entity, insertInto: context)
+  }
+}
+
+
 final class NSEntityDescriptionUtilsTests: CoreDataPlusTestCase {
 
   func testEntity() {
@@ -64,11 +73,11 @@ final class NSEntityDescriptionUtilsTests: CoreDataPlusTestCase {
       fatalError("\(carEntity) should have a name.")
     }
 
-    let expensiveCar = ExpensiveSportCar()
+    let expensiveCar = ExpensiveSportCar(usingContext: container.viewContext)
     let topMostAncestorEntityForExpensiveCar = expensiveCar.entity.topMostEntity
     XCTAssertTrue(topMostAncestorEntityForExpensiveCar == carEntity, "\(topMostAncestorEntityForExpensiveCar) should be a Car entity \(String(describing: topMostAncestorEntityForExpensiveCar.name)).")
 
-    let car = Car()
+    let car = Car(usingContext: container.viewContext)
     let topMostAncestorEntity = car.entity.topMostEntity
     XCTAssertTrue(topMostAncestorEntity == carEntity, "\(topMostAncestorEntity) should be a Car entity.")
   }
