@@ -47,11 +47,19 @@ final class NSEntityDescriptionUtilsTests: CoreDataPlusTestCase {
   }
 
   func testTopMostEntity() {
+    guard let model = container.viewContext.persistentStoreCoordinator?.managedObjectModel else {
+      fatalError("Missing Model")
+    }
+    
+    print(model.entitiesByName.keys)
+    
+    
     // Car.entity().name can be nil while running tests
     // To avoid some random failed tests, the entity is created by looking in a context.
     guard let carEntity = NSEntityDescription.entity(forEntityName: Car.entityName, in: container.viewContext) else {
       fatalError("Car Entity Not Found.")
     }
+    
     guard let _ = carEntity.name else {
       fatalError("\(carEntity) should have a name.")
     }
