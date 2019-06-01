@@ -82,7 +82,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
   }
   
   func testChangesUsingBackgroundContext() {
-    let expectation = self.expectation(description: "(#function)(#file)")
+    let expectation = self.expectation(description: "\(#function)\(#file)")
     let context = container.newBackgroundContext()
     let event = ObservedEvent.change
     let observer = ManagedObjectContextChangesObserver(kind: .allContexts, event: event) { (change, event, observedContext) in
@@ -110,7 +110,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
   }
   
   func testPerformChangesUsingBackgroundContext() {
-    let expectation = self.expectation(description: "(#function)(#file)")
+    let expectation = self.expectation(description: "\(#function)\(#file)")
     let context = container.newBackgroundContext()
     let event = ObservedEvent.change
     let observer = ManagedObjectContextChangesObserver(kind: .allContexts, event: event) { (change, event, observedContext) in
@@ -138,7 +138,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
   }
   
   func testChangesUsingBackgroundContextAndManyChanges() {
-    let expectation = self.expectation(description: "(#function)(#file)")
+    let expectation = self.expectation(description: "\(#function)\(#file)")
     let context = container.newBackgroundContext()
     let event = ObservedEvent.change
     let observer = ManagedObjectContextChangesObserver(kind: .allContexts, event: event) { (change, event, observedContext) in
@@ -175,7 +175,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
   }
   
   func testChangesUsingBackgroundContextWithoutChanges() {
-    let expectation = self.expectation(description: "(#function)(#file)")
+    let expectation = self.expectation(description: "\(#function)\(#file)")
     expectation.isInverted = true
     let context = container.newBackgroundContext()
     let event = ObservedEvent.change
@@ -195,7 +195,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
   func testChangesUsingPrivateContext() throws {
     let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
     context.persistentStoreCoordinator = container.persistentStoreCoordinator
-    let expectation = self.expectation(description: "(#function)(#file)")
+    let expectation = self.expectation(description: "\(#function)\(#file)")
     let event = ObservedEvent.change
     let observer = ManagedObjectContextChangesObserver(kind: .allContexts, event: event) { (change, event, observedContext) in
       XCTAssertTrue(observedContext === context)
@@ -224,7 +224,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
   func testChangesUsingMainContext() throws {
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     context.persistentStoreCoordinator = container.persistentStoreCoordinator
-    let expectation = self.expectation(description: "(#function)(#file)")
+    let expectation = self.expectation(description: "\(#function)\(#file)")
     let event = ObservedEvent.change
     
     let observer = ManagedObjectContextChangesObserver(kind: .allContexts, event: event) { (change, event, observedContext) in
