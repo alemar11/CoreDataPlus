@@ -731,6 +731,41 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusTestCase {
     let newFCACount = try Car.count(in: context) { $0.predicate = fcaPredicate }
     XCTAssertEqual(newFCACount, fiatCount)
   }
+  
+  // MARK: - Thread Safe Access
+  
+  func testManagedObjectThreadSafeAccess() {
+    let context = container.viewContext.newBackgroundContext()
+    let car = context.performAndWait { return Car(context: $0) }
+    car.safeAccess { XCTAssertEqual($0.managedObjectContext, context) }
+  }
+  
+  func testFetchedResultsControllerThreadSafeAccess() throws {
+    let context = container.viewContext.newBackgroundContext()
+    try context.performAndWait { _ in
+      context.fillWithSampleData()
+      try context.save()
+    }
+    
+    let request = Car.newFetchRequest()
+    request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Car.numberPlate), ascending: true)]
+    let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+    try controller.performFetch()
+    
+    let cars = controller.fetchedObjects!
+    let firstCar = controller.object(at: IndexPath(item: 0, section: 0)) as Car
+    
+    firstCar.safeAccess {
+      XCTAssertEqual(controller.managedObjectContext, $0.managedObjectContext)
+    }
+    
+    for car in cars {
+      _ = car.safeAccess { car -> String in
+        XCTAssertEqual(controller.managedObjectContext, context)
+        return car.numberPlate
+      }
+    }
+  }
 
   // MARK: - Group By
 
