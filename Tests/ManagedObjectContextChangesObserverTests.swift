@@ -173,7 +173,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     
     waitForExpectations(timeout: 5)
   }
-  
+    
   func testChangesUsingBackgroundContextWithoutChanges() {
     let expectation = self.expectation(description: "\(#function)\(#file)")
     expectation.isInverted = true
@@ -181,6 +181,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     let event = ObservedEvent.change
     let observer = ManagedObjectContextChangesObserver(kind: .allContexts, event: event) { (change, event, observedContext) in
       // The context doesn't have any changes so the notifcation shouldn't be issued.
+      print(change)
       expectation.fulfill()
     }
     _ = observer // remove unused warning...
