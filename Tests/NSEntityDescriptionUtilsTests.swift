@@ -41,7 +41,7 @@ final class NSEntityDescriptionUtilsTests: CoreDataPlusTestCase {
   // TODO
   func testStress() {
     (1...1000).forEach { i in
-      print(i)
+      print("▶️ running test n. \(i)")
       testTopMostEntity()
     }
   }
@@ -66,7 +66,7 @@ final class NSEntityDescriptionUtilsTests: CoreDataPlusTestCase {
 
     let expensiveCar = ExpensiveSportCar()
     let topMostAncestorEntityForExpensiveCar = expensiveCar.entity.topMostEntity
-    XCTAssertTrue(topMostAncestorEntityForExpensiveCar == carEntity, "\(topMostAncestorEntityForExpensiveCar) should be a Car entity.")
+    XCTAssertTrue(topMostAncestorEntityForExpensiveCar == carEntity, "\(topMostAncestorEntityForExpensiveCar) should be a Car entity \(String(describing: topMostAncestorEntityForExpensiveCar.name)).")
 
     let car = Car()
     let topMostAncestorEntity = car.entity.topMostEntity

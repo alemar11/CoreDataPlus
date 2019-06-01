@@ -83,7 +83,6 @@ public final class ManagedObjectContextChangesObserver {
         let saveNotification = ManagedObjectContextDidSaveNotification(notification: notification)
         self?.processChanges(in: saveNotification, for: .save)
       }
-      
       tokens.append(token)
     }
   }

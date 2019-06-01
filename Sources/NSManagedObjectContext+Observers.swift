@@ -292,9 +292,9 @@ extension NSManagedObjectContext {
   ///   - queue: The operation queue to which block should be added. If you pass nil, the block is run synchronously on the posting thread.
   ///   - handler: The block to be executed when the notification triggers.
   /// - Returns: An opaque object to act as the observer. This must be sent to the `NotificationCenter`'s `removeObserver()`.
-  public func addManagedObjectObjectsDidChangeNotificationObserver(notificationCenter: NotificationCenter = .default,
-                                                                   queue: OperationQueue? = nil,
-                                                                   _ handler: @escaping (ManagedObjectContextObjectsDidChangeNotification) -> Void) -> NSObjectProtocol {
+  public func addManagedObjectContextObjectsDidChangeNotificationObserver(notificationCenter: NotificationCenter = .default,
+                                                                          queue: OperationQueue? = nil,
+                                                                          _ handler: @escaping (ManagedObjectContextObjectsDidChangeNotification) -> Void) -> NSObjectProtocol {
     return notificationCenter.addObserver(forName: .NSManagedObjectContextObjectsDidChange, object: self, queue: queue) { notification in
       let didChangeNotification = ManagedObjectContextObjectsDidChangeNotification(notification: notification)
       handler(didChangeNotification)

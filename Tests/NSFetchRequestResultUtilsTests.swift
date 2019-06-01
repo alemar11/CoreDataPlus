@@ -770,6 +770,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusTestCase {
   // MARK: - Group By
 
   // TODO: Wip
+  // TODO: read documentation on how to use processPendingChanges and UndoManager
 
   //  func testGroupBy() throws {
   //    // https://developer.apple.com/documentation/coredata/nsfetchrequest/1506191-propertiestogroupby
