@@ -38,9 +38,10 @@ public struct ObservedEvent: OptionSet {
   /// Notifications will be sent upon `NSManagedObjectContext` being changed.
   /// - Note: The change notification is sent in NSManagedObjectContext’s processPendingChanges method.
   ///
-  /// If the context is not on the main thread, you should call *processPendingChanges* yourself at appropriate junctures.
+  /// If the context is not on the main thread, you should call *processPendingChanges* yourself at appropriate junctures unless you call a method that uses `processPendingChanges` internally.
   ///
-  /// - Important: Some `NSManagedObjectContext`'s methods call `processPendingChanges` internally such as `save()`, `reset()`, `refreshAllObjects()` and `perform(_:)` (`performAndWait(_:)` **does not**).
+  /// - Important: Some `NSManagedObjectContext`'s methods call `processPendingChanges` internally such as `save()`, `reset()`, `refreshAllObjects()` and `perform(_:)`
+  /// (`performAndWait(_:)` **does not**).
   public static let change = ObservedEvent(rawValue: 1 << 0)
 
   /// **CoreDataPlus**

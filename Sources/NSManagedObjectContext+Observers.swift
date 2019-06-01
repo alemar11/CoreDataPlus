@@ -41,17 +41,17 @@ public extension ManagedObjectContextNotification {
     guard let context = notification.object as? NSManagedObjectContext else {
       fatalError("Invalid Notification object.")
     }
-    
+
     return context
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Returns a `Set` of objects for a given `key`.
   fileprivate func objects(forKey key: String) -> Set<NSManagedObject> {
     return (notification.userInfo?[key] as? Set<NSManagedObject>) ?? Set()
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Returns an `AnyIterator<NSManagedObject>` of objects for a given `key`.
@@ -73,27 +73,27 @@ public protocol ManagedObjectContextObservable: ManagedObjectContextNotification
   ///
   /// Returns a `Set` of objects that were inserted into the context.
   var insertedObjects: Set<NSManagedObject> { get }
-  
+
   /// **CoreDataPlus**
   ///
   /// Returns a `Set` of objects that were updated.
   var updatedObjects: Set<NSManagedObject> { get }
-  
+
   /// **CoreDataPlus**
   ///
   /// Returns a `Set`of objects that were marked for deletion during the previous event.
   var deletedObjects: Set<NSManagedObject> { get }
-  
+
   /// **CoreDataPlus**
   ///
   /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
   var refreshedObjects: Set<NSManagedObject> { get }
-  
+
   /// **CoreDataPlus**
   ///
   /// A `Set` of objects that were invalidated.
   var invalidatedObjects: Set<NSManagedObject> { get }
-  
+
   /// **CoreDataPlus**
   ///
   /// When all the object in the context have been invalidated, returns a `Set` containing all the invalidated objects' NSManagedObjectID.
@@ -107,21 +107,21 @@ extension ManagedObjectContextObservable {
   public var insertedObjects: Set<NSManagedObject> {
     return objects(forKey: NSInsertedObjectsKey)
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Returns a `Set` of objects that were updated.
   public var updatedObjects: Set<NSManagedObject> {
     return objects(forKey: NSUpdatedObjectsKey)
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Returns a `Set`of objects that were marked for deletion during the previous event.
   public var deletedObjects: Set<NSManagedObject> {
     return objects(forKey: NSDeletedObjectsKey)
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
@@ -129,7 +129,7 @@ extension ManagedObjectContextObservable {
     // fired only with ObjectsDidChangeNotification
     return objects(forKey: NSRefreshedObjectsKey)
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// A `Set` of objects that were invalidated.
@@ -137,7 +137,7 @@ extension ManagedObjectContextObservable {
     // fired only with ObjectsDidChangeNotification only
     return objects(forKey: NSInvalidatedObjectsKey)
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// When all the object in the context have been invalidated, returns a `Set` containing all the invalidated objects' NSManagedObjectID.
@@ -157,12 +157,12 @@ extension ManagedObjectContextObservable {
 /// A type safe `NSManagedObjectContextDidSave` notification.
 public struct ManagedObjectContextDidSaveNotification: ManagedObjectContextObservable {
   public let notification: Notification
-  
+
   public init(notification: Notification) {
     guard notification.name == .NSManagedObjectContextDidSave else {
       fatalError("Invalid NSManagedObjectContextDidSave notification object.")
     }
-    
+
     self.notification = notification
   }
 }
@@ -172,7 +172,7 @@ extension ManagedObjectContextDidSaveNotification: CustomDebugStringConvertible 
   public var debugDescription: String {
     var components = [notification.name.rawValue]
     components.append(managedObjectContext.description)
-    
+
     for (name, set) in [("inserted", insertedObjects),
                         ("updated", updatedObjects),
                         ("deleted", deletedObjects),
@@ -181,7 +181,7 @@ extension ManagedObjectContextDidSaveNotification: CustomDebugStringConvertible 
                           let all = set.map { $0.objectID.description }.joined(separator: ", ")
                           components.append("\(name): {\(all)})")
     }
-    
+
     return components.joined(separator: " ")
   }
 }
@@ -193,12 +193,12 @@ extension ManagedObjectContextDidSaveNotification: CustomDebugStringConvertible 
 /// A type safe `NSManagedObjectContextWillSave` notification.
 public struct ManagedObjectContextWillSaveNotification: ManagedObjectContextNotification {
   public let notification: Notification
-  
+
   public init(notification: Notification) {
     guard notification.name == .NSManagedObjectContextWillSave else {
       fatalError("Invalid NSManagedObjectContextWillSave notification object.")
     }
-    
+
     self.notification = notification
   }
 }
@@ -210,13 +210,13 @@ public struct ManagedObjectContextWillSaveNotification: ManagedObjectContextNoti
 /// A type safe `NSManagedObjectContextObjectsDidChange` notification.
 public struct ManagedObjectContextObjectsDidChangeNotification: ManagedObjectContextObservable {
   public let notification: Notification
-  
+
   public init(notification: Notification) {
     // Notification when objects in a context changed: the user info dictionary contains information about the objects that changed and what changed
     guard notification.name == .NSManagedObjectContextObjectsDidChange else {
       fatalError("Invalid NSManagedObjectContextObjectsDidChange notification object.")
     }
-    
+
     self.notification = notification
   }
 }
@@ -225,7 +225,7 @@ extension ManagedObjectContextObjectsDidChangeNotification: CustomDebugStringCon
   public var debugDescription: String {
     var components = [notification.name.rawValue]
     components.append(managedObjectContext.description)
-    
+
     for (name, set) in [("inserted", insertedObjects),
                         ("updated", updatedObjects),
                         ("deleted", deletedObjects),
@@ -234,12 +234,12 @@ extension ManagedObjectContextObjectsDidChangeNotification: CustomDebugStringCon
                           let all = set.map { $0.objectID.description }.joined(separator: ", ")
                           components.append("\(name): {\(all)})")
     }
-    
+
     for (name, set) in [("invalidatedAll", invalidatedAllObjects)] {
       let all = set.map { $0.description }.joined(separator: ", ")
       components.append("\(name): {\(all)})")
     }
-    
+
     return components.joined(separator: " ")
   }
 }
@@ -264,7 +264,7 @@ extension NSManagedObjectContext {
       handler(didSaveNotification)
     }
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Adds the given block to a `NotificationCenter`'s dispatch table for the will-save notifications.
@@ -282,7 +282,7 @@ extension NSManagedObjectContext {
       handler(willSaveNotification)
     }
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Adds the given block to a `NotificationCenter`'s dispatch table for the did-change notifications.
@@ -300,7 +300,7 @@ extension NSManagedObjectContext {
       handler(didChangeNotification)
     }
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Asynchronously merges the changes specified in a given notification.
@@ -316,7 +316,7 @@ extension NSManagedObjectContext {
       completion()
     }
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Synchronously merges the changes specified in a given notification.

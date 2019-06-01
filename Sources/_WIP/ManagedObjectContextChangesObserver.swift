@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2019 Tinrobots.
@@ -28,7 +28,7 @@ public final class ManagedObjectContextChangesObserver {
   public enum Kind {
     case allContexts
     case specific(context: NSManagedObjectContext)
-    
+
     var context: NSManagedObjectContext? {
       switch self {
       case .allContexts: return nil
@@ -36,14 +36,14 @@ public final class ManagedObjectContextChangesObserver {
       }
     }
   }
-  
+
   let kind: Kind
   let event: ObservedEvent
   let queue: OperationQueue?
   let notificationCenter: NotificationCenter
   private let handler: (EntityObserver<NSManagedObject>.ManagedObjectContextChange<NSManagedObject>, ObservedEvent, NSManagedObjectContext) -> Void
   private var tokens = [NSObjectProtocol]()
-  
+
   public init(kind: Kind, event: ObservedEvent, queue: OperationQueue? = nil, notificationCenter: NotificationCenter = .default, handler: @escaping Handler) {
     self.kind = kind
     self.event = event
@@ -52,22 +52,22 @@ public final class ManagedObjectContextChangesObserver {
     self.handler = handler
     setup()
   }
-  
+
   deinit {
     removeObservers()
   }
-  
+
   // MARK: - Private implementation
-  
+
   /// Removes all the observers.
   private func removeObservers() {
     tokens.forEach { token in
       notificationCenter.removeObserver(token)
     }
-    
+
     tokens.removeAll()
   }
-  
+
   /// Add the observers for the event.
   private func setup() {
     if event.contains(.change) {
@@ -77,7 +77,7 @@ public final class ManagedObjectContextChangesObserver {
       }
       tokens.append(token)
     }
-    
+
     if event.contains(.save) {
       let token = notificationCenter.addObserver(forName: .NSManagedObjectContextDidSave, object: kind.context, queue: queue) { [weak self] notification in
         let saveNotification = ManagedObjectContextDidSaveNotification(notification: notification)
@@ -86,7 +86,7 @@ public final class ManagedObjectContextChangesObserver {
       tokens.append(token)
     }
   }
-  
+
   /// Processes the incoming notification.
   private func processChanges(in notification: ManagedObjectContextObservable, for event: ObservedEvent) {
     let deleted = notification.deletedObjects
@@ -106,4 +106,3 @@ public final class ManagedObjectContextChangesObserver {
     }
   }
 }
-
