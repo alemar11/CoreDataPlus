@@ -28,7 +28,21 @@ import CoreData
 let model = SampleModelVersion.version1.managedObjectModel()
 
 final class TestPersistentContainer: NSPersistentContainer {
-  var contexts = [NSManagedObjectContext]()
+  static func makeNew() -> TestPersistentContainer {
+    /// When running parallel tests an in memory database could be shared among them resulting in unexepected results.
+    /// let url = URL(fileURLWithPath: "/dev/null")
+    /// For that reason each test uses its own database on disk.
+    let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent(UUID().uuidString)
+    let container = TestPersistentContainer(name: "SampleModel", managedObjectModel: model)
+    container.persistentStoreDescriptions[0].url = url
+    container.loadPersistentStores { (description, error) in
+      XCTAssertNil(error)
+    }
+    return container
+  }
+  
+  private(set) var contexts = [NSManagedObjectContext]()
+  
   override var viewContext: NSManagedObjectContext {
     let context = super.viewContext
     registerContext(context)
@@ -41,9 +55,37 @@ final class TestPersistentContainer: NSPersistentContainer {
     return context
   }
   
+  /// Registers a context in order to do some cleaning during the destroying phase.
+  /// It's a hack to avoid an sqlite3 bug warning when trying to destroy the NSPersistentCoordinator
   func registerContext(_ context: NSManagedObjectContext) {
     if !contexts.contains(context) {
       contexts.append(context)
+    }
+  }
+  
+  /// Destroys the database and reset all the registered contexts.
+  func destroy() throws {
+    let url = persistentStoreDescriptions[0].url!
+    // unload each store from the used context avoid the sqlite3 bug warning.
+    do {
+      let stores = persistentStoreCoordinator.persistentStores
+      for store in stores {
+        // viewContext is created even if it's not accessed
+        if !contexts.contains(viewContext) {
+          contexts.append(viewContext)
+        }
+        
+        try contexts.forEach {
+          if !($0.persistentStoreCoordinator?.persistentStores.isEmpty ?? true) {
+            try $0.persistentStoreCoordinator?.remove(store)
+          }
+        }
+        
+        contexts.removeAll()
+      }
+      try NSPersistentStoreCoordinator.destroyStore(at: url)
+    } catch {
+      fatalError("\(error) while destroying store.")
     }
   }
 }
@@ -53,29 +95,11 @@ class CoreDataPlusTestCase: XCTestCase {
   
   override func setUp() {
     super.setUp()
-    let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent(UUID().uuidString)
-    container = TestPersistentContainer(name: "SampleModel", managedObjectModel: model)
-    container.persistentStoreDescriptions[0].url = url //URL(fileURLWithPath: "/dev/null")
-    container.loadPersistentStores { (description, error) in
-      XCTAssertNil(error)
-    }
+    container = TestPersistentContainer.makeNew()
   }
-
+  
   override func tearDown() {
-    let url = container.persistentStoreDescriptions[0].url!
-    // unload each store from the used context avoid the sqlite3 bug warning.
-    do {
-      let stores = container.persistentStoreCoordinator.persistentStores
-      for store in stores {
-        container.contexts.forEach {
-          try! $0.persistentStoreCoordinator?.remove(store)
-        }
-        
-      }
-      try NSPersistentStoreCoordinator.destroyStore(at: url)
-    } catch {
-      print("\(error) while destroying store.")
-    }
+    try! container.destroy()
     container = nil
     super.tearDown()
   }
