@@ -73,7 +73,10 @@ public final class ManagedObjectContextChangesObserver {
     if event.contains(.change) {
       let token = notificationCenter.addObserver(forName: .NSManagedObjectContextObjectsDidChange, object: kind.context, queue: queue) { [weak self] notification in
         let changeNotification = ManagedObjectContextObjectsDidChangeNotification(notification: notification)
-        self?.processChanges(in: changeNotification, for: .change)
+        // this should fix: Exception was caught during Core Data change processing.  This is usually a bug within an observer of NSManagedObjectContextObjectsDidChangeNotification.
+        changeNotification.managedObjectContext.performAndWait {
+          self?.processChanges(in: changeNotification, for: .change)
+        }
       }
       tokens.append(token)
     }
@@ -81,7 +84,10 @@ public final class ManagedObjectContextChangesObserver {
     if event.contains(.save) {
       let token = notificationCenter.addObserver(forName: .NSManagedObjectContextDidSave, object: kind.context, queue: queue) { [weak self] notification in
         let saveNotification = ManagedObjectContextDidSaveNotification(notification: notification)
-        self?.processChanges(in: saveNotification, for: .save)
+        //self?.processChanges(in: saveNotification, for: .save)
+        saveNotification.managedObjectContext.performAndWait {
+          self?.processChanges(in: saveNotification, for: .save)
+        }
       }
       tokens.append(token)
     }

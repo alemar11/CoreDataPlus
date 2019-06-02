@@ -171,11 +171,12 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
 
       context.processPendingChanges()
     }
-
     waitForExpectations(timeout: 5)
   }
-
+  
   func testChangesUsingBackgroundContextWithoutChanges() {
+    // TODO: all the notifications are observed, during test in parallel the observer process notifications incoming from other tests too.
+    // Investigate this...
     let expectation = self.expectation(description: "\(#function)\(#file)")
     expectation.isInverted = true
     let context = container.newBackgroundContext()
