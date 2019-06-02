@@ -35,7 +35,6 @@ class CoreDataPlusTestCase: XCTestCase {
 
     container = NSPersistentContainer(name: "SampleModel", managedObjectModel: model)
     container.persistentStoreDescriptions[0].url = URL(fileURLWithPath: "/dev/null")
-    container.persistentStoreDescriptions[0].configuration = UUID().uuidString
     container.loadPersistentStores { (description, error) in
       XCTAssertNil(error)
     }
