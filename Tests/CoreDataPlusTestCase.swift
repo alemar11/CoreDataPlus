@@ -27,20 +27,55 @@ import CoreData
 
 let model = SampleModelVersion.version1.managedObjectModel()
 
-class CoreDataPlusTestCase: XCTestCase {
-  var container: NSPersistentContainer!
+final class TestPersistentContainer: NSPersistentContainer {
+  var contexts = [NSManagedObjectContext]()
+  override var viewContext: NSManagedObjectContext {
+    let context = super.viewContext
+    registerContext(context)
+    return context
+  }
+  
+  override func newBackgroundContext() -> NSManagedObjectContext {
+    let context = super.newBackgroundContext()
+    registerContext(context)
+    return context
+  }
+  
+  func registerContext(_ context: NSManagedObjectContext) {
+    if !contexts.contains(context) {
+      contexts.append(context)
+    }
+  }
+}
 
+class CoreDataPlusTestCase: XCTestCase {
+  var container: TestPersistentContainer!
+  
   override func setUp() {
     super.setUp()
-
-    container = NSPersistentContainer(name: "SampleModel", managedObjectModel: model)
-    container.persistentStoreDescriptions[0].url = URL(fileURLWithPath: "/dev/null")
+    let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent(UUID().uuidString)
+    container = TestPersistentContainer(name: "SampleModel", managedObjectModel: model)
+    container.persistentStoreDescriptions[0].url = url //URL(fileURLWithPath: "/dev/null")
     container.loadPersistentStores { (description, error) in
       XCTAssertNil(error)
     }
   }
 
   override func tearDown() {
+    let url = container.persistentStoreDescriptions[0].url!
+    // unload each store from the used context avoid the sqlite3 bug warning.
+    do {
+      let stores = container.persistentStoreCoordinator.persistentStores
+      for store in stores {
+        container.contexts.forEach {
+          try! $0.persistentStoreCoordinator?.remove(store)
+        }
+        
+      }
+      try NSPersistentStoreCoordinator.destroyStore(at: url)
+    } catch {
+      print("\(error) while destroying store.")
+    }
     container = nil
     super.tearDown()
   }
