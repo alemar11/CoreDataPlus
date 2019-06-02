@@ -59,6 +59,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     let expectation = self.expectation(description: "\(#function)\(#file)")
     let event = ObservedEvent.change
     let observer = ManagedObjectContextChangesObserver(kind: .allContexts, event: event) { (change, event, observedContext) in
+      print(change)
       XCTAssertTrue(observedContext === context)
       XCTAssertEqual(change.inserted.count, 1)
       XCTAssertTrue(change.deleted.isEmpty)
