@@ -53,7 +53,7 @@ public protocol DelayedDeletable: class {
 
 // MARK: - DelayedDeletable Extension
 
-extension DelayedDeletable {
+extension DelayedDeletable where Self: NSManagedObject {
   /// **CoreDataPlus**
   ///
   /// Protocol `DelayedDeletable`.
