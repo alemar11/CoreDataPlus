@@ -25,51 +25,51 @@ import CoreData
 
 /// **CoreDataPlus**
 ///
-/// An object that observes all the changes happening in a `NSManagedObjectContext` for a specific entity.
-public class EntityObserver<T: NSManagedObject> {
-  fileprivate typealias EntitySet = Set<T>
+/// Contains all the changes taking place in a `NSManagedObjectContext` for each notification.
+public struct ManagedObjectContextChange<T: NSManagedObject> {
+  /// **CoreDataPlus**
+  ///
+  /// Returns a `Set` of objects that were inserted into the context.
+  public let inserted: Set<T>
 
   /// **CoreDataPlus**
   ///
-  /// Contains all the changes taking place in a `NSManagedObjectContext` for each notification.
-  public struct ManagedObjectContextChange<T: NSManagedObject> {
-    /// **CoreDataPlus**
-    ///
-    /// Returns a `Set` of objects that were inserted into the context.
-    public let inserted: Set<T>
+  /// Returns a `Set` of objects that were updated into the context.
+  public let updated: Set<T>
 
-    /// **CoreDataPlus**
-    ///
-    /// Returns a `Set` of objects that were updated into the context.
-    public let updated: Set<T>
+  /// **CoreDataPlus**
+  ///
+  /// Returns a `Set` of objects that were deleted into the context.
+  public let deleted: Set<T>
 
-    /// **CoreDataPlus**
-    ///
-    /// Returns a `Set` of objects that were deleted into the context.
-    public let deleted: Set<T>
+  /// **CoreDataPlus**
+  ///
+  /// Returns a `Set` of objects that were refreshed into the context.
+  public let refreshed: Set<T>
 
-    /// **CoreDataPlus**
-    ///
-    /// Returns a `Set` of objects that were refreshed into the context.
-    public let refreshed: Set<T>
+  /// **CoreDataPlus**
+  ///
+  /// Returns a `Set` of objects that were invalidated into the context.
+  public let invalidated: Set<T>
 
-    /// **CoreDataPlus**
-    ///
-    /// Returns a `Set` of objects that were invalidated into the context.
-    public let invalidated: Set<T>
+  /// **CoreDataPlus**
+  ///
+  /// When all the object in the context have been invalidated, returns a `Set` containing all the invalidated objects' NSManagedObjectID.
+  public let invalidatedAll: Set<NSManagedObjectID>
 
-    /// **CoreDataPlus**
-    ///
-    /// When all the object in the context have been invalidated, returns a `Set` containing all the invalidated objects' NSManagedObjectID.
-    public let invalidatedAll: Set<NSManagedObjectID>
-
-    /// **CoreDataPlus**
-    ///
-    /// Returns `true` if there aren't any kind of changes.
-    public func isEmpty() -> Bool {
-      return inserted.isEmpty && !updated.isEmpty && !deleted.isEmpty && !refreshed.isEmpty && !invalidated.isEmpty && !invalidatedAll.isEmpty
-    }
+  /// **CoreDataPlus**
+  ///
+  /// Returns `true` if there aren't any kind of changes.
+  public func isEmpty() -> Bool {
+    return inserted.isEmpty && !updated.isEmpty && !deleted.isEmpty && !refreshed.isEmpty && !invalidated.isEmpty && !invalidatedAll.isEmpty
   }
+}
+
+/// **CoreDataPlus**
+///
+/// An object that observes all the changes happening in a `NSManagedObjectContext` for a specific entity.
+public class EntityObserver<T: NSManagedObject> {
+  fileprivate typealias EntitySet = Set<T>
 
   /// **CoreDataPlus**
   ///
