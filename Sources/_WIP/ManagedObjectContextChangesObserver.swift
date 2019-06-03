@@ -46,10 +46,10 @@ public final class ManagedObjectContextChangesObserver {
   private let handler: Handler
   private var tokens = [NSObjectProtocol]()
 
-  public init(kind: Kind, event: ObservedEvent, queue: OperationQueue? = nil, notificationCenter: NotificationCenter = .default, handler: @escaping Handler) {
+  public init(kind: Kind, event: ObservedEvent, notificationCenter: NotificationCenter = .default, notificationQueue: OperationQueue? = nil, handler: @escaping Handler) {
     self.kind = kind
     self.event = event
-    self.queue = queue
+    self.queue = notificationQueue
     self.notificationCenter = notificationCenter
     self.handler = handler
     setup()
@@ -97,7 +97,7 @@ public final class ManagedObjectContextChangesObserver {
   }
 
   /// Processes incoming notifications.
-  private func processChanges(in notification: ManagedObjectContextObservable) -> Change? {
+  private func processChanges(in notification: ManagedObjectContextObservable) -> ManagedObjectContextChange<NSManagedObject>? {
     func validateContext(_ context: NSManagedObjectContext) -> Bool {
       switch kind {
       case .one(context: let context): return context === notification.managedObjectContext
