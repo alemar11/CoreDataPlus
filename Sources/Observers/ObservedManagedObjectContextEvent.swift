@@ -58,6 +58,7 @@ public struct ObservedManagedObjectContextEvent: OptionSet {
 // TODO
 /**
  renaming:
+ is it better ManagedObjectContext_OBSERVED_Event?
  change -> didChange
  save -> didSave
  willSave

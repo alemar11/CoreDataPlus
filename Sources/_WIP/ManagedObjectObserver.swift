@@ -73,6 +73,26 @@ public class ManagedObjectObserver<T: NSManagedObject> {
 }
 
 public extension ManagedObjectObserver {
+  /**
+   static let NSManagedObjectContextObjectsDidChange: NSNotification.Name
+   A notification of changes made to managed objects associated with this context.
+   static let NSManagedObjectContextDidSave: NSNotification.Name
+   A notification that the context completed a save.
+   static let NSManagedObjectContextWillSave: NSNotification.Name
+   A notification that the context is about to save.
+   let NSInsertedObjectsKey: String
+   A key for the set of objects that were inserted into the context.
+   let NSUpdatedObjectsKey: String
+   A key for the set of objects that were updated.
+   let NSDeletedObjectsKey: String
+   A key for the set of objects that were marked for deletion during the previous event.
+   let NSRefreshedObjectsKey: String
+   A key for the set of objects that were refreshed but were not dirtied in the scope of this context.
+   let NSInvalidatedObjectsKey: String
+   A key for the set of objects that were invalidated.
+   let NSInvalidatedAllObjectsKey: String
+   A key that specifies that all objects in the context have been invalidated.
+ **/
   enum ManagedObjectChange {
     case deleted
     case inserted
@@ -100,9 +120,10 @@ public extension NSFetchRequestResult where Self: NSManagedObject {
    It uniquely identifies the record and enables your application to fetch a particular record regardless of what thread the operation is performed on.
   **/
 
-  /// Accesses `self` in another context.
+  /// Accesses `self` from another context.
   func `in`(_ context: NSManagedObjectContext) -> Self {
-    /// let _object = try! context.existingObject(with: objectID)
+    // TODO
+    // let _object = try! context.existingObject(with: objectID)
     guard let object = context.object(with: objectID) as? Self else {
       fatalError("Cannot find object '\(self)' in context '\(context)'.")
     }

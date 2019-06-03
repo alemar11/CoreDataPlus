@@ -27,7 +27,7 @@ public extension ManagedObjectContextChangesObserver {
   enum Kind {
     case all(matching: (NSManagedObjectContext) -> Bool)
     case one(context: NSManagedObjectContext)
-
+    
     /// The observed `NSManagedObjectContext`, nil if multiple context are observerd.
     fileprivate var observedManagedObjectContext: NSManagedObjectContext? {
       switch self {
@@ -39,17 +39,17 @@ public extension ManagedObjectContextChangesObserver {
 }
 
 public final class ManagedObjectContextChangesObserver {
-  public typealias Handler = (ManagedObjectContextChange<NSManagedObject>, ObservedManagedObjectContextEvent, NSManagedObjectContext) -> Void
-
+  public typealias Handler = (ManagedObjectContextChanges<NSManagedObject>, ObservedManagedObjectContextEvent, NSManagedObjectContext) -> Void
+  
   let kind: Kind
   let event: ObservedManagedObjectContextEvent
   let queue: OperationQueue?
   let notificationCenter: NotificationCenter
   private let handler: Handler
   private var tokens = [NSObjectProtocol]()
-
-   // MARK: - Initializers
-
+  
+  // MARK: - Initializers
+  
   public init(kind: Kind, event: ObservedManagedObjectContextEvent, notificationCenter: NotificationCenter = .default, notificationQueue: OperationQueue? = nil, handler: @escaping Handler) {
     self.kind = kind
     self.event = event
@@ -58,13 +58,13 @@ public final class ManagedObjectContextChangesObserver {
     self.handler = handler
     setup()
   }
-
+  
   deinit {
     removeObservers()
   }
-
+  
   // MARK: - Private Implementation
-
+  
   /// Removes all the observers.
   private func removeObservers() {
     tokens.forEach { token in
@@ -72,60 +72,60 @@ public final class ManagedObjectContextChangesObserver {
     }
     tokens.removeAll()
   }
-
+  
   /// Add the observers for the event.
   private func setup() {
     if event.contains(.change) {
       let token = notificationCenter.addObserver(forName: .NSManagedObjectContextObjectsDidChange, object: kind.observedManagedObjectContext, queue: queue) { [weak self] notification in
         guard let self = self else { return }
-
+        
         let changeNotification = ManagedObjectContextObjectsDidChangeNotification(notification: notification)
-        if let change = self.processChanges(in: changeNotification) {
-          self.handler(change, .change, changeNotification.managedObjectContext)
+        if let changes = self.processChanges(in: changeNotification) {
+          self.handler(changes, .change, changeNotification.managedObjectContext)
         }
       }
       tokens.append(token)
     }
-
+    
     if event.contains(.save) {
       let token = notificationCenter.addObserver(forName: .NSManagedObjectContextDidSave, object: kind.observedManagedObjectContext, queue: queue) { [weak self] notification in
         guard let self = self else { return }
-
+        
         let saveNotification = ManagedObjectContextDidSaveNotification(notification: notification)
-        if let change = self.processChanges(in: saveNotification) {
-          self.handler(change, .save, saveNotification.managedObjectContext)
+        if let changes = self.processChanges(in: saveNotification) {
+          self.handler(changes, .save, saveNotification.managedObjectContext)
         }
       }
       tokens.append(token)
     }
   }
-
+  
   /// Processes incoming notifications.
-  private func processChanges(in notification: ManagedObjectContextObservable) -> ManagedObjectContextChange<NSManagedObject>? {
+  private func processChanges(in notification: ManagedObjectContextObservable) -> ManagedObjectContextChanges<NSManagedObject>? {
     func validateContext(_ context: NSManagedObjectContext) -> Bool {
       switch kind {
       case .one(context: let context): return context === notification.managedObjectContext
       case .all(matching: let filter): return filter(notification.managedObjectContext)
       }
     }
-
+    
     guard validateContext(notification.managedObjectContext) else { return nil }
-
-    let change = notification.managedObjectContext.performAndWait { _ -> ManagedObjectContextChange<NSManagedObject> in
+    
+    let changes = notification.managedObjectContext.performAndWait { _ -> ManagedObjectContextChanges<NSManagedObject> in
       let deleted = notification.deletedObjects
       let inserted = notification.insertedObjects
       let updated = notification.updatedObjects
       let refreshed = notification.refreshedObjects
       let invalidated = notification.invalidatedObjects
       let invalidatedAll = notification.invalidatedAllObjects
-      let change = ManagedObjectContextChange(inserted: inserted,
-                                              updated: updated,
-                                              deleted: deleted,
-                                              refreshed: refreshed,
-                                              invalidated: invalidated,
-                                              invalidatedAll: invalidatedAll)
-      return change
+      let changes = ManagedObjectContextChanges(inserted: inserted,
+                                                updated: updated,
+                                                deleted: deleted,
+                                                refreshed: refreshed,
+                                                invalidated: invalidated,
+                                                invalidatedAll: invalidatedAll)
+      return changes
     }
-    return change.isEmpty() ? nil : change
+    return changes.isEmpty() ? nil : changes
   }
 }
