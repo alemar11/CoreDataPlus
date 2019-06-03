@@ -214,6 +214,9 @@
 		23EFDE921F95FE730038BE75 /* CoreDataPlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23B5806A1F94FEDF00A365C0 /* CoreDataPlus.framework */; };
 		23EFDEA11F95FE990038BE75 /* CoreDataPlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 236350811F95EC3000B3A16A /* CoreDataPlus.framework */; };
 		23EFDEB01F95FEB50038BE75 /* CoreDataPlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2363509D1F95EC5600B3A16A /* CoreDataPlus.framework */; };
+		23F5469D22A5348B000297D3 /* PersistentContainerHackable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F5469C22A5348B000297D3 /* PersistentContainerHackable.swift */; };
+		23F5469E22A5348B000297D3 /* PersistentContainerHackable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F5469C22A5348B000297D3 /* PersistentContainerHackable.swift */; };
+		23F5469F22A5348B000297D3 /* PersistentContainerHackable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F5469C22A5348B000297D3 /* PersistentContainerHackable.swift */; };
 		23F8E9E01F965B2000C65565 /* SampleModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 23DAFA231F9641BD0058654B /* SampleModel.xcdatamodeld */; };
 		23F8E9E11F965B2100C65565 /* SampleModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 23DAFA231F9641BD0058654B /* SampleModel.xcdatamodeld */; };
 		23F8E9E21F965B2200C65565 /* SampleModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 23DAFA231F9641BD0058654B /* SampleModel.xcdatamodeld */; };
@@ -317,6 +320,7 @@
 		23EFDE8D1F95FE730038BE75 /* CoreDataPlus Tests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CoreDataPlus Tests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		23EFDE9C1F95FE990038BE75 /* CoreDataPlus Tests tvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CoreDataPlus Tests tvOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		23EFDEAB1F95FEB40038BE75 /* CoreDataPlus Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CoreDataPlus Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		23F5469C22A5348B000297D3 /* PersistentContainerHackable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentContainerHackable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -503,6 +507,7 @@
 		23B580861F94FF0E00A365C0 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				23F5469B22A53477000297D3 /* Utils */,
 				2351687022A2DD2C00340611 /* _WIP */,
 				23CAFC89204B196400E016D3 /* EntityObserverTests.swift */,
 				23D1056A20D7EFEF00AE84CC /* FetchedResultsChangesTests.swift */,
@@ -538,6 +543,14 @@
 				233654361F9E1644007F8D3D /* SampleData.swift */,
 			);
 			name = "Sample Model";
+			sourceTree = "<group>";
+		};
+		23F5469B22A53477000297D3 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				23F5469C22A5348B000297D3 /* PersistentContainerHackable.swift */,
+			);
+			name = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1003,6 +1016,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				23948D1F1F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift in Sources */,
+				23F5469D22A5348B000297D3 /* PersistentContainerHackable.swift in Sources */,
 				233654371F9E1644007F8D3D /* SampleData.swift in Sources */,
 				23C6493A20396FFA00AA514A /* NSManagedObjectContextObserversTests.swift in Sources */,
 				23DAFA2A1F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift in Sources */,
@@ -1034,6 +1048,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				23948D201F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift in Sources */,
+				23F5469E22A5348B000297D3 /* PersistentContainerHackable.swift in Sources */,
 				233654381F9E1644007F8D3D /* SampleData.swift in Sources */,
 				23C6493B20396FFA00AA514A /* NSManagedObjectContextObserversTests.swift in Sources */,
 				23DAFA2B1F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift in Sources */,
@@ -1065,6 +1080,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				23948D211F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift in Sources */,
+				23F5469F22A5348B000297D3 /* PersistentContainerHackable.swift in Sources */,
 				233654391F9E1644007F8D3D /* SampleData.swift in Sources */,
 				23C6493C20396FFA00AA514A /* NSManagedObjectContextObserversTests.swift in Sources */,
 				23DAFA2C1F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift in Sources */,
