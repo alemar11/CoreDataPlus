@@ -26,13 +26,14 @@ import CoreData
 public final class ManagedObjectContextChangesObserver {
   public typealias Handler = (EntityObserver<NSManagedObject>.ManagedObjectContextChange<NSManagedObject>, ObservedEvent, NSManagedObjectContext) -> Void
   public enum Kind {
-    case allContexts
-    case specific(context: NSManagedObjectContext)
+    case allContexts(filter: (NSManagedObjectContext) -> Bool)
+    case one(context: NSManagedObjectContext)
+    case all
 
-    var context: NSManagedObjectContext? {
+    fileprivate var context: NSManagedObjectContext? {
       switch self {
-      case .allContexts: return nil
-      case .specific(context: let context): return context
+      case .one(context: let context): return context
+      default: return nil
       }
     }
   }
@@ -73,10 +74,7 @@ public final class ManagedObjectContextChangesObserver {
     if event.contains(.change) {
       let token = notificationCenter.addObserver(forName: .NSManagedObjectContextObjectsDidChange, object: kind.context, queue: queue) { [weak self] notification in
         let changeNotification = ManagedObjectContextObjectsDidChangeNotification(notification: notification)
-        // this should fix: Exception was caught during Core Data change processing.  This is usually a bug within an observer of NSManagedObjectContextObjectsDidChangeNotification.
-        changeNotification.managedObjectContext.performAndWait {
-          self?.processChanges(in: changeNotification, for: .change)
-        }
+        self?.processChanges(in: changeNotification, for: .change)
       }
       tokens.append(token)
     }
@@ -84,10 +82,7 @@ public final class ManagedObjectContextChangesObserver {
     if event.contains(.save) {
       let token = notificationCenter.addObserver(forName: .NSManagedObjectContextDidSave, object: kind.context, queue: queue) { [weak self] notification in
         let saveNotification = ManagedObjectContextDidSaveNotification(notification: notification)
-        //self?.processChanges(in: saveNotification, for: .save)
-        saveNotification.managedObjectContext.performAndWait {
-          self?.processChanges(in: saveNotification, for: .save)
-        }
+        self?.processChanges(in: saveNotification, for: .save)
       }
       tokens.append(token)
     }
@@ -95,20 +90,33 @@ public final class ManagedObjectContextChangesObserver {
 
   /// Processes the incoming notification.
   private func processChanges(in notification: ManagedObjectContextObservable, for event: ObservedEvent) {
-    let deleted = notification.deletedObjects
-    let inserted = notification.insertedObjects
-    let updated = notification.updatedObjects
-    let refreshed = notification.refreshedObjects
-    let invalidated = notification.invalidatedObjects
-    let invalidatedAll = notification.invalidatedAllObjects
-    let change = EntityObserver.ManagedObjectContextChange(inserted: inserted,
-                                                           updated: updated,
-                                                           deleted: deleted,
-                                                           refreshed: refreshed,
-                                                           invalidated: invalidated,
-                                                           invalidatedAll: invalidatedAll)
-    if !change.isEmpty() {
-      handler(change, event, notification.managedObjectContext)
+    func validateContext(_ context: NSManagedObjectContext) -> Bool {
+      switch self.kind {
+      case .all: return true
+      case .one(context: let context): return context === notification.managedObjectContext
+      case .allContexts(filter: let filter): return filter(notification.managedObjectContext)
+      }
+    }
+
+    guard validateContext(notification.managedObjectContext) else { return }
+
+    notification.managedObjectContext.performAndWait {
+      let deleted = notification.deletedObjects
+      let inserted = notification.insertedObjects
+      let updated = notification.updatedObjects
+      let refreshed = notification.refreshedObjects
+      let invalidated = notification.invalidatedObjects
+      let invalidatedAll = notification.invalidatedAllObjects
+      let change = EntityObserver.ManagedObjectContextChange(inserted: inserted,
+                                                             updated: updated,
+                                                             deleted: deleted,
+                                                             refreshed: refreshed,
+                                                             invalidated: invalidated,
+                                                             invalidatedAll: invalidatedAll)
+      // this should fix: Exception was caught during Core Data change processing.  This is usually a bug within an observer of NSManagedObjectContextObjectsDidChangeNotification.
+      if !change.isEmpty() {
+        handler(change, event, notification.managedObjectContext)
+      }
     }
   }
 }

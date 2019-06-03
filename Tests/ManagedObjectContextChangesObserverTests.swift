@@ -58,7 +58,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     let context = container.viewContext
     let expectation = self.expectation(description: "\(#function)\(#file)")
     let event = ObservedEvent.change
-    let observer = ManagedObjectContextChangesObserver(kind: .allContexts, event: event) { (change, event, observedContext) in
+    let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
       print(change)
       XCTAssertTrue(observedContext === context)
       XCTAssertEqual(change.inserted.count, 1)
@@ -86,7 +86,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     let expectation = self.expectation(description: "\(#function)\(#file)")
     let context = container.newBackgroundContext()
     let event = ObservedEvent.change
-    let observer = ManagedObjectContextChangesObserver(kind: .allContexts, event: event) { (change, event, observedContext) in
+    let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
       XCTAssertTrue(context === observedContext)
       XCTAssertEqual(change.inserted.count, 1)
       XCTAssertTrue(change.deleted.isEmpty)
@@ -114,7 +114,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     let expectation = self.expectation(description: "\(#function)\(#file)")
     let context = container.newBackgroundContext()
     let event = ObservedEvent.change
-    let observer = ManagedObjectContextChangesObserver(kind: .allContexts, event: event) { (change, event, observedContext) in
+    let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
       XCTAssertTrue(context === observedContext)
       XCTAssertEqual(change.inserted.count, 1)
       XCTAssertTrue(change.deleted.isEmpty)
@@ -142,7 +142,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     let expectation = self.expectation(description: "\(#function)\(#file)")
     let context = container.newBackgroundContext()
     let event = ObservedEvent.change
-    let observer = ManagedObjectContextChangesObserver(kind: .allContexts, event: event) { (change, event, observedContext) in
+    let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
       XCTAssertTrue(context === observedContext)
       XCTAssertEqual(change.inserted.count, 2000)
       XCTAssertTrue(change.deleted.isEmpty)
@@ -181,7 +181,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     expectation.isInverted = true
     let context = container.newBackgroundContext()
     let event = ObservedEvent.change
-    let observer = ManagedObjectContextChangesObserver(kind: .allContexts, event: event) { (change, event, observedContext) in
+    let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
       // The context doesn't have any changes so the notifcation shouldn't be issued.
       print(change)
       expectation.fulfill()
@@ -201,7 +201,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     container.registerContext(context)
     let expectation = self.expectation(description: "\(#function)\(#file)")
     let event = ObservedEvent.change
-    let observer = ManagedObjectContextChangesObserver(kind: .allContexts, event: event) { (change, event, observedContext) in
+    let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
       XCTAssertTrue(observedContext === context)
       XCTAssertEqual(change.inserted.count, 1)
       XCTAssertTrue(change.deleted.isEmpty)
@@ -232,7 +232,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     let expectation = self.expectation(description: "\(#function)\(#file)")
     let event = ObservedEvent.change
 
-    let observer = ManagedObjectContextChangesObserver(kind: .allContexts, event: event) { (change, event, observedContext) in
+    let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
       XCTAssertTrue(observedContext === context)
       XCTAssertEqual(change.inserted.count, 1)
       XCTAssertTrue(change.deleted.isEmpty)
