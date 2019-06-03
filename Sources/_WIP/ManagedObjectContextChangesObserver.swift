@@ -24,13 +24,13 @@
 import CoreData
 
 public final class ManagedObjectContextChangesObserver {
-  public typealias Change = ManagedObjectContextChange<NSManagedObject>
-  public typealias Handler = (Change, ObservedEvent, NSManagedObjectContext) -> Void
+  public typealias Handler = (ManagedObjectContextChange<NSManagedObject>, ObservedEvent, NSManagedObjectContext) -> Void
 
   public enum Kind {
     case all(matching: (NSManagedObjectContext) -> Bool)
     case one(context: NSManagedObjectContext)
 
+    /// The observed `NSManagedObjectContext`, nil if multiple context are observerd.
     fileprivate var observedManagedObjectContext: NSManagedObjectContext? {
       switch self {
       case .one(context: let context): return context
@@ -96,7 +96,7 @@ public final class ManagedObjectContextChangesObserver {
     }
   }
 
-  /// Processes the incoming notification.
+  /// Processes incoming notifications.
   private func processChanges(in notification: ManagedObjectContextObservable) -> Change? {
     func validateContext(_ context: NSManagedObjectContext) -> Bool {
       switch kind {
@@ -107,7 +107,7 @@ public final class ManagedObjectContextChangesObserver {
 
     guard validateContext(notification.managedObjectContext) else { return nil }
 
-    let change = notification.managedObjectContext.performAndWait { context -> ManagedObjectContextChange<NSManagedObject> in
+    let change = notification.managedObjectContext.performAndWait { _ -> ManagedObjectContextChange<NSManagedObject> in
       let deleted = notification.deletedObjects
       let inserted = notification.insertedObjects
       let updated = notification.updatedObjects

@@ -54,3 +54,12 @@ public struct ObservedEvent: OptionSet {
   /// Notifications will be sent upon `NSManagedObjectContext` being saved or changed.
   public static let all: ObservedEvent = [.change, .save]
 }
+
+// TODO
+/**
+ renaming:
+ObservedEvent -> ObservedManagedObjectContextEvent
+ change -> didChange
+ save -> didSave
+ willSave
+**/
