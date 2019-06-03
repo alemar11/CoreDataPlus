@@ -54,7 +54,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
    **/
 
 
-  func testChangesUsingViewContext() {
+  func testObserveChangesUsingViewContext() {
     let context = container.viewContext
     let expectation = self.expectation(description: "\(#function)\(#file)")
     let event = ObservedManagedObjectContextEvent.change
@@ -78,11 +78,40 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
       car.numberPlate = "1"
       car.maker = "123!"
     }
-
     waitForExpectations(timeout: 2)
   }
 
-  func testChangesUsingBackgroundContext() {
+  func testObserveChangesUsingViewContextNotifiedOnADifferentQueue() {
+    let context = container.viewContext
+    let expectation = self.expectation(description: "\(#function)\(#file)")
+    let event = ObservedManagedObjectContextEvent.change
+    let queue = OperationQueue()
+    let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event, queue: queue) { (change, event, observedContext) in
+      // The posting thread is the Main Thread but the queue specified is not.
+      XCTAssertTrue(queue === OperationQueue.current)
+      XCTAssertFalse(Thread.isMainThread)
+      XCTAssertTrue(observedContext === context)
+      XCTAssertEqual(change.inserted.count, 1)
+      XCTAssertTrue(change.deleted.isEmpty)
+      XCTAssertTrue(change.refreshed.isEmpty)
+      XCTAssertTrue(change.updated.isEmpty)
+      XCTAssertTrue(change.invalidated.isEmpty)
+      XCTAssertTrue(change.invalidatedAll.isEmpty)
+      expectation.fulfill()
+    }
+    _ = observer // remove unused warning...
+
+    context.performAndWait {
+      let car = Car(context: context)
+      car.maker = "FIAT"
+      car.model = "Panda"
+      car.numberPlate = "1"
+      car.maker = "123!"
+    }
+    waitForExpectations(timeout: 2)
+  }
+
+  func testObserveChangesUsingBackgroundContext() {
     let expectation = self.expectation(description: "\(#function)\(#file)")
     let context = container.newBackgroundContext()
     let event = ObservedManagedObjectContextEvent.change
@@ -107,11 +136,11 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
       car.maker = "123!"
       context.processPendingChanges()
     }
-
     waitForExpectations(timeout: 5)
   }
 
-  func testPerformChangesUsingBackgroundContext() {
+  /// Users perform instead of performAndWait
+  func testObserveChangesUsingBackgroundContextAndPerform() {
     let expectation = self.expectation(description: "\(#function)\(#file)")
     let context = container.newBackgroundContext()
     let event = ObservedManagedObjectContextEvent.change
@@ -137,11 +166,10 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
       car.numberPlate = "1"
       car.maker = "123!"
     }
-
     waitForExpectations(timeout: 5)
   }
 
-  func testChangesUsingBackgroundContextAndManyChanges() {
+  func testObserveChangesUsingBackgroundContextAndManyChanges() {
     let expectation = self.expectation(description: "\(#function)\(#file)")
     let context = container.newBackgroundContext()
     container.hack_registerContext(context)
@@ -185,9 +213,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 5)
   }
   
-  func testChangesUsingBackgroundContextWithoutChanges() {
-    // TODO: all the notifications are observed, during test in parallel the observer process notifications incoming from other tests too.
-    // Investigate this...
+  func testObserveChangesUsingBackgroundContextWithoutChanges() {
     let expectation = self.expectation(description: "\(#function)\(#file)")
     expectation.isInverted = true
     let context = container.newBackgroundContext()
@@ -202,11 +228,10 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     context.performAndWait {
       context.processPendingChanges()
     }
-
     waitForExpectations(timeout: 2)
   }
 
-  func testChangesUsingPrivateContext() throws {
+  func testObserveChangesUsingPrivateContext() throws {
     let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
     context.persistentStoreCoordinator = container.persistentStoreCoordinator
     container.hack_registerContext(context)
@@ -233,11 +258,10 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
       car.maker = "123!"
       context.processPendingChanges()
     }
-
     waitForExpectations(timeout: 5)
   }
 
-  func testChangesUsingMainContext() throws {
+  func testObserveChangesUsingMainContext() throws {
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     context.persistentStoreCoordinator = container.persistentStoreCoordinator
     container.hack_registerContext(context)
@@ -266,7 +290,6 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
       // https://stackoverflow.com/questions/7742308/nsmanagedobjectcontextobjectsdidchangenotification-not-always-called-instantly
       context.processPendingChanges()
     }
-
     waitForExpectations(timeout: 5)
   }
 }

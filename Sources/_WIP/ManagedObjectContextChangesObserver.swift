@@ -50,10 +50,10 @@ public final class ManagedObjectContextChangesObserver {
   
   // MARK: - Initializers
   
-  public init(kind: Kind, event: ObservedManagedObjectContextEvent, notificationCenter: NotificationCenter = .default, notificationQueue: OperationQueue? = nil, handler: @escaping Handler) {
+  public init(kind: Kind, event: ObservedManagedObjectContextEvent, notificationCenter: NotificationCenter = .default, queue: OperationQueue? = nil, handler: @escaping Handler) {
     self.kind = kind
     self.event = event
-    self.queue = notificationQueue
+    self.queue = queue
     self.notificationCenter = notificationCenter
     self.handler = handler
     setup()
