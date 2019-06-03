@@ -23,10 +23,8 @@
 
 import CoreData
 
-public final class ManagedObjectContextChangesObserver {
-  public typealias Handler = (ManagedObjectContextChange<NSManagedObject>, ObservedEvent, NSManagedObjectContext) -> Void
-
-  public enum Kind {
+public extension ManagedObjectContextChangesObserver {
+  enum Kind {
     case all(matching: (NSManagedObjectContext) -> Bool)
     case one(context: NSManagedObjectContext)
 
@@ -38,6 +36,10 @@ public final class ManagedObjectContextChangesObserver {
       }
     }
   }
+}
+
+public final class ManagedObjectContextChangesObserver {
+  public typealias Handler = (ManagedObjectContextChange<NSManagedObject>, ObservedEvent, NSManagedObjectContext) -> Void
 
   let kind: Kind
   let event: ObservedEvent
@@ -45,6 +47,8 @@ public final class ManagedObjectContextChangesObserver {
   let notificationCenter: NotificationCenter
   private let handler: Handler
   private var tokens = [NSObjectProtocol]()
+
+   // MARK: - Initializers
 
   public init(kind: Kind, event: ObservedEvent, notificationCenter: NotificationCenter = .default, notificationQueue: OperationQueue? = nil, handler: @escaping Handler) {
     self.kind = kind
@@ -59,7 +63,7 @@ public final class ManagedObjectContextChangesObserver {
     removeObservers()
   }
 
-  // MARK: - Private implementation
+  // MARK: - Private Implementation
 
   /// Removes all the observers.
   private func removeObservers() {
