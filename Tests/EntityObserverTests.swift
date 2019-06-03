@@ -31,7 +31,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   func testInsertedOnChangeEvent() {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.change
+    let observedEvent = ObservedManagedObjectContextEvent.change
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let observer = EntityObserver<SportCar>(context: context, event: observedEvent) { (change, event) in
@@ -65,7 +65,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   func testUpdatedOnChangeEvent() throws {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.change
+    let observedEvent = ObservedManagedObjectContextEvent.change
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar = SportCar(context: context)
@@ -104,7 +104,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   func testInsertedAndUpdatedOnChangeEvent() throws {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.change
+    let observedEvent = ObservedManagedObjectContextEvent.change
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar1 = SportCar(context: context)
@@ -148,7 +148,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   func testDeleteOnChangeEvent() throws {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.change
+    let observedEvent = ObservedManagedObjectContextEvent.change
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar = SportCar(context: context)
@@ -197,7 +197,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   func testRefreshedOnChangeEvent() throws {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.change
+    let observedEvent = ObservedManagedObjectContextEvent.change
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar1 = SportCar(context: context)
@@ -255,7 +255,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   func testInvalidatedAllOnChangeEvent() throws {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.change
+    let observedEvent = ObservedManagedObjectContextEvent.change
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar1 = SportCar(context: context)
@@ -316,7 +316,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   func testRelationshipUpdatedOnChangeEvent() throws {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.change
+    let observedEvent = ObservedManagedObjectContextEvent.change
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar1 = SportCar(context: context)
@@ -368,7 +368,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   func testInsertedOnSaveEvent() throws {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.save
+    let observedEvent = ObservedManagedObjectContextEvent.save
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let observer = EntityObserver<SportCar>(context: context, event: observedEvent) { (change, event) in
@@ -409,7 +409,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   func testInsertedWithoutSavingOnSaveEvent() {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.save
+    let observedEvent = ObservedManagedObjectContextEvent.save
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
     expectation1.isInverted = true
@@ -438,7 +438,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   func testRelationshipUpdatedOnSaveEvent() throws {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.save
+    let observedEvent = ObservedManagedObjectContextEvent.save
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar1 = SportCar(context: context)
@@ -493,7 +493,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   func testDeleteOnSaveEvent() throws {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.save
+    let observedEvent = ObservedManagedObjectContextEvent.save
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar = SportCar(context: context)
@@ -545,7 +545,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   func testMixChangesOnUpdateAndOnSave() throws {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.all
+    let observedEvent = ObservedManagedObjectContextEvent.all
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let expectation2 = expectation(description: "\(#function)\(#line)")
 
@@ -616,7 +616,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   func testMixChangesOnUpdateAndOnSaveInSubEntities() throws {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.all
+    let observedEvent = ObservedManagedObjectContextEvent.all
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let expectation2 = expectation(description: "\(#function)\(#line)")
 

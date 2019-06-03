@@ -74,7 +74,7 @@ public class EntityObserver<T: NSManagedObject> {
   /// **CoreDataPlus**
   ///
   /// The observed event.
-  public let event: ObservedEvent
+  public let event: ObservedManagedObjectContextEvent
 
   /// **CoreDataPlus**
   ///
@@ -97,7 +97,7 @@ public class EntityObserver<T: NSManagedObject> {
 
   private let context: NSManagedObjectContext
   private let notificationCenter: NotificationCenter
-  private let handler: (ManagedObjectContextChange<T>, ObservedEvent) -> Void
+  private let handler: (ManagedObjectContextChange<T>, ObservedManagedObjectContextEvent) -> Void
   private var tokens = [NSObjectProtocol]()
 
   // MARK: - Initializers
@@ -112,10 +112,10 @@ public class EntityObserver<T: NSManagedObject> {
   ///   - observeSubEntities: If `true`, all the changes happening in the subentities will be observed. (default: `false`)
   ///   - notificationCenter: The `NotificationCenter` listening the the `NSManagedObjectContext` notifications.
   ///   - changedHandler: The completion handler.
-  init(context: NSManagedObjectContext, event: ObservedEvent,
+  init(context: NSManagedObjectContext, event: ObservedManagedObjectContextEvent,
        observeSubEntities: Bool = false,
        notificationCenter: NotificationCenter = .default,
-       changedHandler: @escaping (ManagedObjectContextChange<T>, ObservedEvent) -> Void) {
+       changedHandler: @escaping (ManagedObjectContextChange<T>, ObservedManagedObjectContextEvent) -> Void) {
     self.context = context
     self.event = event
     self.observeSubEntities = observeSubEntities
@@ -164,7 +164,7 @@ public class EntityObserver<T: NSManagedObject> {
   }
 
   /// Processes the incoming notification.
-  private func handleChanges(in notification: ManagedObjectContextObservable, for event: ObservedEvent) {
+  private func handleChanges(in notification: ManagedObjectContextObservable, for event: ObservedManagedObjectContextEvent) {
     context.performAndWait {
       func process(_ value: Set<NSManagedObject>) -> EntitySet {
         if observeSubEntities {

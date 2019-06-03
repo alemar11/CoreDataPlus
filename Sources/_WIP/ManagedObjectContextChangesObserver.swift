@@ -39,10 +39,10 @@ public extension ManagedObjectContextChangesObserver {
 }
 
 public final class ManagedObjectContextChangesObserver {
-  public typealias Handler = (ManagedObjectContextChange<NSManagedObject>, ObservedEvent, NSManagedObjectContext) -> Void
+  public typealias Handler = (ManagedObjectContextChange<NSManagedObject>, ObservedManagedObjectContextEvent, NSManagedObjectContext) -> Void
 
   let kind: Kind
-  let event: ObservedEvent
+  let event: ObservedManagedObjectContextEvent
   let queue: OperationQueue?
   let notificationCenter: NotificationCenter
   private let handler: Handler
@@ -50,7 +50,7 @@ public final class ManagedObjectContextChangesObserver {
 
    // MARK: - Initializers
 
-  public init(kind: Kind, event: ObservedEvent, notificationCenter: NotificationCenter = .default, notificationQueue: OperationQueue? = nil, handler: @escaping Handler) {
+  public init(kind: Kind, event: ObservedManagedObjectContextEvent, notificationCenter: NotificationCenter = .default, notificationQueue: OperationQueue? = nil, handler: @escaping Handler) {
     self.kind = kind
     self.event = event
     self.queue = notificationQueue

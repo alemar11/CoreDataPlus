@@ -27,8 +27,8 @@ import Foundation
 // TODO: work in progress
 public class ManagedObjectObserver<T: NSManagedObject> {
   public let observedObject: T
-  private let observedEvent: ObservedEvent
-  private let handler: (ManagedObjectChange, ObservedEvent) -> Void
+  private let observedEvent: ObservedManagedObjectContextEvent
+  private let handler: (ManagedObjectChange, ObservedManagedObjectContextEvent) -> Void
 
   private lazy var entityObserver: EntityObserver<T> = {
     guard let context = observedObject.managedObjectContext else {
@@ -64,7 +64,7 @@ public class ManagedObjectObserver<T: NSManagedObject> {
     return observer
   }()
 
-  init(object: T, event: ObservedEvent = .all, changedHandler: @escaping (ManagedObjectChange, ObservedEvent) -> Void) {
+  init(object: T, event: ObservedManagedObjectContextEvent = .all, changedHandler: @escaping (ManagedObjectChange, ObservedManagedObjectContextEvent) -> Void) {
     self.observedObject = object
     self.observedEvent = event
     self.handler = changedHandler
