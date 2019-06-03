@@ -59,7 +59,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     let expectation = self.expectation(description: "\(#function)\(#file)")
     let event = ObservedManagedObjectContextEvent.change
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
-      print(change)
+      XCTAssertTrue(Thread.isMainThread)
       XCTAssertTrue(observedContext === context)
       XCTAssertEqual(change.inserted.count, 1)
       XCTAssertTrue(change.deleted.isEmpty)
@@ -87,6 +87,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     let context = container.newBackgroundContext()
     let event = ObservedManagedObjectContextEvent.change
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
+      XCTAssertTrue(Thread.isMainThread)
       XCTAssertTrue(context === observedContext)
       XCTAssertEqual(change.inserted.count, 1)
       XCTAssertTrue(change.deleted.isEmpty)
@@ -115,6 +116,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     let context = container.newBackgroundContext()
     let event = ObservedManagedObjectContextEvent.change
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
+      XCTAssertFalse(Thread.isMainThread) // `perform` is async, and it is responsible for posting this notification.
       XCTAssertTrue(context === observedContext)
       XCTAssertEqual(change.inserted.count, 1)
       XCTAssertTrue(change.deleted.isEmpty)
@@ -128,6 +130,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
 
     // perform, as stated in the documentation, calls internally processPendingChanges
     context.perform {
+      XCTAssertFalse(Thread.isMainThread)
       let car = Car(context: context)
       car.maker = "FIAT"
       car.model = "Panda"
@@ -141,8 +144,11 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
   func testChangesUsingBackgroundContextAndManyChanges() {
     let expectation = self.expectation(description: "\(#function)\(#file)")
     let context = container.newBackgroundContext()
+    container.hack_registerContext(context)
     let event = ObservedManagedObjectContextEvent.change
+
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
+      XCTAssertFalse(Thread.isMainThread)
       XCTAssertTrue(context === observedContext)
       XCTAssertEqual(change.inserted.count, 2000)
       XCTAssertTrue(change.deleted.isEmpty)
@@ -154,22 +160,27 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     }
     _ = observer // remove unused warning...
 
-    context.performAndWait {
-      (1...1000).forEach({ i in
-        let car = Car(context: context)
-        car.maker = "FIAT"
-        car.model = "Panda"
-        car.numberPlate = "\(i)"
-        car.maker = "123!"
+    // performBlockAndWait will always run in the calling thread.
+    // Using a DispatchQueue we are making sure that it's not run on the Main Thread
+    DispatchQueue.global().async {
+      context.performAndWait {
+        XCTAssertFalse(Thread.isMainThread)
+        (1...1000).forEach({ i in
+          let car = Car(context: context)
+          car.maker = "FIAT"
+          car.model = "Panda"
+          car.numberPlate = "\(i)"
+          car.maker = "123!"
 
-        let person = Person(context: context)
-        person.firstName = "fn\(i)"
-        person.lastName = "ln\(i)"
+          let person = Person(context: context)
+          person.firstName = "fn\(i)"
+          person.lastName = "ln\(i)"
 
-        car.owner = person
-      })
+          car.owner = person
+        })
 
-      context.processPendingChanges()
+        context.processPendingChanges()
+      }
     }
     waitForExpectations(timeout: 5)
   }
@@ -202,6 +213,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     let expectation = self.expectation(description: "\(#function)\(#file)")
     let event = ObservedManagedObjectContextEvent.change
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
+      XCTAssertTrue(Thread.isMainThread)
       XCTAssertTrue(observedContext === context)
       XCTAssertEqual(change.inserted.count, 1)
       XCTAssertTrue(change.deleted.isEmpty)
@@ -233,6 +245,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     let event = ObservedManagedObjectContextEvent.change
 
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
+      XCTAssertTrue(Thread.isMainThread)
       XCTAssertTrue(observedContext === context)
       XCTAssertEqual(change.inserted.count, 1)
       XCTAssertTrue(change.deleted.isEmpty)
