@@ -24,11 +24,12 @@
 import CoreData
 
 public final class ManagedObjectContextChangesObserver {
-  public typealias Handler = (EntityObserver<NSManagedObject>.ManagedObjectContextChange<NSManagedObject>, ObservedEvent, NSManagedObjectContext) -> Void
+  public typealias Change = EntityObserver<NSManagedObject>.ManagedObjectContextChange<NSManagedObject>
+  public typealias Handler = (Change, ObservedEvent, NSManagedObjectContext) -> Void
+
   public enum Kind {
-    case allContexts(filter: (NSManagedObjectContext) -> Bool)
+    case all(matching: (NSManagedObjectContext) -> Bool)
     case one(context: NSManagedObjectContext)
-    case all
 
     fileprivate var context: NSManagedObjectContext? {
       switch self {
@@ -65,7 +66,6 @@ public final class ManagedObjectContextChangesObserver {
     tokens.forEach { token in
       notificationCenter.removeObserver(token)
     }
-
     tokens.removeAll()
   }
 
@@ -73,34 +73,41 @@ public final class ManagedObjectContextChangesObserver {
   private func setup() {
     if event.contains(.change) {
       let token = notificationCenter.addObserver(forName: .NSManagedObjectContextObjectsDidChange, object: kind.context, queue: queue) { [weak self] notification in
+        guard let self = self else { return }
+
         let changeNotification = ManagedObjectContextObjectsDidChangeNotification(notification: notification)
-        self?.processChanges(in: changeNotification, for: .change)
+        if let change = self.processChanges(in: changeNotification) {
+          self.handler(change, .change, changeNotification.managedObjectContext)
+        }
       }
       tokens.append(token)
     }
 
     if event.contains(.save) {
       let token = notificationCenter.addObserver(forName: .NSManagedObjectContextDidSave, object: kind.context, queue: queue) { [weak self] notification in
+        guard let self = self else { return }
+
         let saveNotification = ManagedObjectContextDidSaveNotification(notification: notification)
-        self?.processChanges(in: saveNotification, for: .save)
+        if let change = self.processChanges(in: saveNotification) {
+          self.handler(change, .save, saveNotification.managedObjectContext)
+        }
       }
       tokens.append(token)
     }
   }
 
   /// Processes the incoming notification.
-  private func processChanges(in notification: ManagedObjectContextObservable, for event: ObservedEvent) {
+  private func processChanges(in notification: ManagedObjectContextObservable) -> Change? {
     func validateContext(_ context: NSManagedObjectContext) -> Bool {
-      switch self.kind {
-      case .all: return true
+      switch kind {
       case .one(context: let context): return context === notification.managedObjectContext
-      case .allContexts(filter: let filter): return filter(notification.managedObjectContext)
+      case .all(matching: let filter): return filter(notification.managedObjectContext)
       }
     }
 
-    guard validateContext(notification.managedObjectContext) else { return }
+    guard validateContext(notification.managedObjectContext) else { return nil }
 
-    notification.managedObjectContext.performAndWait {
+    let change = notification.managedObjectContext.performAndWait { context ->  EntityObserver<NSManagedObject>.ManagedObjectContextChange<NSManagedObject> in
       let deleted = notification.deletedObjects
       let inserted = notification.insertedObjects
       let updated = notification.updatedObjects
@@ -113,10 +120,8 @@ public final class ManagedObjectContextChangesObserver {
                                                              refreshed: refreshed,
                                                              invalidated: invalidated,
                                                              invalidatedAll: invalidatedAll)
-      // this should fix: Exception was caught during Core Data change processing.  This is usually a bug within an observer of NSManagedObjectContextObjectsDidChangeNotification.
-      if !change.isEmpty() {
-        handler(change, event, notification.managedObjectContext)
-      }
+      return change
     }
+    return change.isEmpty() ? nil : change
   }
 }
