@@ -289,7 +289,6 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
       car.model = "Panda"
       car.numberPlate = "1"
       car.maker = "123!"
-      // https://stackoverflow.com/questions/7742308/nsmanagedobjectcontextobjectsdidchangenotification-not-always-called-instantly
       context.processPendingChanges()
     }
     waitForExpectations(timeout: 5)
