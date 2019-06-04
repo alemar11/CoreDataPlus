@@ -55,7 +55,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
 
   func testObserveChangesUsingViewContext() {
     let context = container.viewContext
-    let expectation = self.expectation(description: "\(#function)\(#file)")
+    let expectation = self.expectation(description: "\(#function)\(#line)")
     let event = ObservedManagedObjectContextEvent.change
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
       XCTAssertTrue(Thread.isMainThread)
@@ -82,7 +82,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
 
   func testObserveChangesNotifiedOnADifferentQueueUsingViewContext() {
     let context = container.viewContext
-    let expectation = self.expectation(description: "\(#function)\(#file)")
+    let expectation = self.expectation(description: "\(#function)\(#line)")
     let event = ObservedManagedObjectContextEvent.change
     let queue = OperationQueue()
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event, queue: queue) { (change, event, observedContext) in
@@ -111,7 +111,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
   }
 
   func testObserveChangesUsingBackgroundContext() {
-    let expectation = self.expectation(description: "\(#function)\(#file)")
+    let expectation = self.expectation(description: "\(#function)\(#line)")
     let context = container.newBackgroundContext()
     let event = ObservedManagedObjectContextEvent.change
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
@@ -140,7 +140,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
 
   /// Users perform instead of performAndWait
   func testObserveChangesUsingBackgroundContextAndPerform() {
-    let expectation = self.expectation(description: "\(#function)\(#file)")
+    let expectation = self.expectation(description: "\(#function)\(#line)")
     let context = container.newBackgroundContext()
     let event = ObservedManagedObjectContextEvent.change
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
@@ -168,14 +168,14 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 5)
   }
 
-  func testObserveChangesUsingBackgroundContextAndManyChanges() {
-    let expectation = self.expectation(description: "\(#function)\(#file)")
+  func testObserveChangesUsingBackgroundContextAndDispatchQueue() {
+    let expectation = self.expectation(description: "\(#function)\(#line)")
     let context = container.newBackgroundContext()
     let event = ObservedManagedObjectContextEvent.change
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
       XCTAssertFalse(Thread.isMainThread)
       XCTAssertTrue(context === observedContext)
-      XCTAssertEqual(change.inserted.count, 2000)
+      XCTAssertEqual(change.inserted.count, 200)
       XCTAssertTrue(change.deleted.isEmpty)
       XCTAssertTrue(change.refreshed.isEmpty)
       XCTAssertTrue(change.updated.isEmpty)
@@ -186,24 +186,21 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     _ = observer // remove unused warning...
 
     // performBlockAndWait will always run in the calling thread.
-    // Using a DispatchQueue we are making sure that it's not run on the Main Thread
+    // Using a DispatchQueue, we are making sure that it's not run on the Main Thread
     DispatchQueue.global().async {
       context.performAndWait {
         XCTAssertFalse(Thread.isMainThread)
-        (1...1000).forEach({ i in
+        (1...100).forEach({ i in
           let car = Car(context: context)
           car.maker = "FIAT"
           car.model = "Panda"
           car.numberPlate = UUID().uuidString
           car.maker = "123!"
-
           let person = Person(context: context)
           person.firstName = UUID().uuidString
           person.lastName = UUID().uuidString
-
           car.owner = person
         })
-
         XCTAssertTrue(context.hasChanges, "The context should have uncommitted changes.")
         context.processPendingChanges()
       }
@@ -213,7 +210,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
   }
   
   func testObserveChangesUsingBackgroundContextWithoutChanges() {
-    let expectation = self.expectation(description: "\(#function)\(#file)")
+    let expectation = self.expectation(description: "\(#function)\(#line)")
     expectation.isInverted = true
     let context = container.newBackgroundContext()
     let event = ObservedManagedObjectContextEvent.change
@@ -233,7 +230,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
   func testObserveChangesUsingPrivateContext() throws {
     let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
     context.persistentStoreCoordinator = container.persistentStoreCoordinator
-    let expectation = self.expectation(description: "\(#function)\(#file)")
+    let expectation = self.expectation(description: "\(#function)\(#line)")
     let event = ObservedManagedObjectContextEvent.change
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
       XCTAssertTrue(Thread.isMainThread)
@@ -263,7 +260,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     context.persistentStoreCoordinator = container.persistentStoreCoordinator
     //container.hack_registerContext(context)
-    let expectation = self.expectation(description: "\(#function)\(#file)")
+    let expectation = self.expectation(description: "\(#function)\(#line)")
     let event = ObservedManagedObjectContextEvent.change
 
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
