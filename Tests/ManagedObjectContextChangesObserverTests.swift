@@ -172,7 +172,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
   func testObserveChangesUsingBackgroundContextAndManyChanges() {
     let expectation = self.expectation(description: "\(#function)\(#file)")
     let context = container.newBackgroundContext()
-    container.hack_registerContext(context)
+    //container.hack_registerContext(context)
     let event = ObservedManagedObjectContextEvent.change
 
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
@@ -197,19 +197,21 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
           let car = Car(context: context)
           car.maker = "FIAT"
           car.model = "Panda"
-          car.numberPlate = "\(i)"
+          car.numberPlate = UUID().uuidString
           car.maker = "123!"
 
           let person = Person(context: context)
-          person.firstName = "fn\(i)"
-          person.lastName = "ln\(i)"
+          person.firstName = UUID().uuidString
+          person.lastName = UUID().uuidString
 
           car.owner = person
         })
 
+        XCTAssertTrue(context.hasChanges, "The context should have uncommitted changes.")
         context.processPendingChanges()
       }
     }
+
     waitForExpectations(timeout: 5)
   }
   
@@ -234,7 +236,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
   func testObserveChangesUsingPrivateContext() throws {
     let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
     context.persistentStoreCoordinator = container.persistentStoreCoordinator
-    container.hack_registerContext(context)
+    //container.hack_registerContext(context)
     let expectation = self.expectation(description: "\(#function)\(#file)")
     let event = ObservedManagedObjectContextEvent.change
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
@@ -264,7 +266,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
   func testObserveChangesUsingMainContext() throws {
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     context.persistentStoreCoordinator = container.persistentStoreCoordinator
-    container.hack_registerContext(context)
+    //container.hack_registerContext(context)
     let expectation = self.expectation(description: "\(#function)\(#file)")
     let event = ObservedManagedObjectContextEvent.change
 
