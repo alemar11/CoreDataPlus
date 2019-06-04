@@ -53,7 +53,6 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
    (You need to establish your own notion of a work “cycle” for a background thread—for example, after every cluster of actions.)
    **/
 
-
   func testObserveChangesUsingViewContext() {
     let context = container.viewContext
     let expectation = self.expectation(description: "\(#function)\(#file)")
@@ -81,7 +80,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testObserveChangesUsingViewContextNotifiedOnADifferentQueue() {
+  func testObserveChangesNotifiedOnADifferentQueueUsingViewContext() {
     let context = container.viewContext
     let expectation = self.expectation(description: "\(#function)\(#file)")
     let event = ObservedManagedObjectContextEvent.change
@@ -172,9 +171,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
   func testObserveChangesUsingBackgroundContextAndManyChanges() {
     let expectation = self.expectation(description: "\(#function)\(#file)")
     let context = container.newBackgroundContext()
-    //container.hack_registerContext(context)
     let event = ObservedManagedObjectContextEvent.change
-
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
       XCTAssertFalse(Thread.isMainThread)
       XCTAssertTrue(context === observedContext)
@@ -236,7 +233,6 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
   func testObserveChangesUsingPrivateContext() throws {
     let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
     context.persistentStoreCoordinator = container.persistentStoreCoordinator
-    //container.hack_registerContext(context)
     let expectation = self.expectation(description: "\(#function)\(#file)")
     let event = ObservedManagedObjectContextEvent.change
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
