@@ -259,10 +259,8 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
   func testObserveChangesUsingMainContext() throws {
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     context.persistentStoreCoordinator = container.persistentStoreCoordinator
-    //container.hack_registerContext(context)
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let event = ObservedManagedObjectContextEvent.change
-
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
       XCTAssertTrue(Thread.isMainThread)
       XCTAssertTrue(observedContext === context)
