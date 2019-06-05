@@ -87,13 +87,13 @@ public final class ManagedObjectContextChangesObserver {
       tokens.append(token)
     }
     
-    if event.contains(.save) {
+    if event.contains(.didSave) {
       let token = notificationCenter.addObserver(forName: .NSManagedObjectContextDidSave, object: kind.observedManagedObjectContext, queue: queue) { [weak self] notification in
         guard let self = self else { return }
         
         let saveNotification = ManagedObjectContextDidSaveNotification(notification: notification)
         if let changes = self.processChanges(in: saveNotification) {
-          self.handler(changes, .save, saveNotification.managedObjectContext)
+          self.handler(changes, .didSave, saveNotification.managedObjectContext)
         }
       }
       tokens.append(token)

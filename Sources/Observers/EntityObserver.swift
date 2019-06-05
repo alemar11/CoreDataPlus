@@ -151,11 +151,11 @@ public class EntityObserver<T: NSManagedObject> {
       tokens.append(token)
     }
 
-    if event.contains(.save) {
+    if event.contains(.didSave) {
       let token = context.addManagedObjectContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { [weak self] notification in
         guard let self = self else { return }
 
-        self.handleChanges(in: notification, for: .save)
+        self.handleChanges(in: notification, for: .didSave)
       }
 
       tokens.append(token)

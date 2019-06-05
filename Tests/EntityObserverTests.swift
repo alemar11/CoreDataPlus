@@ -368,7 +368,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   func testInsertedOnSaveEvent() throws {
     let context = container.viewContext
-    let observedEvent = ObservedManagedObjectContextEvent.save
+    let observedEvent = ObservedManagedObjectContextEvent.didSave
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let observer = EntityObserver<SportCar>(context: context, event: observedEvent) { (change, event) in
@@ -409,7 +409,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   func testInsertedWithoutSavingOnSaveEvent() {
     let context = container.viewContext
-    let observedEvent = ObservedManagedObjectContextEvent.save
+    let observedEvent = ObservedManagedObjectContextEvent.didSave
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
     expectation1.isInverted = true
@@ -438,7 +438,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   func testRelationshipUpdatedOnSaveEvent() throws {
     let context = container.viewContext
-    let observedEvent = ObservedManagedObjectContextEvent.save
+    let observedEvent = ObservedManagedObjectContextEvent.didSave
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar1 = SportCar(context: context)
@@ -493,7 +493,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   func testDeleteOnSaveEvent() throws {
     let context = container.viewContext
-    let observedEvent = ObservedManagedObjectContextEvent.save
+    let observedEvent = ObservedManagedObjectContextEvent.didSave
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar = SportCar(context: context)
@@ -579,7 +579,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
         XCTAssertTrue(change.invalidatedAll.isEmpty)
         expectation1.fulfill()
 
-      } else if event == .save {
+      } else if event == .didSave {
         XCTAssertEqual(change.inserted.count, 1)
         XCTAssertEqual(change.deleted.count, 1)
 
@@ -650,7 +650,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
         XCTAssertTrue(change.invalidatedAll.isEmpty)
         expectation1.fulfill()
 
-      } else if event == .save {
+      } else if event == .didSave {
         XCTAssertEqual(change.inserted.count, 1)
         XCTAssertEqual(change.deleted.count, 1)
 
