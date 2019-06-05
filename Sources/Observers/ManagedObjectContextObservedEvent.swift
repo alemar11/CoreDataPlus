@@ -44,6 +44,8 @@ public struct ManagedObjectContextObservedEvent: OptionSet {
   /// (`performAndWait(_:)` **does not**).
   public static let didChange = ManagedObjectContextObservedEvent(rawValue: 1 << 0)
 
+  //TODO: add willSave event
+
   /// **CoreDataPlus**
   ///
   /// Notifications will be sent upon `NSManagedObjectContext` being saved.
@@ -54,12 +56,3 @@ public struct ManagedObjectContextObservedEvent: OptionSet {
   /// Notifications will be sent upon `NSManagedObjectContext` being saved or changed.
   public static let all: ManagedObjectContextObservedEvent = [.didChange, .didSave]
 }
-
-// TODO
-/**
- renaming:
- is it better ManagedObjectContext_OBSERVED_Event?
- change -> didChange
- save -> didSave
- willSave
-**/
