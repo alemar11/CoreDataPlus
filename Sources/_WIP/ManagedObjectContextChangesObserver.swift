@@ -111,21 +111,19 @@ public final class ManagedObjectContextChangesObserver {
     
     guard validateContext(notification.managedObjectContext) else { return nil }
     
-   // let changes = notification.managedObjectContext.performAndWait { _ -> ManagedObjectContextChanges<NSManagedObject> in
-      let deleted = notification.deletedObjects
-      let inserted = notification.insertedObjects
-      let updated = notification.updatedObjects
-      let refreshed = notification.refreshedObjects
-      let invalidated = notification.invalidatedObjects
-      let invalidatedAll = notification.invalidatedAllObjects
-      let changes = ManagedObjectContextChanges(inserted: inserted,
-                                                updated: updated,
-                                                deleted: deleted,
-                                                refreshed: refreshed,
-                                                invalidated: invalidated,
-                                                invalidatedAll: invalidatedAll)
-     // return changes
-    //}
+    let deleted = notification.deletedObjects
+    let inserted = notification.insertedObjects
+    let updated = notification.updatedObjects
+    let refreshed = notification.refreshedObjects
+    let invalidated = notification.invalidatedObjects
+    let invalidatedAll = notification.invalidatedAllObjects
+    let changes = ManagedObjectContextChanges(inserted: inserted,
+                                              updated: updated,
+                                              deleted: deleted,
+                                              refreshed: refreshed,
+                                              invalidated: invalidated,
+                                              invalidatedAll: invalidatedAll)
+    
     return changes.isEmpty() ? nil : changes
   }
 }
