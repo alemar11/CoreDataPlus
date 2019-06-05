@@ -42,7 +42,7 @@ public struct ObservedManagedObjectContextEvent: OptionSet {
   ///
   /// - Important: Some `NSManagedObjectContext`'s methods call `processPendingChanges` internally such as `save()`, `reset()`, `refreshAllObjects()` and `perform(_:)`
   /// (`performAndWait(_:)` **does not**).
-  public static let change = ObservedManagedObjectContextEvent(rawValue: 1 << 0)
+  public static let didChange = ObservedManagedObjectContextEvent(rawValue: 1 << 0)
 
   /// **CoreDataPlus**
   ///
@@ -52,7 +52,7 @@ public struct ObservedManagedObjectContextEvent: OptionSet {
   /// **CoreDataPlus**
   ///
   /// Notifications will be sent upon `NSManagedObjectContext` being saved or changed.
-  public static let all: ObservedManagedObjectContextEvent = [.change, .didSave]
+  public static let all: ObservedManagedObjectContextEvent = [.didChange, .didSave]
 }
 
 // TODO

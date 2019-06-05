@@ -75,13 +75,13 @@ public final class ManagedObjectContextChangesObserver {
   
   /// Add the observers for the event.
   private func setup() {
-    if event.contains(.change) {
+    if event.contains(.didChange) {
       let token = notificationCenter.addObserver(forName: .NSManagedObjectContextObjectsDidChange, object: kind.observedManagedObjectContext, queue: queue) { [weak self] notification in
         guard let self = self else { return }
         
         let changeNotification = ManagedObjectContextObjectsDidChangeNotification(notification: notification)
         if let changes = self.processChanges(in: changeNotification) {
-          self.handler(changes, .change, changeNotification.managedObjectContext)
+          self.handler(changes, .didChange, changeNotification.managedObjectContext)
         }
       }
       tokens.append(token)

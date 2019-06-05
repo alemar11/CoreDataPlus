@@ -56,7 +56,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
   func testObserveChangesUsingViewContext() {
     let context = container.viewContext
     let expectation = self.expectation(description: "\(#function)\(#line)")
-    let event = ObservedManagedObjectContextEvent.change
+    let event = ObservedManagedObjectContextEvent.didChange
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
       XCTAssertTrue(Thread.isMainThread)
       XCTAssertTrue(observedContext === context)
@@ -83,7 +83,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
   func testObserveChangesNotifiedOnADifferentQueueUsingViewContext() {
     let context = container.viewContext
     let expectation = self.expectation(description: "\(#function)\(#line)")
-    let event = ObservedManagedObjectContextEvent.change
+    let event = ObservedManagedObjectContextEvent.didChange
     let queue = OperationQueue()
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event, queue: queue) { (change, event, observedContext) in
       // The posting thread is the Main Thread but the queue specified is not.
@@ -113,7 +113,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
   func testObserveChangesUsingBackgroundContext() {
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let context = container.newBackgroundContext()
-    let event = ObservedManagedObjectContextEvent.change
+    let event = ObservedManagedObjectContextEvent.didChange
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
       XCTAssertTrue(Thread.isMainThread)
       XCTAssertTrue(context === observedContext)
@@ -142,7 +142,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
   func testObserveChangesUsingBackgroundContextAndPerform() {
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let context = container.newBackgroundContext()
-    let event = ObservedManagedObjectContextEvent.change
+    let event = ObservedManagedObjectContextEvent.didChange
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
       XCTAssertFalse(Thread.isMainThread) // `perform` is async, and it is responsible for posting this notification.
       XCTAssertTrue(context === observedContext)
@@ -171,7 +171,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
   func testObserveChangesUsingBackgroundContextAndDispatchQueue() {
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let context = container.newBackgroundContext()
-    let event = ObservedManagedObjectContextEvent.change
+    let event = ObservedManagedObjectContextEvent.didChange
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
       XCTAssertFalse(Thread.isMainThread)
       XCTAssertTrue(context === observedContext)
@@ -213,7 +213,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     let expectation = self.expectation(description: "\(#function)\(#line)")
     expectation.isInverted = true
     let context = container.newBackgroundContext()
-    let event = ObservedManagedObjectContextEvent.change
+    let event = ObservedManagedObjectContextEvent.didChange
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
       // The context doesn't have any changes so the notifcation shouldn't be issued.
       print(change)
@@ -231,7 +231,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
     context.persistentStoreCoordinator = container.persistentStoreCoordinator
     let expectation = self.expectation(description: "\(#function)\(#line)")
-    let event = ObservedManagedObjectContextEvent.change
+    let event = ObservedManagedObjectContextEvent.didChange
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
       XCTAssertTrue(Thread.isMainThread)
       XCTAssertTrue(observedContext === context)
@@ -260,7 +260,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     context.persistentStoreCoordinator = container.persistentStoreCoordinator
     let expectation = self.expectation(description: "\(#function)\(#line)")
-    let event = ObservedManagedObjectContextEvent.change
+    let event = ObservedManagedObjectContextEvent.didChange
     let observer = ManagedObjectContextChangesObserver(kind: .one(context: context), event: event) { (change, event, observedContext) in
       XCTAssertTrue(Thread.isMainThread)
       XCTAssertTrue(observedContext === context)

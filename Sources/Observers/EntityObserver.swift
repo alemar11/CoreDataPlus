@@ -141,11 +141,11 @@ public class EntityObserver<T: NSManagedObject> {
 
   /// Add the observers for the event.
   private func setupObservers() {
-    if event.contains(.change) {
+    if event.contains(.didChange) {
       let token = context.addManagedObjectContextObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { [weak self] notification in
         guard let self = self else { return }
 
-        self.handleChanges(in: notification, for: .change)
+        self.handleChanges(in: notification, for: .didChange)
       }
 
       tokens.append(token)
