@@ -74,7 +74,7 @@ public class EntityObserver<T: NSManagedObject> {
   /// **CoreDataPlus**
   ///
   /// The observed event.
-  public let event: ObservedManagedObjectContextEvent
+  public let event: ManagedObjectContextObservedEvent
 
   /// **CoreDataPlus**
   ///
@@ -97,7 +97,7 @@ public class EntityObserver<T: NSManagedObject> {
 
   private let context: NSManagedObjectContext
   private let notificationCenter: NotificationCenter
-  private let handler: (ManagedObjectContextChanges<T>, ObservedManagedObjectContextEvent) -> Void
+  private let handler: (ManagedObjectContextChanges<T>, ManagedObjectContextObservedEvent) -> Void
   private var tokens = [NSObjectProtocol]()
 
   // MARK: - Initializers
@@ -112,10 +112,10 @@ public class EntityObserver<T: NSManagedObject> {
   ///   - observeSubEntities: If `true`, all the changes happening in the subentities will be observed. (default: `false`)
   ///   - notificationCenter: The `NotificationCenter` listening the the `NSManagedObjectContext` notifications.
   ///   - changedHandler: The completion handler.
-  init(context: NSManagedObjectContext, event: ObservedManagedObjectContextEvent,
+  init(context: NSManagedObjectContext, event: ManagedObjectContextObservedEvent,
        observeSubEntities: Bool = false,
        notificationCenter: NotificationCenter = .default,
-       changedHandler: @escaping (ManagedObjectContextChanges<T>, ObservedManagedObjectContextEvent) -> Void) {
+       changedHandler: @escaping (ManagedObjectContextChanges<T>, ManagedObjectContextObservedEvent) -> Void) {
     self.context = context
     self.event = event
     self.observeSubEntities = observeSubEntities
@@ -163,7 +163,7 @@ public class EntityObserver<T: NSManagedObject> {
   }
 
   /// Processes the incoming notification.
-  private func handleChanges(in notification: ManagedObjectContextObservable, for event: ObservedManagedObjectContextEvent) {
+  private func handleChanges(in notification: ManagedObjectContextObservable, for event: ManagedObjectContextObservedEvent) {
     context.performAndWait {
       func process(_ value: Set<NSManagedObject>) -> EntitySet {
         if observeSubEntities {

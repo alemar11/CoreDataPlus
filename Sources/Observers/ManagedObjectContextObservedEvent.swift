@@ -26,7 +26,7 @@ import Foundation
 /// **CoreDataPlus**
 ///
 /// `OptionSet` with all the observable NSMAnagedObjectContext events.
-public struct ObservedManagedObjectContextEvent: OptionSet {
+public struct ManagedObjectContextObservedEvent: OptionSet {
   public let rawValue: UInt
 
   public init(rawValue: UInt) {
@@ -42,17 +42,17 @@ public struct ObservedManagedObjectContextEvent: OptionSet {
   ///
   /// - Important: Some `NSManagedObjectContext`'s methods call `processPendingChanges` internally such as `save()`, `reset()`, `refreshAllObjects()` and `perform(_:)`
   /// (`performAndWait(_:)` **does not**).
-  public static let didChange = ObservedManagedObjectContextEvent(rawValue: 1 << 0)
+  public static let didChange = ManagedObjectContextObservedEvent(rawValue: 1 << 0)
 
   /// **CoreDataPlus**
   ///
   /// Notifications will be sent upon `NSManagedObjectContext` being saved.
-  public static let didSave = ObservedManagedObjectContextEvent(rawValue: 1 << 1)
+  public static let didSave = ManagedObjectContextObservedEvent(rawValue: 1 << 1)
 
   /// **CoreDataPlus**
   ///
   /// Notifications will be sent upon `NSManagedObjectContext` being saved or changed.
-  public static let all: ObservedManagedObjectContextEvent = [.didChange, .didSave]
+  public static let all: ManagedObjectContextObservedEvent = [.didChange, .didSave]
 }
 
 // TODO
