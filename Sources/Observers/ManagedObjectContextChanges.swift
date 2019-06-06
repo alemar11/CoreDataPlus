@@ -60,7 +60,7 @@ public struct ManagedObjectContextChanges<T: NSManagedObject> {
   /// **CoreDataPlus**
   ///
   /// Returns `true` if there aren't any kind of changes.
-  public func isEmpty() -> Bool {
-    return inserted.isEmpty && !updated.isEmpty && !deleted.isEmpty && !refreshed.isEmpty && !invalidated.isEmpty && !invalidatedAll.isEmpty
+  public var isEmpty: Bool {
+    return inserted.isEmpty && updated.isEmpty && deleted.isEmpty && refreshed.isEmpty && invalidated.isEmpty && invalidatedAll.isEmpty
   }
 }

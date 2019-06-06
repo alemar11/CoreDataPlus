@@ -25,50 +25,94 @@ import CoreData
 import Foundation
 
 // TODO: work in progress
-public class ManagedObjectObserver<T: NSManagedObject> {
-  public let observedObject: T
-  private let observedEvent: ManagedObjectContextObservedEvent
+public final class ManagedObjectObserver<T: NSManagedObject> {
+  private let objectId: NSManagedObjectID
+  private let context: NSManagedObjectContext
+  private let notificationCenter: NotificationCenter
+  private let queue: OperationQueue?
+  private let event: ManagedObjectContextObservedEvent
   private let handler: (ManagedObjectChange, ManagedObjectContextObservedEvent) -> Void
 
-  private lazy var entityObserver: EntityObserver<T> = {
-    guard let context = observedObject.managedObjectContext else {
-      fatalError("\(observedObject) doesn't have a managedObjectContext.")
-    }
+  private lazy var observer: ManagedObjectContextChangesObserver = {
+    let observer = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(context),
+                                                       event: event,
+                                                       notificationCenter: notificationCenter,
+                                                       queue: queue,
+                                                       handler: { [weak self] (changes, event, context) in
+                                                        guard let self = self else { return }
 
-    let observer = EntityObserver<T>(context: context, event: observedEvent) { [weak self] (changes, event) in
-      guard let self = self else { return }
-      guard !changes.isEmpty() else { return }
+                                                        dump(changes)
+                                                        print(changes.isEmpty)
+                                                        // the object cannot be identified if the changed are empty
+                                                        guard !changes.isEmpty else {
 
-      let isDeleted = changes.deleted.contains(self.observedObject)
-      let isInserted = changes.inserted.contains(self.observedObject)
-      let isInvalidated = changes.invalidated.contains(self.observedObject) || changes.invalidatedAll.contains(self.observedObject.objectID)
-      let isRefreshed = changes.refreshed.contains(self.observedObject)
-      let isUpdated = changes.updated.contains(self.observedObject)
+//                                                          let o = context.performAndWait {
+//                                                            return $0.object(with: self.objectId)
+//                                                            
+//                                                          }
+//                                                          print(o)
+                                                          return
+                                                        }
+                                                        
+                                                        let isDeleted = changes.deleted.map { $0.objectID }.contains(self.objectId)
+                                                        let isInserted = changes.inserted.map { $0.objectID }.contains(self.objectId)
+                                                        let isInvalidated = changes.invalidated.map { $0.objectID }.contains(self.objectId) || changes.invalidatedAll.contains(self.objectId)
+                                                        let isRefreshed = changes.refreshed.map { $0.objectID }.contains(self.objectId)
+                                                        let isUpdated = changes.updated.map { $0.objectID }.contains(self.objectId)
 
-      if isDeleted {
-        self.handler(.deleted, event)
-      }
-      if isInserted {
-         self.handler(.inserted, event)
-      }
-      if isInvalidated {
-        self.handler(.invalidated, event)
-      }
-      if isRefreshed {
-        self.handler(.refreshed, event)
-      }
-      if isUpdated {
-        self.handler(.updated, event)
-      }
-    }
+                                                        // TODO: use if else to avoid handling multiple times for the same notification?
+                                                         dump(changes)
+                                                        if isDeleted {
+                                                          self.handler(.deleted, event)
+                                                        }
+                                                        if isInserted {
+                                                          self.handler(.inserted, event)
+                                                        }
+                                                        if isInvalidated {
+                                                          self.handler(.invalidated, event)
+                                                        }
+                                                        if isRefreshed {
+                                                          self.handler(.refreshed, event)
+                                                        }
+                                                        if isUpdated {
+                                                          self.handler(.updated, event)
+                                                        }
+    })
     return observer
   }()
 
-  init(object: T, event: ManagedObjectContextObservedEvent, changedHandler: @escaping (ManagedObjectChange, ManagedObjectContextObservedEvent) -> Void) {
-    self.observedObject = object
-    self.observedEvent = event
+  init(object: T,
+       event: ManagedObjectContextObservedEvent,
+       notificationCenter: NotificationCenter = .default,
+       queue: OperationQueue? = nil,
+       changedHandler: @escaping (ManagedObjectChange, ManagedObjectContextObservedEvent) -> Void) throws {
+    /// If the receiver has not yet been saved, the object ID is a temporary value that will change when the object is saved.
+    self.notificationCenter = notificationCenter
+    self.queue = queue
+
+    // a willSave notificaiton doesn't contain any info about what is going to be saved so we can't identify the observed object
+    if event.contains(.willSave) {
+      throw CoreDataPlusError.fetchCountFailed() // TODO random error just to make this work while prototyping
+    }
+
+    guard let context = object.managedObjectContext else {
+      throw CoreDataPlusError.fetchCountFailed() // TODO random error just to make this work while prototyping
+    }
+
+    // TODO: test it with a context without a PSC
+    if object.objectID.isTemporaryID {
+      do {
+        try context.obtainPermanentIDs(for: [object])
+        print("📍", object.objectID)
+      } catch {
+        throw error // TODO wrap this error
+      }
+    }
+    self.objectId = object.objectID
+    self.context = context
+    self.event = event
     self.handler = changedHandler
-    _ = entityObserver
+    _ = self.observer
   }
 }
 
@@ -92,10 +136,10 @@ public extension ManagedObjectObserver {
    A key for the set of objects that were invalidated.
    let NSInvalidatedAllObjectsKey: String
    A key that specifies that all objects in the context have been invalidated.
- **/
+   **/
   enum ManagedObjectChange {
     case deleted
-    case inserted
+    case inserted // TODO this is useless because the object should be aleready in a context
     case invalidated
     case refreshed
     case updated
@@ -118,7 +162,7 @@ public extension NSFetchRequestResult where Self: NSManagedObject {
 
    The object identifier of a record is similar, but not identical, to the primary key of a database record.
    It uniquely identifies the record and enables your application to fetch a particular record regardless of what thread the operation is performed on.
-  **/
+   **/
 
   /// Accesses `self` from another context.
   func `in`(_ context: NSManagedObjectContext) -> Self {

@@ -44,7 +44,10 @@ public struct ManagedObjectContextObservedEvent: OptionSet {
   /// (`performAndWait(_:)` **does not**).
   public static let didChange = ManagedObjectContextObservedEvent(rawValue: 1 << 0)
 
-  //TODO: add willSave event
+  /// **CoreDataPlus**
+  ///
+  /// Notifications will be sent before `NSManagedObjectContext` being saved.
+  /// - Note: There is no extra info associated with this event; it just notifies that a `NSManagedObjectContext` is about to being saved.
    public static let willSave = ManagedObjectContextObservedEvent(rawValue: 1 << 1)
 
   /// **CoreDataPlus**

@@ -26,7 +26,7 @@ import CoreData
 /// **CoreDataPlus**
 ///
 /// An object that observes all the changes happening in a `NSManagedObjectContext` for a specific entity.
-public class EntityObserver<T: NSManagedObject> {
+public final class EntityObserver<T: NSManagedObject> {
   fileprivate typealias EntitySet = Set<T>
 
   /// **CoreDataPlus**
@@ -95,7 +95,7 @@ public class EntityObserver<T: NSManagedObject> {
     self.notificationCenter = notificationCenter
     self.queue = queue
     self.handler = changedHandler
-    _ = observer
+    _ = self.observer
   }
 
 
@@ -123,7 +123,7 @@ public class EntityObserver<T: NSManagedObject> {
                                              refreshed: refreshed,
                                              invalidated: invalidated,
                                              invalidatedAll: invalidatedAll)
-    if !change.isEmpty() {
+    if !change.isEmpty {
       handler(change, event)
     }
   }
