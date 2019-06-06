@@ -45,14 +45,15 @@ public struct ManagedObjectContextObservedEvent: OptionSet {
   public static let didChange = ManagedObjectContextObservedEvent(rawValue: 1 << 0)
 
   //TODO: add willSave event
+   public static let willSave = ManagedObjectContextObservedEvent(rawValue: 1 << 1)
 
   /// **CoreDataPlus**
   ///
   /// Notifications will be sent upon `NSManagedObjectContext` being saved.
-  public static let didSave = ManagedObjectContextObservedEvent(rawValue: 1 << 1)
+  public static let didSave = ManagedObjectContextObservedEvent(rawValue: 1 << 2)
 
   /// **CoreDataPlus**
   ///
   /// Notifications will be sent upon `NSManagedObjectContext` being saved or changed.
-  public static let all: ManagedObjectContextObservedEvent = [.didChange, .didSave]
+  public static let all: ManagedObjectContextObservedEvent = [.didChange, .willSave, .didSave]
 }

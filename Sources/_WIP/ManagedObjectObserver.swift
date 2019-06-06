@@ -64,7 +64,7 @@ public class ManagedObjectObserver<T: NSManagedObject> {
     return observer
   }()
 
-  init(object: T, event: ManagedObjectContextObservedEvent = .all, changedHandler: @escaping (ManagedObjectChange, ManagedObjectContextObservedEvent) -> Void) {
+  init(object: T, event: ManagedObjectContextObservedEvent, changedHandler: @escaping (ManagedObjectChange, ManagedObjectContextObservedEvent) -> Void) {
     self.observedObject = object
     self.observedEvent = event
     self.handler = changedHandler

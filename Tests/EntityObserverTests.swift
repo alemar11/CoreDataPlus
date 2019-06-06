@@ -545,7 +545,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   func testMixChangesOnUpdateAndOnSave() throws {
     let context = container.viewContext
-    let observedEvent = ManagedObjectContextObservedEvent.all
+    let observedEvent: ManagedObjectContextObservedEvent = [.didChange, .didSave]
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let expectation2 = expectation(description: "\(#function)\(#line)")
 
@@ -616,7 +616,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   func testMixChangesOnUpdateAndOnSaveInSubEntities() throws {
     let context = container.viewContext
-    let observedEvent = ManagedObjectContextObservedEvent.all
+    let observedEvent: ManagedObjectContextObservedEvent = [.didChange, .didSave]
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let expectation2 = expectation(description: "\(#function)\(#line)")
 
