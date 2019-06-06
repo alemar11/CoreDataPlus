@@ -25,48 +25,6 @@ import CoreData
 
 /// **CoreDataPlus**
 ///
-/// Contains all the changes taking place in a `NSManagedObjectContext` for each notification.
-public struct ManagedObjectContextChanges<T: NSManagedObject> {
-  /// **CoreDataPlus**
-  ///
-  /// Returns a `Set` of objects that were inserted into the context.
-  public let inserted: Set<T>
-
-  /// **CoreDataPlus**
-  ///
-  /// Returns a `Set` of objects that were updated into the context.
-  public let updated: Set<T>
-
-  /// **CoreDataPlus**
-  ///
-  /// Returns a `Set` of objects that were deleted into the context.
-  public let deleted: Set<T>
-
-  /// **CoreDataPlus**
-  ///
-  /// Returns a `Set` of objects that were refreshed into the context.
-  public let refreshed: Set<T>
-
-  /// **CoreDataPlus**
-  ///
-  /// Returns a `Set` of objects that were invalidated into the context.
-  public let invalidated: Set<T>
-
-  /// **CoreDataPlus**
-  ///
-  /// When all the object in the context have been invalidated, returns a `Set` containing all the invalidated objects' NSManagedObjectID.
-  public let invalidatedAll: Set<NSManagedObjectID>
-
-  /// **CoreDataPlus**
-  ///
-  /// Returns `true` if there aren't any kind of changes.
-  public func isEmpty() -> Bool {
-    return inserted.isEmpty && !updated.isEmpty && !deleted.isEmpty && !refreshed.isEmpty && !invalidated.isEmpty && !invalidatedAll.isEmpty
-  }
-}
-
-/// **CoreDataPlus**
-///
 /// An object that observes all the changes happening in a `NSManagedObjectContext` for a specific entity.
 public class EntityObserver<T: NSManagedObject> {
   fileprivate typealias EntitySet = Set<T>
@@ -97,8 +55,19 @@ public class EntityObserver<T: NSManagedObject> {
 
   private let context: NSManagedObjectContext
   private let notificationCenter: NotificationCenter
+  private let queue: OperationQueue?
   private let handler: (ManagedObjectContextChanges<T>, ManagedObjectContextObservedEvent) -> Void
-  private var tokens = [NSObjectProtocol]()
+  private lazy var observer: ManagedObjectContextChangesObserver = {
+    let observer = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(context: context),
+                                                       event: event,
+                                                       notificationCenter: notificationCenter,
+                                                       queue: queue) { [weak self] (changes, event, context) in
+                                                        guard let self = self else { return }
+
+                                                        self.handleChanges(changes, for: event, in: context)
+    }
+    return observer
+  }()
 
   // MARK: - Initializers
 
@@ -111,83 +80,51 @@ public class EntityObserver<T: NSManagedObject> {
   ///   - event: The kind of event observed.
   ///   - observeSubEntities: If `true`, all the changes happening in the subentities will be observed. (default: `false`)
   ///   - notificationCenter: The `NotificationCenter` listening the the `NSManagedObjectContext` notifications.
+  ///   - The operation queue to which block should be added. If you pass nil, the block is run synchronously on the posting thread.
   ///   - changedHandler: The completion handler.
-  init(context: NSManagedObjectContext, event: ManagedObjectContextObservedEvent,
+  init(context: NSManagedObjectContext,
+       event: ManagedObjectContextObservedEvent,
        observeSubEntities: Bool = false,
        notificationCenter: NotificationCenter = .default,
+       queue: OperationQueue? = nil,
        changedHandler: @escaping (ManagedObjectContextChanges<T>, ManagedObjectContextObservedEvent) -> Void) {
+
     self.context = context
     self.event = event
     self.observeSubEntities = observeSubEntities
     self.notificationCenter = notificationCenter
+    self.queue = queue
     self.handler = changedHandler
-    setupObservers()
+    _ = observer
   }
 
-  deinit {
-    removeObservers()
-  }
 
   // MARK: - Private implementation
 
-  /// Removes all the observers.
-  private func removeObservers() {
-    tokens.forEach { token in
-      notificationCenter.removeObserver(token)
-    }
-
-    tokens.removeAll()
-  }
-
-  /// Add the observers for the event.
-  private func setupObservers() {
-    if event.contains(.didChange) {
-      let token = context.addManagedObjectContextObjectsDidChangeNotificationObserver(notificationCenter: notificationCenter) { [weak self] notification in
-        guard let self = self else { return }
-
-        self.handleChanges(in: notification, for: .didChange)
-      }
-
-      tokens.append(token)
-    }
-
-    if event.contains(.didSave) {
-      let token = context.addManagedObjectContextDidSaveNotificationObserver(notificationCenter: notificationCenter) { [weak self] notification in
-        guard let self = self else { return }
-
-        self.handleChanges(in: notification, for: .didSave)
-      }
-
-      tokens.append(token)
-    }
-  }
-
   /// Processes the incoming notification.
-  private func handleChanges(in notification: ManagedObjectContextObservable, for event: ManagedObjectContextObservedEvent) {
-    context.performAndWait {
-      func process(_ value: Set<NSManagedObject>) -> EntitySet {
-        if observeSubEntities {
-          return value.filter { $0.entity.topMostEntity == observedEntity } as? EntitySet ?? []
-        } else {
-          return value.filter { $0.entity == observedEntity } as? EntitySet ?? []
-        }
+  private func handleChanges(_ changes: ManagedObjectContextChanges<NSManagedObject>, for event: ManagedObjectContextObservedEvent, in context: NSManagedObjectContext) {
+    func process(_ value: Set<NSManagedObject>) -> EntitySet {
+      if observeSubEntities {
+        return value.filter { $0.entity.topMostEntity == observedEntity } as? EntitySet ?? []
+      } else {
+        return value.filter { $0.entity == observedEntity } as? EntitySet ?? []
       }
+    }
 
-      let deleted = process(notification.deletedObjects)
-      let inserted = process(notification.insertedObjects)
-      let updated = process(notification.updatedObjects)
-      let refreshed = process(notification.refreshedObjects)
-      let invalidated = process(notification.invalidatedObjects)
-      let invalidatedAll = notification.invalidatedAllObjects.filter { $0.entity == observedEntity }
-      let change = ManagedObjectContextChanges(inserted: inserted,
-                                              updated: updated,
-                                              deleted: deleted,
-                                              refreshed: refreshed,
-                                              invalidated: invalidated,
-                                              invalidatedAll: invalidatedAll)
-      if !change.isEmpty() {
-        handler(change, event)
-      }
+    let deleted = process(changes.deleted)
+    let inserted = process(changes.inserted)
+    let updated = process(changes.updated)
+    let refreshed = process(changes.refreshed)
+    let invalidated = process(changes.invalidated)
+    let invalidatedAll = changes.invalidatedAll.filter { $0.entity == observedEntity }
+    let change = ManagedObjectContextChanges(inserted: inserted,
+                                             updated: updated,
+                                             deleted: deleted,
+                                             refreshed: refreshed,
+                                             invalidated: invalidated,
+                                             invalidatedAll: invalidatedAll)
+    if !change.isEmpty() {
+      handler(change, event)
     }
   }
 }

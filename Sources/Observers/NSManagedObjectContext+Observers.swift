@@ -63,7 +63,7 @@ public extension ManagedObjectContextNotification {
   //  }
 }
 
-// MARK: - NSManagedObjectContextObserving
+// MARK: - ManagedObjectContextObservable
 
 /// **CoreDataPlus**
 ///
@@ -125,24 +125,24 @@ extension ManagedObjectContextObservable {
   /// **CoreDataPlus**
   ///
   /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
+  /// - Note: It can be populated only for `NSManagedObjectContextObjectsDidChange` notifications.
   public var refreshedObjects: Set<NSManagedObject> {
-    // fired only with ObjectsDidChangeNotification
     return objects(forKey: NSRefreshedObjectsKey)
   }
 
   /// **CoreDataPlus**
   ///
   /// A `Set` of objects that were invalidated.
+  /// - Note: It can be populated only for `NSManagedObjectContextObjectsDidChange` notifications.
   public var invalidatedObjects: Set<NSManagedObject> {
-    // fired only with ObjectsDidChangeNotification only
     return objects(forKey: NSInvalidatedObjectsKey)
   }
 
   /// **CoreDataPlus**
   ///
   /// When all the object in the context have been invalidated, returns a `Set` containing all the invalidated objects' NSManagedObjectID.
+  /// - Note: It can be populated only for `NSManagedObjectContextObjectsDidChange` notifications.
   public var invalidatedAllObjects: Set<NSManagedObjectID> {
-    // fired only with ObjectsDidChangeNotification
     guard let objectsID = notification.userInfo?[NSInvalidatedAllObjectsKey] as? [NSManagedObjectID] else {
       return Set()
     }

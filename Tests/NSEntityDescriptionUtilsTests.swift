@@ -25,14 +25,13 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-public extension NSManagedObject {
+fileprivate extension NSManagedObject {
   convenience init(usingContext context: NSManagedObjectContext) {
     let name = String(describing: type(of: self))
     let entity = NSEntityDescription.entity(forEntityName: name, in: context)!
     self.init(entity: entity, insertInto: context)
   }
 }
-
 
 final class NSEntityDescriptionUtilsTests: CoreDataPlusTestCase {
 
@@ -56,23 +55,31 @@ final class NSEntityDescriptionUtilsTests: CoreDataPlusTestCase {
   }
 
   func testTopMostEntity() {
+    /// Making sure that all the necessary bits are available
+
     guard let model = container.viewContext.persistentStoreCoordinator?.managedObjectModel else {
-      fatalError("Missing Model")
+      XCTFail("Missing Model")
+      return
     }
 
-    print(model.entitiesByName.keys)
-
+    let entities = model.entitiesByName.keys
+    guard model.entitiesByName.keys.contains("Car") else {
+      XCTFail("Car Entity not found; available entities: \(entities)")
+      return
+    }
 
     // Car.entity().name can be nil while running tests
     // To avoid some random failed tests, the entity is created by looking in a context.
     guard let carEntity = NSEntityDescription.entity(forEntityName: Car.entityName, in: container.viewContext) else {
-      fatalError("Car Entity Not Found.")
+      XCTFail("Car Entity Not Found.")
+      return
     }
 
     guard let _ = carEntity.name else {
       fatalError("\(carEntity) should have a name.")
     }
 
+    // Using a custom init to avoid some problems during tests.
     let expensiveCar = ExpensiveSportCar(usingContext: container.viewContext)
     let topMostAncestorEntityForExpensiveCar = expensiveCar.entity.topMostEntity
     XCTAssertTrue(topMostAncestorEntityForExpensiveCar == carEntity, "\(topMostAncestorEntityForExpensiveCar) should be a Car entity \(String(describing: topMostAncestorEntityForExpensiveCar.name)).")
