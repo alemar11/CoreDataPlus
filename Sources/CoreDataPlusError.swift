@@ -55,6 +55,17 @@ extension CoreDataPlusError: LocalizedError {
 extension CoreDataPlusError {
   /// A batch update operation failed.
   static func batchUpdateFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> CoreDataPlusError {
+    // TODO: use NSError instead of a custom error?
+    /*
+    // https://developer.apple.com/documentation/foundation/userinfokey
+    let error = NSError(domain: "\(bundleIdentifier)",
+      code: ErrorCode.batchUpdateFailed.rawValue,
+      userInfo: [NSUnderlyingErrorKey: underlyingError,
+                 NSDebugDescriptionErrorKey: "The batch update operation failed. Check the underlying error.",
+                 "File": file,
+                 "Function": function,
+                 "Line": line])
+     */
     let description = "The batch update operation failed. Check the underlying error."
     return .init(errorCode: ErrorCode.batchUpdateFailed.rawValue,
                  message: description,
