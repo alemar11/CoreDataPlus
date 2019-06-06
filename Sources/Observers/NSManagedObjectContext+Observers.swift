@@ -191,7 +191,7 @@ extension ManagedObjectContextDidSaveNotification: CustomDebugStringConvertible 
 /// **CoreDataPlus**
 ///
 /// A type safe `NSManagedObjectContextWillSave` notification.
-public struct ManagedObjectContextWillSaveNotification: ManagedObjectContextNotification {
+public struct ManagedObjectContextWillSaveNotification: ManagedObjectContextObservable {
   public let notification: Notification
 
   public init(notification: Notification) {

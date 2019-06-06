@@ -29,7 +29,7 @@ public extension ManagedObjectContextChangesObserver {
     case one(context: NSManagedObjectContext)
 
     /// The observed `NSManagedObjectContext`, nil if multiple context are observerd.
-    fileprivate var observedManagedObjectContext: NSManagedObjectContext? {
+    fileprivate var managedObjectContext: NSManagedObjectContext? {
       switch self {
       case .one(context: let context): return context
       default: return nil
@@ -84,25 +84,39 @@ public final class ManagedObjectContextChangesObserver {
   private func setup() {
     if event.contains(.didChange) {
       let token = notificationCenter.addObserver(forName: .NSManagedObjectContextObjectsDidChange,
-                                                 object: observedManagedObjectContext.observedManagedObjectContext,
+                                                 object: observedManagedObjectContext.managedObjectContext,
                                                  queue: queue) { [weak self] notification in
         guard let self = self else { return }
 
-        let changeNotification = ManagedObjectContextObjectsDidChangeNotification(notification: notification)
-        if let changes = self.processChanges(in: changeNotification) {
-          self.handler(changes, .didChange, changeNotification.managedObjectContext)
+        let didChangeNotification = ManagedObjectContextObjectsDidChangeNotification(notification: notification)
+        if let changes = self.processChanges(in: didChangeNotification) {
+          self.handler(changes, .didChange, didChangeNotification.managedObjectContext)
+        }
+      }
+      tokens.append(token)
+    }
+
+    if event.contains(.willSave) {
+      let token = notificationCenter.addObserver(forName: .NSManagedObjectContextWillSave,
+                                                 object: observedManagedObjectContext.managedObjectContext,
+                                                 queue: queue) { [weak self] notification in
+        guard let self = self else { return }
+
+        let willSaveNotification = ManagedObjectContextWillSaveNotification(notification: notification)
+        if let changes = self.processChanges(in: willSaveNotification) {
+          self.handler(changes, .willSave, willSaveNotification.managedObjectContext)
         }
       }
       tokens.append(token)
     }
 
     if event.contains(.didSave) {
-      let token = notificationCenter.addObserver(forName: .NSManagedObjectContextDidSave, object: observedManagedObjectContext.observedManagedObjectContext, queue: queue) { [weak self] notification in
+      let token = notificationCenter.addObserver(forName: .NSManagedObjectContextDidSave, object: observedManagedObjectContext.managedObjectContext, queue: queue) { [weak self] notification in
         guard let self = self else { return }
 
-        let saveNotification = ManagedObjectContextDidSaveNotification(notification: notification)
-        if let changes = self.processChanges(in: saveNotification) {
-          self.handler(changes, .didSave, saveNotification.managedObjectContext)
+        let didSaveNotification = ManagedObjectContextDidSaveNotification(notification: notification)
+        if let changes = self.processChanges(in: didSaveNotification) {
+          self.handler(changes, .didSave, didSaveNotification.managedObjectContext)
         }
       }
       tokens.append(token)
