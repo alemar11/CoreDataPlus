@@ -26,7 +26,7 @@ import CoreData
 public extension ManagedObjectContextChangesObserver {
   enum ObservedManagedObjectContext {
     case all(matching: (NSManagedObjectContext) -> Bool)
-    case one(context: NSManagedObjectContext)
+    case one(NSManagedObjectContext)
 
     /// The observed `NSManagedObjectContext`, nil if multiple context are observerd.
     fileprivate var managedObjectContext: NSManagedObjectContext? {
@@ -44,10 +44,12 @@ public extension ManagedObjectContextChangesObserver {
 public final class ManagedObjectContextChangesObserver {
   public typealias Handler = (ManagedObjectContextChanges<NSManagedObject>, ManagedObjectContextObservedEvent, NSManagedObjectContext) -> Void
 
-  let observedManagedObjectContext: ObservedManagedObjectContext
-  let event: ManagedObjectContextObservedEvent
-  let queue: OperationQueue?
-  let notificationCenter: NotificationCenter
+   // MARK: - Private properties
+
+  private let observedManagedObjectContext: ObservedManagedObjectContext
+  private let event: ManagedObjectContextObservedEvent
+  private let queue: OperationQueue?
+  private let notificationCenter: NotificationCenter
   private let handler: Handler
   private var tokens = [NSObjectProtocol]()
 

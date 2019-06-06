@@ -58,7 +58,7 @@ public class EntityObserver<T: NSManagedObject> {
   private let queue: OperationQueue?
   private let handler: (ManagedObjectContextChanges<T>, ManagedObjectContextObservedEvent) -> Void
   private lazy var observer: ManagedObjectContextChangesObserver = {
-    let observer = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(context: context),
+    let observer = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(context),
                                                        event: event,
                                                        notificationCenter: notificationCenter,
                                                        queue: queue) { [weak self] (changes, event, context) in
