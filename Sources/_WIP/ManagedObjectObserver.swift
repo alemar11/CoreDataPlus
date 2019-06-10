@@ -36,7 +36,6 @@ public final class ManagedObjectObserver<T: NSManagedObject> {
   private lazy var observer: ManagedObjectContextChangesObserver = {
     let observer = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(context),
                                                        event: event,
-                                                       notificationCenter: notificationCenter,
                                                        queue: queue,
                                                        handler: { [weak self] (changes, event, context) in
                                                         guard let self = self else { return }

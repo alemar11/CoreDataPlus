@@ -53,7 +53,7 @@ public final class ManagedObjectContextChangesObserver {
   private let observedManagedObjectContext: ObservedManagedObjectContext
   private let event: ManagedObjectContextObservedEvent
   private let queue: OperationQueue?
-  private let notificationCenter: NotificationCenter
+  private let notificationCenter = NotificationCenter.default
   private let handler: Handler
   private var tokens = [NSObjectProtocol]()
 
@@ -61,13 +61,11 @@ public final class ManagedObjectContextChangesObserver {
 
   public init(observedManagedObjectContext: ObservedManagedObjectContext,
               event: ManagedObjectContextObservedEvent,
-              notificationCenter: NotificationCenter = .default,
               queue: OperationQueue? = nil,
               handler: @escaping Handler) {
     self.observedManagedObjectContext = observedManagedObjectContext
     self.event = event
     self.queue = queue
-    self.notificationCenter = notificationCenter
     self.handler = handler
     setup()
   }

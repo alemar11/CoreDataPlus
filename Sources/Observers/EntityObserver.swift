@@ -54,13 +54,11 @@ public final class EntityObserver<T: NSManagedObject> {
   // MARK: - Private properties
 
   private let context: NSManagedObjectContext
-  private let notificationCenter: NotificationCenter
   private let queue: OperationQueue?
   private let handler: (ManagedObjectContextChanges<T>, ManagedObjectContextObservedEvent) -> Void
   private lazy var observer: ManagedObjectContextChangesObserver = {
     let observer = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(context),
                                                        event: event,
-                                                       notificationCenter: notificationCenter,
                                                        queue: queue) { [weak self] (changes, event, context) in
                                                         guard let self = self else { return }
 
@@ -85,14 +83,12 @@ public final class EntityObserver<T: NSManagedObject> {
   init(context: NSManagedObjectContext,
        event: ManagedObjectContextObservedEvent,
        observeSubEntities: Bool = false,
-       notificationCenter: NotificationCenter = .default,
        queue: OperationQueue? = nil,
        changedHandler: @escaping (ManagedObjectContextChanges<T>, ManagedObjectContextObservedEvent) -> Void) {
 
     self.context = context
     self.event = event
     self.observeSubEntities = observeSubEntities
-    self.notificationCenter = notificationCenter
     self.queue = queue
     self.handler = changedHandler
     _ = self.observer

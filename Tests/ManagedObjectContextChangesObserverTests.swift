@@ -110,6 +110,37 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
+  func testObserveChangesNotifiedOnADifferentQueueUsingViewContext2() {
+    let context = container.viewContext
+    let expectation = self.expectation(description: "\(#function)\(#line)")
+    let event = ManagedObjectContextObservedEvent.didChange
+    let queue = OperationQueue()
+
+    let observer = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(context), event: event, queue: queue) { (change, event, observedContext) in
+      // The posting thread is the Main Thread but the queue specified is not.
+      XCTAssertTrue(queue === OperationQueue.current)
+      XCTAssertFalse(Thread.isMainThread)
+      XCTAssertTrue(observedContext === context)
+      XCTAssertEqual(change.inserted.count, 1)
+      XCTAssertTrue(change.deleted.isEmpty)
+      XCTAssertTrue(change.refreshed.isEmpty)
+      XCTAssertTrue(change.updated.isEmpty)
+      XCTAssertTrue(change.invalidated.isEmpty)
+      XCTAssertTrue(change.invalidatedAll.isEmpty)
+      expectation.fulfill()
+    }
+    _ = observer // remove unused warning...
+
+    context.performAndWait {
+      let car = Car(context: context)
+      car.maker = "FIAT"
+      car.model = "Panda"
+      car.numberPlate = "1"
+      car.maker = "123!"
+    }
+    waitForExpectations(timeout: 2)
+  }
+
   func testObserveChangesUsingBackgroundContext() {
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let context = container.newBackgroundContext()
