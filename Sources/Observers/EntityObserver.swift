@@ -83,7 +83,6 @@ public final class EntityObserver<T: NSManagedObject> {
        observeSubEntities: Bool = false,
        queue: OperationQueue? = nil,
        changeHandler: @escaping (ManagedObjectContextChanges<T>, ManagedObjectContextObservedEvent) -> Void) {
-
     self.managedObjectContext = context
     self.event = event
     self.observeSubEntities = observeSubEntities
@@ -91,7 +90,6 @@ public final class EntityObserver<T: NSManagedObject> {
     self.handler = changeHandler
     _ = self.observer
   }
-
 
   // MARK: - Private implementation
 

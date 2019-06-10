@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2019 Tinrobots.
@@ -35,12 +35,13 @@ open class SingleFetchedResultController<T: NSManagedObject> {
   public let request: NSFetchRequest<T>
   public let managedObjectContext: NSManagedObjectContext
   public let handler: OnChange
-  public fileprivate(set) var fetchedObject: T? = nil
+  public fileprivate(set) var fetchedObject: T?
 
   private lazy var observer: ManagedObjectContextChangesObserver = {
     let observer = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(managedObjectContext),
                                                        event: .didSave) { [weak self] (changes, _, _) in
                                                         guard let self = self else { return }
+
                                                         self.handleChanges(changes)
     }
     return observer
@@ -53,7 +54,7 @@ open class SingleFetchedResultController<T: NSManagedObject> {
 //      exception.raise()
 //    }
 
-    //assert(request.predicate != nil, "An instance of SingleFetchedResultController requires a fetch request with sort descriptors")
+    precondition(request.predicate != nil, "An instance of SingleFetchedResultController requires a fetch request with sort descriptors")
 
     self.request = request
     self.managedObjectContext = managedObjectContext
@@ -90,12 +91,9 @@ open class SingleFetchedResultController<T: NSManagedObject> {
       }
     }
 
-    let predicate = request.predicate! // TODO
-
     // validate the current fetched object if any
-    if let fetched = fetchedObject {
-      let set = Set<T>([fetched]).filter(predicate.evaluate(with:))
-      if set.isEmpty {
+    if let fetched = fetchedObject, let predicate = request.predicate {
+      if !predicate.evaluate(with: fetched) {
         fetchedObject = nil
         handler(.delete(object: fetched))
       }
@@ -118,5 +116,13 @@ open class SingleFetchedResultController<T: NSManagedObject> {
       handler(.delete(object: deleted))
       return
     }
+
+//    if let invalidated = process(changes.invalidated) {
+//      fetchedObject = nil
+//      handler(.delete(object: invalidated))
+//      return
+//    }
+
+    // TODO refresh
   }
 }

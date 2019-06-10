@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2019 Tinrobots.
@@ -31,7 +31,7 @@ final class SingleFetchedResultControllerTests: CoreDataPlusTestCase {
     let context = container.viewContext
     context.fillWithSampleData()
     let expectation = self.expectation(description: "\(#function)\(#line)")
-    
+
     try context.save()
     let request = Car.newFetchRequest()
     let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "not_existing")
@@ -50,13 +50,13 @@ final class SingleFetchedResultControllerTests: CoreDataPlusTestCase {
     try context.save()
     waitForExpectations(timeout: 5)
   }
-  
+
   func testUpdate() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
     let expectation = self.expectation(description: "\(#function)\(#line)")
-    
+
     try context.save()
     let request = Car.newFetchRequest()
     let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
@@ -75,14 +75,14 @@ final class SingleFetchedResultControllerTests: CoreDataPlusTestCase {
     try context.save()
     waitForExpectations(timeout: 5)
   }
-  
+
   func testUpdateWhenTheOldObjectDoesNotFullfilThePredicateAnymoreButANewObjectDoes() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
     let expectation1 = self.expectation(description: "\(#function)\(#line)")
     let expectation2 = self.expectation(description: "\(#function)\(#line)")
-    
+
     try context.save()
     let request = Car.newFetchRequest()
     let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
@@ -104,14 +104,14 @@ final class SingleFetchedResultControllerTests: CoreDataPlusTestCase {
     try context.save()
    wait(for: [expectation1, expectation2], timeout: 5, enforceOrder: true)
   }
-  
+
   func testDeleteWhenTheObjectDoesNotFullfilThePredicateAnymore() throws {
     // The update changes a value used in the predicate
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
     let expectation = self.expectation(description: "\(#function)\(#line)")
-    
+
     try context.save()
     let request = Car.newFetchRequest()
     let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
@@ -131,14 +131,14 @@ final class SingleFetchedResultControllerTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 5)
     XCTAssertNil(controller.fetchedObject)
   }
-  
+
   func testDelete() throws {
     // The update changes a value used in the predicate
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
     let expectation = self.expectation(description: "\(#function)\(#line)")
-    
+
     try context.save()
     let request = Car.newFetchRequest()
     let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
@@ -171,4 +171,32 @@ final class SingleFetchedResultControllerTests: CoreDataPlusTestCase {
     let controller = SingleFetchedResultController<Car>(request: request, managedObjectContext: context) { _ in }
     XCTAssertThrowsError(try controller.performFetch())
   }
+
+//  func testChangedWithoutPredicate() throws {
+//    // Given
+//    let context = container.viewContext
+//    let car = Car(context: context)
+//    car.numberPlate = "111"
+//    try context.save()
+//    let expectation = self.expectation(description: "\(#function)\(#line)")
+//
+//    try context.save()
+//    let request = Car.newFetchRequest()
+//
+//    let controller = SingleFetchedResultController<Car>(request: request, managedObjectContext: context) { change in
+//      switch change {
+//      case .update: expectation.fulfill()
+//      default: XCTFail("Unexpected change.")
+//      }
+//    }
+//    // When, Then
+//    try controller.performFetch()
+//    XCTAssertNotNil(controller.fetchedObject)
+//    let car2 = controller.fetchedObject!
+//    car2.numberPlate = "112"
+//    let car3 = Car(context: context)
+//    car3.numberPlate = "113"
+//    try context.save()
+//    waitForExpectations(timeout: 5)
+//  }
 }

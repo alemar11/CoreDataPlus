@@ -44,14 +44,14 @@ public final class ManagedObjectObserver<T: NSManagedObject> {
                                                         // the object cannot be identified if the changed are empty
                                                         guard !changes.isEmpty else {
 
-//                                                          let o = context.performAndWait {
-//                                                            return $0.object(with: self.objectId)
-//                                                            
-//                                                          }
-//                                                          print(o)
+                                                          //                                                          let o = context.performAndWait {
+                                                          //                                                            return $0.object(with: self.objectId)
+                                                          //
+                                                          //                                                          }
+                                                          //                                                          print(o)
                                                           return
                                                         }
-                                                        
+
                                                         let isDeleted = changes.deleted.map { $0.objectID }.contains(self.objectId)
                                                         let isInserted = changes.inserted.map { $0.objectID }.contains(self.objectId)
                                                         let isInvalidated = changes.invalidated.map { $0.objectID }.contains(self.objectId) || changes.invalidatedAll.contains(self.objectId)
@@ -59,7 +59,7 @@ public final class ManagedObjectObserver<T: NSManagedObject> {
                                                         let isUpdated = changes.updated.map { $0.objectID }.contains(self.objectId)
 
                                                         // TODO: use if else to avoid handling multiple times for the same notification?
-                                                         dump(changes)
+                                                        dump(changes)
                                                         if isDeleted {
                                                           self.handler(.deleted, event)
                                                         }
