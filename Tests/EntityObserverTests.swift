@@ -29,7 +29,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   // MARK: - Change Event
 
-  func testInsertedOnChangeEvent() {
+  func testInsertedOnDidChangeEvent() {
     let context = container.viewContext
     let observedEvent = ManagedObjectContextObservedEvent.didChange
     let expectation1 = expectation(description: "\(#function)\(#line)")
@@ -63,7 +63,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testUpdatedOnChangeEvent() throws {
+  func testUpdatedOnDidChangeEvent() throws {
     let context = container.viewContext
     let observedEvent = ManagedObjectContextObservedEvent.didChange
     let expectation1 = expectation(description: "\(#function)\(#line)")
@@ -102,7 +102,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testInsertedAndUpdatedOnChangeEvent() throws {
+  func testInsertedAndUpdatedOnDidChangeEvent() throws {
     let context = container.viewContext
     let observedEvent = ManagedObjectContextObservedEvent.didChange
     let expectation1 = expectation(description: "\(#function)\(#line)")
@@ -146,7 +146,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testDeleteOnChangeEvent() throws {
+  func testDeleteOnDidChangeEvent() throws {
     let context = container.viewContext
     let observedEvent = ManagedObjectContextObservedEvent.didChange
     let expectation1 = expectation(description: "\(#function)\(#line)")
@@ -195,7 +195,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
   }
 
 
-  func testRefreshedOnChangeEvent() throws {
+  func testRefreshedOnDidChangeEvent() throws {
     let context = container.viewContext
     let observedEvent = ManagedObjectContextObservedEvent.didChange
     let expectation1 = expectation(description: "\(#function)\(#line)")
@@ -253,7 +253,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testInvalidatedAllOnChangeEvent() throws {
+  func testInvalidatedAllOnDidChangeEvent() throws {
     let context = container.viewContext
     let observedEvent = ManagedObjectContextObservedEvent.didChange
     let expectation1 = expectation(description: "\(#function)\(#line)")
@@ -314,7 +314,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testRelationshipUpdatedOnChangeEvent() throws {
+  func testRelationshipUpdatedOnDidChangeEvent() throws {
     let context = container.viewContext
     let observedEvent = ManagedObjectContextObservedEvent.didChange
     let expectation1 = expectation(description: "\(#function)\(#line)")
@@ -366,7 +366,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   // MARK: - Save Event
 
-  func testInsertedOnSaveEvent() throws {
+  func testInsertedOnDidSaveEvent() throws {
     let context = container.viewContext
     let observedEvent = ManagedObjectContextObservedEvent.didSave
     let expectation1 = expectation(description: "\(#function)\(#line)")
@@ -407,7 +407,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testInsertedWithoutSavingOnSaveEvent() {
+  func testInsertedWithoutSavingOnDidSaveEvent() {
     let context = container.viewContext
     let observedEvent = ManagedObjectContextObservedEvent.didSave
 
@@ -436,7 +436,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testRelationshipUpdatedOnSaveEvent() throws {
+  func testRelationshipUpdatedOnDidSaveEvent() throws {
     let context = container.viewContext
     let observedEvent = ManagedObjectContextObservedEvent.didSave
     let expectation1 = expectation(description: "\(#function)\(#line)")
@@ -491,7 +491,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testDeleteOnSaveEvent() throws {
+  func testDeleteOnDidSaveEvent() throws {
     let context = container.viewContext
     let observedEvent = ManagedObjectContextObservedEvent.didSave
     let expectation1 = expectation(description: "\(#function)\(#line)")
