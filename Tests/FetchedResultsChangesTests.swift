@@ -194,6 +194,40 @@ class FetchedResultsChangesTests: CoreDataPlusTestCase {
     XCTAssertEqual(deletes.count, 2)
   }
   
+  func testDeleteDueToThePredicate() throws {
+    // Given
+    let context = container.viewContext
+    context.fillWithSampleData()
+    try context.save()
+    
+    let request = Car.newFetchRequest()
+    request.addSortDescriptors([NSSortDescriptor(key: #keyPath(Car.numberPlate), ascending: false)])
+    let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
+    request.predicate = predicate
+    
+    let delegate = MockNSFetchedResultControllerDelegate()
+    
+    // When
+    let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+    controller.delegate = delegate
+    
+    try controller.performFetch()
+    let car = controller.fetchedObjects!.first
+    car!.numberPlate = "304 no more" // car needs to be deleted because the numberPlate doesn't fullfil the predicate anymore
+    try context.save()
+    
+    // Then
+    wait(for: [delegate.willChangeExpectation, delegate.didChangeExpectation], timeout: 10)
+    XCTAssertEqual(context, controller.managedObjectContext)
+    XCTAssertNotNil(controller.fetchedObjects)
+    XCTAssertEqual(delegate.changes.count, 1)
+    switch delegate.changes.first! {
+    case .delete(object: _, indexPath: _): break
+    default: XCTFail("Unexpected change")
+    }
+    XCTAssertEqual(controller.fetchRequest, request)
+    XCTAssertTrue(controller.fetchedObjects!.isEmpty)
+  }
 }
 
 fileprivate final class MockNSFetchedResultControllerDelegate<T: NSManagedObject>: NSObject, NSFetchedResultsControllerDelegate {

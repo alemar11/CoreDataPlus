@@ -23,28 +23,42 @@
 
 import CoreData
 
-public enum ChangeType {
-  case firstFetch
-  case insert
-  case update
-  case delete
-}
-
 open class SingleFetchedResultController<T: NSManagedObject> {
+  public typealias OnChange = ((ChangeType) -> Void)
 
-  public typealias OnChange = ((T, ChangeType) -> Void)
+  public enum ChangeType {
+    case insert(object: T)
+    case update(object: T)
+    case delete(object: T)
+  }
 
-  public let predicate: NSPredicate
+  public let request: NSFetchRequest<T>
   public let managedObjectContext: NSManagedObjectContext
-  public let onChange: OnChange
+  public let handler: OnChange
   public fileprivate(set) var fetchedObject: T? = nil
 
-  public init(predicate: NSPredicate, managedObjectContext: NSManagedObjectContext, onChange: @escaping OnChange) {
-    self.predicate = predicate
-    self.managedObjectContext = managedObjectContext
-    self.onChange = onChange
+  private lazy var observer: ManagedObjectContextChangesObserver = {
+    let observer = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(managedObjectContext),
+                                                       event: .didSave) { [weak self] (changes, _, _) in
+                                                        guard let self = self else { return }
+                                                        self.handleChanges(changes)
+    }
+    return observer
+  }()
 
-    NotificationCenter.default.addObserver(self, selector: #selector(objectsDidChange(_:)), name: .NSManagedObjectContextObjectsDidChange, object: nil)
+  public init(request: NSFetchRequest<T>, managedObjectContext: NSManagedObjectContext, onChange: @escaping OnChange) {
+    // TODO
+//    if request.predicate == nil {
+//      let exception = NSException(name: .invalidArgumentException, reason: "An instance of SingleFetchedResultController requires a fetch request with sort descriptors", userInfo: nil)
+//      exception.raise()
+//    }
+
+    //assert(request.predicate != nil, "An instance of SingleFetchedResultController requires a fetch request with sort descriptors")
+
+    self.request = request
+    self.managedObjectContext = managedObjectContext
+    self.handler = onChange
+    _ = observer
   }
 
   deinit {
@@ -52,50 +66,57 @@ open class SingleFetchedResultController<T: NSManagedObject> {
   }
 
   open func performFetch() throws {
-    let fetchRequest = NSFetchRequest<T>(entityName: T.entityName)
-    fetchRequest.predicate = predicate
+    let results = try managedObjectContext.fetch(request)
 
-    let results = try managedObjectContext.fetch(fetchRequest)
-    
-    assert(results.count < 2) // we shouldn't have any duplicates
+    if results.count > 1 {
+      throw CoreDataPlusError.fetchExpectingOnlyOneObjectFailed()
+    }
 
     if let result = results.first {
       fetchedObject = result
-      onChange(result, .firstFetch)
     }
   }
 
-  @objc func objectsDidChange(_ notification: Notification) {
-    updateCurrentObject(notification: notification, key: NSInsertedObjectsKey)
-    updateCurrentObject(notification: notification, key: NSUpdatedObjectsKey)
-    updateCurrentObject(notification: notification, key: NSDeletedObjectsKey)
-  }
+  private func handleChanges(_ changes: ManagedObjectContextChanges<NSManagedObject>) {
+    func process(_ value: Set<NSManagedObject>) -> T? {
+      if let predicate = request.predicate {
+        guard let evaluated = value.filter(predicate.evaluate(with:)) as? Set<T> else { return nil }
+        assert(evaluated.count < 2)
+        return evaluated.first
+      } else {
+        // TODO
+        assert(value.count < 2)
+        return value.first as? T
+      }
+    }
 
-  fileprivate func updateCurrentObject(notification: Notification, key: String) {
-    guard let allModifiedObjects = (notification as NSNotification).userInfo?[key] as? Set<NSManagedObject> else {
+    let predicate = request.predicate! // TODO
+
+    // validate the current fetched object if any
+    if let fetched = fetchedObject {
+      let set = Set<T>([fetched]).filter(predicate.evaluate(with:))
+      if set.isEmpty {
+        fetchedObject = nil
+        handler(.delete(object: fetched))
+      }
+    }
+
+    if let inserted = process(changes.inserted) {
+      fetchedObject = inserted
+      handler(.insert(object: inserted))
       return
     }
 
-    let objectsWithCorrectType = Set(allModifiedObjects.filter { return $0 as? T != nil })
-    let matchingObjects = NSSet(set: objectsWithCorrectType)
-      .filtered(using: self.predicate) as? Set<NSManagedObject> ?? []
-
-    assert(matchingObjects.count < 2)
-
-    guard let matchingObject = matchingObjects.first as? T else {
+    if let updated = process(changes.updated) {
+      fetchedObject = updated
+      handler(.update(object: updated))
       return
     }
 
-    fetchedObject = matchingObject
-    onChange(matchingObject, changeType(fromKey: key))
-  }
-
-  fileprivate func changeType(fromKey key: String) -> ChangeType {
-    let map: [String : ChangeType] = [
-      NSInsertedObjectsKey : .insert,
-      NSUpdatedObjectsKey : .update,
-      NSDeletedObjectsKey : .delete,
-    ]
-    return map[key]!
+    if let deleted = process(changes.deleted) {
+      fetchedObject = nil
+      handler(.delete(object: deleted))
+      return
+    }
   }
 }

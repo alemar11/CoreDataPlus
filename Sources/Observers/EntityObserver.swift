@@ -27,8 +27,6 @@ import CoreData
 ///
 /// An object that observes all the changes happening in a `NSManagedObjectContext` for a specific entity.
 public final class EntityObserver<T: NSManagedObject> {
-  fileprivate typealias EntitySet = Set<T>
-
   /// **CoreDataPlus**
   ///
   /// The observed event.
@@ -45,7 +43,7 @@ public final class EntityObserver<T: NSManagedObject> {
   public lazy var observedEntity: NSEntityDescription = {
     // Attention: sometimes entity() returns nil due to a CoreData bug occurring in the Unit Test targets or when Generics are used.
     // return T.entity()
-    guard let entity = NSEntityDescription.entity(forEntityName: T.entityName, in: context) else {
+    guard let entity = NSEntityDescription.entity(forEntityName: T.entityName, in: managedObjectContext) else {
       preconditionFailure("Missing NSEntityDescription for \(T.entityName)")
     }
     return entity
@@ -53,11 +51,11 @@ public final class EntityObserver<T: NSManagedObject> {
 
   // MARK: - Private properties
 
-  private let context: NSManagedObjectContext
+  private let managedObjectContext: NSManagedObjectContext
   private let queue: OperationQueue?
   private let handler: (ManagedObjectContextChanges<T>, ManagedObjectContextObservedEvent) -> Void
   private lazy var observer: ManagedObjectContextChangesObserver = {
-    let observer = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(context),
+    let observer = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(managedObjectContext),
                                                        event: event,
                                                        queue: queue) { [weak self] (changes, event, context) in
                                                         guard let self = self else { return }
@@ -79,18 +77,18 @@ public final class EntityObserver<T: NSManagedObject> {
   ///   - observeSubEntities: If `true`, all the changes happening in the subentities will be observed. (default: `false`)
   ///   - notificationCenter: The `NotificationCenter` listening the the `NSManagedObjectContext` notifications.
   ///   - The operation queue to which block should be added. If you pass nil, the block is run synchronously on the posting thread.
-  ///   - changedHandler: The completion handler.
+  ///   - changeHandler: The completion handler.
   init(context: NSManagedObjectContext,
        event: ManagedObjectContextObservedEvent,
        observeSubEntities: Bool = false,
        queue: OperationQueue? = nil,
-       changedHandler: @escaping (ManagedObjectContextChanges<T>, ManagedObjectContextObservedEvent) -> Void) {
+       changeHandler: @escaping (ManagedObjectContextChanges<T>, ManagedObjectContextObservedEvent) -> Void) {
 
-    self.context = context
+    self.managedObjectContext = context
     self.event = event
     self.observeSubEntities = observeSubEntities
     self.queue = queue
-    self.handler = changedHandler
+    self.handler = changeHandler
     _ = self.observer
   }
 
@@ -99,11 +97,11 @@ public final class EntityObserver<T: NSManagedObject> {
 
   /// Processes the incoming notification.
   private func handleChanges(_ changes: ManagedObjectContextChanges<NSManagedObject>, for event: ManagedObjectContextObservedEvent, in context: NSManagedObjectContext) {
-    func process(_ value: Set<NSManagedObject>) -> EntitySet {
+    func process(_ value: Set<NSManagedObject>) -> Set<T> {
       if observeSubEntities {
-        return value.filter { $0.entity.topMostEntity == observedEntity } as? EntitySet ?? []
+        return value.filter { $0.entity.topMostEntity == observedEntity } as? Set<T> ?? []
       } else {
-        return value.filter { $0.entity == observedEntity } as? EntitySet ?? []
+        return value.filter { $0.entity == observedEntity } as? Set<T> ?? []
       }
     }
 

@@ -28,7 +28,6 @@ import Foundation
 public final class ManagedObjectObserver<T: NSManagedObject> {
   private let objectId: NSManagedObjectID
   private let context: NSManagedObjectContext
-  private let notificationCenter: NotificationCenter
   private let queue: OperationQueue?
   private let event: ManagedObjectContextObservedEvent
   private let handler: (ManagedObjectChange, ManagedObjectContextObservedEvent) -> Void
@@ -82,11 +81,9 @@ public final class ManagedObjectObserver<T: NSManagedObject> {
 
   init(object: T,
        event: ManagedObjectContextObservedEvent,
-       notificationCenter: NotificationCenter = .default,
        queue: OperationQueue? = nil,
        changedHandler: @escaping (ManagedObjectChange, ManagedObjectContextObservedEvent) -> Void) throws {
     /// If the receiver has not yet been saved, the object ID is a temporary value that will change when the object is saved.
-    self.notificationCenter = notificationCenter
     self.queue = queue
 
     // a willSave notificaiton doesn't contain any info about what is going to be saved so we can't identify the observed object
