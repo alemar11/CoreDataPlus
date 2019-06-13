@@ -315,4 +315,6 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     }
     waitForExpectations(timeout: 5)
   }
+
+  // TODO: refresh
 }
