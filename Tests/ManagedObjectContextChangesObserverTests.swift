@@ -53,7 +53,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
    (You need to establish your own notion of a work “cycle” for a background thread—for example, after every cluster of actions.)
    **/
 
-  func testObserveChangesUsingViewContext() {
+  func testObserveInsertChangeUsingViewContext() {
     let context = container.viewContext
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let event = ManagedObjectContextObservedEvent.didChange
@@ -80,7 +80,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testObserveChangesNotifiedOnADifferentQueueUsingViewContext() {
+  func testObservInserteChangeNotifiedOnADifferentQueueUsingViewContext() {
     let context = container.viewContext
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let event = ManagedObjectContextObservedEvent.didChange
@@ -110,7 +110,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testObserveChangesNotifiedOnADifferentQueueUsingViewContext2() {
+  func testObserveInsertChangeNotifiedOnADifferentQueueUsingViewContext2() {
     let context = container.viewContext
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let event = ManagedObjectContextObservedEvent.didChange
@@ -141,7 +141,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testObserveChangesUsingBackgroundContext() {
+  func testObserveInsertChangeUsingBackgroundContext() {
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let context = container.newBackgroundContext()
     let event = ManagedObjectContextObservedEvent.didChange
@@ -170,7 +170,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
   }
 
   /// Users perform instead of performAndWait
-  func testObserveChangesUsingBackgroundContextAndPerform() {
+  func testObserveInsertChangeUsingBackgroundContextAndPerform() {
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let context = container.newBackgroundContext()
     let event = ManagedObjectContextObservedEvent.didChange
@@ -199,7 +199,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 5)
   }
 
-  func testObserveChangesUsingBackgroundContextAndDispatchQueue() {
+  func testObserveInsertChangeUsingBackgroundContextAndDispatchQueue() {
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let context = container.newBackgroundContext()
     let event = ManagedObjectContextObservedEvent.didChange
@@ -240,7 +240,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 5)
   }
 
-  func testObserveChangesUsingBackgroundContextWithoutChanges() {
+  func testObserveInsertChangeUsingBackgroundContextWithoutChanges() {
     let expectation = self.expectation(description: "\(#function)\(#line)")
     expectation.isInverted = true
     let context = container.newBackgroundContext()
@@ -258,7 +258,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testObserveChangesUsingPrivateContext() throws {
+  func testObserveInsertChangeUsingPrivateContext() throws {
     let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
     context.persistentStoreCoordinator = container.persistentStoreCoordinator
     let expectation = self.expectation(description: "\(#function)\(#line)")
@@ -287,7 +287,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 5)
   }
 
-  func testObserveChangesUsingMainContext() throws {
+  func testObserveInsertChangeUsingMainContext() throws {
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     context.persistentStoreCoordinator = container.persistentStoreCoordinator
     let expectation = self.expectation(description: "\(#function)\(#line)")
@@ -316,5 +316,29 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 5)
   }
 
-  // TODO: refresh
+  func testObserveRefreshChangeRefresh() throws {
+    let context = container.viewContext
+    context.fillWithSampleData()
+    try context.save()
+    let registeredObjectsCount = context.registeredObjects.count
+    let expectation = self.expectation(description: "\(#function)\(#line)")
+    let event = ManagedObjectContextObservedEvent.didChange
+    let observer = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(context), event: event) { (change, event, observedContext) in
+      XCTAssertTrue(Thread.isMainThread)
+      XCTAssertTrue(observedContext === context)
+      XCTAssertTrue(change.inserted.isEmpty)
+      XCTAssertTrue(change.deleted.isEmpty)
+      XCTAssertEqual(change.refreshed.count, registeredObjectsCount)
+      XCTAssertTrue(change.updated.isEmpty)
+      XCTAssertTrue(change.invalidated.isEmpty)
+      XCTAssertTrue(change.invalidatedAll.isEmpty)
+      expectation.fulfill()
+    }
+    _ = observer // remove unused warning...
+
+    context.refreshAllObjects()
+
+    waitForExpectations(timeout: 5)
+  }
+
 }

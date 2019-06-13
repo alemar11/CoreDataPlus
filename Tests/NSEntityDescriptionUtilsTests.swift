@@ -46,14 +46,6 @@ final class NSEntityDescriptionUtilsTests: CoreDataPlusTestCase {
     XCTAssertTrue(entityNames.contains(ExpensiveSportCar.entityName))
   }
 
-  // TODO
-  func testStress() {
-    (1...1000).forEach { i in
-      print("▶️ running test n. \(i)")
-      testTopMostEntity()
-    }
-  }
-
   func testTopMostEntity() {
     /// Making sure that all the necessary bits are available
 

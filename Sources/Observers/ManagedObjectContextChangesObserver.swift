@@ -20,15 +20,22 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+//
+//
+// Several system frameworks use Core Data internally.
+// If you register to receive these notifications from all contexts (by passing nil as the object parameter to a method such as addObserver(_:selector:name:object:)),
+// then you may receive unexpected notifications that are difficult to handle.
 
 import CoreData
 
 public extension ManagedObjectContextChangesObserver {
+  /// **CoreDataPlus**
+  ///
+  /// Identifies which `NSManagedObjectContext` should be observed.
+  ///
+  /// - all->Bool: A list of `NSManagedObjectContext` satisfying the filter.
+  /// - one: A single `NSManagedObjectContext`
   enum ObservedManagedObjectContext {
-    // TODO: comment
-    /// Several system frameworks use Core Data internally.
-    /// If you register to receive these notifications from all contexts (by passing nil as the object parameter to a method such as addObserver(_:selector:name:object:)),
-    /// then you may receive unexpected notifications that are difficult to handle.
     case all(matching: (NSManagedObjectContext) -> Bool)
     case one(NSManagedObjectContext)
 
@@ -59,6 +66,15 @@ public final class ManagedObjectContextChangesObserver {
 
   // MARK: - Initializers
 
+  /// **CoreDataPlus**
+  ///
+  /// Initializes a new `ManagedObjectContextChangesObserver` object.
+  ///
+  /// - Parameters:
+  ///   - observedManagedObjectContext: The observer `NSManagedObjectContext`.
+  ///   - event: The observed event.
+  ///   - queue: The operation queue to which block should be added. If you pass nil, the block is run synchronously on the posting thread
+  ///   - handler: Callback called everytime a change happens.
   public init(observedManagedObjectContext: ObservedManagedObjectContext,
               event: ManagedObjectContextObservedEvent,
               queue: OperationQueue? = nil,
@@ -84,7 +100,7 @@ public final class ManagedObjectContextChangesObserver {
     tokens.removeAll()
   }
 
-  /// Add the observers for the event.
+  /// Adds the observers for the event.
   private func setup() {
     if event.contains(.didChange) {
       let token = notificationCenter.addObserver(forName: .NSManagedObjectContextObjectsDidChange,
