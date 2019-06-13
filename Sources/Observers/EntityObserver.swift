@@ -53,14 +53,14 @@ public final class EntityObserver<T: NSManagedObject> {
 
   private let managedObjectContext: NSManagedObjectContext
   private let queue: OperationQueue?
-  private let handler: (ManagedObjectContextChanges<T>, ManagedObjectContextObservedEvent) -> Void
+  private let handler: (AnyManagedObjectContextChange<T>, ManagedObjectContextObservedEvent) -> Void
   private lazy var observer: ManagedObjectContextChangesObserver = {
     let observer = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(managedObjectContext),
                                                        event: event,
                                                        queue: queue) { [weak self] (changes, event, context) in
                                                         guard let self = self else { return }
-
-                                                        self.handleChanges(changes, for: event, in: context)
+                                                        let x = AnyManagedObjectContextChange.init(changes)
+                                                        self.handleChanges(x, for: event, in: context)
     }
     return observer
   }()
@@ -82,7 +82,7 @@ public final class EntityObserver<T: NSManagedObject> {
        event: ManagedObjectContextObservedEvent,
        observeSubEntities: Bool = false,
        queue: OperationQueue? = nil,
-       changeHandler: @escaping (ManagedObjectContextChanges<T>, ManagedObjectContextObservedEvent) -> Void) {
+       changeHandler: @escaping (AnyManagedObjectContextChange<T>, ManagedObjectContextObservedEvent) -> Void) {
     self.managedObjectContext = context
     self.event = event
     self.observeSubEntities = observeSubEntities
@@ -94,7 +94,7 @@ public final class EntityObserver<T: NSManagedObject> {
   // MARK: - Private implementation
 
   /// Processes the incoming notification.
-  private func handleChanges(_ changes: ManagedObjectContextChanges<NSManagedObject>, for event: ManagedObjectContextObservedEvent, in context: NSManagedObjectContext) {
+  private func handleChanges<C: ManagedObjectContextChange>(_ changes: C, for event: ManagedObjectContextObservedEvent, in context: NSManagedObjectContext) {
     func process(_ value: Set<NSManagedObject>) -> Set<T> {
       if observeSubEntities {
         return value.filter { $0.entity.topMostEntity == observedEntity } as? Set<T> ?? []
@@ -103,18 +103,18 @@ public final class EntityObserver<T: NSManagedObject> {
       }
     }
 
-    let deleted = process(changes.deleted)
-    let inserted = process(changes.inserted)
-    let updated = process(changes.updated)
-    let refreshed = process(changes.refreshed)
-    let invalidated = process(changes.invalidated)
-    let invalidatedAll = changes.invalidatedAll.filter { $0.entity == observedEntity }
-    let change = ManagedObjectContextChanges(inserted: inserted,
-                                             updated: updated,
-                                             deleted: deleted,
-                                             refreshed: refreshed,
-                                             invalidated: invalidated,
-                                             invalidatedAll: invalidatedAll)
+    let deleted = process(changes.deletedObjects)
+    let inserted = process(changes.insertedObjects)
+    let updated = process(changes.updatedObjects)
+    let refreshed = process(changes.refreshedObjects)
+    let invalidated = process(changes.invalidatedObjects)
+    let invalidatedAll = changes.invalidatedAllObjects.filter { $0.entity == observedEntity }
+    let change = AnyManagedObjectContextChange<T>(insertedObjects: inserted,
+                                             updatedObjects: updated,
+                                             deletedObjects: deleted,
+                                             refreshedObjects: refreshed,
+                                             invalidatedObjects: invalidated,
+                                             invalidatedAllObjects: invalidatedAll)
     if !change.isEmpty {
       handler(change, event)
     }

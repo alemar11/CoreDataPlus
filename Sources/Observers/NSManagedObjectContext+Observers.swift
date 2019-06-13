@@ -63,36 +63,37 @@ public extension ManagedObjectContextNotification {
   //  }
 }
 
-// MARK: - ManagedObjectContextObservable
+// MARK: - ManagedObjectContextChange
 
 /// **CoreDataPlus**
 ///
 /// Types conforming to this protocol contains all the `NSManagedObjectContext` changes contained by a notification.
-public protocol ManagedObjectContextObservable: ManagedObjectContextNotification {
+public protocol ManagedObjectContextChange {
+  associatedtype ManagedObject: NSManagedObject
   /// **CoreDataPlus**
   ///
   /// Returns a `Set` of objects that were inserted into the context.
-  var insertedObjects: Set<NSManagedObject> { get }
+  var insertedObjects: Set<ManagedObject> { get }
 
   /// **CoreDataPlus**
   ///
   /// Returns a `Set` of objects that were updated.
-  var updatedObjects: Set<NSManagedObject> { get }
+  var updatedObjects: Set<ManagedObject> { get }
 
   /// **CoreDataPlus**
   ///
   /// Returns a `Set`of objects that were marked for deletion during the previous event.
-  var deletedObjects: Set<NSManagedObject> { get }
+  var deletedObjects: Set<ManagedObject> { get }
 
   /// **CoreDataPlus**
   ///
   /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
-  var refreshedObjects: Set<NSManagedObject> { get }
+  var refreshedObjects: Set<ManagedObject> { get }
 
   /// **CoreDataPlus**
   ///
   /// A `Set` of objects that were invalidated.
-  var invalidatedObjects: Set<NSManagedObject> { get }
+  var invalidatedObjects: Set<ManagedObject> { get }
 
   /// **CoreDataPlus**
   ///
@@ -100,7 +101,16 @@ public protocol ManagedObjectContextObservable: ManagedObjectContextNotification
   var invalidatedAllObjects: Set<NSManagedObjectID> { get }
 }
 
-extension ManagedObjectContextObservable {
+extension ManagedObjectContextChange {
+  /// **CoreDataPlus**
+  ///
+  /// Returns `true` if there aren't any changes in the `NSManagedObjectContext`.
+  public var isEmpty: Bool {
+    return insertedObjects.isEmpty && updatedObjects.isEmpty && deletedObjects.isEmpty && refreshedObjects.isEmpty && invalidatedObjects.isEmpty && invalidatedAllObjects.isEmpty
+  }
+}
+
+extension ManagedObjectContextChange where Self: ManagedObjectContextNotification {
   /// **CoreDataPlus**
   ///
   /// Returns a `Set` of objects that were inserted into the context.
@@ -155,7 +165,7 @@ extension ManagedObjectContextObservable {
 /// **CoreDataPlus**
 ///
 /// A type safe `NSManagedObjectContextDidSave` notification.
-public struct ManagedObjectContextDidSaveNotification: ManagedObjectContextObservable {
+public struct ManagedObjectContextDidSaveNotification: ManagedObjectContextChange & ManagedObjectContextNotification {
   public let notification: Notification
 
   public init(notification: Notification) {
@@ -191,7 +201,7 @@ extension ManagedObjectContextDidSaveNotification: CustomDebugStringConvertible 
 /// **CoreDataPlus**
 ///
 /// A type safe `NSManagedObjectContextWillSave` notification.
-public struct ManagedObjectContextWillSaveNotification: ManagedObjectContextObservable {
+public struct ManagedObjectContextWillSaveNotification: ManagedObjectContextChange & ManagedObjectContextNotification {
   public let notification: Notification
 
   public init(notification: Notification) {
@@ -208,7 +218,7 @@ public struct ManagedObjectContextWillSaveNotification: ManagedObjectContextObse
 /// **CoreDataPlus**
 ///
 /// A type safe `NSManagedObjectContextObjectsDidChange` notification.
-public struct ManagedObjectContextObjectsDidChangeNotification: ManagedObjectContextObservable {
+public struct ManagedObjectContextObjectsDidChangeNotification: ManagedObjectContextChange & ManagedObjectContextNotification {
   public let notification: Notification
 
   public init(notification: Notification) {

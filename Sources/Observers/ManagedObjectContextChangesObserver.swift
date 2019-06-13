@@ -53,7 +53,7 @@ public extension ManagedObjectContextChangesObserver {
 ///
 /// Observes all the changes happening on one or multiple NSManagedObjectContexts.
 public final class ManagedObjectContextChangesObserver {
-  public typealias Handler = (ManagedObjectContextChanges<NSManagedObject>, ManagedObjectContextObservedEvent, NSManagedObjectContext) -> Void
+  public typealias Handler = (AnyManagedObjectContextChange<NSManagedObject>, ManagedObjectContextObservedEvent, NSManagedObjectContext) -> Void
 
   // MARK: - Private properties
 
@@ -121,16 +121,12 @@ public final class ManagedObjectContextChangesObserver {
                                                  object: observedManagedObjectContext.managedObjectContext,
                                                  queue: queue) { [weak self] notification in
                                                   guard let self = self else { return }
-
+                                                  // willSave doesn't contain any info, no processing to be done
                                                   let willSaveNotification = ManagedObjectContextWillSaveNotification(notification: notification)
-                                                  // A will save notification doesn't have any associated info
-                                                  let changes = ManagedObjectContextChanges<NSManagedObject>(inserted: Set(),
-                                                                                                             updated: Set(),
-                                                                                                             deleted: Set(),
-                                                                                                             refreshed: Set(),
-                                                                                                             invalidated: Set(),
-                                                                                                             invalidatedAll: Set())
-                                                  self.handler(changes, .willSave, willSaveNotification.managedObjectContext)
+                                                  if self.validateContext(willSaveNotification.managedObjectContext) {
+                                                    let changes = AnyManagedObjectContextChange.makeEmpty()
+                                                    self.handler(changes, .didSave, willSaveNotification.managedObjectContext)
+                                                  }
       }
       tokens.append(token)
     }
@@ -148,29 +144,17 @@ public final class ManagedObjectContextChangesObserver {
     }
   }
 
-  /// Processes incoming notifications.
-  private func processChanges(in notification: ManagedObjectContextObservable) -> ManagedObjectContextChanges<NSManagedObject>? {
-    func validateContext(_ context: NSManagedObjectContext) -> Bool {
-      switch observedManagedObjectContext {
-      case .one(context: let context): return context === notification.managedObjectContext
-      case .all(matching: let filter): return filter(notification.managedObjectContext)
-      }
+  private func validateContext(_ context: NSManagedObjectContext) -> Bool {
+    switch observedManagedObjectContext {
+    case .one(context: let context): return context === context
+    case .all(matching: let filter): return filter(context)
     }
+  }
 
+  /// Processes incoming notifications.
+  private func processChanges<N: ManagedObjectContextChange & ManagedObjectContextNotification>(in notification: N) -> AnyManagedObjectContextChange<N.ManagedObject>? {
     guard validateContext(notification.managedObjectContext) else { return nil }
 
-    let deleted = notification.deletedObjects
-    let inserted = notification.insertedObjects
-    let updated = notification.updatedObjects
-    let refreshed = notification.refreshedObjects
-    let invalidated = notification.invalidatedObjects
-    let invalidatedAll = notification.invalidatedAllObjects
-    let changes = ManagedObjectContextChanges(inserted: inserted,
-                                              updated: updated,
-                                              deleted: deleted,
-                                              refreshed: refreshed,
-                                              invalidated: invalidated,
-                                              invalidatedAll: invalidatedAll)
-    return changes.isEmpty ? nil : changes
+    return notification.isEmpty ? nil : AnyManagedObjectContextChange(notification)
   }
 }
