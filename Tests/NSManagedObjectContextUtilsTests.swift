@@ -463,7 +463,6 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
   }
 
   func testCollectionDelete() throws {
-
     let context = container.viewContext
     let newContext = context.newBackgroundContext()
 

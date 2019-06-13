@@ -55,7 +55,7 @@ public extension ManagedObjectContextChangesObserver {
 public final class ManagedObjectContextChangesObserver {
   public typealias Handler = (ManagedObjectContextChanges<NSManagedObject>, ManagedObjectContextObservedEvent, NSManagedObjectContext) -> Void
 
-   // MARK: - Private properties
+  // MARK: - Private properties
 
   private let observedManagedObjectContext: ObservedManagedObjectContext
   private let event: ManagedObjectContextObservedEvent
@@ -106,12 +106,12 @@ public final class ManagedObjectContextChangesObserver {
       let token = notificationCenter.addObserver(forName: .NSManagedObjectContextObjectsDidChange,
                                                  object: observedManagedObjectContext.managedObjectContext,
                                                  queue: queue) { [weak self] notification in
-        guard let self = self else { return }
+                                                  guard let self = self else { return }
 
-        let didChangeNotification = ManagedObjectContextObjectsDidChangeNotification(notification: notification)
-        if let changes = self.processChanges(in: didChangeNotification) {
-          self.handler(changes, .didChange, didChangeNotification.managedObjectContext)
-        }
+                                                  let didChangeNotification = ManagedObjectContextObjectsDidChangeNotification(notification: notification)
+                                                  if let changes = self.processChanges(in: didChangeNotification) {
+                                                    self.handler(changes, .didChange, didChangeNotification.managedObjectContext)
+                                                  }
       }
       tokens.append(token)
     }
@@ -120,12 +120,17 @@ public final class ManagedObjectContextChangesObserver {
       let token = notificationCenter.addObserver(forName: .NSManagedObjectContextWillSave,
                                                  object: observedManagedObjectContext.managedObjectContext,
                                                  queue: queue) { [weak self] notification in
-        guard let self = self else { return }
+                                                  guard let self = self else { return }
 
-        let willSaveNotification = ManagedObjectContextWillSaveNotification(notification: notification)
-        if let changes = self.processChanges(in: willSaveNotification) {
-          self.handler(changes, .willSave, willSaveNotification.managedObjectContext)
-        }
+                                                  let willSaveNotification = ManagedObjectContextWillSaveNotification(notification: notification)
+                                                  // A will save notification doesn't have any associated info
+                                                  let changes = ManagedObjectContextChanges<NSManagedObject>(inserted: Set(),
+                                                                                                             updated: Set(),
+                                                                                                             deleted: Set(),
+                                                                                                             refreshed: Set(),
+                                                                                                             invalidated: Set(),
+                                                                                                             invalidatedAll: Set())
+                                                  self.handler(changes, .willSave, willSaveNotification.managedObjectContext)
       }
       tokens.append(token)
     }
