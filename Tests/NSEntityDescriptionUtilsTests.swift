@@ -34,10 +34,8 @@ fileprivate extension NSManagedObject {
 }
 
 final class NSEntityDescriptionUtilsTests: CoreDataPlusTestCase {
-
   func testEntity() {
     let context = container.viewContext
-
     let expensiveCar = ExpensiveSportCar(context: context)
     let entityNames = expensiveCar.entity.hierarchyEntities().compactMap { $0.name}
     XCTAssertTrue(entityNames.count == 3)

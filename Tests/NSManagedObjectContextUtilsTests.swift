@@ -26,7 +26,6 @@ import CoreData
 @testable import CoreDataPlus
 
 final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
-
   func testSinglePersistentStore() {
     XCTAssertTrue(container.viewContext.persistentStores.count == 1)
     XCTAssertNotNil(container.viewContext.persistentStores.first)
@@ -434,7 +433,6 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
   }
 
   func testSaveOrRollback() {
-    // let stack = CoreDataStack.stack(type: .inMemory) // TODO: iOS 12 not working for in memory
     let context = container.viewContext
 
     let car1 = Car(context: context)
@@ -543,38 +541,4 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     let count = try Person.count(in: mainContext)
     XCTAssertEqual(count, 0)
   }
-
-  // TODO
-//  func testLeak() {
-//    let exp = self.expectation(description: "todo")
-//
-//    var test = TestLeak(context: container.newBackgroundContext())
-//    weak var weakTest = test
-//    test.perform {
-//      sleep(2)
-//      exp.fulfill()
-//    }
-//    test = TestLeak(context: container.newBackgroundContext())
-//    XCTAssertNil(weakTest)
-//    //XCTAssertNil(weakObject)
-//    //waitForExpectations(timeout: 5)
-//    waitForExpectations(timeout: 3)
-//  }
 }
-
-//class TestLeak {
-//  let context: NSManagedObjectContext
-//  init(context: NSManagedObjectContext) {
-//    self.context = context
-//  }
-//  func perform(handler: @escaping () -> Void) {
-//    //DispatchQueue.global().async { [weak self] in
-//    context.performSave(after: { [weak self] context in
-//      print(self)
-//      print(context)
-//
-//    }) { (error) in
-//      print(error)
-//    }
-//  }
-//}

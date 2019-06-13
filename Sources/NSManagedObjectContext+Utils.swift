@@ -56,8 +56,8 @@ extension NSManagedObjectContext {
       var metaData = persistentStoreCoordinator.metadata(for: store)
       metaData[key] = object
       persistentStoreCoordinator.setMetadata(metaData, for: store)
-      }, completion: { error in
-        handler?(error)
+    }, completion: { error in
+      handler?(error)
     })
   }
 
@@ -108,12 +108,11 @@ extension NSManagedObjectContext {
     // `perform` executes the block and then releases it.
     // In Swift terms it is @noescape (and in the future it may be marked that way and you won't need to use self. in noescape closures).
     // Until the block executes, self cannot be deallocated, but after the block executes, the cycle is immediately broken.
-    // TODO: unownedSelf -> self
-    perform { [unowned unownedSelf = self] in
+    perform {
       var internalError: CoreDataPlusError?
       do {
-        try changes(unownedSelf)
-        try unownedSelf.save()
+        try changes(self)
+        try self.save()
       } catch {
         internalError = CoreDataPlusError.saveFailed(underlyingError: error)
       }
