@@ -26,7 +26,6 @@ import CoreData
 @testable import CoreDataPlus
 
 class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
-
   /// To issue a NSManagedObjectContextObjectsDidChangeNotification from a background thread, call the NSManagedObjectContext’s processPendingChanges method.
   /// http://openradar.appspot.com/14310964
   /// NSManagedObjectContext’s `perform` method encapsulates an autorelease pool and a call to processPendingChanges, `performAndWait` does not.
@@ -422,5 +421,4 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     try context.save()
     waitForExpectations(timeout: 2)
   }
-
 }
