@@ -31,27 +31,27 @@ public struct AnyManagedObjectContextChange<T: NSManagedObject>: ManagedObjectCo
   public var insertedObjects: Set<T> {
     return _insertedObjects
   }
-
+  
   public var updatedObjects: Set<T> {
     return _updatedObjects
   }
-
+  
   public var deletedObjects: Set<T> {
     return _deletedObjects
   }
-
+  
   public var refreshedObjects: Set<T> {
     return _refreshedObjects
   }
-
+  
   public var invalidatedObjects: Set<T> {
     return _invalidatedObjects
   }
-
+  
   public var invalidatedAllObjects: Set<NSManagedObjectID> {
     return _invalidatedAllObjects
   }
-
+  
   private let _insertedObjects: Set<T>
   private let _updatedObjects: Set<T>
   private let _deletedObjects: Set<T>
@@ -59,6 +59,8 @@ public struct AnyManagedObjectContextChange<T: NSManagedObject>: ManagedObjectCo
   private let _invalidatedObjects: Set<T>
   private let _invalidatedAllObjects: Set<NSManagedObjectID>
 
+  /// **CoreDataPlus**
+  ///
   /// Creates a new `AnyManagedObjectContextChange`.
   init<U: ManagedObjectContextChange>(_ change: U) where U.ManagedObject == T {
     self._insertedObjects = change.insertedObjects
@@ -69,6 +71,8 @@ public struct AnyManagedObjectContextChange<T: NSManagedObject>: ManagedObjectCo
     self._invalidatedAllObjects = change.invalidatedAllObjects
   }
 
+  /// **CoreDataPlus**
+  ///
   /// Creates a new `AnyManagedObjectContextChange`.
   init(insertedObjects: Set<T>,
        updatedObjects: Set<T>,
@@ -84,13 +88,16 @@ public struct AnyManagedObjectContextChange<T: NSManagedObject>: ManagedObjectCo
     self._invalidatedAllObjects = invalidatedAllObjects
   }
 
+  /// **CoreDataPlus**
+  ///
+  /// Creates a new `AnyManagedObjectContextChange` with empty change sets.
   static func makeEmpty() -> AnyManagedObjectContextChange<T> {
     return AnyManagedObjectContextChange(insertedObjects: Set(),
-                                               updatedObjects: Set(),
-                                               deletedObjects: Set(),
-                                               refreshedObjects: Set(),
-                                               invalidatedObjects: Set(),
-                                               invalidatedAllObjects: Set())
+                                         updatedObjects: Set(),
+                                         deletedObjects: Set(),
+                                         refreshedObjects: Set(),
+                                         invalidatedObjects: Set(),
+                                         invalidatedAllObjects: Set())
   }
 }
 
