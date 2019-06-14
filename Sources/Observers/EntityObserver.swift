@@ -59,8 +59,8 @@ public final class EntityObserver<T: NSManagedObject> {
                                                        event: event,
                                                        queue: queue) { [weak self] (changes, event, context) in
                                                         guard let self = self else { return }
-                                                        let x = AnyManagedObjectContextChange.init(changes)
-                                                        self.handleChanges(x, for: event, in: context)
+
+                                                        self.handleChanges(changes, for: event, in: context)
     }
     return observer
   }()
