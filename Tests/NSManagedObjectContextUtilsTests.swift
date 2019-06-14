@@ -221,7 +221,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
         person.lastName = "Robots1"
         throw NSError(domain: "test", code: 1, userInfo: nil)
       }
-    } catch let catchedError as CoreDataPlusError where catchedError.errorCode == CoreDataPlusError.ErrorCode.saveFailed.rawValue {
+    } catch let catchedError as NSError where catchedError.code == NSError.ErrorCode.saveFailed.rawValue {
       XCTAssertNotNil(catchedError.underlyingError)
       let nsError = catchedError.underlyingError! as NSError
       XCTAssertEqual(nsError.code, 1)
@@ -252,7 +252,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
         person.lastName = "Robots1"
         throw NSError(domain: "test", code: 1, userInfo: nil)
       }
-    } catch let catchedError as CoreDataPlusError where catchedError.errorCode == CoreDataPlusError.ErrorCode.saveFailed.rawValue {
+    } catch let catchedError as NSError where catchedError.code == NSError.ErrorCode.saveFailed.rawValue {
       XCTAssertNotNil(catchedError.underlyingError)
       let nsError = catchedError.underlyingError! as NSError
       XCTAssertEqual(nsError.code, 1)
@@ -274,12 +274,12 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
       person.lastName = "R"
       throw NSError(domain: "test", code: 1, userInfo: nil)
 
-    }, completion: { catchedError in
-      if let catchedError = catchedError as CoreDataPlusError?, catchedError.errorCode == CoreDataPlusError.ErrorCode.saveFailed.rawValue {
-        XCTAssertNotNil(catchedError.underlyingError)
-        let nsError = catchedError.underlyingError! as NSError
-        XCTAssertEqual(nsError.code, 1)
-        XCTAssertEqual(nsError.domain, "test")
+    }, completion: { error in
+      if let error = error, error.code == NSError.ErrorCode.saveFailed.rawValue {
+        XCTAssertNotNil(error.underlyingError)
+        let underlyingError = error.underlyingError! as NSError
+        XCTAssertEqual(underlyingError.code, 1)
+        XCTAssertEqual(underlyingError.domain, "test")
       } else {
         XCTFail("Wrong error type.")
       }

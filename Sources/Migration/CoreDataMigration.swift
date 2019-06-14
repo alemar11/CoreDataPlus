@@ -115,7 +115,7 @@ public struct CoreDataMigration {
         try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
       }
     } catch {
-      throw CoreDataPlusError.migrationFailed(underlyingError: error)
+      throw NSError.migrationFailed(underlyingError: error)
     }
   }
 }

@@ -30,7 +30,7 @@ public final class EntityObserver<T: NSManagedObject> {
   /// **CoreDataPlus**
   ///
   /// The observed event.
-  public let event: ManagedObjectContextObservedEvent
+  public let event: NSManagedObjectContext.ObservableEvents
 
   /// **CoreDataPlus**
   ///
@@ -53,7 +53,7 @@ public final class EntityObserver<T: NSManagedObject> {
 
   private let managedObjectContext: NSManagedObjectContext
   private let queue: OperationQueue?
-  private let handler: (AnyManagedObjectContextChange<T>, ManagedObjectContextObservedEvent) -> Void
+  private let handler: (AnyManagedObjectContextChange<T>, NSManagedObjectContext.ObservableEvents) -> Void
   private lazy var observer: ManagedObjectContextChangesObserver = {
     let observer = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(managedObjectContext),
                                                        event: event,
@@ -79,10 +79,10 @@ public final class EntityObserver<T: NSManagedObject> {
   ///   - The operation queue to which block should be added. If you pass nil, the block is run synchronously on the posting thread.
   ///   - changeHandler: The completion handler.
   init(context: NSManagedObjectContext,
-       event: ManagedObjectContextObservedEvent,
+       event: NSManagedObjectContext.ObservableEvents,
        observeSubEntities: Bool = false,
        queue: OperationQueue? = nil,
-       changeHandler: @escaping (AnyManagedObjectContextChange<T>, ManagedObjectContextObservedEvent) -> Void) {
+       changeHandler: @escaping (AnyManagedObjectContextChange<T>, NSManagedObjectContext.ObservableEvents) -> Void) {
     self.managedObjectContext = context
     self.event = event
     self.observeSubEntities = observeSubEntities
@@ -94,7 +94,7 @@ public final class EntityObserver<T: NSManagedObject> {
   // MARK: - Private implementation
 
   /// Processes the incoming notification.
-  private func handleChanges<C: ManagedObjectContextChange>(_ changes: C, for event: ManagedObjectContextObservedEvent, in context: NSManagedObjectContext) {
+  private func handleChanges<C: ManagedObjectContextChange>(_ changes: C, for event: NSManagedObjectContext.ObservableEvents, in context: NSManagedObjectContext) {
     func process(_ value: Set<NSManagedObject>) -> Set<T> {
       if observeSubEntities {
         return value.filter { $0.entity.topMostEntity == observedEntity } as? Set<T> ?? []

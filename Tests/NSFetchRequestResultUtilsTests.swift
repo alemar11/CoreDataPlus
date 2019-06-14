@@ -509,12 +509,8 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusTestCase {
       }
 
     } catch {
-      XCTAssertTrue(error is CoreDataPlusError)
-      if let coreDataPlusError = error as? CoreDataPlusError, coreDataPlusError.errorCode == CoreDataPlusError.ErrorCode.fetchExpectingOnlyOneObjectFailed.rawValue {
-        // do nothing
-      } else {
-        XCTFail("Expected an error of type CoreDataPlusError.fetchExpectingOneObjectFailed")
-      }
+      let nsError = error as NSError
+      XCTAssertEqual(nsError.code, NSError.ErrorCode.fetchExpectingOnlyOneObjectFailed.rawValue, "Expected an error of type NSError.fetchExpectingOneObjectFailed")
     }
   }
 
@@ -571,10 +567,11 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusTestCase {
     let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
     XCTAssertThrowsError(try Car.batchDeleteObjects(with: context, resultType: .resultTypeStatusOnly) { $0.predicate = fiatPredicate },
                          "There should be an exception because the context doesn't have PSC") { (error) in
-                          if let coreDataPlusError = error as? CoreDataPlusError, coreDataPlusError.errorCode == CoreDataPlusError.ErrorCode.persistentStoreCoordinatorNotFound.rawValue {
-                            XCTAssertNil(coreDataPlusError.underlyingError)
-                            XCTAssertNotNil(coreDataPlusError.localizedDescription)
-                            XCTAssertEqual(coreDataPlusError.message, "\(context.description) doesn't have a NSPersistentStoreCoordinator.")
+                          let nsError = error as NSError
+                          if nsError.code == NSError.ErrorCode.persistentStoreCoordinatorNotFound.rawValue {
+                            XCTAssertNil(nsError.underlyingError)
+                            XCTAssertNotNil(nsError.localizedDescription)
+                            XCTAssertEqual(nsError.message, "\(context.description) doesn't have a NSPersistentStoreCoordinator.")
                           } else {
                             XCTFail("Unexepcted error type.")
                           }

@@ -103,18 +103,18 @@ extension NSManagedObjectContext {
   /// - Parameters:
   ///   - changes: Changes to be applied in the current context before the saving operation. If they fail throwing an execption, the context will be reset.
   ///   - completion: Block executed (on the context’s queue.) at the end of the saving operation.
-  public final func performSave(after changes: @escaping (NSManagedObjectContext) throws -> Void, completion: ( (CoreDataPlusError?) -> Void )? = nil ) {
+  public final func performSave(after changes: @escaping (NSManagedObjectContext) throws -> Void, completion: ( (NSError?) -> Void )? = nil ) {
     // https://stackoverflow.com/questions/37837979/using-weak-strong-self-usage-in-block-core-data-swift
     // `perform` executes the block and then releases it.
     // In Swift terms it is @noescape (and in the future it may be marked that way and you won't need to use self. in noescape closures).
     // Until the block executes, self cannot be deallocated, but after the block executes, the cycle is immediately broken.
     perform {
-      var internalError: CoreDataPlusError?
+      var internalError: NSError?
       do {
         try changes(self)
         try self.save()
       } catch {
-        internalError = CoreDataPlusError.saveFailed(underlyingError: error)
+        internalError = NSError.saveFailed(underlyingError: error)
       }
       completion?(internalError)
     }
@@ -128,14 +128,14 @@ extension NSManagedObjectContext {
   public final func performSaveAndWait(after changes: (NSManagedObjectContext) throws -> Void) throws {
     // swiftlint:disable:next identifier_name
     try withoutActuallyEscaping(changes) { _changes in
-      var internalError: CoreDataPlusError?
+      var internalError: NSError?
 
       performAndWait {
         do {
           try _changes(self)
           try save()
         } catch {
-          internalError = CoreDataPlusError.saveFailed(underlyingError: error)
+          internalError = NSError.saveFailed(underlyingError: error)
         }
       }
 
@@ -154,7 +154,7 @@ extension NSManagedObjectContext {
       try save()
     } catch {
       rollback() // rolls back the pending changes
-      throw CoreDataPlusError.saveFailed(underlyingError: error)
+      throw NSError.saveFailed(underlyingError: error)
     }
   }
 
@@ -179,7 +179,7 @@ extension NSManagedObjectContext {
       parentContext = parentContext!.parent
 
       if let error = saveError {
-        throw CoreDataPlusError.saveFailed(underlyingError: error)
+        throw NSError.saveFailed(underlyingError: error)
       }
     }
   }

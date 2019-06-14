@@ -53,12 +53,12 @@ public extension ManagedObjectContextChangesObserver {
 ///
 /// Observes all the changes happening on one or multiple NSManagedObjectContexts.
 public final class ManagedObjectContextChangesObserver {
-  public typealias Handler = (AnyManagedObjectContextChange<NSManagedObject>, ManagedObjectContextObservedEvent, NSManagedObjectContext) -> Void
+  public typealias Handler = (AnyManagedObjectContextChange<NSManagedObject>, NSManagedObjectContext.ObservableEvents, NSManagedObjectContext) -> Void
 
   // MARK: - Private properties
 
   private let observedManagedObjectContext: ObservedManagedObjectContext
-  private let event: ManagedObjectContextObservedEvent
+  private let event: NSManagedObjectContext.ObservableEvents
   private let queue: OperationQueue?
   private let notificationCenter = NotificationCenter.default
   private let handler: Handler
@@ -76,7 +76,7 @@ public final class ManagedObjectContextChangesObserver {
   ///   - queue: The operation queue to which block should be added. If you pass nil, the block is run synchronously on the posting thread
   ///   - handler: Callback called everytime a change happens.
   public init(observedManagedObjectContext: ObservedManagedObjectContext,
-              event: ManagedObjectContextObservedEvent,
+              event: NSManagedObjectContext.ObservableEvents,
               queue: OperationQueue? = nil,
               handler: @escaping Handler) {
     self.observedManagedObjectContext = observedManagedObjectContext
