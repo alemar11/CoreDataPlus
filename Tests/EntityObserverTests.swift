@@ -26,7 +26,6 @@ import CoreData
 @testable import CoreDataPlus
 
 final class EntityObserverTests: CoreDataPlusTestCase {
-
   // MARK: - Change Event
 
   func testInsertedOnDidChangeEvent() {
@@ -685,5 +684,4 @@ final class EntityObserverTests: CoreDataPlusTestCase {
     try context.save()
     waitForExpectations(timeout: 2)
   }
-
 }

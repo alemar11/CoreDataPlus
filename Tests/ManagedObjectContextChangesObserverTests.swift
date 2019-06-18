@@ -421,4 +421,84 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     try context.save()
     waitForExpectations(timeout: 2)
   }
+
+  func testObserveInsertUpdateAndDeleteSaveUsingViewContext() throws {
+    let context = container.viewContext
+    let expectation = self.expectation(description: "\(#function)\(#line)")
+
+    let car1 = Car(context: context)
+    car1.maker = "FIAT"
+    car1.model = "Panda"
+    car1.numberPlate = UUID().uuidString
+    car1.maker = "maker"
+
+    let car2 = Car(context: context)
+    car2.maker = "FIAT"
+    car2.model = "Punto"
+    car2.numberPlate = UUID().uuidString
+    car2.maker = "maker"
+
+    try context.save()
+
+    let event = NSManagedObjectContext.ObservableEvents.didSave
+    let observer = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(context), event: event) { (change, event, observedContext) in
+      XCTAssertTrue(Thread.isMainThread)
+      XCTAssertTrue(observedContext === context)
+      XCTAssertEqual(change.insertedObjects.count, 2)
+      XCTAssertEqual(change.deletedObjects.count, 1)
+      XCTAssertEqual(change.updatedObjects.count, 1)
+      XCTAssertTrue(change.refreshedObjects.isEmpty)
+      XCTAssertTrue(change.invalidatedObjects.isEmpty)
+      XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
+      expectation.fulfill()
+    }
+    _ = observer // remove unused warning...
+
+    // 2 inserts
+    let car3 = Car(context: context)
+    car3.maker = "FIAT"
+    car3.model = "Qubo"
+    car3.numberPlate = UUID().uuidString
+    car3.maker = "maker"
+
+    let car4 = Car(context: context)
+    car4.maker = "FIAT"
+    car4.model = "500"
+    car4.numberPlate = UUID().uuidString
+    car4.maker = "maker"
+
+    // 1 update
+    car1.model = "new Panda"
+    // 1 delete
+    car2.delete()
+
+    try context.save()
+    waitForExpectations(timeout: 2)
+  }
+
+  func testObserveDeleteSaveUsingWrongObserverContext() throws {
+    let context = container.viewContext
+    let expectation = self.expectation(description: "\(#function)\(#line)")
+    expectation.isInverted = true
+    let car1 = Car(context: context)
+    car1.maker = "FIAT"
+    car1.model = "Panda"
+    car1.numberPlate = UUID().uuidString
+    car1.maker = "maker"
+
+    try context.save()
+    let wrongContext = container.newBackgroundContext()
+    wrongContext.automaticallyMergesChangesFromParent = true
+
+    let event = NSManagedObjectContext.ObservableEvents.didSave
+    let observer = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(wrongContext), event: event) { (change, event, observedContext) in
+      expectation.fulfill()
+    }
+    _ = observer // remove unused warning...
+
+    car1.delete()
+
+    try context.save()
+    waitForExpectations(timeout: 2)
+  }
 }
