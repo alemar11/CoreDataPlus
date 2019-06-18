@@ -53,7 +53,7 @@ extension NSManagedObjectContext {
       userInfo[managedObjectsCacheKey] = cache
     }
 
-    // TODO it fhe object if from another context we count use object(wiht:) or existingObejct(with:) to cache in the current context
+    // TODO if the object is from another context we could use object(with:) or existingObject(with:) to cache in the current context
   }
 
   /// **CoreDataPlus**
