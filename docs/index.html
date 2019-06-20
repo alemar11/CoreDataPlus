@@ -13,7 +13,7 @@
     <a title="CoreDataPlus  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">CoreDataPlus Docs</a> (88% documented)</p>
+        <p><a href="index.html">CoreDataPlus Docs</a> (89% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -30,22 +30,22 @@
             <a href="Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Classes.html#/s:12CoreDataPlus0aB13MigrationStepC">CoreDataMigrationStep</a>
+                <a href="Classes/CoreDataMigrationStep.html">CoreDataMigrationStep</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/EntityObserver.html">EntityObserver</a>
               </li>
               <li class="nav-group-task">
-                <a href="Classes/EntityObserver/ContextChange.html">– ContextChange</a>
+                <a href="Classes/ManagedObjectContextChangesObserver.html">ManagedObjectContextChangesObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/ManagedObjectContextChangesObserver/ObservedManagedObjectContext.html">– ObservedManagedObjectContext</a>
               </li>
             </ul>
           </li>
           <li class="nav-group-name">
             <a href="Enums.html">Enumerations</a>
             <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="Enums/CoreDataPlusError.html">CoreDataPlusError</a>
-              </li>
               <li class="nav-group-task">
                 <a href="Enums/FetchedResultsObjectChange.html">FetchedResultsObjectChange</a>
               </li>
@@ -79,6 +79,12 @@
                 <a href="Extensions/NSManagedObjectContext.html">NSManagedObjectContext</a>
               </li>
               <li class="nav-group-task">
+                <a href="Extensions/NSManagedObjectContext/ObservableEvents.html">– ObservableEvents</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSPersistentStoreCoordinator.html">NSPersistentStoreCoordinator</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Extensions/ProcessInfo.html">ProcessInfo</a>
               </li>
             </ul>
@@ -93,13 +99,10 @@
                 <a href="Protocols/DelayedDeletable.html">DelayedDeletable</a>
               </li>
               <li class="nav-group-task">
-                <a href="Protocols/NSManagedObjectContextNotification.html">NSManagedObjectContextNotification</a>
+                <a href="Protocols/ManagedObjectContextChange.html">ManagedObjectContextChange</a>
               </li>
               <li class="nav-group-task">
-                <a href="Protocols/NSManagedObjectContextObservable.html">NSManagedObjectContextObservable</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Protocols/ThredSafeAccessible.html">ThredSafeAccessible</a>
+                <a href="Protocols/ManagedObjectContextNotification.html">ManagedObjectContextNotification</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/UpdateTimestampable.html">UpdateTimestampable</a>
@@ -110,10 +113,7 @@
             <a href="Structs.html">Structures</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Structs/ContextDidSaveNotification.html">ContextDidSaveNotification</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Structs/ContextWillSaveNotification.html">ContextWillSaveNotification</a>
+                <a href="Structs/AnyManagedObjectContextChange.html">AnyManagedObjectContextChange</a>
               </li>
               <li class="nav-group-task">
                 <a href="Structs/CoreDataMigration.html">CoreDataMigration</a>
@@ -122,10 +122,13 @@
                 <a href="Structs/FetchedResultsSectionInfo.html">FetchedResultsSectionInfo</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/ObjectsDidChangeNotification.html">ObjectsDidChangeNotification</a>
+                <a href="Structs/ManagedObjectContextDidSaveNotification.html">ManagedObjectContextDidSaveNotification</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/ObservedEvent.html">ObservedEvent</a>
+                <a href="Structs/ManagedObjectContextObjectsDidChangeNotification.html">ManagedObjectContextObjectsDidChangeNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/ManagedObjectContextWillSaveNotification.html">ManagedObjectContextWillSaveNotification</a>
               </li>
             </ul>
           </li>
@@ -137,11 +140,13 @@
             
             <p><img src="https://raw.githubusercontent.com/tinrobots/CoreDataPlus/assets/coredata_plus.png" alt="CoreDataPlus"></p>
 
-<p><a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/Swift-4.1-orange.svg?style=flat" alt="Swift 4.1"></a>
+<p><a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat" alt="Swift 5.0"></a>
 <img src="https://img.shields.io/badge/Platform-iOS%2010%2B%20%7C%20macOS%2010.12+%20%7C%20tvOS%2010+%20%7C%20watchOS%203+-blue.svg" alt="Platforms"> </p>
 
 <p><a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage Compatible"></a>
 <a href="https://cocoapods.org/pods/CoreDataPlus"><img src="https://img.shields.io/cocoapods/v/CoreDataPlus.svg" alt="CocoaPods Compatible"></a></p>
+
+<p><a href="https://codebeat.co/projects/github-com-tinrobots-coredataplus-master"><img src="https://codebeat.co/badges/e07c40a7-3c22-4691-93f5-4c41c7f6152f" alt="codebeat badge"></a></p>
 
 <table><thead>
 <tr>
@@ -173,8 +178,8 @@
 
 <ul>
 <li>iOS 10.0+ / macOS 10.12+ / tvOS 10.0+ / watchOS 3.0+</li>
-<li>Xcode 9.3</li>
-<li>Swift 4.1</li>
+<li>Xcode 10.2</li>
+<li>Swift 5.0</li>
 </ul>
 <h2 id='documentation' class='heading'>Documentation</h2>
 
@@ -187,7 +192,7 @@
 <h3 id='cocoapods' class='heading'>CocoaPods</h3>
 
 <p><a href="http://cocoapods.org">CocoaPods</a> is a dependency manager for Cocoa projects. You can install it with the following command:</p>
-<pre class="highlight shell"><code><span class="gp">$ </span>gem install cocoapods
+<pre class="highlight shell"><code><span class="nv">$ </span>gem <span class="nb">install </span>cocoapods
 </code></pre>
 
 <blockquote>
@@ -200,24 +205,24 @@
 <span class="n">use_frameworks!</span>
 
 <span class="n">target</span> <span class="s1">'&lt;Your Target Name&gt;'</span> <span class="k">do</span>
-    <span class="n">pod</span> <span class="s1">'CoreDataPlus'</span><span class="p">,</span> <span class="s1">'~&gt; 1.1.0'</span>
+    <span class="n">pod</span> <span class="s1">'CoreDataPlus'</span><span class="p">,</span> <span class="s1">'~&gt; 2.0.0'</span>
 <span class="k">end</span>
 </code></pre>
 
 <p>Then, run the following command:</p>
-<pre class="highlight shell"><code><span class="gp">$ </span>pod install
+<pre class="highlight shell"><code><span class="nv">$ </span>pod <span class="nb">install</span>
 </code></pre>
 <h3 id='carthage' class='heading'>Carthage</h3>
 
 <p><a href="https://github.com/Carthage/Carthage">Carthage</a> is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.</p>
 
 <p>You can install Carthage with <a href="http://brew.sh/">Homebrew</a> using the following command:</p>
-<pre class="highlight shell"><code><span class="gp">$ </span>brew update
-<span class="gp">$ </span>brew install carthage
+<pre class="highlight shell"><code><span class="nv">$ </span>brew update
+<span class="nv">$ </span>brew <span class="nb">install </span>carthage
 </code></pre>
 
 <p>To integrate CoreDataPlus into your Xcode project using Carthage, specify it in your <code>Cartfile</code>:</p>
-<pre class="highlight plaintext"><code>github "tinrobots/CoreDataPlus" ~&gt; 1.1.0
+<pre class="highlight plaintext"><code>github "tinrobots/CoreDataPlus" ~&gt; 2.0.0
 </code></pre>
 
 <p>Run <code>carthage update</code> to build the framework and drag the built <code>CoreDataPlus.framework</code> into your Xcode project.</p>
@@ -226,7 +231,7 @@
 <p>The <a href="https://swift.org/package-manager/">Swift Package Manager</a> is a tool for automating the distribution of Swift code and is integrated into the <code>swift</code> compiler. 
 Once you have your Swift package set up, adding CoreDataPlus as a dependency is as easy as adding it to the <code>dependencies</code> value of your <code>Package.swift</code>.</p>
 <pre class="highlight swift"><code><span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
-    <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/tinrobots/CoreDataPlus.git"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="s">"1.1.0"</span><span class="p">)</span>
+    <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/tinrobots/CoreDataPlus.git"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="s">"2.0.0"</span><span class="p">)</span>
 <span class="p">]</span>
 </code></pre>
 <h3 id='manually' class='heading'>Manually</h3>
@@ -237,13 +242,13 @@ Once you have your Swift package set up, adding CoreDataPlus as a dependency is 
 <ul>
 <li>Open up Terminal, <code>cd</code> into your top-level project directory, and run the following command <q>if</q> your project is not initialized as a git repository:</li>
 </ul>
-<pre class="highlight shell"><code><span class="gp">$ </span>git init
+<pre class="highlight shell"><code><span class="nv">$ </span>git init
 </code></pre>
 
 <ul>
 <li>Add CoreDataPlus as a git <a href="http://git-scm.com/docs/git-submodule">submodule</a> by running the following command:</li>
 </ul>
-<pre class="highlight shell"><code><span class="gp">$ </span>git submodule add https://github.com/tinrobots/CoreDataPlus.git
+<pre class="highlight shell"><code><span class="nv">$ </span>git submodule add https://github.com/tinrobots/CoreDataPlus.git
 </code></pre>
 
 <ul>
@@ -280,8 +285,8 @@ Once you have your Swift package set up, adding CoreDataPlus as a dependency is 
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2018-09-24)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2019 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2019-06-18)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

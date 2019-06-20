@@ -23,17 +23,19 @@
 
 import CoreData
 
+// MARK: - ManagedObjectContextNotification
+
 /// **CoreDataPlus**
 ///
-/// A `Notification` involving the `NSManagedObjectContext`.
+/// A `Notification` involving a `NSManagedObjectContext`.
 /// - Note: Since these notifications are received only when a NSManagedObject is changed manually, they aren't triggered when executing *NSBatchUpdateRequest*/*NSBatchDeleteRequest*.
-public protocol NSManagedObjectContextNotification {
+public protocol ManagedObjectContextNotification {
   var notification: Notification { get }
   init(notification: Notification)
   var managedObjectContext: NSManagedObjectContext { get }
 }
 
-public extension NSManagedObjectContextNotification {
+public extension ManagedObjectContextNotification {
   /// **CoreDataPlus**
   ///
   /// Returns the notification's `NSManagedObjectContext`.
@@ -63,36 +65,37 @@ public extension NSManagedObjectContextNotification {
   //  }
 }
 
-// MARK: - NSManagedObjectContextObserving
+// MARK: - ManagedObjectContextChange
 
 /// **CoreDataPlus**
 ///
 /// Types conforming to this protocol contains all the `NSManagedObjectContext` changes contained by a notification.
-public protocol NSManagedObjectContextObservable: NSManagedObjectContextNotification {
+public protocol ManagedObjectContextChange {
+  associatedtype ManagedObject: NSManagedObject
   /// **CoreDataPlus**
   ///
   /// Returns a `Set` of objects that were inserted into the context.
-  var insertedObjects: Set<NSManagedObject> { get }
+  var insertedObjects: Set<ManagedObject> { get }
 
   /// **CoreDataPlus**
   ///
   /// Returns a `Set` of objects that were updated.
-  var updatedObjects: Set<NSManagedObject> { get }
+  var updatedObjects: Set<ManagedObject> { get }
 
   /// **CoreDataPlus**
   ///
   /// Returns a `Set`of objects that were marked for deletion during the previous event.
-  var deletedObjects: Set<NSManagedObject> { get }
+  var deletedObjects: Set<ManagedObject> { get }
 
   /// **CoreDataPlus**
   ///
   /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
-  var refreshedObjects: Set<NSManagedObject> { get }
+  var refreshedObjects: Set<ManagedObject> { get }
 
   /// **CoreDataPlus**
   ///
   /// A `Set` of objects that were invalidated.
-  var invalidatedObjects: Set<NSManagedObject> { get }
+  var invalidatedObjects: Set<ManagedObject> { get }
 
   /// **CoreDataPlus**
   ///
@@ -100,7 +103,18 @@ public protocol NSManagedObjectContextObservable: NSManagedObjectContextNotifica
   var invalidatedAllObjects: Set<NSManagedObjectID> { get }
 }
 
-extension NSManagedObjectContextObservable {
+extension ManagedObjectContextChange {
+  /// **CoreDataPlus**
+  ///
+  /// Returns `true` if there aren't any changes in the `NSManagedObjectContext`.
+  public var isEmpty: Bool {
+    return insertedObjects.isEmpty && updatedObjects.isEmpty && deletedObjects.isEmpty && refreshedObjects.isEmpty && invalidatedObjects.isEmpty && invalidatedAllObjects.isEmpty
+  }
+}
+
+// MARK: - ManagedObjectContextChange & ManagedObjectContextNotification
+
+extension ManagedObjectContextChange where Self: ManagedObjectContextNotification {
   /// **CoreDataPlus**
   ///
   /// Returns a `Set` of objects that were inserted into the context.
@@ -125,24 +139,24 @@ extension NSManagedObjectContextObservable {
   /// **CoreDataPlus**
   ///
   /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
+  /// - Note: It can be populated only for `NSManagedObjectContextObjectsDidChange` notifications.
   public var refreshedObjects: Set<NSManagedObject> {
-    // fired only with ObjectsDidChangeNotification
     return objects(forKey: NSRefreshedObjectsKey)
   }
 
   /// **CoreDataPlus**
   ///
   /// A `Set` of objects that were invalidated.
+  /// - Note: It can be populated only for `NSManagedObjectContextObjectsDidChange` notifications.
   public var invalidatedObjects: Set<NSManagedObject> {
-    // fired only with ObjectsDidChangeNotification only
     return objects(forKey: NSInvalidatedObjectsKey)
   }
 
   /// **CoreDataPlus**
   ///
   /// When all the object in the context have been invalidated, returns a `Set` containing all the invalidated objects' NSManagedObjectID.
+  /// - Note: It can be populated only for `NSManagedObjectContextObjectsDidChange` notifications.
   public var invalidatedAllObjects: Set<NSManagedObjectID> {
-    // fired only with ObjectsDidChangeNotification
     guard let objectsID = notification.userInfo?[NSInvalidatedAllObjectsKey] as? [NSManagedObjectID] else {
       return Set()
     }
@@ -155,7 +169,7 @@ extension NSManagedObjectContextObservable {
 /// **CoreDataPlus**
 ///
 /// A type safe `NSManagedObjectContextDidSave` notification.
-public struct ContextDidSaveNotification: NSManagedObjectContextObservable {
+public struct ManagedObjectContextDidSaveNotification: ManagedObjectContextChange & ManagedObjectContextNotification {
   public let notification: Notification
 
   public init(notification: Notification) {
@@ -167,7 +181,7 @@ public struct ContextDidSaveNotification: NSManagedObjectContextObservable {
   }
 }
 
-extension ContextDidSaveNotification: CustomDebugStringConvertible {
+extension ManagedObjectContextDidSaveNotification: CustomDebugStringConvertible {
   /// A textual representation of a `ContextDidSaveNotification`, suitable for debugging.
   public var debugDescription: String {
     var components = [notification.name.rawValue]
@@ -191,7 +205,7 @@ extension ContextDidSaveNotification: CustomDebugStringConvertible {
 /// **CoreDataPlus**
 ///
 /// A type safe `NSManagedObjectContextWillSave` notification.
-public struct ContextWillSaveNotification: NSManagedObjectContextNotification {
+public struct ManagedObjectContextWillSaveNotification: ManagedObjectContextChange & ManagedObjectContextNotification {
   public let notification: Notification
 
   public init(notification: Notification) {
@@ -208,7 +222,7 @@ public struct ContextWillSaveNotification: NSManagedObjectContextNotification {
 /// **CoreDataPlus**
 ///
 /// A type safe `NSManagedObjectContextObjectsDidChange` notification.
-public struct ObjectsDidChangeNotification: NSManagedObjectContextObservable {
+public struct ManagedObjectContextObjectsDidChangeNotification: ManagedObjectContextChange & ManagedObjectContextNotification {
   public let notification: Notification
 
   public init(notification: Notification) {
@@ -221,7 +235,7 @@ public struct ObjectsDidChangeNotification: NSManagedObjectContextObservable {
   }
 }
 
-extension ObjectsDidChangeNotification: CustomDebugStringConvertible {
+extension ManagedObjectContextObjectsDidChangeNotification: CustomDebugStringConvertible {
   public var debugDescription: String {
     var components = [notification.name.rawValue]
     components.append(managedObjectContext.description)
@@ -241,85 +255,5 @@ extension ObjectsDidChangeNotification: CustomDebugStringConvertible {
     }
 
     return components.joined(separator: " ")
-  }
-}
-
-// MARK: - NSManagedObjectContext
-
-extension NSManagedObjectContext {
-  /// **CoreDataPlus**
-  ///
-  /// Adds the given block to a `NotificationCenter`'s dispatch table for the did-save notifications.
-  ///
-  /// - Parameters:
-  ///   - notificationCenter: The `NotificationCenter`
-  ///   - handler: The block to be executed when the notification triggers.
-  /// - Returns: An opaque object to act as the observer. This must be sent to the `NotificationCenter`'s `removeObserver()`.
-  public func addContextDidSaveNotificationObserver(notificationCenter: NotificationCenter = .default, _ handler: @escaping (ContextDidSaveNotification) -> Void) -> NSObjectProtocol {
-    return notificationCenter.addObserver(forName: .NSManagedObjectContextDidSave, object: self, queue: nil) { notification in
-      let didSaveNotification = ContextDidSaveNotification(notification: notification)
-      handler(didSaveNotification)
-    }
-  }
-
-  /// **CoreDataPlus**
-  ///
-  /// Adds the given block to a `NotificationCenter`'s dispatch table for the will-save notifications.
-  ///
-  /// - Parameters:
-  ///   - notificationCenter: The `NotificationCenter`
-  ///   - handler: The block to be executed when the notification triggers.
-  /// - Returns: An opaque object to act as the observer. This must be sent to the `NotificationCenter`'s `removeObserver()`.
-  public func addContextWillSaveNotificationObserver(notificationCenter: NotificationCenter = .default, _ handler: @escaping (ContextWillSaveNotification) -> Void) -> NSObjectProtocol {
-    return notificationCenter.addObserver(forName: .NSManagedObjectContextWillSave, object: self, queue: nil) { notification in
-      let willSaveNotification = ContextWillSaveNotification(notification: notification)
-      handler(willSaveNotification)
-    }
-  }
-
-  /// **CoreDataPlus**
-  ///
-  /// Adds the given block to a `NotificationCenter`'s dispatch table for the did-change notifications.
-  ///
-  /// - Parameters:
-  ///   - notificationCenter: The `NotificationCenter`
-  ///   - handler: The block to be executed when the notification triggers.
-  /// - Returns: An opaque object to act as the observer. This must be sent to the `NotificationCenter`'s `removeObserver()`.
-  public func addObjectsDidChangeNotificationObserver(notificationCenter: NotificationCenter = .default, _ handler: @escaping (ObjectsDidChangeNotification) -> Void) -> NSObjectProtocol {
-    return notificationCenter.addObserver(forName: .NSManagedObjectContextObjectsDidChange, object: self, queue: nil) { notification in
-      let didChangeNotification = ObjectsDidChangeNotification(notification: notification)
-      handler(didChangeNotification)
-    }
-  }
-
-  /// **CoreDataPlus**
-  ///
-  /// Asynchronously merges the changes specified in a given notification.
-  /// This method refreshes any objects which have been updated in the other context,
-  /// faults in any newly-inserted objects, and invokes delete(_:): on those which have been deleted.
-  ///
-  /// - Parameters:
-  ///   - notification: An instance of an `NSManagedObjectContextDidSave` notification posted by another context.
-  ///   - completion: The block to be executed after the merge completes.
-  public func performMergeChanges(from notification: ContextDidSaveNotification, completion: @escaping () -> Void = {}) {
-    perform {
-      self.mergeChanges(fromContextDidSave: notification.notification)
-      completion()
-    }
-  }
-
-  /// **CoreDataPlus**
-  ///
-  /// Synchronously merges the changes specified in a given notification.
-  /// This method refreshes any objects which have been updated in the other context,
-  /// faults in any newly-inserted objects, and invokes delete(_:): on those which have been deleted.
-  ///
-  /// - Parameters:
-  ///   - notification: An instance of an `NSManagedObjectContextDidSave` notification posted by another context.
-  ///   - completion: The block to be executed after the merge completes.
-  public func performAndWaitMergeChanges(from notification: ContextDidSaveNotification) {
-    performAndWait {
-      self.mergeChanges(fromContextDidSave: notification.notification)
-    }
   }
 }

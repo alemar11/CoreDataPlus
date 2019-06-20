@@ -28,10 +28,6 @@ extension NSManagedObjectContext {
   ///
   /// The persistent stores associated with the receiver (if any).
   public final var persistentStores: [NSPersistentStore] {
-    // TODO: better management?
-    if !ProcessInfo.isRunningUnitTests {
-      assertionFailure("\(self.description) doesn't have a Persistent Store Coordinator.")
-    }
     return persistentStoreCoordinator?.persistentStores ?? []
   }
 
@@ -54,15 +50,14 @@ extension NSManagedObjectContext {
   ///   - store: NSPersistentStore where is stored the metadata.
   ///   - handler: The completion handler called when the saving is completed.
   public final func setMetaDataObject(_ object: Any?, with key: String, for store: NSPersistentStore, completion handler: ( (Error?) -> Void )? = nil ) {
-    performSave(after: { [weak self] in
-      guard let strongSelf = self else { return }
-      guard let persistentStoreCoordinator = strongSelf.persistentStoreCoordinator else { preconditionFailure("\(strongSelf.description) doesn't have a Persistent Store Coordinator.") }
+    performSave(after: { context in
+      guard let persistentStoreCoordinator = context.persistentStoreCoordinator else { preconditionFailure("\(context.description) doesn't have a Persistent Store Coordinator.") }
 
       var metaData = persistentStoreCoordinator.metadata(for: store)
       metaData[key] = object
       persistentStoreCoordinator.setMetadata(metaData, for: store)
-      }, completion: { error in
-        handler?(error)
+    }, completion: { error in
+      handler?(error)
     })
   }
 
@@ -108,25 +103,18 @@ extension NSManagedObjectContext {
   /// - Parameters:
   ///   - changes: Changes to be applied in the current context before the saving operation. If they fail throwing an execption, the context will be reset.
   ///   - completion: Block executed (on the context’s queue.) at the end of the saving operation.
-  public final func performSave(after changes: @escaping () throws -> Void, completion: ( (CoreDataPlusError?) -> Void )? = nil ) {
-    perform { [unowned unownedSelf = self] in
-      var internalError: CoreDataPlusError?
-
+  public final func performSave(after changes: @escaping (NSManagedObjectContext) throws -> Void, completion: ( (NSError?) -> Void )? = nil ) {
+    // https://stackoverflow.com/questions/37837979/using-weak-strong-self-usage-in-block-core-data-swift
+    // `perform` executes the block and then releases it.
+    // In Swift terms it is @noescape (and in the future it may be marked that way and you won't need to use self. in noescape closures).
+    // Until the block executes, self cannot be deallocated, but after the block executes, the cycle is immediately broken.
+    perform {
+      var internalError: NSError?
       do {
-        try changes()
+        try changes(self)
+        try self.save()
       } catch {
-        internalError = CoreDataPlusError.executionFailed(error: error)
-      }
-
-      guard internalError == nil else {
-        completion?(internalError)
-        return
-      }
-
-      do {
-        try unownedSelf.save()
-      } catch {
-        internalError = CoreDataPlusError.saveFailed(error: error)
+        internalError = NSError.saveFailed(underlyingError: error)
       }
       completion?(internalError)
     }
@@ -137,24 +125,17 @@ extension NSManagedObjectContext {
   /// Synchronously performs changes and then saves them: if the changes fail throwing an execption, the context will be reset.
   ///
   /// - Throws: It throws an error in cases of failure (while applying changes or saving).
-  public final func performSaveAndWait(after changes: () throws -> Void) throws {
+  public final func performSaveAndWait(after changes: (NSManagedObjectContext) throws -> Void) throws {
     // swiftlint:disable:next identifier_name
     try withoutActuallyEscaping(changes) { _changes in
-      var internalError: CoreDataPlusError?
+      var internalError: NSError?
 
       performAndWait {
         do {
-          try _changes()
-        } catch {
-          internalError = CoreDataPlusError.executionFailed(error: error)
-        }
-
-        guard internalError == nil else { return }
-
-        do {
+          try _changes(self)
           try save()
         } catch {
-          internalError = CoreDataPlusError.saveFailed(error: error)
+          internalError = NSError.saveFailed(underlyingError: error)
         }
       }
 
@@ -173,7 +154,7 @@ extension NSManagedObjectContext {
       try save()
     } catch {
       rollback() // rolls back the pending changes
-      throw CoreDataPlusError.saveFailed(error: error)
+      throw NSError.saveFailed(underlyingError: error)
     }
   }
 
@@ -198,13 +179,13 @@ extension NSManagedObjectContext {
       parentContext = parentContext!.parent
 
       if let error = saveError {
-        throw CoreDataPlusError.saveFailed(error: error)
+        throw NSError.saveFailed(underlyingError: error)
       }
     }
   }
 }
 
-// MARK: Perform
+// MARK: - Better PerformAndWait
 
 extension NSManagedObjectContext {
   /// **CoreDataPlus**

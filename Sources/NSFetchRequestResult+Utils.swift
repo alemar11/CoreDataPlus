@@ -21,30 +21,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import Foundation
+import CoreData
 
-/// **CoreDataPlus**
-///
-/// `OptionSet` with all the observable NSMAnagedObjectContext events.
-public struct ObservedEvent: OptionSet {
-  public let rawValue: UInt
+extension NSFetchRequestResult where Self: NSManagedObject {
+  /// **CoreDataPlus**
+  ///
+  /// Performs the given block in the right thread for the `NSManagedObject`'s managedObjectContext.
+  ///
+  /// - Parameter block: The closure to be performed.
+  /// `block` accepts the current NSManagedObject as its argument and returns a value of the same or different type.
+  /// - Throws: It throws an error in cases of failure.
+  public func safeAccess<T>(_ block: (Self) throws -> T) rethrows -> T {
+    guard let context = managedObjectContext else { fatalError("\(self) doesn't have a managedObjectContext.") }
 
-  public init(rawValue: UInt) {
-    self.rawValue = rawValue
+    return try context.performAndWait { _ -> T in
+      return try block(self)
+    }
   }
-
-  /// **CoreDataPlus**
-  ///
-  /// Notifications will be sent upon `NSManagedObjectContext` being changed.
-  public static let change = ObservedEvent(rawValue: 1 << 0)
-
-  /// **CoreDataPlus**
-  ///
-  /// Notifications will be sent upon `NSManagedObjectContext` being saved.
-  public static let save = ObservedEvent(rawValue: 1 << 1)
-
-  /// **CoreDataPlus**
-  ///
-  /// Notifications will be sent upon `NSManagedObjectContext` being saved or changed.
-  public static let all: ObservedEvent = [.change, .save]
 }

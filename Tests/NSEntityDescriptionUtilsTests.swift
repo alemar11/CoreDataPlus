@@ -25,11 +25,17 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSEntityDescriptionUtilsTests: CoreDataPlusTestCase {
+fileprivate extension NSManagedObject {
+  convenience init(usingContext context: NSManagedObjectContext) {
+    let name = String(describing: type(of: self))
+    let entity = NSEntityDescription.entity(forEntityName: name, in: context)!
+    self.init(entity: entity, insertInto: context)
+  }
+}
 
+final class NSEntityDescriptionUtilsTests: CoreDataPlusTestCase {
   func testEntity() {
     let context = container.viewContext
-
     let expensiveCar = ExpensiveSportCar(context: context)
     let entityNames = expensiveCar.entity.hierarchyEntities().compactMap { $0.name}
     XCTAssertTrue(entityNames.count == 3)
@@ -39,22 +45,38 @@ final class NSEntityDescriptionUtilsTests: CoreDataPlusTestCase {
   }
 
   func testTopMostEntity() {
-    let context = container.viewContext
+    /// Making sure that all the necessary bits are available
 
-    do {
-      guard Car.entity().name != nil else { return }
-      let expensiveCar = ExpensiveSportCar(context: context)
-      let topMostAncestorEntity = expensiveCar.entity.topMostEntity
-      XCTAssertTrue(topMostAncestorEntity == Car.entity(), "\(topMostAncestorEntity) should be a Car entity.")
+    guard let model = container.viewContext.persistentStoreCoordinator?.managedObjectModel else {
+      XCTFail("Missing Model")
+      return
     }
 
-    do {
-      guard Car.entity().name != nil else { return }
-      let car = Car(context: context)
-      let topMostAncestorEntity = car.entity.topMostEntity
-      XCTAssertTrue(topMostAncestorEntity == Car.entity(), "\(topMostAncestorEntity) should be a Car entity.")
+    let entities = model.entitiesByName.keys
+    guard model.entitiesByName.keys.contains("Car") else {
+      XCTFail("Car Entity not found; available entities: \(entities)")
+      return
     }
 
+    // Car.entity().name can be nil while running tests
+    // To avoid some random failed tests, the entity is created by looking in a context.
+    guard let carEntity = NSEntityDescription.entity(forEntityName: Car.entityName, in: container.viewContext) else {
+      XCTFail("Car Entity Not Found.")
+      return
+    }
+
+    guard let _ = carEntity.name else {
+      fatalError("\(carEntity) should have a name.")
+    }
+
+    // Using a custom init to avoid some problems during tests.
+    let expensiveCar = ExpensiveSportCar(usingContext: container.viewContext)
+    let topMostAncestorEntityForExpensiveCar = expensiveCar.entity.topMostEntity
+    XCTAssertTrue(topMostAncestorEntityForExpensiveCar == carEntity, "\(topMostAncestorEntityForExpensiveCar) should be a Car entity \(String(describing: topMostAncestorEntityForExpensiveCar.name)).")
+
+    let car = Car(usingContext: container.viewContext)
+    let topMostAncestorEntity = car.entity.topMostEntity
+    XCTAssertTrue(topMostAncestorEntity == carEntity, "\(topMostAncestorEntity) should be a Car entity.")
   }
 
   func testCommonEntityAncestor() {

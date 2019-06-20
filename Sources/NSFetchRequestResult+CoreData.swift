@@ -65,7 +65,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     do {
       return try context.fetch(request)
     } catch {
-      throw CoreDataPlusError.fetchFailed(error: error)
+      throw NSError.fetchFailed(underlyingError: error)
     }
   }
 
@@ -90,7 +90,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     do {
       return try context.fetch(request)
     } catch {
-      throw CoreDataPlusError.fetchFailed(error: error)
+      throw NSError.fetchFailed(underlyingError: error)
     }
   }
 
@@ -140,7 +140,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
           request.fetchLimit = 1
         }.first
       } catch {
-        throw CoreDataPlusError.fetchFailed(error: error)
+        throw NSError.fetchFailed(underlyingError: error)
       }
     }
 
@@ -189,7 +189,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
           request.predicate = predicate
         }
       } catch {
-        throw CoreDataPlusError.fetchFailed(error: error)
+        throw NSError.fetchFailed(underlyingError: error)
       }
     }
 
@@ -205,7 +205,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   public static func findUniqueMaterializedObject(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? {
     let results = findMaterializedObjects(in: context, where: predicate)
     guard results.count <= 1 else {
-      throw CoreDataPlusError.fetchCountNotFound
+      throw NSError.fetchCountFailed()
     }
     return results.first
   }
@@ -227,7 +227,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     case 1:
       return result[0]
     default:
-      throw CoreDataPlusError.fetchExpectingOneObjectFailed
+      throw NSError.fetchExpectingOnlyOneObjectFailed()
     }
   }
 
@@ -243,13 +243,15 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
   public static func deleteAll(in context: NSManagedObjectContext, includingSubentities: Bool = true, where predicate: NSPredicate = NSPredicate(value: true)) throws {
     do {
-      try fetch(in: context) { request in
-        request.includesPropertyValues = false
-        request.includesSubentities = includingSubentities
-        request.predicate = predicate
-      }.lazy.forEach(context.delete(_:))
+      try autoreleasepool {
+        try fetch(in: context) { request in
+          request.includesPropertyValues = false
+          request.includesSubentities = includingSubentities
+          request.predicate = predicate
+        }.lazy.forEach(context.delete(_:))
+      }
     } catch {
-      throw CoreDataPlusError.fetchFailed(error: error)
+      throw NSError.fetchFailed(underlyingError: error)
     }
   }
 
@@ -280,7 +282,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     configuration(request)
 
     let result = try context.count(for: request)
-    guard result != NSNotFound else { throw CoreDataPlusError.fetchCountNotFound }
+    guard result != NSNotFound else { throw NSError.fetchCountFailed() }
 
     return result
   }
@@ -352,7 +354,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Note: A batch delete can only be done on a SQLite store.
   public static func batchUpdateObjects(with context: NSManagedObjectContext,
                                         configuration: ((NSBatchUpdateRequest) -> Void)? = nil) throws -> NSBatchUpdateResult {
-    guard context.persistentStoreCoordinator != nil else { throw CoreDataPlusError.persistentStoreCoordinatorNotFound(context: context) }
+    guard context.persistentStoreCoordinator != nil else { throw NSError.persistentStoreCoordinatorNotFound(context: context) }
 
     let batchRequest = NSBatchUpdateRequest(entityName: entityName)
     configuration?(batchRequest)
@@ -364,7 +366,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
       // swiftlint:disable:next force_cast
       return try context.execute(batchRequest) as! NSBatchUpdateResult
     } catch {
-      throw CoreDataPlusError.executionFailed(error: error)
+      throw NSError.batchUpdateFailed(underlyingError: error)
     }
   }
 
@@ -378,12 +380,11 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Returns: a NSBatchDeleteResult result.
   /// - Throws: It throws an error in cases of failure.
   /// - Note: A batch delete can only be done on a SQLite store.
-  @available(iOS 9, tvOS 9, watchOS 2, macOS 10.12, *)
   @discardableResult
   public static func batchDeleteObjects(with context: NSManagedObjectContext,
                                         resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly,
                                         configuration: ((NSFetchRequest<Self>) -> Void)? = nil) throws -> NSBatchDeleteResult {
-    guard context.persistentStoreCoordinator != nil else { throw CoreDataPlusError.persistentStoreCoordinatorNotFound(context: context) }
+    guard context.persistentStoreCoordinator != nil else { throw NSError.persistentStoreCoordinatorNotFound(context: context) }
 
     let request = NSFetchRequest<Self>(entityName: entityName)
     configuration?(request)
@@ -396,7 +397,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
       // swiftlint:disable:next force_cast
       return try context.execute(batchRequest) as! NSBatchDeleteResult
     } catch {
-      throw CoreDataPlusError.executionFailed(error: error)
+      throw NSError.batchDeleteFailed(underlyingError: error)
     }
   }
 }

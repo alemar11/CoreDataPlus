@@ -26,9 +26,9 @@ import CoreData
 @testable import CoreDataPlus
 
 class CoreDataMigrationsTests: XCTestCase {
-
   let fileManager = FileManager.default
   var containerSQLite: NSPersistentContainer!
+  let lock = NSLock()
 
   override func setUp() {
     super.setUp()
@@ -39,11 +39,15 @@ class CoreDataMigrationsTests: XCTestCase {
   }
 
   override func tearDown() {
-    containerSQLite.persistentStoreDescriptions.forEach { description in
-      if let url = description.url {
-        /// This command causes a "BUG IN CLIENT OF libsqlite3.dylib: database integrity compromised by API violation: vnode unlinked while in use..."
-        /// but it's not important.
-        try! NSPersistentStoreCoordinator.destroyStore(at: url)
+    containerSQLite.persistentStoreCoordinator.performAndWait {
+      let stores = containerSQLite.persistentStoreCoordinator.persistentStores
+      for store in stores {
+        try! containerSQLite.viewContext.persistentStoreCoordinator?.remove(store)
+        if let url = store.url {
+          /// This command causes a "BUG IN CLIENT OF libsqlite3.dylib: database integrity compromised by API violation: vnode unlinked while in use..."
+          /// it's not important for these tests but we can avoid it removing the NSPersistentStore before destroying it
+          try! NSPersistentStoreCoordinator.destroyStore(at: url)
+        }
       }
     }
     containerSQLite = nil
@@ -58,7 +62,7 @@ class CoreDataMigrationsTests: XCTestCase {
     context.fillWithSampleData()
     try context.save()
 
-    let allCars = try Car.fetch(in: context) //125
+    let allCars = try Car.fetch(in: context) // 125
     let sportCars = try ExpensiveSportCar.fetch(in: context) // 5
 
     if #available(iOS 11, tvOS 11, macOS 10.13, *) {
@@ -110,6 +114,8 @@ class CoreDataMigrationsTests: XCTestCase {
 
     XCTAssertEqual(completionSteps, 1)
     XCTAssertEqual(completion, 1.0)
+
+    migratedContext._fix_sqlite_warning_when_destroying_a_store()
     token.invalidate()
   }
 
@@ -150,8 +156,9 @@ class CoreDataMigrationsTests: XCTestCase {
 
     try migratedContext.save()
     XCTAssertTrue(fileManager.fileExists(atPath: targetURL.path))
-  }
 
+    migratedContext._fix_sqlite_warning_when_destroying_a_store()
+  }
 
   func testMigrationFromVersion1ToVersion3() throws {
     let bundle = Bundle(for: CoreDataMigrationsTests.self)
@@ -161,7 +168,6 @@ class CoreDataMigrationsTests: XCTestCase {
     XCTAssertTrue(version == .version1)
 
     let targetURL = URL.temporary.appendingPathComponent("SampleModel").appendingPathExtension("sqlite")
-
     let progress = Progress(totalUnitCount: 1)
     var completionSteps = 0
     var completion = 0.0
@@ -186,12 +192,13 @@ class CoreDataMigrationsTests: XCTestCase {
 
     XCTAssertFalse(fileManager.fileExists(atPath: sourceURL.path))
     XCTAssertTrue(fileManager.fileExists(atPath: targetURL.path))
+
+    migratedContext._fix_sqlite_warning_when_destroying_a_store()
     token.invalidate()
   }
 }
 
 extension NSManagedObjectContext {
-
   convenience init(model: NSManagedObjectModel, storeURL: URL) {
     let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
     try! psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
@@ -199,15 +206,19 @@ extension NSManagedObjectContext {
     persistentStoreCoordinator = psc
   }
 
+  func _fix_sqlite_warning_when_destroying_a_store() {
+    /// solve the warning: "BUG IN CLIENT OF libsqlite3.dylib: database integrity compromised by API violation: vnode unlinked while in use..."
+    for store in persistentStoreCoordinator!.persistentStores {
+      try! persistentStoreCoordinator?.remove(store)
+    }
+  }
 }
 
 extension URL {
-
   static var temporary: URL {
     let url =  URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory:true).appendingPathComponent("CoreDataPlus-Test-\(UUID().uuidString)")
     try! FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
     return url
   }
-
 }
 

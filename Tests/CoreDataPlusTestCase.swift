@@ -25,26 +25,22 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-let model = SampleModelVersion.version1.managedObjectModel()
-
 class CoreDataPlusTestCase: XCTestCase {
-
-  var container: NSPersistentContainer!
+  var container: PersistentContainerHackable!
 
   override func setUp() {
     super.setUp()
-
-    container = NSPersistentContainer(name: "SampleModel", managedObjectModel: model)
-    container.persistentStoreDescriptions[0].url = URL(fileURLWithPath: "/dev/null")
-    container.loadPersistentStores { (description, error) in
-      XCTAssertNil(error)
-    }
+    container = InMemoryPersistentContainer.makeNew()
   }
 
   override func tearDown() {
+    do {
+      try container.destroy()
+    } catch {
+      XCTFail("The persistent container couldn't be deostryed.")
+    }
     container = nil
     super.tearDown()
   }
-
 }
 

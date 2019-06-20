@@ -26,22 +26,21 @@ import CoreData
 @testable import CoreDataPlus
 
 final class EntityObserverTests: CoreDataPlusTestCase {
-
   // MARK: - Change Event
 
-  func testInsertedOnChangeEvent() {
+  func testInsertedOnDidChangeEvent() {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.change
+    let observedEvent = NSManagedObjectContext.ObservableEvents.didChange
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let observer = EntityObserver<SportCar>(context: context, event: observedEvent) { (change, event) in
       XCTAssertEqual(observedEvent, event)
-      XCTAssertEqual(change.inserted.count, 1)
-      XCTAssertTrue(change.deleted.isEmpty)
-      XCTAssertTrue(change.refreshed.isEmpty)
-      XCTAssertTrue(change.updated.isEmpty)
-      XCTAssertTrue(change.invalidated.isEmpty)
-      XCTAssertTrue(change.invalidatedAll.isEmpty)
+      XCTAssertEqual(change.insertedObjects.count, 1)
+      XCTAssertTrue(change.deletedObjects.isEmpty)
+      XCTAssertTrue(change.refreshedObjects.isEmpty)
+      XCTAssertTrue(change.updatedObjects.isEmpty)
+      XCTAssertTrue(change.invalidatedObjects.isEmpty)
+      XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
       expectation1.fulfill()
     }
     XCTAssertEqual(observer.event, observedEvent)
@@ -63,9 +62,9 @@ final class EntityObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testUpdatedOnChangeEvent() throws {
+  func testUpdatedOnDidChangeEvent() throws {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.change
+    let observedEvent = NSManagedObjectContext.ObservableEvents.didChange
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar = SportCar(context: context)
@@ -82,12 +81,12 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
     let observer = EntityObserver<SportCar>(context: context, event: observedEvent) { (change, event) in
       XCTAssertEqual(observedEvent, event)
-      XCTAssertTrue(change.inserted.isEmpty)
-      XCTAssertTrue(change.deleted.isEmpty)
-      XCTAssertTrue(change.refreshed.isEmpty)
-      XCTAssertEqual(change.updated.count, 1)
-      XCTAssertTrue(change.invalidated.isEmpty)
-      XCTAssertTrue(change.invalidatedAll.isEmpty)
+      XCTAssertTrue(change.insertedObjects.isEmpty)
+      XCTAssertTrue(change.deletedObjects.isEmpty)
+      XCTAssertTrue(change.refreshedObjects.isEmpty)
+      XCTAssertEqual(change.updatedObjects.count, 1)
+      XCTAssertTrue(change.invalidatedObjects.isEmpty)
+      XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
       expectation1.fulfill()
     }
     XCTAssertEqual(observer.event, observedEvent)
@@ -102,9 +101,9 @@ final class EntityObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testInsertedAndUpdatedOnChangeEvent() throws {
+  func testInsertedAndUpdatedOnDidChangeEvent() throws {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.change
+    let observedEvent = NSManagedObjectContext.ObservableEvents.didChange
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar1 = SportCar(context: context)
@@ -121,12 +120,12 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
     let observer = EntityObserver<SportCar>(context: context, event: observedEvent) { (change, event) in
       XCTAssertEqual(observedEvent, event)
-      XCTAssertEqual(change.inserted.count, 1)
-      XCTAssertTrue(change.deleted.isEmpty)
-      XCTAssertTrue(change.refreshed.isEmpty)
-      XCTAssertEqual(change.updated.count, 1)
-      XCTAssertTrue(change.invalidated.isEmpty)
-      XCTAssertTrue(change.invalidatedAll.isEmpty)
+      XCTAssertEqual(change.insertedObjects.count, 1)
+      XCTAssertTrue(change.deletedObjects.isEmpty)
+      XCTAssertTrue(change.refreshedObjects.isEmpty)
+      XCTAssertEqual(change.updatedObjects.count, 1)
+      XCTAssertTrue(change.invalidatedObjects.isEmpty)
+      XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
       expectation1.fulfill()
     }
     XCTAssertEqual(observer.event, observedEvent)
@@ -146,9 +145,9 @@ final class EntityObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testDeleteOnChangeEvent() throws {
+  func testDeleteOnDidChangeEvent() throws {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.change
+    let observedEvent = NSManagedObjectContext.ObservableEvents.didChange
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar = SportCar(context: context)
@@ -170,14 +169,14 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
     let observer = EntityObserver<SportCar>(context: context, event: observedEvent) { (change, event) in
       XCTAssertEqual(observedEvent, event)
-      XCTAssertTrue(change.inserted.isEmpty)
-      XCTAssertEqual(change.deleted.count, 1)
-      XCTAssertTrue(change.deleted.first === sportCar)
-      XCTAssertTrue(change.refreshed.isEmpty)
-      XCTAssertEqual(change.updated.count, 1)
-      XCTAssertTrue(change.updated.first === sportCar2)
-      XCTAssertTrue(change.invalidated.isEmpty)
-      XCTAssertTrue(change.invalidatedAll.isEmpty)
+      XCTAssertTrue(change.insertedObjects.isEmpty)
+      XCTAssertEqual(change.deletedObjects.count, 1)
+      XCTAssertTrue(change.deletedObjects.first === sportCar)
+      XCTAssertTrue(change.refreshedObjects.isEmpty)
+      XCTAssertEqual(change.updatedObjects.count, 1)
+      XCTAssertTrue(change.updatedObjects.first === sportCar2)
+      XCTAssertTrue(change.invalidatedObjects.isEmpty)
+      XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
       expectation1.fulfill()
     }
     XCTAssertEqual(observer.event, observedEvent)
@@ -195,9 +194,9 @@ final class EntityObserverTests: CoreDataPlusTestCase {
   }
 
 
-  func testRefreshedOnChangeEvent() throws {
+  func testRefreshedOnDidChangeEvent() throws {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.change
+    let observedEvent = NSManagedObjectContext.ObservableEvents.didChange
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar1 = SportCar(context: context)
@@ -225,13 +224,13 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
     let observer = EntityObserver<SportCar>(context: context, event: observedEvent) { (change, event) in
       XCTAssertEqual(observedEvent, event)
-      XCTAssertTrue(change.inserted.isEmpty)
-      XCTAssertTrue(change.deleted.isEmpty)
-      XCTAssertEqual(change.refreshed.count, 2)
-      XCTAssertEqual(change.updated.count, 1)
-      XCTAssertTrue(change.updated.first === sportCar1)
-      XCTAssertTrue(change.invalidated.isEmpty)
-      XCTAssertTrue(change.invalidatedAll.isEmpty)
+      XCTAssertTrue(change.insertedObjects.isEmpty)
+      XCTAssertTrue(change.deletedObjects.isEmpty)
+      XCTAssertEqual(change.refreshedObjects.count, 2)
+      XCTAssertEqual(change.updatedObjects.count, 1)
+      XCTAssertTrue(change.updatedObjects.first === sportCar1)
+      XCTAssertTrue(change.invalidatedObjects.isEmpty)
+      XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
       expectation1.fulfill()
     }
     XCTAssertEqual(observer.event, observedEvent)
@@ -253,9 +252,9 @@ final class EntityObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testInvalidatedAllOnChangeEvent() throws {
+  func testInvalidatedAllOnDidChangeEvent() throws {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.change
+    let observedEvent = NSManagedObjectContext.ObservableEvents.didChange
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar1 = SportCar(context: context)
@@ -283,14 +282,14 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
     let observer = EntityObserver<SportCar>(context: context, event: observedEvent) { (change, event) in
       XCTAssertEqual(observedEvent, event)
-      XCTAssertTrue(change.inserted.isEmpty)
-      XCTAssertTrue(change.deleted.isEmpty)
-      XCTAssertTrue(change.refreshed.isEmpty)
-      XCTAssertTrue(change.updated.isEmpty)
-      XCTAssertTrue(change.invalidated.isEmpty)
-      XCTAssertEqual(change.invalidatedAll.count, 2) // sportCar1 and sportCar2
-      XCTAssertTrue(change.invalidatedAll.contains(sportCar1.objectID))
-      XCTAssertTrue(change.invalidatedAll.contains(sportCar2.objectID))
+      XCTAssertTrue(change.insertedObjects.isEmpty)
+      XCTAssertTrue(change.deletedObjects.isEmpty)
+      XCTAssertTrue(change.refreshedObjects.isEmpty)
+      XCTAssertTrue(change.updatedObjects.isEmpty)
+      XCTAssertTrue(change.invalidatedObjects.isEmpty)
+      XCTAssertEqual(change.invalidatedAllObjects.count, 2) // sportCar1 and sportCar2
+      XCTAssertTrue(change.invalidatedAllObjects.contains(sportCar1.objectID))
+      XCTAssertTrue(change.invalidatedAllObjects.contains(sportCar2.objectID))
       expectation1.fulfill()
     }
     XCTAssertEqual(observer.event, observedEvent)
@@ -314,9 +313,9 @@ final class EntityObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testRelationshipUpdatedOnChangeEvent() throws {
+  func testRelationshipUpdatedOnDidChangeEvent() throws {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.change
+    let observedEvent = NSManagedObjectContext.ObservableEvents.didChange
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar1 = SportCar(context: context)
@@ -348,12 +347,12 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
     let observer = EntityObserver<SportCar>(context: context, event: observedEvent) { (change, event) in
       XCTAssertEqual(observedEvent, event)
-      XCTAssertTrue(change.inserted.isEmpty)
-      XCTAssertTrue(change.deleted.isEmpty)
-      XCTAssertTrue(change.refreshed.isEmpty)
-      XCTAssertEqual(change.updated.count, 2)
-      XCTAssertTrue(change.invalidated.isEmpty)
-      XCTAssertTrue(change.invalidatedAll.isEmpty)
+      XCTAssertTrue(change.insertedObjects.isEmpty)
+      XCTAssertTrue(change.deletedObjects.isEmpty)
+      XCTAssertTrue(change.refreshedObjects.isEmpty)
+      XCTAssertEqual(change.updatedObjects.count, 2)
+      XCTAssertTrue(change.invalidatedObjects.isEmpty)
+      XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
       expectation1.fulfill()
     }
     XCTAssertEqual(observer.event, observedEvent)
@@ -366,19 +365,19 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   // MARK: - Save Event
 
-  func testInsertedOnSaveEvent() throws {
+  func testInsertedOnDidSaveEvent() throws {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.save
+    let observedEvent = NSManagedObjectContext.ObservableEvents.didSave
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let observer = EntityObserver<SportCar>(context: context, event: observedEvent) { (change, event) in
       XCTAssertEqual(observedEvent, event)
-      XCTAssertEqual(change.inserted.count, 2)
-      XCTAssertTrue(change.deleted.isEmpty)
-      XCTAssertTrue(change.refreshed.isEmpty)
-      XCTAssertTrue(change.updated.isEmpty)
-      XCTAssertTrue(change.invalidated.isEmpty)
-      XCTAssertTrue(change.invalidatedAll.isEmpty)
+      XCTAssertEqual(change.insertedObjects.count, 2)
+      XCTAssertTrue(change.deletedObjects.isEmpty)
+      XCTAssertTrue(change.refreshedObjects.isEmpty)
+      XCTAssertTrue(change.updatedObjects.isEmpty)
+      XCTAssertTrue(change.invalidatedObjects.isEmpty)
+      XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
       expectation1.fulfill()
     }
     XCTAssertEqual(observer.event, observedEvent)
@@ -407,9 +406,9 @@ final class EntityObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testInsertedWithoutSavingOnSaveEvent() {
+  func testInsertedWithoutSavingOnDidSaveEvent() {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.save
+    let observedEvent = NSManagedObjectContext.ObservableEvents.didSave
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
     expectation1.isInverted = true
@@ -436,9 +435,9 @@ final class EntityObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testRelationshipUpdatedOnSaveEvent() throws {
+  func testRelationshipUpdatedOnDidSaveEvent() throws {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.save
+    let observedEvent = NSManagedObjectContext.ObservableEvents.didSave
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar1 = SportCar(context: context)
@@ -470,15 +469,15 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
     let observer = EntityObserver<SportCar>(context: context, event: observedEvent) { (change, event) in
       XCTAssertEqual(observedEvent, event)
-      XCTAssertTrue(change.inserted.isEmpty)
-      XCTAssertTrue(change.deleted.isEmpty)
-      XCTAssertTrue(change.refreshed.isEmpty)
-      XCTAssertEqual(change.updated.count, 2)
-      for (_, car) in change.updated.enumerated() {
+      XCTAssertTrue(change.insertedObjects.isEmpty)
+      XCTAssertTrue(change.deletedObjects.isEmpty)
+      XCTAssertTrue(change.refreshedObjects.isEmpty)
+      XCTAssertEqual(change.updatedObjects.count, 2)
+      for (_, car) in change.updatedObjects.enumerated() {
         XCTAssertTrue(car.owner === person1)
       }
-      XCTAssertTrue(change.invalidated.isEmpty)
-      XCTAssertTrue(change.invalidatedAll.isEmpty)
+      XCTAssertTrue(change.invalidatedObjects.isEmpty)
+      XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
       expectation1.fulfill()
     }
     XCTAssertEqual(observer.event, observedEvent)
@@ -491,9 +490,9 @@ final class EntityObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testDeleteOnSaveEvent() throws {
+  func testDeleteOnDidSaveEvent() throws {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.save
+    let observedEvent = NSManagedObjectContext.ObservableEvents.didSave
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let sportCar = SportCar(context: context)
@@ -515,14 +514,14 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
     let observer = EntityObserver<SportCar>(context: context, event: observedEvent) { (change, event) in
       XCTAssertEqual(observedEvent, event)
-      XCTAssertTrue(change.inserted.isEmpty)
-      XCTAssertEqual(change.deleted.count, 1)
-      XCTAssertTrue(change.deleted.first === sportCar)
-      XCTAssertTrue(change.refreshed.isEmpty)
-      XCTAssertEqual(change.updated.count, 1)
-      XCTAssertTrue(change.updated.first === sportCar2)
-      XCTAssertTrue(change.invalidated.isEmpty)
-      XCTAssertTrue(change.invalidatedAll.isEmpty)
+      XCTAssertTrue(change.insertedObjects.isEmpty)
+      XCTAssertEqual(change.deletedObjects.count, 1)
+      XCTAssertTrue(change.deletedObjects.first === sportCar)
+      XCTAssertTrue(change.refreshedObjects.isEmpty)
+      XCTAssertEqual(change.updatedObjects.count, 1)
+      XCTAssertTrue(change.updatedObjects.first === sportCar2)
+      XCTAssertTrue(change.invalidatedObjects.isEmpty)
+      XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
       expectation1.fulfill()
     }
     XCTAssertEqual(observer.event, observedEvent)
@@ -545,7 +544,7 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
   func testMixChangesOnUpdateAndOnSave() throws {
     let context = container.viewContext
-    let observedEvent = ObservedEvent.all
+    let observedEvent: NSManagedObjectContext.ObservableEvents = [.didChange, .didSave]
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let expectation2 = expectation(description: "\(#function)\(#line)")
 
@@ -568,26 +567,26 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
     let observer = EntityObserver<SportCar>(context: context, event: observedEvent) { (change, event) in
       XCTAssertNotEqual(observedEvent, event)
-      if event == .change {
-        XCTAssertEqual(change.inserted.count, 1)
-        XCTAssertEqual(change.deleted.count, 1)
+      if event == .didChange {
+        XCTAssertEqual(change.insertedObjects.count, 1)
+        XCTAssertEqual(change.deletedObjects.count, 1)
 
-        XCTAssertEqual(change.refreshed.count, 1)
-        XCTAssertEqual(change.updated.count, 1)
+        XCTAssertEqual(change.refreshedObjects.count, 1)
+        XCTAssertEqual(change.updatedObjects.count, 1)
 
-        XCTAssertTrue(change.invalidated.isEmpty)
-        XCTAssertTrue(change.invalidatedAll.isEmpty)
+        XCTAssertTrue(change.invalidatedObjects.isEmpty)
+        XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
         expectation1.fulfill()
 
-      } else if event == .save {
-        XCTAssertEqual(change.inserted.count, 1)
-        XCTAssertEqual(change.deleted.count, 1)
+      } else if event == .didSave {
+        XCTAssertEqual(change.insertedObjects.count, 1)
+        XCTAssertEqual(change.deletedObjects.count, 1)
 
-        XCTAssertEqual(change.refreshed.count, 0)
-        XCTAssertEqual(change.updated.count, 1)
+        XCTAssertEqual(change.refreshedObjects.count, 0)
+        XCTAssertEqual(change.updatedObjects.count, 1)
 
-        XCTAssertTrue(change.invalidated.isEmpty)
-        XCTAssertTrue(change.invalidatedAll.isEmpty)
+        XCTAssertTrue(change.invalidatedObjects.isEmpty)
+        XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
         expectation2.fulfill()
       } else {
         XCTFail("The observed event doesn't exists.")
@@ -608,8 +607,81 @@ final class EntityObserverTests: CoreDataPlusTestCase {
     sportCar3.model = "GranTurismo MC"
     sportCar3.numberPlate = "202"
 
+    car.numberPlate = "11111" // This is ignored because the observed entity is SportCar
+
     try context.save()
     waitForExpectations(timeout: 2)
   }
 
+  func testMixChangesOnUpdateAndOnSaveInSubEntities() throws {
+    let context = container.viewContext
+    let observedEvent: NSManagedObjectContext.ObservableEvents = [.didChange, .didSave]
+    let expectation1 = expectation(description: "\(#function)\(#line)")
+    let expectation2 = expectation(description: "\(#function)\(#line)")
+
+    let sportCar1 = SportCar(context: context)
+    sportCar1.maker = "McLaren"
+    sportCar1.model = "570GT"
+    sportCar1.numberPlate = "203"
+
+    let sportCar2 = SportCar(context: context)
+    sportCar2.maker = "Lamborghini "
+    sportCar2.model = "Aventador LP750-4"
+    sportCar2.numberPlate = "204"
+
+    let car = Car(context: context)
+    car.maker = "FIAT"
+    car.model = "Panda"
+    car.numberPlate = "1"
+
+    try context.save()
+
+    let observer = EntityObserver<Car>(context: context, event: observedEvent, observeSubEntities: true) { (change, event) in
+      XCTAssertNotEqual(observedEvent, event)
+      if event == .didChange {
+        XCTAssertEqual(change.insertedObjects.count, 1)
+        XCTAssertEqual(change.deletedObjects.count, 1)
+
+        XCTAssertEqual(change.refreshedObjects.count, 1)
+        XCTAssertEqual(change.updatedObjects.count, 2)
+
+        XCTAssertTrue(change.invalidatedObjects.isEmpty)
+        XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
+        expectation1.fulfill()
+
+      } else if event == .didSave {
+        XCTAssertEqual(change.insertedObjects.count, 1)
+        XCTAssertEqual(change.deletedObjects.count, 1)
+
+        XCTAssertEqual(change.refreshedObjects.count, 0)
+        XCTAssertEqual(change.updatedObjects.count, 2)
+
+        XCTAssertTrue(change.invalidatedObjects.isEmpty)
+        XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
+        expectation2.fulfill()
+      } else {
+        XCTFail("The observed event doesn't exists.")
+      }
+
+    }
+    XCTAssertEqual(observer.event, observedEvent)
+
+    // Update sportCar1 and refreshed with merge
+    // Delete sportCar2
+    // Insert SportCar3
+    // Update car
+
+    sportCar1.numberPlate! += "Updated"
+    sportCar1.refresh()
+    context.delete(sportCar2)
+    let sportCar3 = SportCar(context: context)
+    sportCar3.maker = "Maserati"
+    sportCar3.model = "GranTurismo MC"
+    sportCar3.numberPlate = "202"
+
+    car.numberPlate = "11111"
+
+    try context.save()
+    waitForExpectations(timeout: 2)
+  }
 }

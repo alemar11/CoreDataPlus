@@ -27,19 +27,17 @@ import XCTest
 
 private var cache = [String: NSManagedObjectModel]()
 
-public enum SampleModelVersion: String {
+public enum SampleModelVersion: String, CaseIterable {
   case version1 = "SampleModel"
   case version2 = "SampleModel2"
   case version3 = "SampleModel3"
 }
 
 extension SampleModelVersion: CoreDataModelVersion {
+  public static var allVersions: [SampleModelVersion] { return SampleModelVersion.allCases }
+  public static var currentVersion: SampleModelVersion { return .version1 }
 
   public var modelName: String { return "SampleModel" }
-
-  public static var allVersions: [SampleModelVersion] { return [.version1, .version2, .version3] } //TODO: Swift 4.2
-
-  public static var currentVersion: SampleModelVersion { return .version1 }
 
   public var successor: SampleModelVersion? {
     switch self {
@@ -57,7 +55,6 @@ extension SampleModelVersion: CoreDataModelVersion {
   }
 
   public func managedObjectModel() -> NSManagedObjectModel {
-
     if let model = cache[self.versionName], #available(iOS 12.0, tvOS 12.0, watchOS 5.0, macOS 10.14, *) {
       return model
     }
@@ -84,7 +81,6 @@ extension SampleModelVersion: CoreDataModelVersion {
 }
 
 extension SampleModelVersion {
-
   func mappingModel_swift_package_tests() -> [NSMappingModel] {
     switch self {
     case .version2:
@@ -135,6 +131,5 @@ extension SampleModelVersion {
       return []
     }
   }
-
 }
 

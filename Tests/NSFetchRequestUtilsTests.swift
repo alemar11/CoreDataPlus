@@ -26,32 +26,31 @@ import CoreData
 @testable import CoreDataPlus
 
 final class NSFetchRequestUtilsTests: XCTestCase {
-
   func testInit() {
-
+    let fakeEntity = NSEntityDescription()
     do {
       // Given, When
-      let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entity: Person.entity())
+      let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entity: fakeEntity)
       // Then
-      XCTAssertEqual(fetchRequest.entity, Person.entity())
+      XCTAssertEqual(fetchRequest.entity, fakeEntity)
       XCTAssertEqual(fetchRequest.fetchBatchSize, 0)
       XCTAssertNil(fetchRequest.predicate)
     }
 
     do {
       // Given, When
-      let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entity: Person.entity(), predicate: nil, batchSize: 10)
+      let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entity: fakeEntity, predicate: nil, batchSize: 10)
       // Then
-      XCTAssertEqual(fetchRequest.entity, Person.entity())
+      XCTAssertEqual(fetchRequest.entity, fakeEntity)
       XCTAssertEqual(fetchRequest.fetchBatchSize, 10)
       XCTAssertNil(fetchRequest.predicate)
     }
 
     do {
       // Given, When
-      let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entity: Person.entity(), predicate: nil, batchSize: 20)
+      let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entity: fakeEntity, predicate: nil, batchSize: 20)
       // Then
-      XCTAssertEqual(fetchRequest.entity, Person.entity())
+      XCTAssertEqual(fetchRequest.entity, fakeEntity)
       XCTAssertEqual(fetchRequest.fetchBatchSize, 20)
       XCTAssertNil(fetchRequest.predicate)
     }
@@ -59,17 +58,15 @@ final class NSFetchRequestUtilsTests: XCTestCase {
     do {
       // Given, When
       let predicate = NSPredicate(value: true)
-      let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entity: Person.entity(), predicate: predicate, batchSize: 1)
+      let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entity: fakeEntity, predicate: predicate, batchSize: 1)
       // Then
-      XCTAssertEqual(fetchRequest.entity, Person.entity())
+      XCTAssertEqual(fetchRequest.entity, fakeEntity)
       XCTAssertEqual(fetchRequest.fetchBatchSize, 1)
       XCTAssertEqual(fetchRequest.predicate, predicate)
     }
-
   }
 
   func testPredicateAndDescriptorComposition() {
-
     do {
       let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Not important")
       fetchRequest.andPredicate(NSPredicate(format: "Y = 30"))
@@ -116,7 +113,5 @@ final class NSFetchRequestUtilsTests: XCTestCase {
 
       XCTAssertTrue(fetchRequest.predicate == NSPredicate(format: "Y = 30"))
     }
-
   }
-
 }

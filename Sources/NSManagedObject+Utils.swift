@@ -50,7 +50,7 @@ extension NSManagedObject {
   // swiftlint:disable line_length
   /// **CoreDataPlus**
   ///
-  /// If `flag` is `true` (default), the object won't turn into a fault; instead, it’ll update the unchanged properties from the row cache, preserving any unsaved changes;
+  /// If `flag` is `true` (default), the object won't turn into a fault; instead, it’ll update its unchanged properties from the row cache, preserving any unsaved changes;
   /// if `flag` is `false`, the object will be forced to turn into a fault without merging and unsaved changes will be lost (which also causes other related managed objects to be released, so you can use this method to trim the portion of your object graph you want to hold in memory).
   ///
   /// - parameter flag: only matters if the object has unsaved changes. In this case, a `true` value won’t turn the object into a fault; instead, it’ll update the unchanged properties from the row cache, preserving any unsaved changes.

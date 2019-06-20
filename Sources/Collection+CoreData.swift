@@ -69,7 +69,7 @@ extension Collection where Element: NSManagedObject {
             try context.fetch(request)
           }
         } catch {
-          throw CoreDataPlusError.fetchFailed(error: error)
+          throw NSError.fetchFailed(underlyingError: error)
         }
       }
     }

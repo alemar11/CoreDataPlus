@@ -26,7 +26,6 @@ import CoreData
 @testable import CoreDataPlus
 
 final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
-
   func testSinglePersistentStore() {
     XCTAssertTrue(container.viewContext.persistentStores.count == 1)
     XCTAssertNotNil(container.viewContext.persistentStores.first)
@@ -38,27 +37,27 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
   }
 
   func testMetaData() {
-      // When
-      guard let firstPersistentStore = container.viewContext.persistentStores.first else {
-        XCTAssertNotNil(container.viewContext.persistentStores.first)
-        return
-      }
-      // Then
-      let metaData = container.viewContext.metaData(for: firstPersistentStore)
-      XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[Car.entityName])
-      XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[Person.entityName])
-      XCTAssertNotNil(metaData["NSStoreType"] as? String)
+    // When
+    guard let firstPersistentStore = container.viewContext.persistentStores.first else {
+      XCTAssertNotNil(container.viewContext.persistentStores.first)
+      return
+    }
+    // Then
+    let metaData = container.viewContext.metaData(for: firstPersistentStore)
+    XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[Car.entityName])
+    XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[Person.entityName])
+    XCTAssertNotNil(metaData["NSStoreType"] as? String)
 
-      let addMetaDataExpectation = expectation(description: "Add MetaData Expectation")
-      container.viewContext.setMetaDataObject("Test", with: "testKey", for: firstPersistentStore){ error in
-        XCTAssertNil(error)
-        addMetaDataExpectation.fulfill()
-      }
-      waitForExpectations(timeout: 5.0, handler: nil)
+    let addMetaDataExpectation = expectation(description: "Add MetaData Expectation")
+    container.viewContext.setMetaDataObject("Test", with: "testKey", for: firstPersistentStore){ error in
+      XCTAssertNil(error)
+      addMetaDataExpectation.fulfill()
+    }
+    waitForExpectations(timeout: 5.0, handler: nil)
 
-      let updatedMetaData = container.viewContext.metaData(for: firstPersistentStore)
-      XCTAssertNotNil(updatedMetaData["testKey"])
-      XCTAssertEqual(updatedMetaData["testKey"] as? String, "Test")
+    let updatedMetaData = container.viewContext.metaData(for: firstPersistentStore)
+    XCTAssertNotNil(updatedMetaData["testKey"])
+    XCTAssertEqual(updatedMetaData["testKey"] as? String, "Test")
   }
 
   func testEntityDescription() {
@@ -91,7 +90,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
 
     // Then
     XCTAssertNoThrow(
-      try context.performSaveAndWait {
+      try context.performSaveAndWait { context in
         let person = Person(context: context)
         person.firstName = "T"
         person.lastName = "R"
@@ -111,7 +110,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
       })
 
     XCTAssertNoThrow(
-      try context.performSaveAndWait {
+      try context.performSaveAndWait { context in
         let person = Person(context: context)
         person.firstName = "Tin"
         person.lastName = "Robots"
@@ -126,7 +125,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
 
     // Then
     XCTAssertNoThrow(
-      try context.performSaveAndWait {
+      try context.performSaveAndWait { context in
         let person = Person(context: context)
         person.firstName = "T"
         person.lastName = "R"
@@ -145,7 +144,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     )
 
     XCTAssertNoThrow(
-      try context.performSaveAndWait {
+      try context.performSaveAndWait { context in
         let person = Person(context: context)
         person.firstName = "Tin"
         person.lastName = "Robots"
@@ -153,7 +152,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     )
 
     XCTAssertThrowsError(
-      try context.performSaveAndWait {
+      try context.performSaveAndWait { context in
         let car1 = Car(context: context)
         car1.maker = "FIAT"
         car1.model = "Panda"
@@ -172,16 +171,16 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
       }
     ) { (error) in
       context.performAndWait {
- XCTAssertNotNil(error)
+        XCTAssertNotNil(error)
       }
     }
 
     context.performAndWait {
-    context.rollback() // discards all the failing changes
+      context.rollback() // discards all the failing changes
     }
 
     XCTAssertNoThrow(
-      try context.performSaveAndWait {
+      try context.performSaveAndWait { context in
         let person = Person(context: context)
         person.firstName = "Tin_"
         person.lastName = "Robots_"
@@ -193,7 +192,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
 
     let context = container.viewContext.newBackgroundContext()
     XCTAssertNoThrow(
-      try context.performSaveAndWait {
+      try context.performSaveAndWait { context in
         let person1 = Person(context: context)
         person1.firstName = "T1"
         person1.lastName = "R1"
@@ -207,89 +206,80 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     )
 
     context.performAndWait {
-    XCTAssertTrue(context.registeredObjects.isEmpty)
+      XCTAssertTrue(context.registeredObjects.isEmpty)
     }
   }
 
   func testSaveAndWaitWithThrow() {
-
     let context = container.viewContext.newBackgroundContext()
-
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     do {
-      try context.performSaveAndWait {
+      try context.performSaveAndWait { context in
         let person = Person(context: context)
         person.firstName = "Tin1"
         person.lastName = "Robots1"
         throw NSError(domain: "test", code: 1, userInfo: nil)
       }
-    } catch let catchedError {
-      if case CoreDataPlusError.executionFailed(error: let error) = catchedError {
-        let nsError = error as NSError
-        XCTAssertEqual(nsError.code, 1)
-        XCTAssertEqual(nsError.domain, "test")
-
-      } else {
-        XCTFail("Wrong error type.")
-      }
+    } catch let catchedError as NSError where catchedError.code == NSError.ErrorCode.saveFailed.rawValue {
+      XCTAssertNotNil(catchedError.underlyingError)
+      let nsError = catchedError.underlyingError! as NSError
+      XCTAssertEqual(nsError.code, 1)
+      XCTAssertEqual(nsError.domain, "test")
       expectation1.fulfill()
+    } catch {
+      XCTFail("Wrong error type.")
     }
     waitForExpectations(timeout: 2)
   }
 
   func testSaveAndWaitWithAContextSaveDoneBeforeTheThrow() throws {
-
     let context = container.viewContext.newBackgroundContext()
 
     context.performAndWait {
-    let person = Person(context: context)
-    person.firstName = "Alessandro"
-    person.lastName = "Test"
-    try! context.save()
+      let person = Person(context: context)
+      person.firstName = "Alessandro"
+      person.lastName = "Test"
+      try! context.save()
     }
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     do {
-      try context.performSaveAndWait {
+      try context.performSaveAndWait { context in
         let person = Person(context: context)
         person.firstName = "Tin1"
         person.lastName = "Robots1"
         throw NSError(domain: "test", code: 1, userInfo: nil)
       }
-    } catch let catchedError {
-      if case CoreDataPlusError.executionFailed(error: let error) = catchedError {
-        let nsError = error as NSError
-        XCTAssertEqual(nsError.code, 1)
-        XCTAssertEqual(nsError.domain, "test")
-
-      } else {
-        XCTFail("Wrong error type.")
-      }
+    } catch let catchedError as NSError where catchedError.code == NSError.ErrorCode.saveFailed.rawValue {
+      XCTAssertNotNil(catchedError.underlyingError)
+      let nsError = catchedError.underlyingError! as NSError
+      XCTAssertEqual(nsError.code, 1)
+      XCTAssertEqual(nsError.domain, "test")
       expectation1.fulfill()
+    } catch {
+      XCTFail("Wrong error type.")
     }
     waitForExpectations(timeout: 2)
   }
 
   func testSaveAndThrow() {
-
     let context = container.viewContext.newBackgroundContext()
-
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
-    context.performSave(after: {
+    context.performSave(after: { context in
       let person = Person(context: context)
       person.firstName = "T"
       person.lastName = "R"
       throw NSError(domain: "test", code: 1, userInfo: nil)
 
-    }, completion: { catchedError in
-      if let catchedError = catchedError, case CoreDataPlusError.executionFailed(error: let error) = catchedError {
-        let nsError = error as NSError
-        XCTAssertEqual(nsError.code, 1)
-        XCTAssertEqual(nsError.domain, "test")
-
+    }, completion: { error in
+      if let error = error, error.code == NSError.ErrorCode.saveFailed.rawValue {
+        XCTAssertNotNil(error.underlyingError)
+        let underlyingError = error.underlyingError! as NSError
+        XCTAssertEqual(underlyingError.code, 1)
+        XCTAssertEqual(underlyingError.domain, "test")
       } else {
         XCTFail("Wrong error type.")
       }
@@ -305,7 +295,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     let context = container.viewContext.newBackgroundContext()
     // Then
     let saveExpectation1 = expectation(description: "Save 1")
-    context.performSave(after: {
+    context.performSave(after: { context in
       let person = Person(context: context)
       person.firstName = "T"
       person.lastName = "R"
@@ -317,7 +307,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     wait(for: [saveExpectation1], timeout: 10)
 
     let saveExpectation2 = expectation(description: "Save 2")
-    context.performSave(after: {
+    context.performSave(after: { context in
       let person = Person(context: context)
       person.firstName = "Tin"
       person.lastName = "Robots"
@@ -330,7 +320,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
 
     /// saving error
     let saveExpectation3 = expectation(description: "Save 3")
-    context.performSave(after: {
+    context.performSave(after: { context in
       let person = Person(context: context)
       person.firstName = "Tin"
       person.lastName = "Robots"
@@ -341,11 +331,11 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
 
     wait(for: [saveExpectation3], timeout: 10)
     context.performAndWait {
-    context.rollback() // remove not valid changes
+      context.rollback() // remove not valid changes
     }
 
     let saveExpectation4 = expectation(description: "Save 4")
-    context.performSave(after: {
+    context.performSave(after: { context in
       let person = Person(context: context)
       person.firstName = "Tin_"
       person.lastName = "Robots"
@@ -357,7 +347,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     wait(for: [saveExpectation4], timeout: 10)
 
     let saveExpectation5 = expectation(description: "Save 5")
-    context.performSave(after: {
+    context.performSave(after: { context in
       let person = Person(context: context)
       person.firstName = "Tin"
       person.lastName = "Robots_"
@@ -369,7 +359,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     wait(for: [saveExpectation5], timeout: 10)
 
     let saveExpectation6 = expectation(description: "Save 6")
-    context.performSave(after: {
+    context.performSave(after: { context in
       let car = Car(context: context)
       car.numberPlate = "100"
     }) { error in
@@ -380,7 +370,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     wait(for: [saveExpectation6], timeout: 10)
 
     let saveExpectation7 = expectation(description: "Save 7")
-    context.performSave(after: {
+    context.performSave(after: { context in
       let car = SportCar(context: context)
       car.numberPlate = "200"
     }) { error in
@@ -392,7 +382,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
 
     /// saving error
     let saveExpectation8 = expectation(description: "Save 7")
-    context.performSave(after: {
+    context.performSave(after: { context in
       let car = SportCar(context: context)
       car.numberPlate = "200" // same numberPlate
     }) { error in
@@ -443,7 +433,6 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
   }
 
   func testSaveOrRollback() {
-   // let stack = CoreDataStack.stack(type: .inMemory) // TODO: iOS 12 not working for in memory
     let context = container.viewContext
 
     let car1 = Car(context: context)
@@ -474,7 +463,6 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
   }
 
   func testCollectionDelete() throws {
-
     let context = container.viewContext
     let newContext = context.newBackgroundContext()
 
@@ -539,7 +527,6 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
   }
 
   func testPerformSaveUpToTheLastParentContextAndWaitWithoutChanges() throws {
-
     let mainContext = container.viewContext
     let backgroundContext = mainContext.newBackgroundContext(asChildContext: true) // main context children
     let childBackgroundContext = backgroundContext.newBackgroundContext(asChildContext: true) // background context children
@@ -554,4 +541,3 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
     XCTAssertEqual(count, 0)
   }
 }
-

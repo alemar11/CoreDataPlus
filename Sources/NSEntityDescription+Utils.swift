@@ -57,7 +57,7 @@ extension NSEntityDescription {
   internal func commonEntityAncestor(with entity: NSEntityDescription) -> NSEntityDescription? {
     guard self != entity else { return entity }
 
-    let selfHierarchy = Set(self.hierarchyEntities())
+    let selfHierarchy = Set(hierarchyEntities())
     let entityHirarchy = Set(entity.hierarchyEntities())
     let intersection = selfHierarchy.intersection(entityHirarchy)
 

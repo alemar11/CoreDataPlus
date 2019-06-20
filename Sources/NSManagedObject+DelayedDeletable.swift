@@ -53,7 +53,7 @@ public protocol DelayedDeletable: class {
 
 // MARK: - DelayedDeletable Extension
 
-extension DelayedDeletable {
+extension DelayedDeletable where Self: NSManagedObject {
   /// **CoreDataPlus**
   ///
   /// Protocol `DelayedDeletable`.
@@ -99,20 +99,22 @@ extension DelayedDeletable where Self: NSManagedObject {
 // MARK: - Batch Delete
 
 extension NSFetchRequestResult where Self: NSManagedObject & DelayedDeletable {
+  // swiftlint:disable line_length
+
   /// **CoreDataPlus**
   ///
   /// Makes a batch delete operation for object conforming to `DelayedDeletable` older than the `cutOffDate` date.
+  ///
   /// - Parameters:
   ///   - context: The NSManagedObjectContext where is executed the batch delete request.
   ///   - cutOffDate: Objects marked for local deletion more than this time (in seconds) ago will get permanently deleted (default: 2 minutes).
   ///   - resultType: The type of the batch delete result (default: `NSBatchDeleteRequestResultType.resultTypeStatusOnly`).
   /// - Returns: a NSBatchDeleteResult result.
   /// - Throws: An error in cases of a batch delete operation failure.
-  @available(iOS 9, tvOS 9, watchOS 2, macOS 10.12, *)
-  // swiftlint:disable:next line_length
   public static func batchDeleteObjectsMarkedForDeletion(with context: NSManagedObjectContext, olderThan cutOffDate: Date = Date(timeIntervalSinceNow: -TimeInterval(120)), resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly) throws -> NSBatchDeleteResult {
     let predicate = NSPredicate(format: "%K <= %@", markedForDeletionKey, cutOffDate as NSDate)
 
     return try batchDeleteObjects(with: context, resultType: resultType, configuration: { $0.predicate = predicate })
   }
+  // swiftlint:enable line_length
 }
