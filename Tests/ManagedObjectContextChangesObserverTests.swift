@@ -476,6 +476,96 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
+  func testObserveInsertUsingPersistentStoreCoordinatorWithChildAndParentContexts() throws {
+    // Given
+    let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
+    let urls = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
+    let storeURL = urls.last!.appendingPathComponent("\(UUID().uuidString).sqlite")
+    try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
+    let childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+    let parentContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+    parentContext.persistentStoreCoordinator = psc
+    childContext.parent = parentContext
+
+    let expectation = self.expectation(description: "\(#function)\(#line)")
+    let expectation2 = self.expectation(description: "\(#function)\(#line)")
+
+    // When, Then
+    try childContext.performAndWait { context in
+      let car1 = Car(context: context)
+      let car2 = Car(context: context)
+      car1.maker = "FIAT"
+      car1.model = "Panda"
+      car1.numberPlate = UUID().uuidString
+      car1.maker = "maker"
+
+      car2.maker = "FIAT"
+      car2.model = "Punto"
+      car2.numberPlate = UUID().uuidString
+      car2.maker = "maker"
+      try context.save()
+    }
+
+    try parentContext.performAndWait { context in
+      try context.save()
+    }
+
+    // Changes are propagated from the child to the parent during the save.
+
+    let observer = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(parentContext), event: .didChange) { (change, event, observedContext) in
+      XCTAssertTrue(Thread.isMainThread)
+      XCTAssertTrue(observedContext === parentContext)
+      XCTAssertEqual(change.insertedObjects.count, 2)
+      XCTAssertTrue(change.deletedObjects.isEmpty)
+      XCTAssertTrue(change.updatedObjects.isEmpty)
+      XCTAssertTrue(change.refreshedObjects.isEmpty)
+      XCTAssertTrue(change.invalidatedObjects.isEmpty)
+      XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
+      expectation.fulfill()
+    }
+
+    let observer2 = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(parentContext), event: .didSave) { (change, event, observedContext) in
+      XCTAssertTrue(Thread.isMainThread)
+      XCTAssertTrue(observedContext === parentContext)
+      XCTAssertEqual(change.insertedObjects.count, 2)
+      XCTAssertTrue(change.deletedObjects.isEmpty)
+      XCTAssertTrue(change.updatedObjects.isEmpty)
+      XCTAssertTrue(change.refreshedObjects.isEmpty)
+      XCTAssertTrue(change.invalidatedObjects.isEmpty)
+      XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
+      expectation2.fulfill()
+    }
+
+    // remove unused warning...
+    _ = observer
+    _ = observer2
+
+    try childContext.performAndWait { context in
+      // 2 inserts
+      let car3 = Car(context: context)
+      car3.maker = "FIAT"
+      car3.model = "Qubo"
+      car3.numberPlate = UUID().uuidString
+      car3.maker = "maker"
+
+      let car4 = Car(context: context)
+      car4.maker = "FIAT"
+      car4.model = "500"
+      car4.numberPlate = UUID().uuidString
+      car4.maker = "maker"
+      try context.save() // triggers the didChange event
+    }
+
+
+    try parentContext.performAndWait { context in
+      try context.save() // triggers the didSave event
+    }
+
+    waitForExpectations(timeout: 10)
+
+    try FileManager.default.removeItem(at: storeURL)
+  }
+
   func testObserveDeleteSaveUsingWrongObserverContext() throws {
     let context = container.viewContext
     let expectation = self.expectation(description: "\(#function)\(#line)")
