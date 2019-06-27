@@ -103,7 +103,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Parameters:
   ///   - context: Searched context.
   ///   - predicate: Matching predicate.
-  ///   - configuration: Configuration closure called only when creating a new object.
+  ///   - configuration: Configuration closure called **only** when creating a new object.
   /// - Returns: A matching object or a configured new one.
   /// - Throws: It throws an error in cases of failure.
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
@@ -156,7 +156,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Parameters:
   ///   - context: Searched context.
   ///   - predicate: Matching predicate.
-  ///   - configuration: Configuration closure called only when creating a new object.
+  ///   - configuration: Configuration closure called **only** when creating a new object.
   /// - Returns: A matching object or a configured new one.
   /// - Throws: It throws an error in cases of failure or if multiple objects are found.
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
@@ -212,7 +212,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
   /// **CoreDataPlus**
   ///
-  /// Executes a fetch request where only a single object is expected as result, otherwhise a an error is thrown.
+  /// Executes a fetch request where **only** a single object is expected as result, otherwhise a an error is thrown.
   /// - Throws: It throws an error in cases of failure.
   @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
   public static func fetchUniqueObject(in context: NSManagedObjectContext, with configuration: @escaping (NSFetchRequest<Self>) -> Void) throws -> Self? {
@@ -351,7 +351,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - configuration: An handler to configure the NSBatchUpdateRequest.
   /// - Returns: a NSBatchUpdateRequest result.
   /// - Throws: It throws an error in cases of failure.
-  /// - Note: A batch delete can only be done on a SQLite store.
+  /// - Note: A batch delete can **only** be done on a SQLite store.
   public static func batchUpdateObjects(with context: NSManagedObjectContext,
                                         configuration: ((NSBatchUpdateRequest) -> Void)? = nil) throws -> NSBatchUpdateResult {
     guard context.persistentStoreCoordinator != nil else { throw NSError.persistentStoreCoordinatorNotFound(context: context) }
@@ -379,7 +379,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - configuration: An handler to configure the NSFetchRequest.
   /// - Returns: a NSBatchDeleteResult result.
   /// - Throws: It throws an error in cases of failure.
-  /// - Note: A batch delete can only be done on a SQLite store.
+  /// - Note: A batch delete can **only** be done on a SQLite store.
   @discardableResult
   public static func batchDeleteObjects(with context: NSManagedObjectContext,
                                         resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly,
