@@ -422,6 +422,37 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
+  func testObserveInsertChangeUsingaBackgroundContextsAndAutomaticallyMergesChangesFromParent() throws {
+    let context1 = container.newBackgroundContext()
+    let context2 = container.newBackgroundContext()
+    context2.automaticallyMergesChangesFromParent = true // This cause a change not a save, obviously
+
+    let expectation = self.expectation(description: "\(#function)\(#line)")
+    let event = NSManagedObjectContext.ObservableEvents.didChange
+    let observer = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(context2), event: event) { (change, event, observedContext) in
+      XCTAssertFalse(Thread.isMainThread)
+      XCTAssertTrue(observedContext === context2)
+      XCTAssertEqual(change.insertedObjects.count, 1)
+      XCTAssertTrue(change.deletedObjects.isEmpty)
+      XCTAssertTrue(change.refreshedObjects.isEmpty)
+      XCTAssertTrue(change.updatedObjects.isEmpty)
+      XCTAssertTrue(change.invalidatedObjects.isEmpty)
+      XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
+      expectation.fulfill()
+    }
+    _ = observer // remove unused warning...
+
+    try context1.performSaveAndWait { context in
+      let car = Car(context: context1)
+      car.maker = "FIAT"
+      car.model = "Panda"
+      car.numberPlate = "1"
+      car.maker = "123!"
+    }
+
+    waitForExpectations(timeout: 2)
+  }
+
   func testObserveInsertUpdateAndDeleteSaveUsingViewContext() throws {
     let context = container.viewContext
     let expectation = self.expectation(description: "\(#function)\(#line)")
