@@ -1,10 +1,10 @@
-// swift-tools-version:4.0
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version:5.0
 
 import PackageDescription
 
 let package = Package(
     name: "CoreDataPlus",
+    platforms: [.macOS(.v10_12), .iOS(.v10), .tvOS(.v10), .watchOS(.v3)],
     products: [
         .library(name: "CoreDataPlus", targets: ["CoreDataPlus"])
     ],
@@ -12,5 +12,5 @@ let package = Package(
         .target(name: "CoreDataPlus", path: "Sources"),
         .testTarget(name: "Tests", dependencies: ["CoreDataPlus"], path: "Tests", exclude: ["CoreDataMigrationsTests.swift"])
     ],
-    swiftLanguageVersions: [4]
+    swiftLanguageVersions: [.v5]
 )
