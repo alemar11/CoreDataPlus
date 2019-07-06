@@ -1,5 +1,8 @@
 # Changelog
 
+### 2.1.1
+- Minor refinements.
+
 ### 2.1.0
 
 - Added `ManagedObjectContextChangesObserver`.
