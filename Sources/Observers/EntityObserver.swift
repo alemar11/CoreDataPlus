@@ -31,12 +31,12 @@ public final class EntityObserver<T: NSManagedObject> {
   ///
   /// The observed event.
   public let event: NSManagedObjectContext.ObservableEvents
-
+  
   /// **CoreDataPlus**
   ///
   /// If `true`, all the changes happening in the subentities will be observed.
   public let observeSubEntities: Bool
-
+  
   /// **CoreDataPlus**
   ///
   /// The observed entity.
@@ -48,9 +48,9 @@ public final class EntityObserver<T: NSManagedObject> {
     }
     return entity
   }()
-
+  
   // MARK: - Private properties
-
+  
   private let managedObjectContext: NSManagedObjectContext
   private let queue: OperationQueue?
   private let handler: (AnyManagedObjectContextChange<T>, NSManagedObjectContext.ObservableEvents) -> Void
@@ -59,14 +59,14 @@ public final class EntityObserver<T: NSManagedObject> {
                                                        event: event,
                                                        queue: queue) { [weak self] (changes, event, context) in
                                                         guard let self = self else { return }
-
+                                                        
                                                         self.handleChanges(changes, for: event, in: context)
     }
     return observer
   }()
-
+  
   // MARK: - Initializers
-
+  
   /// **CoreDataPlus**
   ///
   /// Initializes a new `EntityObserver` object.
@@ -78,11 +78,11 @@ public final class EntityObserver<T: NSManagedObject> {
   ///   - notificationCenter: The `NotificationCenter` listening the the `NSManagedObjectContext` notifications.
   ///   - The operation queue to which block should be added. If you pass nil, the block is run synchronously on the posting thread.
   ///   - changeHandler: The completion handler.
-  init(context: NSManagedObjectContext,
-       event: NSManagedObjectContext.ObservableEvents,
-       observeSubEntities: Bool = false,
-       queue: OperationQueue? = nil,
-       changeHandler: @escaping (AnyManagedObjectContextChange<T>, NSManagedObjectContext.ObservableEvents) -> Void) {
+  public init(context: NSManagedObjectContext,
+              event: NSManagedObjectContext.ObservableEvents,
+              observeSubEntities: Bool = false,
+              queue: OperationQueue? = nil,
+              changeHandler: @escaping (AnyManagedObjectContextChange<T>, NSManagedObjectContext.ObservableEvents) -> Void) {
     self.managedObjectContext = context
     self.event = event
     self.observeSubEntities = observeSubEntities
@@ -90,9 +90,9 @@ public final class EntityObserver<T: NSManagedObject> {
     self.handler = changeHandler
     _ = self.observer
   }
-
+  
   // MARK: - Private implementation
-
+  
   /// Processes the incoming notification.
   private func handleChanges<C: ManagedObjectContextChange>(_ changes: C, for event: NSManagedObjectContext.ObservableEvents, in context: NSManagedObjectContext) {
     func process(_ value: Set<NSManagedObject>) -> Set<T> {
@@ -102,7 +102,7 @@ public final class EntityObserver<T: NSManagedObject> {
         return value.filter { $0.entity == observedEntity } as? Set<T> ?? []
       }
     }
-
+    
     let deleted = process(changes.deletedObjects)
     let inserted = process(changes.insertedObjects)
     let updated = process(changes.updatedObjects)
@@ -110,11 +110,11 @@ public final class EntityObserver<T: NSManagedObject> {
     let invalidated = process(changes.invalidatedObjects)
     let invalidatedAll = changes.invalidatedAllObjects.filter { $0.entity == observedEntity }
     let change = AnyManagedObjectContextChange<T>(insertedObjects: inserted,
-                                             updatedObjects: updated,
-                                             deletedObjects: deleted,
-                                             refreshedObjects: refreshed,
-                                             invalidatedObjects: invalidated,
-                                             invalidatedAllObjects: invalidatedAll)
+                                                  updatedObjects: updated,
+                                                  deletedObjects: deleted,
+                                                  refreshedObjects: refreshed,
+                                                  invalidatedObjects: invalidated,
+                                                  invalidatedAllObjects: invalidatedAll)
     if !change.isEmpty {
       handler(change, event)
     }
