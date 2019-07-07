@@ -132,7 +132,9 @@ public final class ManagedObjectContextChangesObserver {
     }
 
     if event.contains(.didSave) {
-      let token = notificationCenter.addObserver(forName: .NSManagedObjectContextDidSave, object: observedManagedObjectContext.managedObjectContext, queue: queue) { [weak self] notification in
+      let token = notificationCenter.addObserver(forName: .NSManagedObjectContextDidSave,
+                                                 object: observedManagedObjectContext.managedObjectContext,
+                                                 queue: queue) { [weak self] notification in
         guard let self = self else { return }
 
         let didSaveNotification = ManagedObjectContextDidSaveNotification(notification: notification)
