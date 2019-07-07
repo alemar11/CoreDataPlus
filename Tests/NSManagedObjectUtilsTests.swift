@@ -170,46 +170,6 @@ final class NSManagedObjectUtilsTests: CoreDataPlusTestCase {
     // Then
     XCTAssertTrue(sportCar1.isDeleted)
   }
-
-  /// Investigation test: calling refreshAllObjects calls refreshObject:mergeChanges on all objects in the context.
-  func testRefreshAllObjects() throws {
-    let context = container.viewContext
-    let car1 = Car(context: context)
-    car1.numberPlate = "car1"
-    let car2 = Car(context: context)
-    car2.numberPlate = "car2"
-
-    try context.save()
-
-    car1.numberPlate = "car1_updated"
-    context.refreshAllObjects()
-
-    XCTAssertFalse(car1.isFault)
-    XCTAssertTrue(car2.isFault)
-    XCTAssertEqual(car1.numberPlate, "car1_updated")
-  }
-
-  /// Investigation test: KVO is fired whenever a property changes (even if the object is not saved in the context).
-  func testKVO() throws {
-    let context = container.viewContext
-    let expectation = self.expectation(description: "\(#function)\(#line)")
-    let sportCar1 = SportCar(context: context)
-    var count = 0
-    let token = sportCar1.observe(\.maker, options: .new) { (car, changes) in
-      count += 1
-      if count == 2 {
-        expectation.fulfill()
-      }
-    }
-    sportCar1.maker = "McLaren"
-    sportCar1.model = "570GT"
-    sportCar1.numberPlate = "203"
-    sportCar1.maker = "McLaren 2"
-    try context.save()
-
-    waitForExpectations(timeout: 10)
-    token.invalidate()
-  }
 }
 
 

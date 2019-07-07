@@ -422,7 +422,9 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testObserveInsertChangeUsingaBackgroundContextsAndAutomaticallyMergesChangesFromParent() throws {
+  // TODO: this only works for inserts...
+  // probably it's not a valid test
+  func testObserveInsertChangeUsingBackgroundContextsAndAutomaticallyMergesChangesFromParent() throws {
     let context1 = container.newBackgroundContext()
     let context2 = container.newBackgroundContext()
     context2.automaticallyMergesChangesFromParent = true // This cause a change not a save, obviously
@@ -452,6 +454,146 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
 
     waitForExpectations(timeout: 2)
   }
+
+// TODO
+//  func testObserveChangeUsingaBackgroundContextsAndAutomaticallyMergesChangesFromParent__INVESTIGATION() throws {
+//    let context0 = container.newBackgroundContext()
+//    context0.automaticallyMergesChangesFromParent = true // This cause a change not a save, obviously
+//    let context1 = container.newBackgroundContext()
+//    let context2 = container.newBackgroundContext()
+//    //context0.userInfo // debug this
+//    let expectation1 = self.expectation(description: "Changes on Contex1")
+//    let expectation2 = self.expectation(description: "Changes on Contex2")
+//    let expectation3 = self.expectation(description: "New Changes on Contex1")
+//    let event = NSManagedObjectContext.ObservableEvents.didChange
+//    var count = 0
+//    let lock = NSLock()
+//    let observer = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(context0), event: event) { (change, event, observedContext) in
+//      lock.lock()
+//      defer { lock.unlock() }
+//
+//      count += 1
+//      print(count)
+//      //observedContext.reset()
+//      if count == 3 {
+//        expectation1.fulfill()
+//        expectation2.fulfill()
+//        expectation3.fulfill()
+//      }
+//      //      if count == 0 {
+//      //        XCTAssertFalse(Thread.isMainThread)
+//      //        XCTAssertTrue(observedContext === context0)
+//      //        XCTAssertEqual(change.insertedObjects.count, 1)
+//      //        XCTAssertTrue(change.deletedObjects.isEmpty)
+//      //        XCTAssertTrue(change.refreshedObjects.isEmpty)
+//      //        XCTAssertTrue(change.updatedObjects.isEmpty)
+//      //        XCTAssertTrue(change.invalidatedObjects.isEmpty)
+//      //        XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
+//      //        count += 1
+//      //        expectation1.fulfill()
+//      //      } else if count == 1 {
+//      //         count += 1
+//      //        expectation2.fulfill()
+//      //      } else if count == 2 {
+//      //        expectation3.fulfill()
+//      //      }
+//
+//    }
+//    _ = observer // remove unused warning...
+//
+//    try context1.performSaveAndWait { context in
+//      let car = Car(context: context)
+//      car.maker = "FIAT"
+//      car.model = "Panda"
+//      car.numberPlate = "1"
+//      car.maker = "123!"
+//    }
+//
+//    try context1.performSaveAndWait { context in
+//      let car = Car(context: context)
+//      car.maker = "FIAT"
+//      car.model = "Panda"
+//      car.numberPlate = "11"
+//      car.maker = "1234!"
+//    }
+//
+//    try context2.performSaveAndWait { context in
+//      let car = Car(context: context)
+//      car.maker = "FIAT"
+//      car.model = "Panda"
+//      car.numberPlate = "111"
+//      car.maker = "12345!"
+//    }
+//
+//    waitForExpectations(timeout: 5)
+//  }
+
+// TODO
+//  func testObserveChangeUsingBackgroundContextsAndAutomaticallyMergesChangesFromParent__INVESTIGATION() throws {
+//    let context0 = container.viewContext
+//    context0.automaticallyMergesChangesFromParent = true // This cause a change not a save, obviously
+//    //context0.retainsRegisteredObjects = true
+//    let expectation1 = self.expectation(description: "Changes on Contex1")
+//    let event = NSManagedObjectContext.ObservableEvents.didChange
+//    var count = 0
+//    let lock = NSLock()
+//    let observer = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(context0), event: [.didChange]) { (change, event, observedContext) in
+//      lock.lock()
+//      defer { lock.unlock() }
+//      XCTAssertTrue(observedContext === context0)
+//      print(count)
+//      count += 1
+//
+//      let objects = change.insertedObjects
+//      for obj in objects {
+//        let ids = observedContext.registeredObjects.map{$0.objectID}
+//        if !ids.contains(obj.objectID) {
+//          let obj = try! context0.existingObject(with: obj.objectID)
+//          context0.insert(obj)
+//        }
+//
+//
+//        print("🚩",change.refreshedObjects.count)
+//        print("🚩",change.updatedObjects.count)
+//        //
+//        //        let obj = try! context0.existingObject(with: obj.objectID)
+//        //        context0.insert(obj)
+//      }
+//
+//      print(context0.registeredObjects)
+//
+//      if count == 10 {
+//        expectation1.fulfill()
+//      }
+//    }
+//    _ = observer // remove unused warning...
+//
+//    let ids = [UUID().uuidString, UUID().uuidString, UUID().uuidString, UUID().uuidString, UUID().uuidString]
+//
+//    (1...10).forEach { (count) in
+//      let context1 = container.newBackgroundContext()
+//      context1.performAndWait {
+//        let id = ids.randomElement()!
+//        var isNew = false
+//        let car = try! Car.findUniqueOrCreate(in: context1, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), id)) {
+//          isNew = true
+//          $0.maker = "FIAT"
+//          $0.model = "Panda"
+//          $0.numberPlate = id
+//          $0.maker = "123!"
+//        }
+//        print(isNew)
+//        if !isNew {
+//          car.maker = "123!-NotNew"
+//        }
+//        try! context1.save()
+//      }
+//    }
+//
+//    print(context0.registeredObjects)
+//    wait(for: [expectation1], timeout: 5)
+//    print(context0.registeredObjects.count)
+//  }
 
   func testObserveInsertUpdateAndDeleteSaveUsingViewContext() throws {
     let context = container.viewContext
@@ -507,19 +649,27 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testObserveInsertUsingPersistentStoreCoordinatorWithChildAndParentContexts() throws {
+  func testObserveMultipleChangesUsingPersistentStoreCoordinatorWithChildAndParentContexts() throws {
     // Given
     let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
     let urls = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
     let storeURL = urls.last!.appendingPathComponent("\(UUID().uuidString).sqlite")
     try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
-    let childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+
     let parentContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
     parentContext.persistentStoreCoordinator = psc
+
+    let childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
     childContext.parent = parentContext
+
+    let childContext2 = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+    childContext2.parent = parentContext
 
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let expectation2 = self.expectation(description: "\(#function)\(#line)")
+
+    let car1Plate = UUID().uuidString
+    let car2Plate = UUID().uuidString
 
     // When, Then
     try childContext.performAndWait { context in
@@ -527,12 +677,12 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
       let car2 = Car(context: context)
       car1.maker = "FIAT"
       car1.model = "Panda"
-      car1.numberPlate = UUID().uuidString
+      car1.numberPlate = car1Plate
       car1.maker = "maker"
 
       car2.maker = "FIAT"
       car2.model = "Punto"
-      car2.numberPlate = UUID().uuidString
+      car2.numberPlate = car2Plate
       car2.maker = "maker"
       try context.save()
     }
@@ -542,25 +692,54 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     }
 
     // Changes are propagated from the child to the parent during the save.
-
+    var count = 0
     let observer = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(parentContext), event: .didChange) { (change, event, observedContext) in
       XCTAssertTrue(Thread.isMainThread)
-      XCTAssertTrue(observedContext === parentContext)
-      XCTAssertEqual(change.insertedObjects.count, 2)
-      XCTAssertTrue(change.deletedObjects.isEmpty)
-      XCTAssertTrue(change.updatedObjects.isEmpty)
-      XCTAssertTrue(change.refreshedObjects.isEmpty)
-      XCTAssertTrue(change.invalidatedObjects.isEmpty)
-      XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
-      expectation.fulfill()
+      if count == 0 {
+        XCTAssertTrue(observedContext === parentContext)
+        XCTAssertEqual(change.insertedObjects.count, 2)
+        XCTAssertTrue(change.deletedObjects.isEmpty)
+        XCTAssertTrue(change.updatedObjects.isEmpty)
+        XCTAssertTrue(change.refreshedObjects.isEmpty)
+        XCTAssertTrue(change.invalidatedObjects.isEmpty)
+        XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
+        count += 1
+      } else if count == 1 {
+        XCTAssertTrue(observedContext === parentContext)
+        XCTAssertTrue(change.insertedObjects.isEmpty)
+        XCTAssertTrue(change.deletedObjects.isEmpty)
+        XCTAssertEqual(change.updatedObjects.count, 1)
+        XCTAssertTrue(change.refreshedObjects.isEmpty)
+        XCTAssertTrue(change.invalidatedObjects.isEmpty)
+        XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
+        count += 1
+      } else if count == 2 {
+        XCTAssertTrue(observedContext === parentContext)
+        XCTAssertTrue(change.insertedObjects.isEmpty)
+        XCTAssertEqual(change.deletedObjects.count, 1)
+        XCTAssertTrue(change.updatedObjects.isEmpty)
+        XCTAssertTrue(change.refreshedObjects.isEmpty)
+        XCTAssertTrue(change.invalidatedObjects.isEmpty)
+        XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
+        count += 1
+      } else if count == 3 {
+        XCTAssertTrue(observedContext === parentContext)
+        XCTAssertEqual(change.insertedObjects.count, 1)
+        XCTAssertTrue(change.deletedObjects.isEmpty)
+        XCTAssertTrue(change.updatedObjects.isEmpty)
+        XCTAssertTrue(change.refreshedObjects.isEmpty)
+        XCTAssertTrue(change.invalidatedObjects.isEmpty)
+        XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
+        expectation.fulfill()
+      }
     }
 
     let observer2 = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(parentContext), event: .didSave) { (change, event, observedContext) in
       XCTAssertTrue(Thread.isMainThread)
       XCTAssertTrue(observedContext === parentContext)
-      XCTAssertEqual(change.insertedObjects.count, 2)
-      XCTAssertTrue(change.deletedObjects.isEmpty)
-      XCTAssertTrue(change.updatedObjects.isEmpty)
+      XCTAssertEqual(change.insertedObjects.count, 3)
+      XCTAssertEqual(change.deletedObjects.count, 1)
+      XCTAssertEqual(change.updatedObjects.count, 1)
       XCTAssertTrue(change.refreshedObjects.isEmpty)
       XCTAssertTrue(change.invalidatedObjects.isEmpty)
       XCTAssertTrue(change.invalidatedAllObjects.isEmpty)
@@ -571,7 +750,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     _ = observer
     _ = observer2
 
-    try childContext.performAndWait { context in
+    try childContext.performSaveAndWait { context in
       // 2 inserts
       let car3 = Car(context: context)
       car3.maker = "FIAT"
@@ -584,9 +763,30 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
       car4.model = "500"
       car4.numberPlate = UUID().uuidString
       car4.maker = "maker"
-      try context.save() // triggers the didChange event
+      // the save triggers the didChange event
     }
 
+    try childContext.performSaveAndWait { context in
+      let car1 = try Car.findUniqueOrFetch(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", car1Plate))
+      XCTAssertNotNil(car1)
+      car1!.model = "Panda 1**"
+      car1!.maker = "FIAT**"
+      car1!.numberPlate = "111**"
+    }
+
+    try childContext.performSaveAndWait { context in
+      let car2 = try Car.findUniqueOrFetch(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", car2Plate))
+      XCTAssertNotNil(car2)
+      car2?.delete()
+    }
+
+    try childContext2.performSaveAndWait { context in
+      let car5 = Car(context: context)
+      car5.maker = "FIAT"
+      car5.model = "500"
+      car5.numberPlate = UUID().uuidString
+      car5.maker = "maker"
+    }
 
     try parentContext.performAndWait { context in
       try context.save() // triggers the didSave event
