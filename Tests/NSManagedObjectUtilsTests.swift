@@ -138,7 +138,7 @@ final class NSManagedObjectUtilsTests: CoreDataPlusTestCase {
     }
   }
 
-  func testFault() throws {
+  func testFaultAndMaterialize() throws {
     let context = container.viewContext
 
     // Given
@@ -150,7 +150,16 @@ final class NSManagedObjectUtilsTests: CoreDataPlusTestCase {
 
     // When
     sportCar1.fault()
+    // Then
+    XCTAssertTrue(sportCar1.isFault)
 
+    // When
+    sportCar1.materialize()
+    // Then
+    XCTAssertFalse(sportCar1.isFault)
+
+    // When
+    sportCar1.fault()
     // Then
     XCTAssertTrue(sportCar1.isFault)
   }

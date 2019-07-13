@@ -27,6 +27,47 @@ import CoreData
 
 final class NSFetchRequestResultUtilsTests: CoreDataPlusTestCase {
 
+  func testFaultAndMaterializeObjectWithoutNSManagedObjectContext() throws {
+    let context = container.viewContext
+
+    // Given
+    let sportCar1 = SportCar(context: context)
+    sportCar1.maker = "McLaren"
+    sportCar1.model = "570GT"
+    sportCar1.numberPlate = "203"
+    try context.save()
+
+    context.reset()
+    XCTAssertTrue(sportCar1.isFault)
+    XCTAssertNil(sportCar1.managedObjectContext)
+
+    // When
+    try [sportCar1].materializeFaultedObjects()
+    // Then
+    XCTAssertFalse(sportCar1.isFault)
+  }
+
+  func testFaultAndMaterializeTemporaryObject() throws {
+    let context = container.viewContext
+
+    // Given
+    let sportCar1 = SportCar(context: context)
+    sportCar1.maker = "McLaren"
+    sportCar1.model = "570GT"
+    sportCar1.numberPlate = "203"
+
+    XCTAssertTrue(sportCar1.objectID.isTemporaryID)
+    XCTAssertFalse(sportCar1.isFault)
+
+    // When
+    sportCar1.fault()
+    // Then
+    XCTAssertTrue(sportCar1.isFault)
+
+    try [sportCar1].materializeFaultedObjects()
+    XCTAssertFalse(sportCar1.isFault)
+  }
+
   // MARK: - Batch Faulting
 
   func testBatchFaulting() throws {
@@ -54,7 +95,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusTestCase {
     let previousFaultsCount = cars.filter { $0.isFault }.count
 
     /// batch faulting
-    XCTAssertNoThrow(try cars.fetchFaultedObjects())
+    XCTAssertNoThrow(try cars.materializeFaultedObjects())
 
     // Then
     let currentNotFaultsCount = cars.filter { !$0.isFault }.count
@@ -74,7 +115,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusTestCase {
 
     // empty data set
     let objects: [NSManagedObject] = []
-    XCTAssertNoThrow(try objects.fetchFaultedObjects())
+    XCTAssertNoThrow(try objects.materializeFaultedObjects())
 
     // no faults objects
     let request = Car.newFetchRequest()
@@ -87,7 +128,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusTestCase {
     let previousFaultsCount = cars.filter { $0.isFault }.count
     let previousNotFaultsCount = cars.filter { !$0.isFault }.count
 
-    XCTAssertNoThrow(try cars.fetchFaultedObjects())
+    XCTAssertNoThrow(try cars.materializeFaultedObjects())
 
     // Then
     let currentFaultsCount = cars.filter { $0.isFault }.count
@@ -139,7 +180,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusTestCase {
 
     // Then
     XCTAssertTrue(objects.filter { !$0.isFault }.isEmpty)
-    XCTAssertNoThrow(try objects.fetchFaultedObjects())
+    XCTAssertNoThrow(try objects.materializeFaultedObjects())
     XCTAssertTrue(objects.filter { !$0.isFault }.count == 4)
   }
 
@@ -164,7 +205,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusTestCase {
     let person = persons.first!
     let previousFaultsCount = person.cars?.filter { $0.isFault }.count
 
-    XCTAssertNoThrow(try person.cars?.fetchFaultedObjects())
+    XCTAssertNoThrow(try person.cars?.materializeFaultedObjects())
     let currentNotFaultsCount = person.cars?.filter { !$0.isFault }.count
     let currentFaultsCount = person.cars?.filter { $0.isFault }.count
     XCTAssertTrue(previousFaultsCount == currentNotFaultsCount)
