@@ -27,6 +27,8 @@ import CoreData
 
 final class NSFetchRequestResultUtilsTests: CoreDataPlusTestCase {
 
+  // MARK: - Batch Faulting
+
   func testFaultAndMaterializeObjectWithoutNSManagedObjectContext() throws {
     let context = container.viewContext
 
@@ -67,8 +69,6 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusTestCase {
     try [sportCar1].materializeFaultedObjects()
     XCTAssertFalse(sportCar1.isFault)
   }
-
-  // MARK: - Batch Faulting
 
   func testBatchFaulting() throws {
     // Given
