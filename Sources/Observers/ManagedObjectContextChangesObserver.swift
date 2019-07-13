@@ -121,6 +121,7 @@ public final class ManagedObjectContextChangesObserver {
                                                  object: observedManagedObjectContext.managedObjectContext,
                                                  queue: queue) { [weak self] notification in
                                                   guard let self = self else { return }
+
                                                   // willSave doesn't contain any info, no processing to be done
                                                   let willSaveNotification = ManagedObjectContextWillSaveNotification(notification: notification)
                                                   if self.validateContext(willSaveNotification.managedObjectContext) {
