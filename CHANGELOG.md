@@ -1,5 +1,8 @@
 # Changelog
 
+### 2.3.0
+- Added support for the new Xcode 11 SPM.
+
 ### 2.2.0
 - Added `materialize()` method on `NSManagedObject`.
 - `Collection.fetchFaultedObjects()` deprecated, use `Collection.materializeFaultedObjects()` instead.
