@@ -25,8 +25,7 @@ import Foundation
 import CoreData
 
 extension NSManagedObjectContext {
-
-  /// Fills the context with a sample data set.
+  /// Fills the context with a sample data set. (145 objects)
   func fillWithSampleData() {
 
     let context = self
@@ -274,5 +273,4 @@ extension NSManagedObjectContext {
     }
     person11.cars = Set(cars)
   }
-
 }

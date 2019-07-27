@@ -41,6 +41,18 @@ final class OnDiskPersistentContainer: NSPersistentContainer, PersistentContaine
     let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent(UUID().uuidString)
     let container = OnDiskPersistentContainer(name: "SampleModel", managedObjectModel: model)
     container.persistentStoreDescriptions[0].url = url
+    container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+    container.loadPersistentStores { (description, error) in
+      XCTAssertNil(error)
+    }
+    return container
+  }
+
+  static func makeNew(id: UUID) -> OnDiskPersistentContainer {
+    let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent(id.uuidString)
+    let container = OnDiskPersistentContainer(name: "SampleModel", managedObjectModel: model)
+    container.persistentStoreDescriptions[0].url = url
+    container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
     container.loadPersistentStores { (description, error) in
       XCTAssertNil(error)
     }
