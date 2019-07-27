@@ -1,4 +1,4 @@
-//
+// 
 // CoreDataPlus
 //
 // Copyright © 2016-2019 Tinrobots.
@@ -21,43 +21,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// from https://github.com/tinrobots/Mechanica
-
 import Foundation
 
-extension ProcessInfo {
-  /// **CoreDataPlus**
-  ///
-  ///  Returns true if Xcode Unit Tests are running.
-  static var isRunningXcodeUnitTests: Bool {
-    return processInfo.environment["XCTestConfigurationFilePath"] != nil
-}
-
-  /// **CoreDataPlus**
-  ///
-  ///  Returns true if SwiftPackage tests are running.
-  public static var isRunningSwiftPackageTests: Bool {
-    let testArguments = processInfo.arguments.filter { $0.ends(with: "xctest") }
-    return processInfo.environment["XCTestConfigurationFilePath"] == nil && testArguments.count > 0
-  }
-
-  /// **CoreDataPlus**
-  ///
-  ///  Returns true if Xcode or SwiftPackage Unit Tests are running.
-  public static var isRunningUnitTests: Bool {
-    return isRunningXcodeUnitTests || isRunningSwiftPackageTests
-  }
-}
-
-extension String {
-  /// **CoreDataPlus**
-  ///
-  /// Returns *true* if `self` ends with a given suffix.
-  fileprivate func ends(with suffix: String, caseSensitive: Bool = true) -> Bool {
-    if !caseSensitive {
-      return lowercased().hasSuffix(suffix.lowercased())
-    }
-
-    return hasSuffix(suffix)
-  }
+/// True is is texts are run via SPM (both Terminal or Xcode 11)
+func isRunningSwiftPackageTests() -> Bool {
+  class Dummy { }
+  let testBundle = Bundle(for: Dummy.self)
+  let urls = testBundle.urls(forResourcesWithExtension: "momd", subdirectory: nil) ?? []
+  return urls.isEmpty
 }

@@ -29,8 +29,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
-
+final class NSManagedObjectContextObserversTests: CoreDataPlusOnDiskTestCase {
   /// This is a very generic test case
   func testObservers() throws {
     let context = container.viewContext
@@ -715,5 +714,4 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
       }
     }
   }
-
 }

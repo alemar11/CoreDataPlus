@@ -25,6 +25,8 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
+// MARK: - In Memory
+
 class CoreDataPlusTestCase: XCTestCase {
   var container: PersistentContainerHackable!
 
@@ -44,3 +46,23 @@ class CoreDataPlusTestCase: XCTestCase {
   }
 }
 
+// MARK: - On Disk
+
+class CoreDataPlusOnDiskTestCase: XCTestCase {
+  var container: PersistentContainerHackable!
+
+  override func setUp() {
+    super.setUp()
+    container = OnDiskPersistentContainer.makeNew()
+  }
+
+  override func tearDown() {
+    do {
+      try container.destroy()
+    } catch {
+      XCTFail("The persistent container couldn't be deostryed.")
+    }
+    container = nil
+    super.tearDown()
+  }
+}
