@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2019 Tinrobots.
@@ -26,7 +26,8 @@ import Foundation
 
 // TODO: tombstone
 // TODO: mergeHistory in range of dates
-// TODO: remove fatalErrors
+// TODO: remove fatalErrors and wrap CoreData try error
+// TOOD: in tests find a way to resolve the sqlite bug
 
 extension NSManagedObjectContext {
   // MARK: - Merge
@@ -55,17 +56,17 @@ extension NSManagedObjectContext {
 
       var date: Date?
       for transaction in history {
-        print("--->", transaction.contextName, transaction.author)
-        transaction.changes?.forEach({ (change) in
-          switch change.changeType {
-          case .delete:
-            print("delete")
-          case .insert:
-            print("insert")
-          case .update:
-            print("update")
-          }
-        })
+//        print("--->", transaction.contextName, transaction.author)
+//        transaction.changes?.forEach({ (change) in
+//          switch change.changeType {
+//          case .delete:
+//            print("delete")
+//          case .insert:
+//            print("insert")
+//          case .update:
+//            print("update")
+//          }
+//        })
 
         context.mergeChanges(fromContextDidSave: transaction.objectIDNotification())
         date = transaction.timestamp
@@ -73,6 +74,25 @@ extension NSManagedObjectContext {
       return date
     }
     return lastDate
+  }
+
+  // TODO add guide to add tombstone
+  public func processHistory(after date: Date, transactionHandler: (NSPersistentHistoryTransaction) throws -> Void) throws {
+    let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: date)
+    historyFetchRequest.resultType = .transactionsAndChanges
+
+    try performAndWait { context -> Void in
+      guard
+        let historyResult = try context.execute(historyFetchRequest) as? NSPersistentHistoryResult,
+        let history = historyResult.result as? [NSPersistentHistoryTransaction]
+        else {
+          fatalError("Cannot convert persistent history fetch result to transactions.")
+      }
+
+      for transaction in history {
+        try transactionHandler(transaction)
+      }
+    }
   }
 
   /// **CoreDataPlus**
