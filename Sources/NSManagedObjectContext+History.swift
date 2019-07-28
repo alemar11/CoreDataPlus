@@ -25,14 +25,23 @@ import CoreData
 import Foundation
 
 // TODO: tombstone
-// TODO: add description setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
 // TODO: mergeHistory in range of dates
 // TODO: remove fatalErrors
-// TODO: test with nil token
 
 extension NSManagedObjectContext {
   // MARK: - Merge
 
+  /// **CoreDataPlus**
+  ///
+  /// Merges all the history changes made after a given `date`.
+  /// - Parameter date: The date after which changes are merged.
+  /// - Throws: It throws an error in cases of failure.
+  /// - Note: To enable history tracking:
+  ///
+  ///   ```
+  ///   let description: NSPersistentStoreDescription = ... // Your default configuration here
+  ///   description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+  ///   ```
   public func mergeHistory(after date: Date) throws -> Date? {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: date)
     historyFetchRequest.resultType = .transactionsAndChanges
@@ -46,6 +55,18 @@ extension NSManagedObjectContext {
 
       var date: Date?
       for transaction in history {
+        print("--->", transaction.contextName, transaction.author)
+        transaction.changes?.forEach({ (change) in
+          switch change.changeType {
+          case .delete:
+            print("delete")
+          case .insert:
+            print("insert")
+          case .update:
+            print("update")
+          }
+        })
+
         context.mergeChanges(fromContextDidSave: transaction.objectIDNotification())
         date = transaction.timestamp
       }
@@ -54,6 +75,18 @@ extension NSManagedObjectContext {
     return lastDate
   }
 
+  /// **CoreDataPlus**
+  ///
+  /// Merges all the history changes made after a given `token`.
+  /// With no token, merges all the history changes.
+  /// - Parameter token: The NSPersistentHistoryToken after which changes are merged.
+  /// - Throws: It throws an error in cases of failure.
+  /// - Note: To enable history tracking:
+  ///
+  ///   ```
+  ///   let description: NSPersistentStoreDescription = ... // Your default configuration here
+  ///   description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+  ///   ```
   public func mergeHistory(after token: NSPersistentHistoryToken?) throws -> NSPersistentHistoryToken? {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: token)
     historyFetchRequest.resultType = .transactionsAndChanges
