@@ -25,8 +25,9 @@ import CoreData
 import Foundation
 
 // TODO: tombstone
-// TODO: mergeHistory in range of dates
+// TODO: mergeHistory in range of dates/tokens
 // TODO: remove fatalErrors and wrap CoreData try error
+// TODO: Implement a service to sync tokens merges between different targets
 
 extension NSManagedObjectContext {
   // MARK: - Merge
