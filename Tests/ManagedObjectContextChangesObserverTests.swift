@@ -549,7 +549,6 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
 
     try context2.performSaveAndWait { context in
       let cars = try Car.fetch(in: context)
-      print(cars)
       guard let car = try Car.findUniqueOrFetch(in: context, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), numberPlate)) else {
         XCTFail("Car not found")
         return
@@ -620,7 +619,6 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     // car with n. 3, doesn't impact the didChange because it's not materialized in context0
     try context2.performSaveAndWait { context in
       let cars = try Car.fetch(in: context)
-      print(cars)
       guard let car = try Car.findUniqueOrFetch(in: context, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), "3")) else {
         XCTFail("Car not found")
         return
@@ -631,7 +629,6 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     // car with n. 6, doesn't impact the didChange because it's not materialized in context0
     try context1.performSaveAndWait { context in
       let cars = try Car.fetch(in: context)
-      print(cars)
       guard let car = try Car.findUniqueOrFetch(in: context, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), "6")) else {
         XCTFail("Car not found")
         return
@@ -642,7 +639,6 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     // car with n. 2, impact the didChange because it's materialized in context0
     try context2.performSaveAndWait { context in
       let cars = try Car.fetch(in: context)
-      print(cars)
       guard let car = try Car.findUniqueOrFetch(in: context, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), "2")) else {
         XCTFail("Car not found")
         return
