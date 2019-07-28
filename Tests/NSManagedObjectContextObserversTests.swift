@@ -45,6 +45,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusOnDiskTestCase {
     }
 
     let token2 = context.addManagedObjectContextDidSaveNotificationObserver() { notification in
+      XCTAssertNotNil(notification.historyToken)
       expectation2.fulfill()
     }
 

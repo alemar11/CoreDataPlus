@@ -27,7 +27,6 @@ import Foundation
 // TODO: tombstone
 // TODO: mergeHistory in range of dates
 // TODO: remove fatalErrors and wrap CoreData try error
-// TOOD: in tests find a way to resolve the sqlite bug
 
 extension NSManagedObjectContext {
   // MARK: - Merge
@@ -56,18 +55,6 @@ extension NSManagedObjectContext {
 
       var date: Date?
       for transaction in history {
-//        print("--->", transaction.contextName, transaction.author)
-//        transaction.changes?.forEach({ (change) in
-//          switch change.changeType {
-//          case .delete:
-//            print("delete")
-//          case .insert:
-//            print("insert")
-//          case .update:
-//            print("update")
-//          }
-//        })
-
         context.mergeChanges(fromContextDidSave: transaction.objectIDNotification())
         date = transaction.timestamp
       }
@@ -90,6 +77,17 @@ extension NSManagedObjectContext {
       }
 
       for transaction in history {
+        //        print("--->", transaction.contextName, transaction.author)
+        //        transaction.changes?.forEach({ (change) in
+        //          switch change.changeType {
+        //          case .delete:
+        //            print("delete")
+        //          case .insert:
+        //            print("insert")
+        //          case .update:
+        //            print("update")
+        //          }
+        //        })
         try transactionHandler(transaction)
       }
     }
@@ -133,6 +131,11 @@ extension NSManagedObjectContext {
   // MARK: - Delete
 
   @discardableResult
+  public func deleteAllHistory() throws -> Bool {
+    return try deleteHistory(before: .distantFuture)
+  }
+
+  @discardableResult
   public func deleteHistory(before date: Date) throws -> Bool {
     let deleteHistoryRequest = NSPersistentHistoryChangeRequest.deleteHistory(before: date)
     deleteHistoryRequest.resultType = .statusOnly
@@ -147,6 +150,7 @@ extension NSManagedObjectContext {
     return result
   }
 
+  @discardableResult
   public func deleteHistory(before token: NSPersistentHistoryToken?) throws -> Bool {
     let deleteHistoryRequest = NSPersistentHistoryChangeRequest.deleteHistory(before: token)
     deleteHistoryRequest.resultType = .statusOnly
