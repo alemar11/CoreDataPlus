@@ -28,6 +28,7 @@ import Foundation
 // TODO: add description setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
 // TODO: mergeHistory in range of dates
 // TODO: remove fatalErrors
+// TODO: test with nil token
 
 extension NSManagedObjectContext {
   // MARK: - Merge
