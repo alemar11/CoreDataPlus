@@ -112,7 +112,9 @@ extension NSManagedObjectContext {
       var internalError: NSError?
       do {
         try changes(self)
-        try self.save()
+        if self.hasChanges {
+          try self.save()
+        }
       } catch {
         internalError = NSError.saveFailed(underlyingError: error)
       }
@@ -133,7 +135,9 @@ extension NSManagedObjectContext {
       performAndWait {
         do {
           try _changes(self)
-          try save()
+          if hasChanges {
+            try save()
+          }
         } catch {
           internalError = NSError.saveFailed(underlyingError: error)
         }
