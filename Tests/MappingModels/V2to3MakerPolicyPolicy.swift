@@ -24,21 +24,20 @@
 import CoreData
 
 final class V2to3MakerPolicyPolicy: NSEntityMigrationPolicy {
-
   override func createDestinationInstances(forSource sInstance: NSManagedObject, in mapping: NSEntityMapping, manager: NSMigrationManager) throws {
     try super.createDestinationInstances(forSource: sInstance, in: mapping, manager: manager)
-
+    
     guard let makerName = sInstance.value(forKey: MakerKey) as? String else {
       return
     }
-
+    
     guard let car = manager.destinationInstances(forEntityMappingName: mapping.name, sourceInstances: [sInstance]).first else {
       fatalError("must return car") }
-
+    
     guard let context = car.managedObjectContext else {
       fatalError("must have context")
     }
-
+    
     let maker = context.findOrCreateMaker(withName: makerName)
     if var currentCars = maker.value(forKey: CarsKey) as? Set<NSManagedObject> {
       currentCars.insert(car)
@@ -49,7 +48,6 @@ final class V2to3MakerPolicyPolicy: NSEntityMigrationPolicy {
       maker.setValue(cars, forKey: CarsKey)
     }
   }
-
 }
 
 private let CarsKey = "cars"
@@ -64,7 +62,6 @@ extension NSManagedObject {
   }
 }
 
-
 extension NSManagedObjectContext {
   fileprivate func findOrCreateMaker(withName name: String) -> NSManagedObject {
     guard let maker = materializedObject(matching: { $0.isMaker(withName: name) }) else {
@@ -74,7 +71,7 @@ extension NSManagedObjectContext {
     }
     return maker
   }
-
+  
   fileprivate func materializedObject(matching condition: (NSManagedObject) -> Bool) -> NSManagedObject? {
     for object in registeredObjects where !object.isFault {
       guard condition(object) else { continue }
