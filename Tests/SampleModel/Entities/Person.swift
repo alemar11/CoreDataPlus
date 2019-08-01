@@ -27,6 +27,7 @@ import CoreDataPlus
 
 @objc(Person)
 final public class Person: NSManagedObject {
+  @NSManaged public private(set) var id: UUID // preserved after deletion (tombstone)
   @NSManaged public var firstName: String
   @NSManaged public var lastName: String
   @NSManaged public var cars: Set<Car>?
@@ -46,6 +47,7 @@ extension Person {
     super.awakeFromInsert()
     primitiveUpdatedAt = Date()
     //setPrimitiveValue(NSDate(), forKey: "updatedAt") // we can use one of these two options to set the value
+    setPrimitiveValue(UUID(), forKey: #keyPath(Person.id))
   }
 
   public override func willSave() {

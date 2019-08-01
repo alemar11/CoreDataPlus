@@ -849,6 +849,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
 
     waitForExpectations(timeout: 10)
 
+    // TODO: fix sqlite bug here
     try FileManager.default.removeItem(at: storeURL)
   }
 
