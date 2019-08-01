@@ -54,9 +54,9 @@
 		232440B722D2546100A04649 /* NSManagedObjectContextInvestigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232440B622D2546100A04649 /* NSManagedObjectContextInvestigationTests.swift */; };
 		232440B822D2546100A04649 /* NSManagedObjectContextInvestigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232440B622D2546100A04649 /* NSManagedObjectContextInvestigationTests.swift */; };
 		232440B922D2546100A04649 /* NSManagedObjectContextInvestigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232440B622D2546100A04649 /* NSManagedObjectContextInvestigationTests.swift */; };
-		233654371F9E1644007F8D3D /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233654361F9E1644007F8D3D /* SampleData.swift */; };
-		233654381F9E1644007F8D3D /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233654361F9E1644007F8D3D /* SampleData.swift */; };
-		233654391F9E1644007F8D3D /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233654361F9E1644007F8D3D /* SampleData.swift */; };
+		233654371F9E1644007F8D3D /* NSManagedObjectContext+SampleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233654361F9E1644007F8D3D /* NSManagedObjectContext+SampleModel.swift */; };
+		233654381F9E1644007F8D3D /* NSManagedObjectContext+SampleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233654361F9E1644007F8D3D /* NSManagedObjectContext+SampleModel.swift */; };
+		233654391F9E1644007F8D3D /* NSManagedObjectContext+SampleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233654361F9E1644007F8D3D /* NSManagedObjectContext+SampleModel.swift */; };
 		234130661F95FF90002BE7FC /* SampleModelVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2363510B1F95F28C00B3A16A /* SampleModelVersion.swift */; };
 		234130671F95FF90002BE7FC /* ModelVersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351041F95F28B00B3A16A /* ModelVersionTests.swift */; };
 		234130681F95FF90002BE7FC /* NSFetchRequestUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351071F95F28C00B3A16A /* NSFetchRequestUtilsTests.swift */; };
@@ -267,7 +267,7 @@
 		231A8BAD2159130A00254816 /* CoreDataMigration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataMigration.swift; sourceTree = "<group>"; };
 		231A8BAE2159130A00254816 /* CoreDataModelVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataModelVersion.swift; sourceTree = "<group>"; };
 		232440B622D2546100A04649 /* NSManagedObjectContextInvestigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectContextInvestigationTests.swift; sourceTree = "<group>"; };
-		233654361F9E1644007F8D3D /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
+		233654361F9E1644007F8D3D /* NSManagedObjectContext+SampleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+SampleModel.swift"; sourceTree = "<group>"; };
 		234DA7AA214A5D2B00D5C24F /* Maker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Maker.swift; sourceTree = "<group>"; };
 		2351686B22A2D8D500340611 /* ManagedObjectContextChangesObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectContextChangesObserver.swift; sourceTree = "<group>"; };
 		2351687122A2DD4500340611 /* ManagedObjectContextChangesObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectContextChangesObserverTests.swift; sourceTree = "<group>"; };
@@ -549,7 +549,7 @@
 				2363510B1F95F28C00B3A16A /* SampleModelVersion.swift */,
 				234DA7AE214A5D4700D5C24F /* Entities */,
 				23DAFA231F9641BD0058654B /* SampleModel.xcdatamodeld */,
-				233654361F9E1644007F8D3D /* SampleData.swift */,
+				233654361F9E1644007F8D3D /* NSManagedObjectContext+SampleModel.swift */,
 			);
 			name = "Sample Model";
 			sourceTree = "<group>";
@@ -1045,7 +1045,7 @@
 				23948D1F1F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift in Sources */,
 				23F5469D22A5348B000297D3 /* PersistentContainerHackable.swift in Sources */,
 				23FFB86222EC948C00391D40 /* Utils.swift in Sources */,
-				233654371F9E1644007F8D3D /* SampleData.swift in Sources */,
+				233654371F9E1644007F8D3D /* NSManagedObjectContext+SampleModel.swift in Sources */,
 				23C6493A20396FFA00AA514A /* NSManagedObjectContextObserversTests.swift in Sources */,
 				23DAFA2A1F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift in Sources */,
 				23EEF5491F962E6A00A2E72F /* Person.swift in Sources */,
@@ -1080,7 +1080,7 @@
 				23948D201F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift in Sources */,
 				23F5469E22A5348B000297D3 /* PersistentContainerHackable.swift in Sources */,
 				23FFB86322EC948C00391D40 /* Utils.swift in Sources */,
-				233654381F9E1644007F8D3D /* SampleData.swift in Sources */,
+				233654381F9E1644007F8D3D /* NSManagedObjectContext+SampleModel.swift in Sources */,
 				23C6493B20396FFA00AA514A /* NSManagedObjectContextObserversTests.swift in Sources */,
 				23DAFA2B1F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift in Sources */,
 				23EEF54A1F962E6A00A2E72F /* Person.swift in Sources */,
@@ -1115,7 +1115,7 @@
 				23948D211F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift in Sources */,
 				23F5469F22A5348B000297D3 /* PersistentContainerHackable.swift in Sources */,
 				23FFB86422EC948C00391D40 /* Utils.swift in Sources */,
-				233654391F9E1644007F8D3D /* SampleData.swift in Sources */,
+				233654391F9E1644007F8D3D /* NSManagedObjectContext+SampleModel.swift in Sources */,
 				23C6493C20396FFA00AA514A /* NSManagedObjectContextObserversTests.swift in Sources */,
 				23DAFA2C1F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift in Sources */,
 				23EEF54B1F962E6A00A2E72F /* Person.swift in Sources */,

@@ -27,7 +27,6 @@ import CoreData
 extension NSManagedObjectContext {
   /// Fills the context with a sample data set. (145 objects)
   func fillWithSampleData() {
-
     let context = self
 
     let person1 = Person(context: context)
