@@ -41,44 +41,48 @@ final class OnDiskPersistentContainer: NSPersistentContainer, PersistentContaine
     let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("org.tinrobots.CoreDataPlusTests").appendingPathComponent(UUID().uuidString)
     let container = OnDiskPersistentContainer(name: "SampleModel", managedObjectModel: model)
     container.persistentStoreDescriptions[0].url = url
-    container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+    if #available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *) {
+      container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+    }
     container.loadPersistentStores { (description, error) in
       XCTAssertNil(error)
     }
     return container
   }
-
+  
   static func makeNew(id: UUID) -> OnDiskPersistentContainer {
     let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("org.tinrobots.CoreDataPlusTests").appendingPathComponent(id.uuidString)
     let container = OnDiskPersistentContainer(name: "SampleModel", managedObjectModel: model)
     container.persistentStoreDescriptions[0].url = url
-    container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+    if #available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *) {
+      container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+    }
     container.loadPersistentStores { (description, error) in
       XCTAssertNil(error)
     }
     return container
   }
-
+  
   private(set) var contexts = [NSManagedObjectContext]()
-
+  
   override var viewContext: NSManagedObjectContext {
     let context = super.viewContext
     hack_registerContext(context)
     return context
   }
-
+  
   override func newBackgroundContext() -> NSManagedObjectContext {
     let context = super.newBackgroundContext()
     hack_registerContext(context)
     return context
   }
-
+  
   func hack_registerContext(_ context: NSManagedObjectContext) {
     if !contexts.contains(context) {
       contexts.append(context)
     }
   }
-
+  
   /// Destroys the database and reset all the registered contexts.
   func destroy() throws {
     let url = persistentStoreDescriptions[0].url!
@@ -90,13 +94,13 @@ final class OnDiskPersistentContainer: NSPersistentContainer, PersistentContaine
         if !contexts.contains(viewContext) {
           contexts.append(viewContext)
         }
-
+        
         try contexts.forEach {
           if !($0.persistentStoreCoordinator?.persistentStores.isEmpty ?? true) {
             try $0.persistentStoreCoordinator?.remove(store)
           }
         }
-
+        
         contexts.removeAll()
       }
       try NSPersistentStoreCoordinator.destroyStore(at: url)
@@ -116,21 +120,21 @@ final class InMemoryPersistentContainer: NSPersistentContainer, PersistentContai
     }
     return container
   }
-
+  
   private(set) var contexts = [NSManagedObjectContext]()
-
+  
   override var viewContext: NSManagedObjectContext {
     let context = super.viewContext
     hack_registerContext(context)
     return context
   }
-
+  
   override func newBackgroundContext() -> NSManagedObjectContext {
     let context = super.newBackgroundContext()
     hack_registerContext(context)
     return context
   }
-
+  
   /// Registers a context in order to do some cleaning during the destroying phase.
   /// It's a hack to avoid an sqlite3 bug warning when trying to destroy the NSPersistentCoordinator
   func hack_registerContext(_ context: NSManagedObjectContext) {
@@ -138,7 +142,7 @@ final class InMemoryPersistentContainer: NSPersistentContainer, PersistentContai
       contexts.append(context)
     }
   }
-
+  
   /// Destroys the database and reset all the registered contexts.
   func destroy() throws {
     do {
@@ -148,7 +152,7 @@ final class InMemoryPersistentContainer: NSPersistentContainer, PersistentContai
         if !contexts.contains(viewContext) {
           contexts.append(viewContext)
         }
-
+        
         try contexts.forEach {
           if !($0.persistentStoreCoordinator?.persistentStores.isEmpty ?? true) {
             try $0.persistentStoreCoordinator?.remove(store)

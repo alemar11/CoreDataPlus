@@ -397,6 +397,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2325898022F34FBA00E39FEA /* Observers */ = {
+			isa = PBXGroup;
+			children = (
+				2351687122A2DD4500340611 /* ManagedObjectContextChangesObserverTests.swift */,
+				23CAFC89204B196400E016D3 /* EntityObserverTests.swift */,
+			);
+			path = Observers;
+			sourceTree = "<group>";
+		};
+		2325898122F34FDD00E39FEA /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				23F5469C22A5348B000297D3 /* PersistentContainerHackable.swift */,
+				23FFB86122EC948C00391D40 /* Utils.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		234DA7AE214A5D4700D5C24F /* Entities */ = {
 			isa = PBXGroup;
 			children = (
@@ -415,15 +433,6 @@
 				231A8BAE2159130A00254816 /* CoreDataModelVersion.swift */,
 			);
 			path = Migration;
-			sourceTree = "<group>";
-		};
-		2351687022A2DD2C00340611 /* Observers */ = {
-			isa = PBXGroup;
-			children = (
-				2351687122A2DD4500340611 /* ManagedObjectContextChangesObserverTests.swift */,
-				23CAFC89204B196400E016D3 /* EntityObserverTests.swift */,
-			);
-			name = Observers;
 			sourceTree = "<group>";
 		};
 		2377287C2149654000FDAF32 /* SampleModel.momd */ = {
@@ -515,6 +524,8 @@
 		23B580861F94FF0E00A365C0 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				2325898122F34FDD00E39FEA /* Utils */,
+				2325898022F34FBA00E39FEA /* Observers */,
 				230C087B21417E1900A1B6CB /* CoreDataMigrationsTests.swift */,
 				236526AA215A46C200A51C9F /* CoreDataPlusTestCase.swift */,
 				23D1056A20D7EFEF00AE84CC /* FetchedResultsChangesTests.swift */,
@@ -531,9 +542,7 @@
 				2383AC631FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift */,
 				23C3B2B51FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift */,
 				236351061F95F28C00B3A16A /* NSManagedObjectUtilsTests.swift */,
-				2351687022A2DD2C00340611 /* Observers */,
 				23EEF5431F962DA600A2E72F /* Sample Model */,
-				23F5469B22A53477000297D3 /* Utils */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -552,15 +561,6 @@
 				233654361F9E1644007F8D3D /* NSManagedObjectContext+SampleModel.swift */,
 			);
 			name = "Sample Model";
-			sourceTree = "<group>";
-		};
-		23F5469B22A53477000297D3 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				23F5469C22A5348B000297D3 /* PersistentContainerHackable.swift */,
-				23FFB86122EC948C00391D40 /* Utils.swift */,
-			);
-			name = Utils;
 			sourceTree = "<group>";
 		};
 		23F546A022A54B59000297D3 /* Observers */ = {

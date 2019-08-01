@@ -45,7 +45,9 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusOnDiskTestCase {
     }
 
     let token2 = context.addManagedObjectContextDidSaveNotificationObserver() { notification in
-      XCTAssertNotNil(notification.historyToken)
+      if #available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *) {
+        XCTAssertNotNil(notification.historyToken)
+      }
       expectation2.fulfill()
     }
 
@@ -132,7 +134,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusOnDiskTestCase {
 
   func testObserversWhenWorkingOnAnotherContext() throws {
     let context = container.viewContext
-    let anotherContext = container.viewContext.newBackgroundContext(asChildContext: false)
+    let anotherContext = container.newBackgroundContext()
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let expectation2 = expectation(description: "\(#function)\(#line)")
