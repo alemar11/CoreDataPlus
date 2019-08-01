@@ -96,7 +96,7 @@ class CoreDataMigrationsTests: XCTestCase {
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
     XCTAssertTrue(cars.count >= 1)
 
-    if #available(iOS 11, tvOS 11, macOS 10.13, *) {
+    if #available(iOS 11, tvOS 11, watchOS 4, macOS 10.13, *) {
       cars.forEach { car in
         if car is LuxuryCar || car is SportCar {
           XCTAssertEqual(car.entity.indexes.count, 0)
