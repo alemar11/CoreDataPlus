@@ -26,7 +26,6 @@ import CoreData
 @testable import CoreDataPlus
 
 final class NSManagedObjectDelayedDeletableTests: CoreDataPlusTestCase {
-
   func testMarkAsDelayedDeletable() throws {
     let context = container.viewContext
     context.fillWithSampleData()
@@ -57,5 +56,4 @@ final class NSManagedObjectDelayedDeletableTests: CoreDataPlusTestCase {
     let deletableCars = try! Car.fetch(in: context) { $0.predicate = fiatDeletablePredicate }
     XCTAssertTrue(deletableCars.count > 0)
   }
-
 }

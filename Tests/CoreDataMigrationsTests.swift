@@ -65,7 +65,7 @@ class CoreDataMigrationsTests: XCTestCase {
     let allCars = try Car.fetch(in: context) // 125
     let sportCars = try ExpensiveSportCar.fetch(in: context) // 5
 
-    if #available(iOS 11, tvOS 11, macOS 10.13, *) {
+    if #available(iOS 11, tvOS 11, watchOS 4, macOS 10.13, *) {
       XCTAssertEqual(allCars.first!.entity.indexes.count, 0)
     }
 

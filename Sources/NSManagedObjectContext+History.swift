@@ -28,7 +28,7 @@ import Foundation
 // TODO: mergeHistory in range of dates/tokens
 // TODO: remove fatalErrors and wrap CoreData try error
 // TODO: Implement a service to sync tokens merges between different targets
-
+@available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
 extension NSManagedObjectContext {
   // MARK: - Merge
 
@@ -43,6 +43,7 @@ extension NSManagedObjectContext {
   ///   let description: NSPersistentStoreDescription = ... // Your default configuration here
   ///   description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
   ///   ```
+  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   public func mergeHistory(after date: Date) throws -> Date? {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: date)
     historyFetchRequest.resultType = .transactionsAndChanges
@@ -65,6 +66,7 @@ extension NSManagedObjectContext {
   }
 
   // TODO add guide to add tombstone
+  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   public func processHistory(after date: Date, transactionHandler: (NSPersistentHistoryTransaction) throws -> Void) throws {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: date)
     historyFetchRequest.resultType = .transactionsAndChanges
@@ -106,6 +108,7 @@ extension NSManagedObjectContext {
   ///   let description: NSPersistentStoreDescription = ... // Your default configuration here
   ///   description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
   ///   ```
+  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   public func mergeHistory(after token: NSPersistentHistoryToken?) throws -> NSPersistentHistoryToken? {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: token)
     historyFetchRequest.resultType = .transactionsAndChanges
@@ -131,11 +134,13 @@ extension NSManagedObjectContext {
 
   // MARK: - Delete
 
+  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   @discardableResult
   public func deleteAllHistory() throws -> Bool {
     return try deleteHistory(before: .distantFuture)
   }
 
+  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   @discardableResult
   public func deleteHistory(before date: Date) throws -> Bool {
     let deleteHistoryRequest = NSPersistentHistoryChangeRequest.deleteHistory(before: date)
@@ -151,6 +156,7 @@ extension NSManagedObjectContext {
     return result
   }
 
+  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   @discardableResult
   public func deleteHistory(before token: NSPersistentHistoryToken?) throws -> Bool {
     let deleteHistoryRequest = NSPersistentHistoryChangeRequest.deleteHistory(before: token)
