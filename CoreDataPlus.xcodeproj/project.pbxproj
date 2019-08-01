@@ -524,6 +524,7 @@
 		23B580861F94FF0E00A365C0 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				23C660BA22F3542F00A3EB59 /* SampleModel */,
 				2325898122F34FDD00E39FEA /* Utils */,
 				2325898022F34FBA00E39FEA /* Observers */,
 				230C087B21417E1900A1B6CB /* CoreDataMigrationsTests.swift */,
@@ -542,12 +543,11 @@
 				2383AC631FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift */,
 				23C3B2B51FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift */,
 				236351061F95F28C00B3A16A /* NSManagedObjectUtilsTests.swift */,
-				23EEF5431F962DA600A2E72F /* Sample Model */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
 		};
-		23EEF5431F962DA600A2E72F /* Sample Model */ = {
+		23C660BA22F3542F00A3EB59 /* SampleModel */ = {
 			isa = PBXGroup;
 			children = (
 				2369001B2191970100C89473 /* SampleModelV1.sqlite */,
@@ -560,7 +560,7 @@
 				23DAFA231F9641BD0058654B /* SampleModel.xcdatamodeld */,
 				233654361F9E1644007F8D3D /* NSManagedObjectContext+SampleModel.swift */,
 			);
-			name = "Sample Model";
+			path = SampleModel;
 			sourceTree = "<group>";
 		};
 		23F546A022A54B59000297D3 /* Observers */ = {
