@@ -43,11 +43,13 @@ extension Person {
   /// It's created by default from Core Data with a *primitive* suffix*.
   @NSManaged private var primitiveUpdatedAt: Date
 
+  @NSManaged private var primitiveId: UUID
+
   public override func awakeFromInsert() {
     super.awakeFromInsert()
     primitiveUpdatedAt = Date()
     //setPrimitiveValue(NSDate(), forKey: "updatedAt") // we can use one of these two options to set the value
-    setPrimitiveValue(UUID(), forKey: #keyPath(Person.id))
+    primitiveId = UUID()
   }
 
   public override func willSave() {

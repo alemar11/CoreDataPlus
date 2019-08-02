@@ -96,6 +96,9 @@ final class OnDiskPersistentContainer: NSPersistentContainer, PersistentContaine
         }
         
         try contexts.forEach {
+          $0.performAndWait {
+            $0.reset()
+          }
           if !($0.persistentStoreCoordinator?.persistentStores.isEmpty ?? true) {
             try $0.persistentStoreCoordinator?.remove(store)
           }
@@ -154,6 +157,9 @@ final class InMemoryPersistentContainer: NSPersistentContainer, PersistentContai
         }
         
         try contexts.forEach {
+          $0.performAndWait {
+            $0.reset()
+          }
           if !($0.persistentStoreCoordinator?.persistentStores.isEmpty ?? true) {
             try $0.persistentStoreCoordinator?.remove(store)
           }
