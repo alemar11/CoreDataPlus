@@ -29,12 +29,12 @@ import CoreData
 
 class CoreDataPlusTestCase: XCTestCase {
   var container: PersistentContainerHackable!
-
+  
   override func setUp() {
     super.setUp()
     container = InMemoryPersistentContainer.makeNew()
   }
-
+  
   override func tearDown() {
     do {
       try container.destroy()
@@ -50,12 +50,12 @@ class CoreDataPlusTestCase: XCTestCase {
 
 class CoreDataPlusOnDiskTestCase: XCTestCase {
   var container: PersistentContainerHackable!
-
+  
   override func setUp() {
     super.setUp()
     container = OnDiskPersistentContainer.makeNew()
   }
-
+  
   override func tearDown() {
     do {
       try container.destroy()

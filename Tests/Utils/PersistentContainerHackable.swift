@@ -86,7 +86,17 @@ final class OnDiskPersistentContainer: NSPersistentContainer, PersistentContaine
   /// Destroys the database and reset all the registered contexts.
   func destroy() throws {
     let url = persistentStoreDescriptions[0].url!
-    // unload each store from the used context avoid the sqlite3 bug warning.
+    if !contexts.contains(viewContext) {
+      contexts.append(viewContext)
+    }
+
+    contexts.forEach { context in
+      context.performAndWait {
+        context.reset()
+      }
+    }
+
+    // unload each store from the used context to avoid the sqlite3 bug warning.
     do {
       let stores = persistentStoreCoordinator.persistentStores
       for store in stores {
@@ -96,9 +106,6 @@ final class OnDiskPersistentContainer: NSPersistentContainer, PersistentContaine
         }
         
         try contexts.forEach {
-          $0.performAndWait {
-            $0.reset()
-          }
           if !($0.persistentStoreCoordinator?.persistentStores.isEmpty ?? true) {
             try $0.persistentStoreCoordinator?.remove(store)
           }
