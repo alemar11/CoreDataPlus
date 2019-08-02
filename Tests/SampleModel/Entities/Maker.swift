@@ -27,5 +27,5 @@ import CoreData
 @objc(Maker)
 final public class Maker: NSManagedObject {
   @NSManaged public var name: String
-  @NSManaged public var cars: Set<Car>?
+  @NSManaged public var cars: Set<Car>? // TODO: this must be a NSSet https://twitter.com/an0/status/1157072652290445314
 }
