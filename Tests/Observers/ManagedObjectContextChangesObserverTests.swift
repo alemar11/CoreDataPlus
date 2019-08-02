@@ -849,54 +849,6 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     try FileManager.default.removeItem(at: storeURL)
   }
 
-  //  func testObserveMultipleChangesUsingPersistentStoreCoordinatorWithChildAndParentContexts2() throws {
-  //    // Given
-  //    let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
-  //    let urls = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
-  //    let storeURL = urls.last!.appendingPathComponent("\(UUID().uuidString).sqlite")
-  //    try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
-  //
-  //    let parentContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-  //    parentContext.persistentStoreCoordinator = psc
-  //
-  //    let childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-  //    childContext.parent = parentContext
-  //
-  //    let numberPlate = UUID().uuidString
-  //    try childContext.performSaveAndWait { context in
-  //      let car1 = Car(context: context)
-  //      car1.maker = "FIAT"
-  //      car1.model = "Qubo"
-  //      car1.numberPlate = numberPlate
-  //    }
-  //
-  //    parentContext.refreshAllObjects()
-  //
-  //    let expectation = self.expectation(description: "\(#function)\(#line)")
-  //
-  //    // Changes are propagated from the child to the parent during the save.
-  //
-  //    let observer = ManagedObjectContextChangesObserver(observedManagedObjectContext: .one(parentContext), event: .didChange) { (change, event, observedContext) in
-  //      XCTAssertTrue(Thread.isMainThread)
-  //      expectation.fulfill()
-  //    }
-  //
-  //    // remove unused warning...
-  //    _ = observer
-  //
-  //    try childContext.performSaveAndWait { context in
-  //      guard let car1 = try Car.findUniqueOrFetch(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", numberPlate)) else {
-  //        XCTFail("Car not found.")
-  //        return
-  //      }
-  //      car1.model = "**Qubo**"
-  //    }
-  //
-  //    waitForExpectations(timeout: 10)
-  //
-  //    try FileManager.default.removeItem(at: storeURL)
-  //  }
-
   func testObserveDeleteSaveUsingWrongObserverContext() throws {
     let context = container.viewContext
     let expectation = self.expectation(description: "\(#function)\(#line)")

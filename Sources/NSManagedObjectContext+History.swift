@@ -26,8 +26,8 @@ import Foundation
 
 // TODO: tombstone
 // TODO: mergeHistory in range of dates/tokens
-// TODO: remove fatalErrors and wrap CoreData try error
 // TODO: Implement a service to sync tokens merges between different targets
+
 @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
 extension NSManagedObjectContext {
   // MARK: - Merge
@@ -48,21 +48,25 @@ extension NSManagedObjectContext {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: date)
     historyFetchRequest.resultType = .transactionsAndChanges
 
-    // Do your merging inside a context.performAndWait { … } as shown in WWDC 2017
-    let lastDate = try performAndWait { context -> Date? in
-      guard
-        let historyResult = try context.execute(historyFetchRequest) as? NSPersistentHistoryResult,
-        let history = historyResult.result as? [NSPersistentHistoryTransaction]
-        else { fatalError("Cannot convert persistent history fetch result to transactions.") }
+    do {
+      // Do your merging inside a context.performAndWait { … } as shown in WWDC 2017
+      let lastDate = try performAndWait { context -> Date? in
+        // swiftlint:disable force_cast
+        let historyResult = try context.execute(historyFetchRequest) as! NSPersistentHistoryResult
+        let history = historyResult.result as! [NSPersistentHistoryTransaction]
+        // swiftlint:enable force_cast
 
-      var date: Date?
-      for transaction in history {
-        context.mergeChanges(fromContextDidSave: transaction.objectIDNotification())
-        date = transaction.timestamp
+        var date: Date?
+        for transaction in history {
+          context.mergeChanges(fromContextDidSave: transaction.objectIDNotification())
+          date = transaction.timestamp
+        }
+        return date
       }
-      return date
+      return lastDate
+    } catch {
+      throw NSError.fetchFailed(underlyingError: error)
     }
-    return lastDate
   }
 
   // TODO add guide to add tombstone
@@ -72,12 +76,10 @@ extension NSManagedObjectContext {
     historyFetchRequest.resultType = .transactionsAndChanges
 
     try performAndWait { context -> Void in
-      guard
-        let historyResult = try context.execute(historyFetchRequest) as? NSPersistentHistoryResult,
-        let history = historyResult.result as? [NSPersistentHistoryTransaction]
-        else {
-          fatalError("Cannot convert persistent history fetch result to transactions.")
-      }
+      // swiftlint:disable force_cast
+      let historyResult = try context.execute(historyFetchRequest) as! NSPersistentHistoryResult
+      let history = historyResult.result as! [NSPersistentHistoryTransaction]
+      // swiftlint:enable force_cast
 
       for transaction in history {
         //        print("--->", transaction.contextName, transaction.author)
@@ -113,23 +115,26 @@ extension NSManagedObjectContext {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: token)
     historyFetchRequest.resultType = .transactionsAndChanges
 
-    // Do your merging inside a context.performAndWait { … } as shown in WWDC 2017
-    let lastToken = try performAndWait { context -> NSPersistentHistoryToken? in
-      guard
-        let historyResult = try context.execute(historyFetchRequest) as? NSPersistentHistoryResult,
-        let history = historyResult.result as? [NSPersistentHistoryTransaction]
-        else {
-          fatalError("Cannot convert persistent history fetch result to transactions.")
-      }
+    do {
+      // Do your merging inside a context.performAndWait { … } as shown in WWDC 2017
+      let lastToken = try performAndWait { context -> NSPersistentHistoryToken? in
 
-      var token: NSPersistentHistoryToken?
-      for transaction in history {
-        mergeChanges(fromContextDidSave: transaction.objectIDNotification())
-        token = transaction.token
+        // swiftlint:disable force_cast
+        let historyResult = try context.execute(historyFetchRequest) as! NSPersistentHistoryResult
+        let history = historyResult.result as! [NSPersistentHistoryTransaction]
+        // swiftlint:enable force_cast
+
+        var token: NSPersistentHistoryToken?
+        for transaction in history {
+          mergeChanges(fromContextDidSave: transaction.objectIDNotification())
+          token = transaction.token
+        }
+        return token
       }
-      return token
+      return lastToken
+    } catch {
+      throw NSError.fetchFailed(underlyingError: error)
     }
-    return lastToken
   }
 
   // MARK: - Delete
@@ -146,14 +151,18 @@ extension NSManagedObjectContext {
     let deleteHistoryRequest = NSPersistentHistoryChangeRequest.deleteHistory(before: date)
     deleteHistoryRequest.resultType = .statusOnly
 
-    let result = try performAndWait { context -> Bool in
-      // swiftlint:disable force_cast
-      let historyResult = try context.execute(deleteHistoryRequest) as! NSPersistentHistoryResult
-      let status = historyResult.result as! Bool
-      // swiftlint:enable force_cast
-      return status
+    do {
+      let result = try performAndWait { context -> Bool in
+        // swiftlint:disable force_cast
+        let historyResult = try context.execute(deleteHistoryRequest) as! NSPersistentHistoryResult
+        let status = historyResult.result as! Bool
+        // swiftlint:enable force_cast
+        return status
+      }
+      return result
+    } catch {
+      throw NSError.fetchFailed(underlyingError: error)
     }
-    return result
   }
 
   @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)

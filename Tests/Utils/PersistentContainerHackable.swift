@@ -43,7 +43,7 @@ extension PersistentContainerHackable {
       _contexts.append(context)
     }
   }
-  
+
   /// Destroys the database and reset all the registered contexts.
   func destroy() throws {
     let url = persistentStoreDescriptions[0].url!
@@ -51,13 +51,13 @@ extension PersistentContainerHackable {
       // viewContext is created even if it's not accessed
       _contexts.append(viewContext)
     }
-    
+
     _contexts.forEach { context in
       context.performAndWait {
         context.reset()
       }
     }
-    
+
     // unload each store from the used context to avoid the sqlite3 bug warning.
     do {
       let stores = persistentStoreCoordinator.persistentStores
@@ -71,9 +71,9 @@ extension PersistentContainerHackable {
           }
         }
       }
-      
+
       _contexts.removeAll()
-      
+
       if url.absoluteString == "/dev/null" {
         try NSPersistentStoreCoordinator.destroyStore(at: url)
       }
@@ -96,7 +96,7 @@ final class OnDiskPersistentContainer: NSPersistentContainer, PersistentContaine
     }
     return container
   }
-  
+
   static func makeNew(id: UUID) -> OnDiskPersistentContainer {
     let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("org.tinrobots.CoreDataPlusTests").appendingPathComponent(id.uuidString)
     let container = OnDiskPersistentContainer(name: "SampleModel", managedObjectModel: model)
@@ -109,15 +109,15 @@ final class OnDiskPersistentContainer: NSPersistentContainer, PersistentContaine
     }
     return container
   }
-  
+
   var _contexts = [NSManagedObjectContext]()
-  
+
   override var viewContext: NSManagedObjectContext {
     let context = super.viewContext
     hack_registerContext(context)
     return context
   }
-  
+
   override func newBackgroundContext() -> NSManagedObjectContext {
     let context = super.newBackgroundContext()
     hack_registerContext(context)
@@ -135,15 +135,15 @@ final class InMemoryPersistentContainer: NSPersistentContainer, PersistentContai
     }
     return container
   }
-  
+
   var _contexts = [NSManagedObjectContext]()
-  
+
   override var viewContext: NSManagedObjectContext {
     let context = super.viewContext
     hack_registerContext(context)
     return context
   }
-  
+
   override func newBackgroundContext() -> NSManagedObjectContext {
     let context = super.newBackgroundContext()
     hack_registerContext(context)
