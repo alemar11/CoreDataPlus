@@ -25,7 +25,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class EntityObserverTests: CoreDataPlusTestCase {
+final class EntityObserverTests: CoreDataPlusInMemoryTestCase {
   // MARK: - Change Event
 
   func testInsertedOnDidChangeEvent() {

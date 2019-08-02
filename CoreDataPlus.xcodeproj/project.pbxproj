@@ -122,9 +122,9 @@
 		236350D61F95F11D00B3A16A /* NSFetchRequest+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B580871F94FFF600A365C0 /* NSFetchRequest+Utils.swift */; };
 		236350D71F95F11D00B3A16A /* NSFetchRequestResult+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B580881F94FFF600A365C0 /* NSFetchRequestResult+CoreData.swift */; };
 		236350D81F95F11D00B3A16A /* CoreDataPlus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5809D1F95006200A365C0 /* CoreDataPlus.swift */; };
-		236526AB215A46C200A51C9F /* CoreDataPlusTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236526AA215A46C200A51C9F /* CoreDataPlusTestCase.swift */; };
-		236526AC215A46C200A51C9F /* CoreDataPlusTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236526AA215A46C200A51C9F /* CoreDataPlusTestCase.swift */; };
-		236526AD215A46C200A51C9F /* CoreDataPlusTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236526AA215A46C200A51C9F /* CoreDataPlusTestCase.swift */; };
+		236526AB215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236526AA215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift */; };
+		236526AC215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236526AA215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift */; };
+		236526AD215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236526AA215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift */; };
 		23690014219190C800C89473 /* SampleModelV2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 23690013219190C800C89473 /* SampleModelV2.sqlite */; };
 		23690015219190C800C89473 /* SampleModelV2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 23690013219190C800C89473 /* SampleModelV2.sqlite */; };
 		23690016219190C800C89473 /* SampleModelV2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 23690013219190C800C89473 /* SampleModelV2.sqlite */; };
@@ -163,6 +163,9 @@
 		2397DDFF22B3A349004ED7B0 /* NSManagedObjectContext+NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397DDFD22B3A349004ED7B0 /* NSManagedObjectContext+NotificationCenter.swift */; };
 		2397DE0022B3A349004ED7B0 /* NSManagedObjectContext+NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397DDFD22B3A349004ED7B0 /* NSManagedObjectContext+NotificationCenter.swift */; };
 		2397DE0122B3A349004ED7B0 /* NSManagedObjectContext+NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2397DDFD22B3A349004ED7B0 /* NSManagedObjectContext+NotificationCenter.swift */; };
+		239F4CC022F49F2F007888BA /* CoreDataPlusOnDiskTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239F4CBF22F49F2F007888BA /* CoreDataPlusOnDiskTestCase.swift */; };
+		239F4CC122F49F2F007888BA /* CoreDataPlusOnDiskTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239F4CBF22F49F2F007888BA /* CoreDataPlusOnDiskTestCase.swift */; };
+		239F4CC222F49F2F007888BA /* CoreDataPlusOnDiskTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239F4CBF22F49F2F007888BA /* CoreDataPlusOnDiskTestCase.swift */; };
 		23A35D532103D0EF00388BEA /* NSFetchRequestResult+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A35D522103D0EF00388BEA /* NSFetchRequestResult+Utils.swift */; };
 		23A35D542103D0EF00388BEA /* NSFetchRequestResult+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A35D522103D0EF00388BEA /* NSFetchRequestResult+Utils.swift */; };
 		23A35D552103D0EF00388BEA /* NSFetchRequestResult+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A35D522103D0EF00388BEA /* NSFetchRequestResult+Utils.swift */; };
@@ -224,9 +227,6 @@
 		23EFDE921F95FE730038BE75 /* CoreDataPlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23B5806A1F94FEDF00A365C0 /* CoreDataPlus.framework */; };
 		23EFDEA11F95FE990038BE75 /* CoreDataPlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 236350811F95EC3000B3A16A /* CoreDataPlus.framework */; };
 		23EFDEB01F95FEB50038BE75 /* CoreDataPlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2363509D1F95EC5600B3A16A /* CoreDataPlus.framework */; };
-		23F5469D22A5348B000297D3 /* PersistentContainerHackable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F5469C22A5348B000297D3 /* PersistentContainerHackable.swift */; };
-		23F5469E22A5348B000297D3 /* PersistentContainerHackable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F5469C22A5348B000297D3 /* PersistentContainerHackable.swift */; };
-		23F5469F22A5348B000297D3 /* PersistentContainerHackable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F5469C22A5348B000297D3 /* PersistentContainerHackable.swift */; };
 		23F8E9E01F965B2000C65565 /* SampleModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 23DAFA231F9641BD0058654B /* SampleModel.xcdatamodeld */; };
 		23F8E9E11F965B2100C65565 /* SampleModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 23DAFA231F9641BD0058654B /* SampleModel.xcdatamodeld */; };
 		23F8E9E21F965B2200C65565 /* SampleModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 23DAFA231F9641BD0058654B /* SampleModel.xcdatamodeld */; };
@@ -285,7 +285,7 @@
 		236351071F95F28C00B3A16A /* NSFetchRequestUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSFetchRequestUtilsTests.swift; sourceTree = "<group>"; };
 		2363510B1F95F28C00B3A16A /* SampleModelVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleModelVersion.swift; sourceTree = "<group>"; };
 		236351241F95F53900B3A16A /* IDETemplateMacros.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = IDETemplateMacros.plist; path = CoreDataPlus.xcodeproj/xcshareddata/IDETemplateMacros.plist; sourceTree = SOURCE_ROOT; };
-		236526AA215A46C200A51C9F /* CoreDataPlusTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPlusTestCase.swift; sourceTree = "<group>"; };
+		236526AA215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPlusInMemoryTestCase.swift; sourceTree = "<group>"; };
 		23690013219190C800C89473 /* SampleModelV2.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleModelV2.sqlite; sourceTree = "<group>"; };
 		2369001B2191970100C89473 /* SampleModelV1.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleModelV1.sqlite; sourceTree = "<group>"; };
 		236CBA322106477E00FAE00D /* NSBatchUpdateResult+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSBatchUpdateResult+Utils.swift"; sourceTree = "<group>"; };
@@ -304,6 +304,7 @@
 		23948D1E1F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSEntityDescriptionUtilsTests.swift; sourceTree = "<group>"; };
 		2397DDF822B29951004ED7B0 /* AnyManagedObjectContextChange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyManagedObjectContextChange.swift; sourceTree = "<group>"; };
 		2397DDFD22B3A349004ED7B0 /* NSManagedObjectContext+NotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+NotificationCenter.swift"; sourceTree = "<group>"; };
+		239F4CBF22F49F2F007888BA /* CoreDataPlusOnDiskTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPlusOnDiskTestCase.swift; sourceTree = "<group>"; };
 		23A35D512103995100388BEA /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = SOURCE_ROOT; };
 		23A35D522103D0EF00388BEA /* NSFetchRequestResult+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFetchRequestResult+Utils.swift"; sourceTree = "<group>"; };
 		23A38AE72147C08E0086C22A /* SampleModel3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel3.xcdatamodel; sourceTree = "<group>"; };
@@ -337,7 +338,6 @@
 		23EFDE8D1F95FE730038BE75 /* CoreDataPlus Tests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CoreDataPlus Tests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		23EFDE9C1F95FE990038BE75 /* CoreDataPlus Tests tvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CoreDataPlus Tests tvOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		23EFDEAB1F95FEB40038BE75 /* CoreDataPlus Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CoreDataPlus Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		23F5469C22A5348B000297D3 /* PersistentContainerHackable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentContainerHackable.swift; sourceTree = "<group>"; };
 		23FFB86122EC948C00391D40 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -409,8 +409,9 @@
 		2325898122F34FDD00E39FEA /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				23F5469C22A5348B000297D3 /* PersistentContainerHackable.swift */,
+				236526AA215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift */,
 				23FFB86122EC948C00391D40 /* Utils.swift */,
+				239F4CBF22F49F2F007888BA /* CoreDataPlusOnDiskTestCase.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -528,7 +529,6 @@
 				2325898122F34FDD00E39FEA /* Utils */,
 				2325898022F34FBA00E39FEA /* Observers */,
 				230C087B21417E1900A1B6CB /* CoreDataMigrationsTests.swift */,
-				236526AA215A46C200A51C9F /* CoreDataPlusTestCase.swift */,
 				23D1056A20D7EFEF00AE84CC /* FetchedResultsChangesTests.swift */,
 				236351041F95F28B00B3A16A /* ModelVersionTests.swift */,
 				23948D1E1F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift */,
@@ -1043,10 +1043,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				23948D1F1F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift in Sources */,
-				23F5469D22A5348B000297D3 /* PersistentContainerHackable.swift in Sources */,
 				23FFB86222EC948C00391D40 /* Utils.swift in Sources */,
 				233654371F9E1644007F8D3D /* NSManagedObjectContext+SampleModel.swift in Sources */,
 				23C6493A20396FFA00AA514A /* NSManagedObjectContextObserversTests.swift in Sources */,
+				239F4CC022F49F2F007888BA /* CoreDataPlusOnDiskTestCase.swift in Sources */,
 				23DAFA2A1F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift in Sources */,
 				23EEF5491F962E6A00A2E72F /* Person.swift in Sources */,
 				230C087C21417E1900A1B6CB /* CoreDataMigrationsTests.swift in Sources */,
@@ -1058,7 +1058,7 @@
 				232440B722D2546100A04649 /* NSManagedObjectContextInvestigationTests.swift in Sources */,
 				23541AFA22ECAB0000678A96 /* NSManagedObjectContextHistoryTests.swift in Sources */,
 				234130681F95FF90002BE7FC /* NSFetchRequestUtilsTests.swift in Sources */,
-				236526AB215A46C200A51C9F /* CoreDataPlusTestCase.swift in Sources */,
+				236526AB215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift in Sources */,
 				23CAFC8A204B196400E016D3 /* EntityObserverTests.swift in Sources */,
 				234DA7AB214A5D2B00D5C24F /* Maker.swift in Sources */,
 				23A8A44D1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift in Sources */,
@@ -1078,10 +1078,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				23948D201F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift in Sources */,
-				23F5469E22A5348B000297D3 /* PersistentContainerHackable.swift in Sources */,
 				23FFB86322EC948C00391D40 /* Utils.swift in Sources */,
 				233654381F9E1644007F8D3D /* NSManagedObjectContext+SampleModel.swift in Sources */,
 				23C6493B20396FFA00AA514A /* NSManagedObjectContextObserversTests.swift in Sources */,
+				239F4CC122F49F2F007888BA /* CoreDataPlusOnDiskTestCase.swift in Sources */,
 				23DAFA2B1F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift in Sources */,
 				23EEF54A1F962E6A00A2E72F /* Person.swift in Sources */,
 				230C087D21417E1900A1B6CB /* CoreDataMigrationsTests.swift in Sources */,
@@ -1093,7 +1093,7 @@
 				232440B822D2546100A04649 /* NSManagedObjectContextInvestigationTests.swift in Sources */,
 				23541AFB22ECAB0000678A96 /* NSManagedObjectContextHistoryTests.swift in Sources */,
 				2341306F1F95FF91002BE7FC /* NSFetchRequestUtilsTests.swift in Sources */,
-				236526AC215A46C200A51C9F /* CoreDataPlusTestCase.swift in Sources */,
+				236526AC215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift in Sources */,
 				23CAFC8B204B196400E016D3 /* EntityObserverTests.swift in Sources */,
 				234DA7AC214A5D2B00D5C24F /* Maker.swift in Sources */,
 				23A8A44E1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift in Sources */,
@@ -1113,10 +1113,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				23948D211F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift in Sources */,
-				23F5469F22A5348B000297D3 /* PersistentContainerHackable.swift in Sources */,
 				23FFB86422EC948C00391D40 /* Utils.swift in Sources */,
 				233654391F9E1644007F8D3D /* NSManagedObjectContext+SampleModel.swift in Sources */,
 				23C6493C20396FFA00AA514A /* NSManagedObjectContextObserversTests.swift in Sources */,
+				239F4CC222F49F2F007888BA /* CoreDataPlusOnDiskTestCase.swift in Sources */,
 				23DAFA2C1F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift in Sources */,
 				23EEF54B1F962E6A00A2E72F /* Person.swift in Sources */,
 				230C087E21417E1900A1B6CB /* CoreDataMigrationsTests.swift in Sources */,
@@ -1128,7 +1128,7 @@
 				232440B922D2546100A04649 /* NSManagedObjectContextInvestigationTests.swift in Sources */,
 				23541AFC22ECAB0000678A96 /* NSManagedObjectContextHistoryTests.swift in Sources */,
 				234130761F95FF91002BE7FC /* NSFetchRequestUtilsTests.swift in Sources */,
-				236526AD215A46C200A51C9F /* CoreDataPlusTestCase.swift in Sources */,
+				236526AD215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift in Sources */,
 				23CAFC8C204B196400E016D3 /* EntityObserverTests.swift in Sources */,
 				234DA7AD214A5D2B00D5C24F /* Maker.swift in Sources */,
 				23A8A44F1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift in Sources */,

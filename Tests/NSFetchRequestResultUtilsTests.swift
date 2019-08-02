@@ -25,7 +25,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSFetchRequestResultUtilsTests: CoreDataPlusTestCase {
+final class NSFetchRequestResultUtilsTests: CoreDataPlusInMemoryTestCase {
 
   // MARK: - Batch Faulting
 

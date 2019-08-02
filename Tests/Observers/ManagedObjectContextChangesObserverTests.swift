@@ -25,7 +25,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
+class ManagedObjectContextChangesObserverTests: CoreDataPlusInMemoryTestCase {
   /// To issue a NSManagedObjectContextObjectsDidChangeNotification from a background thread, call the NSManagedObjectContext’s processPendingChanges method.
   /// http://openradar.appspot.com/14310964
   /// NSManagedObjectContext’s `perform` method encapsulates an autorelease pool and a call to processPendingChanges, `performAndWait` does not.
@@ -703,7 +703,7 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
     // Given
     let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
     let urls = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
-    let storeURL = urls.last!.appendingPathComponent("\(UUID().uuidString).sqlite")
+    let storeURL = urls.last!.appendingPathComponent("org.tinrobots.CoreDataPlusTests").appendingPathComponent("\(UUID().uuidString).sqlite")
     try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
 
     let parentContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
@@ -845,8 +845,11 @@ class ManagedObjectContextChangesObserverTests: CoreDataPlusTestCase {
 
     waitForExpectations(timeout: 10)
 
-    // TODO: fix sqlite bug here
-    try FileManager.default.removeItem(at: storeURL)
+
+    // cleaning stuff
+    let store = psc.persistentStores.first!
+    try psc.remove(store)
+    try NSPersistentStoreCoordinator.destroyStore(at: storeURL)
   }
 
   func testObserveDeleteSaveUsingWrongObserverContext() throws {

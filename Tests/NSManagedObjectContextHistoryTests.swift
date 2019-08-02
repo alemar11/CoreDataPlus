@@ -173,8 +173,15 @@ class NSManagedObjectContextHistoryTests: XCTestCase {
 
   // MARK: - History by Token
 
-  func testMergeHistoryAfterNilTokenWithoutAnyChanges() throws {
+  func testMergeHistoryAfterNilTokenWithoutAnyHistoryChanges() throws {
     let container1 = OnDiskPersistentContainer.makeNew()
+    let stores = container1.persistentStoreCoordinator.persistentStores
+    XCTAssertEqual(stores.count, 1)
+    let store = stores.first!
+    if #available(iOS 12.0, tvOS 12.0, watchOS 5.0, macOS 10.14, *) {
+      let currentToken = container1.persistentStoreCoordinator.currentPersistentHistoryToken(fromStores: [store])
+      XCTAssertNil(currentToken)
+    }
     let token = try container1.viewContext.mergeHistory(after: nil)
     XCTAssertNil(token)
     try container1.destroy()
@@ -341,10 +348,9 @@ class NSManagedObjectContextHistoryTests: XCTestCase {
     NotificationCenter.default.removeObserver(token)
 
     // cleaning avoiding SQLITE warnings
-    try psc.persistentStores.forEach { store in
-      try context.persistentStoreCoordinator?.remove(store)
+    try psc.persistentStores.forEach {
+      try psc.remove($0)
     }
-
     try NSPersistentStoreCoordinator.destroyStore(at: storeURL)
   }
 
@@ -373,10 +379,9 @@ class NSManagedObjectContextHistoryTests: XCTestCase {
     NotificationCenter.default.removeObserver(token)
 
     // cleaning avoiding SQLITE warnings
-    try psc.persistentStores.forEach { store in
-      try context.persistentStoreCoordinator?.remove(store)
+    try psc.persistentStores.forEach {
+      try psc.remove($0)
     }
-
     try NSPersistentStoreCoordinator.destroyStore(at: storeURL)
   }
 }

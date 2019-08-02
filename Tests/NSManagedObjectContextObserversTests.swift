@@ -29,7 +29,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSManagedObjectContextObserversTests: CoreDataPlusOnDiskTestCase {
+final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
   /// This is a very generic test case
   func testObservers() throws {
     let context = container.viewContext
@@ -46,7 +46,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusOnDiskTestCase {
 
     let token2 = context.addManagedObjectContextDidSaveNotificationObserver() { notification in
       if #available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *) {
-        XCTAssertNotNil(notification.historyToken)
+        XCTAssertNil(notification.historyToken) // nil token for in memory db
       }
       expectation2.fulfill()
     }
@@ -135,7 +135,6 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusOnDiskTestCase {
   func testObserversWhenWorkingOnAnotherContext() throws {
     let context = container.viewContext
     let anotherContext = container.viewContext.newBackgroundContext(asChildContext: false)
-    container.hack_registerContext(anotherContext)
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let expectation2 = expectation(description: "\(#function)\(#line)")
@@ -164,6 +163,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusOnDiskTestCase {
     }
 
     waitForExpectations(timeout: 2)
+
     XCTAssertFalse(context.hasChanges)
     anotherContext.performAndWait {
       XCTAssertFalse(anotherContext.hasChanges)
@@ -177,7 +177,6 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusOnDiskTestCase {
   func testObserversWhenWorkingWithChildContext() throws {
     let context = container.viewContext
     let anotherContext = container.viewContext.newBackgroundContext(asChildContext: true)
-    container.hack_registerContext(anotherContext)
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let expectation2 = expectation(description: "\(#function)\(#line)")

@@ -24,7 +24,7 @@
 import CoreData
 import XCTest
 
-class NSManagedObjectContextInvestigationTests: CoreDataPlusTestCase {
+class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCase {
   /// Investigation test: calling refreshAllObjects calls refreshObject:mergeChanges on all objects in the context.
   func testInvestigationRefreshAllObjects() throws {
     let context = container.viewContext
@@ -71,7 +71,7 @@ class NSManagedObjectContextInvestigationTests: CoreDataPlusTestCase {
     do {
       let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
       let urls = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
-      let storeURL = urls.last!.appendingPathComponent("\(UUID().uuidString).sqlite")
+      let storeURL = urls.last!.appendingPathComponent("org.tinrobots.CoreDataPlusTests").appendingPathComponent("\(UUID().uuidString).sqlite")
       try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
 
       let parentContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
@@ -103,14 +103,13 @@ class NSManagedObjectContextInvestigationTests: CoreDataPlusTestCase {
 
       // this will fail without automaticallyMergesChangesFromParent to true
       XCTAssertEqual(childCar.safeAccess({ $0.maker }), "😀")
-
     }
 
     // automaticallyMergesChangesFromParent = false
     do {
       let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
       let urls = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
-      let storeURL = urls.last!.appendingPathComponent("\(UUID().uuidString).sqlite")
+      let storeURL = urls.last!.appendingPathComponent("org.tinrobots.CoreDataPlusTests").appendingPathComponent("\(UUID().uuidString).sqlite")
       try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
 
       let parentContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)

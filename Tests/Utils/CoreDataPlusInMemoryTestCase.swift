@@ -25,10 +25,10 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-// MARK: - In Memory
+// MARK: - In Memory XCTestCase
 
-class CoreDataPlusTestCase: XCTestCase {
-  var container: PersistentContainerHackable!
+class CoreDataPlusInMemoryTestCase: XCTestCase {
+  var container: NSPersistentContainer!
 
   override func setUp() {
     super.setUp()
@@ -36,33 +36,22 @@ class CoreDataPlusTestCase: XCTestCase {
   }
 
   override func tearDown() {
-    do {
-      try container.destroy()
-    } catch {
-      XCTFail("The persistent container couldn't be deostryed.")
-    }
     container = nil
     super.tearDown()
   }
 }
 
-// MARK: - On Disk
+// MARK: - In Memory NSPersistentContainer
 
-class CoreDataPlusOnDiskTestCase: XCTestCase {
-  var container: PersistentContainerHackable!
-
-  override func setUp() {
-    super.setUp()
-    container = OnDiskPersistentContainer.makeNew()
-  }
-
-  override func tearDown() {
-    do {
-      try container.destroy()
-    } catch {
-      XCTFail("The persistent container couldn't be deostryed.")
+final class InMemoryPersistentContainer: NSPersistentContainer {
+  static func makeNew() -> InMemoryPersistentContainer {
+    let url = URL(fileURLWithPath: "/dev/null")
+    let container = InMemoryPersistentContainer(name: "SampleModel", managedObjectModel: model)
+    container.persistentStoreDescriptions[0].url = url
+    container.loadPersistentStores { (description, error) in
+      XCTAssertNil(error)
     }
-    container = nil
-    super.tearDown()
+    return container
   }
 }
+
