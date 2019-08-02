@@ -170,26 +170,26 @@ class NSManagedObjectContextHistoryTests: XCTestCase {
     
     try container1.destroy()
   }
-
+  
   func testProcessHistoryAfterDate() throws {
     // Given
     let id = UUID()
     let container1 = OnDiskPersistentContainer.makeNew(id: id)
     let container2 = OnDiskPersistentContainer.makeNew(id: id)
-
+    
     let viewContext1 = container1.viewContext
     viewContext1.name = "viewContext1"
     let viewContext2 = container2.viewContext
     viewContext2.name = "viewContext2"
-
+    
     viewContext1.fillWithSampleData()
-
+    
     try viewContext1.save()
-
+    
     // When, Then
     XCTAssertFalse(viewContext1.registeredObjects.isEmpty)
     XCTAssertTrue(viewContext2.registeredObjects.isEmpty)
-
+    
     var inserts = [NSManagedObjectID]()
     try viewContext2.processHistory(after: .distantPast, transactionHandler: { transaction in
       transaction.changes?.forEach { (change) in
@@ -206,20 +206,20 @@ class NSManagedObjectContextHistoryTests: XCTestCase {
         }
       }
     })
-
+    
     XCTAssertEqual(inserts.count, 145)
-
+    
     // cleaning avoiding SQLITE warnings
     let psc1 = viewContext1.persistentStoreCoordinator!
     try psc1.persistentStores.forEach { store in
       try psc1.remove(store)
     }
-
+    
     let psc2 = viewContext2.persistentStoreCoordinator!
     try psc2.persistentStores.forEach { store in
       try psc2.remove(store)
     }
-
+    
     try container1.destroy()
   }
   
@@ -321,7 +321,7 @@ class NSManagedObjectContextHistoryTests: XCTestCase {
           XCTFail("A didSave notification should contain an history token") // the option for history token is enabled
           return
         }
-
+        
         // This is how when can retrive a token after a save directly from a store
         if #available(iOS 12.0, tvOS 12.0, watchOS 5.0, macOS 10.14, *) {
           if let store = container2.persistentStoreCoordinator.persistentStores.first {
@@ -329,7 +329,7 @@ class NSManagedObjectContextHistoryTests: XCTestCase {
             XCTAssertEqual(lastHistoryToken, historyToken)
           }
         }
-
+        
         let token = try! viewContext2.mergeHistory(after: lastToken)
         XCTAssertEqual(token, historyToken)
       } else {
@@ -444,5 +444,117 @@ class NSManagedObjectContextHistoryTests: XCTestCase {
       try psc.remove($0)
     }
     try NSPersistentStoreCoordinator.destroyStore(at: storeURL)
+  }
+  
+  func testProcessHistoryAfterToken() throws {
+    // Given
+    let id = UUID()
+    let container1 = OnDiskPersistentContainer.makeNew(id: id)
+    let container2 = OnDiskPersistentContainer.makeNew(id: id)
+    
+    let viewContext1 = container1.viewContext
+    viewContext1.name = "viewContext1"
+    let viewContext2 = container2.viewContext
+    viewContext2.name = "viewContext2"
+    
+    let car = Car(context: viewContext1)
+    car.maker = "FIAT"
+    car.model = "Panda"
+    car.numberPlate = "1"
+    car.maker = "123!"
+    
+    let person1 = Person(context: viewContext1)
+    person1.firstName = "Edythe"
+    person1.lastName = "Moreton"
+    
+    try viewContext1.save()
+    let lastToken1 = try viewContext2.mergeHistory(after: nil)
+    let cars = try Car.fetch(in: viewContext2)
+    try cars.materializeFaultedObjects()
+    let persons = try Person.fetch(in: viewContext2)
+    try persons.materializeFaultedObjects()
+    XCTAssertEqual(cars.count, 1)
+    XCTAssertEqual(persons.count, 1)
+    
+    
+    car.maker = "*FIAT*"
+    person1.firstName += "*Edythe*"
+    car.owner = person1
+    
+    try viewContext1.save()
+    
+    // When, Then
+    var changes = 0
+    var lastToken2: NSPersistentHistoryToken?
+    try viewContext2.processHistory(after: lastToken1, transactionHandler: { transaction in
+      lastToken2 = transaction.token
+      transaction.changes?.forEach { (change) in
+        switch change.changeType {
+        case .delete:
+          XCTFail("There shouldn't be deletions")
+        case .insert:
+          XCTFail("There shouldn't be insertions")
+        case .update:
+          changes += 1
+        @unknown default:
+          XCTFail("Unmanaged case")
+        }
+      }
+    })
+    
+    XCTAssertEqual(changes, 2)
+    XCTAssertNotNil(lastToken2)
+    
+    let person1Id = person1.id
+    person1.delete()
+    car.delete()
+    try viewContext1.save()
+    
+    var deletions = 0
+    try viewContext2.processHistory(after: lastToken2, transactionHandler: { transaction in
+      try transaction.changes?.forEach { (change) in
+        switch change.changeType {
+        case .delete:
+          let id = change.changedObjectID
+          let object = try viewContext2.existingObject(with: id)
+          if let _ = object as? Car {
+            XCTAssertNil(change.tombstone)
+            deletions += 1
+          } else if let _ = object as? Person {
+            XCTAssertNotNil(change.tombstone)
+            if let id = change.tombstone![#keyPath(Person.id)] as? UUID {
+              XCTAssertEqual(id, person1Id)
+            } else {
+              XCTFail("Unexpected tombstone value, only Person id should persisted after deletion.")
+            }
+            
+            deletions += 1
+          } else {
+            XCTFail("Unexpected deletion")
+          }
+        case .insert:
+          XCTFail("There shouldn't be insertions")
+        case .update:
+          XCTFail("There shouldn't be updates")
+        @unknown default:
+          XCTFail("Unmanaged case")
+        }
+      }
+    })
+    
+    XCTAssertEqual(deletions, 2)
+    
+    // cleaning avoiding SQLITE warnings
+    let psc1 = viewContext1.persistentStoreCoordinator!
+    try psc1.persistentStores.forEach { store in
+      try psc1.remove(store)
+    }
+    
+    let psc2 = viewContext2.persistentStoreCoordinator!
+    try psc2.persistentStores.forEach { store in
+      try psc2.remove(store)
+    }
+    
+    try container1.destroy()
   }
 }

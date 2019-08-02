@@ -82,17 +82,6 @@ extension NSManagedObjectContext {
       // swiftlint:enable force_cast
 
       for transaction in history {
-        //        print("--->", transaction.contextName, transaction.author)
-        //        transaction.changes?.forEach({ (change) in
-        //          switch change.changeType {
-        //          case .delete:
-        //            print("delete")
-        //          case .insert:
-        //            print("insert")
-        //          case .update:
-        //            print("update")
-        //          }
-        //        })
         try transactionHandler(transaction)
       }
     }
@@ -185,5 +174,23 @@ extension NSManagedObjectContext {
       return status
     }
     return result
+  }
+
+  // TODO add guide to add tombstone
+  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
+  public func processHistory(after token: NSPersistentHistoryToken?, transactionHandler: (NSPersistentHistoryTransaction) throws -> Void) throws {
+    let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: token)
+    historyFetchRequest.resultType = .transactionsAndChanges
+
+    try performAndWait { context -> Void in
+      // swiftlint:disable force_cast
+      let historyResult = try context.execute(historyFetchRequest) as! NSPersistentHistoryResult
+      let history = historyResult.result as! [NSPersistentHistoryTransaction]
+      // swiftlint:enable force_cast
+
+      for transaction in history {
+        try transactionHandler(transaction)
+      }
+    }
   }
 }
