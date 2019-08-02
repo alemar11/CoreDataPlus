@@ -285,9 +285,10 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
     let container1 = OnDiskPersistentContainer.makeNew()
     let stores = container1.persistentStoreCoordinator.persistentStores
     XCTAssertEqual(stores.count, 1)
-    let store = stores.first!
+
     if #available(iOS 12.0, tvOS 12.0, watchOS 5.0, macOS 10.14, *) {
       // TODO: use Xcode 11 for these lines
+//      let store = stores.first!
 //      let currentToken = container1.persistentStoreCoordinator.currentPersistentHistoryToken(fromStores: [store])
 //      XCTAssertNotNil(currentToken)
 //      let token = try container1.viewContext.mergeHistory(after: currentToken)
