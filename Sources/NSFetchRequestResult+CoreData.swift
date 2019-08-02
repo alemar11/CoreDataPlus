@@ -47,7 +47,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///
   /// Creates a `new` NSFetchRequest for `self`.
   /// - Note: Use this method instead of fetchRequest() to avoid a bug in CoreData occurring in the Unit Test targets or when Generics are used.
-  @available(iOS 10, tvOS 10, watchOS 3, OSX 10.12, *)
+  @available(iOS 10, tvOS 10, watchOS 3, macOS 10.12, *)
   public static func newFetchRequest() -> NSFetchRequest<Self> {
     let fetchRequest = NSFetchRequest<Self>(entityName: entityName)
     return fetchRequest
