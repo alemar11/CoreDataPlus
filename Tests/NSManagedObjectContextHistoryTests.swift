@@ -170,6 +170,59 @@ class NSManagedObjectContextHistoryTests: XCTestCase {
     
     try container1.destroy()
   }
+
+  func testProcessHistoryAfterDate() throws {
+    // Given
+    let id = UUID()
+    let container1 = OnDiskPersistentContainer.makeNew(id: id)
+    let container2 = OnDiskPersistentContainer.makeNew(id: id)
+    // let expectation1 = expectation(description: "\(#function)\(#line)")
+
+    let viewContext1 = container1.viewContext
+    viewContext1.name = "viewContext1"
+    let viewContext2 = container2.viewContext
+    viewContext2.name = "viewContext2"
+
+    viewContext1.fillWithSampleData()
+
+    try viewContext1.save()
+
+    // When, Then
+    XCTAssertFalse(viewContext1.registeredObjects.isEmpty)
+    XCTAssertTrue(viewContext2.registeredObjects.isEmpty)
+
+    var inserts = [NSManagedObjectID]()
+    try viewContext2.processHistory(after: .distantPast, transactionHandler: { transaction in
+      transaction.changes?.forEach { (change) in
+        switch change.changeType {
+        case .delete:
+          XCTFail("There shouldn't be deletions")
+        case .insert:
+          inserts.append(change.changedObjectID)
+          XCTAssertNil(change.updatedProperties)
+        case .update:
+          XCTFail("There shouldn't be updates")
+        @unknown default:
+          XCTFail("Unmanaged case")
+        }
+      }
+    })
+
+    XCTAssertEqual(inserts.count, 145)
+
+    // cleaning avoiding SQLITE warnings
+    let psc1 = viewContext1.persistentStoreCoordinator!
+    try psc1.persistentStores.forEach { store in
+      try psc1.remove(store)
+    }
+
+    let psc2 = viewContext2.persistentStoreCoordinator!
+    try psc2.persistentStores.forEach { store in
+      try psc2.remove(store)
+    }
+
+    try container1.destroy()
+  }
   
   // MARK: - History by Token
   
