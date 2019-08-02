@@ -66,12 +66,12 @@ class NSManagedObjectContextHistoryTests: XCTestCase {
     // cleaning avoiding SQLITE warnings
     let psc1 = viewContext1.persistentStoreCoordinator!
     try psc1.persistentStores.forEach { store in
-      try viewContext1.persistentStoreCoordinator?.remove(store)
+      try psc1.remove(store)
     }
 
     let psc2 = viewContext2.persistentStoreCoordinator!
     try psc2.persistentStores.forEach { store in
-      try viewContext2.persistentStoreCoordinator?.remove(store)
+      try psc2.remove(store)
     }
 
     try container1.destroy()
@@ -160,12 +160,12 @@ class NSManagedObjectContextHistoryTests: XCTestCase {
     // cleaning avoiding SQLITE warnings
     let psc1 = viewContext1.persistentStoreCoordinator!
     try psc1.persistentStores.forEach { store in
-      try viewContext1.persistentStoreCoordinator?.remove(store)
+      try psc1.remove(store)
     }
 
     let psc2 = viewContext2.persistentStoreCoordinator!
     try psc2.persistentStores.forEach { store in
-      try viewContext2.persistentStoreCoordinator?.remove(store)
+      try psc2.remove(store)
     }
 
     try container1.destroy()
@@ -221,12 +221,12 @@ class NSManagedObjectContextHistoryTests: XCTestCase {
     // cleaning avoiding SQLITE warnings
     let psc1 = viewContext1.persistentStoreCoordinator!
     try psc1.persistentStores.forEach { store in
-      try viewContext1.persistentStoreCoordinator?.remove(store)
+      try psc1.remove(store)
     }
 
     let psc2 = viewContext2.persistentStoreCoordinator!
     try psc2.persistentStores.forEach { store in
-      try viewContext2.persistentStoreCoordinator?.remove(store)
+      try psc2.remove(store)
     }
 
     try container1.destroy()
@@ -311,12 +311,12 @@ class NSManagedObjectContextHistoryTests: XCTestCase {
     // cleaning avoiding SQLITE warnings
     let psc1 = viewContext1.persistentStoreCoordinator!
     try psc1.persistentStores.forEach { store in
-      try viewContext1.persistentStoreCoordinator?.remove(store)
+      try psc1.remove(store)
     }
 
     let psc2 = viewContext2.persistentStoreCoordinator!
     try psc2.persistentStores.forEach { store in
-      try viewContext2.persistentStoreCoordinator?.remove(store)
+      try psc2.remove(store)
     }
 
     try container1.destroy()
