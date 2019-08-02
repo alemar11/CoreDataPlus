@@ -24,7 +24,7 @@
 import CoreData
 import XCTest
 
-class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCase {
+final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCase {
   /// Investigation test: calling refreshAllObjects calls refreshObject:mergeChanges on all objects in the context.
   func testInvestigationRefreshAllObjects() throws {
     let context = container.viewContext
@@ -32,17 +32,17 @@ class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCase {
     car1.numberPlate = "car1"
     let car2 = Car(context: context)
     car2.numberPlate = "car2"
-
+    
     try context.save()
-
+    
     car1.numberPlate = "car1_updated"
     context.refreshAllObjects()
-
+    
     XCTAssertFalse(car1.isFault)
     XCTAssertTrue(car2.isFault)
     XCTAssertEqual(car1.numberPlate, "car1_updated")
   }
-
+  
   /// Investigation test: KVO is fired whenever a property changes (even if the object is not saved in the context).
   func testInvestigationKVO() throws {
     let context = container.viewContext
@@ -60,11 +60,11 @@ class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCase {
     sportCar1.numberPlate = "203"
     sportCar1.maker = "McLaren 2"
     try context.save()
-
+    
     waitForExpectations(timeout: 10)
     token.invalidate()
   }
-
+  
   /// Investigation test: automaticallyMergesChangesFromParent behaviour
   func testInvestigationautomaticallyMergesChangesFromParent() throws {
     // automaticallyMergesChangesFromParent = true
@@ -73,139 +73,139 @@ class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCase {
       let urls = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
       let storeURL = urls.last!.appendingPathComponent("org.tinrobots.CoreDataPlusTests").appendingPathComponent("\(UUID().uuidString).sqlite")
       try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
-
+      
       let parentContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
       parentContext.persistentStoreCoordinator = psc
-
+      
       let car1 = Car(context: parentContext)
       car1.maker = "FIAT"
       car1.model = "Panda"
       car1.numberPlate = UUID().uuidString
       car1.maker = "maker"
       try parentContext.save()
-
+      
       let childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
       childContext.parent = parentContext
       childContext.automaticallyMergesChangesFromParent = true
-
+      
       let childCar = try childContext.performAndWait { context -> Car in
         let car = try childContext.existingObject(with: car1.objectID) as! Car
         XCTAssertEqual(car.maker, "maker")
         return car
       }
-
+      
       try parentContext.performSaveAndWait { context in
         let car = try context.existingObject(with: car1.objectID) as! Car
         XCTAssertEqual(car.maker, "maker")
         car.maker = "😀"
         XCTAssertEqual(car.maker, "😀")
       }
-
+      
       // this will fail without automaticallyMergesChangesFromParent to true
       XCTAssertEqual(childCar.safeAccess({ $0.maker }), "😀")
     }
-
+    
     // automaticallyMergesChangesFromParent = false
     do {
       let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
       let urls = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
       let storeURL = urls.last!.appendingPathComponent("org.tinrobots.CoreDataPlusTests").appendingPathComponent("\(UUID().uuidString).sqlite")
       try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
-
+      
       let parentContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
       parentContext.persistentStoreCoordinator = psc
-
+      
       let car1 = Car(context: parentContext)
       car1.maker = "FIAT"
       car1.model = "Panda"
       car1.numberPlate = UUID().uuidString
       car1.maker = "maker"
       try parentContext.save()
-
+      
       let childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
       childContext.parent = parentContext
       childContext.automaticallyMergesChangesFromParent = false
-
+      
       let childCar = try childContext.performAndWait { context -> Car in
         let car = try childContext.existingObject(with: car1.objectID) as! Car
         XCTAssertEqual(car.maker, "maker")
         return car
       }
-
+      
       try parentContext.performSaveAndWait { context in
         let car = try context.existingObject(with: car1.objectID) as! Car
         XCTAssertEqual(car.maker, "maker")
         car.maker = "😀"
         XCTAssertEqual(car.maker, "😀")
       }
-
+      
       XCTAssertEqual(childCar.safeAccess({ $0.maker }), "maker") // no changes
-
+      
     }
-
+    
     // automaticallyMergesChangesFromParent = true
     do {
       let parentContext = container.viewContext
-
+      
       let car1 = Car(context: parentContext)
       car1.maker = "FIAT"
       car1.model = "Panda"
       car1.numberPlate = UUID().uuidString
       car1.maker = "maker"
       try parentContext.save()
-
+      
       let childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
       childContext.parent = parentContext
       childContext.automaticallyMergesChangesFromParent = true
-
+      
       let childCar = try childContext.performAndWait { context -> Car in
         let car = try childContext.existingObject(with: car1.objectID) as! Car
         XCTAssertEqual(car.maker, "maker")
         return car
       }
-
+      
       try parentContext.performSaveAndWait { context in
         let car = try context.existingObject(with: car1.objectID) as! Car
         XCTAssertEqual(car.maker, "maker")
         car.maker = "😀"
         XCTAssertEqual(car.maker, "😀")
       }
-
+      
       // this will fail without automaticallyMergesChangesFromParent to true
       XCTAssertEqual(childCar.safeAccess({ $0.maker }), "😀")
     }
-
+    
     // automaticallyMergesChangesFromParent = false
     do {
       let parentContext = container.viewContext
-
+      
       let car1 = Car(context: parentContext)
       car1.maker = "FIAT"
       car1.model = "Panda"
       car1.numberPlate = UUID().uuidString
       car1.maker = "maker"
       try parentContext.save()
-
+      
       let childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
       childContext.parent = parentContext
       childContext.automaticallyMergesChangesFromParent = false
-
+      
       let childCar = try childContext.performAndWait { context -> Car in
         let car = try childContext.existingObject(with: car1.objectID) as! Car
         XCTAssertEqual(car.maker, "maker")
         return car
       }
-
+      
       try parentContext.performSaveAndWait { context in
         let car = try context.existingObject(with: car1.objectID) as! Car
         XCTAssertEqual(car.maker, "maker")
         car.maker = "😀"
         XCTAssertEqual(car.maker, "😀")
       }
-
+      
       XCTAssertEqual(childCar.safeAccess({ $0.maker }), "maker") // no changes
-
+      
     }
   }
-
+  
 }
