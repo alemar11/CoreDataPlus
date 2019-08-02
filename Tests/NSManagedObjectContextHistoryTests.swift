@@ -222,6 +222,62 @@ class NSManagedObjectContextHistoryTests: XCTestCase {
     
     try container1.destroy()
   }
+
+  func testProcessHistoryWithMultipleTransactionsAfterDate() throws {
+     // Given
+     let id = UUID()
+     let container1 = OnDiskPersistentContainer.makeNew(id: id)
+     let container2 = OnDiskPersistentContainer.makeNew(id: id)
+
+     let viewContext1 = container1.viewContext
+     viewContext1.name = "viewContext1"
+     let viewContext2 = container2.viewContext
+     viewContext2.name = "viewContext2"
+
+     let person1 = Person(context: viewContext1)
+     person1.firstName = "Edythe"
+     person1.lastName = "Moreton"
+
+     try viewContext1.save()
+
+     let person2 = Person(context: viewContext1)
+     person2.firstName = "Ellis"
+     person2.lastName = "Khoury"
+
+     try viewContext1.save()
+
+     let person3 = Person(context: viewContext1)
+     person3.firstName = "Faron"
+     person3.lastName = "Moreton"
+
+     try viewContext1.save()
+
+     // When, Then
+     var transactions = [Int64:Int]()
+     try viewContext2.processHistory(after: .distantPast, transactionHandler: { transaction in
+       let insertionsPerTransaction = transaction.changes?.filter { $0.changeType == .insert }.count ?? 0
+       transactions[transaction.transactionNumber] = insertionsPerTransaction
+     })
+
+     // Expecting 3 transactions with 1 insert each.
+     XCTAssertEqual(transactions.keys.count, 3)
+     transactions.forEach { (_, value: Int) in
+       XCTAssertEqual(value, 1)
+     }
+
+     // cleaning avoiding SQLITE warnings
+     let psc1 = viewContext1.persistentStoreCoordinator!
+     try psc1.persistentStores.forEach { store in
+       try psc1.remove(store)
+     }
+
+     let psc2 = viewContext2.persistentStoreCoordinator!
+     try psc2.persistentStores.forEach { store in
+       try psc2.remove(store)
+     }
+
+     try container1.destroy()
+   }
   
   // MARK: - History by Token
   
