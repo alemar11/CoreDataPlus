@@ -28,12 +28,59 @@ import XCTest
 let model = SampleModelVersion.version1.managedObjectModel()
 
 protocol PersistentContainerHackable: NSPersistentContainer {
+  var _contexts: [NSManagedObjectContext] { get set }
   /// Registers a context in order to do some cleaning during the destroying phase.
   /// "BUG IN CLIENT OF libsqlite3.dylib: database integrity compromised by API violation: vnode unlinked while in use..."
   /// It's an hack to avoid an sqlite3 bug warning when trying to destroy the NSPersistentCoordinator
   func hack_registerContext(_ context: NSManagedObjectContext) -> Void
   /// Destroys the database in a "safe" way (that not causes errors or warnings).
   func destroy() throws -> Void
+}
+
+extension PersistentContainerHackable {
+  func hack_registerContext(_ context: NSManagedObjectContext) {
+    if !_contexts.contains(context) {
+      _contexts.append(context)
+    }
+  }
+  
+  /// Destroys the database and reset all the registered contexts.
+  func destroy() throws {
+    let url = persistentStoreDescriptions[0].url!
+    if !_contexts.contains(viewContext) {
+      // viewContext is created even if it's not accessed
+      _contexts.append(viewContext)
+    }
+    
+    _contexts.forEach { context in
+      context.performAndWait {
+        context.reset()
+      }
+    }
+    
+    // unload each store from the used context to avoid the sqlite3 bug warning.
+    do {
+      let stores = persistentStoreCoordinator.persistentStores
+      for store in stores {
+        try _contexts.forEach {
+          try $0.performAndWait {
+            let contextStores = $0.persistentStoreCoordinator?.persistentStores ?? []
+            if !contextStores.isEmpty {
+              try $0.persistentStoreCoordinator?.remove(store)
+            }
+          }
+        }
+      }
+      
+      _contexts.removeAll()
+      
+      if url.absoluteString == "/dev/null" {
+        try NSPersistentStoreCoordinator.destroyStore(at: url)
+      }
+    } catch {
+      fatalError("\(error) while destroying the store.")
+    }
+  }
 }
 
 final class OnDiskPersistentContainer: NSPersistentContainer, PersistentContainerHackable {
@@ -63,7 +110,7 @@ final class OnDiskPersistentContainer: NSPersistentContainer, PersistentContaine
     return container
   }
   
-  private(set) var contexts = [NSManagedObjectContext]()
+  var _contexts = [NSManagedObjectContext]()
   
   override var viewContext: NSManagedObjectContext {
     let context = super.viewContext
@@ -75,48 +122,6 @@ final class OnDiskPersistentContainer: NSPersistentContainer, PersistentContaine
     let context = super.newBackgroundContext()
     hack_registerContext(context)
     return context
-  }
-  
-  func hack_registerContext(_ context: NSManagedObjectContext) {
-    if !contexts.contains(context) {
-      contexts.append(context)
-    }
-  }
-  
-  /// Destroys the database and reset all the registered contexts.
-  func destroy() throws {
-    let url = persistentStoreDescriptions[0].url!
-    if !contexts.contains(viewContext) {
-      contexts.append(viewContext)
-    }
-
-    contexts.forEach { context in
-      context.performAndWait {
-        context.reset()
-      }
-    }
-
-    // unload each store from the used context to avoid the sqlite3 bug warning.
-    do {
-      let stores = persistentStoreCoordinator.persistentStores
-      for store in stores {
-        // viewContext is created even if it's not accessed
-        if !contexts.contains(viewContext) {
-          contexts.append(viewContext)
-        }
-        
-        try contexts.forEach {
-          if !($0.persistentStoreCoordinator?.persistentStores.isEmpty ?? true) {
-            try $0.persistentStoreCoordinator?.remove(store)
-          }
-        }
-        
-        contexts.removeAll()
-      }
-      try NSPersistentStoreCoordinator.destroyStore(at: url)
-    } catch {
-      fatalError("\(error) while destroying the store.")
-    }
   }
 }
 
@@ -131,7 +136,7 @@ final class InMemoryPersistentContainer: NSPersistentContainer, PersistentContai
     return container
   }
   
-  private(set) var contexts = [NSManagedObjectContext]()
+  var _contexts = [NSManagedObjectContext]()
   
   override var viewContext: NSManagedObjectContext {
     let context = super.viewContext
@@ -143,38 +148,5 @@ final class InMemoryPersistentContainer: NSPersistentContainer, PersistentContai
     let context = super.newBackgroundContext()
     hack_registerContext(context)
     return context
-  }
-  
-  /// Registers a context in order to do some cleaning during the destroying phase.
-  /// It's a hack to avoid an sqlite3 bug warning when trying to destroy the NSPersistentCoordinator
-  func hack_registerContext(_ context: NSManagedObjectContext) {
-    if !contexts.contains(context) {
-      contexts.append(context)
-    }
-  }
-  
-  /// Destroys the database and reset all the registered contexts.
-  func destroy() throws {
-    do {
-      let stores = persistentStoreCoordinator.persistentStores
-      for store in stores {
-        // viewContext is created even if it's not accessed
-        if !contexts.contains(viewContext) {
-          contexts.append(viewContext)
-        }
-        
-        try contexts.forEach {
-          $0.performAndWait {
-            $0.reset()
-          }
-          if !($0.persistentStoreCoordinator?.persistentStores.isEmpty ?? true) {
-            try $0.persistentStoreCoordinator?.remove(store)
-          }
-        }
-        contexts.removeAll()
-      }
-    } catch {
-      fatalError("\(error) while destroying the store.")
-    }
   }
 }
