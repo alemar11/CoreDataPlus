@@ -104,11 +104,17 @@ extension NSManagedObjectContext {
   /// With no token, merges all the history changes.
   /// - Parameter token: The NSPersistentHistoryToken after which changes are merged.
   /// - Throws: It throws an error in cases of failure.
-  /// - Note: To enable history tracking:
+  /// - Note:
+  /// - To enable history tracking:
   ///
   ///   ```
   ///   let description: NSPersistentStoreDescription = ... // Your default configuration here
   ///   description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+  ///   ```
+  ///  - After a save you can know the associated history token using this *NSPersistentStoreCoordinator * instance method:
+  ///
+  ///   ```
+  ///  currentPersistentHistoryToken(fromStores stores: [Any]?) -> NSPersistentHistoryToken?
   ///   ```
   @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   public func mergeHistory(after token: NSPersistentHistoryToken?) throws -> NSPersistentHistoryToken? {
