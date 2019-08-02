@@ -176,7 +176,6 @@ class NSManagedObjectContextHistoryTests: XCTestCase {
     let id = UUID()
     let container1 = OnDiskPersistentContainer.makeNew(id: id)
     let container2 = OnDiskPersistentContainer.makeNew(id: id)
-    // let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let viewContext1 = container1.viewContext
     viewContext1.name = "viewContext1"
