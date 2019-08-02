@@ -232,7 +232,12 @@ class NSManagedObjectContextHistoryTests: XCTestCase {
     let store = stores.first!
     if #available(iOS 12.0, tvOS 12.0, watchOS 5.0, macOS 10.14, *) {
       let currentToken = container1.persistentStoreCoordinator.currentPersistentHistoryToken(fromStores: [store])
-      XCTAssertNil(currentToken)
+      XCTAssertNotNil(currentToken)
+      let token = try container1.viewContext.mergeHistory(after: currentToken)
+      XCTAssertNil(token)
+    } else {
+      let token = try container1.viewContext.mergeHistory(after: nil)
+      XCTAssertNil(token)
     }
     let token = try container1.viewContext.mergeHistory(after: nil)
     XCTAssertNil(token)
