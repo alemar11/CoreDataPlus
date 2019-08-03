@@ -450,8 +450,7 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
   func testPersistentHistoryTrackingEnabledGenerateHistoryTokens() throws {
     // Given
     let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
-    let urls = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
-    let storeURL = urls.first!.appendingPathComponent("org.tinrobots.CoreDataPlusTests").appendingPathComponent("\(UUID().uuidString).sqlite")
+    let storeURL = URL.newDatabaseURL(withID: UUID())
     let options: [AnyHashable: Any] = [NSPersistentHistoryTrackingKey: true as NSNumber] // enable History Tracking
     try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
     let expectation1 = expectation(description: "\(#function)\(#line)")
@@ -482,8 +481,7 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
   func testPersistentHistoryTrackingDisabledDoesntGenerateHistoryTokens() throws {
     // Given
     let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
-    let urls = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
-    let storeURL = urls.first!.appendingPathComponent("org.tinrobots.CoreDataPlusTests").appendingPathComponent("\(UUID().uuidString).sqlite")
+    let storeURL = URL.newDatabaseURL(withID: UUID())
     try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)

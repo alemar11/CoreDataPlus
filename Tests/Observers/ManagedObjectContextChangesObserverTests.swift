@@ -702,8 +702,7 @@ final class ManagedObjectContextChangesObserverTests: CoreDataPlusInMemoryTestCa
   func testObserveMultipleChangesUsingPersistentStoreCoordinatorWithChildAndParentContexts() throws {
     // Given
     let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
-    let urls = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
-    let storeURL = urls.last!.appendingPathComponent("org.tinrobots.CoreDataPlusTests").appendingPathComponent("\(UUID().uuidString).sqlite")
+    let storeURL = URL.newDatabaseURL(withID: UUID())
     try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
     
     let parentContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)

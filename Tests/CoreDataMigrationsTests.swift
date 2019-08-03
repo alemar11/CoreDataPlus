@@ -213,12 +213,3 @@ extension NSManagedObjectContext {
     }
   }
 }
-
-extension URL {
-  static var temporary: URL {
-    let url =  URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory:true).appendingPathComponent("CoreDataPlus-Test-\(UUID().uuidString)")
-    try! FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
-    return url
-  }
-}
-

@@ -52,7 +52,7 @@ class CoreDataPlusOnDiskTestCase: XCTestCase {
 
 final class OnDiskPersistentContainer: NSPersistentContainer {
   static func makeNew() -> OnDiskPersistentContainer {
-    let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("org.tinrobots.CoreDataPlusTests").appendingPathComponent(UUID().uuidString)
+    let url = URL.newDatabaseURL(withID: UUID())
     let container = OnDiskPersistentContainer(name: "SampleModel", managedObjectModel: model)
     container.persistentStoreDescriptions[0].url = url
     if #available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *) {
@@ -65,7 +65,7 @@ final class OnDiskPersistentContainer: NSPersistentContainer {
   }
   
   static func makeNew(id: UUID) -> OnDiskPersistentContainer {
-    let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("org.tinrobots.CoreDataPlusTests").appendingPathComponent(id.uuidString)
+    let url = URL.newDatabaseURL(withID: id)
     let container = OnDiskPersistentContainer(name: "SampleModel", managedObjectModel: model)
     container.persistentStoreDescriptions[0].url = url
     if #available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *) {

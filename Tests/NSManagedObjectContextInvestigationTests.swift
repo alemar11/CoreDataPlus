@@ -70,8 +70,7 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
     // automaticallyMergesChangesFromParent = true
     do {
       let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
-      let urls = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
-      let storeURL = urls.last!.appendingPathComponent("org.tinrobots.CoreDataPlusTests").appendingPathComponent("\(UUID().uuidString).sqlite")
+      let storeURL = URL.newDatabaseURL(withID: UUID())
       try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
       
       let parentContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
@@ -108,8 +107,7 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
     // automaticallyMergesChangesFromParent = false
     do {
       let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
-      let urls = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
-      let storeURL = urls.last!.appendingPathComponent("org.tinrobots.CoreDataPlusTests").appendingPathComponent("\(UUID().uuidString).sqlite")
+      let storeURL = URL.newDatabaseURL(withID: UUID())
       try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
       
       let parentContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
@@ -140,7 +138,6 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
       }
       
       XCTAssertEqual(childCar.safeAccess({ $0.maker }), "maker") // no changes
-      
     }
     
     // automaticallyMergesChangesFromParent = true
@@ -207,5 +204,4 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
       
     }
   }
-  
 }
