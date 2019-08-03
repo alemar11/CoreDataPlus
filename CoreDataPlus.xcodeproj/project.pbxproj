@@ -266,6 +266,7 @@
 		231A8BAC2159130A00254816 /* CoreDataMigrationSep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataMigrationSep.swift; sourceTree = "<group>"; };
 		231A8BAD2159130A00254816 /* CoreDataMigration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataMigration.swift; sourceTree = "<group>"; };
 		231A8BAE2159130A00254816 /* CoreDataModelVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataModelVersion.swift; sourceTree = "<group>"; };
+		231C313E22F5E3BB00BF7129 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		232440B622D2546100A04649 /* NSManagedObjectContextInvestigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectContextInvestigationTests.swift; sourceTree = "<group>"; };
 		233654361F9E1644007F8D3D /* NSManagedObjectContext+SampleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+SampleModel.swift"; sourceTree = "<group>"; };
 		234DA7AA214A5D2B00D5C24F /* Maker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Maker.swift; sourceTree = "<group>"; };
@@ -483,6 +484,7 @@
 		23B580841F94FF0300A365C0 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				231C313E22F5E3BB00BF7129 /* README.md */,
 				23A35D512103995100388BEA /* CHANGELOG.md */,
 				23BAC1181FA7A7D8002EE4F1 /* Package.swift */,
 				236351241F95F53900B3A16A /* IDETemplateMacros.plist */,

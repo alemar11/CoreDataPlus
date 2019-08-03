@@ -24,9 +24,9 @@
 import CoreData
 import Foundation
 
-// TODO: tombstone
 // TODO: mergeHistory in range of dates/tokens
 // TODO: Implement a service to sync tokens merges between different targets
+// TODO: Xcode 11 tests
 
 @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
 extension NSManagedObjectContext {
@@ -66,24 +66,6 @@ extension NSManagedObjectContext {
       return lastDate
     } catch {
       throw NSError.fetchFailed(underlyingError: error)
-    }
-  }
-
-  // TODO add guide to add tombstone
-  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
-  public func processHistory(after date: Date, transactionHandler: (NSPersistentHistoryTransaction) throws -> Void) throws {
-    let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: date)
-    historyFetchRequest.resultType = .transactionsAndChanges
-
-    try performAndWait { context -> Void in
-      // swiftlint:disable force_cast
-      let historyResult = try context.execute(historyFetchRequest) as! NSPersistentHistoryResult
-      let history = historyResult.result as! [NSPersistentHistoryTransaction]
-      // swiftlint:enable force_cast
-
-      for transaction in history {
-        try transactionHandler(transaction)
-      }
     }
   }
 
@@ -132,14 +114,71 @@ extension NSManagedObjectContext {
     }
   }
 
+  // MARK: - Process Transactions
+
+  /// **CoreDataPlus**
+  ///
+  /// Processes all the transactions in the history after a given `date`.
+  /// - Parameter date: The date after which transactions are processed.
+  /// - Throws: It throws an error in cases of failure.
+  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
+  public func processHistory(after date: Date, transactionHandler: (NSPersistentHistoryTransaction) throws -> Void) throws {
+    let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: date)
+    historyFetchRequest.resultType = .transactionsAndChanges
+
+    try performAndWait { context -> Void in
+      // swiftlint:disable force_cast
+      let historyResult = try context.execute(historyFetchRequest) as! NSPersistentHistoryResult
+      let history = historyResult.result as! [NSPersistentHistoryTransaction]
+      // swiftlint:enable force_cast
+
+      for transaction in history {
+        try transactionHandler(transaction)
+      }
+    }
+  }
+
+  /// **CoreDataPlus**
+  ///
+  /// Processes all the transactions in the history after a given `token`.
+  /// - Parameter token: The token after which transactions are processed.
+  /// - Throws: It throws an error in cases of failure.
+  /// - Note: Deletions can have tombstones if enabled on single attribues of an entity ( Data Model Inspector > "Preserve After Deletion").
+  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
+  public func processHistory(after token: NSPersistentHistoryToken?, transactionHandler: (NSPersistentHistoryTransaction) throws -> Void) throws {
+    let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: token)
+    historyFetchRequest.resultType = .transactionsAndChanges
+
+    try performAndWait { context -> Void in
+      // swiftlint:disable force_cast
+      let historyResult = try context.execute(historyFetchRequest) as! NSPersistentHistoryResult
+      let history = historyResult.result as! [NSPersistentHistoryTransaction]
+      // swiftlint:enable force_cast
+
+      for transaction in history {
+        try transactionHandler(transaction)
+      }
+    }
+  }
+
   // MARK: - Delete
 
+  /// **CoreDataPlus**
+  ///
+  /// Deletes all history.
   @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   @discardableResult
   public func deleteAllHistory() throws -> Bool {
     return try deleteHistory(before: .distantFuture)
   }
 
+  /// **CoreDataPlus**
+  ///
+  /// Deletes all history before a given `date`.
+  ///
+  /// - Parameter date: The date before which the history will be deleted.
+  /// - Throws: It throws an error in cases of failure.
+  /// - Note: Deletions can have tombstones if enabled on single attribues of an entity ( Data Model Inspector > "Preserve After Deletion").
   @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   @discardableResult
   public func deleteHistory(before date: Date) throws -> Bool {
@@ -160,6 +199,12 @@ extension NSManagedObjectContext {
     }
   }
 
+  /// **CoreDataPlus**
+  ///
+  /// Deletes all history before a given `token`.
+  ///
+  /// - Parameter token: The token before which the history will be deleted.
+  /// - Throws: It throws an error in cases of failure.
   @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   @discardableResult
   public func deleteHistory(before token: NSPersistentHistoryToken?) throws -> Bool {
@@ -174,23 +219,5 @@ extension NSManagedObjectContext {
       return status
     }
     return result
-  }
-
-  // TODO add guide to add tombstone
-  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
-  public func processHistory(after token: NSPersistentHistoryToken?, transactionHandler: (NSPersistentHistoryTransaction) throws -> Void) throws {
-    let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: token)
-    historyFetchRequest.resultType = .transactionsAndChanges
-
-    try performAndWait { context -> Void in
-      // swiftlint:disable force_cast
-      let historyResult = try context.execute(historyFetchRequest) as! NSPersistentHistoryResult
-      let history = historyResult.result as! [NSPersistentHistoryTransaction]
-      // swiftlint:enable force_cast
-
-      for transaction in history {
-        try transactionHandler(transaction)
-      }
-    }
   }
 }
