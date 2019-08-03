@@ -167,7 +167,7 @@ class CoreDataMigrationsTests: XCTestCase {
 
     XCTAssertTrue(version == .version1)
 
-    let targetURL = URL.temporary.appendingPathComponent("SampleModel").appendingPathExtension("sqlite")
+    let targetURL = URL.temporaryDirectoryURL.appendingPathComponent("SampleModel").appendingPathExtension("sqlite")
     let progress = Progress(totalUnitCount: 1)
     var completionSteps = 0
     var completion = 0.0
