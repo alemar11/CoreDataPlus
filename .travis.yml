@@ -30,12 +30,12 @@ matrix:
         - swift test -Xswiftc -target -Xswiftc x86_64-apple-macosx10.13
         #- pod lib lint --verbose
 
-    # iOS 12.2
+    # iOS 12.1
     - os: osx
       osx_image: xcode11
       language: objective-c
       env: 
-        - DESTINATION="OS=12.2,name=iPhone X" SCHEME="$IOS_FRAMEWORK_SCHEME" SDK="$IOS_SDK" XCODE_RUN_TESTS="YES" CODECOV_FLAG="ios"
+        - DESTINATION="OS=12.1,name=iPhone X" SCHEME="$IOS_FRAMEWORK_SCHEME" SDK="$IOS_SDK" XCODE_RUN_TESTS="YES" CODECOV_FLAG="ios"
 
     # iOS 13.0
     - os: osx
@@ -51,7 +51,7 @@ matrix:
       env: 
         - DESTINATION="OS=5.1,name=Apple Watch Series 4 - 44mm" SCHEME="$WATCHOS_FRAMEWORK_SCHEME" SDK="$WATCHOS_SDK" XCODE_RUN_TESTS="NO" CODECOV_FLAG="watchos"
     
-    # tvOS 12.2
+    # tvOS 12.1
     - os: osx
       osx_image: xcode11
       language: objective-c
