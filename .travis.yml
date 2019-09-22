@@ -6,10 +6,10 @@ env:
     - MACOS_FRAMEWORK_SCHEME="CoreDataPlus macOS"
     - TVOS_FRAMEWORK_SCHEME="CoreDataPlus tvOS"
     - WATCHOS_FRAMEWORK_SCHEME="CoreDataPlus watchOS"
-    - IOS_SDK=iphonesimulator12.2
-    - MACOS_SDK=macosx10.14
-    - TVOS_SDK=appletvsimulator12.2
-    - WATCHOS_SDK=watchsimulator5.2
+    - IOS_SDK=iphonesimulator13.0
+    - MACOS_SDK=macosx10.15
+    - TVOS_SDK=appletvsimulator13.0
+    - WATCHOS_SDK=watchsimulator6.0
     - XCODE_RUN_TESTS="NO"
 
 matrix:
@@ -17,7 +17,7 @@ matrix:
 
     # macOS: Swift Tests, CocoaPods and SwiftLint        
     - os: osx
-      osx_image: xcode10.2
+      osx_image: xcode11
       language: objective-c
       before_install:
         #- gem install cocoapods --pre --no-document --quiet
@@ -32,28 +32,28 @@ matrix:
 
     # iOS 12.2
     - os: osx
-      osx_image: xcode10.2
+      osx_image: xcode11
       language: objective-c
       env: 
         - DESTINATION="OS=12.2,name=iPhone X" SCHEME="$IOS_FRAMEWORK_SCHEME" SDK="$IOS_SDK" XCODE_RUN_TESTS="YES" CODECOV_FLAG="ios"
 
     #watchOS 5.1
     - os: osx
-      osx_image: xcode10.2
+      osx_image: xcode11
       language: objective-c
       env: 
         - DESTINATION="OS=5.1,name=Apple Watch Series 4 - 44mm" SCHEME="$WATCHOS_FRAMEWORK_SCHEME" SDK="$WATCHOS_SDK" XCODE_RUN_TESTS="NO" CODECOV_FLAG="watchos"
     
     # tvOS 12.2
     - os: osx
-      osx_image: xcode10.2
+      osx_image: xcode11
       language: objective-c
       env: 
         - DESTINATION="OS=12.2,name=Apple TV 4K (at 1080p)" SCHEME="$TVOS_FRAMEWORK_SCHEME" SDK="$TVOS_SDK" XCODE_RUN_TESTS="YES" CODECOV_FLAG="tvos"
 
     # macOS
     - os: osx
-      osx_image: xcode10.2
+      osx_image: xcode11
       language: objective-c
       env: 
        - DESTINATION="arch=x86_64" SCHEME="$MACOS_FRAMEWORK_SCHEME" SDK="$MACOS_SDK" XCODE_RUN_TESTS="YES" CODECOV_FLAG="macos" 
