@@ -29,7 +29,7 @@ import Foundation
 // TODO: mergeHistory in range of dates/tokens
 // TODO: Implement a service to sync tokens merges between different targets
 
-@available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
+@available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
 extension NSManagedObjectContext {
   // MARK: - History
 
@@ -37,7 +37,7 @@ extension NSManagedObjectContext {
   ///
   /// Returns all the history transactions created made after a given `date`.
   /// - Throws: It throws an error in cases of failure.
-  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
+  @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   public func historyTransaction(after date: Date) throws -> [NSPersistentHistoryTransaction] {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: date)
     historyFetchRequest.resultType = .transactionsAndChanges
@@ -59,7 +59,7 @@ extension NSManagedObjectContext {
   /// Returns all the history transactions created made after a given `token`.
   /// Without passing a token, it returns all the history transactions changes.
   /// - Throws: It throws an error in cases of failure.
-  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
+  @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   public func historyTransaction(after token: NSPersistentHistoryToken?) throws -> [NSPersistentHistoryTransaction] {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: token)
     historyFetchRequest.resultType = .transactionsAndChanges
@@ -83,7 +83,7 @@ extension NSManagedObjectContext {
   /// Processes all the transactions in the history after a given `date`.
   /// - Parameter date: The date after which transactions are processed.
   /// - Throws: It throws an error in cases of failure.
-  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
+  @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   public func processHistory(after date: Date, transactionHandler: (NSPersistentHistoryTransaction) throws -> Void) throws {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: date)
     historyFetchRequest.resultType = .transactionsAndChanges
@@ -105,7 +105,7 @@ extension NSManagedObjectContext {
   /// - Parameter token: The token after which transactions are processed.
   /// - Throws: It throws an error in cases of failure.
   /// - Note: Deletions can have tombstones if enabled on single attribues of an entity ( Data Model Inspector > "Preserve After Deletion").
-  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
+  @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   public func processHistory(after token: NSPersistentHistoryToken?, transactionHandler: (NSPersistentHistoryTransaction) throws -> Void) throws {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: token)
     historyFetchRequest.resultType = .transactionsAndChanges
@@ -134,7 +134,7 @@ extension NSManagedObjectContext {
   ///   let description: NSPersistentStoreDescription = ... // Your default configuration here
   ///   description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
   ///   ```
-  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
+  @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   public func mergeHistory(after date: Date) throws -> Date? {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: date)
     historyFetchRequest.resultType = .transactionsAndChanges
@@ -174,7 +174,7 @@ extension NSManagedObjectContext {
   ///   ```
   ///  - After a saving operation, the associated history token using this instance method: `NSPersistentStoreCoordinator.currentPersistentHistoryToken(fromStores:)`
   ///
-  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
+  @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   public func mergeHistory(after token: NSPersistentHistoryToken?) throws -> NSPersistentHistoryToken? {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: token)
     historyFetchRequest.resultType = .transactionsAndChanges
@@ -203,7 +203,7 @@ extension NSManagedObjectContext {
   /// **CoreDataPlus**
   ///
   /// Deletes all history.
-  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
+  @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   @discardableResult
   public func deleteAllHistory() throws -> Bool {
     return try deleteHistory(before: .distantFuture)
@@ -217,7 +217,7 @@ extension NSManagedObjectContext {
   /// - Returns: `true` if the operation succeeds.
   /// - Throws: It throws an error in cases of failure.
   /// - Note: Deletions can have tombstones if enabled on single attribues of an entity ( Data Model Inspector > "Preserve After Deletion").
-  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
+  @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   @discardableResult
   public func deleteHistory(before date: Date) throws -> Bool {
     let deleteHistoryRequest = NSPersistentHistoryChangeRequest.deleteHistory(before: date)
@@ -243,7 +243,7 @@ extension NSManagedObjectContext {
   /// - Parameter token: The token before which the history will be deleted.
   /// - Returns: `true` if the operation succeeds.
   /// - Throws: It throws an error in cases of failure.
-  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
+  @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   @discardableResult
   public func deleteHistory(before token: NSPersistentHistoryToken?) throws -> Bool {
     let deleteHistoryRequest = NSPersistentHistoryChangeRequest.deleteHistory(before: token)

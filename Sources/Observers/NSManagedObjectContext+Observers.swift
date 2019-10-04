@@ -175,7 +175,7 @@ public struct ManagedObjectContextDidSaveNotification: ManagedObjectContextChang
   /// **CoreDataPlus**
   ///
   /// The `NSPersistentHistoryToken` associated to the save operation.
-  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
+  @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   public var historyToken: NSPersistentHistoryToken? {
     // FB: 6840421 (missing documentation for "newChangeToken" key)
     // it's optional because NSPersistentHistoryTrackingKey should be enabled.

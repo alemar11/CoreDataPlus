@@ -25,7 +25,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-@available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
+@available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
 final class NSManagedObjectContextHistoryTests: XCTestCase {
   // MARK: - History by Date
 

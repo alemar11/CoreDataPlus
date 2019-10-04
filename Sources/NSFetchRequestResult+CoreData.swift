@@ -27,7 +27,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// **CoreDataPlus**
   ///
   /// The entity name.
-  @available(iOS 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
+  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
   public static var entityName: String {
     if let name = entity().name {
       return name
@@ -47,7 +47,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///
   /// Creates a `new` NSFetchRequest for `self`.
   /// - Note: Use this method instead of fetchRequest() to avoid a bug in CoreData occurring in the Unit Test targets or when Generics are used.
-  @available(iOS 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
+  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
   public static func newFetchRequest() -> NSFetchRequest<Self> {
     let fetchRequest = NSFetchRequest<Self>(entityName: entityName)
     return fetchRequest
@@ -57,7 +57,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///
   /// Performs a configurable fetch request in a context.
   /// - Throws: It throws an error in cases of failure.
-  @available(iOS 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
+  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
   public static func fetch(in context: NSManagedObjectContext, with configuration: (NSFetchRequest<Self>) -> Void = { _ in }) throws -> [Self] {
     let request = NSFetchRequest<Self>(entityName: entityName)
     configuration(request)
@@ -106,7 +106,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - configuration: Configuration closure called **only** when creating a new object.
   /// - Returns: A matching object or a configured new one.
   /// - Throws: It throws an error in cases of failure.
-  @available(iOS 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
+  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
   public static func findOneOrCreate(in context: NSManagedObjectContext, where predicate: NSPredicate, with configuration: (Self) -> Void) throws -> Self {
     guard let object = try findOneOrFetch(in: context, where: predicate) else {
       let newObject = Self(context: context)
@@ -128,7 +128,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - predicate: Matching predicate.
   /// - Returns: The first matching object (if any).
   /// - Throws: It throws an error in cases of failure.
-  @available(iOS 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
+  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
   public static func findOneOrFetch(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? {
     // first we should fetch an existing object in the context as a performance optimization
     guard let object = findOneMaterializedObject(in: context, where: predicate) else {
@@ -159,7 +159,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - configuration: Configuration closure called **only** when creating a new object.
   /// - Returns: A matching object or a configured new one.
   /// - Throws: It throws an error in cases of failure or if multiple objects are found.
-  @available(iOS 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
+  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
   public static func findUniqueOrCreate(in context: NSManagedObjectContext, where predicate: NSPredicate, with configuration: (Self) -> Void) throws -> Self {
     guard let object = try findUniqueOrFetch(in: context, where: predicate) else {
       let newObject = Self(context: context)
@@ -181,7 +181,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - predicate: Matching predicate.
   /// - Returns: The first matching object (if any).
   /// - Throws: It throws an error in cases of failure or if multiple objects are found.
-  @available(iOS 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
+  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
   public static func findUniqueOrFetch(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? {
     guard let object = try findUniqueMaterializedObject(in: context, where: predicate) else {
       do {
@@ -214,7 +214,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///
   /// Executes a fetch request where **only** a single object is expected as result, otherwhise a an error is thrown.
   /// - Throws: It throws an error in cases of failure.
-  @available(iOS 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
+  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
   public static func fetchUniqueObject(in context: NSManagedObjectContext, with configuration: @escaping (NSFetchRequest<Self>) -> Void) throws -> Self? {
     let result = try fetch(in: context) { request in
       configuration(request)
@@ -240,7 +240,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// If `includingSubentities` is set to `false`, sub-entities will be ignored.
   /// - Note: `NSBatchDeleteRequest` would be more efficient but requires a context with an `NSPersistentStoreCoordinator` directly connected (no child context).
   /// - Throws: It throws an error in cases of failure.
-  @available(iOS 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
+  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
   public static func deleteAll(in context: NSManagedObjectContext, includingSubentities: Bool = true, where predicate: NSPredicate = NSPredicate(value: true)) throws {
     do {
       try autoreleasepool {
@@ -264,7 +264,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - objects: An Array of `NSManagedObjects` belonging to the `NSManagedObjectContext` to exclude from deletion.
   /// - Throws: It throws an error in cases of failure.
   /// - Note: `NSBatchDeleteRequest` would be more efficient but requires a context with an `NSPersistentStoreCoordinator` directly connected (no child context).
-  @available(iOS 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
+  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
   public static func deleteAll(in context: NSManagedObjectContext, except objects: [Self]) throws {
     let predicate = NSPredicate(format: "NOT (self IN %@)", objects)
     try deleteAll(in: context, includingSubentities: true, where: predicate )
@@ -276,7 +276,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///
   /// Counts the results of a configurable fetch request in a context.
   /// - Throws: It throws an error in cases of failure.
-  @available(iOS 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
+  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
   public static func count(in context: NSManagedObjectContext, for configuration: (NSFetchRequest<Self>) -> Void = { _ in }) throws -> Int {
     let request = newFetchRequest()
     configuration(request)
@@ -327,7 +327,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - configuration: Configurable fetch request.
   /// - Returns: A cached object (if any).
   /// - Throws: It throws an error in cases of failure.
-  @available(iOS 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
+  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
   public static func fetchCachedObject(in context: NSManagedObjectContext, forKey cacheKey: String, orCacheUsing configuration: @escaping (NSFetchRequest<Self>) -> Void) throws -> Self? {
     guard let cached = context.cachedManagedObject(forKey: cacheKey) as? Self else {
       let result = try fetchUniqueObject(in: context, with: configuration)
