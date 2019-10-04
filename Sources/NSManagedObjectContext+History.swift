@@ -47,7 +47,6 @@ extension NSManagedObjectContext {
   public func mergeHistory(after date: Date) throws -> Date? {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: date)
     historyFetchRequest.resultType = .transactionsAndChanges
-
     do {
       // Do your merging inside a context.performAndWait { … } as shown in WWDC 2017
       let lastDate = try performAndWait { context -> Date? in
