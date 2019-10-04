@@ -1,4 +1,4 @@
-//
+// 
 // CoreDataPlus
 //
 // Copyright © 2016-2019 Tinrobots.
@@ -23,28 +23,30 @@
 
 import CoreData
 
-extension NSBatchUpdateResult {
+@available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+extension NSBatchInsertResult {
   /// **CoreDataPlus**
   ///
-  /// Returns a dictionary containig all the updated `NSManagedObjectID` instances ready to be passed to `NSManagedObjectContext.mergeChanges(fromRemoteContextSave:into:)`.
+  /// Returns a dictionary containig all the inserted `NSManagedObjectID` instances ready to be passed to `NSManagedObjectContext.mergeChanges(fromRemoteContextSave:into:)`.
   public var changes: [String: [NSManagedObjectID]]? {
-    guard let updates = updates else { return nil }
-
-    return [NSUpdatedObjectsKey: updates]
+    guard let inserts = inserts else { return nil }
+    
+    return [NSInsertedObjectsKey: inserts]
   }
 
   /// **CoreDataPlus**
   ///
-  /// Returns all the updated objects `NSManagedObjectID`.
-  /// - Note: Make sure the resultType of the `NSBatchUpdateResult` is set to `NSBatchUpdateRequestResultType.updatedObjectIDsResultType` before the request is executed otherwise the value is nil.
-  public var updates: [NSManagedObjectID]? {
+  /// Returns all the inserted objects `NSManagedObjectID`.
+  /// - Note: Make sure the resultType of the `NSBatchInsertResult` is set to `NSBatchInsertRequestResultType.objectIDs` before the request is executed otherwise the value is nil.
+  public var inserts: [NSManagedObjectID]? {
     switch resultType {
-    case .statusOnlyResultType, .updatedObjectsCountResultType:
+    case .count, .statusOnly:
       return nil
 
-    case .updatedObjectIDsResultType:
+    case .objectIDs:
       guard let objectIDs = result as? [NSManagedObjectID] else { return nil }
-      return objectIDs
+      let changes = objectIDs
+      return changes
 
     @unknown default:
       return nil
@@ -53,14 +55,14 @@ extension NSBatchUpdateResult {
 
   /// **CoreDataPlus**
   ///
-  /// Returns the number of updated objcts.
-  /// - Note: Make sure the resultType of the `NSBatchUpdateResult` is set to `NSBatchUpdateRequestResultType.updatedObjectsCountResultType` before the request is executed otherwise the value is nil.
+  /// Returns the number of inserted objcts.
+  /// - Note: Make sure the resultType of the `NSBatchInsertResult` is set to `NSBatchInsertRequestResultType.count` before the request is executed otherwise the value is nil.
   public var count: Int? {
     switch resultType {
-    case .statusOnlyResultType, .updatedObjectIDsResultType:
+    case .statusOnly, .objectIDs:
       return nil
 
-    case .updatedObjectsCountResultType:
+    case .count:
       return result as? Int
 
     @unknown default:
@@ -70,14 +72,14 @@ extension NSBatchUpdateResult {
 
   /// **CoreDataPlus**
   ///
-  /// Returns `true` if the batch update operation has been completed successfully.
-  /// - Note: Make sure the resultType of the `NSBatchUpdateResult` is set to `NSBatchUpdateRequestResultType.statusOnlyResultType` before the request is executed otherwise the value is nil.
+  /// Returns `true` if the batch insert operation has been completed successfully.
+  /// - Note: Make sure the resultType of the `NSBatchInsertResult` is set to `NSBatchInsertRequestResultType.statusOnly` before the request is executed otherwise the value is nil.
   public var status: Bool? {
     switch resultType {
-    case .updatedObjectsCountResultType, .updatedObjectIDsResultType:
+    case .count, .objectIDs:
       return nil
 
-    case .statusOnlyResultType:
+    case .statusOnly:
       return result as? Bool
 
     @unknown default:

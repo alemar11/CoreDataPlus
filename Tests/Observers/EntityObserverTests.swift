@@ -193,7 +193,6 @@ final class EntityObserverTests: CoreDataPlusInMemoryTestCase {
     waitForExpectations(timeout: 2)
   }
 
-
   func testRefreshedOnDidChangeEvent() throws {
     let context = container.viewContext
     let observedEvent = NSManagedObjectContext.ObservableEvents.didChange

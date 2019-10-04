@@ -26,17 +26,24 @@ import CoreData
 extension NSBatchDeleteResult {
   /// **CoreDataPlus**
   ///
-  /// Returns a dictionary containig all the deleted `NSManagedObjectID` instances.
-  /// - Note: Make sure the resultType of the `NSBatchDeleteRequest` is set to `NSBatchDeleteRequestResultType.resultTypeObjectIDs` before the request is executed otherwise the value is nil.
+  /// Returns a dictionary containig all the deleted `NSManagedObjectID` instances ready to be passed to `NSManagedObjectContext.mergeChanges(fromRemoteContextSave:into:)`.
   public var changes: [String: [NSManagedObjectID]]? {
+    guard let deletes = deletes else { return nil }
+    return [NSDeletedObjectsKey: deletes]
+  }
+
+  /// **CoreDataPlus**
+  ///
+  /// Returns all the deleted objects `NSManagedObjectID`.
+  /// - Note: Make sure the resultType of the `NSBatchDeleteRequest` is set to `NSBatchDeleteRequestResultType.resultTypeObjectIDs` before the request is executed otherwise the value is nil.
+  public var deletes: [NSManagedObjectID]? {
     switch resultType {
     case .resultTypeStatusOnly, .resultTypeCount:
       return nil
 
     case .resultTypeObjectIDs:
       guard let objectIDs = result as? [NSManagedObjectID] else { return nil }
-      let changes = [NSDeletedObjectsKey: objectIDs]
-      return changes
+      return objectIDs
 
     @unknown default:
       return nil
