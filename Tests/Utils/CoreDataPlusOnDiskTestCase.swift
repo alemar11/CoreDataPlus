@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2019 Tinrobots.
@@ -29,12 +29,12 @@ import CoreData
 
 class CoreDataPlusOnDiskTestCase: XCTestCase {
   var container: NSPersistentContainer!
-  
+
   override func setUp() {
     super.setUp()
     container = OnDiskPersistentContainer.makeNew()
   }
-  
+
   override func tearDown() {
     do {
       if let onDiskContainer = container as? OnDiskPersistentContainer {
@@ -63,7 +63,7 @@ final class OnDiskPersistentContainer: NSPersistentContainer {
     }
     return container
   }
-  
+
   static func makeNew(id: UUID) -> OnDiskPersistentContainer {
     let url = URL.newDatabaseURL(withID: id)
     let container = OnDiskPersistentContainer(name: "SampleModel", managedObjectModel: model)
@@ -76,12 +76,12 @@ final class OnDiskPersistentContainer: NSPersistentContainer {
     }
     return container
   }
-  
+
   /// Destroys the database and reset all the registered contexts.
   func destroy() throws {
     guard let url = persistentStoreDescriptions[0].url else { return }
     guard url.absoluteString != "/dev/null" else { return }
-    
+
     // unload each store from the used context to avoid the sqlite3 bug warning.
     do {
       if let store = persistentStoreCoordinator.persistentStores.first {
