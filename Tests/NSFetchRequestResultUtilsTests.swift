@@ -890,6 +890,48 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusInMemoryTestCase {
   //// https://developer.apple.com/library/archive/featuredarticles/CoreData_Batch_Guide/BatchUpdates/BatchUpdates.html
   //  }
 
+  // MARK: - Async Fetch
+
+  func test() throws {
+    // BUG: Async fetches can't be tested with the ConcurrencyDebug enabled,
+    // https://stackoverflow.com/questions/31728425/coredata-asynchronous-fetch-causes-concurrency-debugger-error
+    guard UserDefaults.standard.integer(forKey: "com.apple.CoreData.ConcurrencyDebug") != 1 else { return }
+
+    let mainContext = container.viewContext
+
+    (1...10_000).forEach { (i) in
+      let car = Car(context: mainContext)
+      car.numberPlate = "test\(i)"
+    }
+
+    try mainContext.save()
+    let currentProgress = Progress(totalUnitCount: 1)
+    currentProgress.becomeCurrent(withPendingUnitCount: 1)
+
+    let expectation1 = self.expectation(description: "\(#function)\(#line)")
+    let expectation2 = self.expectation(description: "\(#function)\(#line)")
+
+    let token = try Car.fetchAsync(in: mainContext, with: { request in
+      request.predicate = NSPredicate(value: true)
+    }) { result in
+      expectation1.fulfill()
+    }
+
+    let fetchProgress = try XCTUnwrap(token.progress)
+
+    // progress is not nil only if we create a progress and call the becomeCurrent method
+    let currentToken = fetchProgress.observe(\.completedUnitCount, options: [.old, .new]) { (progress, change) in
+      print(change)
+      if change.newValue == 10_000 {
+        expectation2.fulfill()
+      }
+    }
+
+    waitForExpectations(timeout: 30, handler: nil)
+    currentProgress.resignCurrent()
+    currentToken.invalidate()
+  }
+
   // MARK: - Thread Safe Access
 
   func testManagedObjectThreadSafeAccess() {

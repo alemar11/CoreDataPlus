@@ -87,7 +87,7 @@ extension NSError {
   
   /// A batch insert operation failed.
   static func batchInsertFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
-    let description = "The batch delete operation failed. Check the underlying error."
+    let description = "The batch insert operation failed. Check the underlying error."
     let error = NSError(domain: Key.domain,
                         code: ErrorCode.batchInsertFailed.rawValue,
                         userInfo: [NSUnderlyingErrorKey: underlyingError,
@@ -129,6 +129,18 @@ extension NSError {
                         code: ErrorCode.fetchFailed.rawValue,
                         userInfo: [NSUnderlyingErrorKey: underlyingError,
                                    NSDebugDescriptionErrorKey: description,
+                                   Key.file: file,
+                                   Key.function : function,
+                                   Key.line : line])
+    return error
+  }
+
+  /// An async fetch operation failed with an undefined behaviour and not underlying errors.
+  static func asyncFetchFailed(file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
+    let description = "The async fetch could not be completed. Both finalResult and operationError are nil."
+    let error = NSError(domain: Key.domain,
+                        code: ErrorCode.fetchFailed.rawValue,
+                        userInfo: [NSDebugDescriptionErrorKey: description,
                                    Key.file: file,
                                    Key.function : function,
                                    Key.line : line])

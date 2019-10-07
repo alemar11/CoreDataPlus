@@ -431,3 +431,47 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     }
   }
 }
+
+// MARK: - Async Fetch
+
+extension NSFetchRequestResult where Self: NSManagedObject {
+  /// **CoreDataPlus**
+  ///
+  /// Performs a configurable asynchronous fetch request in a context.
+  ///
+  /// - Parameter context: Searched context.
+  /// - Parameter configuration: Configuration closure called when preparing the `NSFetchRequest`.
+  /// - Parameter completion: A completion block with a `Result` element with either the fetched objects or an error.
+  /// - Returns: A `NSAsynchronousFetchResult` token that can be used to report the fetch progress.
+  /// - Throws: It throws an error in cases of failure.
+  ///
+  /// - Note: This kind of fetch operation supports progress reporting:
+  ///   ```
+  ///   let progress = Progress(totalUnitCount: 1)
+  ///   progress.becomeCurrent(withPendingUnitCount: 1)
+  ///   let fetchResultToken = try ENTITY.fetchAsync(in:with:completion:)
+  ///   let token = fetchResultToken.progress?.observe(\.completedUnitCount, options: [.old, .new]) { (progress, change) }
+  ///   progress.resignCurrent()
+  ///
+  ///   ```
+  /// - Warning: If the ConcurrencyDebug is enabled, the fetch request will cause a thread violation error ([more details here](https://stackoverflow.com/questions/31728425/coredata-asynchronous-fetch-causes-concurrency-debugger-error)).
+  @discardableResult
+  public static func fetchAsync(in context: NSManagedObjectContext, with configuration: (NSFetchRequest<Self>) -> Void = { _ in }, completion: @escaping (Result<[Self], NSError>) -> Void) throws -> NSAsynchronousFetchResult<Self> {
+
+    let request = Self.newFetchRequest()
+    configuration(request)
+
+    let asynchronousRequest = NSAsynchronousFetchRequest(fetchRequest: request) { result in
+      if let error = result.operationError {
+        completion(.failure(NSError.fetchFailed(underlyingError: error)))
+      } else if let fetchedObjects = result.finalResult {
+        completion(.success(fetchedObjects))
+      } else {
+        completion(.failure(NSError.asyncFetchFailed()))
+      }
+    }
+
+    // swiftlint:disable:next force_cast
+    return try context.execute(asynchronousRequest) as! NSAsynchronousFetchResult<Self>
+  }
+}
