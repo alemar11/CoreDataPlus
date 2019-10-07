@@ -442,7 +442,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Parameter context: Searched context.
   /// - Parameter configuration: Configuration closure called when preparing the `NSFetchRequest`.
   /// - Parameter completion: A completion block with a `Result` element with either the fetched objects or an error.
-  /// - Returns: A `NSAsynchronousFetchResult` token that can be used to report the fetch progress.
+  /// - Returns: A `NSAsynchronousFetchResult` *future* instance that can be used to report the fetch progress.
   /// - Throws: It throws an error in cases of failure.
   ///
   /// - Note: This kind of fetch operation supports progress reporting:
