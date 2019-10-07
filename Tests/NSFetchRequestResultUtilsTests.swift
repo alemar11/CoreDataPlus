@@ -598,7 +598,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusInMemoryTestCase {
     XCTAssertTrue(fiatCount > 0)
 
     let backgroundContext = context.newBackgroundContext()
-     let result = try backgroundContext.performAndWait {
+    let result = try backgroundContext.performAndWait {
       try Car.batchDeleteObjects(with: $0, resultType: .resultTypeObjectIDs) { $0.predicate = fiatPredicate }
     }
 
@@ -892,10 +892,13 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusInMemoryTestCase {
 
   // MARK: - Async Fetch
 
-  func test() throws {
+  func testAsyncFetch() throws {
     // BUG: Async fetches can't be tested with the ConcurrencyDebug enabled,
     // https://stackoverflow.com/questions/31728425/coredata-asynchronous-fetch-causes-concurrency-debugger-error
-    guard UserDefaults.standard.integer(forKey: "com.apple.CoreData.ConcurrencyDebug") != 1 else { return }
+    guard UserDefaults.standard.integer(forKey: "com.apple.CoreData.ConcurrencyDebug") != 1 else {
+      print("Test skipped.")
+      return
+    }
 
     let mainContext = container.viewContext
 
@@ -914,7 +917,13 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusInMemoryTestCase {
     let token = try Car.fetchAsync(in: mainContext, with: { request in
       request.predicate = NSPredicate(value: true)
     }) { result in
-      expectation1.fulfill()
+      switch result {
+      case .success(let cars):
+        XCTAssertEqual(cars.count, 10_000)
+        expectation1.fulfill()
+      case .failure(let error):
+        XCTFail(error.localizedDescription)
+      }
     }
 
     let fetchProgress = try XCTUnwrap(token.progress)
