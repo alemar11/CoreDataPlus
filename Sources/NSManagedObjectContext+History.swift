@@ -35,33 +35,28 @@ extension NSManagedObjectContext {
 
   /// **CoreDataPlus**
   ///
-  /// Returns all the history transactions created made after a given `date`.
+  /// Returns all the history transactions created after a given `date`.
   /// - Throws: It throws an error in cases of failure.
   @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   public func historyTransaction(after date: Date) throws -> [NSPersistentHistoryTransaction] {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: date)
-    historyFetchRequest.resultType = .transactionsAndChanges
-    do {
-      return try performAndWait { context ->[NSPersistentHistoryTransaction] in
-        // swiftlint:disable force_cast
-        let history = try context.execute(historyFetchRequest) as! NSPersistentHistoryResult
-        let transactions = history.result as! [NSPersistentHistoryTransaction]
-        // swiftlint:enable force_cast
-        return transactions
-      }
-    } catch {
-      throw NSError.fetchFailed(underlyingError: error)
-    }
+    return try historyTransaction(using: historyFetchRequest)
   }
 
   /// **CoreDataPlus**
   ///
-  /// Returns all the history transactions created made after a given `token`.
+  /// Returns all the history transactions created after a given `token`.
   /// Without passing a token, it returns all the history transactions changes.
   /// - Throws: It throws an error in cases of failure.
   @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   public func historyTransaction(after token: NSPersistentHistoryToken?) throws -> [NSPersistentHistoryTransaction] {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: token)
+    return try historyTransaction(using: historyFetchRequest)
+  }
+
+  /// Returns all the history transactions using a `NSPersistentHistoryChangeRequest` instance.
+  @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
+  private func historyTransaction(using historyFetchRequest: NSPersistentHistoryChangeRequest) throws -> [NSPersistentHistoryTransaction] {
     historyFetchRequest.resultType = .transactionsAndChanges
     do {
       return try performAndWait { context ->[NSPersistentHistoryTransaction] in
@@ -86,17 +81,7 @@ extension NSManagedObjectContext {
   @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   public func processHistory(after date: Date, transactionHandler: (NSPersistentHistoryTransaction) throws -> Void) throws {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: date)
-    historyFetchRequest.resultType = .transactionsAndChanges
-
-    try performAndWait { context -> Void in
-      // swiftlint:disable force_cast
-      let history = try context.execute(historyFetchRequest) as! NSPersistentHistoryResult
-      let transactions = history.result as! [NSPersistentHistoryTransaction]
-      // swiftlint:enable force_cast
-      for transaction in transactions {
-        try transactionHandler(transaction)
-      }
-    }
+    try processHistory(using: historyFetchRequest, transactionHandler: transactionHandler)
   }
 
   /// **CoreDataPlus**
@@ -108,6 +93,12 @@ extension NSManagedObjectContext {
   @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   public func processHistory(after token: NSPersistentHistoryToken?, transactionHandler: (NSPersistentHistoryTransaction) throws -> Void) throws {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: token)
+    try processHistory(using: historyFetchRequest, transactionHandler: transactionHandler)
+  }
+
+  /// Processes all the transactions in the history using a `NSPersistentHistoryChangeRequest` instance.
+  @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
+  private func processHistory(using historyFetchRequest: NSPersistentHistoryChangeRequest, transactionHandler: (NSPersistentHistoryTransaction) throws -> Void) throws {
     historyFetchRequest.resultType = .transactionsAndChanges
     try performAndWait { context -> Void in
       // swiftlint:disable force_cast
@@ -137,25 +128,7 @@ extension NSManagedObjectContext {
   @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   public func mergeHistory(after date: Date) throws -> Date? {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: date)
-    historyFetchRequest.resultType = .transactionsAndChanges
-    do {
-      // Do your merging inside a context.performAndWait { … } as shown in WWDC 2017
-      let lastDate = try performAndWait { context -> Date? in
-        // swiftlint:disable force_cast
-        let history = try context.execute(historyFetchRequest) as! NSPersistentHistoryResult
-        let transactions = history.result as! [NSPersistentHistoryTransaction]
-        // swiftlint:enable force_cast
-        var date: Date?
-        for transaction in transactions {
-          context.mergeChanges(fromContextDidSave: transaction.objectIDNotification())
-          date = transaction.timestamp
-        }
-        return date
-      }
-      return lastDate
-    } catch {
-      throw NSError.fetchFailed(underlyingError: error)
-    }
+    return try mergeHistory(using: historyFetchRequest).1
   }
 
   /// **CoreDataPlus**
@@ -177,22 +150,30 @@ extension NSManagedObjectContext {
   @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   public func mergeHistory(after token: NSPersistentHistoryToken?) throws -> NSPersistentHistoryToken? {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: token)
+    return try mergeHistory(using: historyFetchRequest).0
+  }
+
+  /// Merges all the history changes using a `NSPersistentHistoryChangeRequest` instance.
+  @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
+  private func mergeHistory(using historyFetchRequest: NSPersistentHistoryChangeRequest) throws -> (NSPersistentHistoryToken?, Date?) {
     historyFetchRequest.resultType = .transactionsAndChanges
     do {
       // Do your merging inside a context.performAndWait { … } as shown in WWDC 2017
-      let lastToken = try performAndWait { context -> NSPersistentHistoryToken? in
+      let result = try performAndWait { context -> (NSPersistentHistoryToken?, Date?) in
         // swiftlint:disable force_cast
         let history = try context.execute(historyFetchRequest) as! NSPersistentHistoryResult
         let transactions = history.result as! [NSPersistentHistoryTransaction]
         // swiftlint:enable force_cast
         var token: NSPersistentHistoryToken?
+        var date: Date?
         for transaction in transactions {
           mergeChanges(fromContextDidSave: transaction.objectIDNotification())
           token = transaction.token
+          date = transaction.timestamp
         }
-        return token
+        return (token, date)
       }
-      return lastToken
+      return result
     } catch {
       throw NSError.fetchFailed(underlyingError: error)
     }
@@ -221,19 +202,7 @@ extension NSManagedObjectContext {
   @discardableResult
   public func deleteHistory(before date: Date) throws -> Bool {
     let deleteHistoryRequest = NSPersistentHistoryChangeRequest.deleteHistory(before: date)
-    deleteHistoryRequest.resultType = .statusOnly
-    do {
-      let result = try performAndWait { context -> Bool in
-        // swiftlint:disable force_cast
-        let history = try context.execute(deleteHistoryRequest) as! NSPersistentHistoryResult
-        let status = history.result as! Bool
-        // swiftlint:enable force_cast
-        return status
-      }
-      return result
-    } catch {
-      throw NSError.fetchFailed(underlyingError: error)
-    }
+    return try deleteHistory(using: deleteHistoryRequest)
   }
 
   /// **CoreDataPlus**
@@ -247,6 +216,12 @@ extension NSManagedObjectContext {
   @discardableResult
   public func deleteHistory(before token: NSPersistentHistoryToken?) throws -> Bool {
     let deleteHistoryRequest = NSPersistentHistoryChangeRequest.deleteHistory(before: token)
+    return try deleteHistory(using: deleteHistoryRequest)
+  }
+
+  /// Deletes all history given a delete `NSPersistentHistoryChangeRequest` instance.
+  @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
+  private func deleteHistory(using deleteHistoryRequest: NSPersistentHistoryChangeRequest) throws -> Bool {
     deleteHistoryRequest.resultType = .statusOnly
     do {
       let result = try performAndWait { context -> Bool in
