@@ -924,11 +924,11 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusInMemoryTestCase {
         XCTFail(error.localizedDescription)
       }
     }
-    
-    let fetchProgress = try XCTUnwrap(token.progress)
+
+    XCTAssertNotNil(token.progress)
     
     // progress is not nil only if we create a progress and call the becomeCurrent method
-    let currentToken = fetchProgress.observe(\.completedUnitCount, options: [.old, .new]) { (progress, change) in
+    let currentToken = token.progress?.observe(\.completedUnitCount, options: [.old, .new]) { (progress, change) in
       print(change)
       if change.newValue == 10_000 {
         expectation2.fulfill()
@@ -937,7 +937,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusInMemoryTestCase {
     
     waitForExpectations(timeout: 30, handler: nil)
     currentProgress.resignCurrent()
-    currentToken.invalidate()
+    currentToken?.invalidate()
   }
   
   // MARK: - Thread Safe Access
