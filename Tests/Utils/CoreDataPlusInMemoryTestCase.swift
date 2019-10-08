@@ -21,43 +21,37 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// from https://github.com/tinrobots/Mechanica
+import XCTest
+import CoreData
+@testable import CoreDataPlus
 
-import Foundation
+// MARK: - In Memory XCTestCase
 
-extension ProcessInfo {
-  /// **CoreDataPlus**
-  ///
-  ///  Returns true if Xcode Unit Tests are running.
-  static var isRunningXcodeUnitTests: Bool {
-    return processInfo.environment["XCTestConfigurationFilePath"] != nil
-}
+class CoreDataPlusInMemoryTestCase: XCTestCase {
+  var container: NSPersistentContainer!
 
-  /// **CoreDataPlus**
-  ///
-  ///  Returns true if SwiftPackage tests are running.
-  public static var isRunningSwiftPackageTests: Bool {
-    let testArguments = processInfo.arguments.filter { $0.ends(with: "xctest") }
-    return processInfo.environment["XCTestConfigurationFilePath"] == nil && testArguments.count > 0
+  override func setUp() {
+    super.setUp()
+    container = InMemoryPersistentContainer.makeNew()
   }
 
-  /// **CoreDataPlus**
-  ///
-  ///  Returns true if Xcode or SwiftPackage Unit Tests are running.
-  public static var isRunningUnitTests: Bool {
-    return isRunningXcodeUnitTests || isRunningSwiftPackageTests
+  override func tearDown() {
+    container = nil
+    super.tearDown()
   }
 }
 
-extension String {
-  /// **CoreDataPlus**
-  ///
-  /// Returns *true* if `self` ends with a given suffix.
-  fileprivate func ends(with suffix: String, caseSensitive: Bool = true) -> Bool {
-    if !caseSensitive {
-      return lowercased().hasSuffix(suffix.lowercased())
+// MARK: - In Memory NSPersistentContainer
+
+final class InMemoryPersistentContainer: NSPersistentContainer {
+  static func makeNew() -> InMemoryPersistentContainer {
+    let url = URL(fileURLWithPath: "/dev/null")
+    let container = InMemoryPersistentContainer(name: "SampleModel", managedObjectModel: model)
+    container.persistentStoreDescriptions[0].url = url
+    container.loadPersistentStores { (description, error) in
+      XCTAssertNil(error)
     }
-
-    return hasSuffix(suffix)
+    return container
   }
 }
+

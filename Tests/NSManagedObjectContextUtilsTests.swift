@@ -25,7 +25,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
+final class NSManagedObjectContextUtilsTests: CoreDataPlusInMemoryTestCase {
   func testSinglePersistentStore() {
     XCTAssertTrue(container.viewContext.persistentStores.count == 1)
     XCTAssertNotNil(container.viewContext.persistentStores.first)
@@ -61,19 +61,12 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
   }
 
   func testEntityDescription() {
-    // Given, When
-
-    // Then
     XCTAssertNotNil(container.viewContext.entity(forEntityName: Car.entityName))
     XCTAssertNotNil(container.viewContext.entity(forEntityName: Person.entityName))
     XCTAssertNil(container.viewContext.entity(forEntityName: "FakeEntity"))
   }
 
   func testNewBackgroundContext() {
-    // Given, When
-
-
-    // Then
     let backgroundContext = container.viewContext.newBackgroundContext(asChildContext: true)
     XCTAssertEqual(backgroundContext.concurrencyType,.privateQueueConcurrencyType)
     XCTAssertEqual(backgroundContext.parent,container.viewContext)
@@ -85,7 +78,6 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
 
   func testMultipleSaveAndWait() throws {
     // Given, When
-
     let context = container.viewContext.newBackgroundContext()
 
     // Then
@@ -118,9 +110,28 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
 
   }
 
+  func testSaveAndWaitWithoutChanges() throws {
+    let context = container.viewContext.newBackgroundContext()
+    try context.performSaveAndWait { _ in
+      // no changes
+    }
+  }
+
+  func testSaveWithoutChanges() {
+    let context = container.viewContext.newBackgroundContext()
+    let expectation1 = self.expectation(description: "\(#function)\(#line)")
+    context.performSave(after: { _ in
+      // no changes here
+    }, completion: { error in
+      XCTAssertNil(error)
+      expectation1.fulfill()
+    })
+
+    waitForExpectations(timeout: 5, handler: nil)
+  }
+
   func testSaveAndWait() {
     // Given, When
-
     let context = container.viewContext.newBackgroundContext()
 
     // Then
@@ -189,7 +200,6 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
   }
 
   func testSaveAndWaitWithReset() {
-
     let context = container.viewContext.newBackgroundContext()
     XCTAssertNoThrow(
       try context.performSaveAndWait { context in
@@ -291,8 +301,8 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusTestCase {
 
   func testSave() {
     // Given, When
-
     let context = container.viewContext.newBackgroundContext()
+
     // Then
     let saveExpectation1 = expectation(description: "Save 1")
     context.performSave(after: { context in

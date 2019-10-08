@@ -1,6 +1,17 @@
 # Changelog
 
+### 2.2.0
+
+- Added support for Persistent History Tracking.
+- Added support for batch inserts.
+- Added support for async fetch requests.
+- Added `materialize()` method on `NSManagedObject`.
+- `Collection.fetchFaultedObjects()` deprecated, use `Collection.materializeFaultedObjects()` instead.
+- Added support for the new Xcode 11 SPM.
+- More tests.
+
 ### 2.1.1
+
 - Minor refinements.
 
 ### 2.1.0

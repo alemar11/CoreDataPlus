@@ -25,7 +25,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class EntityObserverTests: CoreDataPlusTestCase {
+final class EntityObserverTests: CoreDataPlusInMemoryTestCase {
   // MARK: - Change Event
 
   func testInsertedOnDidChangeEvent() {
@@ -192,7 +192,6 @@ final class EntityObserverTests: CoreDataPlusTestCase {
 
     waitForExpectations(timeout: 2)
   }
-
 
   func testRefreshedOnDidChangeEvent() throws {
     let context = container.viewContext

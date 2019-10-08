@@ -25,7 +25,6 @@ import XCTest
 @testable import CoreDataPlus
 
 final class ModelVersionTests: XCTestCase {
-
   func testInvalidInitialization() {
     XCTAssertNil(SampleModelVersion(persistentStoreURL: URL(string: "wrong-url")!))
   }
@@ -34,19 +33,18 @@ final class ModelVersionTests: XCTestCase {
     XCTAssertTrue(SampleModelVersion.currentVersion == .version1)
     XCTAssertTrue(SampleModelVersion.allVersions == [.version1, .version2, .version3])
     XCTAssertTrue(SampleModelVersion.version1.successor == .version2)
-
     XCTAssertNil(SampleModelVersion.version3.mappingModelToNextModelVersion())
   }
 
   func testMappingModelsByName() {
-    if ProcessInfo.isRunningSwiftPackageTests {
+    if isRunningSwiftPackageTests() {
       print("Not implemented")
       return
     }
 
     do {
-    let models = SampleModelVersion.version2.mappingModels(for: ["V2toV3"])
-    XCTAssertEqual(models.count, 1)
+      let models = SampleModelVersion.version2.mappingModels(for: ["V2toV3"])
+      XCTAssertEqual(models.count, 1)
     }
 
     do {
@@ -54,5 +52,4 @@ final class ModelVersionTests: XCTestCase {
       XCTAssertTrue(models.isEmpty)
     }
   }
-
 }

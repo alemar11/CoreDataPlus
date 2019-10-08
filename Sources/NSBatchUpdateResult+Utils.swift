@@ -26,17 +26,25 @@ import CoreData
 extension NSBatchUpdateResult {
   /// **CoreDataPlus**
   ///
-  /// Returns a dictionary containig all the updated `NSManagedObjectID` instances.
-  /// - Note: Make sure the resultType of the `NSBatchUpdateResult` is set to `NSBatchUpdateRequestResultType.updatedObjectIDsResultType` before the request is executed otherwise the value is nil.
+  /// Returns a dictionary containig all the updated `NSManagedObjectID` instances ready to be passed to `NSManagedObjectContext.mergeChanges(fromRemoteContextSave:into:)`.
   public var changes: [String: [NSManagedObjectID]]? {
+    guard let updates = updates else { return nil }
+
+    return [NSUpdatedObjectsKey: updates]
+  }
+
+  /// **CoreDataPlus**
+  ///
+  /// Returns all the updated objects `NSManagedObjectID`.
+  /// - Note: Make sure the resultType of the `NSBatchUpdateResult` is set to `NSBatchUpdateRequestResultType.updatedObjectIDsResultType` before the request is executed otherwise the value is nil.
+  public var updates: [NSManagedObjectID]? {
     switch resultType {
     case .statusOnlyResultType, .updatedObjectsCountResultType:
       return nil
 
     case .updatedObjectIDsResultType:
       guard let objectIDs = result as? [NSManagedObjectID] else { return nil }
-      let changes = [NSUpdatedObjectsKey: objectIDs]
-      return changes
+      return objectIDs
 
     @unknown default:
       return nil

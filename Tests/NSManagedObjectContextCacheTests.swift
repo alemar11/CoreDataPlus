@@ -25,8 +25,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSManagedObjectContextCacheTests: CoreDataPlusTestCase {
-
+final class NSManagedObjectContextCacheTests: CoreDataPlusInMemoryTestCase {
   func testManagedContextCachingSystem() {
     let mainContext = container.viewContext
     let backgroundContext = mainContext.newBackgroundContext()

@@ -59,7 +59,7 @@ extension SampleModelVersion: CoreDataModelVersion {
       return model
     }
 
-    if ProcessInfo.isRunningSwiftPackageTests {
+    if isRunningSwiftPackageTests() {
       let sampleFolderURL = URL(fileURLWithPath: #file, isDirectory: false).deletingLastPathComponent()
       let momUrl = sampleFolderURL.appendingPathComponent("\(modelName).momd/\(versionName).mom")
 
@@ -77,7 +77,6 @@ extension SampleModelVersion: CoreDataModelVersion {
     cache[self.versionName] = model
     return model
   }
-
 }
 
 extension SampleModelVersion {
@@ -104,7 +103,7 @@ extension SampleModelVersion {
 
     case .version2:
       let mappings: NSMappingModel
-      if ProcessInfo.isRunningSwiftPackageTests {
+      if isRunningSwiftPackageTests() {
         mappings = mappingModel_swift_package_tests().first!
       } else {
         mappings = SampleModelVersion.version2.mappingModelToNextModelVersion()!
@@ -119,7 +118,7 @@ extension SampleModelVersion {
           e.entityMigrationPolicyClassName = "CoreDataPlus_Tests_tvOS.V2to3MakerPolicyPolicy"
           #endif
 
-          if ProcessInfo.isRunningSwiftPackageTests {
+          if isRunningSwiftPackageTests() {
             XCTFail("NSEntityMigrationPolicy doesn't work on Swift Package testing.")
           }
 

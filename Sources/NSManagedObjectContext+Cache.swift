@@ -36,16 +36,14 @@ extension NSManagedObjectContext {
   public final func setCachedManagedObject(_ object: NSManagedObject?, forKey key: String) {
     switch object {
     case let managedObject? where managedObject.managedObjectContext != nil && managedObject.managedObjectContext !== self:
+      break
       // TODO: - better management
-      if !ProcessInfo.isRunningUnitTests {
-        assertionFailure("The managedObject \(managedObject.objectID) has a NSManagedObjectContext \(managedObject.managedObjectContext!) different from \(self) and it will be not cached.")
-      }
+      // assertionFailure("The managedObject \(managedObject.objectID) has a NSManagedObjectContext \(managedObject.managedObjectContext!) different from \(self) and it will be not cached.")
 
     case let managedObject? where managedObject.managedObjectContext == nil:
+      break
       // TODO: - better management
-      if !ProcessInfo.isRunningUnitTests {
-        assertionFailure("The managedObject \(managedObject.objectID) doesn't have a NSManagedObjectContext and it will be not cached.")
-      }
+      // assertionFailure("The managedObject \(managedObject.objectID) doesn't have a NSManagedObjectContext and it will be not cached.")
 
     default:
       var cache = userInfo[managedObjectsCacheKey] as? ManagedObjectsCache ?? [:]
@@ -53,7 +51,7 @@ extension NSManagedObjectContext {
       userInfo[managedObjectsCacheKey] = cache
     }
 
-    // TODO if the object is from another context we could use object(with:) or existingObject(with:) to cache in the current context
+    // TODO: if the object is from another context we could use object(with:) or existingObject(with:) to cache in the current context
   }
 
   /// **CoreDataPlus**

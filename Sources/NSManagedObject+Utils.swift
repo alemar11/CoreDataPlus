@@ -47,6 +47,13 @@ extension NSManagedObject {
     refresh(mergeChanges: false)
   }
 
+  /// **CoreDataPlus**
+  ///
+  /// Materializes `self`
+  public final func materialize() {
+    self.willAccessValue(forKey: nil)
+  }
+
   // swiftlint:disable line_length
   /// **CoreDataPlus**
   ///

@@ -62,4 +62,3 @@ public extension NSManagedObjectContext {
     public static let all: NSManagedObjectContext.ObservableEvents = [.didChange, .willSave, .didSave]
   }
 }
-

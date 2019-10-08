@@ -172,6 +172,16 @@ extension ManagedObjectContextChange where Self: ManagedObjectContextNotificatio
 public struct ManagedObjectContextDidSaveNotification: ManagedObjectContextChange & ManagedObjectContextNotification {
   public let notification: Notification
 
+  /// **CoreDataPlus**
+  ///
+  /// The `NSPersistentHistoryToken` associated to the save operation.
+  @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
+  public var historyToken: NSPersistentHistoryToken? {
+    // FB: 6840421 (missing documentation for "newChangeToken" key)
+    // it's optional because NSPersistentHistoryTrackingKey should be enabled.
+    return notification.userInfo?["newChangeToken"] as? NSPersistentHistoryToken
+  }
+
   public init(notification: Notification) {
     guard notification.name == .NSManagedObjectContextDidSave else {
       fatalError("Invalid NSManagedObjectContextDidSave notification object.")
@@ -205,7 +215,8 @@ extension ManagedObjectContextDidSaveNotification: CustomDebugStringConvertible 
 /// **CoreDataPlus**
 ///
 /// A type safe `NSManagedObjectContextWillSave` notification.
-public struct ManagedObjectContextWillSaveNotification: ManagedObjectContextChange & ManagedObjectContextNotification {
+/// - Note: It doesn't contain any additional info.
+public struct ManagedObjectContextWillSaveNotification: ManagedObjectContextNotification {
   public let notification: Notification
 
   public init(notification: Notification) {

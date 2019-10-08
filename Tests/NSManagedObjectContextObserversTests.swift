@@ -29,8 +29,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
-
+final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
   /// This is a very generic test case
   func testObservers() throws {
     let context = container.viewContext
@@ -46,6 +45,9 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
     }
 
     let token2 = context.addManagedObjectContextDidSaveNotificationObserver() { notification in
+      if #available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *) {
+        XCTAssertNil(notification.historyToken) // nil token for in memory db
+      }
       expectation2.fulfill()
     }
 
@@ -156,12 +158,12 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
       expectation3.fulfill()
     }
 
-    try anotherContext.performAndWait { context in
-      context.fillWithSampleData()
-      try context.save()
+    try anotherContext.performSaveAndWait {
+      $0.fillWithSampleData()
     }
 
     waitForExpectations(timeout: 2)
+
     XCTAssertFalse(context.hasChanges)
     anotherContext.performAndWait {
       XCTAssertFalse(anotherContext.hasChanges)
@@ -197,9 +199,8 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
       expectation3.fulfill()
     }
 
-    try anotherContext.performAndWait { context in
-      context.fillWithSampleData()
-      try context.save()
+    try anotherContext.performSaveAndWait {
+      $0.fillWithSampleData()
     }
 
     waitForExpectations(timeout: 2)
@@ -715,5 +716,4 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusTestCase {
       }
     }
   }
-
 }

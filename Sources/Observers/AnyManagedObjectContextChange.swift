@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2019 Tinrobots.
@@ -31,27 +31,27 @@ public struct AnyManagedObjectContextChange<T: NSManagedObject>: ManagedObjectCo
   public var insertedObjects: Set<T> {
     return _insertedObjects
   }
-  
+
   public var updatedObjects: Set<T> {
     return _updatedObjects
   }
-  
+
   public var deletedObjects: Set<T> {
     return _deletedObjects
   }
-  
+
   public var refreshedObjects: Set<T> {
     return _refreshedObjects
   }
-  
+
   public var invalidatedObjects: Set<T> {
     return _invalidatedObjects
   }
-  
+
   public var invalidatedAllObjects: Set<NSManagedObjectID> {
     return _invalidatedAllObjects
   }
-  
+
   private let _insertedObjects: Set<T>
   private let _updatedObjects: Set<T>
   private let _deletedObjects: Set<T>
@@ -100,4 +100,3 @@ public struct AnyManagedObjectContextChange<T: NSManagedObject>: ManagedObjectCo
                                          invalidatedAllObjects: Set())
   }
 }
-

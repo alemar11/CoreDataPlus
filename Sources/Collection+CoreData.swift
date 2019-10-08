@@ -36,24 +36,36 @@ extension Collection where Element: NSManagedObject {
     }
   }
 
+  @available(*, deprecated, message: "Use materializeFaultedObjects() instead.")
+  public func fetchFaultedObjects() throws {
+    try materializeFaultedObjects()
+  }
+
   /// **CoreDataPlus**
   ///
-  /// Fetches all the faulted object in one batch executing a single fetch request for all objects of the same type (or ancestor) that we’re interested in.
+  /// Materializes all the faulted objects in one batch, executing a single fetch request.
   /// - Throws: It throws an error in cases of failure.
-  /// - Note: Materializing all objects in one batch is faster than triggering the fault for each object on its own.
-  public func fetchFaultedObjects() throws {
+  /// - Note: Materializing all the objects in one batch is faster than triggering the fault for each object on its own.
+  public func materializeFaultedObjects() throws {
     guard !self.isEmpty else { return }
 
     let faults = self.filter { $0.isFault }
-    guard faults.count > 0 else { return }
+    guard !faults.isEmpty else { return }
 
-    let managedObjectsWithoutContext = self.filter { $0.managedObjectContext == nil }
-    precondition(managedObjectsWithoutContext.isEmpty, "\(managedObjectsWithoutContext) haven't a NSManagedObjectContext.")
+    let faultedObjectsByContext = Dictionary(grouping: faults) { $0.managedObjectContext }
 
-    let groupedManagedObjects = Dictionary(grouping: self) { ObjectIdentifier($0.managedObjectContext!) }
+    for (context, objects) in faultedObjectsByContext where !objects.isEmpty {
+      // objects without context can trigger their fault one by one
+      guard let context = context else {
+        objects.materialize()
+        continue
+      }
 
-    for (_, objects) in groupedManagedObjects where !objects.isEmpty {
-      let context = objects.first!.managedObjectContext!
+      // objects not yet saved can trigger their fault one by one
+      let temporaryObjects = objects.filter { $0.objectID.isTemporaryID }
+      if !temporaryObjects.isEmpty {
+        temporaryObjects.materialize()
+      }
 
       // avoid multiple fetches for subclass entities.
       let entities = objects.entities().entitiesKeepingOnlyCommonEntityAncestors()
@@ -73,6 +85,13 @@ extension Collection where Element: NSManagedObject {
         }
       }
     }
+  }
+
+  /// **CoreDataPlus**
+  ///
+  /// Materializes each object one by one.
+  private func materialize() {
+    self.forEach { $0.materialize() }
   }
 
   /// **CoreDataPlus**

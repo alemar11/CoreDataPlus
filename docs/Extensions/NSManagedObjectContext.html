@@ -14,7 +14,7 @@
     <a title="NSManagedObjectContext Extension Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">CoreDataPlus Docs</a> (89% documented)</p>
+        <p><a href="../index.html">CoreDataPlus Docs</a> (90% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -65,6 +65,9 @@
                 <a href="../Extensions/NSBatchDeleteResult.html">NSBatchDeleteResult</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Extensions/NSBatchInsertResult.html">NSBatchInsertResult</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Extensions/NSBatchUpdateResult.html">NSBatchUpdateResult</a>
               </li>
               <li class="nav-group-task">
@@ -84,9 +87,6 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/NSPersistentStoreCoordinator.html">NSPersistentStoreCoordinator</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/ProcessInfo.html">ProcessInfo</a>
               </li>
             </ul>
           </li>
@@ -141,7 +141,7 @@
             <h1>NSManagedObjectContext</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">NSManagedObjectContext</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCoding</span><span class="p">,</span> <span class="kt">NSLocking</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">NSManagedObjectContext</span></code></pre>
 
                 </div>
               </div>
@@ -238,6 +238,525 @@
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">clearCachedManagedObjects</span><span class="p">()</span></code></pre>
 
                         </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/History"></a>
+                <a name="//apple_ref/swift/Section/History" class="dashAnchor"></a>
+                <a href="#/History">
+                  <h3 class="section-name">History</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE18historyTransaction5afterSaySo019NSPersistentHistoryH0CG10Foundation4DateV_tKF"></a>
+                    <a name="//apple_ref/swift/Method/historyTransaction(after:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE18historyTransaction5afterSaySo019NSPersistentHistoryH0CG10Foundation4DateV_tKF">historyTransaction(after:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Returns all the history transactions created made after a given <code>date</code>.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    It throws an error in cases of failure.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, OSX 10.12, *)</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">historyTransaction</span><span class="p">(</span><span class="n">after</span> <span class="nv">date</span><span class="p">:</span> <span class="kt">Date</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">NSPersistentHistoryTransaction</span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE18historyTransaction5afterSaySo019NSPersistentHistoryH0CGSo0jK5TokenCSg_tKF"></a>
+                    <a name="//apple_ref/swift/Method/historyTransaction(after:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE18historyTransaction5afterSaySo019NSPersistentHistoryH0CGSo0jK5TokenCSg_tKF">historyTransaction(after:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Returns all the history transactions created made after a given <code>token</code>.
+Without passing a token, it returns all the history transactions changes.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    It throws an error in cases of failure.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, OSX 10.12, *)</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">historyTransaction</span><span class="p">(</span><span class="n">after</span> <span class="nv">token</span><span class="p">:</span> <span class="kt">NSPersistentHistoryToken</span><span class="p">?)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">NSPersistentHistoryTransaction</span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Process%20Transactions"></a>
+                <a name="//apple_ref/swift/Section/Process Transactions" class="dashAnchor"></a>
+                <a href="#/Process%20Transactions">
+                  <h3 class="section-name">Process Transactions</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE14processHistory5after18transactionHandlery10Foundation4DateV_ySo012NSPersistentH11TransactionCKXEtKF"></a>
+                    <a name="//apple_ref/swift/Method/processHistory(after:transactionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE14processHistory5after18transactionHandlery10Foundation4DateV_ySo012NSPersistentH11TransactionCKXEtKF">processHistory(after:transactionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Processes all the transactions in the history after a given <code>date</code>.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    It throws an error in cases of failure.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, OSX 10.12, *)</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">processHistory</span><span class="p">(</span><span class="n">after</span> <span class="nv">date</span><span class="p">:</span> <span class="kt">Date</span><span class="p">,</span> <span class="nv">transactionHandler</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSPersistentHistoryTransaction</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>date</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The date after which transactions are processed.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE14processHistory5after18transactionHandlerySo012NSPersistentH5TokenCSg_ySo0lH11TransactionCKXEtKF"></a>
+                    <a name="//apple_ref/swift/Method/processHistory(after:transactionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE14processHistory5after18transactionHandlerySo012NSPersistentH5TokenCSg_ySo0lH11TransactionCKXEtKF">processHistory(after:transactionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Processes all the transactions in the history after a given <code>token</code>.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    It throws an error in cases of failure.
+
+</div>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Deletions can have tombstones if enabled on single attribues of an entity ( Data Model Inspector &gt; <q>Preserve After Deletion</q>).
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, OSX 10.12, *)</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">processHistory</span><span class="p">(</span><span class="n">after</span> <span class="nv">token</span><span class="p">:</span> <span class="kt">NSPersistentHistoryToken</span><span class="p">?,</span> <span class="nv">transactionHandler</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSPersistentHistoryTransaction</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>token</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The token after which transactions are processed.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Merge"></a>
+                <a name="//apple_ref/swift/Section/Merge" class="dashAnchor"></a>
+                <a href="#/Merge">
+                  <h3 class="section-name">Merge</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE12mergeHistory5after10Foundation4DateVSgAH_tKF"></a>
+                    <a name="//apple_ref/swift/Method/mergeHistory(after:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE12mergeHistory5after10Foundation4DateVSgAH_tKF">mergeHistory(after:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Merges all the history changes made after a given <code>date</code>.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    It throws an error in cases of failure.
+
+</div>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    To enable history tracking:
+
+</div>
+<pre class="highlight swift"><code>  <span class="k">let</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">NSPersistentStoreDescription</span> <span class="o">=</span> <span class="o">...</span> <span class="c1">// Your default configuration here</span>
+  <span class="n">description</span><span class="o">.</span><span class="nf">setOption</span><span class="p">(</span><span class="kc">true</span> <span class="k">as</span> <span class="kt">NSNumber</span><span class="p">,</span> <span class="nv">forKey</span><span class="p">:</span> <span class="kt">NSPersistentHistoryTrackingKey</span><span class="p">)</span>
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, OSX 10.12, *)</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">mergeHistory</span><span class="p">(</span><span class="n">after</span> <span class="nv">date</span><span class="p">:</span> <span class="kt">Date</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Date</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>date</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The date after which changes are merged.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The last merged transaction date.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE12mergeHistory5afterSo012NSPersistentH5TokenCSgAH_tKF"></a>
+                    <a name="//apple_ref/swift/Method/mergeHistory(after:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE12mergeHistory5afterSo012NSPersistentH5TokenCSgAH_tKF">mergeHistory(after:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Merges all the history changes made after a given <code>token</code>.
+Without passing a token, it merges all the history changes.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    It throws an error in cases of failure.
+
+</div>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    
+</div>
+<li>To enable history tracking:</li>
+<pre class="highlight swift"><code>  <span class="k">let</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">NSPersistentStoreDescription</span> <span class="o">=</span> <span class="o">...</span> <span class="c1">// Your default configuration here</span>
+  <span class="n">description</span><span class="o">.</span><span class="nf">setOption</span><span class="p">(</span><span class="kc">true</span> <span class="k">as</span> <span class="kt">NSNumber</span><span class="p">,</span> <span class="nv">forKey</span><span class="p">:</span> <span class="kt">NSPersistentHistoryTrackingKey</span><span class="p">)</span>
+</code></pre>
+
+<ul>
+<li>After a saving operation, the associated history token using this instance method: <code>NSPersistentStoreCoordinator.currentPersistentHistoryToken(fromStores:)</code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, OSX 10.12, *)</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">mergeHistory</span><span class="p">(</span><span class="n">after</span> <span class="nv">token</span><span class="p">:</span> <span class="kt">NSPersistentHistoryToken</span><span class="p">?)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">NSPersistentHistoryToken</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>token</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The NSPersistentHistoryToken after which changes are merged.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The last merged transaction NSPersistentHistoryToken.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Delete"></a>
+                <a name="//apple_ref/swift/Section/Delete" class="dashAnchor"></a>
+                <a href="#/Delete">
+                  <h3 class="section-name">Delete</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE16deleteAllHistorySbyKF"></a>
+                    <a name="//apple_ref/swift/Method/deleteAllHistory()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE16deleteAllHistorySbyKF">deleteAllHistory()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Deletes all history.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, OSX 10.12, *)</span>
+<span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteAllHistory</span><span class="p">()</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE13deleteHistory6beforeSb10Foundation4DateV_tKF"></a>
+                    <a name="//apple_ref/swift/Method/deleteHistory(before:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE13deleteHistory6beforeSb10Foundation4DateV_tKF">deleteHistory(before:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Deletes all history before a given <code>date</code>.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    It throws an error in cases of failure.
+
+</div>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Deletions can have tombstones if enabled on single attribues of an entity ( Data Model Inspector &gt; <q>Preserve After Deletion</q>).
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, OSX 10.12, *)</span>
+<span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteHistory</span><span class="p">(</span><span class="n">before</span> <span class="nv">date</span><span class="p">:</span> <span class="kt">Date</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>date</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The date before which the history will be deleted.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>true</code> if the operation succeeds.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE13deleteHistory6beforeSbSo012NSPersistentH5TokenCSg_tKF"></a>
+                    <a name="//apple_ref/swift/Method/deleteHistory(before:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE13deleteHistory6beforeSbSo012NSPersistentH5TokenCSg_tKF">deleteHistory(before:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Deletes all history before a given <code>token</code>.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    It throws an error in cases of failure.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, OSX 10.12, *)</span>
+<span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteHistory</span><span class="p">(</span><span class="n">before</span> <span class="nv">token</span><span class="p">:</span> <span class="kt">NSPersistentHistoryToken</span><span class="p">?)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>token</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The token before which the history will be deleted.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>true</code> if the operation succeeds.</p>
                       </div>
                     </section>
                   </div>
@@ -1003,8 +1522,8 @@ faults in any newly-inserted objects, and invokes delete(_:): on those which hav
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2019 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2019-06-18)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2019 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2019-10-07)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.11.0</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

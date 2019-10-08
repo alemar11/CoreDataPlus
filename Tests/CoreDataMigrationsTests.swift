@@ -65,7 +65,7 @@ class CoreDataMigrationsTests: XCTestCase {
     let allCars = try Car.fetch(in: context) // 125
     let sportCars = try ExpensiveSportCar.fetch(in: context) // 5
 
-    if #available(iOS 11, tvOS 11, macOS 10.13, *) {
+    if #available(iOS 11, tvOS 11, watchOS 4, macOS 10.13, *) {
       XCTAssertEqual(allCars.first!.entity.indexes.count, 0)
     }
 
@@ -96,7 +96,7 @@ class CoreDataMigrationsTests: XCTestCase {
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
     XCTAssertTrue(cars.count >= 1)
 
-    if #available(iOS 11, tvOS 11, macOS 10.13, *) {
+    if #available(iOS 11, tvOS 11, watchOS 4, macOS 10.13, *) {
       cars.forEach { car in
         if car is LuxuryCar || car is SportCar {
           XCTAssertEqual(car.entity.indexes.count, 0)
@@ -167,7 +167,7 @@ class CoreDataMigrationsTests: XCTestCase {
 
     XCTAssertTrue(version == .version1)
 
-    let targetURL = URL.temporary.appendingPathComponent("SampleModel").appendingPathExtension("sqlite")
+    let targetURL = URL.temporaryDirectoryURL.appendingPathComponent("SampleModel").appendingPathExtension("sqlite")
     let progress = Progress(totalUnitCount: 1)
     var completionSteps = 0
     var completion = 0.0
@@ -213,12 +213,3 @@ extension NSManagedObjectContext {
     }
   }
 }
-
-extension URL {
-  static var temporary: URL {
-    let url =  URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory:true).appendingPathComponent("CoreDataPlus-Test-\(UUID().uuidString)")
-    try! FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
-    return url
-  }
-}
-

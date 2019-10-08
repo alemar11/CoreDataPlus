@@ -24,7 +24,6 @@
 import CoreData
 
 final class V2to3MakerPolicyPolicy: NSEntityMigrationPolicy {
-
   override func createDestinationInstances(forSource sInstance: NSManagedObject, in mapping: NSEntityMapping, manager: NSMigrationManager) throws {
     try super.createDestinationInstances(forSource: sInstance, in: mapping, manager: manager)
 
@@ -49,7 +48,6 @@ final class V2to3MakerPolicyPolicy: NSEntityMigrationPolicy {
       maker.setValue(cars, forKey: CarsKey)
     }
   }
-
 }
 
 private let CarsKey = "cars"
@@ -63,7 +61,6 @@ extension NSManagedObject {
     return entity.name == MakerEntityName && (value(forKey: NameKey) as? String) == name
   }
 }
-
 
 extension NSManagedObjectContext {
   fileprivate func findOrCreateMaker(withName name: String) -> NSManagedObject {

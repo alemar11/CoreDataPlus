@@ -25,7 +25,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSManagedObjectUpdateTimestampableTests: CoreDataPlusTestCase {
+final class NSManagedObjectUpdateTimestampableTests: CoreDataPlusInMemoryTestCase {
 
   func testRefreshUpdateDate() throws {
     let context = container.viewContext
