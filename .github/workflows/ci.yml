@@ -1,4 +1,4 @@
-name: "Alamofire CI"
+name: "CoreDataPlus CI"
 
 on: 
   push:
@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1    
       - name: macOS
-        run: xcodebuild -project "Alamofire.xcodeproj" -scheme "Alamofire macOS" -destination "platform=macOS" clean test
+        run: xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus macOS" -destination "platform=macOS" clean test
   iOS:
     name: Test iOS 
     runs-on: macOS-latest
@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1            
       - name: iOS - ${{ matrix.destination }}
-        run: xcodebuild -project "Alamofire.xcodeproj" -scheme "Alamofire iOS" -destination "${{ matrix.destination }}" clean test
+        run: xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus iOS" -destination "${{ matrix.destination }}" clean test
   tvOS:
     name: Test tvOS 
     runs-on: macOS-latest
@@ -32,7 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1            
       - name: tvOS - ${{ matrix.destination }}
-        run: xcodebuild -project "Alamofire.xcodeproj" -scheme "Alamofire tvOS" -destination "${{ matrix.destination }}" clean test
+        run: xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus tvOS" -destination "${{ matrix.destination }}" clean test
   watchOS:
     name: Build watchOS
     runs-on: macOS-latest
@@ -42,7 +42,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: watchOS - ${{ matrix.destination }}
-        run: xcodebuild -project "Alamofire.xcodeproj" -scheme "Alamofire watchOS" -destination "${{ matrix.destination }}" clean build
+        run: xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus watchOS" -destination "${{ matrix.destination }}" clean build
   spm:
     name: Test SPM Integration
     runs-on: macOS-latest    
@@ -51,6 +51,6 @@ jobs:
       - uses: actions/checkout@v1
       - name: SPM Build & Test
         run: |
-          swift build
-          swift test
+          swift build -Xswiftc -target -Xswiftc x86_64-apple-macosx10.13
+          swift test -Xswiftc -target -Xswiftc x86_64-apple-macosx10.13
 
