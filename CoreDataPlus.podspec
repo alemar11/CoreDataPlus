@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name    = 'CoreDataPlus'
-  s.version = '2.1.1'
+  s.version = '2.2.0'
   s.license = 'MIT'
   s.documentation_url = 'http://www.tinrobots.org/CoreDataPlus'  
   s.summary   = 'CoreData extensions.'
