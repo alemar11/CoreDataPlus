@@ -9,7 +9,7 @@ env:
     - IOS_SDK=iphonesimulator13.0
     - MACOS_SDK=macosx10.15
     - TVOS_SDK=appletvsimulator13.0
-    - WATCHOS_SDK=watchsimulator6.0
+    - WATCHOS_SDK=watchsimulator6.1
     - XCODE_RUN_TESTS="NO"
 
 matrix:
