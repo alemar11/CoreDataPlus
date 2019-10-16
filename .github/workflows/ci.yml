@@ -18,6 +18,7 @@ jobs:
           sw_vers
           xcodebuild -version
           xcodebuild -showsdks
+          xcrun simctl list
   macOS:
     name: Test macOS 
     runs-on: macOS-latest
