@@ -490,6 +490,7 @@
 		23B580841F94FF0300A365C0 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				23B5806D1F94FEDF00A365C0 /* CoreDataPlus.h */,
 				239C4D4E2304736000EBDEF6 /* .travis.yml */,
 				231C313E22F5E3BB00BF7129 /* README.md */,
 				23A35D512103995100388BEA /* CHANGELOG.md */,
@@ -498,7 +499,6 @@
 				236350E11F95F1A900B3A16A /* Info-Tests.plist */,
 				23B5806E1F94FEDF00A365C0 /* Info.plist */,
 				236350841F95EC3000B3A16A /* Info-tvOS.plist */,
-				23B5806D1F94FEDF00A365C0 /* CoreDataPlus.h */,
 			);
 			path = Support;
 			sourceTree = "<group>";
