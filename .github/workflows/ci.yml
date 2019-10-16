@@ -5,6 +5,9 @@ on:
     branches:
       - master
 
+env:
+    DEVELOPER_DIR: /Applications/Xcode_11.app
+
 jobs:
   info:
     name: Show macOS and Xcode versions
