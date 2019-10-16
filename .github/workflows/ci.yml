@@ -7,11 +7,12 @@ on:
 
 jobs:
   info:
-    name: macOS info
+    name: Show macOS and Xcode versions
     runs-on: macOS-latest    
     steps:
       - name: stats
         run: |
+          sw_vers
           xcodebuild -version
           xcodebuild -showsdks
   macOS:
