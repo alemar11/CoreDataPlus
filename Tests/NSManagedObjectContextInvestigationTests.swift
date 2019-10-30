@@ -27,16 +27,16 @@ import XCTest
 final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCase {
   /// Investigation test: calling refreshAllObjects calls refreshObject:mergeChanges on all objects in the context.
   func testInvestigationRefreshAllObjects() throws {
-    let context = container.viewContext
-    let car1 = Car(context: context)
+    let viewContext = container.viewContext
+    let car1 = Car(context: viewContext)
     car1.numberPlate = "car1"
-    let car2 = Car(context: context)
+    let car2 = Car(context: viewContext)
     car2.numberPlate = "car2"
 
-    try context.save()
+    try viewContext.save()
 
     car1.numberPlate = "car1_updated"
-    context.refreshAllObjects()
+    viewContext.refreshAllObjects()
 
     XCTAssertFalse(car1.isFault)
     XCTAssertTrue(car2.isFault)
@@ -66,7 +66,7 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
   }
 
   /// Investigation test: automaticallyMergesChangesFromParent behaviour
-  func testInvestigationautomaticallyMergesChangesFromParent() throws {
+  func testInvestigationAutomaticallyMergesChangesFromParent() throws {
     // automaticallyMergesChangesFromParent = true
     do {
       let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
@@ -80,7 +80,6 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
       car1.maker = "FIAT"
       car1.model = "Panda"
       car1.numberPlate = UUID().uuidString
-      car1.maker = "maker"
       try parentContext.save()
 
       let childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
@@ -89,13 +88,13 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
 
       let childCar = try childContext.performAndWait { context -> Car in
         let car = try childContext.existingObject(with: car1.objectID) as! Car
-        XCTAssertEqual(car.maker, "maker")
+        XCTAssertEqual(car.maker, "FIAT")
         return car
       }
 
       try parentContext.performSaveAndWait { context in
         let car = try context.existingObject(with: car1.objectID) as! Car
-        XCTAssertEqual(car.maker, "maker")
+        XCTAssertEqual(car.maker, "FIAT")
         car.maker = "😀"
         XCTAssertEqual(car.maker, "😀")
       }
@@ -117,7 +116,6 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
       car1.maker = "FIAT"
       car1.model = "Panda"
       car1.numberPlate = UUID().uuidString
-      car1.maker = "maker"
       try parentContext.save()
 
       let childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
@@ -126,18 +124,18 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
 
       let childCar = try childContext.performAndWait { context -> Car in
         let car = try childContext.existingObject(with: car1.objectID) as! Car
-        XCTAssertEqual(car.maker, "maker")
+        XCTAssertEqual(car.maker, "FIAT")
         return car
       }
 
       try parentContext.performSaveAndWait { context in
         let car = try context.existingObject(with: car1.objectID) as! Car
-        XCTAssertEqual(car.maker, "maker")
+        XCTAssertEqual(car.maker, "FIAT")
         car.maker = "😀"
         XCTAssertEqual(car.maker, "😀")
       }
 
-      XCTAssertEqual(childCar.safeAccess({ $0.maker }), "maker") // no changes
+      XCTAssertEqual(childCar.safeAccess({ $0.maker }), "FIAT") // no changes
     }
 
     // automaticallyMergesChangesFromParent = true
@@ -148,7 +146,6 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
       car1.maker = "FIAT"
       car1.model = "Panda"
       car1.numberPlate = UUID().uuidString
-      car1.maker = "maker"
       try parentContext.save()
 
       let childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
@@ -157,13 +154,13 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
 
       let childCar = try childContext.performAndWait { context -> Car in
         let car = try childContext.existingObject(with: car1.objectID) as! Car
-        XCTAssertEqual(car.maker, "maker")
+        XCTAssertEqual(car.maker, "FIAT")
         return car
       }
 
       try parentContext.performSaveAndWait { context in
         let car = try context.existingObject(with: car1.objectID) as! Car
-        XCTAssertEqual(car.maker, "maker")
+        XCTAssertEqual(car.maker, "FIAT")
         car.maker = "😀"
         XCTAssertEqual(car.maker, "😀")
       }
@@ -180,7 +177,6 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
       car1.maker = "FIAT"
       car1.model = "Panda"
       car1.numberPlate = UUID().uuidString
-      car1.maker = "maker"
       try parentContext.save()
 
       let childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
@@ -189,19 +185,18 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
 
       let childCar = try childContext.performAndWait { context -> Car in
         let car = try childContext.existingObject(with: car1.objectID) as! Car
-        XCTAssertEqual(car.maker, "maker")
+        XCTAssertEqual(car.maker, "FIAT")
         return car
       }
 
       try parentContext.performSaveAndWait { context in
         let car = try context.existingObject(with: car1.objectID) as! Car
-        XCTAssertEqual(car.maker, "maker")
+        XCTAssertEqual(car.maker, "FIAT")
         car.maker = "😀"
         XCTAssertEqual(car.maker, "😀")
       }
 
-      XCTAssertEqual(childCar.safeAccess({ $0.maker }), "maker") // no changes
-
+      XCTAssertEqual(childCar.safeAccess({ $0.maker }), "FIAT") // no changes
     }
   }
 }
