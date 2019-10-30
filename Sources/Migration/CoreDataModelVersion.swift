@@ -149,7 +149,7 @@ extension CoreDataModelVersion {
     }
 
     guard let model = NSManagedObjectModel(contentsOf: url) else {
-      preconditionFailure("Error initializing Managed Object Model: cannot open the model at \(url).")
+      preconditionFailure("Error initializing the NSManagedObjectModel: cannot open the model at \(url).")
     }
 
     return model

@@ -27,14 +27,14 @@ import CoreData
 
 extension NSError {
   /// The Underlying error (if any).
-  /// - Note: Used for tests.
+  /// - Note: Used for tests only.
   var underlyingError: NSError? {
     return userInfo[NSUnderlyingErrorKey] as? NSError
   }
   
   /// Debug message.
-  /// - Note: Used for tests.
-  var message: String? {
+  /// - Note: Used for tests only.
+  var debugMessage: String? {
     return userInfo[NSDebugDescriptionErrorKey] as? String
   }
   

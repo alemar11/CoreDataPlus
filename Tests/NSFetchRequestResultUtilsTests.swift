@@ -626,7 +626,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusInMemoryTestCase {
                           if nsError.code == NSError.ErrorCode.persistentStoreCoordinatorNotFound.rawValue {
                             XCTAssertNil(nsError.underlyingError)
                             XCTAssertNotNil(nsError.localizedDescription)
-                            XCTAssertEqual(nsError.message, "\(context.description) doesn't have a NSPersistentStoreCoordinator.")
+                            XCTAssertEqual(nsError.debugMessage, "\(context.description) doesn't have a NSPersistentStoreCoordinator.")
                           } else {
                             XCTFail("Unexepcted error type.")
                           }
