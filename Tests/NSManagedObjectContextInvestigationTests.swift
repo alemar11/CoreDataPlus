@@ -199,4 +199,79 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
       XCTAssertEqual(childCar.safeAccess({ $0.maker }), "FIAT") // no changes
     }
   }
+
+  func testInvestigationStalenessInterval() throws {
+    // Given
+    let context = container.viewContext
+    let car = Car(context: context)
+    car.maker = "FIAT"
+    car.model = "Panda"
+    car.numberPlate = UUID().uuidString
+    try context.save()
+
+    let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
+    let result = try Car.batchUpdateObjects(with: context, resultType: .updatedObjectIDsResultType, propertiesToUpdate: [#keyPath(Car.maker): "FCA"], includesSubentities: true, predicate: fiatPredicate)
+    XCTAssertEqual(result.updates?.count, 1)
+
+    // When, Then
+    car.refresh()
+    XCTAssertEqual(car.maker, "FIAT")
+
+    // When, Then
+    context.refreshAllObjects()
+    XCTAssertEqual(car.maker, "FIAT")
+
+    // When, Then
+    context.stalenessInterval = 0 // issue a new fetch request instead of using the row cache
+    car.refresh()
+    XCTAssertEqual(car.maker, "FCA")
+    context.stalenessInterval = -1 // default
+  }
+
+  func testInvestigationShouldRefreshRefetchedObjectsIsStillBroken() throws {
+    // https://mjtsai.com/blog/2019/10/17/core-data-derived-attributes/
+    // I've opened a feedback myself too: FB7419788
+
+    // Given
+    let readContext = container.viewContext
+    let writeContext = container.newBackgroundContext()
+
+    var writeCar: Car? = nil
+    try writeContext.performAndWait {
+      writeCar = Car(context: writeContext)
+      writeCar?.maker = "FIAT"
+      writeCar?.model = "Panda"
+      writeCar?.numberPlate = UUID().uuidString
+      try $0.save()
+    }
+
+    // When
+    var readEntity: Car? = nil
+    readContext.performAndWait {
+      readEntity = try! readContext.fetch(Car.newFetchRequest()).first!
+      // Initially the attribute should be FIAT
+      XCTAssertNotNil(readEntity)
+      XCTAssertEqual(readEntity?.maker, "FIAT")
+    }
+
+    try writeContext.performAndWait {
+      writeCar?.maker = "FCA"
+      try $0.save()
+    }
+
+    // Then
+    readContext.performAndWait {
+      let request = Car.newFetchRequest()
+      request.shouldRefreshRefetchedObjects = true
+      _ = try! readContext.fetch(request)
+      // ⚠️ Now the attribute should be FCA, but it is still FIAT
+      // This should be XCTAssertEqual, XCTAssertNotEqual is used only to make the test pass until
+      // the problem is fixed
+      XCTAssertNotEqual(readEntity?.maker, "FCA")
+
+      readContext.refresh(readEntity!, mergeChanges: false)
+      // However, manually refreshing does update it to FCA
+      XCTAssertEqual(readEntity?.maker, "FCA")
+    }
+  }
 }
