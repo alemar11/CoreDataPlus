@@ -31,13 +31,13 @@ extension NSError {
   var underlyingError: NSError? {
     return userInfo[NSUnderlyingErrorKey] as? NSError
   }
-  
+
   /// Debug message.
   /// - Note: Used for tests only.
   var debugMessage: String? {
     return userInfo[NSDebugDescriptionErrorKey] as? String
   }
-  
+
   /// CoreDataPlus error codes.
   enum ErrorCode: Int {
     case persistentStoreCoordinatorNotFound = 1
@@ -50,7 +50,7 @@ extension NSError {
     case batchDeleteFailed
     case batchInsertFailed
   }
-  
+
   /// Error Constants
   enum Key {
     static let file = "File"
@@ -58,7 +58,7 @@ extension NSError {
     static let line = "Line"
     static let domain = "\(bundleIdentifier)"
   }
-  
+
   /// A batch update operation failed.
   static func batchUpdateFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
     let description = "The batch update operation failed. Check the underlying error."
@@ -71,7 +71,7 @@ extension NSError {
                                    Key.line : line])
     return error
   }
-  
+
   /// A batch delete operation failed.
   static func batchDeleteFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
     let description = "The batch delete operation failed. Check the underlying error."
@@ -84,7 +84,7 @@ extension NSError {
                                    Key.line : line])
     return error
   }
-  
+
   /// A batch insert operation failed.
   static func batchInsertFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
     let description = "The batch insert operation failed. Check the underlying error."
@@ -97,7 +97,7 @@ extension NSError {
                                    Key.line : line])
     return error
   }
-  
+
   /// A count fetch operation failed.
   static func fetchCountFailed(file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
     let description = "The fetch count responded with NSNotFound."
@@ -109,7 +109,7 @@ extension NSError {
                                    Key.line : line])
     return error
   }
-  
+
   /// A fetch operation expecting only one object failed.
   static func fetchExpectingOnlyOneObjectFailed(file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
     let description = "Returned multiple objects, expected max 1."
@@ -121,7 +121,7 @@ extension NSError {
                                    Key.line : line])
     return error
   }
-  
+
   /// A fetch operation failed with an underlying system error.
   static func fetchFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
     let description = "The fetch could not be completed. Check the underlying error."
@@ -146,7 +146,7 @@ extension NSError {
                                    Key.line : line])
     return error
   }
-  
+
   /// The NSPersistentStoreCoordinator is missing.
   static func persistentStoreCoordinatorNotFound(context: NSManagedObjectContext, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
     let description = "\(context.description) doesn't have a NSPersistentStoreCoordinator."
@@ -158,7 +158,7 @@ extension NSError {
                                    Key.line : line])
     return error
   }
-  
+
   /// A save oepration failed with an underlying system error.
   static func saveFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
     let description = "The save operation could not be completed. Check the underlying error."
@@ -171,7 +171,7 @@ extension NSError {
                                    Key.line : line])
     return error
   }
-  
+
   /// A migration operation failed.
   static func migrationFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
     let description = "The migration could not be completed. Check the underlying error."
