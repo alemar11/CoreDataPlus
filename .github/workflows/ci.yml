@@ -2,8 +2,8 @@ name: "CoreDataPlus CI"
 
 on:
   schedule:
-    - cron:  '0 * * * *' # every 1 hour
-    #- cron:  '* 23 * * *' # At the end of every day
+    #- cron:  '0 * * * *' # every 1 hour
+    - cron:  '* 23 * * *' # At the end of every day
   push:
     branches:
       - master
