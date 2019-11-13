@@ -80,5 +80,4 @@ jobs:
       - name: SPM Test
         run: |
           swift --version
-          swiftlint --reporter "emoji"
           swift test

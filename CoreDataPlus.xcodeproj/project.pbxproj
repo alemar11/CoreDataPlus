@@ -264,6 +264,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0693F915237C58A7008E4F31 /* workflows */ = {isa = PBXFileReference; lastKnownFileType = text; name = workflows; path = .github/workflows; sourceTree = SOURCE_ROOT; };
 		230C087A214179D400A1B6CB /* SampleModel2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel2.xcdatamodel; sourceTree = "<group>"; };
 		230C087B21417E1900A1B6CB /* CoreDataMigrationsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataMigrationsTests.swift; sourceTree = "<group>"; };
 		230CD4AC22A032D400CA1A0A /* NSManagedObjectContext+ObservableEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+ObservableEvents.swift"; sourceTree = "<group>"; };
@@ -490,6 +491,7 @@
 		23B580841F94FF0300A365C0 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				0693F915237C58A7008E4F31 /* workflows */,
 				23B5806D1F94FEDF00A365C0 /* CoreDataPlus.h */,
 				239C4D4E2304736000EBDEF6 /* .travis.yml */,
 				231C313E22F5E3BB00BF7129 /* README.md */,
