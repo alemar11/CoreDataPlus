@@ -27,6 +27,6 @@ jobs:
         run: |
           swift --version
           brew install swiftlint
-          swiftlint
+          swiftlint --reporter "github-actions-logging"
 
 
