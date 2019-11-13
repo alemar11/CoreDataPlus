@@ -5,18 +5,18 @@ on:
     branches:
       - master
       - develop
-    # paths:
-    #   - '.github/workflows/swiftlint.yml'
-    #   - '.swiftlint.yml'
-    #   - '**/*.swift'    
+    paths:
+      - '.github/workflows/lint.yml'
+      - '.swiftlint.yml'
+      - '**/*.swift'    
   pull_request:
     branches:
       - master
       - develop
-    # paths:
-    #   - '.github/workflows/swiftlint.yml'
-    #   - '.swiftlint.yml'
-    #   - '**/*.swift'
+    paths:
+      - '.github/workflows/lint.yml'
+      - '.swiftlint.yml'
+      - '**/*.swift'
 
 jobs:
   SwiftLint:
