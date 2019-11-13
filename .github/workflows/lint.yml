@@ -26,6 +26,7 @@ jobs:
       - name: GitHub Action for SwiftLint
         run: |
           swift --version
+          brew update
           brew install swiftlint
           swiftlint --reporter github-actions-logging
 
