@@ -354,7 +354,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Note: A batch delete can **only** be done on a SQLite store.
   public static func batchUpdateObjects(with context: NSManagedObjectContext,
                                         resultType: NSBatchUpdateRequestResultType = .statusOnlyResultType,
-                                        propertiesToUpdate: [AnyHashable : Any],
+                                        propertiesToUpdate: [AnyHashable: Any],
                                         includesSubentities: Bool = true,
                                         predicate: NSPredicate? = nil) throws -> NSBatchUpdateResult {
     guard context.persistentStoreCoordinator != nil else { throw NSError.persistentStoreCoordinatorNotFound(context: context) }
@@ -454,10 +454,12 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   progress.resignCurrent()
   ///
   ///   ```
-  /// - Warning: If the ConcurrencyDebug is enabled, the fetch request will cause a thread violation error ([more details here](https://stackoverflow.com/questions/31728425/coredata-asynchronous-fetch-causes-concurrency-debugger-error)).
+  /// - Warning: If the ConcurrencyDebug is enabled, the fetch request will cause a thread violation error.
+  /// ([more details here](https://stackoverflow.com/questions/31728425/coredata-asynchronous-fetch-causes-concurrency-debugger-error)).
   @discardableResult
-  public static func fetchAsync(in context: NSManagedObjectContext, with configuration: (NSFetchRequest<Self>) -> Void = { _ in }, completion: @escaping (Result<[Self], NSError>) -> Void) throws -> NSAsynchronousFetchResult<Self> {
-
+  public static func fetchAsync(in context: NSManagedObjectContext,
+                                with configuration: (NSFetchRequest<Self>) -> Void = { _ in },
+                                completion: @escaping (Result<[Self], NSError>) -> Void) throws -> NSAsynchronousFetchResult<Self> {
     let request = Self.newFetchRequest()
     configuration(request)
 
