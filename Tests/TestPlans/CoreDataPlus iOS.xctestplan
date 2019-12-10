@@ -1,0 +1,60 @@
+{
+  "configurations" : [
+    {
+      "id" : "D0CA40FF-44F6-4EF6-B693-27878EB5C4B4",
+      "name" : "Memory Checking",
+      "options" : {
+        "nsZombieEnabled" : true
+      }
+    },
+    {
+      "id" : "58D73E0F-4350-4E4D-B3C6-D326B53A2FE5",
+      "name" : "Concurrency",
+      "options" : {
+        "addressSanitizer" : {
+          "enabled" : false
+        },
+        "threadSanitizerEnabled" : true,
+        "undefinedBehaviorSanitizerEnabled" : true
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "addressSanitizer" : {
+      "detectStackUseAfterReturn" : true,
+      "enabled" : true
+    },
+    "commandLineArgumentEntries" : [
+      {
+        "argument" : "-com.apple.CoreData.ConcurrencyDebug 1"
+      },
+      {
+        "argument" : "-com.apple.CoreData.ThreadingDebug 3"
+      },
+      {
+        "argument" : "-com.apple.CoreData.SQLDebug 1",
+        "enabled" : false
+      },
+      {
+        "argument" : "-com.apple.CoreData.Logging.stderr 1",
+        "enabled" : false
+      }
+    ],
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:CoreDataPlus.xcodeproj",
+      "identifier" : "23B580691F94FEDF00A365C0",
+      "name" : "CoreDataPlus iOS"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:CoreDataPlus.xcodeproj",
+        "identifier" : "23EFDE8C1F95FE730038BE75",
+        "name" : "CoreDataPlus Tests iOS"
+      }
+    }
+  ],
+  "version" : 1
+}
