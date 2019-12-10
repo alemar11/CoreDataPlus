@@ -1,0 +1,99 @@
+{
+  "configurations" : [
+    {
+      "id" : "AA9B294E-98E8-4854-AD82-B43EFC2DA232",
+      "name" : "Memory Checking",
+      "options" : {
+        "addressSanitizer" : {
+          "enabled" : true
+        },
+        "commandLineArgumentEntries" : [
+          {
+            "argument" : "-com.apple.CoreData.SQLDebug 1",
+            "enabled" : false
+          },
+          {
+            "argument" : "-com.apple.CoreData.ConcurrencyDebug 1"
+          },
+          {
+            "argument" : "-com.apple.CoreData.Logging.stderr 1",
+            "enabled" : false
+          },
+          {
+            "argument" : "-com.apple.CoreData.ThreadingDebug 3"
+          }
+        ],
+        "nsZombieEnabled" : true
+      }
+    },
+    {
+      "id" : "485EA5DF-DA8A-4E8B-B6E1-97654C637F2F",
+      "name" : "Concurrency",
+      "options" : {
+        "commandLineArgumentEntries" : [
+          {
+            "argument" : "-com.apple.CoreData.ConcurrencyDebug 1"
+          },
+          {
+            "argument" : "-com.apple.CoreData.ThreadingDebug 3"
+          },
+          {
+            "argument" : "-com.apple.CoreData.SQLDebug 1",
+            "enabled" : false
+          },
+          {
+            "argument" : "-com.apple.CoreData.Logging.stderr 1",
+            "enabled" : false
+          }
+        ],
+        "threadSanitizerEnabled" : true
+      }
+    },
+    {
+      "id" : "9E39D84D-739A-411B-B183-741C5F76202E",
+      "name" : "Concurrency without ConcurrencyDebug flag",
+      "options" : {
+        "commandLineArgumentEntries" : [
+          {
+            "argument" : "-com.apple.CoreData.ThreadingDebug 3"
+          },
+          {
+            "argument" : "-com.apple.CoreData.SQLDebug 1",
+            "enabled" : false
+          },
+          {
+            "argument" : "-com.apple.CoreData.Logging.stderr 1",
+            "enabled" : false
+          }
+        ],
+        "threadSanitizerEnabled" : true
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "commandLineArgumentEntries" : [
+      {
+        "argument" : "-com.apple.CoreData.SQLDebug 1",
+        "enabled" : false
+      },
+      {
+        "argument" : "-com.apple.CoreData.ThreadingDebug 3"
+      }
+    ],
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:CoreDataPlus.xcodeproj",
+      "identifier" : "236350801F95EC3000B3A16A",
+      "name" : "CoreDataPlus tvOS"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:CoreDataPlus.xcodeproj",
+        "identifier" : "23EFDE9B1F95FE990038BE75",
+        "name" : "CoreDataPlus Tests tvOS"
+      }
+    }
+  ],
+  "version" : 1
+}

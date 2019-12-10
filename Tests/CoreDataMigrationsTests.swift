@@ -123,7 +123,13 @@ class CoreDataMigrationsTests: XCTestCase {
 
   func testMigrationFromVersion2ToVersion3() throws {
     let bundle = Bundle(for: CoreDataMigrationsTests.self)
-    let sourceURL = bundle.url(forResource: "SampleModelV2", withExtension: "sqlite")!
+    let _sourceURL = bundle.url(forResource: "SampleModelV2", withExtension: "sqlite")!
+
+    // Being the test run multiple times, we create a copy for every test
+    let sourceURL = bundle.bundleURL.appendingPathComponent("SampleModelV2_copy.sqlite")
+    try FileManager.default.copyItem(at: _sourceURL, to: sourceURL)
+    XCTAssertTrue(fileManager.fileExists(atPath: sourceURL.path))
+
     let targetURL = sourceURL
     let version = SampleModelVersion(persistentStoreURL: sourceURL as URL)
 
@@ -156,13 +162,22 @@ class CoreDataMigrationsTests: XCTestCase {
 
     try migratedContext.save()
     XCTAssertTrue(fileManager.fileExists(atPath: targetURL.path))
+    XCTAssertTrue(fileManager.fileExists(atPath: sourceURL.path))
+
+    try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
 
     migratedContext._fix_sqlite_warning_when_destroying_a_store()
   }
 
   func testMigrationFromVersion1ToVersion3() throws {
     let bundle = Bundle(for: CoreDataMigrationsTests.self)
-    let sourceURL = bundle.url(forResource: "SampleModelV1", withExtension: "sqlite")!
+    let _sourceURL = bundle.url(forResource: "SampleModelV1", withExtension: "sqlite")!
+
+    // Being the test run multiple times, we create a copy for every test
+    let sourceURL = bundle.bundleURL.appendingPathComponent("SampleModelV1_copy.sqlite")
+    try FileManager.default.copyItem(at: _sourceURL, to: sourceURL)
+    XCTAssertTrue(fileManager.fileExists(atPath: sourceURL.path))
+
     let version = SampleModelVersion(persistentStoreURL: sourceURL as URL)
 
     XCTAssertTrue(version == .version1)

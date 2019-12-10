@@ -955,7 +955,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
 
     // progress is not nil only if we create a progress and call the becomeCurrent method
     let currentToken = token.progress?.observe(\.completedUnitCount, options: [.old, .new]) { (progress, change) in
-      print(change)
+
       if change.newValue == 10_000 {
         expectation2.fulfill()
       }
