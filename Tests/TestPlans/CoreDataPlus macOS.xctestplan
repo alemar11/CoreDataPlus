@@ -7,6 +7,22 @@
         "addressSanitizer" : {
           "enabled" : true
         },
+        "commandLineArgumentEntries" : [
+          {
+            "argument" : "-com.apple.CoreData.ConcurrencyDebug 1"
+          },
+          {
+            "argument" : "-com.apple.CoreData.ThreadingDebug 3"
+          },
+          {
+            "argument" : "-com.apple.CoreData.Logging.stderr 1",
+            "enabled" : false
+          },
+          {
+            "argument" : "-com.apple.CoreData.SQLDebug 3",
+            "enabled" : false
+          }
+        ],
         "nsZombieEnabled" : true
       }
     },
@@ -35,6 +51,29 @@
         ],
         "threadSanitizerEnabled" : true
       }
+    },
+    {
+      "id" : "BCDCF027-BD58-4FED-99A3-EC98A382117F",
+      "name" : "Concurrency without ConcurrencyDebug flag",
+      "options" : {
+        "addressSanitizer" : {
+          "enabled" : false
+        },
+        "commandLineArgumentEntries" : [
+          {
+            "argument" : "-com.apple.CoreData.ThreadingDebug 3"
+          },
+          {
+            "argument" : "-com.apple.CoreData.SQLDebug 3",
+            "enabled" : false
+          },
+          {
+            "argument" : "-com.apple.CoreData.Logging.stderr 1",
+            "enabled" : false
+          }
+        ],
+        "threadSanitizerEnabled" : true
+      }
     }
   ],
   "defaultOptions" : {
@@ -44,7 +83,7 @@
     },
     "commandLineArgumentEntries" : [
       {
-        "argument" : "-com.apple.CoreData.ConcurrencyDebug 1"
+        "argument" : "-com.apple.CoreData.ThreadingDebug 3"
       },
       {
         "argument" : "-com.apple.CoreData.Logging.stderr 1",
@@ -53,9 +92,6 @@
       {
         "argument" : "-com.apple.CoreData.SQLDebug 3",
         "enabled" : false
-      },
-      {
-        "argument" : "-com.apple.CoreData.ThreadingDebug 3"
       }
     ],
     "targetForVariableExpansion" : {
