@@ -350,6 +350,7 @@
 		23EFDE9C1F95FE990038BE75 /* CoreDataPlus Tests tvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CoreDataPlus Tests tvOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		23EFDEAB1F95FEB40038BE75 /* CoreDataPlus Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CoreDataPlus Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		23FFB86122EC948C00391D40 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		D254E22A23C3BA7F00A1586E /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -505,6 +506,7 @@
 		23B580841F94FF0300A365C0 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				D254E22A23C3BA7F00A1586E /* LICENSE.md */,
 				06A3C1D5239FD83D00E08D45 /* CHANGELOG.md */,
 				0693F915237C58A7008E4F31 /* workflows */,
 				23B5806D1F94FEDF00A365C0 /* CoreDataPlus.h */,
