@@ -1,7 +1,7 @@
 //
 // CoreDataPlus
 //
-// Copyright © 2016-2019 Tinrobots.
+// Copyright © 2016-2020 Tinrobots.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-// https://mjtsai.com/blog/2019/08/21/persistent-history-tracking-in-core-data/
+// https://mjtsai.com/blog/2020/08/21/persistent-history-tracking-in-core-data/
 
 import CoreData
 import Foundation

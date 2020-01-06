@@ -1,7 +1,7 @@
 //
 // CoreDataPlus
 //
-// Copyright © 2016-2019 Tinrobots.
+// Copyright © 2016-2020 Tinrobots.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -229,7 +229,7 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
   }
 
   func testInvestigationShouldRefreshRefetchedObjectsIsStillBroken() throws {
-    // https://mjtsai.com/blog/2019/10/17/core-data-derived-attributes/
+    // https://mjtsai.com/blog/2020/10/17/core-data-derived-attributes/
     // I've opened a feedback myself too: FB7419788
 
     // Given
