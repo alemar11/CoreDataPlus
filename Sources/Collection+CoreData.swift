@@ -90,7 +90,7 @@ extension Collection where Element: NSManagedObject {
   /// **CoreDataPlus**
   ///
   /// Materializes each object one by one.
-  private func materialize() {
+  func materialize() {
     self.forEach { $0.materialize() }
   }
 
