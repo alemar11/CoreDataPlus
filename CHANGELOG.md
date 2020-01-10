@@ -1,5 +1,9 @@
 # Changelog
 
+### 2.3.0
+
+- Added utils for `NSSet`.
+
 ### 2.2.0
 
 - Added support for Persistent History Tracking.
