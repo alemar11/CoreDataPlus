@@ -99,7 +99,7 @@ class NSSetCoreDataTests: XCTestCase {
     let maker = makers.first!
     let previousFaultsCount = maker.cars?.filter { ($0 as! NSManagedObject).isFault }.count
 
-    XCTAssertNoThrow(try maker.cars?.materializeFaultedObjects())
+    XCTAssertNoThrow(try maker.cars?.materializeFaultedManagedObjects())
     let currentNotFaultsCount = maker.cars?.filter { !($0 as! NSManagedObject).isFault }.count
     let currentFaultsCount = maker.cars?.filter { ($0 as! NSManagedObject).isFault }.count
 
@@ -180,7 +180,7 @@ class NSSetCoreDataTests: XCTestCase {
     let maker = makers.first!
     XCTAssertEqual(maker.cars?.count ?? -1, 3)
 
-    maker.cars?.delete()
+    maker.cars?.deleteManagedObjects()
     try context.save()
     XCTAssertEqual(maker.cars?.count ?? -1, 0)
 
