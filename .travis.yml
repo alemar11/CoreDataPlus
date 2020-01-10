@@ -17,7 +17,7 @@ matrix:
 
     # macOS: Swift Tests, CocoaPods and SwiftLint        
     - os: osx
-      osx_image: xcode11.2
+      osx_image: xcode11.3
       language: objective-c
       before_install:
         #- gem install cocoapods --pre --no-document --quiet
@@ -32,49 +32,49 @@ matrix:
 
     # iOS 12.1
     - os: osx
-      osx_image: xcode11.2
+      osx_image: xcode11.3
       language: objective-c
       env: 
         - DESTINATION="OS=12.1,name=iPhone X" SCHEME="$IOS_FRAMEWORK_SCHEME" SDK="$IOS_SDK" XCODE_RUN_TESTS="YES" CODECOV_FLAG="ios"
 
-    # iOS 13.0
+    # iOS 13.3
     - os: osx
-      osx_image: xcode11.2
+      osx_image: xcode11.3
       language: objective-c
       env: 
-        - DESTINATION="OS=13.0,name=iPhone 11" SCHEME="$IOS_FRAMEWORK_SCHEME" SDK="$IOS_SDK" XCODE_RUN_TESTS="YES" CODECOV_FLAG="ios"
+        - DESTINATION="OS=13.3,name=iPhone 11" SCHEME="$IOS_FRAMEWORK_SCHEME" SDK="$IOS_SDK" XCODE_RUN_TESTS="YES" CODECOV_FLAG="ios"
 
     # #watchOS 5.1
     # - os: osx
-    #   osx_image: xcode11.2
+    #   osx_image: xcode11.3
     #   language: objective-c
     #   env: 
     #     - DESTINATION="OS=5.1,name=Apple Watch Series 4 - 44mm" SCHEME="$WATCHOS_FRAMEWORK_SCHEME" SDK="$WATCHOS_SDK" XCODE_RUN_TESTS="NO" CODECOV_FLAG="watchos"
 
     #watchOS 6.1
     - os: osx
-      osx_image: xcode11.2
+      osx_image: xcode11.3
       language: objective-c
       env: 
         - DESTINATION="OS=6.1,name=Apple Watch Series 5 - 44mm" SCHEME="$WATCHOS_FRAMEWORK_SCHEME" SDK="$WATCHOS_SDK" XCODE_RUN_TESTS="NO" CODECOV_FLAG="watchos"     
     
     # tvOS 12.1
     - os: osx
-      osx_image: xcode11.2
+      osx_image: xcode11.3
       language: objective-c
       env: 
         - DESTINATION="OS=12.2,name=Apple TV 4K (at 1080p)" SCHEME="$TVOS_FRAMEWORK_SCHEME" SDK="$TVOS_SDK" XCODE_RUN_TESTS="YES" CODECOV_FLAG="tvos"
 
-    # tvOS 13.0
+    # tvOS 13.3
     - os: osx
-      osx_image: xcode11.2
+      osx_image: xcode11.3
       language: objective-c
       env: 
-        - DESTINATION="OS=13.0,name=Apple TV 4K (at 1080p)" SCHEME="$TVOS_FRAMEWORK_SCHEME" SDK="$TVOS_SDK" XCODE_RUN_TESTS="YES" CODECOV_FLAG="tvos"
+        - DESTINATION="OS=13.3,name=Apple TV 4K (at 1080p)" SCHEME="$TVOS_FRAMEWORK_SCHEME" SDK="$TVOS_SDK" XCODE_RUN_TESTS="YES" CODECOV_FLAG="tvos"
 
     # macOS
     - os: osx
-      osx_image: xcode11.2
+      osx_image: xcode11.3
       language: objective-c
       env: 
        - DESTINATION="arch=x86_64" SCHEME="$MACOS_FRAMEWORK_SCHEME" SDK="$MACOS_SDK" XCODE_RUN_TESTS="YES" CODECOV_FLAG="macos" 
