@@ -44,9 +44,18 @@ class CoreDataPlusInMemoryTestCase: XCTestCase {
 // MARK: - In Memory NSPersistentContainer
 
 final class InMemoryPersistentContainer: NSPersistentContainer {
-  static func makeNew() -> InMemoryPersistentContainer {
+  static func makeNew(version: SampleModelVersion = .version1) -> InMemoryPersistentContainer {
     let url = URL(fileURLWithPath: "/dev/null")
-    let container = InMemoryPersistentContainer(name: "SampleModel", managedObjectModel: model)
+    let container: InMemoryPersistentContainer
+    switch version {
+    case .version1:
+      container = InMemoryPersistentContainer(name: version.modelName, managedObjectModel: model)
+    case .version2:
+      container = InMemoryPersistentContainer(name: version.modelName, managedObjectModel: modelV2)
+    case .version3:
+      container = InMemoryPersistentContainer(name: version.modelName, managedObjectModel: modelV3)
+    }
+
     container.persistentStoreDescriptions[0].url = url
     container.loadPersistentStores { (description, error) in
       XCTAssertNil(error)

@@ -24,6 +24,7 @@
 import CoreData
 @testable import CoreDataPlus
 
+/// Cached models to avoid XCTest warnings
 let model = SampleModelVersion.version1.managedObjectModel()
 
 /// True is is texts are run via SPM (both Terminal or Xcode 11)

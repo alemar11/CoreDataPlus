@@ -472,7 +472,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusInMemoryTestCase {
     XCTAssertEqual(context.registeredObjects.count, 2) // person2 is discarded because it cannot be saved
   }
 
-  func testCollectionDelete() throws {
+  func testRelationshipDelete() throws {
     let context = container.viewContext
     let newContext = context.newBackgroundContext()
 

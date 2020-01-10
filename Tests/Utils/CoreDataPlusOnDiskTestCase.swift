@@ -51,9 +51,18 @@ class CoreDataPlusOnDiskTestCase: XCTestCase {
 // MARK: - On Disk NSPersistentContainer
 
 final class OnDiskPersistentContainer: NSPersistentContainer {
-  static func makeNew() -> OnDiskPersistentContainer {
+  static func makeNew(version: SampleModelVersion = .version1) -> OnDiskPersistentContainer {
     let url = URL.newDatabaseURL(withID: UUID())
-    let container = OnDiskPersistentContainer(name: "SampleModel", managedObjectModel: model)
+    let container: OnDiskPersistentContainer
+    switch version {
+    case .version1:
+      container = OnDiskPersistentContainer(name: version.modelName, managedObjectModel: model)
+    case .version2:
+      container = OnDiskPersistentContainer(name: version.modelName, managedObjectModel: modelV2)
+    case .version3:
+      container = OnDiskPersistentContainer(name: version.modelName, managedObjectModel: modelV3)
+    }
+
     container.persistentStoreDescriptions[0].url = url
     if #available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *) {
       container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
@@ -64,9 +73,18 @@ final class OnDiskPersistentContainer: NSPersistentContainer {
     return container
   }
 
-  static func makeNew(id: UUID) -> OnDiskPersistentContainer {
+  static func makeNew(id: UUID, version: SampleModelVersion = .version1) -> OnDiskPersistentContainer {
     let url = URL.newDatabaseURL(withID: id)
-    let container = OnDiskPersistentContainer(name: "SampleModel", managedObjectModel: model)
+    let container: OnDiskPersistentContainer
+    switch version {
+    case .version1:
+      container = OnDiskPersistentContainer(name: version.modelName, managedObjectModel: model)
+    case .version2:
+      container = OnDiskPersistentContainer(name: version.modelName, managedObjectModel: modelV2)
+    case .version3:
+      container = OnDiskPersistentContainer(name: version.modelName, managedObjectModel: modelV3)
+    }
+
     container.persistentStoreDescriptions[0].url = url
     if #available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *) {
       container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)

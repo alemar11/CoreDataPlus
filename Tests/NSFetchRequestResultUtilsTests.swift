@@ -210,7 +210,6 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     let currentFaultsCount = person.cars?.filter { $0.isFault }.count
     XCTAssertTrue(previousFaultsCount == currentNotFaultsCount)
     XCTAssertTrue(currentFaultsCount == 0)
-
   }
 
   // MARK: - Fetch
@@ -866,55 +865,55 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
   }
 
   // TODO: investigation
-//  func testFailedBatchUpdateObjectsWithResultObjectIDs() throws {
-//    guard #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) else { return }
-//
-//    // Given
-//    let context = container.viewContext
-//    context.fillWithSampleData()
-//    try context.save()
-//
-//    // numberPlate is not optional and a constraint for the Car Entity in CoreData
-//    // but in the backing .sqlite file it's actually just an optional string
-//
-//    XCTAssertThrowsError(try Car.batchUpdateObjects(with: context,
-//                                                    resultType: .statusOnlyResultType,
-//                                                    propertiesToUpdate: [#keyPath(Car.numberPlate): NSExpression(forConstantValue: "SAME_VALE")],
-//                                                    includesSubentities: true)
-//    )
-//
-//    let cars = try! Car.fetch(in: context)
-//    XCTAssertEqual(cars.count, 125) // Nothing changed here
-//
-//
-//    // TODO: investigate this behaviour
-//    // While setting the same value for a constraing property throws an exception, setting nil doesn't throw anything but then
-//    // all the updated objects are "broken"
-//    let result2 = try Car.batchUpdateObjects(with: context,
-//                                             resultType: .statusOnlyResultType,
-//                                             propertiesToUpdate: [#keyPath(Car.numberPlate): NSExpression(forConstantValue: nil)],
-//                                             includesSubentities: true)
-//    XCTAssertNotNil(result2.status, "There should be a status for a batch update with statusOnlyResultType option.")
-//    XCTAssertTrue(result2.status!)
-//
-//    let car = try Car.findOneOrFetch(in: context, where: NSPredicate(value: true))
-//
-//    try context.save()
-//    try Car.deleteAll(in: context)
-//    try context.save()
-//    let cars2 = try! Car.fetch(in: context)
-//    XCTAssertTrue(cars2.isEmpty) // All the cars aren't valid (for the CoreData model) anymore
-//    let _car = try Car.findOneOrFetch(in: context, where: NSPredicate(value: true))
-//
-//    let count = try Car.count(in: context)
-//    XCTAssertEqual(count, 125)
-//
-//    try Car.batchDeleteObjects(with: context, resultType: .resultTypeCount) { $0.predicate = NSPredicate(format: "%K == NULL", #keyPath(Car.numberPlate))}
-//    let count2 = try Car.count(in: context)
-//
-//     XCTAssertEqual(count2, 0)
-//    // https://developer.apple.com/library/archive/featuredarticles/CoreData_Batch_Guide/BatchUpdates/BatchUpdates.html
-//  }
+  //  func testFailedBatchUpdateObjectsWithResultObjectIDs() throws {
+  //    guard #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) else { return }
+  //
+  //    // Given
+  //    let context = container.viewContext
+  //    context.fillWithSampleData()
+  //    try context.save()
+  //
+  //    // numberPlate is not optional and a constraint for the Car Entity in CoreData
+  //    // but in the backing .sqlite file it's actually just an optional string
+  //
+  //    XCTAssertThrowsError(try Car.batchUpdateObjects(with: context,
+  //                                                    resultType: .statusOnlyResultType,
+  //                                                    propertiesToUpdate: [#keyPath(Car.numberPlate): NSExpression(forConstantValue: "SAME_VALE")],
+  //                                                    includesSubentities: true)
+  //    )
+  //
+  //    let cars = try! Car.fetch(in: context)
+  //    XCTAssertEqual(cars.count, 125) // Nothing changed here
+  //
+  //
+  //    // TODO: investigate this behaviour
+  //    // While setting the same value for a constraing property throws an exception, setting nil doesn't throw anything but then
+  //    // all the updated objects are "broken"
+  //    let result2 = try Car.batchUpdateObjects(with: context,
+  //                                             resultType: .statusOnlyResultType,
+  //                                             propertiesToUpdate: [#keyPath(Car.numberPlate): NSExpression(forConstantValue: nil)],
+  //                                             includesSubentities: true)
+  //    XCTAssertNotNil(result2.status, "There should be a status for a batch update with statusOnlyResultType option.")
+  //    XCTAssertTrue(result2.status!)
+  //
+  //    let car = try Car.findOneOrFetch(in: context, where: NSPredicate(value: true))
+  //
+  //    try context.save()
+  //    try Car.deleteAll(in: context)
+  //    try context.save()
+  //    let cars2 = try! Car.fetch(in: context)
+  //    XCTAssertTrue(cars2.isEmpty) // All the cars aren't valid (for the CoreData model) anymore
+  //    let _car = try Car.findOneOrFetch(in: context, where: NSPredicate(value: true))
+  //
+  //    let count = try Car.count(in: context)
+  //    XCTAssertEqual(count, 125)
+  //
+  //    try Car.batchDeleteObjects(with: context, resultType: .resultTypeCount) { $0.predicate = NSPredicate(format: "%K == NULL", #keyPath(Car.numberPlate))}
+  //    let count2 = try Car.count(in: context)
+  //
+  //     XCTAssertEqual(count2, 0)
+  //    // https://developer.apple.com/library/archive/featuredarticles/CoreData_Batch_Guide/BatchUpdates/BatchUpdates.html
+  //  }
 
   // MARK: - Async Fetch
 
