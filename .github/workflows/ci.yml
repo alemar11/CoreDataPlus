@@ -42,7 +42,7 @@ jobs:
       DEVELOPER_DIR: /Applications/Xcode_11.3.app/Contents/Developer
     strategy:
       matrix:
-        destination: ["OS=13.3.3,name=iPhone 11 Pro"] #, "OS=12.4,name=iPhone XS", "OS=11.4,name=iPhone X"]
+        destination: ["OS=13.3,name=iPhone 11 Pro"] #, "OS=12.4,name=iPhone XS", "OS=11.4,name=iPhone X"]
     steps:
       - uses: actions/checkout@v1
       - name: iOS - ${{ matrix.destination }}
@@ -66,7 +66,7 @@ jobs:
       DEVELOPER_DIR: /Applications/Xcode_11.3.app/Contents/Developer
     strategy:
       matrix:
-        destination: ["OS=6.1,name=Apple Watch Series 5 - 44mm"] #, ""OS=5.3,name=Apple Watch Series 4 - 44mm", "OS=4.2,name=Apple Watch Series 3 - 42mm"]
+        destination: ["OS=6.1.1,name=Apple Watch Series 5 - 44mm"] #, ""OS=5.3,name=Apple Watch Series 4 - 44mm", "OS=4.2,name=Apple Watch Series 3 - 42mm"]
     steps:
       - uses: actions/checkout@v1
       - name: watchOS - ${{ matrix.destination }}
