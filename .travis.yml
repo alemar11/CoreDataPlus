@@ -51,12 +51,12 @@ matrix:
     #   env: 
     #     - DESTINATION="OS=5.1,name=Apple Watch Series 4 - 44mm" SCHEME="$WATCHOS_FRAMEWORK_SCHEME" SDK="$WATCHOS_SDK" XCODE_RUN_TESTS="NO" CODECOV_FLAG="watchos"
 
-    #watchOS 6.1
+    #watchOS 6.1.1
     - os: osx
       osx_image: xcode11.3
       language: objective-c
       env: 
-        - DESTINATION="OS=6.1,name=Apple Watch Series 5 - 44mm" SCHEME="$WATCHOS_FRAMEWORK_SCHEME" SDK="$WATCHOS_SDK" XCODE_RUN_TESTS="NO" CODECOV_FLAG="watchos"     
+        - DESTINATION="OS=6.1.1,name=Apple Watch Series 5 - 44mm" SCHEME="$WATCHOS_FRAMEWORK_SCHEME" SDK="$WATCHOS_SDK" XCODE_RUN_TESTS="NO" CODECOV_FLAG="watchos"     
     
     # tvOS 12.1
     - os: osx
