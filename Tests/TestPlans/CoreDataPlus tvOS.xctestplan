@@ -27,7 +27,6 @@
       }
     },
     {
-      "enabled" : false,
       "id" : "485EA5DF-DA8A-4E8B-B6E1-97654C637F2F",
       "name" : "Concurrency",
       "options" : {
@@ -52,7 +51,6 @@
       }
     },
     {
-      "enabled" : false,
       "id" : "9E39D84D-739A-411B-B183-741C5F76202E",
       "name" : "Concurrency without ConcurrencyDebug flag",
       "options" : {
