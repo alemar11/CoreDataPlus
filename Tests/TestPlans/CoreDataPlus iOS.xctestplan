@@ -101,7 +101,6 @@
   },
   "testTargets" : [
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:CoreDataPlus.xcodeproj",
         "identifier" : "23EFDE8C1F95FE730038BE75",

@@ -46,7 +46,8 @@
             "enabled" : false
           }
         ],
-        "threadSanitizerEnabled" : true
+        "threadSanitizerEnabled" : true,
+        "undefinedBehaviorSanitizerEnabled" : true
       }
     },
     {
@@ -66,7 +67,8 @@
             "enabled" : false
           }
         ],
-        "threadSanitizerEnabled" : true
+        "threadSanitizerEnabled" : true,
+        "undefinedBehaviorSanitizerEnabled" : true
       }
     }
   ],
