@@ -51,7 +51,7 @@ extension Person {
 
     let properties = self.entity.properties.map {$0.name}
     if properties.contains("id") {
-      // V2 and V3 doesn't have the id field
+      // V2 and V3 don't have the id field
       // setPrimitiveValue(NSDate(), forKey: "updatedAt") // we can use one of these two options to set the value
       primitiveId = UUID()
     }
