@@ -200,7 +200,7 @@ extension NSManagedObjectContext {
     return try _performAndWait(function: performAndWait, execute: block, rescue: { throw $0 })
   }
 
-  public func _performAndWaitWithoutResult(_ block: (NSManagedObjectContext) throws -> Void) rethrows { // TODO
+  public func _performAndWait(_ block: (NSManagedObjectContext) throws -> Void) rethrows { // TODO
     try _performAndWait(function: performAndWait, execute: block, rescue: { throw $0 })
   }
 
