@@ -232,7 +232,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
     car1_deleted.model = "Giulietta"
     car1_deleted.numberPlate = "00011"
 
-    person1_deleted.cars = Set([car1_deleted])
+    person1_deleted._cars = Set([car1_deleted])
 
     /// Elements to be updated: 3 Person + 1 Car
     let person1_updated = Person(context: context)
@@ -252,7 +252,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
     car1_updated.model = "Giulia"
     car1_updated.numberPlate = "000"
 
-    person1_updated.cars = Set([car1_updated])
+    person1_updated._cars = Set([car1_updated])
 
     /// Elements to be refreshed: 1 Person
     let person1_refreshed = Person(context: context)
@@ -345,9 +345,9 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
     car6_inserted.model = "M6 Coupe"
     car6_inserted.numberPlate = "200"
 
-    person1_inserted.cars = Set([car1_inserted])
-    person2_inserted.cars = Set([car2_inserted, car3_inserted])
-    person3_inserted.cars = Set([car4_inserted, car5_inserted, car6_inserted])
+    person1_inserted._cars = Set([car1_inserted])
+    person2_inserted._cars = Set([car2_inserted, car3_inserted])
+    person3_inserted._cars = Set([car4_inserted, car5_inserted, car6_inserted])
 
     context.delete(person1_deleted)
     context.delete(car1_deleted)
@@ -589,7 +589,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
 
       // Update a faulted relationship
       let firstPerson = persons.filter { $0.firstName == person1.firstName }.first!
-      firstPerson.cars = Set([car2])
+      firstPerson._cars = Set([car2])
 
       try anotherContext.save()
       person3ObjectId = person3.objectID
@@ -667,7 +667,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
 
     // Update a faulted relationship
     let firstPerson = persons.filter { $0.firstName == person1.firstName }.first!
-    firstPerson.cars = Set([car2])
+    firstPerson._cars = Set([car2])
 
     context.reset()
     try context.save() // the command will do nothing, the FRC delegate is exepcted to have 0 changed objects

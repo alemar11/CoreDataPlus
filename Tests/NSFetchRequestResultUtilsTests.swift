@@ -203,11 +203,11 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     XCTAssertTrue(!persons.isEmpty)
 
     let person = persons.first!
-    let previousFaultsCount = person.cars?.filter { $0.isFault }.count
+    let previousFaultsCount = person._cars?.filter { $0.isFault }.count
 
-    XCTAssertNoThrow(try person.cars?.materializeFaultedObjects())
-    let currentNotFaultsCount = person.cars?.filter { !$0.isFault }.count
-    let currentFaultsCount = person.cars?.filter { $0.isFault }.count
+    XCTAssertNoThrow(try person._cars?.materializeFaultedObjects())
+    let currentNotFaultsCount = person._cars?.filter { !$0.isFault }.count
+    let currentFaultsCount = person._cars?.filter { $0.isFault }.count
     XCTAssertTrue(previousFaultsCount == currentNotFaultsCount)
     XCTAssertTrue(currentFaultsCount == 0)
 
