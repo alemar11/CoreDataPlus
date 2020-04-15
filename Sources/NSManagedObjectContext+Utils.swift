@@ -200,6 +200,10 @@ extension NSManagedObjectContext {
     return try _performAndWait(function: performAndWait, execute: block, rescue: { throw $0 })
   }
 
+  public func _performAndWaitWithoutResult(_ block: (NSManagedObjectContext) throws -> Void) rethrows { // TODO
+    try _performAndWait(function: performAndWait, execute: block, rescue: { throw $0 })
+  }
+
   /// Helper function for convincing the type checker that the rethrows invariant holds for performAndWait.
   ///
   /// Source: https://oleb.net/blog/2018/02/performandwait/
