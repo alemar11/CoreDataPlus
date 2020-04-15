@@ -36,11 +36,6 @@ extension Collection where Element: NSManagedObject {
     }
   }
 
-  @available(*, deprecated, message: "Use materializeFaultedObjects() instead.")
-  public func fetchFaultedObjects() throws {
-    try materializeFaultedManagedObjects()
-  }
-
   /// **CoreDataPlus**
   ///
   /// Materializes all the faulted objects in one batch, executing a single fetch request.
