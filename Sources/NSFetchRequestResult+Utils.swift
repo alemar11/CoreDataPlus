@@ -34,7 +34,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   public func safeAccess<T>(_ block: (Self) throws -> T) rethrows -> T {
     guard let context = managedObjectContext else { fatalError("\(self) doesn't have a managedObjectContext.") }
 
-    return try context.performAndWait { _ -> T in
+    return try context.performAndWaitResult { _ -> T in
       return try block(self)
     }
   }

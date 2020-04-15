@@ -59,7 +59,7 @@ extension NSManagedObjectContext {
   private func historyTransaction(using historyFetchRequest: NSPersistentHistoryChangeRequest) throws -> [NSPersistentHistoryTransaction] {
     historyFetchRequest.resultType = .transactionsAndChanges
     do {
-      return try performAndWait { context ->[NSPersistentHistoryTransaction] in
+      return try performAndWaitResult { context ->[NSPersistentHistoryTransaction] in
         // swiftlint:disable force_cast
         let history = try context.execute(historyFetchRequest) as! NSPersistentHistoryResult
         let transactions = history.result as! [NSPersistentHistoryTransaction]
@@ -100,7 +100,7 @@ extension NSManagedObjectContext {
   @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   private func processHistory(using historyFetchRequest: NSPersistentHistoryChangeRequest, transactionHandler: (NSPersistentHistoryTransaction) throws -> Void) throws {
     historyFetchRequest.resultType = .transactionsAndChanges
-    try performAndWait { context -> Void in
+    try performAndWaitResult { context -> Void in
       // swiftlint:disable force_cast
       let history = try context.execute(historyFetchRequest) as! NSPersistentHistoryResult
       let transactions = history.result as! [NSPersistentHistoryTransaction]
@@ -159,7 +159,7 @@ extension NSManagedObjectContext {
     historyFetchRequest.resultType = .transactionsAndChanges
     do {
       // Do your merging inside a context.performAndWait { … } as shown in WWDC 2017
-      let result = try performAndWait { context -> (NSPersistentHistoryToken?, Date?) in
+      let result = try performAndWaitResult { context -> (NSPersistentHistoryToken?, Date?) in
         // swiftlint:disable force_cast
         let history = try context.execute(historyFetchRequest) as! NSPersistentHistoryResult
         let transactions = history.result as! [NSPersistentHistoryTransaction]
@@ -224,7 +224,7 @@ extension NSManagedObjectContext {
   private func deleteHistory(using deleteHistoryRequest: NSPersistentHistoryChangeRequest) throws -> Bool {
     deleteHistoryRequest.resultType = .statusOnly
     do {
-      let result = try performAndWait { context -> Bool in
+      let result = try performAndWaitResult { context -> Bool in
         // swiftlint:disable force_cast
         let history = try context.execute(deleteHistoryRequest) as! NSPersistentHistoryResult
         let status = history.result as! Bool

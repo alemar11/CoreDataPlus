@@ -149,14 +149,14 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     let sportCar1 = SportCar(context: context1)
     sportCar1.numberPlate = "sportCar1-testBatchFaultingWithDifferentContexts"
 
-    let person2 = context2.performAndWait { context -> Person in
+    let person2 = context2.performAndWaitResult { context -> Person in
       let person = Person(context: context2)
       person.firstName = "firstName-testBatchFaultingWithDifferentContexts"
       person.lastName = "lastName-testBatchFaultingWithDifferentContexts"
       return person
     }
 
-    let car2 = context2.performAndWait { context -> Car in
+    let car2 = context2.performAndWaitResult { context -> Car in
       let car = Car(context: context2)
       car.numberPlate = "car2-testBatchFaultingWithDifferentContexts"
       return car
@@ -543,7 +543,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     }
 
     do {
-      _ = try newContext.performAndWait { context in
+      _ = try newContext.performAndWaitResult { context in
         _  = try Person.fetchCachedObject(in: context, forKey: "cached-person-2") { request in
           request.predicate = NSPredicate(value: true)
         }
@@ -598,7 +598,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     XCTAssertTrue(fiatCount > 0)
 
     let backgroundContext = context.newBackgroundContext()
-    let result = try backgroundContext.performAndWait {
+    let result = try backgroundContext.performAndWaitResult {
       try Car.batchDeleteObjects(with: $0, resultType: .resultTypeObjectIDs) { $0.predicate = fiatPredicate }
     }
 
@@ -970,13 +970,13 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
 
   func testManagedObjectThreadSafeAccess() {
     let context = container.viewContext.newBackgroundContext()
-    let car = context.performAndWait { return Car(context: $0) }
+    let car = context.performAndWaitResult { return Car(context: $0) }
     car.safeAccess { XCTAssertEqual($0.managedObjectContext, context) }
   }
 
   func testFetchedResultsControllerThreadSafeAccess() throws {
     let context = container.viewContext.newBackgroundContext()
-    try context.performAndWait { _ in
+    try context.performAndWaitResult { _ in
       context.fillWithSampleData()
       try context.save()
     }

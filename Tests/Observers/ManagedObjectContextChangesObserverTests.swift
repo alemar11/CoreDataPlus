@@ -393,7 +393,7 @@ final class ManagedObjectContextChangesObserverTests: CoreDataPlusInMemoryTestCa
     _ = observer // remove unused warning...
 
     let backgroundContext = container.newBackgroundContext()
-    try backgroundContext.performAndWait { ctx in
+    try backgroundContext.performAndWaitResult { ctx in
       let car = Car(context: ctx)
       car.maker = "FIAT"
       car.model = "Panda"
@@ -721,7 +721,7 @@ final class ManagedObjectContextChangesObserverTests: CoreDataPlusInMemoryTestCa
     let car2Plate = UUID().uuidString
 
     // When, Then
-    try childContext.performAndWait { context in
+    try childContext.performAndWaitResult { context in
       let car1 = Car(context: context)
       let car2 = Car(context: context)
       car1.maker = "FIAT"
@@ -736,7 +736,7 @@ final class ManagedObjectContextChangesObserverTests: CoreDataPlusInMemoryTestCa
       try context.save()
     }
 
-    try parentContext.performAndWait { context in
+    try parentContext.performAndWaitResult { context in
       try context.save()
     }
 
@@ -838,7 +838,7 @@ final class ManagedObjectContextChangesObserverTests: CoreDataPlusInMemoryTestCa
       car5.numberPlate = UUID().uuidString
     }
 
-    try parentContext.performAndWait { context in
+    try parentContext.performAndWaitResult { context in
       try context.save() // triggers the didSave event
     }
 

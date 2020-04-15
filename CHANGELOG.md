@@ -3,6 +3,7 @@
 ### 2.3.0
 
 - Added `NSSet` utils.
+- `performAndWait` overload renamed to `performAndWaitResult`
 - Minor refinements.
 - More tests.
 

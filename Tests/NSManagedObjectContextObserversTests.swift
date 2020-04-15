@@ -439,7 +439,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
       expectation5.fulfill()
     }
 
-    try anotherContext.performAndWait { _ in
+    try anotherContext.performAndWaitResult { _ in
       let persons = try Person.fetch(in: anotherContext)
 
       for person in persons {
@@ -457,7 +457,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
     waitForExpectations(timeout: 20)
     XCTAssertFalse(context.hasChanges)
 
-    try anotherContext.performAndWait { _ in
+    try anotherContext.performAndWaitResult { _ in
       XCTAssertFalse(anotherContext.hasChanges)
       XCTAssertEqual(try Person.count(in: anotherContext), 3)
 
@@ -505,7 +505,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
 
     try context.save()
 
-    try anotherContext.performAndWait {_ in
+    try anotherContext.performAndWaitResult {_ in
       let persons = try Person.fetch(in: anotherContext)
 
       for person in persons {
@@ -522,7 +522,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
 
     waitForExpectations(timeout: 2)
     XCTAssertFalse(context.hasChanges)
-    try anotherContext.performAndWait { _ in
+    try anotherContext.performAndWaitResult { _ in
       XCTAssertFalse(anotherContext.hasChanges)
       XCTAssertEqual(try Person.count(in: anotherContext), 3)
     }
@@ -573,7 +573,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
 
     var person3ObjectId: NSManagedObjectID?
 
-    try anotherContext.performAndWait { _ in
+    try anotherContext.performAndWaitResult { _ in
       let persons = try Person.fetch(in: anotherContext)
 
       // Insert a new car object on anohterContext
