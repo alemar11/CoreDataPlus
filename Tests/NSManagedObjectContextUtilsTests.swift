@@ -500,7 +500,7 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusInMemoryTestCase {
 
 
     let list = [car1, person1, person2, person3]
-    list.delete()
+    list.deleteManagedObjects()
 
     for mo in list {
       mo.managedObjectContext?.performAndWait {
