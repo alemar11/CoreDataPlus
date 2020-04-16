@@ -72,7 +72,7 @@ extension Collection where Element: NSManagedObject {
         request.predicate = NSPredicate(format: "self IN %@", faults)
 
         do {
-          try context._performAndWait { try $0.fetch(request) }
+          try context.performAndWait { try $0.fetch(request) }
         } catch {
           throw NSError.fetchFailed(underlyingError: error)
         }

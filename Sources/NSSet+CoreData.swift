@@ -1,4 +1,4 @@
-// 
+//
 // CoreDataPlus
 //
 // Copyright © 2016-2020 Tinrobots.
@@ -48,4 +48,3 @@ extension NSSet {
     try managedObjects.materializeFaultedManagedObjects()
   }
 }
-
