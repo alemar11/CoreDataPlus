@@ -58,7 +58,7 @@ public struct CoreDataMigration {
       return //TODO: add error and tests
     }
 
-    guard let sourceVersion = Version(persistentStoreURL: sourceURL as URL) else {
+    guard let sourceVersion = Version(persistentStoreURL: sourceURL) else {
       fatalError("A ModelVersion for the store at URL \(sourceURL) could not be found.")
     }
 
