@@ -237,6 +237,9 @@
 		23FFB86222EC948C00391D40 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FFB86122EC948C00391D40 /* Utils.swift */; };
 		23FFB86322EC948C00391D40 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FFB86122EC948C00391D40 /* Utils.swift */; };
 		23FFB86422EC948C00391D40 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FFB86122EC948C00391D40 /* Utils.swift */; };
+		D2B7E1552448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B7E1542448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift */; };
+		D2B7E1562448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B7E1542448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift */; };
+		D2B7E1572448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B7E1542448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift */; };
 		D2C5CE3124475F1A00AD19D8 /* NSSet+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C5CE3024475F1A00AD19D8 /* NSSet+CoreData.swift */; };
 		D2C5CE3224475F1A00AD19D8 /* NSSet+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C5CE3024475F1A00AD19D8 /* NSSet+CoreData.swift */; };
 		D2C5CE3324475F1A00AD19D8 /* NSSet+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C5CE3024475F1A00AD19D8 /* NSSet+CoreData.swift */; };
@@ -358,6 +361,7 @@
 		23EFDEAB1F95FEB40038BE75 /* CoreDataPlus Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CoreDataPlus Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		23FFB86122EC948C00391D40 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		D254E22A23C3BA7F00A1586E /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = SOURCE_ROOT; };
+		D2B7E1542448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSPersistentStoreCoordinatorUtilsTests.swift; sourceTree = "<group>"; };
 		D2C5CE3024475F1A00AD19D8 /* NSSet+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSSet+CoreData.swift"; sourceTree = "<group>"; };
 		D2C5CE35244762FA00AD19D8 /* NSSetCoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSSetCoreDataTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -582,6 +586,7 @@
 				23C3B2B51FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift */,
 				236351061F95F28C00B3A16A /* NSManagedObjectUtilsTests.swift */,
 				D2C5CE35244762FA00AD19D8 /* NSSetCoreDataTests.swift */,
+				D2B7E1542448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1089,6 +1094,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2B7E1552448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift in Sources */,
 				23948D1F1F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift in Sources */,
 				23FFB86222EC948C00391D40 /* Utils.swift in Sources */,
 				233654371F9E1644007F8D3D /* NSManagedObjectContext+SampleModel.swift in Sources */,
@@ -1125,6 +1131,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2B7E1562448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift in Sources */,
 				23948D201F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift in Sources */,
 				23FFB86322EC948C00391D40 /* Utils.swift in Sources */,
 				233654381F9E1644007F8D3D /* NSManagedObjectContext+SampleModel.swift in Sources */,
@@ -1161,6 +1168,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2B7E1572448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift in Sources */,
 				23948D211F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift in Sources */,
 				23FFB86422EC948C00391D40 /* Utils.swift in Sources */,
 				233654391F9E1644007F8D3D /* NSManagedObjectContext+SampleModel.swift in Sources */,
