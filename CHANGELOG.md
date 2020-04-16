@@ -3,7 +3,9 @@
 ### 2.3.0
 
 - Added `NSSet` utils.
-- `performAndWait` overload renamed to `performAndWaitResult`
+- `isMigrationPossible` renamed to `isMigrationNecessary`.
+- `performAndWait` overload renamed to `performAndWaitResult`.
+- Now a WAL checkpoint can be performed before starting a migration.
 - Minor refinements.
 - More tests.
 
