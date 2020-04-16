@@ -110,15 +110,24 @@ extension CoreDataModelVersion {
 extension CoreDataModelVersion {
   /// **CoreDataPlus**
   ///
+  // Searches for the first CoreDataModelVersion whose model is compatible with the persistent store metedata
+  public static subscript(_ metadata: [String: Any]) -> Self? {
+    let version = Self.allVersions.first {
+      $0.managedObjectModel().isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
+    }
+
+    return version
+  }
+
+  /// **CoreDataPlus**
+  ///
   /// Initializes a `CoreDataModelVersion` from a `NSPersistentStore` URL.
   public init?(persistentStoreURL: URL) {
     guard let metadata = try? NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: persistentStoreURL, options: nil) else {
       return nil
     }
 
-    let version = Self.allVersions.first {
-      $0.managedObjectModel().isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
-    }
+    let version = Self[metadata]
 
     guard let modelVersion = version else {
       return nil
@@ -131,7 +140,7 @@ extension CoreDataModelVersion {
   ///
   /// Protocol `CoreDataModelVersion`.
   ///
-  /// Return the NSManagedObjectModel for this `CoreDataModelVersion`.
+  /// Returns the NSManagedObjectModel for this `CoreDataModelVersion`.
   public func managedObjectModel() -> NSManagedObjectModel {
     return _managedObjectModel()
   }
@@ -158,21 +167,24 @@ extension CoreDataModelVersion {
 
 // MARK: - Migration
 
-extension CoreDataModelVersion {
-  /// **CoreDataPlus**
-  ///
-  /// Returns `true` if a migration is possible for the current store to a given `CoreDataModelVersion`.
-  ///
-  /// - Parameters:
-  ///   - storeURL: the current store URL.
-  ///   - version: the ModelVersion to which the store is compared.
-  /// - Throws: It throws an error in cases of failure.
-  public func isMigrationPossible<Version: CoreDataModelVersion>(for storeURL: URL, to version: Version) throws -> Bool {
-    let metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: storeURL, options: nil)
-    let targetModel = version.managedObjectModel()
-    return !targetModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
-  }
+/// **CoreDataPlus**
+///
+/// Returns `true` if a migration to a given `CoreDataModelVersion` is necessary for the persistent store at a given `URL`.
+///
+/// - Parameters:
+///   - storeURL: the current store URL.
+///   - version: the ModelVersion to which the store is compared.
+/// - Throws: It throws an error in cases of failure.
+public func isMigrationNecessary<Version: CoreDataModelVersion>(for storeURL: URL, to version: Version) throws -> Bool {
+  // Before you initiate a migration process, you should first determine whether it is necessary.
+  // If the target model configuration is compatible with the persistent store metadata, there is no need to migrate
+  // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmCustomizing.html#//apple_ref/doc/uid/TP40004399-CH8-SW2
+  let metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: storeURL, options: nil)
+  let targetModel = version.managedObjectModel()
+  return !targetModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
+}
 
+extension CoreDataModelVersion {
   /// **CoreDataPlus**
   ///
   /// Returns a list of `MigrationStep` needed to mirate to the next `version` of the store.
