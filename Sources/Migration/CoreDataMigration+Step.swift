@@ -23,17 +23,21 @@
 
 import CoreData
 
-/// **CoreDataPlus**
-///
-/// Represents a single step during the migration process.
-public final class CoreDataMigrationStep {
-  public let sourceModel: NSManagedObjectModel
-  public let destinationModel: NSManagedObjectModel
-  public let mappings: [NSMappingModel]
+public typealias CoreDataMigrationStep = CoreDataMigration.Step
 
-  init(source: NSManagedObjectModel, destination: NSManagedObjectModel, mappings: [NSMappingModel]) {
-    self.sourceModel = source
-    self.destinationModel = destination
-    self.mappings = mappings
+extension CoreDataMigration {
+  /// **CoreDataPlus**
+  ///
+  /// Represents a single step during the migration process.
+  public final class Step {
+    public let sourceModel: NSManagedObjectModel
+    public let destinationModel: NSManagedObjectModel
+    public let mappings: [NSMappingModel]
+
+    init(source: NSManagedObjectModel, destination: NSManagedObjectModel, mappings: [NSMappingModel]) {
+      self.sourceModel = source
+      self.destinationModel = destination
+      self.mappings = mappings
+    }
   }
 }

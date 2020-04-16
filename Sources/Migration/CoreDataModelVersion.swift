@@ -176,7 +176,7 @@ extension CoreDataModelVersion {
   /// **CoreDataPlus**
   ///
   /// Returns a list of `MigrationStep` needed to mirate to the next `version` of the store.
-  public func migrationSteps(to version: Self) -> [CoreDataMigrationStep] {
+  public func migrationSteps(to version: Self) -> [CoreDataMigration.Step] {
     guard self != version else {
       return []
     }
@@ -185,7 +185,7 @@ extension CoreDataModelVersion {
       fatalError("Couldn't find any mapping models.")
     }
 
-    let step = CoreDataMigrationStep(source: managedObjectModel(), destination: nextVersion.managedObjectModel(), mappings: mappings)
+    let step = CoreDataMigration.Step(source: managedObjectModel(), destination: nextVersion.managedObjectModel(), mappings: mappings)
 
     return [step] + nextVersion.migrationSteps(to: version)
   }
