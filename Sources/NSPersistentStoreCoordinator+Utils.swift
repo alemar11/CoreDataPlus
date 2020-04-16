@@ -35,15 +35,13 @@ extension NSPersistentStoreCoordinator {
     let fileManager = FileManager.default
 
     let storePath = url.path
-    if fileManager.fileExists(atPath: storePath) {
-      try fileManager.removeItem(atPath: storePath)
+    try fileManager.removeItem(atPath: storePath)
 
-      let writeAheadLog = storePath + "-wal"
-      _ = try? fileManager.removeItem(atPath: writeAheadLog)
+    let writeAheadLog = storePath + "-wal"
+    _ = try? fileManager.removeItem(atPath: writeAheadLog)
 
-      let sharedMemoryfile = storePath + "-shm"
-      _ = try? fileManager.removeItem(atPath: sharedMemoryfile)
-    }
+    let sharedMemoryfile = storePath + "-shm"
+    _ = try? fileManager.removeItem(atPath: sharedMemoryfile)
   }
 
   /// **CoreDataPlus**
