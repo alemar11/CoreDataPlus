@@ -136,7 +136,7 @@ public struct CoreDataMigration {
   static func performWALCheckpoint<V: CoreDataModelVersion>(version: V, storeURL: URL) throws {
     // If the -wal file is not present, using this approach to add the store won't cause any exceptions, but the transactions recorded in the missing -wal file will be lost.
     // https://developer.apple.com/library/archive/qa/qa1809/_index.html
-    // credits: https://williamboles.me/progressive-core-data-migration/
+    // credits: https://williamboles.me/progressive-core-data-migration/ - http://pablin.org/2013/05/24/problems-with-core-data-migration-manager-and-journal-mode-wal/
     let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: version.managedObjectModel())
     let options = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]]
     let store = try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
