@@ -324,7 +324,6 @@
 		23948D1E1F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSEntityDescriptionUtilsTests.swift; sourceTree = "<group>"; };
 		2397DDF822B29951004ED7B0 /* AnyManagedObjectContextChange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyManagedObjectContextChange.swift; sourceTree = "<group>"; };
 		2397DDFD22B3A349004ED7B0 /* NSManagedObjectContext+NotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+NotificationCenter.swift"; sourceTree = "<group>"; };
-		239C4D4E2304736000EBDEF6 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .travis.yml; sourceTree = SOURCE_ROOT; };
 		239F4CBF22F49F2F007888BA /* CoreDataPlusOnDiskTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPlusOnDiskTestCase.swift; sourceTree = "<group>"; };
 		23A35D512103995100388BEA /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = SOURCE_ROOT; };
 		23A35D522103D0EF00388BEA /* NSFetchRequestResult+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFetchRequestResult+Utils.swift"; sourceTree = "<group>"; };
@@ -523,7 +522,6 @@
 				06A3C1D5239FD83D00E08D45 /* CHANGELOG.md */,
 				0693F915237C58A7008E4F31 /* workflows */,
 				23B5806D1F94FEDF00A365C0 /* CoreDataPlus.h */,
-				239C4D4E2304736000EBDEF6 /* .travis.yml */,
 				231C313E22F5E3BB00BF7129 /* README.md */,
 				23A35D512103995100388BEA /* CHANGELOG.md */,
 				23BAC1181FA7A7D8002EE4F1 /* Package.swift */,
