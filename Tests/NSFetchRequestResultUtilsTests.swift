@@ -44,7 +44,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     XCTAssertNil(sportCar1.managedObjectContext)
 
     // When
-    try [sportCar1].materializeFaultedObjects()
+    try [sportCar1].materializeFaultedManagedObjects()
     // Then
     XCTAssertFalse(sportCar1.isFault)
   }
@@ -66,7 +66,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     // Then
     XCTAssertTrue(sportCar1.isFault)
 
-    try [sportCar1].materializeFaultedObjects()
+    try [sportCar1].materializeFaultedManagedObjects()
     XCTAssertFalse(sportCar1.isFault)
   }
 
@@ -95,7 +95,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     let previousFaultsCount = cars.filter { $0.isFault }.count
 
     /// batch faulting
-    XCTAssertNoThrow(try cars.materializeFaultedObjects())
+    XCTAssertNoThrow(try cars.materializeFaultedManagedObjects())
 
     // Then
     let currentNotFaultsCount = cars.filter { !$0.isFault }.count
@@ -115,7 +115,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
 
     // empty data set
     let objects: [NSManagedObject] = []
-    XCTAssertNoThrow(try objects.materializeFaultedObjects())
+    XCTAssertNoThrow(try objects.materializeFaultedManagedObjects())
 
     // no faults objects
     let request = Car.newFetchRequest()
@@ -128,7 +128,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     let previousFaultsCount = cars.filter { $0.isFault }.count
     let previousNotFaultsCount = cars.filter { !$0.isFault }.count
 
-    XCTAssertNoThrow(try cars.materializeFaultedObjects())
+    XCTAssertNoThrow(try cars.materializeFaultedManagedObjects())
 
     // Then
     let currentFaultsCount = cars.filter { $0.isFault }.count
@@ -149,14 +149,14 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     let sportCar1 = SportCar(context: context1)
     sportCar1.numberPlate = "sportCar1-testBatchFaultingWithDifferentContexts"
 
-    let person2 = context2.performAndWait { context -> Person in
+    let person2 = context2.performAndWaitResult { context -> Person in
       let person = Person(context: context2)
       person.firstName = "firstName-testBatchFaultingWithDifferentContexts"
       person.lastName = "lastName-testBatchFaultingWithDifferentContexts"
       return person
     }
 
-    let car2 = context2.performAndWait { context -> Car in
+    let car2 = context2.performAndWaitResult { context -> Car in
       let car = Car(context: context2)
       car.numberPlate = "car2-testBatchFaultingWithDifferentContexts"
       return car
@@ -180,7 +180,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
 
     // Then
     XCTAssertTrue(objects.filter { !$0.isFault }.isEmpty)
-    XCTAssertNoThrow(try objects.materializeFaultedObjects())
+    XCTAssertNoThrow(try objects.materializeFaultedManagedObjects())
     XCTAssertTrue(objects.filter { !$0.isFault }.count == 4)
   }
 
@@ -203,11 +203,11 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     XCTAssertTrue(!persons.isEmpty)
 
     let person = persons.first!
-    let previousFaultsCount = person.cars?.filter { $0.isFault }.count
+    let previousFaultsCount = person._cars?.filter { $0.isFault }.count
 
-    XCTAssertNoThrow(try person.cars?.materializeFaultedObjects())
-    let currentNotFaultsCount = person.cars?.filter { !$0.isFault }.count
-    let currentFaultsCount = person.cars?.filter { $0.isFault }.count
+    XCTAssertNoThrow(try person._cars?.materializeFaultedManagedObjects())
+    let currentNotFaultsCount = person._cars?.filter { !$0.isFault }.count
+    let currentFaultsCount = person._cars?.filter { $0.isFault }.count
     XCTAssertTrue(previousFaultsCount == currentNotFaultsCount)
     XCTAssertTrue(currentFaultsCount == 0)
 
@@ -543,7 +543,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     }
 
     do {
-      _ = try newContext.performAndWait { context in
+      _ = try newContext.performAndWaitResult { context in
         _  = try Person.fetchCachedObject(in: context, forKey: "cached-person-2") { request in
           request.predicate = NSPredicate(value: true)
         }
@@ -598,7 +598,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     XCTAssertTrue(fiatCount > 0)
 
     let backgroundContext = context.newBackgroundContext()
-    let result = try backgroundContext.performAndWait {
+    let result = try backgroundContext.performAndWaitResult {
       try Car.batchDeleteObjects(with: $0, resultType: .resultTypeObjectIDs) { $0.predicate = fiatPredicate }
     }
 
@@ -970,13 +970,13 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
 
   func testManagedObjectThreadSafeAccess() {
     let context = container.viewContext.newBackgroundContext()
-    let car = context.performAndWait { return Car(context: $0) }
+    let car = context.performAndWaitResult { return Car(context: $0) }
     car.safeAccess { XCTAssertEqual($0.managedObjectContext, context) }
   }
 
   func testFetchedResultsControllerThreadSafeAccess() throws {
     let context = container.viewContext.newBackgroundContext()
-    try context.performAndWait { _ in
+    try context.performAndWaitResult { _ in
       context.fillWithSampleData()
       try context.save()
     }

@@ -36,35 +36,47 @@ public struct CoreDataMigration {
   /// - Parameters:
   ///   - sourceURL: the current store URL.
   ///   - targetVersion: the ModelVersion to which the store is needed to migrate to.
+  ///   - enableWALCheckpoint: if `true` Core Data will perform a checkpoint operation which merges the data in the -wal file to the store file.
   ///   - progress: a Progress instance to monitor the migration.
   /// - Throws: It throws an error in cases of failure.
-  public static func migrateStore<Version: CoreDataModelVersion>(at sourceURL: URL, targetVersion: Version, progress: Progress? = nil) throws {
-    try migrateStore(from: sourceURL, to: sourceURL, targetVersion: targetVersion, deleteSource: false, progress: progress)
+  public static func migrateStore<Version: CoreDataModelVersion>(at sourceURL: URL, targetVersion: Version, enableWALCheckpoint: Bool = false, progress: Progress? = nil) throws {
+    try migrateStore(from: sourceURL, to: sourceURL, targetVersion: targetVersion, deleteSource: false, enableWALCheckpoint: enableWALCheckpoint, progress: progress)
   }
 
   /// **CoreDataPlus**
   ///
-  /// Migrates a store to a given version.
+  /// Migrates a store to a given version if needed.
   ///
   /// - Parameters:
-  ///   - sourceURL: the current store URL.
-  ///   - targetURL: the store URL after the migration phase.
+  ///   - sourceURL: The location of the existing persistent store.
+  ///   - targetURL: The location of the destination store.
   ///   - targetVersion: the ModelVersion to which the store is needed to migrate to.
   ///   - deleteSource: if `true` the initial store will be deleted after the migration phase.
+  ///   - enableWALCheckpoint: if `true` Core Data will perform a checkpoint operation which merges the data in the -wal file to the store file.
   ///   - progress: a Progress instance to monitor the migration.
   /// - Throws: It throws an error in cases of failure.
-  public static func migrateStore<Version: CoreDataModelVersion>(from sourceURL: URL, to targetURL: URL, targetVersion: Version, deleteSource: Bool = false, progress: Progress? = nil) throws {
+  public static func migrateStore<Version: CoreDataModelVersion>(from sourceURL: URL,
+                                                                 to targetURL: URL,
+                                                                 targetVersion: Version,
+                                                                 deleteSource: Bool = false,
+                                                                 enableWALCheckpoint: Bool = false,
+                                                                 progress: Progress? = nil) throws {
     guard FileManager.default.fileExists(atPath: sourceURL.relativePath) else {
-      return //TODO: add error and tests
+      let underlyingError = NSError.fileDoesNotExist(description: "Persistent Store not found at: \(sourceURL)")
+      throw NSError.migrationFailed(underlyingError: underlyingError)
     }
 
-    guard let sourceVersion = Version(persistentStoreURL: sourceURL as URL) else {
+    guard let sourceVersion = Version(persistentStoreURL: sourceURL) else {
       fatalError("A ModelVersion for the store at URL \(sourceURL) could not be found.")
     }
 
     do {
-      guard try sourceVersion.isMigrationPossible(for: sourceURL, to: targetVersion) else {
-        return
+      guard try CoreDataPlus.isMigrationNecessary(for: sourceURL, to: targetVersion) else {
+        return //TODO tests this method separately, test also what happens if we try to do a migration from V3 to V1
+      }
+
+      if enableWALCheckpoint {
+        try Self.performWALCheckpoint(version: sourceVersion, storeURL: sourceURL)
       }
 
       var currentURL = sourceURL
@@ -117,5 +129,18 @@ public struct CoreDataMigration {
     } catch {
       throw NSError.migrationFailed(underlyingError: error)
     }
+  }
+
+  // MARK: - WAL Checkpoint
+
+  // Forces Core Data to perform a checkpoint operation, which merges the data in the -wal file to the store file.
+  static func performWALCheckpoint<V: CoreDataModelVersion>(version: V, storeURL: URL) throws {
+    // If the -wal file is not present, using this approach to add the store won't cause any exceptions, but the transactions recorded in the missing -wal file will be lost.
+    // https://developer.apple.com/library/archive/qa/qa1809/_index.html
+    // credits: https://williamboles.me/progressive-core-data-migration/ - http://pablin.org/2013/05/24/problems-with-core-data-migration-manager-and-journal-mode-wal/
+    let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: version.managedObjectModel())
+    let options = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]]
+    let store = try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
+    try persistentStoreCoordinator.remove(store)
   }
 }

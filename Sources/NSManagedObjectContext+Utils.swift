@@ -196,8 +196,16 @@ extension NSManagedObjectContext {
   ///
   /// Synchronously performs a given block on the context’s queue and returns the final result.
   /// - Throws: It throws an error in cases of failure.
-  public func performAndWait<T>(_ block: (NSManagedObjectContext) throws -> T) rethrows -> T {
+  public func performAndWaitResult<T>(_ block: (NSManagedObjectContext) throws -> T) rethrows -> T {
     return try _performAndWait(function: performAndWait, execute: block, rescue: { throw $0 })
+  }
+
+  /// **CoreDataPlus**
+  ///
+  /// Synchronously performs a given block on the context’s queue.
+  /// - Throws: It throws an error in cases of failure.
+  public func performAndWait(_ block: (NSManagedObjectContext) throws -> Void) rethrows {
+    try _performAndWait(function: performAndWait, execute: block, rescue: { throw $0 })
   }
 
   /// Helper function for convincing the type checker that the rethrows invariant holds for performAndWait.

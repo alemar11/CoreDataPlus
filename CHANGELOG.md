@@ -1,5 +1,14 @@
 # Changelog
 
+### 2.3.0
+
+- Added `NSSet` utils.
+- `isMigrationPossible` renamed to `isMigrationNecessary`.
+- `performAndWait` overload renamed to `performAndWaitResult`.
+- Now a WAL checkpoint can be performed before starting a migration.
+- Minor refinements.
+- More tests.
+
 ### 2.2.0
 
 - Added support for Persistent History Tracking.

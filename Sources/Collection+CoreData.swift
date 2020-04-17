@@ -27,7 +27,7 @@ import CoreData
 
 extension Collection where Element: NSManagedObject {
   /// Specifies that all the `NSManagedObject` objects (with a `NSManangedObjectContext`) should be removed from its persistent store when changes are committed.
-  public func delete() {
+  public func deleteManagedObjects() {
     let managedObjectsWithtContext = self.filter { $0.managedObjectContext != nil }
     for object in managedObjectsWithtContext {
       object.safeAccess {
@@ -36,17 +36,12 @@ extension Collection where Element: NSManagedObject {
     }
   }
 
-  @available(*, deprecated, message: "Use materializeFaultedObjects() instead.")
-  public func fetchFaultedObjects() throws {
-    try materializeFaultedObjects()
-  }
-
   /// **CoreDataPlus**
   ///
   /// Materializes all the faulted objects in one batch, executing a single fetch request.
   /// - Throws: It throws an error in cases of failure.
   /// - Note: Materializing all the objects in one batch is faster than triggering the fault for each object on its own.
-  public func materializeFaultedObjects() throws {
+  public func materializeFaultedManagedObjects() throws {
     guard !self.isEmpty else { return }
 
     let faults = self.filter { $0.isFault }
@@ -57,14 +52,14 @@ extension Collection where Element: NSManagedObject {
     for (context, objects) in faultedObjectsByContext where !objects.isEmpty {
       // objects without context can trigger their fault one by one
       guard let context = context else {
-        objects.materialize()
+        objects.forEach { $0.materialize() }
         continue
       }
 
       // objects not yet saved can trigger their fault one by one
       let temporaryObjects = objects.filter { $0.objectID.isTemporaryID }
       if !temporaryObjects.isEmpty {
-        temporaryObjects.materialize()
+        temporaryObjects.forEach { $0.materialize() }
       }
 
       // avoid multiple fetches for subclass entities.
@@ -77,21 +72,12 @@ extension Collection where Element: NSManagedObject {
         request.predicate = NSPredicate(format: "self IN %@", faults)
 
         do {
-          _ = try context.performAndWait { _ in
-            try context.fetch(request)
-          }
+          try context.performAndWait { try $0.fetch(request) }
         } catch {
           throw NSError.fetchFailed(underlyingError: error)
         }
       }
     }
-  }
-
-  /// **CoreDataPlus**
-  ///
-  /// Materializes each object one by one.
-  private func materialize() {
-    self.forEach { $0.materialize() }
   }
 
   /// **CoreDataPlus**

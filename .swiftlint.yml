@@ -14,6 +14,10 @@ disabled_rules: # rule identifiers to exclude from running
   - large_tuple
   - todo
 
+cyclomatic_complexity:
+  - 15 #warning
+  - 20 #error
+
 line_length: 
   - 200 #warning
   - 250 #error

@@ -270,6 +270,6 @@ extension NSManagedObjectContext {
       car.numberPlate = "\(i)"
       cars.append(car)
     }
-    person11.cars = Set(cars)
+    person11._cars = Set(cars)
   }
 }

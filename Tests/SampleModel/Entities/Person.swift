@@ -30,7 +30,20 @@ final public class Person: NSManagedObject {
   @NSManaged public private(set) var id: UUID // preserved after deletion (tombstone)
   @NSManaged public var firstName: String
   @NSManaged public var lastName: String
-  @NSManaged public var cars: Set<Car>? // TODO: this must be a NSSet https://twitter.com/an0/status/1157072652290445314
+  @NSManaged public var cars: NSSet? // This is why it must be a NSSet https://twitter.com/an0/status/1157072652290445314
+
+  public var _cars: Set<Car>? {
+    get {
+      return cars as? Set<Car>
+    }
+    set {
+      if let newCars = newValue {
+        self.cars = NSSet(set: newCars)
+      } else {
+        self.cars = nil
+      }
+    }
+  }
 }
 
 extension Person: UpdateTimestampable {
