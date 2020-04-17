@@ -13,7 +13,7 @@
     <a title="CoreDataPlus  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">CoreDataPlus Docs</a> (90% documented)</p>
+        <p><a href="index.html">CoreDataPlus Docs</a> (86% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -29,9 +29,6 @@
           <li class="nav-group-name">
             <a href="Classes.html">Classes</a>
             <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="Classes/CoreDataMigrationStep.html">CoreDataMigrationStep</a>
-              </li>
               <li class="nav-group-task">
                 <a href="Classes/EntityObserver.html">EntityObserver</a>
               </li>
@@ -70,6 +67,18 @@
                 <a href="Extensions/NSBatchUpdateResult.html">NSBatchUpdateResult</a>
               </li>
               <li class="nav-group-task">
+                <a href="Extensions/NSEntityDescription.html">NSEntityDescription</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSError.html">NSError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSError/ErrorCode.html">– ErrorCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSError.html#/s:So7NSErrorC12CoreDataPlusE3KeyO">– Key</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Extensions/NSFetchRequest.html">NSFetchRequest</a>
               </li>
               <li class="nav-group-task">
@@ -86,6 +95,17 @@
               </li>
               <li class="nav-group-task">
                 <a href="Extensions/NSPersistentStoreCoordinator.html">NSPersistentStoreCoordinator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSSet.html">NSSet</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Functions.html#/s:12CoreDataPlus20isMigrationNecessary3for2toSb10Foundation3URLV_xtKAA0aB12ModelVersionRzlF">isMigrationNecessary(for:to:)</a>
               </li>
             </ul>
           </li>
@@ -119,6 +139,9 @@
                 <a href="Structs/CoreDataMigration.html">CoreDataMigration</a>
               </li>
               <li class="nav-group-task">
+                <a href="Structs/CoreDataMigration/Step.html">– Step</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Structs/FetchedResultsSectionInfo.html">FetchedResultsSectionInfo</a>
               </li>
               <li class="nav-group-task">
@@ -132,15 +155,21 @@
               </li>
             </ul>
           </li>
+          <li class="nav-group-name">
+            <a href="Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:12CoreDataPlus0aB13MigrationStepa">CoreDataMigrationStep</a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <article class="main-content">
         <section>
           <section class="section">
             
-            <p><img src="https://raw.githubusercontent.com/tinrobots/CoreDataPlus/assets/coredata_plus.png" alt="CoreDataPlus"></p>
-
-<p><a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat" alt="Swift 5.0"></a>
+            <p><a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat" alt="Swift 5.0"></a>
 <img src="https://img.shields.io/badge/Platform-iOS%2010%2B%20%7C%20macOS%2010.12+%20%7C%20tvOS%2010+%20%7C%20watchOS%203+-blue.svg" alt="Platforms"> </p>
 
 <p><a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage Compatible"></a>
@@ -148,19 +177,7 @@
 
 <p><a href="https://codebeat.co/projects/github-com-tinrobots-coredataplus-master"><img src="https://codebeat.co/badges/e07c40a7-3c22-4691-93f5-4c41c7f6152f" alt="codebeat badge"></a></p>
 
-<table><thead>
-<tr>
-<th>Branch</th>
-<th>Build Status</th>
-<th>Code Coverage</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>Master</td>
-<td><a href="https://travis-ci.org/tinrobots/CoreDataPlus"><img src="https://travis-ci.org/tinrobots/CoreDataPlus.svg?branch=master" alt="Build Status"></a></td>
-<td><img src="https://img.shields.io/codecov/c/github/tinrobots/CoreDataPlus/master.svg" alt="Code Coverage"></td>
-</tr>
-</tbody></table>
+<p><img src="https://github.com/tinrobots/CoreDataPlus/workflows/CoreDataPlus%20CI/badge.svg?branch=master" alt="CoreDataPlus CI"></p>
 <h2 id='coredataplus' class='heading'>CoreDataPlus</h2>
 
 <p><a href="https://github.com/tinrobots/CoreDataPlus/releases"><img src="https://img.shields.io/github/release/tinrobots/CoreDataPlus.svg" alt="GitHub release"></a> </p>
@@ -205,7 +222,7 @@
 <span class="n">use_frameworks!</span>
 
 <span class="n">target</span> <span class="s1">'&lt;Your Target Name&gt;'</span> <span class="k">do</span>
-    <span class="n">pod</span> <span class="s1">'CoreDataPlus'</span><span class="p">,</span> <span class="s1">'~&gt; 2.2.0'</span>
+    <span class="n">pod</span> <span class="s1">'CoreDataPlus'</span><span class="p">,</span> <span class="s1">'~&gt; 2.3.0'</span>
 <span class="k">end</span>
 </code></pre>
 
@@ -222,7 +239,7 @@
 </code></pre>
 
 <p>To integrate CoreDataPlus into your Xcode project using Carthage, specify it in your <code>Cartfile</code>:</p>
-<pre class="highlight plaintext"><code>github "tinrobots/CoreDataPlus" ~&gt; 2.2.0
+<pre class="highlight plaintext"><code>github "tinrobots/CoreDataPlus" ~&gt; 2.3.0
 </code></pre>
 
 <p>Run <code>carthage update</code> to build the framework and drag the built <code>CoreDataPlus.framework</code> into your Xcode project.</p>
@@ -231,7 +248,7 @@
 <p>The <a href="https://swift.org/package-manager/">Swift Package Manager</a> is a tool for automating the distribution of Swift code and is integrated into the <code>swift</code> compiler. 
 Once you have your Swift package set up, adding CoreDataPlus as a dependency is as easy as adding it to the <code>dependencies</code> value of your <code>Package.swift</code>.</p>
 <pre class="highlight swift"><code><span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
-    <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/tinrobots/CoreDataPlus.git"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="s">"2.2.0"</span><span class="p">)</span>
+    <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/tinrobots/CoreDataPlus.git"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="s">"2.3.0"</span><span class="p">)</span>
 <span class="p">]</span>
 </code></pre>
 <h3 id='manually' class='heading'>Manually</h3>
@@ -240,7 +257,7 @@ Once you have your Swift package set up, adding CoreDataPlus as a dependency is 
 <h4 id='embedded-framework' class='heading'>Embedded Framework</h4>
 
 <ul>
-<li>Open up Terminal, <code>cd</code> into your top-level project directory, and run the following command <q>if</q> your project is not initialized as a git repository:</li>
+<li>Open up Terminal, <code>cd</code> into your top-level project directory, and run the following command &ldquo;if&rdquo; your project is not initialized as a git repository:</li>
 </ul>
 <pre class="highlight shell"><code><span class="nv">$ </span>git init
 </code></pre>
@@ -258,9 +275,9 @@ Once you have your Swift package set up, adding CoreDataPlus as a dependency is 
 <p>It should appear nested underneath your application&rsquo;s blue project icon. Whether it is above or below all the other Xcode groups does not matter.</p>
 </blockquote></li>
 <li><p>Select the <code>CoreDataPlus.xcodeproj</code> in the Project Navigator and verify the deployment target matches that of your application target.</p></li>
-<li><p>Next, select your application project in the Project Navigator (blue project icon) to navigate to the target configuration window and select the application target under the <q>Targets</q> heading in the sidebar.</p></li>
-<li><p>In the tab bar at the top of that window, open the <q>General</q> panel.</p></li>
-<li><p>Click on the <code>+</code> button under the <q>Embedded Binaries</q> section.</p></li>
+<li><p>Next, select your application project in the Project Navigator (blue project icon) to navigate to the target configuration window and select the application target under the &ldquo;Targets&rdquo; heading in the sidebar.</p></li>
+<li><p>In the tab bar at the top of that window, open the &ldquo;General&rdquo; panel.</p></li>
+<li><p>Click on the <code>+</code> button under the &ldquo;Embedded Binaries&rdquo; section.</p></li>
 <li><p>You will see two different <code>CoreDataPlus.xcodeproj</code> folders each with two different versions of the <code>CoreDataPlus.framework</code> nested inside a <code>Products</code> folder.</p>
 
 <blockquote>
@@ -285,8 +302,8 @@ Once you have your Swift package set up, adding CoreDataPlus as a dependency is 
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2019 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2019-10-07)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.11.0</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2020-04-17)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

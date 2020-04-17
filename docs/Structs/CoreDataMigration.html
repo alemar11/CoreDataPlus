@@ -14,7 +14,7 @@
     <a title="CoreDataMigration Structure Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">CoreDataPlus Docs</a> (90% documented)</p>
+        <p><a href="../index.html">CoreDataPlus Docs</a> (86% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -30,9 +30,6 @@
           <li class="nav-group-name">
             <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Classes/CoreDataMigrationStep.html">CoreDataMigrationStep</a>
-              </li>
               <li class="nav-group-task">
                 <a href="../Classes/EntityObserver.html">EntityObserver</a>
               </li>
@@ -71,6 +68,18 @@
                 <a href="../Extensions/NSBatchUpdateResult.html">NSBatchUpdateResult</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Extensions/NSEntityDescription.html">NSEntityDescription</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSError.html">NSError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSError/ErrorCode.html">– ErrorCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSError.html#/s:So7NSErrorC12CoreDataPlusE3KeyO">– Key</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Extensions/NSFetchRequest.html">NSFetchRequest</a>
               </li>
               <li class="nav-group-task">
@@ -87,6 +96,17 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/NSPersistentStoreCoordinator.html">NSPersistentStoreCoordinator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSSet.html">NSSet</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:12CoreDataPlus20isMigrationNecessary3for2toSb10Foundation3URLV_xtKAA0aB12ModelVersionRzlF">isMigrationNecessary(for:to:)</a>
               </li>
             </ul>
           </li>
@@ -120,6 +140,9 @@
                 <a href="../Structs/CoreDataMigration.html">CoreDataMigration</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Structs/CoreDataMigration/Step.html">– Step</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Structs/FetchedResultsSectionInfo.html">FetchedResultsSectionInfo</a>
               </li>
               <li class="nav-group-task">
@@ -130,6 +153,14 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/ManagedObjectContextWillSaveNotification.html">ManagedObjectContextWillSaveNotification</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:12CoreDataPlus0aB13MigrationStepa">CoreDataMigrationStep</a>
               </li>
             </ul>
           </li>
@@ -154,9 +185,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:12CoreDataPlus0aB9MigrationV12migrateStore2at13targetVersion8progressy10Foundation3URLV_xSo10NSProgressCSgtKAA0ab5ModelI0RzlFZ"></a>
-                    <a name="//apple_ref/swift/Method/migrateStore(at:targetVersion:progress:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus0aB9MigrationV12migrateStore2at13targetVersion8progressy10Foundation3URLV_xSo10NSProgressCSgtKAA0ab5ModelI0RzlFZ">migrateStore(at:targetVersion:progress:)</a>
+                    <a name="/s:12CoreDataPlus0aB9MigrationV12migrateStore2at13targetVersion19enableWALCheckpoint8progressy10Foundation3URLV_xSbSo10NSProgressCSgtKAA0ab5ModelI0RzlFZ"></a>
+                    <a name="//apple_ref/swift/Method/migrateStore(at:targetVersion:enableWALCheckpoint:progress:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus0aB9MigrationV12migrateStore2at13targetVersion19enableWALCheckpoint8progressy10Foundation3URLV_xSbSo10NSProgressCSgtKAA0ab5ModelI0RzlFZ">migrateStore(at:targetVersion:enableWALCheckpoint:progress:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -178,7 +209,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="n">migrateStore</span><span class="o">&lt;</span><span class="kt">Version</span><span class="o">&gt;</span><span class="p">(</span><span class="n">at</span> <span class="nv">sourceURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">,</span> <span class="nv">targetVersion</span><span class="p">:</span> <span class="kt">Version</span><span class="p">,</span> <span class="nv">progress</span><span class="p">:</span> <span class="kt">Progress</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="k">throws</span> <span class="k">where</span> <span class="kt">Version</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/CoreDataModelVersion.html">CoreDataModelVersion</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="n">migrateStore</span><span class="o">&lt;</span><span class="kt">Version</span><span class="o">&gt;</span><span class="p">(</span><span class="n">at</span> <span class="nv">sourceURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">,</span> <span class="nv">targetVersion</span><span class="p">:</span> <span class="kt">Version</span><span class="p">,</span> <span class="nv">enableWALCheckpoint</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="nv">progress</span><span class="p">:</span> <span class="kt">Progress</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="k">throws</span> <span class="k">where</span> <span class="kt">Version</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/CoreDataModelVersion.html">CoreDataModelVersion</a></span></code></pre>
 
                         </div>
                       </div>
@@ -213,6 +244,18 @@
                             <tr>
                               <td>
                                 <code>
+                                <em>enableWALCheckpoint</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>if <code>true</code> Core Data will perform a checkpoint operation which merges the data in the -wal file to the store file.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
                                 <em>progress</em>
                                 </code>
                               </td>
@@ -231,9 +274,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:12CoreDataPlus0aB9MigrationV12migrateStore4from2to13targetVersion12deleteSource8progressy10Foundation3URLV_ALxSbSo10NSProgressCSgtKAA0ab5ModelJ0RzlFZ"></a>
-                    <a name="//apple_ref/swift/Method/migrateStore(from:to:targetVersion:deleteSource:progress:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus0aB9MigrationV12migrateStore4from2to13targetVersion12deleteSource8progressy10Foundation3URLV_ALxSbSo10NSProgressCSgtKAA0ab5ModelJ0RzlFZ">migrateStore(from:to:targetVersion:deleteSource:progress:)</a>
+                    <a name="/s:12CoreDataPlus0aB9MigrationV12migrateStore4from2to13targetVersion12deleteSource19enableWALCheckpoint8progressy10Foundation3URLV_AMxS2bSo10NSProgressCSgtKAA0ab5ModelJ0RzlFZ"></a>
+                    <a name="//apple_ref/swift/Method/migrateStore(from:to:targetVersion:deleteSource:enableWALCheckpoint:progress:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus0aB9MigrationV12migrateStore4from2to13targetVersion12deleteSource19enableWALCheckpoint8progressy10Foundation3URLV_AMxS2bSo10NSProgressCSgtKAA0ab5ModelJ0RzlFZ">migrateStore(from:to:targetVersion:deleteSource:enableWALCheckpoint:progress:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -243,7 +286,7 @@
                       <div class="abstract">
                         <p><strong>CoreDataPlus</strong></p>
 
-<p>Migrates a store to a given version.</p>
+<p>Migrates a store to a given version if needed.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     It throws an error in cases of failure.
@@ -255,7 +298,12 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="n">migrateStore</span><span class="o">&lt;</span><span class="kt">Version</span><span class="o">&gt;</span><span class="p">(</span><span class="n">from</span> <span class="nv">sourceURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">,</span> <span class="n">to</span> <span class="nv">targetURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">,</span> <span class="nv">targetVersion</span><span class="p">:</span> <span class="kt">Version</span><span class="p">,</span> <span class="nv">deleteSource</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="nv">progress</span><span class="p">:</span> <span class="kt">Progress</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="k">throws</span> <span class="k">where</span> <span class="kt">Version</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/CoreDataModelVersion.html">CoreDataModelVersion</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="n">migrateStore</span><span class="o">&lt;</span><span class="kt">Version</span><span class="p">:</span> <span class="kt"><a href="../Protocols/CoreDataModelVersion.html">CoreDataModelVersion</a></span><span class="o">&gt;</span><span class="p">(</span><span class="n">from</span> <span class="nv">sourceURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">,</span>
+                                                               <span class="n">to</span> <span class="nv">targetURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">,</span>
+                                                               <span class="nv">targetVersion</span><span class="p">:</span> <span class="kt">Version</span><span class="p">,</span>
+                                                               <span class="nv">deleteSource</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                                                               <span class="nv">enableWALCheckpoint</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                                                               <span class="nv">progress</span><span class="p">:</span> <span class="kt">Progress</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="k">throws</span></code></pre>
 
                         </div>
                       </div>
@@ -271,7 +319,7 @@
                               </td>
                               <td>
                                 <div>
-                                  <p>the current store URL.</p>
+                                  <p>The location of the existing persistent store.</p>
                                 </div>
                               </td>
                             </tr>
@@ -283,7 +331,7 @@
                               </td>
                               <td>
                                 <div>
-                                  <p>the store URL after the migration phase.</p>
+                                  <p>The location of the destination store.</p>
                                 </div>
                               </td>
                             </tr>
@@ -314,6 +362,18 @@
                             <tr>
                               <td>
                                 <code>
+                                <em>enableWALCheckpoint</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>if <code>true</code> Core Data will perform a checkpoint operation which merges the data in the -wal file to the store file.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
                                 <em>progress</em>
                                 </code>
                               </td>
@@ -329,13 +389,43 @@
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus0aB9MigrationV4StepC"></a>
+                    <a name="//apple_ref/swift/Class/Step" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus0aB9MigrationV4StepC">Step</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Represents a single step during the migration process.</p>
+
+                        <a href="../Structs/CoreDataMigration/Step.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">Step</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2019 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2019-10-07)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.11.0</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2020-04-17)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
