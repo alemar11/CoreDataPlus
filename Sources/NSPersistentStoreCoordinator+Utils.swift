@@ -53,3 +53,11 @@ extension NSPersistentStoreCoordinator {
     try persistentStoreCoordinator.replacePersistentStore(at: targetURL, destinationOptions: nil, withPersistentStoreFrom: sourceURL, sourceOptions: nil, ofType: NSSQLiteStoreType)
   }
 }
+
+// About moving stores disabling the WAL journaling mode
+// https://developer.apple.com/library/archive/qa/qa1809/_index.html
+//
+//  ```
+//  let options = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]] // the migration will be done without -wal and -shm files
+//  try! psc!.migratePersistentStore(store, to: url, options: options, withType: NSSQLiteStoreType)
+//  ```
