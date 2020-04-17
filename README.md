@@ -1,5 +1,3 @@
-![CoreDataPlus](https://raw.githubusercontent.com/tinrobots/CoreDataPlus/assets/coredata_plus.png)
-
 [![Swift 5.0](https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat)](https://developer.apple.com/swift)
 ![Platforms](https://img.shields.io/badge/Platform-iOS%2010%2B%20|%20macOS%2010.12+%20|%20tvOS%2010+%20|%20watchOS%203+-blue.svg) 
 
@@ -8,9 +6,7 @@
 
 [![codebeat badge](https://codebeat.co/badges/e07c40a7-3c22-4691-93f5-4c41c7f6152f)](https://codebeat.co/projects/github-com-tinrobots-coredataplus-master)
 
-|Branch|Build Status|Code Coverage|
-|----|----|----|
-|Master|[![Build Status](https://travis-ci.org/tinrobots/CoreDataPlus.svg?branch=master)](https://travis-ci.org/tinrobots/CoreDataPlus)| ![Code Coverage](https://img.shields.io/codecov/c/github/tinrobots/CoreDataPlus/master.svg)|
+![CoreDataPlus CI](https://github.com/tinrobots/CoreDataPlus/workflows/CoreDataPlus%20CI/badge.svg?branch=master)
 
 ## CoreDataPlus
 [![GitHub release](https://img.shields.io/github/release/tinrobots/CoreDataPlus.svg)](https://github.com/tinrobots/CoreDataPlus/releases) 
@@ -55,7 +51,7 @@ platform :ios, '11.0'
 use_frameworks!
 
 target '<Your Target Name>' do
-    pod 'CoreDataPlus', '~> 2.2.0'
+    pod 'CoreDataPlus', '~> 2.3.0'
 end
 ```
 
@@ -79,7 +75,7 @@ $ brew install carthage
 To integrate CoreDataPlus into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "tinrobots/CoreDataPlus" ~> 2.2.0
+github "tinrobots/CoreDataPlus" ~> 2.3.0
 ```
 
 Run `carthage update` to build the framework and drag the built `CoreDataPlus.framework` into your Xcode project.
@@ -91,7 +87,7 @@ Once you have your Swift package set up, adding CoreDataPlus as a dependency is 
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/tinrobots/CoreDataPlus.git", from: "2.2.0")
+    .package(url: "https://github.com/tinrobots/CoreDataPlus.git", from: "2.3.0")
 ]
 ```
 
