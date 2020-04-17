@@ -37,7 +37,11 @@ final class NSSetCoreDataTests: CoreDataPlusInMemoryTestCase {
     let request = Person.newFetchRequest()
     request.returnsObjectsAsFaults = true
     let foundPerson = try Person.findOneOrFetch(in: context, where: NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone"))
-    let person = try XCTUnwrap(foundPerson)
+    //let person = try XCTUnwrap(foundPerson) // TODO Swift 5.2
+    guard let person = foundPerson else {
+      XCTAssertNotNil(foundPerson)
+      return
+    }
     context.refreshAllObjects()
 
     let initialFaultsCount = person.cars?.filter { object in
@@ -72,7 +76,11 @@ final class NSSetCoreDataTests: CoreDataPlusInMemoryTestCase {
     let request = Person.newFetchRequest()
     request.returnsObjectsAsFaults = true
     let foundPerson = try Person.findOneOrFetch(in: context, where: NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone"))
-    let person = try XCTUnwrap(foundPerson)
+    //let person = try XCTUnwrap(foundPerson) // TODO Swift 5.2
+    guard let person = foundPerson else {
+      XCTAssertNotNil(foundPerson)
+      return
+    }
     context.refreshAllObjects()
     XCTAssertEqual(person.cars?.count ?? 0, 100)
     person.cars?.deleteManagedObjects()
