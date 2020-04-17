@@ -1,4 +1,4 @@
-//
+// 
 // CoreDataPlus
 //
 // Copyright © 2016-2020 Tinrobots.
@@ -21,21 +21,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+import XCTest
 import CoreData
+@testable import CoreDataPlus
 
-extension NSFetchRequestResult where Self: NSManagedObject {
-  /// **CoreDataPlus**
-  ///
-  /// Performs the given block in the right thread for the `NSManagedObject`'s managedObjectContext.
-  ///
-  /// - Parameter block: The closure to be performed.
-  /// `block` accepts the current NSManagedObject as its argument and returns a value of the same or different type.
-  /// - Throws: It throws an error in cases of failure.
-  public func safeAccess<T>(_ block: (Self) throws -> T) rethrows -> T {
-    guard let context = managedObjectContext else { fatalError("\(self) doesn't have a managedObjectContext.") }
+final class NSPersistentStoreCoordinatorUtilsTests: XCTestCase {
+  func testDestroyMissingStore() throws {
+    let wrongURL = URL(fileURLWithPath: "/dev/null")
+    XCTAssertThrowsError(try NSPersistentStoreCoordinator.destroyStore(at: wrongURL))
 
-    return try context.performAndWaitResult { _ -> T in
-      return try block(self)
-    }
+    let cachesURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+    let wrongURL2 = cachesURL.appendingPathComponent(bundleIdentifier).appendingPathComponent("\(#file)\(#function)")
+    XCTAssertThrowsError(try NSPersistentStoreCoordinator.destroyStore(at: wrongURL2))
   }
 }

@@ -22,18 +22,29 @@
 // SOFTWARE.
 
 import CoreData
+import Foundation
 
-/// **CoreDataPlus**
-///
-/// Represents a single step during the migration process.
-public final class CoreDataMigrationStep {
-  public let sourceModel: NSManagedObjectModel
-  public let destinationModel: NSManagedObjectModel
-  public let mappings: [NSMappingModel]
+extension NSSet {
+  /// Specifies that all the `NSManagedObject` objects (with a `NSManangedObjectContext`) should be removed from its persistent store when changes are committed.
+  public func deleteManagedObjects() {
+    for object in self.allObjects {
+      if let managedObject = object as? NSManagedObject, managedObject.managedObjectContext != nil {
+        managedObject.safeAccess {
+          $0.delete()
+        }
+      }
+    }
+  }
 
-  init(source: NSManagedObjectModel, destination: NSManagedObjectModel, mappings: [NSMappingModel]) {
-    self.sourceModel = source
-    self.destinationModel = destination
-    self.mappings = mappings
+  /// **CoreDataPlus**
+  ///
+  /// Materializes all the faulted objects in one batch, executing a single fetch request.
+  /// - Throws: It throws an error in cases of failure.
+  /// - Note: Materializing all the objects in one batch is faster than triggering the fault for each object on its own.
+  public func materializeFaultedManagedObjects() throws {
+    guard self.count > 0 else { return }
+
+    let managedObjects = self.compactMap { $0 as? NSManagedObject }
+    try managedObjects.materializeFaultedManagedObjects()
   }
 }

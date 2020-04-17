@@ -63,7 +63,7 @@ final class NSManagedObjectContextCacheTests: CoreDataPlusInMemoryTestCase {
     XCTAssertEqual(person2, cachedPerson2)
 
     // Given
-    let person3 = backgroundContext.performAndWait { context -> Person in
+    let person3 = backgroundContext.performAndWaitResult { context -> Person in
       let person3 = Person(context: backgroundContext)
       person3.firstName = "Tin3"
       person3.lastName = "Robots3"

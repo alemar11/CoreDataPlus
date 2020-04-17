@@ -49,6 +49,7 @@ extension NSError {
     case batchUpdateFailed = 200
     case batchDeleteFailed
     case batchInsertFailed
+    case fileDoesNotExist = -1100 // same code of NSURLErrorFileDoesNotExist
   }
 
   /// Error Constants
@@ -179,6 +180,16 @@ extension NSError {
                         code: ErrorCode.migrationFailed.rawValue,
                         userInfo: [NSUnderlyingErrorKey: underlyingError,
                                    NSDebugDescriptionErrorKey: description,
+                                   Key.file: file,
+                                   Key.function : function,
+                                   Key.line : line])
+    return error
+  }
+
+  static func fileDoesNotExist(description: String, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
+    let error = NSError(domain: Key.domain,
+                        code: ErrorCode.fileDoesNotExist.rawValue,
+                        userInfo: [NSDebugDescriptionErrorKey: description,
                                    Key.file: file,
                                    Key.function : function,
                                    Key.line : line])

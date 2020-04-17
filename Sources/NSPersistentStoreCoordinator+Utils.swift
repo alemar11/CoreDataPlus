@@ -35,15 +35,13 @@ extension NSPersistentStoreCoordinator {
     let fileManager = FileManager.default
 
     let storePath = url.path
-    if fileManager.fileExists(atPath: storePath) {
-      try fileManager.removeItem(atPath: storePath)
+    try fileManager.removeItem(atPath: storePath)
 
-      let writeAheadLog = storePath + "-wal"
-      _ = try? fileManager.removeItem(atPath: writeAheadLog)
+    let writeAheadLog = storePath + "-wal"
+    _ = try? fileManager.removeItem(atPath: writeAheadLog)
 
-      let sharedMemoryfile = storePath + "-shm"
-      _ = try? fileManager.removeItem(atPath: sharedMemoryfile)
-    }
+    let sharedMemoryfile = storePath + "-shm"
+    _ = try? fileManager.removeItem(atPath: sharedMemoryfile)
   }
 
   /// **CoreDataPlus**
@@ -55,3 +53,11 @@ extension NSPersistentStoreCoordinator {
     try persistentStoreCoordinator.replacePersistentStore(at: targetURL, destinationOptions: nil, withPersistentStoreFrom: sourceURL, sourceOptions: nil, ofType: NSSQLiteStoreType)
   }
 }
+
+// About moving stores disabling the WAL journaling mode
+// https://developer.apple.com/library/archive/qa/qa1809/_index.html
+//
+//  ```
+//  let options = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]] // the migration will be done without -wal and -shm files
+//  try! psc!.migratePersistentStore(store, to: url, options: options, withType: NSSQLiteStoreType)
+//  ```
