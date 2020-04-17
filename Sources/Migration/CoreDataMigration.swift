@@ -48,8 +48,8 @@ public struct CoreDataMigration {
   /// Migrates a store to a given version if needed.
   ///
   /// - Parameters:
-  ///   - sourceURL: the current store URL.
-  ///   - targetURL: the store URL after the migration phase.
+  ///   - sourceURL: The location of the existing persistent store.
+  ///   - targetURL: The location of the destination store.
   ///   - targetVersion: the ModelVersion to which the store is needed to migrate to.
   ///   - deleteSource: if `true` the initial store will be deleted after the migration phase.
   ///   - enableWALCheckpoint: if `true` Core Data will perform a checkpoint operation which merges the data in the -wal file to the store file.
@@ -62,7 +62,8 @@ public struct CoreDataMigration {
                                                                  enableWALCheckpoint: Bool = false,
                                                                  progress: Progress? = nil) throws {
     guard FileManager.default.fileExists(atPath: sourceURL.relativePath) else {
-      return //TODO: add error and tests
+      let underlyingError = NSError.fileDoesNotExist(description: "Persistent Store not found at: \(sourceURL)")
+      throw NSError.migrationFailed(underlyingError: underlyingError)
     }
 
     guard let sourceVersion = Version(persistentStoreURL: sourceURL) else {
