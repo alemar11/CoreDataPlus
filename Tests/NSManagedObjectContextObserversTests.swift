@@ -382,37 +382,6 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
     let viewContext = container.viewContext
     let backgroundContext = container.viewContext.newBackgroundContext(asChildContext: false)
 
-    let expectation1 = expectation(description: "\(#function)\(#line)")
-    let expectation2 = expectation(description: "\(#function)\(#line)")
-    let expectation3 = expectation(description: "\(#function)\(#line)")
-    let expectation4 = expectation(description: "\(#function)\(#line)")
-    let expectation5 = expectation(description: "\(#function)\(#line)")
-
-    let notificationCenter = NotificationCenter.default
-
-    let token1 = backgroundContext.addManagedObjectContextWillSaveNotificationObserver() { notification in
-      expectation1.fulfill()
-    }
-
-    let token2 = backgroundContext.addManagedObjectContextDidSaveNotificationObserver() { notification in
-      XCTAssertEqual(notification.updatedObjects.count, 2)
-      XCTAssertEqual(notification.insertedObjects.count, 1)
-
-      // [1] - When you perform changes in this way, you will get changes in the "viewContext" NSRefreshedObjectsKey
-      viewContext.performAndWaitMergeChanges(from: notification) // it will fire [2]
-      viewContext.performAndWait {
-        try! viewContext.save()
-      }
-      expectation2.fulfill()
-    }
-
-    let token3 = backgroundContext.addManagedObjectContextObjectsDidChangeNotificationObserver() { notification in
-      XCTAssertEqual(notification.refreshedObjects.count, 0)
-      XCTAssertEqual(notification.updatedObjects.count, 2)
-      XCTAssertEqual(notification.insertedObjects.count, 1)
-      expectation3.fulfill()
-    }
-
     let person1_inserted = Person(context: viewContext)
     person1_inserted.firstName = "Edythe"
     person1_inserted.lastName = "Moreton"
@@ -423,8 +392,53 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
 
     try viewContext.save()
 
+    let expectation1 = expectation(description: "\(#function)\(#line)")
+    let expectation2 = expectation(description: "\(#function)\(#line)")
+    let expectation3 = expectation(description: "\(#function)\(#line)")
+    let expectation4 = expectation(description: "\(#function)\(#line)")
+    let expectation5 = expectation(description: "\(#function)\(#line)")
+
+    let notificationCenter = NotificationCenter.default
+
+    // [4] observer
+    let token1 = backgroundContext.addManagedObjectContextWillSaveNotificationObserver() { notification in
+      expectation1.fulfill()
+    }
+
+    // [1] observer
+    let token2 = backgroundContext.addManagedObjectContextDidSaveNotificationObserver() { notification in
+      XCTAssertEqual(notification.updatedObjects.count, 2)
+      XCTAssertEqual(notification.insertedObjects.count, 1)
+
+      // Merging a did-save notification into a context will:
+      // - refresh the registered objects that have been changed,
+      // - remove the ones that have been deleted
+      // - fault in the ones that have been newly inserted.
+      // Then the context you’re merging into will send its own objects-did-change notification containing all the changes to the context’s objects:”.
+
+      // In this case:
+      // merging "backgroundContext" changes into the "viewContext" will:
+      // show "backgroundContext" updatedObjects as NSRefreshedObjectsKey changes in the "viewContext" objects-did-change notification
+      // show "backgroundContext" insertedObjects as NSInsertedObjectsKey changes in the "viewContext" objects-did-change notification
+      viewContext.performAndWaitMergeChanges(from: notification) // fires [2]
+
+      viewContext.performAndWait {
+        // Before saving, we didn't change anything: we don't expect any changes in the  objects-did-save notification listened by [3] observer.
+        try! viewContext.save() // fires [3]
+      }
+      expectation2.fulfill()
+    }
+
+    // [0] observer
+    let token3 = backgroundContext.addManagedObjectContextObjectsDidChangeNotificationObserver() { notification in
+      XCTAssertEqual(notification.updatedObjects.count, 2)
+      XCTAssertEqual(notification.insertedObjects.count, 1)
+      XCTAssertEqual(notification.refreshedObjects.count, 0)
+      expectation3.fulfill()
+    }
+
+    // [2] observer
     let token4 = viewContext.addManagedObjectContextObjectsDidChangeNotificationObserver() { notification in
-      // [2]
       // updates in "backgroundContext" are represented as refreshed objects in "viewContext",
       // inserts are represented as inserts in both contexts.
       XCTAssertEqual(notification.refreshedObjects.count, 2)
@@ -433,8 +447,8 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
       expectation4.fulfill()
     }
 
+    // [3] observer
     let token5 = viewContext.addManagedObjectContextDidSaveNotificationObserver() { notification in
-      // Before saving, we didn't changed anything: we don't expect nothing from this notification.
       XCTAssertEqual(notification.insertedObjects.count, 0)
       XCTAssertEqual(notification.updatedObjects.count, 0)
       XCTAssertEqual(notification.deletedObjects.count, 0)
@@ -452,7 +466,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
       person3_inserted.firstName = "Alessandro"
       person3_inserted.lastName = "Marzoli"
 
-      try! backgroundContext.save() // it will fire [1]
+      try! backgroundContext.save() // fires [0], [4] and then [1]
     }
 
     waitForExpectations(timeout: 20)
