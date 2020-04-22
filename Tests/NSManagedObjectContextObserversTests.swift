@@ -378,6 +378,116 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
     notificationCenter.removeObserver(token3)
   }
 
+  func testInvestigationRegisteredObjects() throws {
+    // By default, a managed object context only keeps a strong reference to managed objects that have pending changes.
+    // This means that objects your code doesn’t have a strong reference to, will be removed from the context’s registeredObjects set and be deallocated
+    let viewContext = container.viewContext
+
+    viewContext.performAndWait {
+      let person = Person(context: viewContext)
+      person.firstName = "One"
+      person.lastName = "One"
+    }
+
+    XCTAssertEqual(viewContext.registeredObjects.count, 1)
+    XCTAssertEqual(viewContext.insertedObjects.count, 1)
+    try! viewContext.save()
+    XCTAssertEqual(viewContext.insertedObjects.count, 0)
+    XCTAssertEqual(viewContext.registeredObjects.count, 1)
+
+    viewContext.performAndWait {
+      let person = Person(context: viewContext)
+      person.firstName = "Two"
+      person.lastName = "Two"
+      XCTAssertEqual(viewContext.registeredObjects.count, 2)
+      XCTAssertEqual(viewContext.insertedObjects.count, 1)
+      try! viewContext.save()
+      XCTAssertEqual(viewContext.insertedObjects.count, 0)
+      XCTAssertEqual(viewContext.registeredObjects.count, 2)
+      // no more pending changes when we exit from this block, the registered objects will be back to the first person only
+    }
+
+    XCTAssertEqual(viewContext.registeredObjects.count, 1)
+    try! viewContext.save()
+    XCTAssertEqual(viewContext.registeredObjects.count, 1)
+    let registeredPerson = viewContext.registeredObjects.first as? Person
+    XCTAssertEqual(registeredPerson?.firstName, "One")
+    XCTAssertEqual(registeredPerson?.lastName, "One")
+
+    let people = try Person.fetch(in: viewContext)
+    XCTAssertEqual(people.count, 2)
+    XCTAssertEqual(viewContext.registeredObjects.count, 2)
+  }
+
+  func testInvestigationMergeChanges() throws {
+    // see: testInvesigationRegisteredObjects
+    let expectation1 = expectation(description: "\(#function)\(#line)")
+    let viewContext = container.viewContext
+
+    let person = Person(context: viewContext)
+    person.firstName = "Alessandro"
+    person.lastName = "Marzoli"
+    let person2 = Person(context: viewContext)
+    person2.firstName = "Andrea"
+    person2.lastName = "Marzoli"
+    XCTAssertEqual(viewContext.registeredObjects.count, 2)
+    try! viewContext.save()
+
+    XCTAssertEqual(viewContext.registeredObjects.count, 2)
+
+    func findRegisteredPersonByFirstName(_ name: String, in context: NSManagedObjectContext) -> Person? {
+      var person: Person?
+      context.performAndWait {
+        person = context.registeredObjects.first { object in
+          if let person = object as? Person {
+            return person.firstName == name
+          }
+          return false
+          } as? Person
+      }
+      return person
+    }
+
+    let backgroundContext = container.viewContext.newBackgroundContext(asChildContext: false)
+    let token1 = backgroundContext.addManagedObjectContextDidSaveNotificationObserver() { notification in
+      XCTAssertEqual(notification.insertedObjects.count, 1)
+      XCTAssertEqual(notification.updatedObjects.count, 1)
+      XCTAssertEqual(notification.deletedObjects.count, 1)
+
+      XCTAssertEqual(viewContext.registeredObjects.count, 2)
+      XCTAssertEqual(viewContext.deletedObjects.count, 0)
+
+      let updatedPersonBefore = findRegisteredPersonByFirstName("Andrea", in: viewContext)
+      XCTAssertNotNil(updatedPersonBefore)
+
+      viewContext.mergeChanges(fromContextDidSave: notification.notification)
+
+      let updatedPersonAfter =  findRegisteredPersonByFirstName("Andrea", in: viewContext)
+      XCTAssertNil(updatedPersonAfter)
+      let updatedPersonAfterCorrect =  findRegisteredPersonByFirstName("Andrea**", in: viewContext)
+      XCTAssertNotNil(updatedPersonAfterCorrect)
+
+      XCTAssertEqual(viewContext.registeredObjects.count, 2)
+      XCTAssertEqual(viewContext.insertedObjects.count, 0)  // no objects have been inserted (but not yet saved) in this context
+      XCTAssertEqual(viewContext.deletedObjects.count, 1)   // a previously registered object has been deleted from this context
+      expectation1.fulfill()
+    }
+
+    try backgroundContext.performSaveAndWait {
+      try Person.deleteAll(in: $0, where: NSPredicate(format: "%K == %@", #keyPath(Person.firstName), "Alessandro"))
+      let person = Person(context: $0)
+      person.firstName = "Edythe"
+      person.lastName = "Moreton"
+
+      let person2 = backgroundContext.object(with: person2.objectID) as! Person
+      person2.firstName += "**"
+    }
+
+    self.waitForExpectations(timeout: 2)
+    NotificationCenter.default.removeObserver(token1)
+    //NotificationCenter.default.removeObserver(token2)
+  }
+
   func testMerge() throws {
     let viewContext = container.viewContext
     let backgroundContext = container.viewContext.newBackgroundContext(asChildContext: false)
@@ -424,6 +534,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
 
       viewContext.performAndWait {
         // Before saving, we didn't change anything: we don't expect any changes in the  objects-did-save notification listened by [3] observer.
+        // see: testInvesigationMergeChanges()
         try! viewContext.save() // fires [3]
       }
       expectation2.fulfill()
