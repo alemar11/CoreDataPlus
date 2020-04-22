@@ -379,8 +379,8 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
   }
 
   func testMerge() throws {
-    let context = container.viewContext
-    let anotherContext = container.viewContext.newBackgroundContext(asChildContext: false)
+    let viewContext = container.viewContext
+    let backgroundContext = container.viewContext.newBackgroundContext(asChildContext: false)
 
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let expectation2 = expectation(description: "\(#function)\(#line)")
@@ -390,48 +390,50 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
 
     let notificationCenter = NotificationCenter.default
 
-    let token1 = anotherContext.addManagedObjectContextWillSaveNotificationObserver() { notification in
+    let token1 = backgroundContext.addManagedObjectContextWillSaveNotificationObserver() { notification in
       expectation1.fulfill()
     }
 
-    let token2 = anotherContext.addManagedObjectContextDidSaveNotificationObserver() { notification in
+    let token2 = backgroundContext.addManagedObjectContextDidSaveNotificationObserver() { notification in
       XCTAssertEqual(notification.updatedObjects.count, 2)
       XCTAssertEqual(notification.insertedObjects.count, 1)
 
-      // [1] - When you perform changes in this way, you will get changes in NSRefreshedObjectsKey in "context"
-      context.performAndWaitMergeChanges(from: notification) // it will fire [2]
-      context.performAndWait {
-        try! context.save()
+      // [1] - When you perform changes in this way, you will get changes in the "viewContext" NSRefreshedObjectsKey
+      viewContext.performAndWaitMergeChanges(from: notification) // it will fire [2]
+      viewContext.performAndWait {
+        try! viewContext.save()
       }
       expectation2.fulfill()
     }
 
-    let token3 = anotherContext.addManagedObjectContextObjectsDidChangeNotificationObserver() { notification in
+    let token3 = backgroundContext.addManagedObjectContextObjectsDidChangeNotificationObserver() { notification in
       XCTAssertEqual(notification.refreshedObjects.count, 0)
       XCTAssertEqual(notification.updatedObjects.count, 2)
       XCTAssertEqual(notification.insertedObjects.count, 1)
       expectation3.fulfill()
     }
 
-    let person1_inserted = Person(context: context)
+    let person1_inserted = Person(context: viewContext)
     person1_inserted.firstName = "Edythe"
     person1_inserted.lastName = "Moreton"
 
-    let person2_inserted = Person(context: context)
+    let person2_inserted = Person(context: viewContext)
     person2_inserted.firstName = "Ellis"
     person2_inserted.lastName = "Khoury"
 
-    try context.save()
+    try viewContext.save()
 
-    let token4 = context.addManagedObjectContextObjectsDidChangeNotificationObserver() { notification in
-      // [2] - updates in "anotherContext", in "context", are represented as refreshed objects, inserts are represented as inserts in both contexts.
+    let token4 = viewContext.addManagedObjectContextObjectsDidChangeNotificationObserver() { notification in
+      // [2]
+      // updates in "backgroundContext" are represented as refreshed objects in "viewContext",
+      // inserts are represented as inserts in both contexts.
       XCTAssertEqual(notification.refreshedObjects.count, 2)
       XCTAssertEqual(notification.updatedObjects.count, 0)
       XCTAssertEqual(notification.insertedObjects.count, 1)
       expectation4.fulfill()
     }
 
-    let token5 = context.addManagedObjectContextDidSaveNotificationObserver() { notification in
+    let token5 = viewContext.addManagedObjectContextDidSaveNotificationObserver() { notification in
       // Before saving, we didn't changed anything: we don't expect nothing from this notification.
       XCTAssertEqual(notification.insertedObjects.count, 0)
       XCTAssertEqual(notification.updatedObjects.count, 0)
@@ -439,28 +441,26 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
       expectation5.fulfill()
     }
 
-    try anotherContext.performAndWaitResult { _ in
-      let persons = try Person.fetch(in: anotherContext)
+    try backgroundContext.performAndWaitResult { _ in
+      let persons = try Person.fetch(in: backgroundContext)
 
       for person in persons {
         person.firstName += " Updated"
       }
 
-      let person3_inserted = Person(context: anotherContext)
+      let person3_inserted = Person(context: backgroundContext)
       person3_inserted.firstName = "Alessandro"
       person3_inserted.lastName = "Marzoli"
 
-
-      try! anotherContext.save() // it will fire [1]
+      try! backgroundContext.save() // it will fire [1]
     }
 
     waitForExpectations(timeout: 20)
-    XCTAssertFalse(context.hasChanges)
+    XCTAssertFalse(viewContext.hasChanges)
 
-    try anotherContext.performAndWaitResult { _ in
-      XCTAssertFalse(anotherContext.hasChanges)
-      XCTAssertEqual(try Person.count(in: anotherContext), 3)
-
+    try backgroundContext.performAndWaitResult { _ in
+      XCTAssertFalse(backgroundContext.hasChanges)
+      XCTAssertEqual(try Person.count(in: backgroundContext), 3)
     }
 
     notificationCenter.removeObserver(token1)
