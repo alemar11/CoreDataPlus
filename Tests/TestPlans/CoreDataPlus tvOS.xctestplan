@@ -85,6 +85,12 @@
         "argument" : "-com.apple.CoreData.ThreadingDebug 3"
       }
     ],
+    "environmentVariableEntries" : [
+      {
+        "key" : "XCODE_TESTS",
+        "value" : "1"
+      }
+    ],
     "targetForVariableExpansion" : {
       "containerPath" : "container:CoreDataPlus.xcodeproj",
       "identifier" : "236350801F95EC3000B3A16A",

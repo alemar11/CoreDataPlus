@@ -379,7 +379,11 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
   }
 
   func testInvestigationRegisteredObjects() throws {
-   try XCTSkipIf(ProcessInfo.processInfo.arguments.contains("zombieObjectsEnabled"), "Testing with Zombie Objects enabled")
+    #if swift(<5.2)
+    return // TODO: Github Actions
+    #endif
+    try XCTSkipIf(!ProcessInfo.processInfo.environment.keys.contains("XCODE_TESTS"), "This test should be run via Xcode and not using Swift test.")
+    try XCTSkipIf(ProcessInfo.processInfo.arguments.contains("zombieObjectsEnabled"), "Testing with Zombie Objects enabled")
 
     // By default, a managed object context only keeps a strong reference to managed objects that have pending changes.
     // This means that objects your code doesn’t have a strong reference to, will be removed from the context’s registeredObjects set and be deallocated

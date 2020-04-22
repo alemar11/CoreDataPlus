@@ -98,6 +98,12 @@
         "enabled" : false
       }
     ],
+    "environmentVariableEntries" : [
+      {
+        "key" : "XCODE_TESTS",
+        "value" : "1"
+      }
+    ],
     "targetForVariableExpansion" : {
       "containerPath" : "container:CoreDataPlus.xcodeproj",
       "identifier" : "2363509C1F95EC5600B3A16A",
