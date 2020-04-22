@@ -21,6 +21,9 @@
           },
           {
             "argument" : "-com.apple.CoreData.ThreadingDebug 3"
+          },
+          {
+            "argument" : "zombieObjectsEnabled"
           }
         ],
         "nsZombieEnabled" : true

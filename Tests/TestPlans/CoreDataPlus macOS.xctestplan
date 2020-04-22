@@ -21,6 +21,9 @@
           {
             "argument" : "-com.apple.CoreData.SQLDebug 3",
             "enabled" : false
+          },
+          {
+            "argument" : "zombieObjectsEnabled"
           }
         ],
         "nsZombieEnabled" : true

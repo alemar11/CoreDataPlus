@@ -18,6 +18,9 @@
           {
             "argument" : "-com.apple.CoreData.Logging.stderr 1",
             "enabled" : false
+          },
+          {
+            "argument" : "zombieObjectsEnabled"
           }
         ],
         "nsZombieEnabled" : true

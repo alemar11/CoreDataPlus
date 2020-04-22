@@ -502,7 +502,13 @@ final class ManagedObjectContextChangesObserverTests: CoreDataPlusInMemoryTestCa
         count += 1
         expectation3.fulfill()
       default:
+        #if !targetEnvironment(macCatalyst)
+        // Bug
+        // from DTS
+        // It seems like when ‘automaticallyMergesChangesFromParent’ is true, Core Data on macOS still merge the changes,
+        // even though the changes are from the same context, which is not optimized.
         XCTFail("Unexpected change.")
+        #endif
       }
     }
     _ = observer // remove unused warning...
