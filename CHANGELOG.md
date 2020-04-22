@@ -3,6 +3,7 @@
 ### 2.3.0
 
 - Added `NSSet` utils.
+- Added `obtainPermanentID()` method on `NSManagedObject`.
 - `isMigrationPossible` renamed to `isMigrationNecessary`.
 - `performAndWait` overload renamed to `performAndWaitResult`.
 - Now a WAL checkpoint can be performed before starting a migration.

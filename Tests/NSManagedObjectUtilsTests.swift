@@ -179,6 +179,20 @@ final class NSManagedObjectUtilsTests: CoreDataPlusInMemoryTestCase {
     // Then
     XCTAssertTrue(sportCar1.isDeleted)
   }
+
+  func testCreatePermanentID() throws {
+    let context = container.viewContext
+    let car = Car(context: context)
+    car.maker = "McLaren"
+    car.model = "570GT"
+    car.numberPlate = "203"
+
+    let tempID = car.objectID
+    let permanentID = try car.obtainPermanentID()
+    XCTAssertNotEqual(tempID, permanentID)
+    try context.save()
+    XCTAssertEqual(car.objectID, permanentID)
+  }
 }
 
 
