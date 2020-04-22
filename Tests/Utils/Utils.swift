@@ -26,7 +26,7 @@ import CoreData
 
 let model = SampleModelVersion.version1.managedObjectModel()
 
-/// True is is tests are run via SPM (both Terminal or Xcode 11)
+/// True if tests are run via SPM (both Terminal or Xcode 11)
 func isRunningSwiftPackageTests() -> Bool {
   class Dummy { }
   let testBundle = Bundle(for: Dummy.self)
