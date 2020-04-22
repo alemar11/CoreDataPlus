@@ -28,6 +28,9 @@ let model = SampleModelVersion.version1.managedObjectModel()
 
 /// True if tests are run via SPM (both Terminal or Xcode 11)
 func isRunningSwiftPackageTests() -> Bool {
+  // TODO
+  // A Swift Package Test doesn't contain the custom XCODE_TESTS environment key
+  // ProcessInfo.processInfo.environment.keys.contains("XCODE_TESTS")
   class Dummy { }
   let testBundle = Bundle(for: Dummy.self)
   let urls = testBundle.urls(forResourcesWithExtension: "momd", subdirectory: nil) ?? []
