@@ -188,10 +188,12 @@ final class NSManagedObjectUtilsTests: CoreDataPlusInMemoryTestCase {
     car.numberPlate = "203"
 
     let tempID = car.objectID
+    XCTAssertTrue(tempID.isTemporaryID)
     let permanentID = try car.obtainPermanentID()
     XCTAssertNotEqual(tempID, permanentID)
     try context.save()
     XCTAssertEqual(car.objectID, permanentID)
+    XCTAssertFalse(car.objectID.isTemporaryID)
   }
 }
 
