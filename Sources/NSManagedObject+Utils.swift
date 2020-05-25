@@ -49,7 +49,7 @@ extension NSManagedObject {
 
   /// **CoreDataPlus**
   ///
-  /// Materializes `self`
+  /// Materializes `self`.
   public final func materialize() {
     self.willAccessValue(forKey: nil)
   }
