@@ -23,6 +23,8 @@
 
 import CoreData
 
+// TODO: remove this cache mechanism for 3.0.0
+
 // MARK: - Cache
 
 private let managedObjectsCacheKey = "\(bundleIdentifier).NSManagedObjectContext.cache"

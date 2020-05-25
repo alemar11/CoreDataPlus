@@ -21,6 +21,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+// TODO: move this file in the Tests/Utils for 3.0.0
+
 import CoreData
 
 private let markedForDeletionKey = "markedForDeletionAsOf"
