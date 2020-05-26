@@ -21,6 +21,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+// Consider includesPendingChanges in 3.0.0
+
 import CoreData
 
 extension NSFetchRequestResult where Self: NSManagedObject {
