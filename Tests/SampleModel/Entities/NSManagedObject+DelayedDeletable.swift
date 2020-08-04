@@ -1,3 +1,5 @@
+// CoreDataPlus
+
 import CoreData
 
 private let markedForDeletionKey = "markedForDeletionAsOf"

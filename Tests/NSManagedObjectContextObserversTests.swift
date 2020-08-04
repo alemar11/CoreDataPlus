@@ -1,3 +1,5 @@
+// CoreDataPlus
+//
 // Readings:
 // http://mikeabdullah.net/merging-saved-changes-betwe.html
 // http://www.mlsite.net/blog/?p=518

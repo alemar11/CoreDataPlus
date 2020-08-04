@@ -1,3 +1,5 @@
+// CoreDataPlus
+//
 // Readings:
 // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmLightweightMigration.html
 // https://developer.apple.com/documentation/coredata/heavyweight_migration

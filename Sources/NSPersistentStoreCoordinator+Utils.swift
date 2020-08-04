@@ -1,3 +1,5 @@
+// CoreDataPlus
+
 import CoreData
 
 extension NSPersistentStoreCoordinator {

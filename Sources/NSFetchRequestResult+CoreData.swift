@@ -1,3 +1,5 @@
+// CoreDataPlus
+
 // Consider includesPendingChanges in 3.0.0
 
 import CoreData

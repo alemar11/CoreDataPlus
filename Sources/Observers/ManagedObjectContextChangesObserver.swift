@@ -1,3 +1,5 @@
+// CoreDataPlus
+//
 // Several system frameworks use Core Data internally.
 // If you register to receive these notifications from all contexts (by passing nil as the object parameter to a method such as addObserver(_:selector:name:object:)),
 // then you may receive unexpected notifications that are difficult to handle.

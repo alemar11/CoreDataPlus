@@ -1,3 +1,5 @@
+// CoreDataPlus
+
 import CoreData
 
 /// Describes a Core Data model file exention type based on the
