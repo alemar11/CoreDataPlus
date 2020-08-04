@@ -502,68 +502,6 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     XCTAssertTrue(Car.findMaterializedObjects(in: context, where: NSPredicate(value: true)).isEmpty)
   }
 
-  // MARK: Cache
-
-  func testFetchCachedObject() throws {
-    let context = container.viewContext
-
-    context.performAndWait {
-      context.fillWithSampleData()
-      try! context.save()
-    }
-
-    do {
-      let person = try Person.fetchCachedObject(in: context, forKey: "cached-person") { request in
-        request.predicate = NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone")
-      }
-      XCTAssertNotNil(person)
-    }
-
-    do {
-      let person = try Person.fetchCachedObject(in: context, forKey: "cached-person") { request in
-        request.predicate = NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone")
-      }
-      XCTAssertNotNil(person)
-    }
-
-    do {
-      let person = try Person.fetchCachedObject(in: context, forKey: "cached-person") { request in
-        request.predicate = NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "TheodoraXYZ", "Stone")
-      }
-      // the cache is already there, the request is not evaluated
-      XCTAssertNotNil(person)
-      XCTAssertTrue(person?.firstName == "Theodora")
-      XCTAssertTrue(person?.lastName == "Stone")
-    }
-
-    do {
-      let car = try Car.fetchCachedObject(in: context, forKey: "cached-person") { request in
-        request.predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
-      }
-      // the cache was already there but for another entity, the request has been evaluated
-      XCTAssertNotNil(car)
-    }
-
-    XCTAssertNotNil(context.cachedManagedObject(forKey: "cached-person"))
-
-    let newContext = context.newBackgroundContext()
-    newContext.performAndWait {
-      XCTAssertNil(newContext.cachedManagedObject(forKey: "cached-person"))
-    }
-
-    do {
-      _ = try newContext.performAndWaitResult { context in
-        _  = try Person.fetchCachedObject(in: context, forKey: "cached-person-2") { request in
-          request.predicate = NSPredicate(value: true)
-        }
-      }
-
-    } catch {
-      let nsError = error as NSError
-      XCTAssertEqual(nsError.code, NSError.ErrorCode.fetchExpectingOnlyOneObjectFailed.rawValue, "Expected an error of type NSError.fetchExpectingOneObjectFailed")
-    }
-  }
-
   // MARK: Batch Delete
 
   func testBatchDeleteObjectsWithResultTypeStatusOnly() throws {

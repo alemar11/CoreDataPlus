@@ -317,31 +317,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   }
 }
 
-// MARK: - Cache
-
-extension NSFetchRequestResult where Self: NSManagedObject {
-  /// **CoreDataPlus**
-  ///
-  /// Tries to retrieve an object from the cache; if there’s nothing in the cache executes the fetch request and caches the result (if a single object is found).
-  /// - Parameters:
-  ///   - context: Searched context.
-  ///   - cacheKey: Cache key.
-  ///   - configuration: Configurable fetch request.
-  /// - Returns: A cached object (if any).
-  /// - Throws: It throws an error in cases of failure.
-  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
-  public static func fetchCachedObject(in context: NSManagedObjectContext, forKey cacheKey: String, orCacheUsing configuration: @escaping (NSFetchRequest<Self>) -> Void) throws -> Self? {
-    guard let cached = context.cachedManagedObject(forKey: cacheKey) as? Self else {
-      let result = try fetchUniqueObject(in: context, with: configuration)
-      context.setCachedManagedObject(result, forKey: cacheKey)
-
-      return result
-    }
-
-    return cached
-  }
-}
-
 // MARK: - Batch Operations
 
 extension NSFetchRequestResult where Self: NSManagedObject {
