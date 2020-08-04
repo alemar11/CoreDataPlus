@@ -47,8 +47,8 @@ class CoreDataMigrationsTests: XCTestCase {
     XCTAssertTrue(migrationNeededFromV1toV2)
     let migrationNeededFromV1toV3 = try CoreDataPlus.isMigrationNecessary(for: sourceURLV1, to: SampleModelVersion.version3)
     XCTAssertTrue(migrationNeededFromV1toV3)
-    let migrationNeededFromV3toV1 = try CoreDataPlus.isMigrationNecessary(for: sourceURLV2, to: SampleModelVersion.version1)
-    XCTAssertFalse(migrationNeededFromV3toV1)
+    let migrationNeededFromV2toV1 = try CoreDataPlus.isMigrationNecessary(for: sourceURLV2, to: SampleModelVersion.version1)
+    XCTAssertFalse(migrationNeededFromV2toV1)
   }
 
   func testMigrationFromVersion1ToVersion2() throws {
