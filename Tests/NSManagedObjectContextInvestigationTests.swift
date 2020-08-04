@@ -189,7 +189,7 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
     try context.save()
 
     let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
-    let result = try Car.batchUpdateObjects(using: context, resultType: .updatedObjectIDsResultType, propertiesToUpdate: [#keyPath(Car.maker): "FCA"], includesSubentities: true, predicate: fiatPredicate)
+    let result = try Car.batchUpdate(using: context, resultType: .updatedObjectIDsResultType, propertiesToUpdate: [#keyPath(Car.maker): "FCA"], includesSubentities: true, predicate: fiatPredicate)
     XCTAssertEqual(result.updates?.count, 1)
 
     // When, Then

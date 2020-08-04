@@ -90,10 +90,10 @@ extension NSFetchRequestResult where Self: NSManagedObject & DelayedDeletable {
   ///   - resultType: The type of the batch delete result (default: `NSBatchDeleteRequestResultType.resultTypeStatusOnly`).
   /// - Returns: a NSBatchDeleteResult result.
   /// - Throws: An error in cases of a batch delete operation failure.
-  public static func batchDeleteObjectsMarkedForDeletion(with context: NSManagedObjectContext, olderThan cutOffDate: Date = Date(timeIntervalSinceNow: -TimeInterval(120)), resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly) throws -> NSBatchDeleteResult {
+  public static func batchDeleteMarkedForDeletion(with context: NSManagedObjectContext, olderThan cutOffDate: Date = Date(timeIntervalSinceNow: -TimeInterval(120)), resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly) throws -> NSBatchDeleteResult {
     let predicate = NSPredicate(format: "%K <= %@", markedForDeletionKey, cutOffDate as NSDate)
 
-    return try batchDeleteObjects(using: context, resultType: resultType, configuration: { $0.predicate = predicate })
+    return try batchDelete(using: context, resultType: resultType, configuration: { $0.predicate = predicate })
   }
   // swiftlint:enable line_length
 }
