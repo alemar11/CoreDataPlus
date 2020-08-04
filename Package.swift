@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "CoreDataPlus",
-    platforms: [.macOS(.v10_13), .iOS(.v11), .tvOS(.v11), .watchOS(.v4)],
+    platforms: [.macOS(.v10_14), .iOS(.v12), .tvOS(.v12), .watchOS(.v5)],
     products: [
         .library(name: "CoreDataPlus", targets: ["CoreDataPlus"])
     ],
