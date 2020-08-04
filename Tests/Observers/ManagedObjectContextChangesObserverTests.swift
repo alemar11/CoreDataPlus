@@ -482,10 +482,15 @@ final class ManagedObjectContextChangesObserverTests: CoreDataPlusInMemoryTestCa
         expectation3.fulfill()
       default:
         #if !targetEnvironment(macCatalyst)
-        // Bug
-        // from DTS
+        // DTS:
         // It seems like when ‘automaticallyMergesChangesFromParent’ is true, Core Data on macOS still merge the changes,
         // even though the changes are from the same context, which is not optimized.
+        //
+        // FB:
+        // There are subtle differences in behavior of the runloop between UIApplication and NSApplication.
+        // Observing just change notifications makes no promises about how many there may be because change notifications are
+        // posted at the end of the run loop and whenever CoreData feels like it (the application lifecycle spins the main run loop).
+        // Save notifications get called once per save.
         XCTFail("Unexpected change.")
         #endif
       }
