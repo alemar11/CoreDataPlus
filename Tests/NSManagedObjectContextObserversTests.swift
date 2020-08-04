@@ -459,7 +459,7 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
     }
 
     try backgroundContext.performSaveAndWait {
-      try Person.deleteAll(in: $0, where: NSPredicate(format: "%K == %@", #keyPath(Person.firstName), "Alessandro"))
+      try Person.delete(in: $0, where: NSPredicate(format: "%K == %@", #keyPath(Person.firstName), "Alessandro"))
       let person = Person(context: $0)
       person.firstName = "Edythe"
       person.lastName = "Moreton"

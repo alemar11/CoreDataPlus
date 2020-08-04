@@ -8,7 +8,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// **CoreDataPlus**
   ///
   /// The entity name.
-  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
   public static var entityName: String {
     if let name = entity().name {
       return name
@@ -28,7 +27,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///
   /// Creates a `new` NSFetchRequest for `self`.
   /// - Note: Use this method instead of fetchRequest() to avoid a bug in CoreData occurring in the Unit Test targets or when Generics are used.
-  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
   public static func newFetchRequest() -> NSFetchRequest<Self> {
     let fetchRequest = NSFetchRequest<Self>(entityName: entityName)
     return fetchRequest
@@ -37,9 +35,16 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// **CoreDataPlus**
   ///
   /// Performs a configurable fetch request in a context.
+  /// - Note: it always accesses the underlying persistent stores to retrieve the latest results.
+  ///
+  /// - Parameters:
+  ///   - context: Searched context.
+  ///   - configuration: Configuration closure applied **only** before fetching.
   /// - Throws: It throws an error in cases of failure.
-  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
+  /// - Returns: An array of objects that meet the criteria specified by request fetched from *the receiver* and from *the persistent stores* associated with the receiver’s persistent store coordinator.
   public static func fetch(in context: NSManagedObjectContext, with configuration: (NSFetchRequest<Self>) -> Void = { _ in }) throws -> [Self] {
+    // check the Discussion paragraph for the fetch(_:) documentation:
+    // https://developer.apple.com/documentation/coredata/nsmanagedobjectcontext/1506672-fetch
     let request = NSFetchRequest<Self>(entityName: entityName)
     configuration(request)
 
@@ -53,6 +58,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// **CoreDataPlus**
   ///
   /// Fetches all the `NSManagedObjectID` for a given predicate.
+  /// - Note: it always accesses the underlying persistent stores to retrieve the latest results.
   ///
   /// - Parameters:
   ///   - context: Searched context.
@@ -80,6 +86,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// **CoreDataPlus**
   ///
   /// Attempts to find an object matching a predicate or creates a new one and configures it (if multiple objects are found, configures the **first** one).
+  /// - Note: It searches for a matching object in the given context before accessing the underlying persistent stores.
   ///
   /// - Parameters:
   ///   - context: Searched context.
@@ -87,12 +94,10 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - configuration: Configuration closure called **only** when creating a new object.
   /// - Returns: A matching object or a configured new one.
   /// - Throws: It throws an error in cases of failure.
-  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
   public static func findOneOrCreate(in context: NSManagedObjectContext, where predicate: NSPredicate, with configuration: (Self) -> Void) throws -> Self {
     guard let object = try findOneOrFetch(in: context, where: predicate) else {
       let newObject = Self(context: context)
       configuration(newObject)
-
       return newObject
     }
 
@@ -112,8 +117,9 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
   public static func findOneOrFetch(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? {
     // first we should fetch an existing object in the context as a performance optimization
-    guard let object = findOneMaterializedObject(in: context, where: predicate) else {
+    guard let object = findOne(in: context, where: predicate) else {
       // if it's not in memory, we should execute a fetch to see if it exists
+      // NSFetchRequest always accesses the underlying persistent stores to retrieve the latest results.
       do {
         return try fetch(in: context) { request in
           request.predicate = predicate
@@ -133,6 +139,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// **CoreDataPlus**
   ///
   /// Attempts to find an unique object matching a predicate or creates a new one and configures it.
+  /// - Note: it always accesses the underlying persistent stores to retrieve the latest results.
   ///
   /// - Parameters:
   ///   - context: Searched context.
@@ -140,9 +147,9 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - configuration: Configuration closure called **only** when creating a new object.
   /// - Returns: A matching object or a configured new one.
   /// - Throws: It throws an error in cases of failure or if multiple objects are found.
-  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
   public static func findUniqueOrCreate(in context: NSManagedObjectContext, where predicate: NSPredicate, with configuration: (Self) -> Void) throws -> Self {
-    guard let object = try findUniqueOrFetch(in: context, where: predicate) else {
+    let uniqueObject = try fetchUnique(in: context) { $0.predicate = predicate }
+    guard let object = uniqueObject else {
       let newObject = Self(context: context)
       configuration(newObject)
 
@@ -154,49 +161,15 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
   /// **CoreDataPlus**
   ///
-  /// Tries to find an unique existing object in the context (memory) matching a predicate.
-  /// If it doesn’t find the object in the context, tries to load it using a fetch request (if multiple objects are found, returns the **first** one).
+  /// Executes a fetch request where **only** a single unique object is expected as result, otherwhise a an error is thrown.
+  /// - Note: it always accesses the underlying persistent stores to retrieve the latest results.
   ///
   /// - Parameters:
-  ///   - context: Searched context.
-  ///   - predicate: Matching predicate.
-  /// - Returns: The first matching object (if any).
-  /// - Throws: It throws an error in cases of failure or if multiple objects are found.
-  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
-  public static func findUniqueOrFetch(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? {
-    guard let object = try findUniqueMaterializedObject(in: context, where: predicate) else {
-      do {
-        return try fetchUniqueObject(in: context) { request in
-          request.predicate = predicate
-        }
-      } catch {
-        throw NSError.fetchFailed(underlyingError: error)
-      }
-    }
-
-    return object
-  }
-
-  /// **CoreDataPlus**
-  ///
-  /// Iterates over the context’s registeredObjects set (which contains all managed objects the context currently knows about) until it finds
-  /// an unique object that is not a fault matching for a given predicate.
-  /// Faulted objects are not considered to prevent Core Data to make a round trip to the persistent store.
-  /// - Throws: It throws an error in cases of multiple results.
-  public static func findUniqueMaterializedObject(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? {
-    let results = findMaterializedObjects(in: context, where: predicate)
-    guard results.count <= 1 else {
-      throw NSError.fetchCountFailed()
-    }
-    return results.first
-  }
-
-  /// **CoreDataPlus**
-  ///
-  /// Executes a fetch request where **only** a single object is expected as result, otherwhise a an error is thrown.
-  /// - Throws: It throws an error in cases of failure.
-  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
-  public static func fetchUniqueObject(in context: NSManagedObjectContext, with configuration: @escaping (NSFetchRequest<Self>) -> Void) throws -> Self? {
+  ///   - context: Searched context
+  ///   - configuration: Configuration closure applied before fetching.
+  /// - Throws: It throws an error if multiple objects are fetched.
+  /// - Returns: Unique object (if any).
+  public static func fetchUnique(in context: NSManagedObjectContext, with configuration: @escaping (NSFetchRequest<Self>) -> Void) throws -> Self? {
     let result = try fetch(in: context) { request in
       configuration(request)
       request.fetchLimit = 2
@@ -221,8 +194,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// If `includingSubentities` is set to `false`, sub-entities will be ignored.
   /// - Note: `NSBatchDeleteRequest` would be more efficient but requires a context with an `NSPersistentStoreCoordinator` directly connected (no child context).
   /// - Throws: It throws an error in cases of failure.
-  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
-  public static func deleteAll(in context: NSManagedObjectContext, includingSubentities: Bool = true, where predicate: NSPredicate = NSPredicate(value: true)) throws {
+  public static func delete(in context: NSManagedObjectContext, includingSubentities: Bool = true, where predicate: NSPredicate = NSPredicate(value: true)) throws {
     do {
       try autoreleasepool {
         try fetch(in: context) { request in
@@ -245,10 +217,9 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - objects: An Array of `NSManagedObjects` belonging to the `NSManagedObjectContext` to exclude from deletion.
   /// - Throws: It throws an error in cases of failure.
   /// - Note: `NSBatchDeleteRequest` would be more efficient but requires a context with an `NSPersistentStoreCoordinator` directly connected (no child context).
-  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
-  public static func deleteAll(in context: NSManagedObjectContext, except objects: [Self]) throws {
+  public static func delete(in context: NSManagedObjectContext, except objects: [Self]) throws {
     let predicate = NSPredicate(format: "NOT (self IN %@)", objects)
-    try deleteAll(in: context, includingSubentities: true, where: predicate )
+    try delete(in: context, includingSubentities: true, where: predicate )
   }
 
   // MARK: - Count
@@ -257,7 +228,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///
   /// Counts the results of a configurable fetch request in a context.
   /// - Throws: It throws an error in cases of failure.
-  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
   public static func count(in context: NSManagedObjectContext, for configuration: (NSFetchRequest<Self>) -> Void = { _ in }) throws -> Int {
     let request = newFetchRequest()
     configuration(request)
@@ -274,7 +244,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///
   /// Iterates over the context’s registeredObjects set (which contains all managed objects the context currently knows about) until it finds one that is not a fault matching for a given predicate.
   /// Faulted objects are not considered to prevent Core Data to make a round trip to the persistent store.
-  public static func findOneMaterializedObject(in context: NSManagedObjectContext, where predicate: NSPredicate) -> Self? {
+  public static func findOne(in context: NSManagedObjectContext, where predicate: NSPredicate) -> Self? {
     for object in context.registeredObjects where !object.isFault {
       guard let result = object as? Self, predicate.evaluate(with: result) else { continue }
 
@@ -289,7 +259,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// Iterates over the context’s registeredObjects set (which contains all managed objects the context currently knows about) until it finds
   /// all the objects that aren't a fault matching for a given predicate.
   /// Faulted objects are not considered to prevent Core Data to make a round trip to the persistent store.
-  public static func findMaterializedObjects(in context: NSManagedObjectContext, where predicate: NSPredicate) -> [Self] {
+  public static func find(in context: NSManagedObjectContext, where predicate: NSPredicate) -> [Self] {
     let results = context.registeredObjects.filter { !$0.isFault && $0 is Self }.filter { predicate.evaluate(with: $0) }.compactMap { $0 as? Self }
 
     return results

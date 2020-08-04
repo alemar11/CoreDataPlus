@@ -274,25 +274,21 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
     let container1 = OnDiskPersistentContainer.makeNew()
     let stores = container1.persistentStoreCoordinator.persistentStores
     XCTAssertEqual(stores.count, 1)
-
-    if #available(iOS 12.0, tvOS 12.0, watchOS 5.0, macOS 10.14, *) {
-      let store = stores.first!
-      let currentToken = container1.persistentStoreCoordinator.currentPersistentHistoryToken(fromStores: [store])
-
-      // it's a new store, there shouldn't be any transactions
-      let transactions = try container1.viewContext.historyTransaction(after: nil)
-      XCTAssertTrue(transactions.isEmpty)
-
-      XCTAssertNotNil(currentToken)
-      let token = try container1.viewContext.mergeHistory(after: currentToken)
-      XCTAssertNil(token)
-    } else {
-      let token = try container1.viewContext.mergeHistory(after: nil)
-      XCTAssertNil(token)
-    }
-
-    let token = try container1.viewContext.mergeHistory(after: nil)
+    
+    
+    let store = stores.first!
+    let currentToken = container1.persistentStoreCoordinator.currentPersistentHistoryToken(fromStores: [store])
+    
+    // it's a new store, there shouldn't be any transactions
+    let transactions = try container1.viewContext.historyTransaction(after: nil)
+    XCTAssertTrue(transactions.isEmpty)
+    
+    XCTAssertNotNil(currentToken)
+    let token = try container1.viewContext.mergeHistory(after: currentToken)
     XCTAssertNil(token)
+    
+    let token2 = try container1.viewContext.mergeHistory(after: nil)
+    XCTAssertNil(token2)
     try container1.destroy()
   }
 
@@ -382,14 +378,13 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
         }
 
         // This is how when can retrive a token after a save directly from a store
-        if #available(iOS 12.0, tvOS 12.0, watchOS 5.0, macOS 10.14, *) {
-          if let store = container2.persistentStoreCoordinator.persistentStores.first {
-            let lastHistoryToken = container2.persistentStoreCoordinator.currentPersistentHistoryToken(fromStores: [store])
-            let transactionsAfterTheLastUsedToken = try! viewContext2.historyTransaction(after: lastToken)
-            XCTAssertEqual(transactionsAfterTheLastUsedToken.count, 1)
-            let transactionsAfterTheNewestToken = try! viewContext2.historyTransaction(after: lastHistoryToken)
-            XCTAssertTrue(transactionsAfterTheNewestToken.isEmpty, "There shouldn't be any new transactions after the newest token.")
-          }
+
+        if let store = container2.persistentStoreCoordinator.persistentStores.first {
+          let lastHistoryToken = container2.persistentStoreCoordinator.currentPersistentHistoryToken(fromStores: [store])
+          let transactionsAfterTheLastUsedToken = try! viewContext2.historyTransaction(after: lastToken)
+          XCTAssertEqual(transactionsAfterTheLastUsedToken.count, 1)
+          let transactionsAfterTheNewestToken = try! viewContext2.historyTransaction(after: lastHistoryToken)
+          XCTAssertTrue(transactionsAfterTheNewestToken.isEmpty, "There shouldn't be any new transactions after the newest token.")
         }
 
         let token = try! viewContext2.mergeHistory(after: lastToken)

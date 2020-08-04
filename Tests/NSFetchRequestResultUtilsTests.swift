@@ -246,7 +246,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
 
   // MARK: - Unique
 
-  func testFetchUniqueObject() throws {
+  func testfetchUnique() throws {
     let context = container.viewContext
 
     context.performAndWait {
@@ -255,7 +255,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     }
 
     do {
-      _ = try Person.fetchUniqueObject(in: context) { request in
+      _ = try Person.fetchUnique(in: context) { request in
         request.predicate = NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "Moreton")
       }
       XCTFail("This fetch should fail because the result should have more than 1 resul.")
@@ -264,14 +264,14 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     }
 
     do {
-      let person = try Person.fetchUniqueObject(in: context) { request in
+      let person = try Person.fetchUnique(in: context) { request in
         request.predicate = NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "MoretonXYZ")
       }
       XCTAssertNil(person)
     }
 
     do {
-      let person = try Person.fetchUniqueObject(in: context) { request in
+      let person = try Person.fetchUnique(in: context) { request in
         request.predicate = NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone")
       }
       XCTAssertNotNil(person)
@@ -279,25 +279,47 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
 
   }
 
+//  func testFindUniqueOrCreateWhenUniquenessIsViolated() throws {
+//    let context = container.viewContext
+//
+//    // 1. a Lamborghini with plate 304 is saved
+//    context.performAndWait {
+//      context.fillWithSampleData()
+//      try! context.save()
+//    }
+//
+//    context.reset()
+//
+//    // 2. another Lamborghini with plate 304 is created
+//    let fakeExpensiveSportCar5 = ExpensiveSportCar(context: context)
+//    fakeExpensiveSportCar5.maker = "Lamborghini"
+//    fakeExpensiveSportCar5.model = "Aventador LP750-4"
+//    fakeExpensiveSportCar5.numberPlate = "304"
+//    fakeExpensiveSportCar5.isLimitedEdition = false
+//
+//    // 3. when we search for an unique 304 Lamborhing, an exception should be thrown
+//    XCTAssertThrowsError(try Car.findUniqueOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")) { _ in XCTFail("A new car shouldn't be created.")
+//    })
+//  }
+
   func testFindUniqueOrCreate() throws {
     let context = container.viewContext
-
     context.performAndWait {
       context.fillWithSampleData()
       try! context.save()
     }
 
-    /// existing object
+    // Case 1: existing object
     do {
-      let car = try Car.findUniqueOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")) { car in
-        XCTAssertNotNil(car.numberPlate)
+      let car = try Car.findUniqueOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")) { _ in
+        XCTFail("A new car shouldn't be created.")
       }
 
       XCTAssertNotNil(car)
       XCTAssertTrue(car.maker == "Lamborghini")
     }
 
-    /// new object
+    // Case 2: new object
     do {
       let car = try Car.findUniqueOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-new"), with: { car in
         XCTAssertNil(car.numberPlate)
@@ -311,7 +333,9 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
       context.delete(car)
     }
 
-    /// new object added in the context before the fetch
+    // Case 3: new object (supposed to be unique) added in the context before the fetch
+
+    context.reset()
 
     // first we materialiaze all cars
     XCTAssertNoThrow( try Car.fetch(in: context) { request in request.returnsObjectsAsFaults = false })
@@ -321,42 +345,12 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     car.model = "fake-model"
 
     XCTAssertThrowsError(try Car.findUniqueOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"), with: { _ in }))
-
-    /// multiple objects, the first one matching the condition is returned
-
     XCTAssertThrowsError(try Car.findUniqueOrCreate(in: context, where: NSPredicate(value: true), with: { _ in }))
-
-  }
-
-  func testFindUniqueMaterializedObject() throws {
-    let context = container.viewContext
-
-    context.performAndWait {
-      context.fillWithSampleData()
-      try! context.save()
-    }
-
-    // materialize all expensive sport cars
-    let request = ExpensiveSportCar.newFetchRequest()
-    request.returnsObjectsAsFaults = false
-    request.predicate = NSPredicate(value: true)
-    _ = try context.fetch(request)
-
-    XCTAssertThrowsError(try Car.findUniqueMaterializedObject(in: context, where: NSPredicate(value: true)))
-
-    let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
-    XCTAssertNotNil(Car.findOneMaterializedObject(in: context, where: predicate))
-
-    // de-materialize all objects
-    context.refreshAllObjects()
-
-    XCTAssertNil(Car.findOneMaterializedObject(in: context, where: predicate))
-
   }
 
   // MARK: - First
 
-  func testFindFirstOrCreate() throws {
+  func testFindOneOrCreate() throws {
     let context = container.viewContext
 
     context.performAndWait {
@@ -428,7 +422,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     }
   }
 
-  func testFindFirstMaterializedObject() throws {
+  func testFindOne() throws {
     let context = container.viewContext
 
     context.performAndWait {
@@ -443,21 +437,21 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
 
     _ = try context.fetch(request)
 
-    XCTAssertNotNil(Car.findOneMaterializedObject(in: context, where: NSPredicate(value: true)))
+    XCTAssertNotNil(Car.findOne(in: context, where: NSPredicate(value: true)))
 
     let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
-    XCTAssertNotNil(Car.findOneMaterializedObject(in: context, where: predicate))
+    XCTAssertNotNil(Car.findOne(in: context, where: predicate))
 
     // de-materialize all objects
     context.refreshAllObjects()
 
-    XCTAssertNil(Car.findOneMaterializedObject(in: context, where: predicate))
+    XCTAssertNil(Car.findOne(in: context, where: predicate))
 
   }
 
   // MARK: Materialized Object
 
-  func testFindMaterializedObjects() throws {
+  func testfind() throws {
     let context = container.viewContext
 
     context.performAndWait {
@@ -471,14 +465,14 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     request.predicate = NSPredicate(value: true)
     _ = try context.fetch(request)
 
-    XCTAssertTrue(Car.findMaterializedObjects(in: context, where: NSPredicate(value: true)).count > 1)
+    XCTAssertTrue(Car.find(in: context, where: NSPredicate(value: true)).count > 1)
     // with the previous fetch we have materialized only one Lamborghini (the expensive one)
-    XCTAssertTrue(SportCar.findMaterializedObjects(in: context, where: NSPredicate(format: "\(#keyPath(Car.maker)) == %@", "Lamborghini")).count == 1)
+    XCTAssertTrue(SportCar.find(in: context, where: NSPredicate(format: "\(#keyPath(Car.maker)) == %@", "Lamborghini")).count == 1)
 
     // de-materialize all objects
     context.refreshAllObjects()
 
-    XCTAssertTrue(Car.findMaterializedObjects(in: context, where: NSPredicate(value: true)).isEmpty)
+    XCTAssertTrue(Car.find(in: context, where: NSPredicate(value: true)).isEmpty)
   }
 
   // MARK: Batch Delete
@@ -559,7 +553,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     }
   }
 
-  func testBatchDeleteAllEntities() throws {
+  func testBatchdeleteEntities() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
@@ -826,7 +820,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
   //    let car = try Car.findOneOrFetch(in: context, where: NSPredicate(value: true))
   //
   //    try context.save()
-  //    try Car.deleteAll(in: context)
+  //    try Car.delete(in: context)
   //    try context.save()
   //    let cars2 = try! Car.fetch(in: context)
   //    XCTAssertTrue(cars2.isEmpty) // All the cars aren't valid (for the CoreData model) anymore

@@ -165,7 +165,7 @@ extension NSManagedObjectContext {
   /// Deletes all history.
   @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   @discardableResult
-  public func deleteAllHistory() throws -> Bool {
+  public func deleteHistory() throws -> Bool {
     return try deleteHistory(before: .distantFuture)
   }
 
