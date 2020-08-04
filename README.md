@@ -19,8 +19,8 @@ Core data extensions.
 
 ## Requirements
 
-- iOS 11.0+ / macOS 10.13+ / tvOS 11.0+ / watchOS 4.0+
-- Xcode 10.2
+- iOS 12.0+ / macOS 10.14+ / tvOS 12.0+ / watchOS 5.0+
+- Xcode 11.6
 - Swift 5.0
 
 ## Documentation
@@ -49,7 +49,7 @@ platform :ios, '11.0'
 use_frameworks!
 
 target '<Your Target Name>' do
-    pod 'CoreDataPlus', '~> 2.3.0'
+    pod 'CoreDataPlus', '~> 3.0.0'
 end
 ```
 
@@ -73,7 +73,7 @@ $ brew install carthage
 To integrate CoreDataPlus into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "tinrobots/CoreDataPlus" ~> 2.3.0
+github "tinrobots/CoreDataPlus" ~> 3.0.0
 ```
 
 Run `carthage update` to build the framework and drag the built `CoreDataPlus.framework` into your Xcode project.
@@ -85,7 +85,7 @@ Once you have your Swift package set up, adding CoreDataPlus as a dependency is 
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/tinrobots/CoreDataPlus.git", from: "2.3.0")
+    .package(url: "https://github.com/tinrobots/CoreDataPlus.git", from: "3.0.0")
 ]
 ```
 
