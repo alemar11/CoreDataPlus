@@ -93,7 +93,7 @@ extension NSFetchRequestResult where Self: NSManagedObject & DelayedDeletable {
   public static func batchDeleteObjectsMarkedForDeletion(with context: NSManagedObjectContext, olderThan cutOffDate: Date = Date(timeIntervalSinceNow: -TimeInterval(120)), resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly) throws -> NSBatchDeleteResult {
     let predicate = NSPredicate(format: "%K <= %@", markedForDeletionKey, cutOffDate as NSDate)
 
-    return try batchDeleteObjects(with: context, resultType: resultType, configuration: { $0.predicate = predicate })
+    return try batchDeleteObjects(using: context, resultType: resultType, configuration: { $0.predicate = predicate })
   }
   // swiftlint:enable line_length
 }

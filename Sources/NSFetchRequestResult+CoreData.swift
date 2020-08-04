@@ -114,7 +114,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - predicate: Matching predicate.
   /// - Returns: The first matching object (if any).
   /// - Throws: It throws an error in cases of failure.
-  public static func findOneOrFetch(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? {
+  public static func findOneOrFetch(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? { // TODO: change func name
     // first we should fetch an existing object in the context as a performance optimization
     guard let object = findOne(in: context, where: predicate) else {
       // if it's not in memory, we should execute a fetch to see if it exists
@@ -276,7 +276,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Returns: a NSBatchUpdateRequest result.
   /// - Throws: It throws an error in cases of failure.
   /// - Note: A batch delete can **only** be done on a SQLite store.
-  public static func batchUpdateObjects(with context: NSManagedObjectContext,
+  public static func batchUpdateObjects(using context: NSManagedObjectContext,
                                         resultType: NSBatchUpdateRequestResultType = .statusOnlyResultType,
                                         propertiesToUpdate: [AnyHashable: Any],
                                         includesSubentities: Bool = true,
@@ -308,7 +308,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Throws: It throws an error in cases of failure.
   /// - Note: A batch delete can **only** be done on a SQLite store.
   @discardableResult
-  public static func batchDeleteObjects(with context: NSManagedObjectContext,
+  public static func batchDeleteObjects(using context: NSManagedObjectContext,
                                         resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly,
                                         configuration: ((NSFetchRequest<Self>) -> Void)? = nil) throws -> NSBatchDeleteResult {
     guard context.persistentStoreCoordinator != nil else { throw NSError.persistentStoreCoordinatorNotFound(context: context) }
@@ -339,7 +339,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Throws: It throws an error in cases of failure.
   /// - Note: A batch insert can **only** be done on a SQLite store.
   @available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-  public static func batchInsertObjects(with context: NSManagedObjectContext,
+  public static func batchInsertObjects(using context: NSManagedObjectContext,
                                         resultType: NSBatchInsertRequestResultType = .statusOnly,
                                         objects: [[String: Any]]) throws -> NSBatchInsertResult {
     guard context.persistentStoreCoordinator != nil else { throw NSError.persistentStoreCoordinatorNotFound(context: context) }
