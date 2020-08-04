@@ -114,7 +114,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - predicate: Matching predicate.
   /// - Returns: The first matching object (if any).
   /// - Throws: It throws an error in cases of failure.
-  @available(iOS 10.0, iOSApplicationExtension 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *)
   public static func findOneOrFetch(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? {
     // first we should fetch an existing object in the context as a performance optimization
     guard let object = findOne(in: context, where: predicate) else {
@@ -152,7 +151,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     guard let object = uniqueObject else {
       let newObject = Self(context: context)
       configuration(newObject)
-
       return newObject
     }
 
