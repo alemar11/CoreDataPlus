@@ -422,7 +422,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     }
   }
 
-  func testFindOne() throws {
+  func testFindFirstMaterializedObject() throws {
     let context = container.viewContext
 
     context.performAndWait {
@@ -437,21 +437,21 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
 
     _ = try context.fetch(request)
 
-    XCTAssertNotNil(Car.findOne(in: context, where: NSPredicate(value: true)))
+    XCTAssertNotNil(Car.materializedObject(in: context, where: NSPredicate(value: true)))
 
     let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
-    XCTAssertNotNil(Car.findOne(in: context, where: predicate))
+    XCTAssertNotNil(Car.materializedObject(in: context, where: predicate))
 
     // de-materialize all objects
     context.refreshAllObjects()
 
-    XCTAssertNil(Car.findOne(in: context, where: predicate))
+    XCTAssertNil(Car.materializedObject(in: context, where: predicate))
 
   }
 
   // MARK: Materialized Object
 
-  func testfind() throws {
+  func testfindMaterializedObjects() throws {
     let context = container.viewContext
 
     context.performAndWait {
@@ -465,14 +465,14 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     request.predicate = NSPredicate(value: true)
     _ = try context.fetch(request)
 
-    XCTAssertTrue(Car.find(in: context, where: NSPredicate(value: true)).count > 1)
+    XCTAssertTrue(Car.materializedObjects(in: context, where: NSPredicate(value: true)).count > 1)
     // with the previous fetch we have materialized only one Lamborghini (the expensive one)
-    XCTAssertTrue(SportCar.find(in: context, where: NSPredicate(format: "\(#keyPath(Car.maker)) == %@", "Lamborghini")).count == 1)
+    XCTAssertTrue(SportCar.materializedObjects(in: context, where: NSPredicate(format: "\(#keyPath(Car.maker)) == %@", "Lamborghini")).count == 1)
 
     // de-materialize all objects
     context.refreshAllObjects()
 
-    XCTAssertTrue(Car.find(in: context, where: NSPredicate(value: true)).isEmpty)
+    XCTAssertTrue(Car.materializedObjects(in: context, where: NSPredicate(value: true)).isEmpty)
   }
 
   // MARK: Batch Delete

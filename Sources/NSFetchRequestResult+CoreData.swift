@@ -82,11 +82,35 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   }
   
   // MARK: - First
+
+  /// **CoreDataPlus**
+  ///
+  /// Fetches an object matching the given predicate.
+  /// - Note: it always accesses the underlying persistent stores to retrieve the latest results.
+  ///
+  /// - Parameters:
+  ///   - context: Searched context.
+  ///   - predicate: Matching predicate.
+  /// - Throws: It throws an error in cases of failure.
+  /// - Returns: A **materialized** object matching the predicate.
+  public static func fetchOne(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? {
+    do {
+      return try fetch(in: context) { request in
+        request.predicate = predicate
+        request.returnsObjectsAsFaults = false
+        request.fetchLimit = 1
+      }.first
+    } catch {
+      throw NSError.fetchFailed(underlyingError: error)
+    }
+  }
   
   /// **CoreDataPlus**
   ///
   /// Attempts to find an object matching a predicate or creates a new one and configures it (if multiple objects are found, configures the **first** one).
-  /// - Note: It searches for a matching object in the given context before accessing the underlying persistent stores.
+  ///
+  /// For uniqueness, use `findUniqueOrCreate(in:where:with) instead.
+  /// - Note: It searches for a matching materialized object in the given context before accessing the underlying persistent stores.
   ///
   /// - Parameters:
   ///   - context: Searched context.
@@ -95,7 +119,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Returns: A matching object or a configured new one.
   /// - Throws: It throws an error in cases of failure.
   public static func findOneOrCreate(in context: NSManagedObjectContext, where predicate: NSPredicate, with configuration: (Self) -> Void) throws -> Self {
-    guard let object = try findOneOrFetch(in: context, where: predicate) else {
+    guard let object = try materializedObjectOrFetch(in: context, where: predicate) else {
       let newObject = Self(context: context)
       configuration(newObject)
       return newObject
@@ -107,37 +131,31 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// **CoreDataPlus**
   ///
   /// Tries to find the first existing object in the context (memory) matching a predicate.
-  /// If it doesn’t find the object in the context, tries to load it using a fetch request (if multiple objects are found, returns the **first** one).
+  /// If it doesn’t find a matching materialized object in the context, tries to load it using a fetch request (if multiple objects are found, returns the **first** one).
   ///
   /// - Parameters:
   ///   - context: Searched context.
   ///   - predicate: Matching predicate.
-  /// - Returns: The first matching object (if any).
+  /// - Returns: The first materialized matching object (if any).
   /// - Throws: It throws an error in cases of failure.
-  public static func findOneOrFetch(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? { // TODO: change func name
+  public static func materializedObjectOrFetch(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? {
     // first we should fetch an existing object in the context as a performance optimization
-    guard let object = findOne(in: context, where: predicate) else {
+    guard let object = materializedObject(in: context, where: predicate) else {
       // if it's not in memory, we should execute a fetch to see if it exists
       // NSFetchRequest always accesses the underlying persistent stores to retrieve the latest results.
-      do {
-        return try fetch(in: context) { request in
-          request.predicate = predicate
-          request.returnsObjectsAsFaults = false
-          request.fetchLimit = 1
-        }.first
-      } catch {
-        throw NSError.fetchFailed(underlyingError: error)
-      }
+     return try fetchOne(in: context, where: predicate)
     }
     
     return object
   }
-  
+
   // MARK: - Unique
   
   /// **CoreDataPlus**
   ///
   /// Attempts to find an unique object matching a predicate or creates a new one and configures it.
+  ///
+  /// If uniqueness is not relevant, use `findOneOrCreate(in:where:with) instead.
   /// - Note: it always accesses the underlying persistent stores to retrieve the latest results.
   ///
   /// - Parameters:
@@ -242,7 +260,12 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///
   /// Iterates over the context’s registeredObjects set (which contains all managed objects the context currently knows about) until it finds one that is not a fault matching for a given predicate.
   /// Faulted objects are not considered to prevent Core Data to make a round trip to the persistent store.
-  public static func findOne(in context: NSManagedObjectContext, where predicate: NSPredicate) -> Self? {
+  ///
+  /// - Parameters:
+  ///   - context: Searched context
+  ///   - predicate: Matching predicate.
+  /// - Returns: The first materialized object matching the predicate.
+  public static func materializedObject(in context: NSManagedObjectContext, where predicate: NSPredicate) -> Self? {
     for object in context.registeredObjects where !object.isFault {
       guard let result = object as? Self, predicate.evaluate(with: result) else { continue }
       
@@ -257,7 +280,12 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// Iterates over the context’s registeredObjects set (which contains all managed objects the context currently knows about) until it finds
   /// all the objects that aren't a fault matching for a given predicate.
   /// Faulted objects are not considered to prevent Core Data to make a round trip to the persistent store.
-  public static func find(in context: NSManagedObjectContext, where predicate: NSPredicate) -> [Self] {
+  ///
+  /// - Parameters:
+  ///   - context: Searched context
+  ///   - predicate: Matching predicate.
+  /// - Returns: Materialized objects matching the predicate.
+  public static func materializedObjects(in context: NSManagedObjectContext, where predicate: NSPredicate) -> [Self] {
     let results = context.registeredObjects.filter { !$0.isFault && $0 is Self }.filter { predicate.evaluate(with: $0) }.compactMap { $0 as? Self }
     
     return results

@@ -15,7 +15,7 @@ final class NSSetCoreDataTests: CoreDataPlusInMemoryTestCase {
 
     let request = Person.newFetchRequest()
     request.returnsObjectsAsFaults = true
-    let foundPerson = try Person.findOneOrFetch(in: context, where: NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone"))
+    let foundPerson = try Person.materializedObjectOrFetch(in: context, where: NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone"))
     //let person = try XCTUnwrap(foundPerson) // TODO Swift 5.2
     guard let person = foundPerson else {
       XCTAssertNotNil(foundPerson)
@@ -54,7 +54,7 @@ final class NSSetCoreDataTests: CoreDataPlusInMemoryTestCase {
 
     let request = Person.newFetchRequest()
     request.returnsObjectsAsFaults = true
-    let foundPerson = try Person.findOneOrFetch(in: context, where: NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone"))
+    let foundPerson = try Person.materializedObjectOrFetch(in: context, where: NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone"))
     //let person = try XCTUnwrap(foundPerson) // TODO Swift 5.2
     guard let person = foundPerson else {
       XCTAssertNotNil(foundPerson)
