@@ -358,9 +358,6 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
   }
 
   func testInvestigationRegisteredObjects() throws {
-    #if swift(<5.2)
-    return // TODO: Github Actions
-    #endif
     try XCTSkipIf(!ProcessInfo.processInfo.environment.keys.contains("XCODE_TESTS"), "This test should be run via Xcode and not using Swift test.")
     try XCTSkipIf(ProcessInfo.processInfo.arguments.contains("zombieObjectsEnabled"), "Testing with Zombie Objects enabled")
 
