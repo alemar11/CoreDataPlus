@@ -24,6 +24,6 @@ extension NSSet {
     guard self.count > 0 else { return }
 
     let managedObjects = self.compactMap { $0 as? NSManagedObject }
-    try managedObjects.materializeFaultedManagedObjects()
+    try managedObjects.materializeFaults()
   }
 }

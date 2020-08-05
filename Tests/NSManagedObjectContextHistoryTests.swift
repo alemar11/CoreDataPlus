@@ -93,7 +93,7 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
 
     let persons = try Person.fetch(in: viewContext2)
     // materialize all the objects to listen to updates/merges in addition to inserts and deletes
-    try persons.materializeFaultedManagedObjects()
+    try persons.materializeFaults()
     XCTAssertEqual(persons.count, 2)
 
     let person3 = Person(context: viewContext1)
@@ -525,9 +525,9 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
     try viewContext1.save()
     let lastToken1 = try viewContext2.mergeHistory(after: nil)
     let cars = try Car.fetch(in: viewContext2)
-    try cars.materializeFaultedManagedObjects()
+    try cars.materializeFaults()
     let persons = try Person.fetch(in: viewContext2)
-    try persons.materializeFaultedManagedObjects()
+    try persons.materializeFaults()
     XCTAssertEqual(cars.count, 1)
     XCTAssertEqual(persons.count, 1)
 

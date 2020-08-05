@@ -20,7 +20,7 @@ extension Collection where Element: NSManagedObject {
   /// Materializes all the faulted objects in one batch, executing a single fetch request.
   /// - Throws: It throws an error in cases of failure.
   /// - Note: Materializing all the objects in one batch is faster than triggering the fault for each object on its own.
-  public func materializeFaultedManagedObjects() throws {
+  public func materializeFaults() throws {
     guard !self.isEmpty else { return }
 
     let faults = self.filter { $0.isFault }
