@@ -1,7 +1,5 @@
 // CoreDataPlus
 
-// Consider includesPendingChanges in 3.0.0
-
 import CoreData
 
 extension NSFetchRequestResult where Self: NSManagedObject {
@@ -93,11 +91,12 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - predicate: Matching predicate.
   /// - Throws: It throws an error in cases of failure.
   /// - Returns: A **materialized** object matching the predicate.
-  public static func fetchOne(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? {
+  public static func fetchOne(in context: NSManagedObjectContext, where predicate: NSPredicate, includesPendingChanges: Bool = true) throws -> Self? {
     do {
       return try fetch(in: context) { request in
         request.predicate = predicate
         request.returnsObjectsAsFaults = false
+        request.includesPendingChanges = includesPendingChanges
         request.fetchLimit = 1
       }.first
     } catch {
@@ -143,9 +142,9 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     guard let object = materializedObject(in: context, where: predicate) else {
       // if it's not in memory, we should execute a fetch to see if it exists
       // NSFetchRequest always accesses the underlying persistent stores to retrieve the latest results.
-     return try fetchOne(in: context, where: predicate)
+      return try fetchOne(in: context, where: predicate)
     }
-    
+
     return object
   }
 
@@ -165,7 +164,10 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Returns: A matching object or a configured new one.
   /// - Throws: It throws an error in cases of failure or if multiple objects are found.
   public static func findUniqueOrCreate(in context: NSManagedObjectContext, where predicate: NSPredicate, with configuration: (Self) -> Void) throws -> Self {
-    let uniqueObject = try fetchUnique(in: context) { $0.predicate = predicate }
+    let uniqueObject = try fetchUnique(in: context) {
+      $0.predicate = predicate
+      $0.includesPendingChanges = true // default, uniqueness should be guaranteed on disk and pending changes in memory
+    }
     guard let object = uniqueObject else {
       let newObject = Self(context: context)
       configuration(newObject)
@@ -266,7 +268,8 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - predicate: Matching predicate.
   /// - Returns: The first materialized object matching the predicate.
   public static func materializedObject(in context: NSManagedObjectContext, where predicate: NSPredicate) -> Self? {
-    for object in context.registeredObjects where !object.isFault {
+
+   for object in context.registeredObjects where !object.isFault {
       guard let result = object as? Self, predicate.evaluate(with: result) else { continue }
       
       return result
@@ -286,7 +289,10 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - predicate: Matching predicate.
   /// - Returns: Materialized objects matching the predicate.
   public static func materializedObjects(in context: NSManagedObjectContext, where predicate: NSPredicate) -> [Self] {
-    let results = context.registeredObjects.filter { !$0.isFault && $0 is Self }.filter { predicate.evaluate(with: $0) }.compactMap { $0 as? Self }
+    let results = context.registeredObjects
+      .filter { !$0.isFault && $0 is Self }
+      .filter { predicate.evaluate(with: $0) }
+      .compactMap { $0 as? Self }
     
     return results
   }

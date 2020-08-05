@@ -338,13 +338,18 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     context.reset()
 
     // first we materialiaze all cars
-    XCTAssertNoThrow( try Car.fetch(in: context) { request in request.returnsObjectsAsFaults = false })
+    XCTAssertNoThrow(try Car.fetch(in: context) { request in request.returnsObjectsAsFaults = false })
+    // we add a new car to the context that has an already used numberPlate
     let car = Car(context: context)
     car.numberPlate = "304"
     car.maker = "fake-maker"
     car.model = "fake-model"
 
-    XCTAssertThrowsError(try Car.findUniqueOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"), with: { _ in }))
+    let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
+    // There are 2 cars (one saved, one in memory) with the same number plate 304, uniqueness is not guaranteed and a throws is expected
+    XCTAssertThrowsError(try Car.findUniqueOrCreate(in: context, where: predicate, with: { _ in }))
+
+    // All the cars match the predicate, uniqueness is not guaranteed and a throws is expected
     XCTAssertThrowsError(try Car.findUniqueOrCreate(in: context, where: NSPredicate(value: true), with: { _ in }))
   }
 
@@ -446,7 +451,6 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     context.refreshAllObjects()
 
     XCTAssertNil(Car.materializedObject(in: context, where: predicate))
-
   }
 
   // MARK: Materialized Object

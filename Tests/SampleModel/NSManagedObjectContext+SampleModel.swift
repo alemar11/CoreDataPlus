@@ -175,7 +175,7 @@ extension NSManagedObjectContext {
     sportCar1.numberPlate = "200"
 
     let sportCar2 = SportCar(context: context)
-    sportCar2.maker = "Mercedes-Benz "
+    sportCar2.maker = "Mercedes-Benz"
     sportCar2.model = "AMG GT S"
     sportCar2.numberPlate = "201"
 
@@ -190,7 +190,7 @@ extension NSManagedObjectContext {
     sportCar4.numberPlate = "203"
 
     let sportCar5 = SportCar(context: context)
-    sportCar5.maker = "Lamborghini "
+    sportCar5.maker = "Lamborghini"
     sportCar5.model = "Aventador LP750-4"
     sportCar5.numberPlate = "204"
 
@@ -202,7 +202,7 @@ extension NSManagedObjectContext {
     expensiveSportCar1.isLimitedEdition = true
 
     let expensiveSportCar2 = ExpensiveSportCar(context: context)
-    expensiveSportCar2.maker = "Mercedes-Benz "
+    expensiveSportCar2.maker = "Mercedes-Benz"
     expensiveSportCar2.model = "AMG GT S"
     expensiveSportCar2.numberPlate = "301"
     expensiveSportCar2.isLimitedEdition = true
