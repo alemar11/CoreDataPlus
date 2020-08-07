@@ -355,6 +355,39 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
 
   // MARK: - First
 
+  func testFetchOne() throws {
+    let context = container.viewContext
+    
+    context.performAndWait {
+      context.fillWithSampleData()
+      try! context.save()
+    }
+
+    let car1 = try Car.fetchOne(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"))
+    XCTAssertNotNil(car1)
+
+    car1?.numberPlate = "304-edited"
+
+    let car2 = try Car.fetchOne(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"))
+    XCTAssertNil(car2)
+
+    // the fetch will be run only against saved values (number plate "304-edited" is a pending change)
+    let car3 = try Car.fetchOne(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"), includesPendingChanges: false)
+    XCTAssertNotNil(car3)
+
+
+    let newCar = Car(context: context)
+    newCar.numberPlate = "304-fale"
+    newCar.maker = "fake-maker"
+    newCar.model = "fake-model"
+
+    let car4 = try Car.fetchOne(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"))
+    XCTAssertNotNil(car4)
+
+    let car5 = try Car.fetchOne(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"), includingPendingChanges: false)
+    XCTAssertNotNil(car5)
+  }
+
   func testFindOneOrCreate() throws {
     let context = container.viewContext
 

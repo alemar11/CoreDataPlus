@@ -89,6 +89,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Parameters:
   ///   - context: Searched context.
   ///   - predicate: Matching predicate.
+  ///   - includesPendingChanges: A Boolean value that indicates whether, when the fetch is executed, it matches against currently unsaved changes in the managed object context.
   /// - Throws: It throws an error in cases of failure.
   /// - Returns: A **materialized** object matching the predicate.
   public static func fetchOne(in context: NSManagedObjectContext, where predicate: NSPredicate, includesPendingChanges: Bool = true) throws -> Self? {
@@ -166,7 +167,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   public static func findUniqueOrCreate(in context: NSManagedObjectContext, where predicate: NSPredicate, with configuration: (Self) -> Void) throws -> Self {
     let uniqueObject = try fetchUnique(in: context) {
       $0.predicate = predicate
-      $0.includesPendingChanges = true // default, uniqueness should be guaranteed on disk and pending changes in memory
+      $0.includesPendingChanges = true // default, uniqueness should be guaranteed
     }
     guard let object = uniqueObject else {
       let newObject = Self(context: context)
