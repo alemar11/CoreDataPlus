@@ -34,9 +34,13 @@ final class OnDiskPersistentContainer: NSPersistentContainer {
     let url = URL.newDatabaseURL(withID: UUID())
     let container = OnDiskPersistentContainer(name: "SampleModel", managedObjectModel: model)
     container.persistentStoreDescriptions[0].url = url
-    if #available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *) {
-      container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+
+    // Enable history tracking and remote notifications
+    container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+    if #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) {
+      container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
     }
+
     container.loadPersistentStores { (description, error) in
       XCTAssertNil(error)
     }
@@ -47,9 +51,13 @@ final class OnDiskPersistentContainer: NSPersistentContainer {
     let url = URL.newDatabaseURL(withID: id)
     let container = OnDiskPersistentContainer(name: "SampleModel", managedObjectModel: model)
     container.persistentStoreDescriptions[0].url = url
-    if #available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *) {
-      container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+
+    // Enable history tracking and remote notifications
+    container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+    if #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) {
+      container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
     }
+
     container.loadPersistentStores { (description, error) in
       XCTAssertNil(error)
     }
@@ -59,7 +67,7 @@ final class OnDiskPersistentContainer: NSPersistentContainer {
   /// Destroys the database and reset all the registered contexts.
   func destroy() throws {
     guard let url = persistentStoreDescriptions[0].url else { return }
-    guard url.absoluteString != "/dev/null" else { return }
+    guard !url.absoluteString.starts(with: "/dev/null") else { return }
 
     // unload each store from the used context to avoid the sqlite3 bug warning.
     do {

@@ -22,12 +22,14 @@ extension NSError {
     case persistentStoreCoordinatorNotFound = 1
     case saveFailed = 2
     case migrationFailed = 3
+    case invalidFetchRequest = 4
     case fetchFailed = 100
     case fetchCountFailed
     case fetchExpectingOnlyOneObjectFailed
     case batchUpdateFailed = 200
     case batchDeleteFailed
     case batchInsertFailed
+    case historyChangesDeletionFailed = 300
     case fileDoesNotExist = -1100 // same code of NSURLErrorFileDoesNotExist
   }
 
@@ -72,6 +74,18 @@ extension NSError {
                         code: ErrorCode.batchInsertFailed.rawValue,
                         userInfo: [NSUnderlyingErrorKey: underlyingError,
                                    NSDebugDescriptionErrorKey: description,
+                                   Key.file: file,
+                                   Key.function : function,
+                                   Key.line : line])
+    return error
+  }
+
+  /// A  fetch request couldn't be created properly
+  static func invalidFetchRequest(file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
+    let description = "The fetch request is not valid."
+    let error = NSError(domain: Key.domain,
+                        code: ErrorCode.invalidFetchRequest.rawValue,
+                        userInfo: [NSDebugDescriptionErrorKey: description,
                                    Key.file: file,
                                    Key.function : function,
                                    Key.line : line])
@@ -165,6 +179,20 @@ extension NSError {
     return error
   }
 
+  /// History changes deletion failed.
+  static func historyChangesDeletionFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
+    let description = "History changes could not be deleted."
+    let error = NSError(domain: Key.domain,
+                        code: ErrorCode.historyChangesDeletionFailed.rawValue,
+                        userInfo: [NSUnderlyingErrorKey: underlyingError,
+                                   NSDebugDescriptionErrorKey: description,
+                                   Key.file: file,
+                                   Key.function : function,
+                                   Key.line : line])
+    return error
+  }
+
+  /// File doesn't exist.
   static func fileDoesNotExist(description: String, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
     let error = NSError(domain: Key.domain,
                         code: ErrorCode.fileDoesNotExist.rawValue,
