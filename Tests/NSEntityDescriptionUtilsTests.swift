@@ -235,7 +235,5 @@ final class NSEntityDescriptionUtilsTests: CoreDataPlusInMemoryTestCase {
       XCTAssertTrue(ancestors.contains(Car(context: context).entity))
       XCTAssertTrue(ancestors.contains(Person(context: context).entity))
     }
-
   }
-
 }
