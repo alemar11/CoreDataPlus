@@ -39,7 +39,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - context: Searched context.
   ///   - configuration: Configuration closure applied **only** before fetching.
   /// - Throws: It throws an error in cases of failure.
-  /// - Returns: An array of objects that meet the criteria specified by request fetched from *the receiver* and from *the persistent stores* associated with the receiver’s persistent store coordinator.
+  /// - Returns: An array of objects meeting the criteria specified by request fetched from *the receiver* and from *the persistent stores* associated with the receiver’s persistent store coordinator.
   public static func fetch(in context: NSManagedObjectContext, with configuration: (NSFetchRequest<Self>) -> Void = { _ in }) throws -> [Self] {
     // check the Discussion paragraph for the fetch(_:) documentation:
     // https://developer.apple.com/documentation/coredata/nsmanagedobjectcontext/1506672-fetch
@@ -269,7 +269,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - predicate: Matching predicate.
   /// - Returns: The first materialized object matching the predicate.
   public static func materializedObject(in context: NSManagedObjectContext, where predicate: NSPredicate) -> Self? {
-
    for object in context.registeredObjects where !object.isFault {
       guard let result = object as? Self, predicate.evaluate(with: result) else { continue }
 
