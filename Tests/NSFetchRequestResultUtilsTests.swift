@@ -377,15 +377,15 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
 
 
     let newCar = Car(context: context)
-    newCar.numberPlate = "304-fale"
+    newCar.numberPlate = "304-fake"
     newCar.maker = "fake-maker"
     newCar.model = "fake-model"
 
-    let car4 = try Car.fetchOne(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"))
+    let car4 = try Car.fetchOne(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-fake"))
     XCTAssertNotNil(car4)
 
-    let car5 = try Car.fetchOne(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"), includesPendingChanges: false)
-    XCTAssertNotNil(car5)
+    let car5 = try Car.fetchOne(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-fake"), includesPendingChanges: false)
+    XCTAssertNil(car5)
   }
 
   func testFindOneOrCreate() throws {
