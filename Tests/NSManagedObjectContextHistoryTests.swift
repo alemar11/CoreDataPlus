@@ -641,24 +641,15 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
     let notAuthor1Predicate = NSPredicate(format: "author != %@", "author1")
 
     do {
-      let predicate = NSCompoundPredicate(type: .and, subpredicates: [tokenGreaterThanLastHistoryTokenPredicate, notAuthor2Predicate])
-      let allTransactions = try viewContext2.historyTransactions(where: predicate, with: viewContext2)
-      XCTAssertFalse(allTransactions.isEmpty)
-
-      var count = 0
-      try viewContext2.processHistory(where: predicate) { transaction in
-        count += 1
-      }
-      XCTAssertEqual(allTransactions.count, count)
-    }
-
-    do {
       let predicate = NSCompoundPredicate(type: .and, subpredicates: [tokenGreaterThanLastHistoryTokenPredicate, notAuthor1Predicate])
       let allTransactions = try viewContext2.historyTransactions(where: predicate, with: viewContext2)
       XCTAssertTrue(allTransactions.isEmpty)
       try viewContext2.processHistory(where: predicate) { transaction in
         XCTFail("There shouldn't be any transactions matching \(predicate) to process")
       }
+
+      let result = try viewContext2.mergeHistory(where: predicate)
+      XCTAssertFalse(result)
     }
 
     do {
@@ -668,6 +659,23 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
       try viewContext2.processHistory(where: predicate) { transaction in
         XCTFail("There shouldn't be any transactions matching \(predicate) to process")
       }
+
+      let result = try viewContext2.mergeHistory(where: predicate)
+      XCTAssertFalse(result)
+    }
+
+    do {
+      let predicate = NSCompoundPredicate(type: .and, subpredicates: [tokenGreaterThanLastHistoryTokenPredicate, notAuthor2Predicate])
+      let allTransactions = try viewContext2.historyTransactions(where: predicate, with: viewContext2)
+      XCTAssertFalse(allTransactions.isEmpty)
+
+      var count = 0
+      try viewContext2.processHistory(where: predicate) { transaction in
+        count += 1
+      }
+      XCTAssertEqual(allTransactions.count, count)
+      let result = try viewContext2.mergeHistory(where: predicate)
+      XCTAssertTrue(result)
     }
 
     // cleaning avoiding SQLITE warnings

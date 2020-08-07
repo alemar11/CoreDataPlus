@@ -2,11 +2,11 @@
 //
 // https://mjtsai.com/blog/2020/08/21/persistent-history-tracking-in-core-data/
 // https://developer.apple.com/documentation/coredata/consuming_relevant_store_changes
+// https://developer.apple.com/documentation/coredata/synchronizing_a_local_store_to_the_cloud
 
 import CoreData
 import Foundation
 
-// TODO: mergeHistory in range of dates/tokens
 // TODO: Implement a service to sync tokens merges between different targets
 
 extension NSManagedObjectContext {
@@ -51,6 +51,7 @@ extension NSManagedObjectContext {
   ///   - context: Hint to be used in case the Transaction entity cannot be found automatically by the CoreData framework.
   @available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   public func historyTransactions(where predicate: NSPredicate, with context: NSManagedObjectContext? = nil) throws -> [NSPersistentHistoryTransaction] {
+    // https://developer.apple.com/videos/play/wwdc2019/230
     let historyFetchRequest = try NSPersistentHistoryChangeRequest.historyChangeRequest(where: predicate, with: context)
     return try historyTransactions(using: historyFetchRequest)
    }
@@ -137,7 +138,7 @@ extension NSManagedObjectContext {
   ///
   /// Merges all the history changes made after a given `date`.
   /// - Parameter date: The date after which changes are merged.
-  /// - Returns: The last merged transaction date.
+  /// - Returns: The last merged transaction date (*nil* means no merges).
   /// - Throws: It throws an error in cases of failure.
   /// - Note: To enable history tracking:
   ///
@@ -145,6 +146,9 @@ extension NSManagedObjectContext {
   ///   let description: NSPersistentStoreDescription = ... // Your default configuration here
   ///   description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
   ///   ```
+  ///
+  ///  - After a saving operation, the associated history token can be obtained using this instance method: `NSPersistentStoreCoordinator.currentPersistentHistoryToken(fromStores:)`
+  ///
   public func mergeHistory(after date: Date) throws -> Date? {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: date)
     return try mergeHistory(using: historyFetchRequest).1
@@ -155,7 +159,7 @@ extension NSManagedObjectContext {
   /// Merges all the history changes made after a given `token`.
   /// Without passing a token, it merges all the history changes.
   /// - Parameter token: The NSPersistentHistoryToken after which changes are merged.
-  /// - Returns: The last merged transaction NSPersistentHistoryToken.
+  /// - Returns: The last merged transaction `NSPersistentHistoryToken` (*nil* means no merges)..
   /// - Throws: It throws an error in cases of failure.
   /// - Note:
   /// - To enable history tracking:
@@ -164,11 +168,45 @@ extension NSManagedObjectContext {
   ///   let description: NSPersistentStoreDescription = ... // Your default configuration here
   ///   description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
   ///   ```
-  ///  - After a saving operation, the associated history token can be obtainer using this instance method: `NSPersistentStoreCoordinator.currentPersistentHistoryToken(fromStores:)`
+  ///
+  ///  - After a saving operation, the associated history token can be obtained using this instance method: `NSPersistentStoreCoordinator.currentPersistentHistoryToken(fromStores:)`
   ///
   public func mergeHistory(after token: NSPersistentHistoryToken?) throws -> NSPersistentHistoryToken? {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: token)
     return try mergeHistory(using: historyFetchRequest).0
+  }
+
+    /// **CoreDataPlus**
+  ///
+  /// Merges all the history changes inside transations matching the given predicate.
+  ///
+  /// The predicate conditions must be applied to these fields (of the "Transaction" entity):
+  ///
+  /// - `author` (`NSString`)
+  /// - `bundleID` (`NSString`)
+  /// - `contextName` (`NSString`)
+  /// - `processID` (`NSString`)
+  /// - `timestamp` (`NSDate`)
+  /// - `token` (`NSNumber` - `NSInteger64`)
+  /// - `transactionNumber` (`NSNumber` - `NSInteger64`)
+  ///
+  /// - Parameter predicate: Predicate used to filter the available transactions.
+  /// - Returns: true if some transaction changes matching the predicate have been merged.
+  /// - Throws: It throws an error in cases of failure.
+  /// - Note:
+  /// - To enable history tracking:
+  ///
+  ///   ```
+  ///   let description: NSPersistentStoreDescription = ... // Your default configuration here
+  ///   description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+  ///   ```
+  ///
+  ///  - After a saving operation, the associated history token can be obtained using this instance method: `NSPersistentStoreCoordinator.currentPersistentHistoryToken(fromStores:)`
+  ///
+  @available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public func mergeHistory(where predicate: NSPredicate) throws -> Bool {
+    let historyFetchRequest = try NSPersistentHistoryChangeRequest.historyChangeRequest(where: predicate, with: self)
+    return try mergeHistory(using: historyFetchRequest).0 != nil
   }
 
   /// Merges all the history changes using a `NSPersistentHistoryChangeRequest` instance.
