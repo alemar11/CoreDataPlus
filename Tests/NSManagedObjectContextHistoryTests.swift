@@ -276,15 +276,15 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
     XCTAssertEqual(stores.count, 1)
 
     let currentToken = container1.persistentStoreCoordinator.currentPersistentHistoryToken(fromStores: stores)
-    
+
     // it's a new store, there shouldn't be any transactions
     let transactions = try container1.viewContext.historyTransactions(after: nil)
     XCTAssertTrue(transactions.isEmpty)
-    
+
     XCTAssertNotNil(currentToken)
     let token = try container1.viewContext.mergeHistory(after: currentToken)
     XCTAssertNil(token)
-    
+
     let token2 = try container1.viewContext.mergeHistory(after: nil)
     XCTAssertNil(token2)
     try container1.destroy()

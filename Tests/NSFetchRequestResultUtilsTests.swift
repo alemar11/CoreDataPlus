@@ -357,7 +357,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
 
   func testFetchOne() throws {
     let context = container.viewContext
-    
+
     context.performAndWait {
       context.fillWithSampleData()
       try! context.save()
