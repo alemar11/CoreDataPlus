@@ -247,3 +247,33 @@ extension ManagedObjectContextObjectsDidChangeNotification: CustomDebugStringCon
     return components.joined(separator: " ")
   }
 }
+
+// TODO: WIP
+/// **CoreDataPlus**
+///
+/// A type safe `NSPersistentStoreRemoteChange` notification.
+public struct PeristentStoreRemoteChangeNotification {
+  public let notification: Notification
+
+  public init(notification: Notification) {
+    guard notification.name == Notification.Name.NSPersistentStoreRemoteChange else {
+      fatalError("Invalid NSPersistentStoreRemoteChange notification object.")
+    }
+    self.notification = notification
+  }
+
+  /// **CoreDataPlus**
+  ///
+  /// The `NSPersistentHistoryToken` associated to the change operation.
+  var historyToken: NSPersistentHistoryToken? {
+     // it's optional because NSPersistentHistoryTrackingKey should be enabled.
+     return notification.userInfo?[NSPersistentHistoryTokenKey] as? NSPersistentHistoryToken
+  }
+
+  /// **CoreDataPlus**
+  ///
+  // The changed store URL.
+  var storeURL: URL {
+     return notification.userInfo?[NSPersistentStoreURLKey] as! URL
+  }
+}

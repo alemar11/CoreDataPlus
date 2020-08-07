@@ -691,4 +691,83 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
 
     try container1.destroy()
   }
+
+  // TODO: WIP
+  //  @available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  //  func testInvestigationRemoveChangesNotifications() throws {
+  //    // Cross coordinator change notifications
+  //    // This notification notifies when history has been made
+  //    // Given
+  //    let id = UUID()
+  //    let container1 = OnDiskPersistentContainer.makeNew(id: id)
+  //    //let container2 = OnDiskPersistentContainer.makeNew(id: id)
+  //
+  //    let viewContext1 = container1.viewContext
+  //    viewContext1.name = "viewContext1"
+  //    viewContext1.transactionAuthor = "author1"
+  //    //let viewContext2 = container2.viewContext
+  //    //viewContext2.name = "viewContext2"
+  //    //viewContext2.transactionAuthor = "author2"
+  //
+  //    let expectation1 = expectation(description: "")
+  //    expectation1.assertForOverFulfill = false
+  //
+  //    let expectation2 = expectation(description: "")
+  //    expectation2.assertForOverFulfill = false
+  //    let token1 = NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave, object: viewContext1).sink { (notification) in
+  //      print("🥎")
+  //      expectation1.fulfill()
+  //    }
+  //    let token2 = NotificationCenter.default.publisher(for: Notification.Name.NSPersistentStoreRemoteChange).sink { (notification) in
+  //      print("❌")
+  //      print(notification)
+  //      expectation2.fulfill()
+  //    }
+  //
+  //    viewContext1.fillWithSampleData()
+  //
+  //    try viewContext1.save()
+  //    waitForExpectations(timeout: 10, handler: nil)
+  //  }
+
+//  @available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+//  func testDemo() throws {
+//    let container1 = InMemoryPersistentContainer.makeNew(named: "123")
+//    let container2 = InMemoryPersistentContainer.makeNew(named: "123")
+//
+//    let viewContext1 = container1.viewContext
+//    viewContext1.name = "viewContext1"
+//    viewContext1.transactionAuthor = "author1"
+//    //let viewContext2 = container2.viewContext
+//    //viewContext2.name = "viewContext2"
+//    //viewContext2.transactionAuthor = "author2"
+//
+//    let expectation1 = expectation(description: "")
+//    expectation1.assertForOverFulfill = false
+//
+//    let expectation2 = expectation(description: "")
+//    expectation2.assertForOverFulfill = false
+//    let token1 = NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave, object: viewContext1).sink { (notification) in
+//      print("🥎")
+//      expectation1.fulfill()
+//    }
+//    let token2 = NotificationCenter.default.publisher(for: Notification.Name.NSPersistentStoreRemoteChange, object: container1.persistentStoreCoordinator).sink { (notification) in
+//      print("❌1")
+//      print(notification)
+//      expectation2.fulfill()
+//    }
+//
+//    let expectation3 = expectation(description: "")
+//    expectation3.assertForOverFulfill = false
+//    let token3 = NotificationCenter.default.publisher(for: Notification.Name.NSPersistentStoreRemoteChange, object: container2.persistentStoreCoordinator).sink { (notification) in
+//      print("❌2")
+//      print(notification)
+//      expectation3.fulfill()
+//    }
+//
+//    viewContext1.fillWithSampleData()
+//
+//    try viewContext1.save()
+//    waitForExpectations(timeout: 10, handler: nil)
+//  }
 }

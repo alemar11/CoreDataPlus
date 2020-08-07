@@ -24,9 +24,6 @@ final class NSManagedObjectContextObserversTests: CoreDataPlusInMemoryTestCase {
     }
 
     let token2 = context.addManagedObjectContextDidSaveNotificationObserver() { notification in
-      if #available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *) {
-        XCTAssertNil(notification.historyToken) // nil token for in memory db
-      }
       expectation2.fulfill()
     }
 
