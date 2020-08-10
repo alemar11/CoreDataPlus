@@ -40,7 +40,7 @@ class CoreDataMigrationsTests: XCTestCase {
   func testIfMigrationsIsNeeded() throws {
     let bundle = Bundle(for: CoreDataMigrationsTests.self)
     let sourceURLV1 = bundle.url(forResource: "SampleModelV1", withExtension: "sqlite")!
-    let sourceURLV2 = bundle.url(forResource: "SampleModelV1", withExtension: "sqlite")!
+    let sourceURLV2 = bundle.url(forResource: "SampleModelV2", withExtension: "sqlite")!
     let migrationNeededFromV1toV1 = try CoreDataPlus.isMigrationNecessary(for: sourceURLV1, to: SampleModelVersion.version1)
     XCTAssertFalse(migrationNeededFromV1toV1)
     let migrationNeededFromV1toV2 = try CoreDataPlus.isMigrationNecessary(for: sourceURLV1, to: SampleModelVersion.version2)

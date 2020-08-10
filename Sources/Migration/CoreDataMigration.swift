@@ -53,7 +53,7 @@ public struct CoreDataMigration {
 
     do {
       guard try CoreDataPlus.isMigrationNecessary(for: sourceURL, to: targetVersion) else {
-        return //TODO tests this method separately, test also what happens if we try to do a migration from V3 to V1
+        return
       }
 
       if enableWALCheckpoint {

@@ -142,6 +142,16 @@ extension CoreDataModelVersion {
 
     return model
   }
+
+  /// `AnyIterator` to iterate all the successors steps after `self`.
+  func successorsIterator() -> AnyIterator<Self> {
+    var version: Self = self
+    return AnyIterator {
+      guard let next = version.successor else { return nil }
+      version = next
+      return version
+    }
+  }
 }
 
 // MARK: - Migration
@@ -160,7 +170,22 @@ public func isMigrationNecessary<Version: CoreDataModelVersion>(for storeURL: UR
   // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmCustomizing.html#//apple_ref/doc/uid/TP40004399-CH8-SW2
   let metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: storeURL, options: nil)
   let targetModel = version.managedObjectModel()
-  return !targetModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
+  let isCompatible = targetModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
+
+  if isCompatible {
+    return false // current and target versions are the same
+  } else if let currentVersion = Version[metadata] {
+    let iterator = currentVersion.successorsIterator()
+    while let nextVersion = iterator.next() {
+      if nextVersion == version { return true }
+    }
+    // can't migrate to a version not defined as a successor step
+    // (target version is probably a prior version of the current one)
+    return false
+  } else {
+    // fallback
+    return false
+  }
 }
 
 extension CoreDataModelVersion {
