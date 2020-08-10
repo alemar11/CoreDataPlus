@@ -22,17 +22,17 @@ public extension ManagedObjectContextNotification {
     guard let context = notification.object as? NSManagedObjectContext else {
       fatalError("Invalid Notification object.")
     }
-
+    
     return context
   }
-
+  
   /// **CoreDataPlus**
   ///
   /// Returns a `Set` of objects for a given `key`.
   fileprivate func objects(forKey key: String) -> Set<NSManagedObject> {
     return (notification.userInfo?[key] as? Set<NSManagedObject>) ?? Set()
   }
-
+  
   /// **CoreDataPlus**
   ///
   /// Returns an `AnyIterator<NSManagedObject>` of objects for a given `key`.
@@ -55,27 +55,27 @@ public protocol ManagedObjectContextChange {
   ///
   /// Returns a `Set` of objects that were inserted into the context.
   var insertedObjects: Set<ManagedObject> { get }
-
+  
   /// **CoreDataPlus**
   ///
   /// Returns a `Set` of objects that were updated.
   var updatedObjects: Set<ManagedObject> { get }
-
+  
   /// **CoreDataPlus**
   ///
   /// Returns a `Set`of objects that were marked for deletion during the previous event.
   var deletedObjects: Set<ManagedObject> { get }
-
+  
   /// **CoreDataPlus**
   ///
   /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
   var refreshedObjects: Set<ManagedObject> { get }
-
+  
   /// **CoreDataPlus**
   ///
   /// A `Set` of objects that were invalidated.
   var invalidatedObjects: Set<ManagedObject> { get }
-
+  
   /// **CoreDataPlus**
   ///
   /// When all the object in the context have been invalidated, returns a `Set` containing all the invalidated objects' NSManagedObjectID.
@@ -100,21 +100,21 @@ extension ManagedObjectContextChange where Self: ManagedObjectContextNotificatio
   public var insertedObjects: Set<NSManagedObject> {
     return objects(forKey: NSInsertedObjectsKey)
   }
-
+  
   /// **CoreDataPlus**
   ///
   /// Returns a `Set` of objects that were updated.
   public var updatedObjects: Set<NSManagedObject> {
     return objects(forKey: NSUpdatedObjectsKey)
   }
-
+  
   /// **CoreDataPlus**
   ///
   /// Returns a `Set`of objects that were marked for deletion during the previous event.
   public var deletedObjects: Set<NSManagedObject> {
     return objects(forKey: NSDeletedObjectsKey)
   }
-
+  
   /// **CoreDataPlus**
   ///
   /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
@@ -122,7 +122,7 @@ extension ManagedObjectContextChange where Self: ManagedObjectContextNotificatio
   public var refreshedObjects: Set<NSManagedObject> {
     return objects(forKey: NSRefreshedObjectsKey)
   }
-
+  
   /// **CoreDataPlus**
   ///
   /// A `Set` of objects that were invalidated.
@@ -130,7 +130,7 @@ extension ManagedObjectContextChange where Self: ManagedObjectContextNotificatio
   public var invalidatedObjects: Set<NSManagedObject> {
     return objects(forKey: NSInvalidatedObjectsKey)
   }
-
+  
   /// **CoreDataPlus**
   ///
   /// When all the object in the context have been invalidated, returns a `Set` containing all the invalidated objects' NSManagedObjectID.
@@ -150,22 +150,21 @@ extension ManagedObjectContextChange where Self: ManagedObjectContextNotificatio
 /// A type safe `NSManagedObjectContextDidSave` notification.
 public struct ManagedObjectContextDidSaveNotification: ManagedObjectContextChange & ManagedObjectContextNotification {
   public let notification: Notification
-
+  
   /// **CoreDataPlus**
   ///
   /// The `NSPersistentHistoryToken` associated to the save operation.
-  @available(iOS 11.0, iOSApplicationExtension 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *)
   public var historyToken: NSPersistentHistoryToken? {
     // FB: 6840421 (missing documentation for "newChangeToken" key)
     // it's optional because NSPersistentHistoryTrackingKey should be enabled.
     return notification.userInfo?["newChangeToken"] as? NSPersistentHistoryToken
   }
-
+  
   public init(notification: Notification) {
     guard notification.name == .NSManagedObjectContextDidSave else {
       fatalError("Invalid NSManagedObjectContextDidSave notification object.")
     }
-
+    
     self.notification = notification
   }
 }
@@ -175,7 +174,7 @@ extension ManagedObjectContextDidSaveNotification: CustomDebugStringConvertible 
   public var debugDescription: String {
     var components = [notification.name.rawValue]
     components.append(managedObjectContext.description)
-
+    
     for (name, set) in [("inserted", insertedObjects),
                         ("updated", updatedObjects),
                         ("deleted", deletedObjects),
@@ -184,7 +183,7 @@ extension ManagedObjectContextDidSaveNotification: CustomDebugStringConvertible 
                           let all = set.map { $0.objectID.description }.joined(separator: ", ")
                           components.append("\(name): {\(all)})")
     }
-
+    
     return components.joined(separator: " ")
   }
 }
@@ -197,12 +196,12 @@ extension ManagedObjectContextDidSaveNotification: CustomDebugStringConvertible 
 /// - Note: It doesn't contain any additional info.
 public struct ManagedObjectContextWillSaveNotification: ManagedObjectContextNotification {
   public let notification: Notification
-
+  
   public init(notification: Notification) {
     guard notification.name == .NSManagedObjectContextWillSave else {
       fatalError("Invalid NSManagedObjectContextWillSave notification object.")
     }
-
+    
     self.notification = notification
   }
 }
@@ -214,13 +213,13 @@ public struct ManagedObjectContextWillSaveNotification: ManagedObjectContextNoti
 /// A type safe `NSManagedObjectContextObjectsDidChange` notification.
 public struct ManagedObjectContextObjectsDidChangeNotification: ManagedObjectContextChange & ManagedObjectContextNotification {
   public let notification: Notification
-
+  
   public init(notification: Notification) {
     // Notification when objects in a context changed: the user info dictionary contains information about the objects that changed and what changed
     guard notification.name == .NSManagedObjectContextObjectsDidChange else {
       fatalError("Invalid NSManagedObjectContextObjectsDidChange notification object.")
     }
-
+    
     self.notification = notification
   }
 }
@@ -229,7 +228,7 @@ extension ManagedObjectContextObjectsDidChangeNotification: CustomDebugStringCon
   public var debugDescription: String {
     var components = [notification.name.rawValue]
     components.append(managedObjectContext.description)
-
+    
     for (name, set) in [("inserted", insertedObjects),
                         ("updated", updatedObjects),
                         ("deleted", deletedObjects),
@@ -238,12 +237,12 @@ extension ManagedObjectContextObjectsDidChangeNotification: CustomDebugStringCon
                           let all = set.map { $0.objectID.description }.joined(separator: ", ")
                           components.append("\(name): {\(all)})")
     }
-
+    
     for (name, set) in [("invalidatedAll", invalidatedAllObjects)] {
       let all = set.map { $0.description }.joined(separator: ", ")
       components.append("\(name): {\(all)})")
     }
-
+    
     return components.joined(separator: " ")
   }
 }
@@ -254,26 +253,26 @@ extension ManagedObjectContextObjectsDidChangeNotification: CustomDebugStringCon
 /// A type safe `NSPersistentStoreRemoteChange` notification.
 public struct PeristentStoreRemoteChangeNotification {
   public let notification: Notification
-
+  
   public init(notification: Notification) {
     guard notification.name == Notification.Name.NSPersistentStoreRemoteChange else {
       fatalError("Invalid NSPersistentStoreRemoteChange notification object.")
     }
     self.notification = notification
   }
-
+  
   /// **CoreDataPlus**
   ///
   /// The `NSPersistentHistoryToken` associated to the change operation.
   var historyToken: NSPersistentHistoryToken? {
-     // it's optional because NSPersistentHistoryTrackingKey should be enabled.
-     return notification.userInfo?[NSPersistentHistoryTokenKey] as? NSPersistentHistoryToken
+    // it's optional because NSPersistentHistoryTrackingKey should be enabled.
+    return notification.userInfo?[NSPersistentHistoryTokenKey] as? NSPersistentHistoryToken
   }
-
+  
   /// **CoreDataPlus**
   ///
   // The changed store URL.
   var storeURL: URL {
-     return notification.userInfo?[NSPersistentStoreURLKey] as! URL
+    return notification.userInfo?[NSPersistentStoreURLKey] as! URL
   }
 }
