@@ -14,7 +14,7 @@ public extension Notification {
   }
 }
 
-public typealias Payload = Notification.CoreDataPlus.Payload // TODO
+public typealias Payload = Notification.CoreDataPlus.Payload
 
 // MARK: - ManagedObjectContextNotification
 
