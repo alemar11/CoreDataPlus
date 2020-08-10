@@ -13,7 +13,7 @@
     <a title="CoreDataPlus  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">CoreDataPlus Docs</a> (86% documented)</p>
+        <p><a href="index.html">CoreDataPlus 2.3.0 Docs</a> (88% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -26,20 +26,6 @@
     <div class="content-wrapper">
       <nav class="sidebar">
         <ul class="nav-groups">
-          <li class="nav-group-name">
-            <a href="Classes.html">Classes</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="Classes/EntityObserver.html">EntityObserver</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Classes/ManagedObjectContextChangesObserver.html">ManagedObjectContextChangesObserver</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Classes/ManagedObjectContextChangesObserver/ObservedManagedObjectContext.html">– ObservedManagedObjectContext</a>
-              </li>
-            </ul>
-          </li>
           <li class="nav-group-name">
             <a href="Enums.html">Enumerations</a>
             <ul class="nav-group-tasks">
@@ -67,18 +53,6 @@
                 <a href="Extensions/NSBatchUpdateResult.html">NSBatchUpdateResult</a>
               </li>
               <li class="nav-group-task">
-                <a href="Extensions/NSEntityDescription.html">NSEntityDescription</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Extensions/NSError.html">NSError</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Extensions/NSError/ErrorCode.html">– ErrorCode</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Extensions/NSError.html#/s:So7NSErrorC12CoreDataPlusE3KeyO">– Key</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Extensions/NSFetchRequest.html">NSFetchRequest</a>
               </li>
               <li class="nav-group-task">
@@ -91,13 +65,16 @@
                 <a href="Extensions/NSManagedObjectContext.html">NSManagedObjectContext</a>
               </li>
               <li class="nav-group-task">
-                <a href="Extensions/NSManagedObjectContext/ObservableEvents.html">– ObservableEvents</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Extensions/NSPersistentStoreCoordinator.html">NSPersistentStoreCoordinator</a>
               </li>
               <li class="nav-group-task">
                 <a href="Extensions/NSSet.html">NSSet</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/Notification.html">Notification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/Notification/CoreDataPlus.html">– CoreDataPlus</a>
               </li>
             </ul>
           </li>
@@ -116,25 +93,19 @@
                 <a href="Protocols/CoreDataModelVersion.html">CoreDataModelVersion</a>
               </li>
               <li class="nav-group-task">
-                <a href="Protocols/DelayedDeletable.html">DelayedDeletable</a>
+                <a href="Protocols/ManagedObjectContextChangePayload.html">ManagedObjectContextChangePayload</a>
               </li>
               <li class="nav-group-task">
-                <a href="Protocols/ManagedObjectContextChange.html">ManagedObjectContextChange</a>
+                <a href="Protocols/ManagedObjectContextNotificationPayload.html">ManagedObjectContextNotificationPayload</a>
               </li>
               <li class="nav-group-task">
-                <a href="Protocols/ManagedObjectContextNotification.html">ManagedObjectContextNotification</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Protocols/UpdateTimestampable.html">UpdateTimestampable</a>
+                <a href="Protocols/NotificationPayload.html">NotificationPayload</a>
               </li>
             </ul>
           </li>
           <li class="nav-group-name">
             <a href="Structs.html">Structures</a>
             <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="Structs/AnyManagedObjectContextChange.html">AnyManagedObjectContextChange</a>
-              </li>
               <li class="nav-group-task">
                 <a href="Structs/CoreDataMigration.html">CoreDataMigration</a>
               </li>
@@ -144,15 +115,6 @@
               <li class="nav-group-task">
                 <a href="Structs/FetchedResultsSectionInfo.html">FetchedResultsSectionInfo</a>
               </li>
-              <li class="nav-group-task">
-                <a href="Structs/ManagedObjectContextDidSaveNotification.html">ManagedObjectContextDidSaveNotification</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Structs/ManagedObjectContextObjectsDidChangeNotification.html">ManagedObjectContextObjectsDidChangeNotification</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Structs/ManagedObjectContextWillSaveNotification.html">ManagedObjectContextWillSaveNotification</a>
-              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -160,6 +122,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="Typealiases.html#/s:12CoreDataPlus0aB13MigrationStepa">CoreDataMigrationStep</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:12CoreDataPlus7Payloada">Payload</a>
               </li>
             </ul>
           </li>
@@ -192,8 +157,8 @@
 <h2 id='requirements' class='heading'>Requirements</h2>
 
 <ul>
-<li>iOS 11.0+ / macOS 10.13+ / tvOS 11.0+ / watchOS 4.0+</li>
-<li>Xcode 10.2</li>
+<li>iOS 12.0+ / macOS 10.14+ / tvOS 12.0+ / watchOS 5.0+</li>
+<li>Xcode 11.6</li>
 <li>Swift 5.0</li>
 </ul>
 <h2 id='documentation' class='heading'>Documentation</h2>
@@ -220,7 +185,7 @@
 <span class="n">use_frameworks!</span>
 
 <span class="n">target</span> <span class="s1">'&lt;Your Target Name&gt;'</span> <span class="k">do</span>
-    <span class="n">pod</span> <span class="s1">'CoreDataPlus'</span><span class="p">,</span> <span class="s1">'~&gt; 2.3.0'</span>
+    <span class="n">pod</span> <span class="s1">'CoreDataPlus'</span><span class="p">,</span> <span class="s1">'~&gt; 3.0.0'</span>
 <span class="k">end</span>
 </code></pre>
 
@@ -237,7 +202,7 @@
 </code></pre>
 
 <p>To integrate CoreDataPlus into your Xcode project using Carthage, specify it in your <code>Cartfile</code>:</p>
-<pre class="highlight plaintext"><code>github "tinrobots/CoreDataPlus" ~&gt; 2.3.0
+<pre class="highlight plaintext"><code>github "tinrobots/CoreDataPlus" ~&gt; 3.0.0
 </code></pre>
 
 <p>Run <code>carthage update</code> to build the framework and drag the built <code>CoreDataPlus.framework</code> into your Xcode project.</p>
@@ -246,7 +211,7 @@
 <p>The <a href="https://swift.org/package-manager/">Swift Package Manager</a> is a tool for automating the distribution of Swift code and is integrated into the <code>swift</code> compiler. 
 Once you have your Swift package set up, adding CoreDataPlus as a dependency is as easy as adding it to the <code>dependencies</code> value of your <code>Package.swift</code>.</p>
 <pre class="highlight swift"><code><span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
-    <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/tinrobots/CoreDataPlus.git"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="s">"2.3.0"</span><span class="p">)</span>
+    <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/tinrobots/CoreDataPlus.git"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="s">"3.0.0"</span><span class="p">)</span>
 <span class="p">]</span>
 </code></pre>
 <h3 id='manually' class='heading'>Manually</h3>
@@ -300,8 +265,8 @@ Once you have your Swift package set up, adding CoreDataPlus as a dependency is 
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2020-04-22)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2020-08-10)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

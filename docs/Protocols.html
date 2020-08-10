@@ -14,7 +14,7 @@
     <a title="Protocols  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">CoreDataPlus Docs</a> (86% documented)</p>
+        <p><a href="index.html">CoreDataPlus 2.3.0 Docs</a> (88% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -27,20 +27,6 @@
     <div class="content-wrapper">
       <nav class="sidebar">
         <ul class="nav-groups">
-          <li class="nav-group-name">
-            <a href="Classes.html">Classes</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="Classes/EntityObserver.html">EntityObserver</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Classes/ManagedObjectContextChangesObserver.html">ManagedObjectContextChangesObserver</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Classes/ManagedObjectContextChangesObserver/ObservedManagedObjectContext.html">– ObservedManagedObjectContext</a>
-              </li>
-            </ul>
-          </li>
           <li class="nav-group-name">
             <a href="Enums.html">Enumerations</a>
             <ul class="nav-group-tasks">
@@ -68,18 +54,6 @@
                 <a href="Extensions/NSBatchUpdateResult.html">NSBatchUpdateResult</a>
               </li>
               <li class="nav-group-task">
-                <a href="Extensions/NSEntityDescription.html">NSEntityDescription</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Extensions/NSError.html">NSError</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Extensions/NSError/ErrorCode.html">– ErrorCode</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Extensions/NSError.html#/s:So7NSErrorC12CoreDataPlusE3KeyO">– Key</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Extensions/NSFetchRequest.html">NSFetchRequest</a>
               </li>
               <li class="nav-group-task">
@@ -92,13 +66,16 @@
                 <a href="Extensions/NSManagedObjectContext.html">NSManagedObjectContext</a>
               </li>
               <li class="nav-group-task">
-                <a href="Extensions/NSManagedObjectContext/ObservableEvents.html">– ObservableEvents</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Extensions/NSPersistentStoreCoordinator.html">NSPersistentStoreCoordinator</a>
               </li>
               <li class="nav-group-task">
                 <a href="Extensions/NSSet.html">NSSet</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/Notification.html">Notification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/Notification/CoreDataPlus.html">– CoreDataPlus</a>
               </li>
             </ul>
           </li>
@@ -117,25 +94,19 @@
                 <a href="Protocols/CoreDataModelVersion.html">CoreDataModelVersion</a>
               </li>
               <li class="nav-group-task">
-                <a href="Protocols/DelayedDeletable.html">DelayedDeletable</a>
+                <a href="Protocols/ManagedObjectContextChangePayload.html">ManagedObjectContextChangePayload</a>
               </li>
               <li class="nav-group-task">
-                <a href="Protocols/ManagedObjectContextChange.html">ManagedObjectContextChange</a>
+                <a href="Protocols/ManagedObjectContextNotificationPayload.html">ManagedObjectContextNotificationPayload</a>
               </li>
               <li class="nav-group-task">
-                <a href="Protocols/ManagedObjectContextNotification.html">ManagedObjectContextNotification</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Protocols/UpdateTimestampable.html">UpdateTimestampable</a>
+                <a href="Protocols/NotificationPayload.html">NotificationPayload</a>
               </li>
             </ul>
           </li>
           <li class="nav-group-name">
             <a href="Structs.html">Structures</a>
             <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="Structs/AnyManagedObjectContextChange.html">AnyManagedObjectContextChange</a>
-              </li>
               <li class="nav-group-task">
                 <a href="Structs/CoreDataMigration.html">CoreDataMigration</a>
               </li>
@@ -145,15 +116,6 @@
               <li class="nav-group-task">
                 <a href="Structs/FetchedResultsSectionInfo.html">FetchedResultsSectionInfo</a>
               </li>
-              <li class="nav-group-task">
-                <a href="Structs/ManagedObjectContextDidSaveNotification.html">ManagedObjectContextDidSaveNotification</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Structs/ManagedObjectContextObjectsDidChangeNotification.html">ManagedObjectContextObjectsDidChangeNotification</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Structs/ManagedObjectContextWillSaveNotification.html">ManagedObjectContextWillSaveNotification</a>
-              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -161,6 +123,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="Typealiases.html#/s:12CoreDataPlus0aB13MigrationStepa">CoreDataMigrationStep</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:12CoreDataPlus7Payloada">Payload</a>
               </li>
             </ul>
           </li>
@@ -206,66 +171,6 @@
                     </section>
                   </div>
                 </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:12CoreDataPlus16DelayedDeletableP"></a>
-                    <a name="//apple_ref/swift/Protocol/DelayedDeletable" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus16DelayedDeletableP">DelayedDeletable</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Objects adopting the <code>DelayedDeletable</code> support <em>two-step</em> deletion.</p>
-
-                        <a href="Protocols/DelayedDeletable.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">DelayedDeletable</span> <span class="p">:</span> <span class="kt">AnyObject</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:12CoreDataPlus19UpdateTimestampableP"></a>
-                    <a name="//apple_ref/swift/Protocol/UpdateTimestampable" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus19UpdateTimestampableP">UpdateTimestampable</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Objects adopting the <code>UpdateTimestampable</code> have an <code>updateAt</code> property.</p>
-
-                        <a href="Protocols/UpdateTimestampable.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">UpdateTimestampable</span> <span class="p">:</span> <span class="kt">AnyObject</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
               </ul>
             </div>
             <div class="task-group">
@@ -282,9 +187,37 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:12CoreDataPlus32ManagedObjectContextNotificationP"></a>
-                    <a name="//apple_ref/swift/Protocol/ManagedObjectContextNotification" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus32ManagedObjectContextNotificationP">ManagedObjectContextNotification</a>
+                    <a name="/s:12CoreDataPlus19NotificationPayloadP"></a>
+                    <a name="//apple_ref/swift/Protocol/NotificationPayload" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus19NotificationPayloadP">NotificationPayload</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                        <a href="Protocols/NotificationPayload.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">NotificationPayload</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus39ManagedObjectContextNotificationPayloadP"></a>
+                    <a name="//apple_ref/swift/Protocol/ManagedObjectContextNotificationPayload" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus39ManagedObjectContextNotificationPayloadP">ManagedObjectContextNotificationPayload</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -301,13 +234,13 @@
 
 </div>
 
-                        <a href="Protocols/ManagedObjectContextNotification.html" class="slightly-smaller">See more</a>
+                        <a href="Protocols/ManagedObjectContextNotificationPayload.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ManagedObjectContextNotification</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ManagedObjectContextNotificationPayload</span> <span class="p">:</span> <span class="kt"><a href="Protocols/NotificationPayload.html">NotificationPayload</a></span></code></pre>
 
                         </div>
                       </div>
@@ -330,9 +263,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:12CoreDataPlus26ManagedObjectContextChangeP"></a>
-                    <a name="//apple_ref/swift/Protocol/ManagedObjectContextChange" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus26ManagedObjectContextChangeP">ManagedObjectContextChange</a>
+                    <a name="/s:12CoreDataPlus33ManagedObjectContextChangePayloadP"></a>
+                    <a name="//apple_ref/swift/Protocol/ManagedObjectContextChangePayload" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus33ManagedObjectContextChangePayloadP">ManagedObjectContextChangePayload</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -344,13 +277,13 @@
 
 <p>Types conforming to this protocol contains all the <code>NSManagedObjectContext</code> changes contained by a notification.</p>
 
-                        <a href="Protocols/ManagedObjectContextChange.html" class="slightly-smaller">See more</a>
+                        <a href="Protocols/ManagedObjectContextChangePayload.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ManagedObjectContextChange</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ManagedObjectContextChangePayload</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ManagedObjectContextNotificationPayload.html">ManagedObjectContextNotificationPayload</a></span></code></pre>
 
                         </div>
                       </div>
@@ -362,8 +295,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2020-04-22)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2020-08-10)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

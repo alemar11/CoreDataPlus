@@ -493,6 +493,7 @@ final class NotificationCoreDataPlusTests: CoreDataPlusInMemoryTestCase {
       .map { Payload.NSManagedObjectContextDidSave(notification: $0) }
       .sink { payload in
         XCTAssertTrue(Thread.isMainThread)
+        XCTAssertFalse(payload.isEmpty)
         XCTAssertTrue(payload.managedObjectContext === context)
         XCTAssertEqual(payload.insertedObjects.count, 1)
         XCTAssertTrue(payload.deletedObjects.isEmpty)

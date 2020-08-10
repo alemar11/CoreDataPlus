@@ -14,7 +14,7 @@
     <a title="NSManagedObject Extension Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">CoreDataPlus Docs</a> (86% documented)</p>
+        <p><a href="../index.html">CoreDataPlus 2.3.0 Docs</a> (88% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -27,20 +27,6 @@
     <div class="content-wrapper">
       <nav class="sidebar">
         <ul class="nav-groups">
-          <li class="nav-group-name">
-            <a href="../Classes.html">Classes</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Classes/EntityObserver.html">EntityObserver</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/ManagedObjectContextChangesObserver.html">ManagedObjectContextChangesObserver</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/ManagedObjectContextChangesObserver/ObservedManagedObjectContext.html">– ObservedManagedObjectContext</a>
-              </li>
-            </ul>
-          </li>
           <li class="nav-group-name">
             <a href="../Enums.html">Enumerations</a>
             <ul class="nav-group-tasks">
@@ -68,18 +54,6 @@
                 <a href="../Extensions/NSBatchUpdateResult.html">NSBatchUpdateResult</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Extensions/NSEntityDescription.html">NSEntityDescription</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/NSError.html">NSError</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/NSError/ErrorCode.html">– ErrorCode</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/NSError.html#/s:So7NSErrorC12CoreDataPlusE3KeyO">– Key</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Extensions/NSFetchRequest.html">NSFetchRequest</a>
               </li>
               <li class="nav-group-task">
@@ -92,13 +66,16 @@
                 <a href="../Extensions/NSManagedObjectContext.html">NSManagedObjectContext</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Extensions/NSManagedObjectContext/ObservableEvents.html">– ObservableEvents</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Extensions/NSPersistentStoreCoordinator.html">NSPersistentStoreCoordinator</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/NSSet.html">NSSet</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Notification.html">Notification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Notification/CoreDataPlus.html">– CoreDataPlus</a>
               </li>
             </ul>
           </li>
@@ -117,25 +94,19 @@
                 <a href="../Protocols/CoreDataModelVersion.html">CoreDataModelVersion</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/DelayedDeletable.html">DelayedDeletable</a>
+                <a href="../Protocols/ManagedObjectContextChangePayload.html">ManagedObjectContextChangePayload</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/ManagedObjectContextChange.html">ManagedObjectContextChange</a>
+                <a href="../Protocols/ManagedObjectContextNotificationPayload.html">ManagedObjectContextNotificationPayload</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/ManagedObjectContextNotification.html">ManagedObjectContextNotification</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Protocols/UpdateTimestampable.html">UpdateTimestampable</a>
+                <a href="../Protocols/NotificationPayload.html">NotificationPayload</a>
               </li>
             </ul>
           </li>
           <li class="nav-group-name">
             <a href="../Structs.html">Structures</a>
             <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Structs/AnyManagedObjectContextChange.html">AnyManagedObjectContextChange</a>
-              </li>
               <li class="nav-group-task">
                 <a href="../Structs/CoreDataMigration.html">CoreDataMigration</a>
               </li>
@@ -145,15 +116,6 @@
               <li class="nav-group-task">
                 <a href="../Structs/FetchedResultsSectionInfo.html">FetchedResultsSectionInfo</a>
               </li>
-              <li class="nav-group-task">
-                <a href="../Structs/ManagedObjectContextDidSaveNotification.html">ManagedObjectContextDidSaveNotification</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/ManagedObjectContextObjectsDidChangeNotification.html">ManagedObjectContextObjectsDidChangeNotification</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/ManagedObjectContextWillSaveNotification.html">ManagedObjectContextWillSaveNotification</a>
-              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -161,6 +123,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Typealiases.html#/s:12CoreDataPlus0aB13MigrationStepa">CoreDataMigrationStep</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:12CoreDataPlus7Payloada">Payload</a>
               </li>
             </ul>
           </li>
@@ -186,7 +151,7 @@
                     <code>
                     <a name="/s:So15NSManagedObjectC12CoreDataPlusE12changedValue6forKeyypSgSS_tF"></a>
                     <a name="//apple_ref/swift/Method/changedValue(forKey:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So15NSManagedObjectC12CoreDataPlusE12changedValue6forKeyypSgSS_tF">changedValue(forKey:)</a>
+                    <a class="token" href="#/s:So15NSManagedObjectC12CoreDataPlusE12changedValue6forKeyypSgSS_tF">changedValue(forKey:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -220,7 +185,7 @@
                     <code>
                     <a name="/s:So15NSManagedObjectC12CoreDataPlusE14committedValue6forKeyypSgSS_tF"></a>
                     <a name="//apple_ref/swift/Method/committedValue(forKey:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So15NSManagedObjectC12CoreDataPlusE14committedValue6forKeyypSgSS_tF">committedValue(forKey:)</a>
+                    <a class="token" href="#/s:So15NSManagedObjectC12CoreDataPlusE14committedValue6forKeyypSgSS_tF">committedValue(forKey:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -293,7 +258,7 @@
                       <div class="abstract">
                         <p><strong>CoreDataPlus</strong></p>
 
-<p>Materializes <code>self</code></p>
+<p>Materializes <code>self</code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -312,7 +277,7 @@
                     <code>
                     <a name="/s:So15NSManagedObjectC12CoreDataPlusE7refresh12mergeChangesySb_tF"></a>
                     <a name="//apple_ref/swift/Method/refresh(mergeChanges:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So15NSManagedObjectC12CoreDataPlusE7refresh12mergeChangesySb_tF">refresh(mergeChanges:)</a>
+                    <a class="token" href="#/s:So15NSManagedObjectC12CoreDataPlusE7refresh12mergeChangesySb_tF">refresh(mergeChanges:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -424,8 +389,8 @@ Converts the object ID to a permanent ID (if the object doesn&rsquo;t already ha
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2020-04-22)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2020-08-10)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
