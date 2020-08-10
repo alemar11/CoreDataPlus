@@ -17,10 +17,10 @@ final class NSEntityDescriptionUtilsTests: CoreDataPlusInMemoryTestCase {
     let context = container.viewContext
     let expensiveCar = ExpensiveSportCar(context: context)
     let entityNames = expensiveCar.entity.hierarchyEntities().compactMap { $0.name}
-    XCTAssertTrue(entityNames.count == 3)
+    XCTAssertTrue(entityNames.count == 2)
     XCTAssertTrue(entityNames.contains(Car.entityName))
     XCTAssertTrue(entityNames.contains(SportCar.entityName))
-    XCTAssertTrue(entityNames.contains(ExpensiveSportCar.entityName))
+    XCTAssertFalse(entityNames.contains(ExpensiveSportCar.entityName), "The hierarchy should contain only super entities")
   }
 
   func testTopMostEntity() {
@@ -235,5 +235,30 @@ final class NSEntityDescriptionUtilsTests: CoreDataPlusInMemoryTestCase {
       XCTAssertTrue(ancestors.contains(Car(context: context).entity))
       XCTAssertTrue(ancestors.contains(Person(context: context).entity))
     }
+  }
+
+  func testIsSubEntity() {
+    let context = container.viewContext
+    let car = Car(context: context).entity
+    let sportCar = SportCar(context: context).entity
+    let expensiveCar = ExpensiveSportCar(context: context).entity
+
+    XCTAssertFalse(car.isSubEntity(of: car))
+    XCTAssertFalse(car.isSubEntity(of: car, recursive: true))
+
+    XCTAssertTrue(sportCar.isSubEntity(of: car))
+    XCTAssertTrue(sportCar.isSubEntity(of: car, recursive: true))
+
+    XCTAssertFalse(expensiveCar.isSubEntity(of: car)) // ExpensiveSportCar is a sub entity of SportCar
+    XCTAssertTrue(expensiveCar.isSubEntity(of: car, recursive: true))
+
+    XCTAssertTrue(expensiveCar.isSubEntity(of: sportCar))
+    XCTAssertTrue(expensiveCar.isSubEntity(of: sportCar, recursive: true))
+
+    XCTAssertFalse(car.isSubEntity(of: expensiveCar))
+    XCTAssertFalse(car.isSubEntity(of: expensiveCar, recursive: true))
+
+    XCTAssertFalse(sportCar.isSubEntity(of: expensiveCar))
+    XCTAssertFalse(sportCar.isSubEntity(of: expensiveCar, recursive: true))
   }
 }

@@ -11,7 +11,7 @@ import Foundation
 
 extension NSManagedObjectContext {
   // MARK: - History
-  
+
   /// **CoreDataPlus**
   ///
   /// Returns all the history transactions created after a given `date`.
@@ -20,7 +20,7 @@ extension NSManagedObjectContext {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: date)
     return try historyTransactions(using: historyFetchRequest)
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Returns all the history transactions created after a given `token`.
@@ -30,7 +30,7 @@ extension NSManagedObjectContext {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: token)
     return try historyTransactions(using: historyFetchRequest)
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Returns all the history transactions filtered by  a given `predicate`.
@@ -55,7 +55,7 @@ extension NSManagedObjectContext {
     let historyFetchRequest = try NSPersistentHistoryChangeRequest.fetchRequest(where: predicate, with: context)
     return try historyTransactions(using: historyFetchRequest)
   }
-  
+
   /// Returns all the history transactions using a `NSPersistentHistoryChangeRequest` instance.
   private func historyTransactions(using historyFetchRequest: NSPersistentHistoryChangeRequest) throws -> [NSPersistentHistoryTransaction] {
     historyFetchRequest.resultType = .transactionsAndChanges
@@ -71,9 +71,9 @@ extension NSManagedObjectContext {
       throw NSError.fetchFailed(underlyingError: error)
     }
   }
-  
+
   // MARK: - Process Transactions
-  
+
   /// **CoreDataPlus**
   ///
   /// Processes all the transactions in the history after a given `date`.
@@ -83,7 +83,7 @@ extension NSManagedObjectContext {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: date)
     try processHistory(using: historyFetchRequest, transactionHandler: transactionHandler)
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Processes all the transactions in the history after a given `token`.
@@ -94,7 +94,7 @@ extension NSManagedObjectContext {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: token)
     try processHistory(using: historyFetchRequest, transactionHandler: transactionHandler)
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Processes all the transactions in the history filtered by a given predicate.
@@ -117,7 +117,7 @@ extension NSManagedObjectContext {
     let historyFetchRequest = try NSPersistentHistoryChangeRequest.fetchRequest(where: predicate, with: self)
     try processHistory(using: historyFetchRequest, transactionHandler: transactionHandler)
   }
-  
+
   /// Processes all the transactions in the history using a `NSPersistentHistoryChangeRequest` instance.
   private func processHistory(using historyFetchRequest: NSPersistentHistoryChangeRequest, transactionHandler: (NSPersistentHistoryTransaction) throws -> Void) throws {
     historyFetchRequest.resultType = .transactionsAndChanges
@@ -131,9 +131,9 @@ extension NSManagedObjectContext {
       }
     }
   }
-  
+
   // MARK: - Merge
-  
+
   /// **CoreDataPlus**
   ///
   /// Merges all the history changes made after a given `date`.
@@ -153,7 +153,7 @@ extension NSManagedObjectContext {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: date)
     return try mergeHistory(using: historyFetchRequest).1
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Merges all the history changes made after a given `token`.
@@ -175,7 +175,7 @@ extension NSManagedObjectContext {
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: token)
     return try mergeHistory(using: historyFetchRequest).0
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Merges all the history changes inside transations matching the given predicate.
@@ -208,7 +208,7 @@ extension NSManagedObjectContext {
     let historyFetchRequest = try NSPersistentHistoryChangeRequest.fetchRequest(where: predicate, with: self)
     return try mergeHistory(using: historyFetchRequest).0 != nil
   }
-  
+
   /// Merges all the history changes using a `NSPersistentHistoryChangeRequest` instance.
   private func mergeHistory(using historyFetchRequest: NSPersistentHistoryChangeRequest) throws -> (NSPersistentHistoryToken?, Date?) {
     historyFetchRequest.resultType = .transactionsAndChanges
@@ -223,7 +223,7 @@ extension NSManagedObjectContext {
         var date: Date?
         for transaction in transactions {
           guard transaction.changes != nil else { continue }
-          
+
           mergeChanges(fromContextDidSave: transaction.objectIDNotification())
           token = transaction.token
           date = transaction.timestamp
@@ -235,9 +235,9 @@ extension NSManagedObjectContext {
       throw NSError.fetchFailed(underlyingError: error)
     }
   }
-  
+
   // MARK: - Delete
-  
+
   /// **CoreDataPlus**
   ///
   /// Deletes all history.
@@ -245,7 +245,7 @@ extension NSManagedObjectContext {
   public func deleteHistory() throws -> Bool {
     return try deleteHistory(before: .distantFuture)
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Deletes all history before a given `date`.
@@ -259,7 +259,7 @@ extension NSManagedObjectContext {
     let deleteHistoryRequest = NSPersistentHistoryChangeRequest.deleteHistory(before: date)
     return try deleteHistory(using: deleteHistoryRequest)
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Deletes all history before a given `token`.
@@ -272,7 +272,7 @@ extension NSManagedObjectContext {
     let deleteHistoryRequest = NSPersistentHistoryChangeRequest.deleteHistory(before: token)
     return try deleteHistory(using: deleteHistoryRequest)
   }
-  
+
   /// Deletes all history given a delete `NSPersistentHistoryChangeRequest` instance.
   private func deleteHistory(using deleteHistoryRequest: NSPersistentHistoryChangeRequest) throws -> Bool {
     deleteHistoryRequest.resultType = .statusOnly
@@ -298,7 +298,7 @@ extension NSPersistentHistoryChangeRequest {
     guard let request = NSFetchRequest<NSFetchRequestResult>.historyTransationFetchRequest(with: context) else {
       throw NSError.invalidFetchRequest()
     }
-    
+
     request.predicate = predicate
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(withFetch: request)
     return historyFetchRequest
