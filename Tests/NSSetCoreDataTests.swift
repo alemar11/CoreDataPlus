@@ -28,7 +28,7 @@ final class NSSetCoreDataTests: CoreDataPlusInMemoryTestCase {
     }.count
 
     XCTAssertEqual(initialFaultsCount, person.cars?.count ?? 0)
-    try person.cars?.materializeFaultedManagedObjects()
+    try person.cars?.materializeManagedObjectFaults()
 
     let finalFaultsCount = person.cars?.filter { object in
       if let managedCar = object as? Car {

@@ -18,6 +18,8 @@ extension Collection where Element: NSManagedObject {
   /// **CoreDataPlus**
   ///
   /// Materializes all the faulted objects in one batch, executing a single fetch request.
+  /// Since this method is defined for a Collection of `NSManagedObject`, it does extra work to materialize all the objects; for this reason it's not optimized for performance.
+  ///
   /// - Throws: It throws an error in cases of failure.
   /// - Note: Materializing all the objects in one batch is faster than triggering the fault for each object on its own.
   public func materializeFaults() throws {
@@ -31,6 +33,7 @@ extension Collection where Element: NSManagedObject {
     for (context, objects) in faultedObjectsByContext where !objects.isEmpty {
       // objects without context can trigger their fault one by one
       guard let context = context else {
+        // important bits
         objects.forEach { $0.materialize() }
         continue
       }
@@ -45,6 +48,7 @@ extension Collection where Element: NSManagedObject {
       let entities = objects.entities().entitiesKeepingOnlyCommonEntityAncestors()
 
       for entity in entities {
+        // important bits
         // about batch faulting:
         // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreData/Performance.html
         let request = NSFetchRequest<NSFetchRequestResult>()

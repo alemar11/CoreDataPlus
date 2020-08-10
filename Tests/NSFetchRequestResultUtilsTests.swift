@@ -5,7 +5,6 @@ import CoreData
 @testable import CoreDataPlus
 
 final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
-
   // MARK: - Batch Faulting
 
   func testFaultAndMaterializeObjectWithoutNSManagedObjectContext() throws {

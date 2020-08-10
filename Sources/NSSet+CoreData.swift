@@ -18,9 +18,11 @@ extension NSSet {
   /// **CoreDataPlus**
   ///
   /// Materializes all the faulted objects in one batch, executing a single fetch request.
+  /// Since this method is defined for a NSSet, it does extra work to materialize all the `NSManagedObject` objects (if any) in there; for this reason it's not optimized for performance.
+  ///
   /// - Throws: It throws an error in cases of failure.
   /// - Note: Materializing all the objects in one batch is faster than triggering the fault for each object on its own.
-  public func materializeFaultedManagedObjects() throws {
+  public func materializeManagedObjectFaults() throws {
     guard self.count > 0 else { return }
 
     let managedObjects = self.compactMap { $0 as? NSManagedObject }
