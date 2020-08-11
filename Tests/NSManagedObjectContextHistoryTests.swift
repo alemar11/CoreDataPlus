@@ -619,7 +619,7 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
     try container1.destroy()
   }
 
-  // MARK: - History by FetchRequest
+  // MARK: - History by Transaction
 
   func testFetchHistoryChangesUsingFetchRequest() throws {
     // Given
@@ -697,5 +697,174 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
     }
 
     try container1.destroy()
+  }
+
+  func testInvestigationHistoryFetches() throws {
+    // Given
+    let id = UUID()
+    let container1 = OnDiskPersistentContainer.makeNew(id: id)
+    let container2 = OnDiskPersistentContainer.makeNew(id: id)
+
+    let viewContext1 = container1.viewContext
+    viewContext1.name = "viewContext1"
+    viewContext1.transactionAuthor = "author1"
+    let viewContext2 = container2.viewContext
+    viewContext2.name = "viewContext2"
+    viewContext2.transactionAuthor = "author2"
+
+    var tokens = [NSPersistentHistoryToken]()
+
+    let initialToken = try XCTUnwrap(container2.persistentStoreCoordinator.currentPersistentHistoryToken(fromStores: viewContext1.persistentStores))
+    tokens.append(initialToken)
+
+    // Transaction #1 - 2 Cars, 1 SportCar
+    let car1 = Car(context: viewContext1)
+    car1.maker = "FIAT"
+    car1.model = "Panda"
+    car1.numberPlate = "1"
+
+    let car2 = Car(context: viewContext1)
+    car2.maker = "FIAT"
+    car2.model = "Punto"
+    car2.numberPlate = "2"
+
+    let sportCar1 = SportCar(context: viewContext1)
+    sportCar1.maker = "McLaren"
+    sportCar1.model = "570GT"
+    sportCar1.numberPlate = "3"
+
+    try viewContext1.save()
+    let token1 = try XCTUnwrap(container2.persistentStoreCoordinator.currentPersistentHistoryToken(fromStores: viewContext1.persistentStores))
+    tokens.append(token1)
+
+    // Transaction #2 - 1 Person
+    let person = Person(context: viewContext1)
+    person.firstName = "Alessandro"
+    person.lastName = "Marzoli"
+
+    try viewContext1.save()
+    let token2 = try XCTUnwrap(container2.persistentStoreCoordinator.currentPersistentHistoryToken(fromStores: viewContext1.persistentStores))
+    tokens.append(token2)
+
+    // Transaction #3 - 1 Person updated, 1 Car deleted
+    person.firstName = "Alex"
+    car2.delete()
+
+    try viewContext1.save()
+    let token3 = try XCTUnwrap(container2.persistentStoreCoordinator.currentPersistentHistoryToken(fromStores: viewContext1.persistentStores))
+    tokens.append(token3)
+
+    XCTAssertEqual(tokens.count, 4)
+
+    let currentToken = try XCTUnwrap(container2.persistentStoreCoordinator.currentPersistentHistoryToken(fromStores: viewContext2.persistentStores))
+
+    let lastToken = try XCTUnwrap(tokens.last)
+    let secondLastToken = try XCTUnwrap(tokens.suffix(2).first)
+    XCTAssertEqual(lastToken, currentToken)
+
+    do {
+      // ⏺ Query the Transaction entity
+      let transactionsRequest = NSFetchRequest.historyTransationFetchRequest(with: viewContext1)!
+      transactionsRequest.predicate = NSPredicate(format: "token > %@", secondLastToken)
+      // same as:
+      //transactionsRequest.predicate = NSPredicate(format: "token == %@", lastToken)
+
+      let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(withFetch: transactionsRequest)
+      historyFetchRequest.resultType = .transactionsOnly
+
+      let transactions = try viewContext2.performAndWaitResult { context ->[NSPersistentHistoryTransaction] in
+        // swiftlint:disable force_cast
+        let history = try context.execute(historyFetchRequest) as! NSPersistentHistoryResult
+        let transactions = history.result as! [NSPersistentHistoryTransaction] // ordered from the oldest to the most recent
+        // swiftlint:enable force_cast
+        return transactions
+      }
+      XCTAssertEqual(transactions.count, 1)
+      let first = try XCTUnwrap(transactions.first)
+      XCTAssertEqual(first.token, tokens.last)
+      XCTAssertNil(first.changes) // result type is transactionsOnly
+    } catch {
+      throw NSError.fetchFailed(underlyingError: error)
+    }
+
+    do {
+      // ⏺ Query the Change entity
+
+      let changesRequest = NSFetchRequest.historyChangeFetchRequest(with: viewContext1)!
+      changesRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
+        NSPredicate(format: "changeType == %d", NSPersistentHistoryChangeType.update.rawValue), // Change condition
+        // ⚠️ Even if it seems that some Transaction fields like "token" can be used here, the behavior is not predicatble
+        // it's best if we stick with Change fields
+        // NSPredicate(format: "token > %@", secondLastToken) // Transaction condition (working)
+        // NSPredicate(format: "token == %@") // Transaction condition (not working)
+        // NSPredicate(format: "author != %@", "author1") // Transaction condition (exception)
+      ])
+
+      let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(withFetch: changesRequest)
+      historyFetchRequest.resultType = .transactionsAndChanges
+
+      let transactions = try viewContext2.performAndWaitResult { context ->[NSPersistentHistoryTransaction] in
+        let history = try context.execute(historyFetchRequest) as! NSPersistentHistoryResult
+        let transactions = history.result as! [NSPersistentHistoryTransaction] // ordered from the oldest to the most recent
+        return transactions
+      }
+
+      XCTAssertEqual(transactions.count, 1)
+      let first = try XCTUnwrap(transactions.first)
+      XCTAssertEqual(first.token, tokens.last)
+      let changes = try XCTUnwrap(first.changes)
+      XCTAssertFalse(changes.isEmpty) // result type is transactionsAndChanges
+    } catch {
+      throw NSError.fetchFailed(underlyingError: error)
+    }
+
+    do {
+      // ⏺ Query the Change entity
+      let changesRequest = NSFetchRequest.historyChangeFetchRequest(with: viewContext1)!
+      changesRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
+        NSPredicate(format: "changeType == %d", NSPersistentHistoryChangeType.insert.rawValue),
+        NSPredicate(format: "changedEntity == %@ || changedEntity == %@", Car.entity(), Person.entity()) // ignores sub entities
+      ])
+
+      let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(withFetch: changesRequest)
+      historyFetchRequest.resultType = .changesOnly // ⚠️ impact the return type
+
+      let changes = try viewContext2.performAndWaitResult { context ->[NSPersistentHistoryChange] in
+        let history = try context.execute(historyFetchRequest) as! NSPersistentHistoryResult
+        let changes = history.result as! [NSPersistentHistoryChange] // ordered from the oldest to the most recent
+        return changes
+      }
+
+      XCTAssertEqual(changes.count, 3) // 2 Cars + 1 Person
+    } catch {
+      throw NSError.fetchFailed(underlyingError: error)
+    }
+
+    do {
+      // ⏺ Query the Change entity
+      let changeEntity = NSPersistentHistoryChange.entityDescription(with: viewContext1)!
+      XCTAssertNil(changeEntity.attributesByName["changedObjectID"], "Shown on WWDC 2020 but currently nil.") // FB8353599
+      let request = NSFetchRequest<NSFetchRequestResult>()
+      request.entity = changeEntity
+      let columnName = changeEntity.attributesByName["changedEntity"]!.name // WWDC 2020
+      request.predicate = NSPredicate(format: "%K = %@", columnName, Car.entity())
+
+      let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: secondLastToken)
+      historyFetchRequest.fetchRequest = request
+      historyFetchRequest.resultType = .changesOnly // ⚠️ impact the return type
+
+      let changes = try viewContext2.performAndWaitResult { context ->[NSPersistentHistoryChange] in
+        let history = try context.execute(historyFetchRequest) as! NSPersistentHistoryResult
+        let changes = history.result as! [NSPersistentHistoryChange] // ordered from the oldest to the most recent
+        return changes
+      }
+
+      XCTAssertEqual(changes.count, 1) // Car2 has been eliminated in the last token
+      let first = try XCTUnwrap(changes.first)
+      XCTAssertEqual(first.changedObjectID.uriRepresentation(), car2.objectID.uriRepresentation())
+      XCTAssertEqual(first.changeType, NSPersistentHistoryChangeType.delete)
+    } catch {
+      throw NSError.fetchFailed(underlyingError: error)
+    }
   }
 }

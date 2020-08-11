@@ -303,7 +303,7 @@ extension NSPersistentHistoryChangeRequest {
     return historyFetchRequest
   }
 
-  /// Creates an history change request for a given predicate; the context is used as hint to discover the TODO entity.
+  /// Creates an history change request for a given predicate; the context is used as hint to discover the Change entity.
   @available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   final class func historyChangeFetchRequest(where predicate: NSPredicate, with context: NSManagedObjectContext? = nil) throws -> NSPersistentHistoryChangeRequest {
     guard let request = NSFetchRequest<NSFetchRequestResult>.historyChangeFetchRequest(with: context) else {
@@ -341,7 +341,7 @@ extension NSFetchRequest where ResultType == NSFetchRequestResult {
       request.entity = entity
       return request
     } else {
-      return NSPersistentHistoryTransaction.fetchRequest
+      return NSPersistentHistoryChange.fetchRequest
     }
   }
 }
