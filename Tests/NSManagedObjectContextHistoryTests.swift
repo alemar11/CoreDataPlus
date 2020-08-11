@@ -119,7 +119,7 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
     try viewContext1.save() // 1 delete
 
     let cancellable = NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: viewContext2)
-      .map { Payload.NSManagedObjectContextObjectsDidChange(notification: $0) }
+      .map { ManagedObjectContextObjectsDidChange(notification: $0) }
       .sink { payload in
         XCTAssertTrue(payload.managedObjectContext === viewContext2)
         if !payload.insertedObjects.isEmpty {
@@ -355,7 +355,7 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
 
     var lastMergedToken: NSPersistentHistoryToken?
     let cancellable = NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave, object: viewContext1)
-      .map { Payload.NSManagedObjectContextDidSave(notification: $0) }
+      .map { ManagedObjectContextDidSaveObjects(notification: $0) }
       .sink { payload in
         if run == 0 {
           guard let historyToken = payload.historyToken else {
@@ -395,7 +395,7 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
         }
     }
 
-    let cancellable2 = NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: viewContext2).map { Payload.NSManagedObjectContextObjectsDidChange(notification: $0)}
+    let cancellable2 = NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: viewContext2).map { ManagedObjectContextObjectsDidChange(notification: $0)}
       .sink { payload in
         if run == 0 {
           XCTAssertEqual(payload.insertedObjects.count, 2)
@@ -454,7 +454,7 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
 
     // When, Then
     let cancellable = NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave, object: context)
-      .map { Payload.NSManagedObjectContextDidSave(notification: $0) }
+      .map { ManagedObjectContextDidSaveObjects(notification: $0) }
       .sink { payload in
         XCTAssertNotNil(payload.historyToken)
         expectation1.fulfill()
@@ -486,7 +486,7 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
 
     // When, Then
     let cancellable = NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave, object: context)
-      .map { Payload.NSManagedObjectContextDidSave(notification: $0) }
+      .map { ManagedObjectContextDidSaveObjects(notification: $0) }
       .sink { payload in
         XCTAssertNil(payload.historyToken, "The Persistent Store Coordianator doesn't have the NSPersistentStoreRemoteChangeNotificationPostOptionKey option enabled.")
         expectation1.fulfill()

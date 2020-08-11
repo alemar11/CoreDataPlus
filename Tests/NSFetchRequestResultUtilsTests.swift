@@ -712,22 +712,24 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
       [#keyPath(Car.maker): "FIAT",
        #keyPath(Car.numberPlate): numberPlate2,
        #keyPath(Car.model): "Panda"]
-      ,
     ]
 
-    let result = try! Car.batchInsert(using: context,
-                                             resultType: .objectIDs,
-                                             objects: objects)
+   if #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11, *) {
+    // on iOS 13, it doesn't throw
+      XCTAssertThrowsError(try Car.batchInsert(using: context, resultType: .objectIDs, objects: objects))
+    } else {
+      let result = try! Car.batchInsert(using: context, resultType: .objectIDs, objects: objects)
 
-    // the first two objects have the same numberPlate
-    XCTAssertEqual(result.inserts!.count, 2)
-    XCTAssertEqual(result.changes?[NSInsertedObjectsKey]?.count, 2)
+      // the first two objects have the same numberPlate
+      XCTAssertEqual(result.inserts!.count, 2)
+      XCTAssertEqual(result.changes?[NSInsertedObjectsKey]?.count, 2)
 
-    let cars = try Car.fetch(in: context)
-    let models = cars.compactMap { $0.model }
-    let makers = cars.compactMap { $0.maker }
-    XCTAssertEqual(models, ["Panda", "Panda"])
-    XCTAssertEqual(makers.count, 1)
+      let cars = try Car.fetch(in: context)
+      let models = cars.compactMap { $0.model }
+      let makers = cars.compactMap { $0.maker }
+      XCTAssertEqual(models, ["Panda", "Panda"])
+      XCTAssertEqual(makers.count, 1)
+    }
   }
 
   func testFailedbatchInsertWithResultObjectIDs() throws {

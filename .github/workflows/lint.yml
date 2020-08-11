@@ -22,7 +22,7 @@ jobs:
   SwiftLint:
     runs-on: macOS-latest
     env:
-      DEVELOPER_DIR: /Applications/Xcode_11.4.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_12_beta.app/Contents/Developer
     steps:
       - uses: actions/checkout@v1
       - name: GitHub Action for SwiftLint

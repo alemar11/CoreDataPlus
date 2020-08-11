@@ -2,10 +2,11 @@
 
 import XCTest
 import CoreData
+import Combine
 @testable import CoreDataPlus
 
 @available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-final class NotificationCoreDataPlusTests: CoreDataPlusInMemoryTestCase {
+final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
   /// To issue a NSManagedObjectContextObjectsDidChangeNotification from a background thread, call the NSManagedObjectContext’s processPendingChanges method.
   /// http://openradar.appspot.com/14310964
   /// NSManagedObjectContext’s `perform` method encapsulates an autorelease pool and a call to processPendingChanges, `performAndWait` does not.
@@ -19,7 +20,8 @@ final class NotificationCoreDataPlusTests: CoreDataPlusInMemoryTestCase {
    Typically, on thread A you register for the managed object context save notification, NSManagedObjectContextDidSaveNotification.
    When you receive the notification, its user info dictionary contains arrays with the managed objects that were inserted, deleted, and updated on thread B.
    Because the managed objects are associated with a different thread, however, you should not access them directly.
-   Instead, you pass the notification as an argument to mergeChangesFromContextDidSaveNotification: (which you send to the context on thread A). Using this method, the context is able to safely merge the changes.
+   Instead, you pass the notification as an argument to mergeChangesFromContextDidSaveNotification: (which you send to the context on thread A).
+   Using this method, the context is able to safely merge the changes.
 
    If you need finer-grained control, you can use the managed object context change notification, NSManagedObjectContextObjectsDidChangeNotification—the notification’s user info dictionary again contains arrays with the managed objects that were inserted, deleted, and updated. In this scenario, however, you register for the notification on thread B.
    When you receive the notification, the managed objects in the user info dictionary are associated with the same thread, so you can access their object IDs.
@@ -30,9 +32,7 @@ final class NotificationCoreDataPlusTests: CoreDataPlusInMemoryTestCase {
    This is not the case for background threads—when the method is invoked depends on both the platform and the release version, so you should not rely on particular timing.
    ▶️ If the secondary context is not on the main thread, you should call processPendingChanges yourself at appropriate junctures.
    (You need to establish your own notion of a work “cycle” for a background thread—for example, after every cluster of actions.)
-   **/
 
-  /**
    From Apple DTS (about automaticallyMergesChangesFromParent and didChange notification):
 
    Core Data triggers the didChange notification when the context is “indeed” changed, or the changes will have impact to you. Here is the logic:
@@ -40,46 +40,71 @@ final class NotificationCoreDataPlusTests: CoreDataPlusInMemoryTestCase {
    1. Merging new objects does change the context, so the notification is always triggered.
    2. Merging deleted objects changes the context when the deleted objects are in use (or in other word, are held by your code).
    3. Merging updated objects changes the context when the updated objects are in use and not faulted.
-   **/
+   */
 
   // MARK: - NSManagedObjectContextObjectsDidChange
 
-  func testObserveInsertionsOnDidChangeNotification() {
+  func testObserveInsertionsAndInvalidationsOnDidChangeNotification() {
+    // Invalidation causes:
+    // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreData/TroubleshootingCoreData.html
+    // Either you have removed the store for the fault you are attempting to fire, or the managed object's context has been sent a reset.
     let context = container.viewContext
     let expectation = self.expectation(description: "\(#function)\(#line)")
+    let expectation2 = self.expectation(description: "\(#function)\(#line)")
+
+    var count = 0
+    let cancellable = NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange)
+      .map { ManagedObjectContextObjectsDidChange(notification: $0) }
+      .sink { payload in
+        switch count {
+        case 0:
+          count += 1
+          XCTAssertTrue(Thread.isMainThread)
+          XCTAssertTrue(payload.managedObjectContext === context)
+          XCTAssertEqual(payload.insertedObjects.count, 1)
+          XCTAssertTrue(payload.deletedObjects.isEmpty)
+          XCTAssertTrue(payload.refreshedObjects.isEmpty)
+          XCTAssertTrue(payload.updatedObjects.isEmpty)
+          XCTAssertTrue(payload.invalidatedObjects.isEmpty)
+          XCTAssertTrue(payload.invalidatedAllObjects.isEmpty)
+          expectation.fulfill()
+        case 1:
+          count += 1
+          XCTAssertTrue(Thread.isMainThread)
+          XCTAssertTrue(payload.managedObjectContext === context)
+          XCTAssertTrue(payload.insertedObjects.isEmpty)
+          XCTAssertTrue(payload.deletedObjects.isEmpty)
+          XCTAssertTrue(payload.refreshedObjects.isEmpty)
+          XCTAssertTrue(payload.updatedObjects.isEmpty)
+          XCTAssertTrue(payload.invalidatedObjects.isEmpty)
+          XCTAssertEqual(payload.invalidatedAllObjects.count, 1)
+          expectation2.fulfill()
+        default:
+          XCTFail("Too many notifications.")
+        }
+    }
 
     context.performAndWait {
       let car = Car(context: context)
       car.maker = "FIAT"
       car.model = "Panda"
       car.numberPlate = "1"
-      car.maker = "123!"
+      context.processPendingChanges()
     }
 
-    let cancellable = NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange)
-      .map { Payload.NSManagedObjectContextObjectsDidChange(notification: $0) }
-      .sink { payload in
-        XCTAssertTrue(Thread.isMainThread)
-        XCTAssertTrue(payload.managedObjectContext === context)
-        XCTAssertEqual(payload.insertedObjects.count, 1)
-        XCTAssertTrue(payload.deletedObjects.isEmpty)
-        XCTAssertTrue(payload.refreshedObjects.isEmpty)
-        XCTAssertTrue(payload.updatedObjects.isEmpty)
-        XCTAssertTrue(payload.invalidatedObjects.isEmpty)
-        XCTAssertTrue(payload.invalidatedAllObjects.isEmpty)
-        expectation.fulfill()
+    context.performAndWait {
+      context.reset()
     }
 
     waitForExpectations(timeout: 2)
     cancellable.cancel()
   }
 
-
   func testObserveInsertionsOnDidChangeNotificationOnBackgroundContext() {
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let backgroundContext = container.newBackgroundContext()
     let cancellable = NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: backgroundContext)
-      .map { Payload.NSManagedObjectContextObjectsDidChange(notification: $0) }
+      .map { ManagedObjectContextObjectsDidChange(notification: $0) }
       .sink { payload in
         XCTAssertTrue(Thread.isMainThread)
         XCTAssertTrue(payload.managedObjectContext === backgroundContext)
@@ -109,7 +134,7 @@ final class NotificationCoreDataPlusTests: CoreDataPlusInMemoryTestCase {
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let backgroundContext = container.newBackgroundContext()
     let cancellable = NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: backgroundContext)
-      .map { Payload.NSManagedObjectContextObjectsDidChange(notification: $0) }
+      .map { ManagedObjectContextObjectsDidChange(notification: $0) }
       .sink { payload in
         XCTAssertFalse(Thread.isMainThread)
         XCTAssertTrue(payload.managedObjectContext === backgroundContext)
@@ -140,7 +165,7 @@ final class NotificationCoreDataPlusTests: CoreDataPlusInMemoryTestCase {
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let backgroundContext = container.newBackgroundContext()
     let cancellable = NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: backgroundContext)
-      .map { Payload.NSManagedObjectContextObjectsDidChange(notification: $0) }
+      .map { ManagedObjectContextObjectsDidChange(notification: $0) }
       .sink { payload in
         XCTAssertFalse(Thread.isMainThread)
         XCTAssertTrue(payload.managedObjectContext === backgroundContext)
@@ -185,7 +210,7 @@ final class NotificationCoreDataPlusTests: CoreDataPlusInMemoryTestCase {
     privateContext.persistentStoreCoordinator = container.persistentStoreCoordinator
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let cancellable = NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: privateContext)
-      .map { Payload.NSManagedObjectContextObjectsDidChange(notification: $0) }
+      .map { ManagedObjectContextObjectsDidChange(notification: $0) }
       .sink { payload in
         XCTAssertTrue(Thread.isMainThread)
         XCTAssertTrue(payload.managedObjectContext === privateContext)
@@ -217,7 +242,7 @@ final class NotificationCoreDataPlusTests: CoreDataPlusInMemoryTestCase {
     let registeredObjectsCount = context.registeredObjects.count
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let cancellable = NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: context)
-      .map { Payload.NSManagedObjectContextObjectsDidChange(notification: $0) }
+      .map { ManagedObjectContextObjectsDidChange(notification: $0) }
       .sink { payload in
         XCTAssertTrue(Thread.isMainThread)
         XCTAssertTrue(payload.managedObjectContext === context)
@@ -251,7 +276,7 @@ final class NotificationCoreDataPlusTests: CoreDataPlusInMemoryTestCase {
     let expectation = self.expectation(description: "\(#function)\(#line)")
     expectation.expectedFulfillmentCount = 1
     let cancellable = NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: backgroundContext2)
-      .map { Payload.NSManagedObjectContextObjectsDidChange(notification: $0) }
+      .map { ManagedObjectContextObjectsDidChange(notification: $0) }
       .sink { payload in
         XCTAssertFalse(Thread.isMainThread)
         XCTAssertTrue(payload.managedObjectContext === backgroundContext2)
@@ -301,7 +326,7 @@ final class NotificationCoreDataPlusTests: CoreDataPlusInMemoryTestCase {
     var count = 0
     var holds = Set<NSManagedObject>()
     let cancellable = NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: viewContext)
-      .map { Payload.NSManagedObjectContextObjectsDidChange(notification: $0) }
+      .map { ManagedObjectContextObjectsDidChange(notification: $0) }
       .sink { payload in
         XCTAssertTrue(payload.managedObjectContext === viewContext)
         switch count {
@@ -415,7 +440,7 @@ final class NotificationCoreDataPlusTests: CoreDataPlusInMemoryTestCase {
 
     let expectation1 = self.expectation(description: "DidChange for Panda with number plate: 2")
     let cancellable = NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: viewContext)
-      .map { Payload.NSManagedObjectContextObjectsDidChange(notification: $0) }
+      .map { ManagedObjectContextObjectsDidChange(notification: $0) }
       .sink { payload in
         XCTAssertTrue(payload.managedObjectContext === viewContext)
         XCTAssertTrue(payload.insertedObjects.isEmpty)
@@ -468,7 +493,7 @@ final class NotificationCoreDataPlusTests: CoreDataPlusInMemoryTestCase {
     let context = container.viewContext
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let cancellable = NotificationCenter.default.publisher(for: .NSManagedObjectContextWillSave, object: context)
-      .map { Payload.NSManagedObjectContextWillSave(notification: $0) }
+      .map { ManagedObjectContextWillSaveObjects(notification: $0) }
       .sink { payload in
         XCTAssertTrue(Thread.isMainThread)
         XCTAssertTrue(payload.managedObjectContext === context)
@@ -488,31 +513,49 @@ final class NotificationCoreDataPlusTests: CoreDataPlusInMemoryTestCase {
 
   func testObserveInsertionsOnDidSaveNotification() throws {
     let context = container.viewContext
+    var cancellables = [AnyCancellable]()
+
     let expectation = self.expectation(description: "\(#function)\(#line)")
-    let cancellable = NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave, object: context)
-      .map { Payload.NSManagedObjectContextDidSave(notification: $0) }
+    expectation.assertForOverFulfill = false
+    NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave, object: context)
+      .map { ManagedObjectContextDidSaveObjects(notification: $0) }
       .sink { payload in
         XCTAssertTrue(Thread.isMainThread)
-        XCTAssertFalse(payload.isEmpty)
         XCTAssertTrue(payload.managedObjectContext === context)
-        XCTAssertEqual(payload.insertedObjects.count, 1)
+        XCTAssertEqual(payload.insertedObjects.count, 2)
         XCTAssertTrue(payload.deletedObjects.isEmpty)
-        XCTAssertTrue(payload.refreshedObjects.isEmpty)
         XCTAssertTrue(payload.updatedObjects.isEmpty)
-        XCTAssertTrue(payload.invalidatedObjects.isEmpty)
-        XCTAssertTrue(payload.invalidatedAllObjects.isEmpty)
         expectation.fulfill()
+    }
+      .store(in: &cancellables)
+
+    if #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11, *) {
+      let expectation2 = self.expectation(description: "\(#function)\(#line)")
+      expectation.assertForOverFulfill = false
+      NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSaveObjectIDs, object: context)
+        .map { ManagedObjectContextDidSaveObjectIDs(notification: $0) }
+        .sink { payload in
+          XCTAssertTrue(payload.managedObjectContext === context)
+          XCTAssertEqual(payload.insertedObjectIDs.count, 2)
+
+          expectation2.fulfill()
+      }
+        .store(in: &cancellables)
     }
 
     let car = Car(context: context)
     car.maker = "FIAT"
     car.model = "Panda"
     car.numberPlate = "1"
-    car.maker = "123!"
+
+    let car2 = Car(context: context)
+    car2.maker = "FIAT"
+    car2.model = "Panda"
+    car2.numberPlate = "2"
 
     try context.save()
     waitForExpectations(timeout: 2)
-    cancellable.cancel()
+    cancellables.forEach { $0.cancel() }
   }
 
   func testObserveInsertionsUpdatesAndDeletesOnDidSaveNotification() throws {
@@ -534,16 +577,13 @@ final class NotificationCoreDataPlusTests: CoreDataPlusInMemoryTestCase {
     try context.save()
 
     let cancellable = NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave, object: context)
-      .map { Payload.NSManagedObjectContextDidSave(notification: $0) }
+      .map { ManagedObjectContextDidSaveObjects(notification: $0) }
       .sink { payload in
         XCTAssertTrue(Thread.isMainThread)
         XCTAssertTrue(payload.managedObjectContext === context)
         XCTAssertEqual(payload.insertedObjects.count, 2)
         XCTAssertEqual(payload.deletedObjects.count, 1)
         XCTAssertEqual(payload.updatedObjects.count, 1)
-        XCTAssertTrue(payload.refreshedObjects.isEmpty)
-        XCTAssertTrue(payload.invalidatedObjects.isEmpty)
-        XCTAssertTrue(payload.invalidatedAllObjects.isEmpty)
         expectation.fulfill()
     }
 
@@ -614,7 +654,7 @@ final class NotificationCoreDataPlusTests: CoreDataPlusInMemoryTestCase {
     // Changes are propagated from the child to the parent during the save.
     var count = 0
     let cancellable = NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: parentContext)
-      .map { Payload.NSManagedObjectContextObjectsDidChange(notification: $0) }
+      .map { ManagedObjectContextObjectsDidChange(notification: $0) }
       .sink { payload in
         XCTAssertTrue(Thread.isMainThread)
         if count == 0 {
@@ -657,16 +697,13 @@ final class NotificationCoreDataPlusTests: CoreDataPlusInMemoryTestCase {
     }
 
     let cancellable2 = NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave, object: parentContext)
-      .map { Payload.NSManagedObjectContextDidSave(notification: $0) }
+      .map { ManagedObjectContextDidSaveObjects(notification: $0) }
       .sink { payload in
         XCTAssertTrue(Thread.isMainThread)
         XCTAssertTrue(payload.managedObjectContext === parentContext)
         XCTAssertEqual(payload.insertedObjects.count, 3)
         XCTAssertEqual(payload.deletedObjects.count, 1)
         XCTAssertEqual(payload.updatedObjects.count, 1)
-        XCTAssertTrue(payload.refreshedObjects.isEmpty)
-        XCTAssertTrue(payload.invalidatedObjects.isEmpty)
-        XCTAssertTrue(payload.invalidatedAllObjects.isEmpty)
         expectation2.fulfill()
     }
 
@@ -745,7 +782,7 @@ final class NotificationCoreDataPlusTests: CoreDataPlusInMemoryTestCase {
       }
 
       let cancellable = NotificationCenter.default.publisher(for: Notification.Name.NSManagedObjectContextObjectsDidChange, object: context)
-        .map { Payload.NSManagedObjectContextObjectsDidChange(notification: $0) }
+        .map { ManagedObjectContextObjectsDidChange(notification: $0) }
         .sink { payload in
           let inserts = findObjectsOfType(SportCar.self, in: payload.insertedObjects, observeSubEntities: true)
           let inserts2 = findObjectsOfType(Car.self, in: payload.insertedObjects, observeSubEntities: true)
@@ -801,7 +838,7 @@ final class NotificationCoreDataPlusTests: CoreDataPlusInMemoryTestCase {
 
     let expectation1 = expectation(description: "NSPersistentStoreRemoteChange Notification sent by container1")
     let cancellable1 = NotificationCenter.default.publisher(for: .NSPersistentStoreRemoteChange, object: container1.persistentStoreCoordinator)
-      .map { Payload.NSPersistentStoreRemoteChange(notification: $0) }
+      .map { PersistentStoreRemoteChange(notification: $0) }
       .sink { payload in
         XCTAssertNotNil(payload.historyToken)
         XCTAssertEqual(payload.storeURL, container1.persistentStoreCoordinator.persistentStores.first?.url)
@@ -810,7 +847,7 @@ final class NotificationCoreDataPlusTests: CoreDataPlusInMemoryTestCase {
 
     let expectation2 = expectation(description: "NSPersistentStoreRemoteChange Notification sent by container2")
     let cancellable2 = NotificationCenter.default.publisher(for: .NSPersistentStoreRemoteChange, object: container2.persistentStoreCoordinator)
-      .map { Payload.NSPersistentStoreRemoteChange(notification: $0) }
+      .map { PersistentStoreRemoteChange(notification: $0) }
       .sink { payload in
               XCTAssertNotNil(payload.historyToken)
         XCTAssertEqual(payload.storeURL, container2.persistentStoreCoordinator.persistentStores.first?.url)

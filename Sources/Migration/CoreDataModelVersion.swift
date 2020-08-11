@@ -148,6 +148,7 @@ extension CoreDataModelVersion {
     var version: Self = self
     return AnyIterator {
       guard let next = version.successor else { return nil }
+
       version = next
       return version
     }
