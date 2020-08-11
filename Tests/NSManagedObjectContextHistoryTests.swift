@@ -649,7 +649,7 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
 
     do {
       let predicate = NSCompoundPredicate(type: .and, subpredicates: [tokenGreaterThanLastHistoryTokenPredicate, notAuthor1Predicate])
-      let allTransactions = try viewContext2.historyTransactions(where: predicate, with: viewContext2)
+      let allTransactions = try viewContext2.historyTransactions(where: predicate)
       XCTAssertTrue(allTransactions.isEmpty)
       try viewContext2.processHistory(where: predicate) { transaction in
         XCTFail("There shouldn't be any transactions matching \(predicate) to process")
@@ -661,7 +661,7 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
 
     do {
       let predicate = tokenGreaterThanNewHistoryTokenPredicate
-      let allTransactions = try viewContext2.historyTransactions(where: predicate, with: viewContext2)
+      let allTransactions = try viewContext2.historyTransactions(where: predicate)
       XCTAssertTrue(allTransactions.isEmpty)
       try viewContext2.processHistory(where: predicate) { transaction in
         XCTFail("There shouldn't be any transactions matching \(predicate) to process")
@@ -673,7 +673,7 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
 
     do {
       let predicate = NSCompoundPredicate(type: .and, subpredicates: [tokenGreaterThanLastHistoryTokenPredicate, notAuthor2Predicate])
-      let allTransactions = try viewContext2.historyTransactions(where: predicate, with: viewContext2)
+      let allTransactions = try viewContext2.historyTransactions(where: predicate)
       XCTAssertFalse(allTransactions.isEmpty)
 
       var count = 0

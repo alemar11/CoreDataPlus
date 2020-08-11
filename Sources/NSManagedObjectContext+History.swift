@@ -48,11 +48,10 @@ extension NSManagedObjectContext {
   /// - Throws: It throws an error in cases of failure.
   /// - Parameters:
   ///   - predicate: Predicate used to filter the available transactions.
-  ///   - context: Hint to be used in case the Transaction entity cannot be found automatically by the CoreData framework.
   @available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-  public func historyTransactions(where predicate: NSPredicate, with context: NSManagedObjectContext? = nil) throws -> [NSPersistentHistoryTransaction] {
+  public func historyTransactions(where predicate: NSPredicate) throws -> [NSPersistentHistoryTransaction] {
     // https://developer.apple.com/videos/play/wwdc2019/230
-    let historyFetchRequest = try NSPersistentHistoryChangeRequest.fetchRequest(where: predicate, with: context)
+    let historyFetchRequest = try NSPersistentHistoryChangeRequest.historyTransationFetchRequest(where: predicate, with: self)
     return try historyTransactions(using: historyFetchRequest)
   }
 
@@ -114,7 +113,7 @@ extension NSManagedObjectContext {
   /// - Throws: It throws an error in cases of failure.
   @available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   public func processHistory(where predicate: NSPredicate, transactionHandler: (NSPersistentHistoryTransaction) throws -> Void) throws {
-    let historyFetchRequest = try NSPersistentHistoryChangeRequest.fetchRequest(where: predicate, with: self)
+    let historyFetchRequest = try NSPersistentHistoryChangeRequest.historyTransationFetchRequest(where: predicate, with: self)
     try processHistory(using: historyFetchRequest, transactionHandler: transactionHandler)
   }
 
@@ -205,7 +204,7 @@ extension NSManagedObjectContext {
   ///
   @available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   public func mergeHistory(where predicate: NSPredicate) throws -> Bool {
-    let historyFetchRequest = try NSPersistentHistoryChangeRequest.fetchRequest(where: predicate, with: self)
+    let historyFetchRequest = try NSPersistentHistoryChangeRequest.historyTransationFetchRequest(where: predicate, with: self)
     return try mergeHistory(using: historyFetchRequest).0 != nil
   }
 
@@ -294,8 +293,20 @@ extension NSManagedObjectContext {
 extension NSPersistentHistoryChangeRequest {
   /// Creates an history change request for a given predicate; the context is used as hint to discover the Transaction entity.
   @available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-  final class func fetchRequest(where predicate: NSPredicate, with context: NSManagedObjectContext? = nil) throws -> NSPersistentHistoryChangeRequest {
+  final class func historyTransationFetchRequest(where predicate: NSPredicate, with context: NSManagedObjectContext? = nil) throws -> NSPersistentHistoryChangeRequest {
     guard let request = NSFetchRequest<NSFetchRequestResult>.historyTransationFetchRequest(with: context) else {
+      throw NSError.invalidFetchRequest()
+    }
+
+    request.predicate = predicate
+    let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(withFetch: request)
+    return historyFetchRequest
+  }
+
+  /// Creates an history change request for a given predicate; the context is used as hint to discover the TODO entity.
+  @available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  final class func historyChangeFetchRequest(where predicate: NSPredicate, with context: NSManagedObjectContext? = nil) throws -> NSPersistentHistoryChangeRequest {
+    guard let request = NSFetchRequest<NSFetchRequestResult>.historyChangeFetchRequest(with: context) else {
       throw NSError.invalidFetchRequest()
     }
 
@@ -306,14 +317,29 @@ extension NSPersistentHistoryChangeRequest {
 }
 
 extension NSFetchRequest where ResultType == NSFetchRequestResult {
-  /// Creates a NSFetchRequest to be used to query history transactionss
+  /// **CoreDataPlus**
+  ///
+  /// Creates a NSFetchRequest to be used to query history transactions
   @available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-  final class func historyTransationFetchRequest(with context: NSManagedObjectContext? = nil) -> NSFetchRequest<NSFetchRequestResult>? {
+  public final class func historyTransationFetchRequest(with context: NSManagedObjectContext? = nil) -> NSFetchRequest<NSFetchRequestResult>? {
     if let context = context, let entity = NSPersistentHistoryTransaction.entityDescription(with: context) {
       let request = NSFetchRequest<NSFetchRequestResult>()
       request.entity = entity
       return request
       // or request = NSFetchRequest<NSFetchRequestResult>(entityName: entity.name!)
+    } else {
+      return NSPersistentHistoryTransaction.fetchRequest
+    }
+  }
+  /// **CoreDataPlus**
+  ///
+  /// Creates a NSFetchRequest to be used to query history changes.
+  @available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public final class func historyChangeFetchRequest(with context: NSManagedObjectContext? = nil) -> NSFetchRequest<NSFetchRequestResult>? {
+    if let context = context, let entity = NSPersistentHistoryChange.entityDescription(with: context) {
+      let request = NSFetchRequest<NSFetchRequestResult>()
+      request.entity = entity
+      return request
     } else {
       return NSPersistentHistoryTransaction.fetchRequest
     }
