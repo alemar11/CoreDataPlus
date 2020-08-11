@@ -39,7 +39,7 @@ final class NSFetchRequestResultCoreDataTests: CoreDataPlusInMemoryTestCase {
     // Given
     context.fillWithSampleData()
     // When
-    XCTAssertNoThrow(try SportCar.delete(in: context, where: NSPredicate(format: "%K == %@", #keyPath(SportCar.numberPlate), "302")))
+    XCTAssertNoThrow(try SportCar.delete(in: context, where: NSPredicate(format: "%K == %@", #keyPath(SportCar.numberPlate), "302"), limit: 1000))
     // Then
     XCTAssertTrue(try SportCar.fetch(in: context).filter { $0.numberPlate == "302" }.isEmpty)
     XCTAssertTrue(try ExpensiveSportCar.fetch(in: context).filter { $0.numberPlate == "302" }.isEmpty)
