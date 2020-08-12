@@ -109,6 +109,7 @@
       "identifier" : "2363509C1F95EC5600B3A16A",
       "name" : "CoreDataPlus macOS"
     },
+    "testTimeoutsEnabled" : true,
     "undefinedBehaviorSanitizerEnabled" : true
   },
   "testTargets" : [

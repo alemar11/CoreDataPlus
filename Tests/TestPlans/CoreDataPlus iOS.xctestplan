@@ -106,7 +106,8 @@
       "containerPath" : "container:CoreDataPlus.xcodeproj",
       "identifier" : "23B580691F94FEDF00A365C0",
       "name" : "CoreDataPlus iOS"
-    }
+    },
+    "testTimeoutsEnabled" : true
   },
   "testTargets" : [
     {

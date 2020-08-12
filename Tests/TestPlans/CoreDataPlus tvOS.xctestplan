@@ -95,7 +95,8 @@
       "containerPath" : "container:CoreDataPlus.xcodeproj",
       "identifier" : "236350801F95EC3000B3A16A",
       "name" : "CoreDataPlus tvOS"
-    }
+    },
+    "testTimeoutsEnabled" : true
   },
   "testTargets" : [
     {
