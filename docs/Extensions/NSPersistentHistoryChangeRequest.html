@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>NSBatchInsertResult Extension Reference</title>
+    <title>NSPersistentHistoryChangeRequest Extension Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Extension/NSBatchInsertResult" class="dashAnchor"></a>
-    <a title="NSBatchInsertResult Extension Reference"></a>
+    <a name="//apple_ref/swift/Extension/NSPersistentHistoryChangeRequest" class="dashAnchor"></a>
+    <a title="NSPersistentHistoryChangeRequest Extension Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">CoreDataPlus 2.3.0 Docs</a> (87% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">CoreDataPlus Reference</a>
         <img id="carat" src="../img/carat.png" />
-        NSBatchInsertResult Extension Reference
+        NSPersistentHistoryChangeRequest Extension Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -137,10 +137,10 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>NSBatchInsertResult</h1>
+            <h1>NSPersistentHistoryChangeRequest</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">NSBatchInsertResult</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">NSPersistentHistoryChangeRequest</span></code></pre>
 
                 </div>
               </div>
@@ -152,9 +152,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So19NSBatchInsertResultC12CoreDataPlusE7changesSDySSSaySo17NSManagedObjectIDCGGSgvp"></a>
-                    <a name="//apple_ref/swift/Property/changes" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So19NSBatchInsertResultC12CoreDataPlusE7changesSDySSSaySo17NSManagedObjectIDCGGSgvp">changes</a>
+                    <a name="/s:So32NSPersistentHistoryChangeRequestC12CoreDataPlusE023historyTransactionFetchD04with5whereABSgSo22NSManagedObjectContextC_So11NSPredicateCtFZ"></a>
+                    <a name="//apple_ref/swift/Method/historyTransactionFetchRequest(with:where:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So32NSPersistentHistoryChangeRequestC12CoreDataPlusE023historyTransactionFetchD04with5whereABSgSo22NSManagedObjectContextC_So11NSPredicateCtFZ">historyTransactionFetchRequest(with:<wbr>where:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -164,14 +164,32 @@
                       <div class="abstract">
                         <p><strong>CoreDataPlus</strong></p>
 
-<p>Returns a dictionary containig all the inserted <code>NSManagedObjectID</code> instances ready to be passed to <code>NSManagedObjectContext.mergeChanges(fromRemoteContextSave:into:)</code>.</p>
+<p>Creates a NSPersistentHistoryChangeRequest to query the Transaction entity.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    context is used as hint to discover the Transaction entity.
+
+</div>
+
+<p>The predicate conditions must be applied to these fields (of the &ldquo;Transaction&rdquo; entity):</p>
+
+<ul>
+<li><code>author</code> (<code>NSString</code>)</li>
+<li><code>bundleID</code> (<code>NSString</code>)</li>
+<li><code>contextName</code> (<code>NSString</code>)</li>
+<li><code>processID</code> (<code>NSString</code>)</li>
+<li><code>timestamp</code> (<code>NSDate</code>)</li>
+<li><code>token</code> (<code>NSNumber</code> - <code>NSInteger64</code>)</li>
+<li><code>transactionNumber</code> (<code>NSNumber</code> - <code>NSInteger64</code>)</li>
+</ul>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">changes</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="p">[</span><span class="kt">NSManagedObjectID</span><span class="p">]]?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">iOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">iOSApplicationExtension</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">6.0</span><span class="p">,</span> <span class="n">macOS</span> <span class="mf">10.15</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">historyTransactionFetchRequest</span><span class="p">(</span><span class="n">with</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="k">where</span> <span class="nv">predicate</span><span class="p">:</span> <span class="kt">NSPredicate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSPersistentHistoryChangeRequest</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -181,9 +199,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So19NSBatchInsertResultC12CoreDataPlusE7insertsSaySo17NSManagedObjectIDCGSgvp"></a>
-                    <a name="//apple_ref/swift/Property/inserts" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So19NSBatchInsertResultC12CoreDataPlusE7insertsSaySo17NSManagedObjectIDCGSgvp">inserts</a>
+                    <a name="/s:So32NSPersistentHistoryChangeRequestC12CoreDataPlusE07historyc5FetchD04with5whereABSgSo22NSManagedObjectContextC_So11NSPredicateCtFZ"></a>
+                    <a name="//apple_ref/swift/Method/historyChangeFetchRequest(with:where:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So32NSPersistentHistoryChangeRequestC12CoreDataPlusE07historyc5FetchD04with5whereABSgSo22NSManagedObjectContextC_So11NSPredicateCtFZ">historyChangeFetchRequest(with:<wbr>where:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -193,87 +211,28 @@
                       <div class="abstract">
                         <p><strong>CoreDataPlus</strong></p>
 
-<p>Returns all the inserted objects <code>NSManagedObjectID</code>.</p>
+<p>Creates a NSPersistentHistoryChangeRequest to query the Change entity.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    Make sure the resultType of the <code>NSBatchInsertResult</code> is set to <code>NSBatchInsertRequestResultType.objectIDs</code> before the request is executed otherwise the value is nil.
+    context is used as hint to discover the Change entity.
 
 </div>
+
+<p>The predicate conditions must be applied to these fields (of the &ldquo;Change&rdquo; entity):</p>
+
+<ul>
+<li><code>changedID</code> (<code>NSNumber</code> - <code>NSInteger64</code>)</li>
+<li><code>changedEntity</code> (<code>NSNumber</code> - <code>NSInteger64</code>)</li>
+<li><code>changeType</code> (<code>NSNumber</code> - <code>NSInteger64</code>)</li>
+</ul>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">inserts</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSManagedObjectID</span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:So19NSBatchInsertResultC12CoreDataPlusE5countSiSgvp"></a>
-                    <a name="//apple_ref/swift/Property/count" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So19NSBatchInsertResultC12CoreDataPlusE5countSiSgvp">count</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Returns the number of inserted objcts.</p>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Make sure the resultType of the <code>NSBatchInsertResult</code> is set to <code>NSBatchInsertRequestResultType.count</code> before the request is executed otherwise the value is nil.
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">count</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:So19NSBatchInsertResultC12CoreDataPlusE6statusSbSgvp"></a>
-                    <a name="//apple_ref/swift/Property/status" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So19NSBatchInsertResultC12CoreDataPlusE6statusSbSgvp">status</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Returns <code>true</code> if the batch insert operation has been completed successfully.</p>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Make sure the resultType of the <code>NSBatchInsertResult</code> is set to <code>NSBatchInsertRequestResultType.statusOnly</code> before the request is executed otherwise the value is nil.
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">status</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">iOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">iOSApplicationExtension</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">6.0</span><span class="p">,</span> <span class="n">macOS</span> <span class="mf">10.15</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">historyChangeFetchRequest</span><span class="p">(</span><span class="n">with</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="k">where</span> <span class="nv">predicate</span><span class="p">:</span> <span class="kt">NSPredicate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSPersistentHistoryChangeRequest</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>

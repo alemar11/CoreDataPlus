@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>NSManagedObject Extension Reference</title>
+    <title>ManagedObjectContextObjectsDidChange Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Extension/NSManagedObject" class="dashAnchor"></a>
-    <a title="NSManagedObject Extension Reference"></a>
+    <a name="//apple_ref/swift/Struct/ManagedObjectContextObjectsDidChange" class="dashAnchor"></a>
+    <a title="ManagedObjectContextObjectsDidChange Structure Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">CoreDataPlus 2.3.0 Docs</a> (87% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">CoreDataPlus Reference</a>
         <img id="carat" src="../img/carat.png" />
-        NSManagedObject Extension Reference
+        ManagedObjectContextObjectsDidChange Structure Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -137,14 +137,15 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>NSManagedObject</h1>
+            <h1>ManagedObjectContextObjectsDidChange</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">NSManagedObject</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ManagedObjectContextObjectsDidChange</span></code></pre>
 
                 </div>
               </div>
-            
+            <p>Undocumented</p>
+
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -152,9 +153,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So15NSManagedObjectC12CoreDataPlusE12changedValue6forKeyypSgSS_tF"></a>
-                    <a name="//apple_ref/swift/Method/changedValue(forKey:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So15NSManagedObjectC12CoreDataPlusE12changedValue6forKeyypSgSS_tF">changedValue(forKey:<wbr>)</a>
+                    <a name="/s:12CoreDataPlus36ManagedObjectContextObjectsDidChangeV16notificationNameSo014NSNotificationK0avpZ"></a>
+                    <a name="//apple_ref/swift/Variable/notificationName" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus36ManagedObjectContextObjectsDidChangeV16notificationNameSo014NSNotificationK0avpZ">notificationName</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -164,10 +165,184 @@
                       <div class="abstract">
                         <p><strong>CoreDataPlus</strong></p>
 
-<p>Returns the value of a persistent property that has been changed since <strong>last fetching</strong> or <strong>saving operation</strong>.</p>
+<p>Notification name.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">notificationName</span><span class="p">:</span> <span class="kt">Notification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus36ManagedObjectContextObjectsDidChangeV12notification10Foundation12NotificationVvp"></a>
+                    <a name="//apple_ref/swift/Property/notification" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus36ManagedObjectContextObjectsDidChangeV12notification10Foundation12NotificationVvp">notification</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Underlying notification object.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">notification</span><span class="p">:</span> <span class="kt">Notification</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus36ManagedObjectContextObjectsDidChangeV07managedeF0So09NSManagedeF0Cvp"></a>
+                    <a name="//apple_ref/swift/Property/managedObjectContext" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus36ManagedObjectContextObjectsDidChangeV07managedeF0So09NSManagedeF0Cvp">managedObjectContext</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p><code>NSManagedObjectContext</code> associated with the notification.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">managedObjectContext</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus36ManagedObjectContextObjectsDidChangeV08insertedG0ShySo09NSManagedE0CGvp"></a>
+                    <a name="//apple_ref/swift/Property/insertedObjects" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus36ManagedObjectContextObjectsDidChangeV08insertedG0ShySo09NSManagedE0CGvp">insertedObjects</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Returns a <code>Set</code> of objects that were inserted into the context.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">insertedObjects</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">NSManagedObject</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus36ManagedObjectContextObjectsDidChangeV07updatedG0ShySo09NSManagedE0CGvp"></a>
+                    <a name="//apple_ref/swift/Property/updatedObjects" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus36ManagedObjectContextObjectsDidChangeV07updatedG0ShySo09NSManagedE0CGvp">updatedObjects</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Returns a <code>Set</code> of objects that were updated.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">updatedObjects</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">NSManagedObject</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus36ManagedObjectContextObjectsDidChangeV07deletedG0ShySo09NSManagedE0CGvp"></a>
+                    <a name="//apple_ref/swift/Property/deletedObjects" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus36ManagedObjectContextObjectsDidChangeV07deletedG0ShySo09NSManagedE0CGvp">deletedObjects</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Returns a <code>Set</code>of objects that were marked for deletion during the previous event.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">deletedObjects</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">NSManagedObject</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus36ManagedObjectContextObjectsDidChangeV09refreshedG0ShySo09NSManagedE0CGvp"></a>
+                    <a name="//apple_ref/swift/Property/refreshedObjects" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus36ManagedObjectContextObjectsDidChangeV09refreshedG0ShySo09NSManagedE0CGvp">refreshedObjects</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>A <code>Set</code> of objects that were refreshed but were not dirtied in the scope of this context.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    This method only reports changes to properties that are defined as persistent properties of the receiver, not changes to transient properties or custom instance variables.
+    It can be populated only for <code>NSManagedObjectContextObjectsDidChange</code> notifications.
 
 </div>
 
@@ -176,7 +351,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">changedValue</span><span class="p">(</span><span class="n">forKey</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">refreshedObjects</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">NSManagedObject</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -186,9 +361,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So15NSManagedObjectC12CoreDataPlusE14committedValue6forKeyypSgSS_tF"></a>
-                    <a name="//apple_ref/swift/Method/committedValue(forKey:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So15NSManagedObjectC12CoreDataPlusE14committedValue6forKeyypSgSS_tF">committedValue(forKey:<wbr>)</a>
+                    <a name="/s:12CoreDataPlus36ManagedObjectContextObjectsDidChangeV011invalidatedG0ShySo09NSManagedE0CGvp"></a>
+                    <a name="//apple_ref/swift/Property/invalidatedObjects" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus36ManagedObjectContextObjectsDidChangeV011invalidatedG0ShySo09NSManagedE0CGvp">invalidatedObjects</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -198,10 +373,10 @@
                       <div class="abstract">
                         <p><strong>CoreDataPlus</strong></p>
 
-<p>Returns of the <strong>last fetched</strong> or <strong>saved</strong> value of the propery specified by the given key.</p>
+<p>A <code>Set</code> of objects that were invalidated.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    This method only reports values of properties that are defined as persistent properties of the receiver, not values of transient properties or of custom instance variables.
+    It can be populated only for <code>NSManagedObjectContextObjectsDidChange</code> notifications.
 
 </div>
 
@@ -210,7 +385,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">committedValue</span><span class="p">(</span><span class="n">forKey</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">invalidatedObjects</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">NSManagedObject</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -220,9 +395,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So15NSManagedObjectC12CoreDataPlusE5faultyyF"></a>
-                    <a name="//apple_ref/swift/Method/fault()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So15NSManagedObjectC12CoreDataPlusE5faultyyF">fault()</a>
+                    <a name="/s:12CoreDataPlus36ManagedObjectContextObjectsDidChangeV014invalidatedAllG0ShySo09NSManagedE2IDCGvp"></a>
+                    <a name="//apple_ref/swift/Property/invalidatedAllObjects" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus36ManagedObjectContextObjectsDidChangeV014invalidatedAllG0ShySo09NSManagedE2IDCGvp">invalidatedAllObjects</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -232,69 +407,10 @@
                       <div class="abstract">
                         <p><strong>CoreDataPlus</strong></p>
 
-<p>Turns <code>self</code> into a fault.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">fault</span><span class="p">()</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:So15NSManagedObjectC12CoreDataPlusE11materializeyyF"></a>
-                    <a name="//apple_ref/swift/Method/materialize()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So15NSManagedObjectC12CoreDataPlusE11materializeyyF">materialize()</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Materializes <code>self</code>.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">materialize</span><span class="p">()</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:So15NSManagedObjectC12CoreDataPlusE7refresh12mergeChangesySb_tF"></a>
-                    <a name="//apple_ref/swift/Method/refresh(mergeChanges:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So15NSManagedObjectC12CoreDataPlusE7refresh12mergeChangesySb_tF">refresh(mergeChanges:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>If <code>flag</code> is <code>true</code> (default), the object won&rsquo;t turn into a fault; instead, it’ll update its unchanged properties from the row cache, preserving any unsaved changes;
-if <code>flag</code> is <code>false</code>, the object will be forced to turn into a fault without merging and unsaved changes will be lost (which also causes other related managed objects to be released, so you can use this method to trim the portion of your object graph you want to hold in memory).</p>
+<p>When all the object in the context have been invalidated, returns a <code>Set</code> containing all the invalidated objects&rsquo; NSManagedObjectID.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    Turning object into a fault means that strong references to related managed objects (that is, those to which object has a reference) are broken, so you can also use this method to trim a portion of your object graph you want to constrain memory usage.
+    It can be populated only for <code>NSManagedObjectContextObjectsDidChange</code> notifications.
 
 </div>
 
@@ -303,56 +419,7 @@ if <code>flag</code> is <code>false</code>, the object will be forced to turn in
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">refresh</span><span class="p">(</span><span class="n">mergeChanges</span> <span class="nv">flag</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>flag</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>only matters if the object has unsaved changes. In this case, a <code>true</code> value won’t turn the object into a fault; instead, it’ll update the unchanged properties from the row cache, preserving any unsaved changes.
-If <code>flag</code> is set to <code>false</code>, the object will be forced to turn into a fault, and unsaved changes will be lost.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:So15NSManagedObjectC12CoreDataPlusE6deleteyyF"></a>
-                    <a name="//apple_ref/swift/Method/delete()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So15NSManagedObjectC12CoreDataPlusE6deleteyyF">delete()</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Specifies an object that should be removed from its persistent store when changes are committed.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">()</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">invalidatedAllObjects</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">NSManagedObjectID</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -362,9 +429,9 @@ If <code>flag</code> is set to <code>false</code>, the object will be forced to 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So15NSManagedObjectC12CoreDataPlusE17obtainPermanentIDSo0abH0CyKF"></a>
-                    <a name="//apple_ref/swift/Method/obtainPermanentID()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So15NSManagedObjectC12CoreDataPlusE17obtainPermanentIDSo0abH0CyKF">obtainPermanentID()</a>
+                    <a name="/s:12CoreDataPlus36ManagedObjectContextObjectsDidChangeV12notificationAC10Foundation12NotificationV_tcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(notification:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus36ManagedObjectContextObjectsDidChangeV12notificationAC10Foundation12NotificationV_tcfc">init(notification:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -372,15 +439,14 @@ If <code>flag</code> is set to <code>false</code>, the object will be forced to 
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong>
-Converts the object ID to a permanent ID (if the object doesn&rsquo;t already have a permanent ID)</p>
+                        <p>Undocumented</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">obtainPermanentID</span><span class="p">()</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">NSManagedObjectID</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">notification</span><span class="p">:</span> <span class="kt">Notification</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
