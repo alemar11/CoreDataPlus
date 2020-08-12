@@ -7,6 +7,7 @@
 - History: added new history transactions and changes fetch requests.
 - History: removed unused APIs.
 - New batch inserts methods.
+- Removed entity and contexts observers.
 - More tests.
 
 ### 2.3.0
