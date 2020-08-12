@@ -179,9 +179,9 @@ extension NSError {
     return error
   }
 
-  /// History changes deletion failed.
-  static func historyChangesDeletionFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
-    let description = "History changes could not be deleted."
+  /// History  deletion failed.
+  static func historyDeletionFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
+    let description = "History could not be deleted."
     let error = NSError(domain: Key.domain,
                         code: ErrorCode.historyChangesDeletionFailed.rawValue,
                         userInfo: [NSUnderlyingErrorKey: underlyingError,
