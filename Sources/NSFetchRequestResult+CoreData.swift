@@ -393,6 +393,65 @@ extension NSFetchRequestResult where Self: NSManagedObject {
       throw NSError.batchInsertFailed(underlyingError: error)
     }
   }
+
+  /// **CoreDataPlus**
+  ///
+  /// Executes a batch insert on the context's persistent store coordinator.
+  /// Doing a batch insert with this method is more memory efficient than the standard batch insert where all the items are passed alltogether.
+  /// - Parameters:
+  ///   - context: The context whose the persistent store coordinator will be used to execute the batch insert.
+  ///   - resultType: The type of the batch insert result (default: `NSBatchInsertRequestResultType.statusOnly`).
+  ///   - handler: An handler to provide a dictionary to insert; return `true` to exit the block.
+  /// - Throws: It throws an error in cases of failure.
+  /// - Returns: a NSBatchInsertResult result.
+  /// - Note: A batch insert can **only** be done on a SQLite store.
+  @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11, *)
+  public static func batchInsert(using context: NSManagedObjectContext,
+                                 resultType: NSBatchInsertRequestResultType = .statusOnly,
+                                 dictionaryHandler handler: @escaping (NSMutableDictionary) -> Bool) throws -> NSBatchInsertResult {
+    guard context.persistentStoreCoordinator != nil else { throw NSError.persistentStoreCoordinatorNotFound(context: context) }
+
+    let batchRequest = NSBatchInsertRequest(entityName: entityName, dictionaryHandler: handler)
+    batchRequest.resultType = resultType
+
+    do {
+      // swiftlint:disable:next force_cast
+      return try context.execute(batchRequest) as! NSBatchInsertResult
+    } catch {
+      throw NSError.batchInsertFailed(underlyingError: error)
+    }
+  }
+
+  /// **CoreDataPlus**
+  ///
+  /// Executes a batch insert on the context's persistent store coordinator.
+  /// Doing a batch insert with this method is more memory efficient than the standard batch insert where all the items are passed alltogether.
+  /// - Parameters:
+  ///   - context: The context whose the persistent store coordinator will be used to execute the batch insert.
+  ///   - resultType: The type of the batch insert result (default: `NSBatchInsertRequestResultType.statusOnly`).
+  ///   - handler: An handler to provide an object to insert; return `true` to exit the block.
+  /// - Throws: It throws an error in cases of failure.
+  /// - Returns: a NSBatchInsertResult result.
+  /// - Note: A batch insert can **only** be done on a SQLite store.
+  @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11, *)
+  public static func batchInsert(using context: NSManagedObjectContext,
+                                 resultType: NSBatchInsertRequestResultType = .statusOnly,
+                                 managedObjectHandler handler: @escaping (Self) -> Bool) throws -> NSBatchInsertResult {
+    guard context.persistentStoreCoordinator != nil else { throw NSError.persistentStoreCoordinatorNotFound(context: context) }
+
+    let batchRequest = NSBatchInsertRequest(entityName: entityName, managedObjectHandler: { object -> Bool in
+      // swiftlint:disable:next force_cast
+      return handler(object as! Self)
+    })
+    batchRequest.resultType = resultType
+
+    do {
+      // swiftlint:disable:next force_cast
+      return try context.execute(batchRequest) as! NSBatchInsertResult
+    } catch {
+      throw NSError.batchInsertFailed(underlyingError: error)
+    }
+  }
 }
 
 // MARK: - Async Fetch

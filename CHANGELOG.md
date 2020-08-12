@@ -1,5 +1,13 @@
 # Changelog
 
+### 3.0.0 ⭐
+
+- APIs improvements.
+- New CoreData notifications payloads.
+- New history fetch requests.
+- New batch inserts methods.
+- More tests.
+
 ### 2.3.0
 
 - Added `NSSet` utils.

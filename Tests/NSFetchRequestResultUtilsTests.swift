@@ -747,6 +747,76 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     XCTAssertThrowsError(try Car.batchInsert(using: context, resultType: .objectIDs, objects: objects))
   }
 
+  func testbatchInsertWithDictionaryHandler() throws {
+    guard #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11, *) else { return }
+
+    // Given
+    let context = container.viewContext
+
+    let dictionaries: [[String: Any]] = [
+      [#keyPath(Car.maker): "FIAT", #keyPath(Car.numberPlate): "1", #keyPath(Car.model): "Panda"],
+      [#keyPath(Car.maker): "FIAT", #keyPath(Car.numberPlate): "2", #keyPath(Car.model): "Panda"],
+      [#keyPath(Car.maker): "FIAT", #keyPath(Car.numberPlate): "3", #keyPath(Car.model): "Panda"],
+      [#keyPath(Car.maker): "FIAT", #keyPath(Car.numberPlate): "4", #keyPath(Car.model): "Panda"],
+      [#keyPath(Car.maker): "FIAT", #keyPath(Car.numberPlate): "5", #keyPath(Car.model): "Panda"],
+    ]
+
+    // Provide one dictionary at a time when the block is called.
+    var index = 0
+    let total = dictionaries.count
+    let result = try Car.batchInsert(using: context, dictionaryHandler: { dictionary -> Bool in
+      guard index < total else { return true }
+      dictionary.addEntries(from: dictionaries[index])
+      index += 1
+      return false
+    })
+
+    let insertResult = try XCTUnwrap(result)
+    XCTAssertEqual(index, total)
+    XCTAssertTrue(insertResult.status!)
+    XCTAssertEqual(insertResult.changes?[NSInsertedObjectsKey]?.count, nil) // wrong result type
+
+    let count = try Car.count(in: context)
+    XCTAssertEqual(count, total)
+  }
+
+  func testBatchInserWithObjectHandler() throws {
+    guard #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11, *) else { return }
+
+    // Given
+    let context = container.viewContext
+
+    let dictionaries: [[String: Any]] = [
+      [#keyPath(Car.maker): "FIAT", #keyPath(Car.numberPlate): "1", #keyPath(Car.model): "Panda"],
+      [#keyPath(Car.maker): "FIAT", #keyPath(Car.numberPlate): "2", #keyPath(Car.model): "Panda"],
+      [#keyPath(Car.maker): "FIAT", #keyPath(Car.numberPlate): "3", #keyPath(Car.model): "Panda"],
+      [#keyPath(Car.maker): "FIAT", #keyPath(Car.numberPlate): "4", #keyPath(Car.model): "Panda"],
+      [#keyPath(Car.maker): "FIAT", #keyPath(Car.numberPlate): "5", #keyPath(Car.model): "Panda"],
+    ]
+
+    // Provide one object at a time when the block is called.
+    var index = 0
+    let total = dictionaries.count
+    let result = try ExpensiveSportCar.batchInsert(using: context, managedObjectHandler: { car -> Bool in
+      guard index < total else { return true }
+      let dictionary = dictionaries[index]
+      car.maker = dictionary[#keyPath(Car.maker)] as? String
+      car.numberPlate = dictionary[#keyPath(Car.numberPlate)] as? String
+      car.model = dictionary[#keyPath(Car.model)] as? String
+      car.isLimitedEdition = Bool.random()
+      index += 1
+      return false
+    })
+
+    let insertResult = try XCTUnwrap(result)
+    XCTAssertEqual(index, total)
+    XCTAssertTrue(insertResult.status!)
+    XCTAssertEqual(insertResult.changes?[NSInsertedObjectsKey]?.count, nil) // wrong result type
+
+    let count = try Car.count(in: context)
+    XCTAssertEqual(count, total)
+  }
+
   // MARK: Batch Update
 
   func testbatchUpdateWithResultTypeStatusOnly() throws {
