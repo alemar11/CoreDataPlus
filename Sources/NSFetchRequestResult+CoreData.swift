@@ -405,7 +405,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Throws: It throws an error in cases of failure.
   /// - Returns: a NSBatchInsertResult result.
   /// - Note: A batch insert can **only** be done on a SQLite store.
-  @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11, *)
+  @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
   public static func batchInsert(using context: NSManagedObjectContext,
                                  resultType: NSBatchInsertRequestResultType = .statusOnly,
                                  dictionaryHandler handler: @escaping (NSMutableDictionary) -> Bool) throws -> NSBatchInsertResult {
@@ -433,7 +433,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Throws: It throws an error in cases of failure.
   /// - Returns: a NSBatchInsertResult result.
   /// - Note: A batch insert can **only** be done on a SQLite store.
-  @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11, *)
+  @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
   public static func batchInsert(using context: NSManagedObjectContext,
                                  resultType: NSBatchInsertRequestResultType = .statusOnly,
                                  managedObjectHandler handler: @escaping (Self) -> Bool) throws -> NSBatchInsertResult {

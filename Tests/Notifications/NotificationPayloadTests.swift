@@ -529,7 +529,7 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
     }
       .store(in: &cancellables)
 
-    if #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11, *) {
+    if #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *) {
       let expectation2 = self.expectation(description: "\(#function)\(#line)")
       expectation.assertForOverFulfill = false
       NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSaveObjectIDs, object: context)

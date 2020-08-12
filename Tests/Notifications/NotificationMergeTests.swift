@@ -148,7 +148,7 @@ final class NotificationMergeTests: CoreDataPlusInMemoryTestCase {
 
     var cancellables = [AnyCancellable]()
 
-    if #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11, *) {
+    if #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *) {
       // [6] observer
       let expectation6 = self.expectation(description: "\(#function)\(#line)")
       NotificationCenter.default.publisher(for: .NSManagedObjectContextDidMergeChangesObjectIDs, object: viewContext)
