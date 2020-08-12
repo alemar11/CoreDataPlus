@@ -118,7 +118,7 @@ extension NSManagedObjectContext {
       }
       return result
     } catch {
-      throw NSError.historyDeletionFailed(underlyingError: error) // TODO: rename this error
+      throw NSError.historyDeletionFailed(underlyingError: error)
     }
   }
 }

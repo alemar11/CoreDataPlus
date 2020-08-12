@@ -715,7 +715,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     ]
 
    if #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11, *) {
-    // on iOS 13, it doesn't throw
+      // TODO: on iOS 13, it doesn't throw
       XCTAssertThrowsError(try Car.batchInsert(using: context, resultType: .objectIDs, objects: objects))
     } else {
       let result = try! Car.batchInsert(using: context, resultType: .objectIDs, objects: objects)
