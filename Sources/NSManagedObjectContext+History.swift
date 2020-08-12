@@ -49,7 +49,7 @@ extension NSManagedObjectContext {
   /// Returns the last merged transaction's token and timestamp.
   public func mergeTransactions(_ transactions: [NSPersistentHistoryTransaction]) throws -> (NSPersistentHistoryToken, Date)? {
     // Do your merging inside a context.performAndWait { … } as shown in WWDC 2017
-      let result = performAndWaitResult { context -> (NSPersistentHistoryToken, Date)? in
+      let result = performAndWaitResult { _ -> (NSPersistentHistoryToken, Date)? in
         var result: (NSPersistentHistoryToken, Date)?
         for transaction in transactions {
           result = (transaction.token, transaction.timestamp)

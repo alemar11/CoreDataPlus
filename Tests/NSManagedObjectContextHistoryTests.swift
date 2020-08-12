@@ -273,14 +273,14 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
     // Removes all the transactions before the first one: no transactions are actually deleted
     let result1 = try XCTUnwrap(try viewContext.deleteHistory(before: firstTransaction1))
     XCTAssertTrue(result1)
-    
+
     let transactions2 = try viewContext.historyTransactions(using: NSPersistentHistoryChangeRequest.fetchHistory(after: .distantPast))
     XCTAssertEqual(transactions2.count, 2)
     let lastTransaction2 = try XCTUnwrap(transactions2.last)
     // Removes all the transactions before the last one: 1 transaction gets deleted
     let result2 = try XCTUnwrap(try viewContext.deleteHistory(before: lastTransaction2))
     XCTAssertTrue(result2)
-    
+
     let transactions3 = try viewContext.historyTransactions(using: NSPersistentHistoryChangeRequest.fetchHistory(after: .distantPast))
     XCTAssertEqual(transactions3.count, 1)
   }
