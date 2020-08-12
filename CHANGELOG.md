@@ -4,7 +4,8 @@
 
 - APIs improvements.
 - New CoreData notifications payloads.
-- New history fetch requests.
+- History: added new history transactions and changes fetch requests.
+- History: removed unused APIs.
 - New batch inserts methods.
 - More tests.
 
