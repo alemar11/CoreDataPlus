@@ -3,6 +3,7 @@
 // https://mjtsai.com/blog/2020/08/21/persistent-history-tracking-in-core-data/
 // https://developer.apple.com/documentation/coredata/consuming_relevant_store_changes
 // https://developer.apple.com/documentation/coredata/synchronizing_a_local_store_to_the_cloud
+// WWDC 2020: History requests can be tailored like standard fetch requests (see testInvestigationHistoryFetches)
 
 import CoreData
 import Foundation

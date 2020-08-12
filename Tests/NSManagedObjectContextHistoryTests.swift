@@ -259,7 +259,7 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
 
     try viewContext.save()
 
-    // Transaction 21
+    // Transaction #2
     let car2 = Car(context: viewContext)
     car2.maker = "FIAT"
     car2.model = "Punto"
@@ -499,7 +499,7 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
       request.predicate = NSPredicate(format: "%K = %@", columnName, Car.entity())
 
       let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: secondLastToken)
-      historyFetchRequest.fetchRequest = request
+      historyFetchRequest.fetchRequest = request // ⚠️ WWDC 2020: history requests can be tailored using the fetchRequest property
       historyFetchRequest.resultType = .changesOnly // ⚠️ impact the return type
       let changes = try viewContext2.historyChanges(using: historyFetchRequest)
 
