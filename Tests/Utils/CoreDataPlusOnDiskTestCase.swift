@@ -50,7 +50,8 @@ final class OnDiskPersistentContainer: NSPersistentContainer {
   static func makeNew(id: UUID) -> OnDiskPersistentContainer {
     let url = URL.newDatabaseURL(withID: id)
     let container = OnDiskPersistentContainer(name: "SampleModel", managedObjectModel: model)
-    container.persistentStoreDescriptions[0].url = url
+    let description = container.persistentStoreDescriptions.first!
+    description.url = url
 
     // Enable history tracking and remote notifications
     container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
