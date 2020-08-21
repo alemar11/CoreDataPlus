@@ -52,6 +52,10 @@ final class OnDiskPersistentContainer: NSPersistentContainer {
     let container = OnDiskPersistentContainer(name: "SampleModel", managedObjectModel: model)
     let description = container.persistentStoreDescriptions.first!
     description.url = url
+    // disable automatic migration (true by default)
+    // tests works fine even if they are left to true
+    description.shouldMigrateStoreAutomatically = false
+    description.shouldInferMappingModelAutomatically = false
 
     // Enable history tracking and remote notifications
     container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
