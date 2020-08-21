@@ -15,6 +15,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     // TODO: The bug seems fixed (Xcode 12b5)
     // alternative solution, instead of a fatalError, we could use and assertion and return
     // String(describing: Self.self) as fallback (like in the previous implementation)
+    // or keep using the old implementation...
 
 //    if let name = entity().name {
 //      return name
