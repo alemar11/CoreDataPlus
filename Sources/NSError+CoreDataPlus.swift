@@ -30,6 +30,8 @@ extension NSError {
     case batchDeleteFailed
     case batchInsertFailed
     case historyChangesDeletionFailed = 300
+    case walCheckpointFailed = 400
+    case obtainingPermanentIdFailed = 500
     case fileDoesNotExist = -1100 // same code of NSURLErrorFileDoesNotExist
   }
 
@@ -197,6 +199,31 @@ extension NSError {
     let error = NSError(domain: Key.domain,
                         code: ErrorCode.fileDoesNotExist.rawValue,
                         userInfo: [NSDebugDescriptionErrorKey: description,
+                                   Key.file: file,
+                                   Key.function : function,
+                                   Key.line : line])
+    return error
+  }
+
+  /// Wal checkpoint failed.
+  static func walCheckpointFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
+    let description = "WAL checkpointing failed."
+    let error = NSError(domain: Key.domain,
+                        code: ErrorCode.walCheckpointFailed.rawValue,
+                        userInfo: [NSUnderlyingErrorKey: underlyingError,
+                                   NSDebugDescriptionErrorKey: description,
+                                   Key.file: file,
+                                   Key.function : function,
+                                   Key.line : line])
+    return error
+  }
+
+  static func obtainingPermanentIdFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
+    let description = "Obtaining permanend identifier failed."
+    let error = NSError(domain: Key.domain,
+                        code: ErrorCode.obtainingPermanentIdFailed.rawValue,
+                        userInfo: [NSUnderlyingErrorKey: underlyingError,
+                                   NSDebugDescriptionErrorKey: description,
                                    Key.file: file,
                                    Key.function : function,
                                    Key.line : line])

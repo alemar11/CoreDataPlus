@@ -130,6 +130,10 @@ public struct CoreDataMigration {
     let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
     let options = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]]
     let store = try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
-    try persistentStoreCoordinator.remove(store) // TODO: error
+    do {
+      try persistentStoreCoordinator.remove(store)
+    } catch {
+      throw NSError.walCheckpointFailed(underlyingError: error)
+    }
   }
 }
