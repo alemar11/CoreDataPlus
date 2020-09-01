@@ -82,7 +82,7 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
         default:
           XCTFail("Too many notifications.")
         }
-    }
+      }
 
     context.performAndWait {
       let car = Car(context: context)
@@ -116,7 +116,7 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
         XCTAssertTrue(payload.invalidatedObjects.isEmpty)
         XCTAssertTrue(payload.invalidatedAllObjects.isEmpty)
         expectation.fulfill()
-    }
+      }
 
     backgroundContext.performAndWait {
       let car = Car(context: backgroundContext)
@@ -146,7 +146,7 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
         XCTAssertTrue(payload.invalidatedObjects.isEmpty)
         XCTAssertTrue(payload.invalidatedAllObjects.isEmpty)
         expectation.fulfill()
-    }
+      }
 
     // perform, as stated in the documentation, calls internally processPendingChanges
     backgroundContext.perform {
@@ -177,7 +177,7 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
         XCTAssertTrue(payload.invalidatedObjects.isEmpty)
         XCTAssertTrue(payload.invalidatedAllObjects.isEmpty)
         expectation.fulfill()
-    }
+      }
 
     // performBlockAndWait will always run in the calling thread.
     // Using a DispatchQueue, we are making sure that it's not run on the Main Thread
@@ -221,7 +221,7 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
         XCTAssertTrue(payload.invalidatedObjects.isEmpty)
         XCTAssertTrue(payload.invalidatedAllObjects.isEmpty)
         expectation.fulfill()
-    }
+      }
 
     privateContext.performAndWait {
       let car = Car(context: privateContext)
@@ -253,7 +253,7 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
         XCTAssertTrue(payload.invalidatedObjects.isEmpty)
         XCTAssertTrue(payload.invalidatedAllObjects.isEmpty)
         expectation.fulfill()
-    }
+      }
 
     context.refreshAllObjects()
 
@@ -287,7 +287,7 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
         XCTAssertTrue(payload.invalidatedObjects.isEmpty)
         XCTAssertTrue(payload.invalidatedAllObjects.isEmpty)
         expectation.fulfill()
-    }
+      }
 
     try backgroundContext1.performSaveAndWait { context in
       let car = Car(context: backgroundContext1)
@@ -371,7 +371,7 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
           XCTFail("Unexpected change.")
           #endif
         }
-    }
+      }
 
 
     let numberPlate = "123!"
@@ -450,7 +450,7 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
         XCTAssertTrue(payload.invalidatedObjects.isEmpty)
         XCTAssertTrue(payload.invalidatedAllObjects.isEmpty)
         expectation1.fulfill()
-    }
+      }
 
 
     // car with n. 3, doesn't impact the didChange because it's not materialized in context0
@@ -498,7 +498,7 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
         XCTAssertTrue(Thread.isMainThread)
         XCTAssertTrue(payload.managedObjectContext === context)
         expectation.fulfill()
-    }
+      }
 
     let car = Car(context: context)
     car.maker = "FIAT"
@@ -526,7 +526,7 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
         XCTAssertTrue(payload.deletedObjects.isEmpty)
         XCTAssertTrue(payload.updatedObjects.isEmpty)
         expectation.fulfill()
-    }
+      }
       .store(in: &cancellables)
 
     if #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *) {
@@ -539,7 +539,7 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
           XCTAssertEqual(payload.insertedObjectIDs.count, 2)
 
           expectation2.fulfill()
-      }
+        }
         .store(in: &cancellables)
     }
 
@@ -585,7 +585,7 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
         XCTAssertEqual(payload.deletedObjects.count, 1)
         XCTAssertEqual(payload.updatedObjects.count, 1)
         expectation.fulfill()
-    }
+      }
 
     // 2 inserts
     let car3 = Car(context: context)
@@ -694,7 +694,7 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
           XCTAssertTrue(payload.invalidatedAllObjects.isEmpty)
           expectation.fulfill()
         }
-    }
+      }
 
     let cancellable2 = NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave, object: parentContext)
       .map { ManagedObjectContextDidSaveObjects(notification: $0) }
@@ -705,7 +705,7 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
         XCTAssertEqual(payload.deletedObjects.count, 1)
         XCTAssertEqual(payload.updatedObjects.count, 1)
         expectation2.fulfill()
-    }
+      }
 
     try childContext.performSaveAndWait { context in
       // 2 inserts
@@ -765,62 +765,62 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
 
   // MARK: - Entity Observer Example
 
-    func testObserveInsertedOnDidChangeEventForSpecificEntities() {
-      let context = container.viewContext
-      let expectation1 = expectation(description: "\(#function)\(#line)")
+  func testObserveInsertedOnDidChangeEventForSpecificEntities() {
+    let context = container.viewContext
+    let expectation1 = expectation(description: "\(#function)\(#line)")
 
-      // Attention: sometimes entity() returns nil due to a CoreData bug occurring in the Unit Test targets or when Generics are used.
-      // let entity = NSEntityDescription.entity(forEntityName: type.entity().name!, in: context)!
+    // Attention: sometimes entity() returns nil due to a CoreData bug occurring in the Unit Test targets or when Generics are used.
+    // let entity = NSEntityDescription.entity(forEntityName: type.entity().name!, in: context)!
 
-      func findObjectsOfType<T:NSManagedObject>(_ type: T.Type, in objects: Set<NSManagedObject>, observeSubEntities: Bool = true) -> Set<T> {
-        let entity = type.entity()
-        if observeSubEntities {
-          return objects.filter { $0.entity.isSubEntity(of: entity, recursive: true) || $0.entity == entity } as? Set<T> ?? []
-        } else {
-          return objects.filter { $0.entity == entity } as? Set<T> ?? []
-        }
+    func findObjectsOfType<T:NSManagedObject>(_ type: T.Type, in objects: Set<NSManagedObject>, observeSubEntities: Bool = true) -> Set<T> {
+      let entity = type.entity()
+      if observeSubEntities {
+        return objects.filter { $0.entity.isSubEntity(of: entity, recursive: true) || $0.entity == entity } as? Set<T> ?? []
+      } else {
+        return objects.filter { $0.entity == entity } as? Set<T> ?? []
       }
-
-      let cancellable = NotificationCenter.default.publisher(for: Notification.Name.NSManagedObjectContextObjectsDidChange, object: context)
-        .map { ManagedObjectContextObjectsDidChange(notification: $0) }
-        .sink { payload in
-          let inserts = findObjectsOfType(SportCar.self, in: payload.insertedObjects, observeSubEntities: true)
-          let inserts2 = findObjectsOfType(Car.self, in: payload.insertedObjects, observeSubEntities: true)
-          let inserts3 = findObjectsOfType(Car.self, in: payload.insertedObjects, observeSubEntities: false)
-          let deletes = findObjectsOfType(SportCar.self, in: payload.deletedObjects, observeSubEntities: true)
-          let udpates = findObjectsOfType(SportCar.self, in: payload.updatedObjects, observeSubEntities: true)
-          let refreshes = findObjectsOfType(SportCar.self, in: payload.refreshedObjects, observeSubEntities: true)
-          let invalidates = findObjectsOfType(SportCar.self, in: payload.invalidatedObjects, observeSubEntities: true)
-          let invalidatesAll = payload.invalidatedAllObjects.filter { $0.entity == SportCar.entity() }
-
-          XCTAssertEqual(inserts.count, 1)
-          XCTAssertEqual(inserts2.count, 2)
-          XCTAssertEqual(inserts3.count, 1)
-          XCTAssertTrue(deletes.isEmpty)
-          XCTAssertTrue(udpates.isEmpty)
-          XCTAssertTrue(refreshes.isEmpty)
-          XCTAssertTrue(invalidates.isEmpty)
-          XCTAssertTrue(invalidatesAll.isEmpty)
-          expectation1.fulfill()
-      }
-
-      let sportCar = SportCar(context: context)
-      sportCar.maker = "McLaren"
-      sportCar.model = "570GT"
-      sportCar.numberPlate = "203"
-
-      let car = Car(context: context)
-      car.maker = "FIAT"
-      car.model = "Panda"
-      car.numberPlate = "1"
-
-      let person1 = Person(context: context)
-      person1.firstName = "Edythe"
-      person1.lastName = "Moreton"
-
-      waitForExpectations(timeout: 2)
-      cancellable.cancel()
     }
+
+    let cancellable = NotificationCenter.default.publisher(for: Notification.Name.NSManagedObjectContextObjectsDidChange, object: context)
+      .map { ManagedObjectContextObjectsDidChange(notification: $0) }
+      .sink { payload in
+        let inserts = findObjectsOfType(SportCar.self, in: payload.insertedObjects, observeSubEntities: true)
+        let inserts2 = findObjectsOfType(Car.self, in: payload.insertedObjects, observeSubEntities: true)
+        let inserts3 = findObjectsOfType(Car.self, in: payload.insertedObjects, observeSubEntities: false)
+        let deletes = findObjectsOfType(SportCar.self, in: payload.deletedObjects, observeSubEntities: true)
+        let udpates = findObjectsOfType(SportCar.self, in: payload.updatedObjects, observeSubEntities: true)
+        let refreshes = findObjectsOfType(SportCar.self, in: payload.refreshedObjects, observeSubEntities: true)
+        let invalidates = findObjectsOfType(SportCar.self, in: payload.invalidatedObjects, observeSubEntities: true)
+        let invalidatesAll = payload.invalidatedAllObjects.filter { $0.entity == SportCar.entity() }
+
+        XCTAssertEqual(inserts.count, 1)
+        XCTAssertEqual(inserts2.count, 2)
+        XCTAssertEqual(inserts3.count, 1)
+        XCTAssertTrue(deletes.isEmpty)
+        XCTAssertTrue(udpates.isEmpty)
+        XCTAssertTrue(refreshes.isEmpty)
+        XCTAssertTrue(invalidates.isEmpty)
+        XCTAssertTrue(invalidatesAll.isEmpty)
+        expectation1.fulfill()
+      }
+
+    let sportCar = SportCar(context: context)
+    sportCar.maker = "McLaren"
+    sportCar.model = "570GT"
+    sportCar.numberPlate = "203"
+
+    let car = Car(context: context)
+    car.maker = "FIAT"
+    car.model = "Panda"
+    car.numberPlate = "1"
+
+    let person1 = Person(context: context)
+    person1.firstName = "Edythe"
+    person1.lastName = "Moreton"
+
+    waitForExpectations(timeout: 2)
+    cancellable.cancel()
+  }
 
   // MARK: - NSPersistentStoreRemoteChange
 
@@ -842,17 +842,17 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
       .sink { payload in
         XCTAssertNotNil(payload.historyToken)
         XCTAssertEqual(payload.storeURL, container1.persistentStoreCoordinator.persistentStores.first?.url)
-      expectation1.fulfill()
-    }
+        expectation1.fulfill()
+      }
 
     let expectation2 = expectation(description: "NSPersistentStoreRemoteChange Notification sent by container2")
     let cancellable2 = NotificationCenter.default.publisher(for: .NSPersistentStoreRemoteChange, object: container2.persistentStoreCoordinator)
       .map { PersistentStoreRemoteChange(notification: $0) }
       .sink { payload in
-              XCTAssertNotNil(payload.historyToken)
+        XCTAssertNotNil(payload.historyToken)
         XCTAssertEqual(payload.storeURL, container2.persistentStoreCoordinator.persistentStores.first?.url)
-      expectation2.fulfill()
-    }
+        expectation2.fulfill()
+      }
 
     let object = [#keyPath(Car.maker): "FIAT",
                   #keyPath(Car.numberPlate): "123",
@@ -864,5 +864,60 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
     waitForExpectations(timeout: 5, handler: nil)
     cancellable1.cancel()
     cancellable2.cancel()
+  }
+}
+
+@available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+final class NotificationPayloadOnDiskTests: CoreDataPlusOnDiskTestCase {
+  func testObserveInsertionsOnDidSaveNotification() throws {
+    let context = container.viewContext
+    try context.setQueryGenerationFrom(.current)
+    var cancellables = [AnyCancellable]()
+
+    let expectation = self.expectation(description: "\(#function)\(#line)")
+    expectation.assertForOverFulfill = false
+    NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave, object: context)
+      .map { ManagedObjectContextDidSaveObjects(notification: $0) }
+      .sink { payload in
+        XCTAssertTrue(Thread.isMainThread)
+        XCTAssertTrue(payload.managedObjectContext === context)
+        XCTAssertEqual(payload.insertedObjects.count, 2)
+        XCTAssertTrue(payload.deletedObjects.isEmpty)
+        XCTAssertTrue(payload.updatedObjects.isEmpty)
+        if #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *) {
+          // This test is primarly used to test the queryGenerationToken object in the notification payload
+          XCTAssertNotNil(payload.queryGenerationToken)
+        }
+        expectation.fulfill()
+      }
+      .store(in: &cancellables)
+
+    if #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *) {
+      let expectation2 = self.expectation(description: "\(#function)\(#line)")
+      expectation.assertForOverFulfill = false
+      NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSaveObjectIDs, object: context)
+        .map { ManagedObjectContextDidSaveObjectIDs(notification: $0) }
+        .sink { payload in
+          XCTAssertTrue(payload.managedObjectContext === context)
+          XCTAssertEqual(payload.insertedObjectIDs.count, 2)
+          
+          expectation2.fulfill()
+        }
+        .store(in: &cancellables)
+    }
+
+    let car = Car(context: context)
+    car.maker = "FIAT"
+    car.model = "Panda"
+    car.numberPlate = "1"
+
+    let car2 = Car(context: context)
+    car2.maker = "FIAT"
+    car2.model = "Panda"
+    car2.numberPlate = "2"
+
+    try context.save()
+    waitForExpectations(timeout: 2)
+    cancellables.forEach { $0.cancel() }
   }
 }
