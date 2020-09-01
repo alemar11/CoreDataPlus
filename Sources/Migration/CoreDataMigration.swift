@@ -17,7 +17,7 @@ public struct CoreDataMigration {
   /// - Parameters:
   ///   - sourceURL: the current store URL.
   ///   - targetVersion: the ModelVersion to which the store is needed to migrate to.
-  ///   - enableWALCheckpoint: if `true` Core Data will perform a checkpoint operation which merges the data in the -wal file to the store file.
+  ///   - enableWALCheckpoint: if `true` Core Data will perform a checkpoint operation which merges the data in the `-wal` file to the store file.
   ///   - progress: a Progress instance to monitor the migration.
   /// - Throws: It throws an error in cases of failure.
   public static func migrateStore<Version: CoreDataModelVersion>(at sourceURL: URL, targetVersion: Version, enableWALCheckpoint: Bool = false, progress: Progress? = nil) throws {
@@ -114,14 +114,22 @@ public struct CoreDataMigration {
 
   // MARK: - WAL Checkpoint
 
-  // Forces Core Data to perform a checkpoint operation, which merges the data in the -wal file to the store file.
+  // Forces Core Data to perform a checkpoint operation, which merges the data in the `-wal` file to the store file.
   static func performWALCheckpoint<V: CoreDataModelVersion>(version: V, storeURL: URL) throws {
     // If the -wal file is not present, using this approach to add the store won't cause any exceptions, but the transactions recorded in the missing -wal file will be lost.
     // https://developer.apple.com/library/archive/qa/qa1809/_index.html
-    // credits: https://williamboles.me/progressive-core-data-migration/ - http://pablin.org/2013/05/24/problems-with-core-data-migration-manager-and-journal-mode-wal/
-    let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: version.managedObjectModel())
+    // credits:
+    // https://williamboles.me/progressive-core-data-migration/
+    // http://pablin.org/2013/05/24/problems-with-core-data-migration-manager-and-journal-mode-wal/
+    // https://www.avanderlee.com/swift/write-ahead-logging-wal/
+    try performWALCheckpointForStore(at: storeURL, model: version.managedObjectModel())
+  }
+
+  /// Forces Core Data to perform a checkpoint operation, which merges the data in the `-wal` file to the store file.
+  private static func performWALCheckpointForStore(at storeURL: URL, model: NSManagedObjectModel) throws {
+    let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
     let options = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]]
     let store = try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
-    try persistentStoreCoordinator.remove(store)
+    try persistentStoreCoordinator.remove(store) // TODO: error
   }
 }
