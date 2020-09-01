@@ -218,6 +218,7 @@ extension NSError {
     return error
   }
 
+  /// Obtaining a permanent `NSManagedObjectID` failed.
   static func obtainingPermanentIdFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
     let description = "Obtaining permanend identifier failed."
     let error = NSError(domain: Key.domain,
