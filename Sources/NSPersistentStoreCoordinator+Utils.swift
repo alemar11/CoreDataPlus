@@ -35,6 +35,7 @@ extension NSPersistentStoreCoordinator {
 
 // About moving stores disabling the WAL journaling mode
 // https://developer.apple.com/library/archive/qa/qa1809/_index.html
+// https://www.avanderlee.com/swift/write-ahead-logging-wal/
 //
 //  ```
 //  let options = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]] // the migration will be done without -wal and -shm files
