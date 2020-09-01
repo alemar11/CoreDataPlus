@@ -58,7 +58,7 @@ extension NSManagedObject {
   /// **CoreDataPlus**
   /// Converts the object ID to a permanent ID (if the object doesn't already have a permanent ID)
   public func obtainPermanentID() throws -> NSManagedObjectID {
-    try managedObjectContext?.obtainPermanentIDs(for: [self])
+    try managedObjectContext?.obtainPermanentIDs(for: [self]) //TODO: error
     return self.objectID
   }
 }
