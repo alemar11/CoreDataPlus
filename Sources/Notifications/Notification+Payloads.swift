@@ -118,7 +118,7 @@ public struct ManagedObjectContextDidSaveObjects {
   /// **CoreDataPlus**
   ///
   /// The new `NSQueryGenerationToken` associated to the save operation.
-  /// - Note: Optional: supported only by SQLite databases.
+  /// - Note: It's only available when you are using a SQLite persistent store.
   @available(iOS 14.0, iOSApplicationExtension 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
   public var queryGenerationToken: NSQueryGenerationToken? {
     return notification.userInfo?[NSManagedObjectContext.NotificationKey.queryGeneration.rawValue] as? NSQueryGenerationToken
