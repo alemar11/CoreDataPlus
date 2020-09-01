@@ -525,6 +525,9 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
         XCTAssertEqual(payload.insertedObjects.count, 2)
         XCTAssertTrue(payload.deletedObjects.isEmpty)
         XCTAssertTrue(payload.updatedObjects.isEmpty)
+        if #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *) {
+          XCTAssertNil(payload.queryGenerationToken, "Query Generation Token is available only on SQLite stores.")
+        }
         expectation.fulfill()
       }
       .store(in: &cancellables)
