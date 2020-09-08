@@ -421,9 +421,7 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
 
     do {
       // ⏺ Query the Transaction entity
-      // TODO
-      // let predicate = NSPredicate(format: "%K > %@", #keyPath(NSPersistentHistoryTransaction.token), secondLastToken)
-      let predicate = NSPredicate(format: "token > %@", secondLastToken)
+      let predicate = NSPredicate(format: "%K > %@", #keyPath(NSPersistentHistoryTransaction.token), secondLastToken)
       let transactionsRequest = try XCTUnwrap(NSPersistentHistoryChangeRequest.historyTransactionFetchRequest(with: viewContext2, where: predicate))
       // same as (but during tests the request it's nil):
       // let transactionFetchRequest = NSPersistentHistoryTransaction.fetchRequest
