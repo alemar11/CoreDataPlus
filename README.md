@@ -82,7 +82,7 @@ Once you have your Swift package set up, adding CoreDataPlus as a dependency is 
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/tinrobots/CoreDataPlus.git", from: "3.0.0")
+    .package(url: "https://github.com/tinrobots/CoreDataPlus.git", .upToNextMajor(from: "3.0.0"))
 ]
 ```
 
