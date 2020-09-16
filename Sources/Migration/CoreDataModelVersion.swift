@@ -1,25 +1,4 @@
-//
 // CoreDataPlus
-//
-// Copyright © 2016-2020 Tinrobots.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
 
 import CoreData
 
@@ -163,6 +142,17 @@ extension CoreDataModelVersion {
 
     return model
   }
+
+  /// `AnyIterator` to iterate all the successors steps after `self`.
+  func successorsIterator() -> AnyIterator<Self> {
+    var version: Self = self
+    return AnyIterator {
+      guard let next = version.successor else { return nil }
+
+      version = next
+      return version
+    }
+  }
 }
 
 // MARK: - Migration
@@ -181,7 +171,22 @@ public func isMigrationNecessary<Version: CoreDataModelVersion>(for storeURL: UR
   // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmCustomizing.html#//apple_ref/doc/uid/TP40004399-CH8-SW2
   let metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: storeURL, options: nil)
   let targetModel = version.managedObjectModel()
-  return !targetModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
+  let isCompatible = targetModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
+
+  if isCompatible {
+    return false // current and target versions are the same
+  } else if let currentVersion = Version[metadata] {
+    let iterator = currentVersion.successorsIterator()
+    while let nextVersion = iterator.next() {
+      if nextVersion == version { return true }
+    }
+    // can't migrate to a version not defined as a successor step
+    // (target version is probably a prior version of the current one)
+    return false
+  } else {
+    // fallback
+    return false
+  }
 }
 
 extension CoreDataModelVersion {

@@ -1,25 +1,4 @@
-//
 // CoreDataPlus
-//
-// Copyright © 2016-2020 Tinrobots.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
 
 import CoreData
 
@@ -33,9 +12,9 @@ extension NSEntityDescription {
 
   /// **CoreDataPlus**
   ///
-  /// Returns a collection with the entire super-entity hierarchy of `self`.
+  /// Returns the super entities hierarchy of `self`.
   internal func hierarchyEntities() -> [NSEntityDescription] {
-    var entities = [self]
+    var entities = [NSEntityDescription]()
     var currentSuperEntity = superentity
 
     while let entity = currentSuperEntity {
@@ -57,8 +36,8 @@ extension NSEntityDescription {
   internal func commonEntityAncestor(with entity: NSEntityDescription) -> NSEntityDescription? {
     guard self != entity else { return entity }
 
-    let selfHierarchy = Set(hierarchyEntities())
-    let entityHirarchy = Set(entity.hierarchyEntities())
+    let selfHierarchy = Set(hierarchyEntities() + [self])
+    let entityHirarchy = Set(entity.hierarchyEntities() + [entity])
     let intersection = selfHierarchy.intersection(entityHirarchy)
 
     guard !intersection.isEmpty else { return nil }
@@ -66,5 +45,17 @@ extension NSEntityDescription {
     if intersection.contains(self) { return self }
 
     return entity
+  }
+
+  /// **CoreDataPlus**
+  ///
+  /// - Returns: Wheter or not `self` is a subentity of a given `entity`.
+  /// If `recursive` is set to `true`, it will be evaluated if `self` super entities hierarchy contains the given `entity` at some point.
+  func isSubEntity(of entity: NSEntityDescription, recursive: Bool = false) -> Bool {
+    if recursive {
+      return hierarchyEntities().contains(entity)
+    } else {
+      return entity.subentities.contains(self)
+    }
   }
 }

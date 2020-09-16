@@ -1,25 +1,4 @@
-//
 // CoreDataPlus
-//
-// Copyright © 2016-2020 Tinrobots.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
 //
 // https://developer.apple.com/documentation/foundation/userinfokey
 
@@ -43,12 +22,16 @@ extension NSError {
     case persistentStoreCoordinatorNotFound = 1
     case saveFailed = 2
     case migrationFailed = 3
+    case invalidFetchRequest = 4
     case fetchFailed = 100
     case fetchCountFailed
     case fetchExpectingOnlyOneObjectFailed
     case batchUpdateFailed = 200
     case batchDeleteFailed
     case batchInsertFailed
+    case historyChangesDeletionFailed = 300
+    case walCheckpointFailed = 400
+    case obtainingPermanentIdFailed = 500
     case fileDoesNotExist = -1100 // same code of NSURLErrorFileDoesNotExist
   }
 
@@ -93,6 +76,18 @@ extension NSError {
                         code: ErrorCode.batchInsertFailed.rawValue,
                         userInfo: [NSUnderlyingErrorKey: underlyingError,
                                    NSDebugDescriptionErrorKey: description,
+                                   Key.file: file,
+                                   Key.function : function,
+                                   Key.line : line])
+    return error
+  }
+
+  /// A  fetch request couldn't be created properly
+  static func invalidFetchRequest(file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
+    let description = "The fetch request is not valid."
+    let error = NSError(domain: Key.domain,
+                        code: ErrorCode.invalidFetchRequest.rawValue,
+                        userInfo: [NSDebugDescriptionErrorKey: description,
                                    Key.file: file,
                                    Key.function : function,
                                    Key.line : line])
@@ -186,10 +181,50 @@ extension NSError {
     return error
   }
 
+  /// History  deletion failed.
+  static func historyDeletionFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
+    let description = "History could not be deleted."
+    let error = NSError(domain: Key.domain,
+                        code: ErrorCode.historyChangesDeletionFailed.rawValue,
+                        userInfo: [NSUnderlyingErrorKey: underlyingError,
+                                   NSDebugDescriptionErrorKey: description,
+                                   Key.file: file,
+                                   Key.function : function,
+                                   Key.line : line])
+    return error
+  }
+
+  /// File doesn't exist.
   static func fileDoesNotExist(description: String, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
     let error = NSError(domain: Key.domain,
                         code: ErrorCode.fileDoesNotExist.rawValue,
                         userInfo: [NSDebugDescriptionErrorKey: description,
+                                   Key.file: file,
+                                   Key.function : function,
+                                   Key.line : line])
+    return error
+  }
+
+  /// Wal checkpoint failed.
+  static func walCheckpointFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
+    let description = "WAL checkpointing failed."
+    let error = NSError(domain: Key.domain,
+                        code: ErrorCode.walCheckpointFailed.rawValue,
+                        userInfo: [NSUnderlyingErrorKey: underlyingError,
+                                   NSDebugDescriptionErrorKey: description,
+                                   Key.file: file,
+                                   Key.function : function,
+                                   Key.line : line])
+    return error
+  }
+
+  /// Obtaining a permanent `NSManagedObjectID` failed.
+  static func obtainingPermanentIdFailed(underlyingError: Error, file: StaticString = #file, line: Int = #line, function: StaticString = #function) -> NSError {
+    let description = "Obtaining permanend identifier failed."
+    let error = NSError(domain: Key.domain,
+                        code: ErrorCode.obtainingPermanentIdFailed.rawValue,
+                        userInfo: [NSUnderlyingErrorKey: underlyingError,
+                                   NSDebugDescriptionErrorKey: description,
                                    Key.file: file,
                                    Key.function : function,
                                    Key.line : line])

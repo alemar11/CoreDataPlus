@@ -1,25 +1,4 @@
-//
 // CoreDataPlus
-//
-// Copyright © 2016-2020 Tinrobots.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
 
 import XCTest
 import CoreData
@@ -38,10 +17,10 @@ final class NSEntityDescriptionUtilsTests: CoreDataPlusInMemoryTestCase {
     let context = container.viewContext
     let expensiveCar = ExpensiveSportCar(context: context)
     let entityNames = expensiveCar.entity.hierarchyEntities().compactMap { $0.name}
-    XCTAssertTrue(entityNames.count == 3)
+    XCTAssertTrue(entityNames.count == 2)
     XCTAssertTrue(entityNames.contains(Car.entityName))
     XCTAssertTrue(entityNames.contains(SportCar.entityName))
-    XCTAssertTrue(entityNames.contains(ExpensiveSportCar.entityName))
+    XCTAssertFalse(entityNames.contains(ExpensiveSportCar.entityName), "The hierarchy should contain only super entities")
   }
 
   func testTopMostEntity() {
@@ -256,7 +235,30 @@ final class NSEntityDescriptionUtilsTests: CoreDataPlusInMemoryTestCase {
       XCTAssertTrue(ancestors.contains(Car(context: context).entity))
       XCTAssertTrue(ancestors.contains(Person(context: context).entity))
     }
-
   }
 
+  func testIsSubEntity() {
+    let context = container.viewContext
+    let car = Car(context: context).entity
+    let sportCar = SportCar(context: context).entity
+    let expensiveCar = ExpensiveSportCar(context: context).entity
+
+    XCTAssertFalse(car.isSubEntity(of: car))
+    XCTAssertFalse(car.isSubEntity(of: car, recursive: true))
+
+    XCTAssertTrue(sportCar.isSubEntity(of: car))
+    XCTAssertTrue(sportCar.isSubEntity(of: car, recursive: true))
+
+    XCTAssertFalse(expensiveCar.isSubEntity(of: car)) // ExpensiveSportCar is a sub entity of SportCar
+    XCTAssertTrue(expensiveCar.isSubEntity(of: car, recursive: true))
+
+    XCTAssertTrue(expensiveCar.isSubEntity(of: sportCar))
+    XCTAssertTrue(expensiveCar.isSubEntity(of: sportCar, recursive: true))
+
+    XCTAssertFalse(car.isSubEntity(of: expensiveCar))
+    XCTAssertFalse(car.isSubEntity(of: expensiveCar, recursive: true))
+
+    XCTAssertFalse(sportCar.isSubEntity(of: expensiveCar))
+    XCTAssertFalse(sportCar.isSubEntity(of: expensiveCar, recursive: true))
+  }
 }

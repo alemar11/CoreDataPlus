@@ -1,25 +1,4 @@
-//
 // CoreDataPlus
-//
-// Copyright © 2016-2020 Tinrobots.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
 
 import XCTest
 import CoreData
@@ -61,15 +40,15 @@ class CoreDataMigrationsTests: XCTestCase {
   func testIfMigrationsIsNeeded() throws {
     let bundle = Bundle(for: CoreDataMigrationsTests.self)
     let sourceURLV1 = bundle.url(forResource: "SampleModelV1", withExtension: "sqlite")!
-    let sourceURLV2 = bundle.url(forResource: "SampleModelV1", withExtension: "sqlite")!
+    let sourceURLV2 = bundle.url(forResource: "SampleModelV2", withExtension: "sqlite")!
     let migrationNeededFromV1toV1 = try CoreDataPlus.isMigrationNecessary(for: sourceURLV1, to: SampleModelVersion.version1)
     XCTAssertFalse(migrationNeededFromV1toV1)
     let migrationNeededFromV1toV2 = try CoreDataPlus.isMigrationNecessary(for: sourceURLV1, to: SampleModelVersion.version2)
     XCTAssertTrue(migrationNeededFromV1toV2)
     let migrationNeededFromV1toV3 = try CoreDataPlus.isMigrationNecessary(for: sourceURLV1, to: SampleModelVersion.version3)
     XCTAssertTrue(migrationNeededFromV1toV3)
-    let migrationNeededFromV3toV1 = try CoreDataPlus.isMigrationNecessary(for: sourceURLV2, to: SampleModelVersion.version1)
-    XCTAssertFalse(migrationNeededFromV3toV1)
+    let migrationNeededFromV2toV1 = try CoreDataPlus.isMigrationNecessary(for: sourceURLV2, to: SampleModelVersion.version1)
+    XCTAssertFalse(migrationNeededFromV2toV1)
   }
 
   func testMigrationFromVersion1ToVersion2() throws {

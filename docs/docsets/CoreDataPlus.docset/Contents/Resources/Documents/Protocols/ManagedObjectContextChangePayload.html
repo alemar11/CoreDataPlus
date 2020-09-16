@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ManagedObjectContextChangePayload Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Protocol/ManagedObjectContextChangePayload" class="dashAnchor"></a>
+    <a title="ManagedObjectContextChangePayload Protocol Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">CoreDataPlus 2.3.0 Docs</a> (88% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">CoreDataPlus Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        ManagedObjectContextChangePayload Protocol Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/FetchedResultsObjectChange.html">FetchedResultsObjectChange</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FetchedResultsSectionChange.html">FetchedResultsSectionChange</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Collection.html">Collection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSBatchDeleteResult.html">NSBatchDeleteResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSBatchInsertResult.html">NSBatchInsertResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSBatchUpdateResult.html">NSBatchUpdateResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSFetchRequest.html">NSFetchRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSFetchRequestResult.html">NSFetchRequestResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSManagedObject.html">NSManagedObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSManagedObjectContext.html">NSManagedObjectContext</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSPersistentStoreCoordinator.html">NSPersistentStoreCoordinator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSSet.html">NSSet</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Notification.html">Notification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Notification/CoreDataPlus.html">– CoreDataPlus</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:12CoreDataPlus20isMigrationNecessary3for2toSb10Foundation3URLV_xtKAA0aB12ModelVersionRzlF">isMigrationNecessary(for:to:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/CoreDataModelVersion.html">CoreDataModelVersion</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ManagedObjectContextChangePayload.html">ManagedObjectContextChangePayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ManagedObjectContextNotificationPayload.html">ManagedObjectContextNotificationPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/NotificationPayload.html">NotificationPayload</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/CoreDataMigration.html">CoreDataMigration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CoreDataMigration/Step.html">– Step</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/FetchedResultsSectionInfo.html">FetchedResultsSectionInfo</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:12CoreDataPlus0aB13MigrationStepa">CoreDataMigrationStep</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:12CoreDataPlus7Payloada">Payload</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>ManagedObjectContextChangePayload</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ManagedObjectContextChangePayload</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ManagedObjectContextNotificationPayload.html">ManagedObjectContextNotificationPayload</a></span></code></pre>
+
+                </div>
+              </div>
+            <p><strong>CoreDataPlus</strong></p>
+
+<p>Types conforming to this protocol contains all the <code>NSManagedObjectContext</code> changes contained by a notification.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus33ManagedObjectContextChangePayloadP15insertedObjectsShySo09NSManagedE0CGvp"></a>
+                    <a name="//apple_ref/swift/Property/insertedObjects" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus33ManagedObjectContextChangePayloadP15insertedObjectsShySo09NSManagedE0CGvp">insertedObjects</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Returns a <code>Set</code> of objects that were inserted into the context.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Returns a <code>Set</code> of objects that were inserted into the context.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">insertedObjects</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">NSManagedObject</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus33ManagedObjectContextChangePayloadP14updatedObjectsShySo09NSManagedE0CGvp"></a>
+                    <a name="//apple_ref/swift/Property/updatedObjects" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus33ManagedObjectContextChangePayloadP14updatedObjectsShySo09NSManagedE0CGvp">updatedObjects</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Returns a <code>Set</code> of objects that were updated.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Returns a <code>Set</code> of objects that were updated.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">updatedObjects</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">NSManagedObject</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus33ManagedObjectContextChangePayloadP14deletedObjectsShySo09NSManagedE0CGvp"></a>
+                    <a name="//apple_ref/swift/Property/deletedObjects" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus33ManagedObjectContextChangePayloadP14deletedObjectsShySo09NSManagedE0CGvp">deletedObjects</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Returns a <code>Set</code>of objects that were marked for deletion during the previous event.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Returns a <code>Set</code>of objects that were marked for deletion during the previous event.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">deletedObjects</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">NSManagedObject</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus33ManagedObjectContextChangePayloadP16refreshedObjectsShySo09NSManagedE0CGvp"></a>
+                    <a name="//apple_ref/swift/Property/refreshedObjects" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus33ManagedObjectContextChangePayloadP16refreshedObjectsShySo09NSManagedE0CGvp">refreshedObjects</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>A <code>Set</code> of objects that were refreshed but were not dirtied in the scope of this context.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>A <code>Set</code> of objects that were refreshed but were not dirtied in the scope of this context.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    It can be populated only for <code>NSManagedObjectContextObjectsDidChange</code> notifications.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">refreshedObjects</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">NSManagedObject</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus33ManagedObjectContextChangePayloadP18invalidatedObjectsShySo09NSManagedE0CGvp"></a>
+                    <a name="//apple_ref/swift/Property/invalidatedObjects" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus33ManagedObjectContextChangePayloadP18invalidatedObjectsShySo09NSManagedE0CGvp">invalidatedObjects</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>A <code>Set</code> of objects that were invalidated.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>A <code>Set</code> of objects that were invalidated.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    It can be populated only for <code>NSManagedObjectContextObjectsDidChange</code> notifications.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">invalidatedObjects</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">NSManagedObject</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus33ManagedObjectContextChangePayloadP21invalidatedAllObjectsShySo09NSManagedE2IDCGvp"></a>
+                    <a name="//apple_ref/swift/Property/invalidatedAllObjects" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus33ManagedObjectContextChangePayloadP21invalidatedAllObjectsShySo09NSManagedE2IDCGvp">invalidatedAllObjects</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>When all the object in the context have been invalidated, returns a <code>Set</code> containing all the invalidated objects&rsquo; NSManagedObjectID.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>When all the object in the context have been invalidated, returns a <code>Set</code> containing all the invalidated objects&rsquo; NSManagedObjectID.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    It can be populated only for <code>NSManagedObjectContextObjectsDidChange</code> notifications.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">invalidatedAllObjects</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">NSManagedObjectID</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/ManagedObjectContextChange%20%26%20ManagedObjectContextNotification"></a>
+                <a name="//apple_ref/swift/Section/ManagedObjectContextChange &amp; ManagedObjectContextNotification" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/ManagedObjectContextChange%20%26%20ManagedObjectContextNotification"></a>
+                  <h3 class="section-name"><p>ManagedObjectContextChange &amp; ManagedObjectContextNotification</p>
+</h3>
+                </div>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus33ManagedObjectContextChangePayloadPAAE7isEmptySbvp"></a>
+                    <a name="//apple_ref/swift/Property/isEmpty" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus33ManagedObjectContextChangePayloadPAAE7isEmptySbvp">isEmpty</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Returns <code>true</code> if there aren&rsquo;t any changes in the <code>NSManagedObjectContext</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isEmpty</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2020 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2020-08-10)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

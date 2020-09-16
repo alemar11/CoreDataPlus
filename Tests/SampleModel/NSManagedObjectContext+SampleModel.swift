@@ -1,25 +1,4 @@
-//
 // CoreDataPlus
-//
-// Copyright © 2016-2020 Tinrobots.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
 
 import Foundation
 import CoreData
@@ -196,7 +175,7 @@ extension NSManagedObjectContext {
     sportCar1.numberPlate = "200"
 
     let sportCar2 = SportCar(context: context)
-    sportCar2.maker = "Mercedes-Benz "
+    sportCar2.maker = "Mercedes-Benz"
     sportCar2.model = "AMG GT S"
     sportCar2.numberPlate = "201"
 
@@ -211,7 +190,7 @@ extension NSManagedObjectContext {
     sportCar4.numberPlate = "203"
 
     let sportCar5 = SportCar(context: context)
-    sportCar5.maker = "Lamborghini "
+    sportCar5.maker = "Lamborghini"
     sportCar5.model = "Aventador LP750-4"
     sportCar5.numberPlate = "204"
 
@@ -223,7 +202,7 @@ extension NSManagedObjectContext {
     expensiveSportCar1.isLimitedEdition = true
 
     let expensiveSportCar2 = ExpensiveSportCar(context: context)
-    expensiveSportCar2.maker = "Mercedes-Benz "
+    expensiveSportCar2.maker = "Mercedes-Benz"
     expensiveSportCar2.model = "AMG GT S"
     expensiveSportCar2.numberPlate = "301"
     expensiveSportCar2.isLimitedEdition = true

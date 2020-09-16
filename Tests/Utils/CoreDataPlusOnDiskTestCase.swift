@@ -1,25 +1,4 @@
-//
 // CoreDataPlus
-//
-// Copyright © 2016-2020 Tinrobots.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
 
 import XCTest
 import CoreData
@@ -55,9 +34,13 @@ final class OnDiskPersistentContainer: NSPersistentContainer {
     let url = URL.newDatabaseURL(withID: UUID())
     let container = OnDiskPersistentContainer(name: "SampleModel", managedObjectModel: model)
     container.persistentStoreDescriptions[0].url = url
-    if #available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *) {
-      container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+
+    // Enable history tracking and remote notifications
+    container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+    if #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) {
+      container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
     }
+
     container.loadPersistentStores { (description, error) in
       XCTAssertNil(error)
     }
@@ -67,10 +50,19 @@ final class OnDiskPersistentContainer: NSPersistentContainer {
   static func makeNew(id: UUID) -> OnDiskPersistentContainer {
     let url = URL.newDatabaseURL(withID: id)
     let container = OnDiskPersistentContainer(name: "SampleModel", managedObjectModel: model)
-    container.persistentStoreDescriptions[0].url = url
-    if #available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.12, *) {
-      container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+    let description = container.persistentStoreDescriptions.first!
+    description.url = url
+    // disable automatic migration (true by default)
+    // tests works fine even if they are left to true
+    description.shouldMigrateStoreAutomatically = false
+    description.shouldInferMappingModelAutomatically = false
+
+    // Enable history tracking and remote notifications
+    container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+    if #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) {
+      container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
     }
+
     container.loadPersistentStores { (description, error) in
       XCTAssertNil(error)
     }
@@ -80,7 +72,7 @@ final class OnDiskPersistentContainer: NSPersistentContainer {
   /// Destroys the database and reset all the registered contexts.
   func destroy() throws {
     guard let url = persistentStoreDescriptions[0].url else { return }
-    guard url.absoluteString != "/dev/null" else { return }
+    guard !url.absoluteString.starts(with: "/dev/null") else { return }
 
     // unload each store from the used context to avoid the sqlite3 bug warning.
     do {

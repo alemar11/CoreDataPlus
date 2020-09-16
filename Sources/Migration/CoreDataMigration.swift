@@ -1,25 +1,6 @@
-//
 // CoreDataPlus
 //
-// Copyright © 2016-2020 Tinrobots.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+// Readings:
 // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmLightweightMigration.html
 // https://developer.apple.com/documentation/coredata/heavyweight_migration
 // https://www.objc.io/issues/4-core-data/core-data-migration/
@@ -36,7 +17,7 @@ public struct CoreDataMigration {
   /// - Parameters:
   ///   - sourceURL: the current store URL.
   ///   - targetVersion: the ModelVersion to which the store is needed to migrate to.
-  ///   - enableWALCheckpoint: if `true` Core Data will perform a checkpoint operation which merges the data in the -wal file to the store file.
+  ///   - enableWALCheckpoint: if `true` Core Data will perform a checkpoint operation which merges the data in the `-wal` file to the store file.
   ///   - progress: a Progress instance to monitor the migration.
   /// - Throws: It throws an error in cases of failure.
   public static func migrateStore<Version: CoreDataModelVersion>(at sourceURL: URL, targetVersion: Version, enableWALCheckpoint: Bool = false, progress: Progress? = nil) throws {
@@ -72,7 +53,7 @@ public struct CoreDataMigration {
 
     do {
       guard try CoreDataPlus.isMigrationNecessary(for: sourceURL, to: targetVersion) else {
-        return //TODO tests this method separately, test also what happens if we try to do a migration from V3 to V1
+        return
       }
 
       if enableWALCheckpoint {
@@ -133,14 +114,26 @@ public struct CoreDataMigration {
 
   // MARK: - WAL Checkpoint
 
-  // Forces Core Data to perform a checkpoint operation, which merges the data in the -wal file to the store file.
+  // Forces Core Data to perform a checkpoint operation, which merges the data in the `-wal` file to the store file.
   static func performWALCheckpoint<V: CoreDataModelVersion>(version: V, storeURL: URL) throws {
     // If the -wal file is not present, using this approach to add the store won't cause any exceptions, but the transactions recorded in the missing -wal file will be lost.
     // https://developer.apple.com/library/archive/qa/qa1809/_index.html
-    // credits: https://williamboles.me/progressive-core-data-migration/ - http://pablin.org/2013/05/24/problems-with-core-data-migration-manager-and-journal-mode-wal/
-    let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: version.managedObjectModel())
+    // credits:
+    // https://williamboles.me/progressive-core-data-migration/
+    // http://pablin.org/2013/05/24/problems-with-core-data-migration-manager-and-journal-mode-wal/
+    // https://www.avanderlee.com/swift/write-ahead-logging-wal/
+    try performWALCheckpointForStore(at: storeURL, model: version.managedObjectModel())
+  }
+
+  /// Forces Core Data to perform a checkpoint operation, which merges the data in the `-wal` file to the store file.
+  private static func performWALCheckpointForStore(at storeURL: URL, model: NSManagedObjectModel) throws {
+    let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
     let options = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]]
     let store = try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
-    try persistentStoreCoordinator.remove(store)
+    do {
+      try persistentStoreCoordinator.remove(store)
+    } catch {
+      throw NSError.walCheckpointFailed(underlyingError: error)
+    }
   }
 }
