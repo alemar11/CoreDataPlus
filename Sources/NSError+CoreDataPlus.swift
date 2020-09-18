@@ -4,6 +4,7 @@
 
 import CoreData
 
+// TODO: remove NSError wrappers
 extension NSError {
   /// The Underlying error (if any).
   /// - Note: Used for tests only.
