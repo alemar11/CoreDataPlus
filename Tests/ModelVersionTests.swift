@@ -5,7 +5,7 @@ import XCTest
 
 final class ModelVersionTests: XCTestCase {
   func testInvalidInitialization() {
-    XCTAssertNil(SampleModelVersion(persistentStoreURL: URL(string: "wrong-url")!))
+    XCTAssertThrowsError(try SampleModelVersion(persistentStoreURL: URL(string: "wrong-url")!))
   }
 
   func testVersionModelSetup() {

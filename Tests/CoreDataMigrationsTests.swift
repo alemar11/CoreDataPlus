@@ -31,10 +31,8 @@ class CoreDataMigrationsTests: XCTestCase {
 
   func testMigrationFromNotExistingPersistentStore() {
     let url = URL(fileURLWithPath: "/path/to/nothing.sqlite")
-    XCTAssertThrowsError(try CoreDataMigration.migrateStore(at: url, targetVersion: SampleModelVersion.version2), "The store shouldn't exist.") { (error) in
-      let nserror = error as NSError
-      XCTAssertEqual(nserror.underlyingError?.code, NSURLErrorFileDoesNotExist)
-    }
+    XCTAssertThrowsError(try CoreDataMigration.migrateStore(at: url, targetVersion: SampleModelVersion.version2),
+                         "The store shouldn't exist.")
   }
 
   func testIfMigrationsIsNeeded() throws {
@@ -65,7 +63,7 @@ class CoreDataMigrationsTests: XCTestCase {
     let steps = SampleModelVersion.version1.migrationSteps(to: .version2)
     XCTAssertEqual(steps.count, 1)
 
-    let version = SampleModelVersion(persistentStoreURL: sourceURL)
+    let version = try SampleModelVersion(persistentStoreURL: sourceURL)
     XCTAssertTrue(version == .version1)
 
     // When
@@ -121,7 +119,7 @@ class CoreDataMigrationsTests: XCTestCase {
     XCTAssertTrue(FileManager.default.fileExists(atPath: sourceURL.path))
 
     let targetURL = sourceURL
-    let version = SampleModelVersion(persistentStoreURL: sourceURL as URL)
+    let version = try SampleModelVersion(persistentStoreURL: sourceURL as URL)
 
     XCTAssertTrue(version == .version2)
 
@@ -169,7 +167,7 @@ class CoreDataMigrationsTests: XCTestCase {
     try FileManager.default.copyItem(at: _sourceURL, to: sourceURL)
     XCTAssertTrue(FileManager.default.fileExists(atPath: sourceURL.path))
 
-    let version = SampleModelVersion(persistentStoreURL: sourceURL as URL)
+    let version = try SampleModelVersion(persistentStoreURL: sourceURL as URL)
 
     XCTAssertTrue(version == .version1)
 

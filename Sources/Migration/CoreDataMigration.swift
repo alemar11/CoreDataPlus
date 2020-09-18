@@ -42,18 +42,10 @@ public struct CoreDataMigration {
                                                                  deleteSource: Bool = false,
                                                                  enableWALCheckpoint: Bool = false,
                                                                  progress: Progress? = nil) throws {
-    // TODO: checking file existance here is probably overkill
-    // test what happens when calling isMigrationNecessary with a fake source URL
-    guard FileManager.default.fileExists(atPath: sourceURL.relativePath) else {
-      let underlyingError = NSError.fileDoesNotExist(description: "Persistent Store not found at: \(sourceURL)")
-      throw NSError.migrationFailed(underlyingError: underlyingError)
-    }
-
-    guard let sourceVersion = Version(persistentStoreURL: sourceURL) else {
+    guard let sourceVersion = try Version(persistentStoreURL: sourceURL) else {
       fatalError("A ModelVersion for the store at URL \(sourceURL) could not be found.")
     }
 
-    do {
       guard try CoreDataPlus.isMigrationNecessary(for: sourceURL, to: targetVersion) else {
         return
       }
@@ -109,9 +101,6 @@ public struct CoreDataMigration {
       if targetURL != sourceURL && deleteSource {
         try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
       }
-    } catch {
-      throw NSError.migrationFailed(underlyingError: error)
-    }
   }
 
   // MARK: - WAL Checkpoint
@@ -132,10 +121,6 @@ public struct CoreDataMigration {
     let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
     let options = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]]
     let store = try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
-    do {
-      try persistentStoreCoordinator.remove(store)
-    } catch {
-      throw NSError.walCheckpointFailed(underlyingError: error)
-    }
+    try persistentStoreCoordinator.remove(store)
   }
 }

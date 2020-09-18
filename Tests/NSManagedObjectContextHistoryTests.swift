@@ -441,7 +441,7 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
       XCTAssertEqual(first.token, tokens.last)
       XCTAssertNil(first.changes) // result type is transactionsOnly
     } catch {
-      throw NSError.fetchFailed(underlyingError: error)
+      XCTFail("Querying the Transaction entity failed: \(error.localizedDescription)")
     }
 
     do {
@@ -470,7 +470,7 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
       let changes = try XCTUnwrap(first.changes)
       XCTAssertFalse(changes.isEmpty) // result type is transactionsAndChanges
     } catch {
-      throw NSError.fetchFailed(underlyingError: error)
+      XCTFail("Querying the Change entity failed: \(error.localizedDescription)")
     }
 
     do {
@@ -485,7 +485,7 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
 
       XCTAssertEqual(changes.count, 3) // 2 Cars + 1 Person
     } catch {
-      throw NSError.fetchFailed(underlyingError: error)
+      XCTFail("Querying the Change entity failed: \(error.localizedDescription)")
     }
 
     do {
@@ -507,7 +507,7 @@ final class NSManagedObjectContextHistoryTests: XCTestCase {
       XCTAssertEqual(first.changedObjectID.uriRepresentation(), car2.objectID.uriRepresentation())
       XCTAssertEqual(first.changeType, NSPersistentHistoryChangeType.delete)
     } catch {
-      throw NSError.fetchFailed(underlyingError: error)
+      XCTFail("Querying the Change entity failed: : \(error.localizedDescription)")
     }
   }
 }

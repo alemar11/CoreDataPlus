@@ -100,12 +100,10 @@ extension CoreDataModelVersion {
 
   /// **CoreDataPlus**
   ///
-  /// Initializes a `CoreDataModelVersion` from a `NSPersistentStore` URL.
-  public init?(persistentStoreURL: URL) {
-    guard let metadata = try? NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: persistentStoreURL, options: nil) else {
-      return nil
-    }
-
+  /// Initializes a `CoreDataModelVersion` from a `NSPersistentStore` URL; returns nil if a `CoreDataModelVersion` hasn't been correctly defined.
+  /// - Throws: It throws an error if no store is found at `persistentStoreURL` or if there is a problem accessing its contents.
+  public init?(persistentStoreURL: URL) throws {
+    let metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: persistentStoreURL, options: nil)
     let version = Self[metadata]
 
     guard let modelVersion = version else {

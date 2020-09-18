@@ -253,53 +253,45 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
       try! context.save()
     }
 
+    // This fetch will cause a fatal error (multiple objects will be fetched
+    //  _ = try Person.fetchUnique(in: context) {
+    //    $0.predicate = NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "Moreton")
+    //  }
+    
     do {
-      _ = try Person.fetchUnique(in: context) { request in
-        request.predicate = NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "Moreton")
-      }
-      XCTFail("This fetch should fail because the result should have more than 1 resul.")
-    } catch {
-      XCTAssertNotNil(error)
-    }
-
-    do {
-      let person = try Person.fetchUnique(in: context) { request in
-        request.predicate = NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "MoretonXYZ")
-      }
+      let person = try Person.fetchUnique(in: context, where: NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "MoretonXYZ"))
       XCTAssertNil(person)
     }
 
     do {
-      let person = try Person.fetchUnique(in: context) { request in
-        request.predicate = NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone")
-      }
+      let person = try Person.fetchUnique(in: context, where: NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone"))
       XCTAssertNotNil(person)
     }
 
   }
 
-//  func testFindUniqueOrCreateWhenUniquenessIsViolated() throws {
-//    let context = container.viewContext
-//
-//    // 1. a Lamborghini with plate 304 is saved
-//    context.performAndWait {
-//      context.fillWithSampleData()
-//      try! context.save()
-//    }
-//
-//    context.reset()
-//
-//    // 2. another Lamborghini with plate 304 is created
-//    let fakeExpensiveSportCar5 = ExpensiveSportCar(context: context)
-//    fakeExpensiveSportCar5.maker = "Lamborghini"
-//    fakeExpensiveSportCar5.model = "Aventador LP750-4"
-//    fakeExpensiveSportCar5.numberPlate = "304"
-//    fakeExpensiveSportCar5.isLimitedEdition = false
-//
-//    // 3. when we search for an unique 304 Lamborhing, an exception should be thrown
-//    XCTAssertThrowsError(try Car.findUniqueOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")) { _ in XCTFail("A new car shouldn't be created.")
-//    })
-//  }
+  func testFindUniqueAfterPendingDelete() throws {
+    let context = container.viewContext
+
+    // 1. a Lamborghini with plate 304 is saved
+    context.performAndWait {
+      context.fillWithSampleData()
+      try! context.save()
+    }
+
+    context.reset()
+    let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
+    try ExpensiveSportCar.delete(in: context, where: predicate)
+    
+    let car1 = try ExpensiveSportCar.fetchUnique(in: context, where: predicate)
+    XCTAssertNil(car1)
+    
+    // pending changes are lost
+    context.reset()
+    
+    let car2 = try ExpensiveSportCar.fetchUnique(in: context, where: predicate)
+    XCTAssertNotNil(car2)
+  }
 
   func testFindUniqueOrCreate() throws {
     let context = container.viewContext
@@ -344,12 +336,15 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     car.maker = "fake-maker"
     car.model = "fake-model"
 
-    let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
     // There are 2 cars (one saved, one in memory) with the same number plate 304, uniqueness is not guaranteed and a throws is expected
-    XCTAssertThrowsError(try Car.findUniqueOrCreate(in: context, where: predicate, with: { _ in }))
+
+    // let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
+    // The next fech is expected to print a fatal error
+    //_ = try Car.findUniqueOrCreate(in: context, where: predicate, with: { _ in })
 
     // All the cars match the predicate, uniqueness is not guaranteed and a throws is expected
-    XCTAssertThrowsError(try Car.findUniqueOrCreate(in: context, where: NSPredicate(value: true), with: { _ in }))
+    // The next fech is expected to print a fatal error
+    //_ = try Car.findUniqueOrCreate(in: context, where: NSPredicate(value: true), with: { _ in })
   }
 
   // MARK: - First
@@ -568,25 +563,6 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
 
     let fiatCountAfterMerge = try Car.count(in: context) { request in request.predicate = fiatPredicate }
     XCTAssertEqual(fiatCountAfterMerge, 0)
-  }
-
-  func testbatchDeleteWithResultTypeStatusOnlyThrowingAnException() throws {
-    // Given
-    let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-
-    // When, Then
-    let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
-    XCTAssertThrowsError(try Car.batchDelete(using: context, resultType: .resultTypeStatusOnly) { $0.predicate = fiatPredicate },
-                         "There should be an exception because the context doesn't have PSC") { (error) in
-                          let nsError = error as NSError
-                          if nsError.code == NSError.ErrorCode.persistentStoreCoordinatorNotFound.rawValue {
-                            XCTAssertNil(nsError.underlyingError)
-                            XCTAssertNotNil(nsError.localizedDescription)
-                            XCTAssertEqual(nsError.debugMessage, "\(context.description) doesn't have a NSPersistentStoreCoordinator.")
-                          } else {
-                            XCTFail("Unexepcted error type.")
-                          }
-    }
   }
 
   func testBatchdeleteEntities() throws {
@@ -959,10 +935,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
   func testAsyncFetch() throws {
     // BUG: Async fetches can't be tested with the ConcurrencyDebug enabled,
     // https://stackoverflow.com/questions/31728425/coredata-asynchronous-fetch-causes-concurrency-debugger-error
-    guard UserDefaults.standard.integer(forKey: "com.apple.CoreData.ConcurrencyDebug") != 1 else {
-      print("Test skipped.")
-      return
-    }
+    try XCTSkipIf(UserDefaults.standard.integer(forKey: "com.apple.CoreData.ConcurrencyDebug") == 1)
 
     let expectation1 = self.expectation(description: "\(#function)\(#line)")
     let expectation2 = self.expectation(description: "\(#function)\(#line)")

@@ -95,7 +95,7 @@ extension NSManagedObjectContext {
           try self.save()
         }
       } catch {
-        internalError = NSError.saveFailed(underlyingError: error)
+        internalError = error as NSError
       }
       completion?(internalError)
     }
@@ -118,7 +118,7 @@ extension NSManagedObjectContext {
             try save()
           }
         } catch {
-          internalError = NSError.saveFailed(underlyingError: error)
+          internalError = error as NSError
         }
       }
 
@@ -137,7 +137,7 @@ extension NSManagedObjectContext {
       try save()
     } catch {
       rollback() // rolls back the pending changes
-      throw NSError.saveFailed(underlyingError: error)
+      throw error
     }
   }
 
@@ -162,7 +162,7 @@ extension NSManagedObjectContext {
       parentContext = parentContext!.parent
 
       if let error = saveError {
-        throw NSError.saveFailed(underlyingError: error)
+        throw error
       }
     }
   }
