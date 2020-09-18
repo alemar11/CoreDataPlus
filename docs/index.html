@@ -8,12 +8,20 @@
     <script src="js/jquery.min.js" defer></script>
     <script src="js/jazzy.js" defer></script>
     
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a title="CoreDataPlus  Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="index.html">CoreDataPlus 2.3.0 Docs</a> (87% documented)</p>
+        <p class="header-right">
+          <form role="search" action="search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -137,13 +145,7 @@
         <section>
           <section class="section">
             
-            <p><a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat" alt="Swift 5.0"></a>
-<img src="https://img.shields.io/badge/Platform-iOS%2010%2B%20%7C%20macOS%2010.12+%20%7C%20tvOS%2010+%20%7C%20watchOS%203+-blue.svg" alt="Platforms"> </p>
-
-<p><a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage Compatible"></a>
-<a href="https://cocoapods.org/pods/CoreDataPlus"><img src="https://img.shields.io/cocoapods/v/CoreDataPlus.svg" alt="CocoaPods Compatible"></a></p>
-
-<p><img src="https://github.com/tinrobots/CoreDataPlus/workflows/CoreDataPlus%20CI/badge.svg?branch=master" alt="CoreDataPlus CI"></p>
+            <p><img src="https://github.com/tinrobots/CoreDataPlus/workflows/CoreDataPlus%20CI/badge.svg?branch=master" alt="CoreDataPlus CI"></p>
 <h2 id='coredataplus' class='heading'>CoreDataPlus</h2>
 
 <p><a href="https://github.com/tinrobots/CoreDataPlus/releases"><img src="https://img.shields.io/github/release/tinrobots/CoreDataPlus.svg" alt="GitHub release"></a> </p>
@@ -159,11 +161,12 @@
 </ul>
 <h2 id='requirements' class='heading'>Requirements</h2>
 
-<ul>
-<li>iOS 12.0+ / macOS 10.14+ / tvOS 12.0+ / watchOS 5.0+</li>
-<li>Xcode 11.6</li>
-<li>Swift 5.0</li>
-</ul>
+<p><a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/Swift-5.2-orange.svg?style=flat" alt="Swift 5.2"></a>
+<img src="https://img.shields.io/badge/Platform-iOS%2010%2B%20%7C%20macOS%2010.12+%20%7C%20tvOS%2010+%20%7C%20watchOS%203+-blue.svg" alt="Platforms"> 
+<img src="https://img.shields.io/badge/Xcode-12-blue.svg" alt="Xcode"> </p>
+
+<p><a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage Compatible"></a>
+<a href="https://cocoapods.org/pods/CoreDataPlus"><img src="https://img.shields.io/cocoapods/v/CoreDataPlus.svg" alt="CocoaPods Compatible"></a></p>
 <h2 id='documentation' class='heading'>Documentation</h2>
 
 <p>Documentation is <a href="http://www.tinrobots.org/CoreDataPlus/">available online</a>.</p>
@@ -184,7 +187,7 @@
 
 <p>To integrate CoreDataPlus into your Xcode project using CocoaPods, specify it in your <code>Podfile</code>:</p>
 <pre class="highlight ruby"><code><span class="n">source</span> <span class="s1">'https://github.com/CocoaPods/Specs.git'</span>
-<span class="n">platform</span> <span class="ss">:ios</span><span class="p">,</span> <span class="s1">'11.0'</span>
+<span class="n">platform</span> <span class="ss">:ios</span><span class="p">,</span> <span class="s1">'12.0'</span>
 <span class="n">use_frameworks!</span>
 
 <span class="n">target</span> <span class="s1">'&lt;Your Target Name&gt;'</span> <span class="k">do</span>
@@ -214,7 +217,7 @@
 <p>The <a href="https://swift.org/package-manager/">Swift Package Manager</a> is a tool for automating the distribution of Swift code and is integrated into the <code>swift</code> compiler. 
 Once you have your Swift package set up, adding CoreDataPlus as a dependency is as easy as adding it to the <code>dependencies</code> value of your <code>Package.swift</code>.</p>
 <pre class="highlight swift"><code><span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
-    <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/tinrobots/CoreDataPlus.git"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="s">"3.0.0"</span><span class="p">)</span>
+    <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/tinrobots/CoreDataPlus.git"</span><span class="p">,</span> <span class="o">.</span><span class="nf">upToNextMajor</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="s">"3.0.0"</span><span class="p">))</span>
 <span class="p">]</span>
 </code></pre>
 <h3 id='manually' class='heading'>Manually</h3>
@@ -268,8 +271,8 @@ Once you have your Swift package set up, adding CoreDataPlus as a dependency is 
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2020-08-12)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2020-09-18)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

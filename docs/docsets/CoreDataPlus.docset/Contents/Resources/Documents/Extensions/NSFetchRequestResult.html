@@ -8,6 +8,9 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Extension/NSFetchRequestResult" class="dashAnchor"></a>
@@ -15,6 +18,11 @@
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">CoreDataPlus 2.3.0 Docs</a> (87% documented)</p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -140,6 +148,7 @@
             <h1>NSFetchRequestResult</h1>
               <div class="declaration">
                 <div class="language">
+                  
                   <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">NSFetchRequestResult</span> <span class="k">where</span> <span class="k">Self</span><span class="p">:</span> <span class="kt">NSManagedObject</span></code></pre>
 
                 </div>
@@ -675,7 +684,7 @@ If it doesn’t find a matching materialized object in the context, tries to loa
                       <div class="abstract">
                         <p><strong>CoreDataPlus</strong></p>
 
-<p>Attempts to find an unique object matching a predicate or creates a new one and configures it.</p>
+<p>Attempts to find an unique object matching a predicate or creates a new one and configures it; if uniqueness is not guaranted (more than one object matching the predicate) a fatal error will occour.</p>
 
 <p>If uniqueness is not relevant, use `findOneOrCreate(in:where:with) instead.</p>
 <div class="aside aside-note">
@@ -684,7 +693,7 @@ If it doesn’t find a matching materialized object in the context, tries to loa
 
 </div><div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <p>It throws an error in cases of failure or if multiple objects are found.</p>
+    <p>It throws an error in cases of failure.</p>
 
 </div>
 
@@ -750,9 +759,9 @@ If it doesn’t find a matching materialized object in the context, tries to loa
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzrlE11fetchUnique2in4withxSgSo0gH7ContextC_ySo0aB0CyxGctKFZ"></a>
-                    <a name="//apple_ref/swift/Method/fetchUnique(in:with:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzrlE11fetchUnique2in4withxSgSo0gH7ContextC_ySo0aB0CyxGctKFZ">fetchUnique(in:<wbr>with:<wbr>)</a>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzrlE11fetchUnique2in5wherexSgSo0gH7ContextC_So11NSPredicateCtKFZ"></a>
+                    <a name="//apple_ref/swift/Method/fetchUnique(in:where:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzrlE11fetchUnique2in5wherexSgSo0gH7ContextC_So11NSPredicateCtKFZ">fetchUnique(in:<wbr>where:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -762,14 +771,10 @@ If it doesn’t find a matching materialized object in the context, tries to loa
                       <div class="abstract">
                         <p><strong>CoreDataPlus</strong></p>
 
-<p>Executes a fetch request where <strong>only</strong> a single unique object is expected as result, otherwhise a an error is thrown.</p>
+<p>Executes a fetch request where <strong>at most</strong> a single object is expected as result; if more than one object are fetched, a fatal error will occour.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    <p>it always accesses the underlying persistent stores to retrieve the latest results.</p>
-
-</div><div class="aside aside-throws">
-    <p class="aside-title">Throws</p>
-    <p>It throws an error if multiple objects are fetched.</p>
+    <p>To guarantee uniqueness the fetch accesses the underlying persistent stores to retrieve the latest results and, also, matches against currently unsaved changes in the managed object context.</p>
 
 </div>
 
@@ -778,7 +783,7 @@ If it doesn’t find a matching materialized object in the context, tries to loa
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">fetchUnique</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="n">with</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">NSFetchRequest</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">fetchUnique</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="k">where</span> <span class="nv">predicate</span><span class="p">:</span> <span class="kt">NSPredicate</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -801,12 +806,12 @@ If it doesn’t find a matching materialized object in the context, tries to loa
                             <tr>
                               <td>
                                 <code>
-                                <em>configuration</em>
+                                <em>predicate</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>Configuration closure applied before fetching.</p>
+                                  <p>Matching predicate.</p>
                                 </div>
                               </td>
                             </tr>
@@ -815,7 +820,7 @@ If it doesn’t find a matching materialized object in the context, tries to loa
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>Unique object (if any).</p>
+                        <p>An unique object matching the given configuration (if any).</p>
                       </div>
                     </section>
                   </div>
@@ -1403,9 +1408,187 @@ Faulted objects are not considered to prevent Core Data to make a round trip to 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzrlE10fetchAsync2in4with10completionSo019NSAsynchronousFetchC0CyxGSo0gH7ContextC_ySo0aB0CyxGXEys0C0OySayxGSo7NSErrorCGctKFZ"></a>
-                    <a name="//apple_ref/swift/Method/fetchAsync(in:with:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzrlE10fetchAsync2in4with10completionSo019NSAsynchronousFetchC0CyxGSo0gH7ContextC_ySo0aB0CyxGXEys0C0OySayxGSo7NSErrorCGctKFZ">fetchAsync(in:<wbr>with:<wbr>completion:<wbr>)</a>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzrlE11batchInsert5using10resultType17dictionaryHandlerSo07NSBatchjC0CSo0gH7ContextC_So0pjbcM0VSbSo19NSMutableDictionaryCctKFZ"></a>
+                    <a name="//apple_ref/swift/Method/batchInsert(using:resultType:dictionaryHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzrlE11batchInsert5using10resultType17dictionaryHandlerSo07NSBatchjC0CSo0gH7ContextC_So0pjbcM0VSbSo19NSMutableDictionaryCctKFZ">batchInsert(using:<wbr>resultType:<wbr>dictionaryHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Executes a batch insert on the context&rsquo;s persistent store coordinator.
+Doing a batch insert with this method is more memory efficient than the standard batch insert where all the items are passed alltogether.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    It throws an error in cases of failure.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    A batch insert can <strong>only</strong> be done on a SQLite store.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">iOS</span> <span class="mf">14.0</span><span class="p">,</span> <span class="n">iOSApplicationExtension</span> <span class="mf">14.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">14.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">7.0</span><span class="p">,</span> <span class="n">macOS</span> <span class="mf">11.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">batchInsert</span><span class="p">(</span><span class="n">using</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span>
+                               <span class="nv">resultType</span><span class="p">:</span> <span class="kt">NSBatchInsertRequestResultType</span> <span class="o">=</span> <span class="o">.</span><span class="n">statusOnly</span><span class="p">,</span>
+                               <span class="n">dictionaryHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">NSMutableDictionary</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">NSBatchInsertResult</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>context</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The context whose the persistent store coordinator will be used to execute the batch insert.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>resultType</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The type of the batch insert result (default: <code>NSBatchInsertRequestResultType.statusOnly</code>).</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>handler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An handler to provide a dictionary to insert; return <code>true</code> to exit the block.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>a NSBatchInsertResult result.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzrlE11batchInsert5using10resultType07managedH7HandlerSo07NSBatchjC0CSo0gH7ContextC_So0pjbcM0VSbxctKFZ"></a>
+                    <a name="//apple_ref/swift/Method/batchInsert(using:resultType:managedObjectHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzrlE11batchInsert5using10resultType07managedH7HandlerSo07NSBatchjC0CSo0gH7ContextC_So0pjbcM0VSbxctKFZ">batchInsert(using:<wbr>resultType:<wbr>managedObjectHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Executes a batch insert on the context&rsquo;s persistent store coordinator.
+Doing a batch insert with this method is more memory efficient than the standard batch insert where all the items are passed alltogether.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    It throws an error in cases of failure.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    A batch insert can <strong>only</strong> be done on a SQLite store.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">iOS</span> <span class="mf">14.0</span><span class="p">,</span> <span class="n">iOSApplicationExtension</span> <span class="mf">14.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">14.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">7.0</span><span class="p">,</span> <span class="n">macOS</span> <span class="mf">11.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">batchInsert</span><span class="p">(</span><span class="n">using</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span>
+                               <span class="nv">resultType</span><span class="p">:</span> <span class="kt">NSBatchInsertRequestResultType</span> <span class="o">=</span> <span class="o">.</span><span class="n">statusOnly</span><span class="p">,</span>
+                               <span class="n">managedObjectHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">NSBatchInsertResult</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>context</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The context whose the persistent store coordinator will be used to execute the batch insert.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>resultType</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The type of the batch insert result (default: <code>NSBatchInsertRequestResultType.statusOnly</code>).</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>handler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An handler to provide an object to insert; return <code>true</code> to exit the block.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>a NSBatchInsertResult result.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzrlE10fetchAsync2in09estimatedC5Count4with10completionSo019NSAsynchronousFetchC0CyxGSo0gH7ContextC_SiySo0aB0CyxGXEys0C0OySayxGs5Error_pGctKFZ"></a>
+                    <a name="//apple_ref/swift/Method/fetchAsync(in:estimatedResultCount:with:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzrlE10fetchAsync2in09estimatedC5Count4with10completionSo019NSAsynchronousFetchC0CyxGSo0gH7ContextC_SiySo0aB0CyxGXEys0C0OySayxGs5Error_pGctKFZ">fetchAsync(in:<wbr>estimatedResultCount:<wbr>with:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1442,8 +1625,9 @@ Faulted objects are not considered to prevent Core Data to make a round trip to 
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
 <span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">fetchAsync</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span>
+                              <span class="nv">estimatedResultCount</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
                               <span class="n">with</span> <span class="nv">configuration</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSFetchRequest</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">},</span>
-                              <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="k">Self</span><span class="p">],</span> <span class="kt">NSError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">NSAsynchronousFetchResult</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span></code></pre>
+                              <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="k">Self</span><span class="p">],</span> <span class="kt">Error</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">NSAsynchronousFetchResult</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -1460,6 +1644,18 @@ Faulted objects are not considered to prevent Core Data to make a round trip to 
                               <td>
                                 <div>
                                   <p>Searched context.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>estimatedResultCount</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A parameter that assists Core Data with scheduling the asynchronous fetch request.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1556,8 +1752,8 @@ Faulted objects are not considered to prevent Core Data to make a round trip to 
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2020-08-12)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2020-09-18)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
