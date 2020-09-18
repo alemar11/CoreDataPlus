@@ -119,7 +119,7 @@ public struct FetchedResultsSectionInfo<T: NSManagedObject> {
 
 /// **CoreDataPlus**
 ///
-/// An `enum` representing the two type of section changes a `FetchedResultsController` can notify.
+/// An `enum` representing the two type of section changes a `NSFetchedResultsController` can notify.
 public enum FetchedResultsSectionChange<T: NSManagedObject> {
   /// A section has been inserted.
   /// - parameter info: The inserted section's information
@@ -150,7 +150,8 @@ extension FetchedResultsSectionChange {
     case .delete:
       self = .delete(info: info, index: sectionIndex)
     case .move, .update:
-      // preconditionFailure("Invalid section change type reported by NSFetchedResultsController.")
+      // NSFetchedResultsController's delegate notifies only addition or removal of a section.
+      preconditionFailure("Unexpected section change type reported by NSFetchedResultsController.")
       return nil
     @unknown default:
       return nil
