@@ -169,7 +169,9 @@ public func isMigrationNecessary<Version: CoreDataModelVersion>(for storeURL: UR
   // Before you initiate a migration process, you should first determine whether it is necessary.
   // If the target model configuration is compatible with the persistent store metadata, there is no need to migrate
   // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmCustomizing.html#//apple_ref/doc/uid/TP40004399-CH8-SW2
-  let metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: storeURL, options: nil)
+  let metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType,
+                                                                             at: storeURL,
+                                                                             options: nil)
   let targetModel = version.managedObjectModel()
   let isCompatible = targetModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
 

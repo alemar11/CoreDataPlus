@@ -258,7 +258,9 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     configuration(request)
 
     let result = try context.count(for: request)
+    // result is equal to NSNotFound if an error occurs.
     guard result != NSNotFound else { throw NSError.fetchCountFailed() }
+    // TODO: if there is a NSNotFound we can return 0 (an exception is expected to be thrown)
 
     return result
   }

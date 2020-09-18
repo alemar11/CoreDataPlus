@@ -42,6 +42,8 @@ public struct CoreDataMigration {
                                                                  deleteSource: Bool = false,
                                                                  enableWALCheckpoint: Bool = false,
                                                                  progress: Progress? = nil) throws {
+    // TODO: checking file existance here is probably overkill
+    // test what happens when calling isMigrationNecessary with a fake source URL
     guard FileManager.default.fileExists(atPath: sourceURL.relativePath) else {
       let underlyingError = NSError.fileDoesNotExist(description: "Persistent Store not found at: \(sourceURL)")
       throw NSError.migrationFailed(underlyingError: underlyingError)
