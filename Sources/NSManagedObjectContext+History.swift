@@ -10,7 +10,7 @@ import Foundation
 
 extension NSManagedObjectContext {
   // MARK: - Transactions
-  
+
   /// Returns all the history transactions (anche their associated changes) given a `NSPersistentHistoryChangeRequest` request.
   public func historyTransactions(using historyFetchRequest: NSPersistentHistoryChangeRequest) throws -> [NSPersistentHistoryTransaction] {
     historyFetchRequest.resultType = .transactionsAndChanges
@@ -22,9 +22,9 @@ extension NSManagedObjectContext {
       return transactions
     }
   }
-  
+
   // MARK: - Changes
-  
+
   /// Returns all the history changes given a `NSPersistentHistoryChangeRequest` request.
   public func historyChanges(using historyFetchRequest: NSPersistentHistoryChangeRequest) throws -> [NSPersistentHistoryChange] {
     historyFetchRequest.resultType = .changesOnly
@@ -36,7 +36,7 @@ extension NSManagedObjectContext {
       return changes
     }
   }
-  
+
   /// Merges all the changes contained in the given list of `NSPersistentHistoryTransaction`.
   /// Returns the last merged transaction's token and timestamp.
   public func mergeTransactions(_ transactions: [NSPersistentHistoryTransaction]) throws -> (NSPersistentHistoryToken, Date)? {
@@ -46,16 +46,16 @@ extension NSManagedObjectContext {
       for transaction in transactions {
         result = (transaction.token, transaction.timestamp)
         guard transaction.changes != nil else { continue }
-        
+
         mergeChanges(fromContextDidSave: transaction.objectIDNotification())
       }
       return result
     }
     return result
   }
-  
+
   // MARK: - Delete
-  
+
   /// **CoreDataPlus**
   ///
   /// Deletes all history.
@@ -63,7 +63,7 @@ extension NSManagedObjectContext {
   public func deleteHistory() throws -> Bool {
     return try deleteHistory(before: .distantFuture)
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Deletes all history before a given `date`.
@@ -77,7 +77,7 @@ extension NSManagedObjectContext {
     let deleteHistoryRequest = NSPersistentHistoryChangeRequest.deleteHistory(before: date)
     return try deleteHistory(using: deleteHistoryRequest)
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Deletes all history before a given `token`.
@@ -90,13 +90,13 @@ extension NSManagedObjectContext {
     let deleteHistoryRequest = NSPersistentHistoryChangeRequest.deleteHistory(before: token)
     return try deleteHistory(using: deleteHistoryRequest)
   }
-  
+
   @discardableResult
   public func deleteHistory(before transaction: NSPersistentHistoryTransaction) throws -> Bool {
     let deleteHistoryRequest = NSPersistentHistoryChangeRequest.deleteHistory(before: transaction)
     return try deleteHistory(using: deleteHistoryRequest)
   }
-  
+
   /// Deletes all history given a delete `NSPersistentHistoryChangeRequest` instance.
   private func deleteHistory(using deleteHistoryRequest: NSPersistentHistoryChangeRequest) throws -> Bool {
     deleteHistoryRequest.resultType = .statusOnly
@@ -129,18 +129,18 @@ extension NSPersistentHistoryChangeRequest {
   @available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   public final class func historyTransactionFetchRequest(with context: NSManagedObjectContext, where predicate: NSPredicate) -> NSPersistentHistoryChangeRequest? {
     guard let entity = NSPersistentHistoryTransaction.entityDescription(with: context) else { return nil }
-    
+
     let transactionFetchRequest = NSFetchRequest<NSFetchRequestResult>()
     transactionFetchRequest.entity = entity
     // same as (but for some reasons it's nil during tests):
     // https://developer.apple.com/videos/play/wwdc2019/230
     // let transactionFetchRequest = NSPersistentHistoryTransaction.fetchRequest
-    
+
     transactionFetchRequest.predicate = predicate
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(withFetch: transactionFetchRequest)
     return historyFetchRequest
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Creates a NSPersistentHistoryChangeRequest to query the Change entity.
@@ -154,13 +154,13 @@ extension NSPersistentHistoryChangeRequest {
   @available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   public final class func historyChangeFetchRequest(with context: NSManagedObjectContext, where predicate: NSPredicate) -> NSPersistentHistoryChangeRequest? {
     guard let entity = NSPersistentHistoryChange.entityDescription(with: context) else { return nil }
-    
+
     let changeFetchRequest = NSFetchRequest<NSFetchRequestResult>()
     changeFetchRequest.entity = entity
     // same as (but for some reasons it's nil during tests):
     // https://developer.apple.com/videos/play/wwdc2019/230
     // let changeFetchRequest = NSPersistentHistoryChange.fetchRequest
-    
+
     changeFetchRequest.predicate = predicate
     let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(withFetch: changeFetchRequest)
     return historyFetchRequest

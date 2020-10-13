@@ -257,7 +257,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     //  _ = try Person.fetchUnique(in: context) {
     //    $0.predicate = NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "Moreton")
     //  }
-    
+
     do {
       let person = try Person.fetchUnique(in: context, where: NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "MoretonXYZ"))
       XCTAssertNil(person)
@@ -282,13 +282,13 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     context.reset()
     let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
     try ExpensiveSportCar.delete(in: context, where: predicate)
-    
+
     let car1 = try ExpensiveSportCar.fetchUnique(in: context, where: predicate)
     XCTAssertNil(car1)
-    
+
     // pending changes are lost
     context.reset()
-    
+
     let car2 = try ExpensiveSportCar.fetchUnique(in: context, where: predicate)
     XCTAssertNotNil(car2)
   }

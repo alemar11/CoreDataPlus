@@ -10,7 +10,7 @@ extension NSManagedObject {
   public final func changedValue(forKey key: String) -> Any? {
     return changedValues()[key]
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Returns of the **last fetched** or **saved** value of the propery specified by the given key.
@@ -18,14 +18,14 @@ extension NSManagedObject {
   public final func committedValue(forKey key: String) -> Any? {
     return committedValues(forKeys: [key])[key]
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Turns `self` into a fault.
   public final func fault() {
     refresh(mergeChanges: false)
   }
-  
+
   /// **CoreDataPlus**
   ///
   /// Materializes `self`.
@@ -33,7 +33,7 @@ extension NSManagedObject {
     // docs: "You can invoke this method with the key value of nil to ensure that a fault has been fired"
     self.willAccessValue(forKey: nil)
   }
-  
+
   // swiftlint:disable line_length
   /// **CoreDataPlus**
   ///
@@ -47,14 +47,14 @@ extension NSManagedObject {
     managedObjectContext?.refresh(self, mergeChanges: flag)
   }
   // swiftlint:enable line_length
-  
+
   /// **CoreDataPlus**
   ///
   /// Specifies an object that should be removed from its persistent store when changes are committed.
   public final func delete() {
     managedObjectContext?.delete(self)
   }
-  
+
   /// **CoreDataPlus**
   /// Converts the object ID to a permanent ID (if the object doesn't already have a permanent ID)
   public func obtainPermanentID() throws -> NSManagedObjectID {

@@ -534,13 +534,14 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
 
     if #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *) {
       let expectation2 = self.expectation(description: "\(#function)\(#line)")
-      expectation.assertForOverFulfill = false
+      expectation2.assertForOverFulfill = false
       NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSaveObjectIDs, object: context)
         .map { ManagedObjectContextDidSaveObjectIDs(notification: $0) }
         .sink { payload in
           XCTAssertTrue(payload.managedObjectContext === context)
           XCTAssertEqual(payload.insertedObjectIDs.count, 2)
-
+          XCTAssertTrue(payload.deletedObjectIDs.isEmpty)
+          XCTAssertTrue(payload.updatedObjectIDs.isEmpty)
           expectation2.fulfill()
         }
         .store(in: &cancellables)
@@ -563,7 +564,7 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
 
   func testObserveInsertionsUpdatesAndDeletesOnDidSaveNotification() throws {
     let context = container.viewContext
-    let expectation = self.expectation(description: "\(#function)\(#line)")
+    var cancellables = [AnyCancellable]()
 
     let car1 = Car(context: context)
     car1.maker = "FIAT"
@@ -579,7 +580,9 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
 
     try context.save()
 
-    let cancellable = NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave, object: context)
+    let expectation = self.expectation(description: "\(#function)\(#line)")
+
+    NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave, object: context)
       .map { ManagedObjectContextDidSaveObjects(notification: $0) }
       .sink { payload in
         XCTAssertTrue(Thread.isMainThread)
@@ -589,6 +592,22 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
         XCTAssertEqual(payload.updatedObjects.count, 1)
         expectation.fulfill()
       }
+      .store(in: &cancellables)
+
+    if #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *) {
+      let expectation2 = self.expectation(description: "\(#function)\(#line)")
+      expectation2.assertForOverFulfill = false
+      NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSaveObjectIDs, object: context)
+        .map { ManagedObjectContextDidSaveObjectIDs(notification: $0) }
+        .sink { payload in
+          XCTAssertTrue(payload.managedObjectContext === context)
+          XCTAssertEqual(payload.insertedObjectIDs.count, 2)
+          XCTAssertEqual(payload.deletedObjectIDs.count, 1)
+          XCTAssertEqual(payload.updatedObjectIDs.count, 1)
+          expectation2.fulfill()
+        }
+        .store(in: &cancellables)
+    }
 
     // 2 inserts
     let car3 = Car(context: context)
@@ -610,7 +629,7 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
 
     try context.save()
     waitForExpectations(timeout: 2)
-    cancellable.cancel()
+    cancellables.forEach { $0.cancel() }
   }
 
   func testObserveMultipleChangesUsingPersistentStoreCoordinatorWithChildAndParentContexts() throws {
@@ -897,13 +916,14 @@ final class NotificationPayloadOnDiskTests: CoreDataPlusOnDiskTestCase {
 
     if #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *) {
       let expectation2 = self.expectation(description: "\(#function)\(#line)")
-      expectation.assertForOverFulfill = false
+      expectation2.assertForOverFulfill = false
       NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSaveObjectIDs, object: context)
         .map { ManagedObjectContextDidSaveObjectIDs(notification: $0) }
         .sink { payload in
           XCTAssertTrue(payload.managedObjectContext === context)
           XCTAssertEqual(payload.insertedObjectIDs.count, 2)
-          
+          XCTAssertTrue(payload.deletedObjectIDs.isEmpty)
+          XCTAssertTrue(payload.updatedObjectIDs.isEmpty)
           expectation2.fulfill()
         }
         .store(in: &cancellables)
