@@ -2,12 +2,11 @@ Pod::Spec.new do |s|
   s.name    = 'CoreDataPlus'
   s.version = '3.0.0-RC1'
   s.license = 'MIT'
-  #s.documentation_url = 'http://www.tinrobots.org/CoreDataPlus'  
+  s.documentation_url = 'http://www.alessandromarzoli.com/CoreDataPlus'  
   s.summary   = 'CoreData extensions.'
-  #s.homepage  = 'https://github.com/tinrobots/CoreDataPlus'
-  s.homepage = 'https://cocoapods.org/pods/CoreDataPlus'
+  s.homepage  = 'https://github.com/alemar11/CoreDataPlus'
   s.authors   = { 'Alessandro Marzoli' => 'me@alessandromarzoli.com' }
-  s.source    = { :git => 'https://github.com/tinrobots/CoreDataPlus.git', :tag => s.version }
+  s.source    = { :git => 'https://github.com/alemar11/CoreDataPlus.git', :tag => s.version }
   s.requires_arc = true
   s.pod_target_xcconfig = { 'SWIFT_VERSION' => '5.2'}
   s.swift_version = "5.2"
