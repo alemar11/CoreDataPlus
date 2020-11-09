@@ -29,16 +29,12 @@ jobs:
   macOS:
     name: Test macOS
     runs-on: macos-11.0
-#    env:
-#      DEVELOPER_DIR: /Applications/Xcode_12.2_beta.app/Contents/Developer
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_12.2.0.app/Contents/Developer
     steps:
       - uses: actions/checkout@v2
       - name: macOS
-        run: |
-          ls /Applications
-          xcode-select -print-path
-          xcodebuild -version
-#        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus macOS" -destination "platform=macOS" clean test | xcpretty
+        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus macOS" -destination "platform=macOS" clean test | xcpretty
   iOS:
     name: Test iOS
     runs-on: macOS-latest
