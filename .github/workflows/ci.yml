@@ -34,7 +34,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: macOS
-        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus macOS" -destination "platform=macOS" clean test | xcpretty
+        run: |
+          xcode-select -print-path
+          xcodebuild -version
+#        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus macOS" -destination "platform=macOS" clean test | xcpretty
   iOS:
     name: Test iOS
     runs-on: macOS-latest
