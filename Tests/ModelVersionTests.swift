@@ -16,11 +16,6 @@ final class ModelVersionTests: XCTestCase {
   }
 
   func testMappingModelsByName() {
-    if isRunningSwiftPackageTests() {
-      print("Not implemented")
-      return
-    }
-
     do {
       let models = SampleModelVersion.version2.mappingModels(for: ["V2toV3"])
       XCTAssertEqual(models.count, 1)

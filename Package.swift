@@ -13,7 +13,13 @@ let package = Package(
         .testTarget(name: "Tests",
                     dependencies: ["CoreDataPlus"],
                     path: "Tests",
-                    exclude: ["CoreDataMigrationsTests.swift"])
+                    //exclude: ["CoreDataMigrationsTests.swift"],
+                    exclude: ["TestPlans"],
+                    resources: [
+                      .copy("Resources/SampleModel/SampleModelV1.sqlite"),
+                      .copy("Resources/SampleModel/SampleModelV2.sqlite")
+                    ]
+        )
     ],
     swiftLanguageVersions: [.v5]
 )

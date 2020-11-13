@@ -10,7 +10,7 @@
             <plist version="1.0">
                 <dict>
                     <key>NSPersistenceFrameworkVersion</key>
-                    <integer>851</integer>
+                    <integer>1044</integer>
                     <key>NSStoreModelVersionHashes</key>
                     <dict>
                         <key>XDDevAttributeMapping</key>
@@ -34,6 +34,8 @@
 		akYY9LhehVA/mCb4ATLWuI9XGLcjpm14wWL1oEBtIcs=
 		</data>
                     </dict>
+                    <key>NSStoreModelVersionHashesDigest</key>
+                    <string>+Hmc2uYZK6og+Pvx5GUJ7oW75UG4V/ksQanTjfTKUnxyGWJRMtB5tIRgVwGsrd7lz/QR57++wbvWsr6nxwyS0A==</string>
                     <key>NSStoreModelVersionHashesVersion</key>
                     <integer>3</integer>
                     <key>NSStoreModelVersionIdentifiers</key>
@@ -49,7 +51,7 @@
         <relationship name="entitymapping" type="1/1" destination="XDDEVENTITYMAPPING" idrefs="z119"></relationship>
     </object>
     <object type="XDDEVENTITYMAPPING" id="z103">
-        <attribute name="migrationpolicyclassname" type="string">CoreDataPlus_Tests_macOS.V2to3MakerPolicyPolicy</attribute>
+        <attribute name="migrationpolicyclassname" type="string">REPLACE_AT_RUNTIME.V2to3MakerPolicyPolicy</attribute>
         <attribute name="sourcename" type="string">SportCar</attribute>
         <attribute name="mappingtypename" type="string">Undefined</attribute>
         <attribute name="mappingnumber" type="int16">4</attribute>
@@ -57,7 +59,7 @@
         <attribute name="autogenerateexpression" type="bool">1</attribute>
         <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL" idrefs="z129"></relationship>
         <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING" idrefs="z113 z114 z133"></relationship>
-        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING" idrefs="z126 z108 z105"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING" idrefs="z126 z105 z108"></relationship>
     </object>
     <object type="XDDEVENTITYMAPPING" id="z104">
         <attribute name="mappingtypename" type="string">Undefined</attribute>
@@ -117,7 +119,7 @@
         <relationship name="entitymapping" type="1/1" destination="XDDEVENTITYMAPPING" idrefs="z103"></relationship>
     </object>
     <object type="XDDEVENTITYMAPPING" id="z115">
-        <attribute name="migrationpolicyclassname" type="string">CoreDataPlus_Tests_macOS.V2to3MakerPolicyPolicy</attribute>
+        <attribute name="migrationpolicyclassname" type="string">REPLACE_AT_RUNTIME.V2to3MakerPolicyPolicy</attribute>
         <attribute name="sourcename" type="string">Car</attribute>
         <attribute name="mappingtypename" type="string">Undefined</attribute>
         <attribute name="mappingnumber" type="int16">1</attribute>
@@ -125,7 +127,7 @@
         <attribute name="autogenerateexpression" type="bool">1</attribute>
         <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL" idrefs="z129"></relationship>
         <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING" idrefs="z110 z117 z107"></relationship>
-        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING" idrefs="z125 z123 z131"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING" idrefs="z123 z131 z125"></relationship>
     </object>
     <object type="XDDEVRELATIONSHIPMAPPING" id="z116">
         <attribute name="valueexpressiondata" type="binary">YnBsaXN0MDDUAQIDBAUGVFVYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK8Q
@@ -144,15 +146,15 @@ FgcIExQZGiIoLS4xNjc6Oz9ERUhMUFJVJG51bGzVCQoLDA0ODxAREllOU09wZXJhbmReTlNTZWxlY3Rv
         <relationship name="entitymapping" type="1/1" destination="XDDEVENTITYMAPPING" idrefs="z119"></relationship>
     </object>
     <object type="XDDEVENTITYMAPPING" id="z119">
-        <attribute name="migrationpolicyclassname" type="string">CoreDataPlus_Tests_macOS.V2to3MakerPolicyPolicy</attribute>
+        <attribute name="migrationpolicyclassname" type="string">REPLACE_AT_RUNTIME.V2to3MakerPolicyPolicy</attribute>
         <attribute name="sourcename" type="string">LuxuryCar</attribute>
         <attribute name="mappingtypename" type="string">Undefined</attribute>
         <attribute name="mappingnumber" type="int16">2</attribute>
         <attribute name="destinationname" type="string">LuxuryCar</attribute>
         <attribute name="autogenerateexpression" type="bool">1</attribute>
         <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL" idrefs="z129"></relationship>
-        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING" idrefs="z118 z122 z130 z102"></relationship>
-        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING" idrefs="z127 z128 z116"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING" idrefs="z118 z102 z130 z122"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING" idrefs="z116 z127 z128"></relationship>
     </object>
     <object type="XDDEVATTRIBUTEMAPPING" id="z120">
         <attribute name="name" type="string">updatedAt</attribute>

@@ -283,7 +283,6 @@
 		2377287F2149654000FDAF32 /* SampleModel3.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = SampleModel3.mom; sourceTree = "<group>"; };
 		237728802149654000FDAF32 /* SampleModel2.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = SampleModel2.mom; sourceTree = "<group>"; };
 		237728812149654000FDAF32 /* SampleModel.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = SampleModel.mom; sourceTree = "<group>"; };
-		237728822149654A00FDAF32 /* V2toV3.cdm */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = V2toV3.cdm; sourceTree = "<group>"; };
 		2383AC631FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectDelayedDeletableTests.swift; sourceTree = "<group>"; };
 		23948D141F99332A00B3738D /* NSEntityDescription+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSEntityDescription+Utils.swift"; sourceTree = "<group>"; };
 		23948D1E1F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSEntityDescriptionUtilsTests.swift; sourceTree = "<group>"; };
@@ -539,7 +538,6 @@
 			children = (
 				2369001B2191970100C89473 /* SampleModelV1.sqlite */,
 				23690013219190C800C89473 /* SampleModelV2.sqlite */,
-				237728822149654A00FDAF32 /* V2toV3.cdm */,
 				2377287C2149654000FDAF32 /* SampleModel.momd */,
 				23A38AF62147F0990086C22A /* MappingModels */,
 				2363510B1F95F28C00B3A16A /* SampleModelVersion.swift */,
