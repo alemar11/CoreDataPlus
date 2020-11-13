@@ -6,7 +6,8 @@ import CoreData
 ///
 /// [Model File Format and Versions](https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmModelFormat.html)
 ///
-/// An `.xcdatamodeld` document is a file package that groups versions of the model, each represented by an individual `.xcdatamodel` file, and an Info.plist file that contains the version information.
+/// An `.xcdatamodeld` document is a file package that groups versions of the model, each represented by an individual `.xcdatamodel` file,
+/// and an Info.plist file that contains the version information.
 /// The model is compiled into a runtime format—a file package with a `.momd` extension that contains individually compiled model files with a `.mom` extension
 /// documentation.
 private enum ModelVersionFileExtension {
