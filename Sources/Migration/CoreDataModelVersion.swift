@@ -3,16 +3,20 @@
 import CoreData
 
 /// Describes a Core Data model file exention type based on the
+///
 /// [Model File Format and Versions](https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmModelFormat.html)
+///
+/// An `.xcdatamodeld` document is a file package that groups versions of the model, each represented by an individual `.xcdatamodel` file, and an Info.plist file that contains the version information.
+/// The model is compiled into a runtime format—a file package with a `.momd` extension that contains individually compiled model files with a `.mom` extension
 /// documentation.
 private enum ModelVersionFileExtension {
-  /// The extension for a model bundle, or a `.xcdatamodeld` file package.
+  /// Extension for a compiled version of a model file package (`.xcdatamodeld`).
   static let momd = "momd"
-  /// The extension for a versioned model file, or a `.xcdatamodel` file.
+  /// Extension for a compiled version of a *versioned* model file (`.xcdatamodel`).
   static let mom  = "mom"
-  /// The extension for an optimized version for the '.mom' file
+  /// Extension for an optimized version for the '.mom' file.
   static let omo  = "omo"
-  /// The extension for a mapping model file, or a `.xcmappingmodel` file.
+  /// Extension for a compiled version of a mapping model file (`.xcmappingmodel`).
   static let cdm  = "cdm"
 }
 
