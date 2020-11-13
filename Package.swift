@@ -13,12 +13,19 @@ let package = Package(
         .testTarget(name: "Tests",
                     dependencies: ["CoreDataPlus"],
                     path: "Tests",
-                    exclude: ["TestPlans"],
+                    exclude: [
+                      "TestPlans",
+                      "Resources/SampleModel/Fixtures/README.md",
+                      //"Resources/SampleModel/Fixtures/SampleModel.momd",
+                      //"Resources/SampleModel/Fixtures/V2toV3.cdm"
+                    ],
                     resources: [
-                      .copy("Resources/SampleModel/SampleModelV1.sqlite"),
-                      .copy("Resources/SampleModel/SampleModelV2.sqlite")
+                      .copy("Resources/SampleModel/Fixtures/SampleModelV1.sqlite"),
+                      .copy("Resources/SampleModel/Fixtures/SampleModelV2.sqlite"),
+//                      .copy("Resources/SampleModel/Fixtures/SampleModel.momd"),
+//                      .copy("Resources/SampleModel/Fixtures/V2toV3.cdm"),
                     ]
-        )
+        ),
     ],
     swiftLanguageVersions: [.v5]
 )
