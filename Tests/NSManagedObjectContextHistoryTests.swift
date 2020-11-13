@@ -4,7 +4,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-@available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+@available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 final class NSManagedObjectContextHistoryTests: XCTestCase {
 
   func testMergeHistoryAfterDate() throws {

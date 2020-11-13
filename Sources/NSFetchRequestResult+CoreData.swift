@@ -357,7 +357,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Returns: a NSBatchInsertResult result.
   /// - Throws: It throws an error in cases of failure.
   /// - Note: A batch insert can **only** be done on a SQLite store.
-  @available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   public static func batchInsert(using context: NSManagedObjectContext,
                                  resultType: NSBatchInsertRequestResultType = .statusOnly,
                                  objects: [[String: Any]]) throws -> NSBatchInsertResult {
@@ -379,7 +379,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Throws: It throws an error in cases of failure.
   /// - Returns: a NSBatchInsertResult result.
   /// - Note: A batch insert can **only** be done on a SQLite store.
-  @available(iOS 14.0, iOSApplicationExtension 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
+  @available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
   public static func batchInsert(using context: NSManagedObjectContext,
                                  resultType: NSBatchInsertRequestResultType = .statusOnly,
                                  dictionaryHandler handler: @escaping (NSMutableDictionary) -> Bool) throws -> NSBatchInsertResult {
@@ -401,7 +401,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Throws: It throws an error in cases of failure.
   /// - Returns: a NSBatchInsertResult result.
   /// - Note: A batch insert can **only** be done on a SQLite store.
-  @available(iOS 14.0, iOSApplicationExtension 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
+  @available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
   public static func batchInsert(using context: NSManagedObjectContext,
                                  resultType: NSBatchInsertRequestResultType = .statusOnly,
                                  managedObjectHandler handler: @escaping (Self) -> Bool) throws -> NSBatchInsertResult {

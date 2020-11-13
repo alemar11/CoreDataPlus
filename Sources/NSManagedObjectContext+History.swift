@@ -126,7 +126,7 @@ extension NSPersistentHistoryChangeRequest {
   /// - `timestamp` (`NSDate`)
   /// - `token` (`NSNumber` - `NSInteger64`)
   /// - `transactionNumber` (`NSNumber` - `NSInteger64`)
-  @available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   public final class func historyTransactionFetchRequest(with context: NSManagedObjectContext, where predicate: NSPredicate) -> NSPersistentHistoryChangeRequest? {
     guard let entity = NSPersistentHistoryTransaction.entityDescription(with: context) else { return nil }
 
@@ -151,7 +151,7 @@ extension NSPersistentHistoryChangeRequest {
   /// - `changedID` (`NSNumber` - `NSInteger64`)
   /// - `changedEntity` (`NSNumber` - `NSInteger64`)
   /// - `changeType` (`NSNumber` - `NSInteger64`)
-  @available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   public final class func historyChangeFetchRequest(with context: NSManagedObjectContext, where predicate: NSPredicate) -> NSPersistentHistoryChangeRequest? {
     guard let entity = NSPersistentHistoryChange.entityDescription(with: context) else { return nil }
 
