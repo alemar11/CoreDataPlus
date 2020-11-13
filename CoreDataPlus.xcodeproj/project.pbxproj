@@ -511,6 +511,7 @@
 		23B580861F94FF0E00A365C0 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				D2708842255EF13600309E7A /* Resources */,
 				230C087B21417E1900A1B6CB /* CoreDataMigrationsTests.swift */,
 				23D1056A20D7EFEF00AE84CC /* FetchedResultsChangesTests.swift */,
 				236351041F95F28B00B3A16A /* ModelVersionTests.swift */,
@@ -527,7 +528,6 @@
 				D2B7E1542448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift */,
 				D2C5CE35244762FA00AD19D8 /* NSSetCoreDataTests.swift */,
 				D23A9E3824E2D4DF006C2964 /* Notifications */,
-				23C660BA22F3542F00A3EB59 /* SampleModel */,
 				06A4584D239FD20C007BA7C9 /* TestPlans */,
 				2325898122F34FDD00E39FEA /* Utils */,
 			);
@@ -566,6 +566,14 @@
 				2351687122A2DD4500340611 /* NotificationPayloadTests.swift */,
 			);
 			path = Notifications;
+			sourceTree = "<group>";
+		};
+		D2708842255EF13600309E7A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				23C660BA22F3542F00A3EB59 /* SampleModel */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
