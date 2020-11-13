@@ -35,7 +35,7 @@ class CoreDataMigrationsTests: XCTestCase {
                          "The store shouldn't exist.")
   }
 
-  func testIfMigrationsIsNeeded() throws {
+  func testIfMigrationIsNeeded() throws {
     let bundle = Bundle.tests
     let sourceURLV1 = bundle.url(forResource: "SampleModelV1", withExtension: "sqlite")!
     let sourceURLV2 = bundle.url(forResource: "SampleModelV2", withExtension: "sqlite")!
