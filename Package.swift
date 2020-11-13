@@ -10,7 +10,10 @@ let package = Package(
     ],
     targets: [
         .target(name: "CoreDataPlus", path: "Sources"),
-        .testTarget(name: "Tests", dependencies: ["CoreDataPlus"], path: "Tests", exclude: ["CoreDataMigrationsTests.swift"])
+        .testTarget(name: "Tests",
+                    dependencies: ["CoreDataPlus"],
+                    path: "Tests",
+                    exclude: ["CoreDataMigrationsTests.swift"])
     ],
     swiftLanguageVersions: [.v5]
 )
