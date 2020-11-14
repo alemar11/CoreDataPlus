@@ -5,6 +5,7 @@ import Foundation
 
 let isTerminal: Bool = {
   let keys = ProcessInfo.processInfo.environment.keys
+  print(ProcessInfo.processInfo.environment)
   return keys.contains("TERM")
 }()
 
