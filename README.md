@@ -1,7 +1,7 @@
-![CoreDataPlus CI](https://github.com/tinrobots/CoreDataPlus/workflows/CoreDataPlus%20CI/badge.svg?branch=master)
+![CoreDataPlus CI](https://github.com/alemar11/CoreDataPlus/workflows/CoreDataPlus%20CI/badge.svg?branch=master)
 
 ## CoreDataPlus
-[![GitHub release](https://img.shields.io/github/release/tinrobots/CoreDataPlus.svg)](https://github.com/tinrobots/CoreDataPlus/releases) 
+[![GitHub release](https://img.shields.io/github/release/alemar11/CoreDataPlus.svg)](https://github.com/alemar11/CoreDataPlus/releases) 
 
 Core data extensions.
 
@@ -22,9 +22,9 @@ Core data extensions.
 
 ## Documentation
 
-Documentation is [available online](http://www.tinrobots.org/CoreDataPlus/).
+Documentation is [available online](http://www.alessandromarzoli.com/CoreDataPlus/).
 
-> [http://www.tinrobots.org/CoreDataPlus/](http://www.tinrobots.org/CoreDataPlus/)
+> [http://www.alessandromarzoli.com/CoreDataPlus/](http://www.alessandromarzoli.com/CoreDataPlus/)
 
 ## Installation
 
@@ -70,7 +70,7 @@ $ brew install carthage
 To integrate CoreDataPlus into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "tinrobots/CoreDataPlus" ~> 3.0.0
+github "alemar11/CoreDataPlus" ~> 3.0.0
 ```
 
 Run `carthage update` to build the framework and drag the built `CoreDataPlus.framework` into your Xcode project.
@@ -82,7 +82,7 @@ Once you have your Swift package set up, adding CoreDataPlus as a dependency is 
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/tinrobots/CoreDataPlus.git", .upToNextMajor(from: "3.0.0"))
+    .package(url: "https://github.com/alemar11/CoreDataPlus.git", .upToNextMajor(from: "3.0.0"))
 ]
 ```
 
@@ -101,7 +101,7 @@ $ git init
 - Add CoreDataPlus as a git [submodule](http://git-scm.com/docs/git-submodule) by running the following command:
 
 ```bash
-$ git submodule add https://github.com/tinrobots/CoreDataPlus.git
+$ git submodule add https://github.com/alemar11/CoreDataPlus.git
 ```
 
 - Open the new `CoreDataPlus` folder, and drag the `CoreDataPlus.xcodeproj` into the Project Navigator of your application's Xcode project.
@@ -130,4 +130,4 @@ CoreDataPlus is released under the MIT license. See [LICENSE](./LICENSE.md) for 
 ## Contributing
 
 Pull requests are welcome!  
-[Show your ❤ with a ★](https://github.com/tinrobots/CoreDataPlus/stargazers)
+[Show your ❤ with a ★](https://github.com/alemar11/CoreDataPlus/stargazers)
