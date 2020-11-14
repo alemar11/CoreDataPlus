@@ -16,3 +16,5 @@ That's why the `Fixtures` folder contains these binaries:
 - `V2toV3.cdm`
 
 The main problem to have tests working from both Xcode and terminal is that, when building from Xcode we need to exclude the compiled binaries described above because Xcode will create them automatically for us, while when building from termianl these binaries must be inclueded and copied.
+
+> Since we can't disambiguate if tests are run by terminal or Xcode at Package.swift level, 

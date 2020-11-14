@@ -1,6 +1,19 @@
 // swift-tools-version:5.3
 
 import PackageDescription
+import Foundation
+
+let isTerminal: Bool = {
+  let keys = ProcessInfo.processInfo.environment.keys
+  keys.forEach { (value) in
+    print(value)
+  }
+  return true
+}()
+
+if isTerminal {
+  print("HELLO WORLD")
+}
 
 let package = Package(
     name: "CoreDataPlus",
