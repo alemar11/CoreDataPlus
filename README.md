@@ -22,9 +22,7 @@ Core data extensions.
 
 ## Documentation
 
-Documentation is [available online](http://www.alessandromarzoli.com/CoreDataPlus/).
-
-> [http://www.alessandromarzoli.com/CoreDataPlus/](http://www.alessandromarzoli.com/CoreDataPlus/)
+Documentation is [available online](http://www.alessandromarzoli.com/CoreDataPlus).
 
 ## Installation
 
