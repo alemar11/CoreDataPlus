@@ -35,10 +35,10 @@ class CoreDataMigrationsTests: XCTestCase {
                          "The store shouldn't exist.")
   }
 
-  func testIfMigrationsIsNeeded() throws {
-    let bundle = Bundle(for: CoreDataMigrationsTests.self)
-    let sourceURLV1 = bundle.url(forResource: "SampleModelV1", withExtension: "sqlite")!
-    let sourceURLV2 = bundle.url(forResource: "SampleModelV2", withExtension: "sqlite")!
+  func testIfMigrationIsNeeded() throws {
+    let bundle = Bundle.tests
+    let sourceURLV1 = try XCTUnwrap(bundle.url(forResource: "SampleModelV1", withExtension: "sqlite"))
+    let sourceURLV2 = try XCTUnwrap(bundle.url(forResource: "SampleModelV2", withExtension: "sqlite"))
     let migrationNeededFromV1toV1 = try CoreDataPlus.isMigrationNecessary(for: sourceURLV1, to: SampleModelVersion.version1)
     XCTAssertFalse(migrationNeededFromV1toV1)
     let migrationNeededFromV1toV2 = try CoreDataPlus.isMigrationNecessary(for: sourceURLV1, to: SampleModelVersion.version2)
@@ -50,8 +50,8 @@ class CoreDataMigrationsTests: XCTestCase {
   }
 
   func testMigrationFromVersion1ToVersion2() throws {
-    let bundle = Bundle(for: CoreDataMigrationsTests.self)
-    let _sourceURL = bundle.url(forResource: "SampleModelV1", withExtension: "sqlite")!  // 125 cars, 5 sport cars
+    let bundle = Bundle.tests
+    let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModelV1", withExtension: "sqlite"))  // 125 cars, 5 sport cars
 
     // Being the test run multiple times, we create an unique copy for every test
     let uuid = UUID().uuidString
@@ -109,8 +109,8 @@ class CoreDataMigrationsTests: XCTestCase {
   // MARK: - HeavyWeight Migration
 
   func testMigrationFromVersion2ToVersion3() throws {
-    let bundle = Bundle(for: CoreDataMigrationsTests.self)
-    let _sourceURL = bundle.url(forResource: "SampleModelV2", withExtension: "sqlite")!
+    let bundle = Bundle.tests
+    let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModelV2", withExtension: "sqlite"))
 
     // Being the test run multiple times, we create an unique copy for every test
     let uuid = UUID().uuidString
@@ -158,8 +158,8 @@ class CoreDataMigrationsTests: XCTestCase {
   }
 
   func testMigrationFromVersion1ToVersion3() throws {
-    let bundle = Bundle(for: CoreDataMigrationsTests.self)
-    let _sourceURL = bundle.url(forResource: "SampleModelV1", withExtension: "sqlite")!
+    let bundle = Bundle.tests
+    let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModelV1", withExtension: "sqlite"))
 
     // Being the test run multiple times, we create an unique copy for every test
     let uuid = UUID().uuidString

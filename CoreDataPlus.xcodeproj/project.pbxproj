@@ -109,12 +109,6 @@
 		236526AB215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236526AA215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift */; };
 		236526AC215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236526AA215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift */; };
 		236526AD215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236526AA215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift */; };
-		23690014219190C800C89473 /* SampleModelV2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 23690013219190C800C89473 /* SampleModelV2.sqlite */; };
-		23690015219190C800C89473 /* SampleModelV2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 23690013219190C800C89473 /* SampleModelV2.sqlite */; };
-		23690016219190C800C89473 /* SampleModelV2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 23690013219190C800C89473 /* SampleModelV2.sqlite */; };
-		2369001C2191970100C89473 /* SampleModelV1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 2369001B2191970100C89473 /* SampleModelV1.sqlite */; };
-		2369001D2191970100C89473 /* SampleModelV1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 2369001B2191970100C89473 /* SampleModelV1.sqlite */; };
-		2369001E2191970100C89473 /* SampleModelV1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 2369001B2191970100C89473 /* SampleModelV1.sqlite */; };
 		236CBA332106477E00FAE00D /* NSBatchUpdateResult+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236CBA322106477E00FAE00D /* NSBatchUpdateResult+Utils.swift */; };
 		236CBA342106477E00FAE00D /* NSBatchUpdateResult+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236CBA322106477E00FAE00D /* NSBatchUpdateResult+Utils.swift */; };
 		236CBA352106477E00FAE00D /* NSBatchUpdateResult+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236CBA322106477E00FAE00D /* NSBatchUpdateResult+Utils.swift */; };
@@ -199,6 +193,12 @@
 		D23A9E3524E2AF45006C2964 /* Notification+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D23A9E3324E2AF45006C2964 /* Notification+Utils.swift */; };
 		D23A9E3624E2AF45006C2964 /* Notification+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D23A9E3324E2AF45006C2964 /* Notification+Utils.swift */; };
 		D23A9E3724E2AF45006C2964 /* Notification+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D23A9E3324E2AF45006C2964 /* Notification+Utils.swift */; };
+		D27A2E36255F29D20043B43F /* SampleModelV2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D27A2E2D255F29D20043B43F /* SampleModelV2.sqlite */; };
+		D27A2E37255F29D20043B43F /* SampleModelV2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D27A2E2D255F29D20043B43F /* SampleModelV2.sqlite */; };
+		D27A2E38255F29D20043B43F /* SampleModelV2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D27A2E2D255F29D20043B43F /* SampleModelV2.sqlite */; };
+		D27A2E4B255F29D20043B43F /* SampleModelV1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D27A2E35255F29D20043B43F /* SampleModelV1.sqlite */; };
+		D27A2E4C255F29D20043B43F /* SampleModelV1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D27A2E35255F29D20043B43F /* SampleModelV1.sqlite */; };
+		D27A2E4D255F29D20043B43F /* SampleModelV1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D27A2E35255F29D20043B43F /* SampleModelV1.sqlite */; };
 		D29AA4E324D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
 		D29AA4E424D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
 		D29AA4E524D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
@@ -272,18 +272,10 @@
 		2363510B1F95F28C00B3A16A /* SampleModelVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleModelVersion.swift; sourceTree = "<group>"; };
 		236351241F95F53900B3A16A /* IDETemplateMacros.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = IDETemplateMacros.plist; path = CoreDataPlus.xcodeproj/xcshareddata/IDETemplateMacros.plist; sourceTree = SOURCE_ROOT; };
 		236526AA215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPlusInMemoryTestCase.swift; sourceTree = "<group>"; };
-		23690013219190C800C89473 /* SampleModelV2.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleModelV2.sqlite; sourceTree = "<group>"; };
-		2369001B2191970100C89473 /* SampleModelV1.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleModelV1.sqlite; sourceTree = "<group>"; };
 		236CBA322106477E00FAE00D /* NSBatchUpdateResult+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSBatchUpdateResult+Utils.swift"; sourceTree = "<group>"; };
 		2371895D20DD231900350F6E /* FetchedResultsChanges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedResultsChanges.swift; sourceTree = "<group>"; };
 		237728642148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V2to3MakerPolicyPolicy.swift; sourceTree = "<group>"; };
 		2377287021490B9D00FDAF32 /* V2toV3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = V2toV3.xcmappingmodel; sourceTree = "<group>"; };
-		2377287D2149654000FDAF32 /* VersionInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = VersionInfo.plist; sourceTree = "<group>"; };
-		2377287E2149654000FDAF32 /* SampleModel.omo */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleModel.omo; sourceTree = "<group>"; };
-		2377287F2149654000FDAF32 /* SampleModel3.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = SampleModel3.mom; sourceTree = "<group>"; };
-		237728802149654000FDAF32 /* SampleModel2.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = SampleModel2.mom; sourceTree = "<group>"; };
-		237728812149654000FDAF32 /* SampleModel.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = SampleModel.mom; sourceTree = "<group>"; };
-		237728822149654A00FDAF32 /* V2toV3.cdm */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = V2toV3.cdm; sourceTree = "<group>"; };
 		2383AC631FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectDelayedDeletableTests.swift; sourceTree = "<group>"; };
 		23948D141F99332A00B3738D /* NSEntityDescription+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSEntityDescription+Utils.swift"; sourceTree = "<group>"; };
 		23948D1E1F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSEntityDescriptionUtilsTests.swift; sourceTree = "<group>"; };
@@ -319,6 +311,15 @@
 		D23A9E2D24E2A957006C2964 /* Notification+Payloads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Payloads.swift"; sourceTree = "<group>"; };
 		D23A9E3324E2AF45006C2964 /* Notification+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Utils.swift"; sourceTree = "<group>"; };
 		D254E22A23C3BA7F00A1586E /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = SOURCE_ROOT; };
+		D27A2E2D255F29D20043B43F /* SampleModelV2.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleModelV2.sqlite; sourceTree = "<group>"; };
+		D27A2E2E255F29D20043B43F /* V2toV3.cdm */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = V2toV3.cdm; sourceTree = "<group>"; };
+		D27A2E30255F29D20043B43F /* VersionInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = VersionInfo.plist; sourceTree = "<group>"; };
+		D27A2E31255F29D20043B43F /* SampleModel.omo */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleModel.omo; sourceTree = "<group>"; };
+		D27A2E32255F29D20043B43F /* SampleModel3.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = SampleModel3.mom; sourceTree = "<group>"; };
+		D27A2E33255F29D20043B43F /* SampleModel2.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = SampleModel2.mom; sourceTree = "<group>"; };
+		D27A2E34255F29D20043B43F /* SampleModel.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = SampleModel.mom; sourceTree = "<group>"; };
+		D27A2E35255F29D20043B43F /* SampleModelV1.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleModelV1.sqlite; sourceTree = "<group>"; };
+		D27A2E9F255F2A3C0043B43F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D2B7E1542448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSPersistentStoreCoordinatorUtilsTests.swift; sourceTree = "<group>"; };
 		D2C5CE3024475F1A00AD19D8 /* NSSet+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSSet+CoreData.swift"; sourceTree = "<group>"; };
 		D2C5CE35244762FA00AD19D8 /* NSSetCoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSSetCoreDataTests.swift; sourceTree = "<group>"; };
@@ -422,18 +423,6 @@
 			path = Migration;
 			sourceTree = "<group>";
 		};
-		2377287C2149654000FDAF32 /* SampleModel.momd */ = {
-			isa = PBXGroup;
-			children = (
-				2377287D2149654000FDAF32 /* VersionInfo.plist */,
-				2377287E2149654000FDAF32 /* SampleModel.omo */,
-				2377287F2149654000FDAF32 /* SampleModel3.mom */,
-				237728802149654000FDAF32 /* SampleModel2.mom */,
-				237728812149654000FDAF32 /* SampleModel.mom */,
-			);
-			path = SampleModel.momd;
-			sourceTree = "<group>";
-		};
 		23A38AF62147F0990086C22A /* MappingModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -511,6 +500,7 @@
 		23B580861F94FF0E00A365C0 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				D2708842255EF13600309E7A /* Resources */,
 				230C087B21417E1900A1B6CB /* CoreDataMigrationsTests.swift */,
 				23D1056A20D7EFEF00AE84CC /* FetchedResultsChangesTests.swift */,
 				236351041F95F28B00B3A16A /* ModelVersionTests.swift */,
@@ -527,7 +517,6 @@
 				D2B7E1542448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift */,
 				D2C5CE35244762FA00AD19D8 /* NSSetCoreDataTests.swift */,
 				D23A9E3824E2D4DF006C2964 /* Notifications */,
-				23C660BA22F3542F00A3EB59 /* SampleModel */,
 				06A4584D239FD20C007BA7C9 /* TestPlans */,
 				2325898122F34FDD00E39FEA /* Utils */,
 			);
@@ -537,10 +526,7 @@
 		23C660BA22F3542F00A3EB59 /* SampleModel */ = {
 			isa = PBXGroup;
 			children = (
-				2369001B2191970100C89473 /* SampleModelV1.sqlite */,
-				23690013219190C800C89473 /* SampleModelV2.sqlite */,
-				237728822149654A00FDAF32 /* V2toV3.cdm */,
-				2377287C2149654000FDAF32 /* SampleModel.momd */,
+				D27A2E2C255F29D20043B43F /* Fixtures */,
 				23A38AF62147F0990086C22A /* MappingModels */,
 				2363510B1F95F28C00B3A16A /* SampleModelVersion.swift */,
 				234DA7AE214A5D4700D5C24F /* Entities */,
@@ -566,6 +552,38 @@
 				2351687122A2DD4500340611 /* NotificationPayloadTests.swift */,
 			);
 			path = Notifications;
+			sourceTree = "<group>";
+		};
+		D2708842255EF13600309E7A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				23C660BA22F3542F00A3EB59 /* SampleModel */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D27A2E2C255F29D20043B43F /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				D27A2E9F255F2A3C0043B43F /* README.md */,
+				D27A2E2D255F29D20043B43F /* SampleModelV2.sqlite */,
+				D27A2E2E255F29D20043B43F /* V2toV3.cdm */,
+				D27A2E2F255F29D20043B43F /* SampleModel.momd */,
+				D27A2E35255F29D20043B43F /* SampleModelV1.sqlite */,
+			);
+			path = Fixtures;
+			sourceTree = "<group>";
+		};
+		D27A2E2F255F29D20043B43F /* SampleModel.momd */ = {
+			isa = PBXGroup;
+			children = (
+				D27A2E30255F29D20043B43F /* VersionInfo.plist */,
+				D27A2E31255F29D20043B43F /* SampleModel.omo */,
+				D27A2E32255F29D20043B43F /* SampleModel3.mom */,
+				D27A2E33255F29D20043B43F /* SampleModel2.mom */,
+				D27A2E34255F29D20043B43F /* SampleModel.mom */,
+			);
+			path = SampleModel.momd;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -841,8 +859,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2369001C2191970100C89473 /* SampleModelV1.sqlite in Resources */,
-				23690014219190C800C89473 /* SampleModelV2.sqlite in Resources */,
+				D27A2E36255F29D20043B43F /* SampleModelV2.sqlite in Resources */,
+				D27A2E4B255F29D20043B43F /* SampleModelV1.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -850,8 +868,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2369001D2191970100C89473 /* SampleModelV1.sqlite in Resources */,
-				23690015219190C800C89473 /* SampleModelV2.sqlite in Resources */,
+				D27A2E37255F29D20043B43F /* SampleModelV2.sqlite in Resources */,
+				D27A2E4C255F29D20043B43F /* SampleModelV1.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -859,8 +877,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2369001E2191970100C89473 /* SampleModelV1.sqlite in Resources */,
-				23690016219190C800C89473 /* SampleModelV2.sqlite in Resources */,
+				D27A2E38255F29D20043B43F /* SampleModelV2.sqlite in Resources */,
+				D27A2E4D255F29D20043B43F /* SampleModelV1.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
