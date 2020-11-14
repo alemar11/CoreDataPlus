@@ -5,14 +5,27 @@ import Foundation
 
 let isTerminal: Bool = {
   let keys = ProcessInfo.processInfo.environment.keys
-  keys.forEach { (value) in
-    print(value)
-  }
-  return true
+  return keys.contains("TERM")
 }()
 
+
+var excluded = ["TestPlans", "Resources/SampleModel/Fixtures/README.md"]
+var resources: [Resource] = [.copy("Resources/SampleModel/Fixtures/SampleModelV1.sqlite"),
+                           .copy("Resources/SampleModel/Fixtures/SampleModelV2.sqlite"),]
 if isTerminal {
-  print("HELLO WORLD")
+  // When running tests from terminal, these resources needs to be copied in the test bundle,
+  // viceversa when running tests from Xcode, Xcode will create automatically these binaries automaticcally.
+  resources.append(contentsOf: [
+    .copy("Resources/SampleModel/Fixtures/SampleModel.momd"),
+    .copy("Resources/SampleModel/Fixtures/V2toV3.cdm"),
+  ])
+} else {
+  // When running tests from Xcode, these resources needs to be excluded
+  // because they are automatically created by Xcode
+  excluded.append(contentsOf: [
+    "Resources/SampleModel/Fixtures/SampleModel.momd",
+    "Resources/SampleModel/Fixtures/V2toV3.cdm"
+  ])
 }
 
 let package = Package(
@@ -26,26 +39,8 @@ let package = Package(
         .testTarget(name: "Tests",
                     dependencies: ["CoreDataPlus"],
                     path: "Tests",
-                    exclude: [
-                      "TestPlans",
-                      "Resources/SampleModel/Fixtures/README.md",
-
-                      // When running tests from Xcode, these resources needs to be excluded
-                      // because they are automatically created by Xcode; viceversa when running
-                      // tests from terminal these lines should be commented out.
-                      "Resources/SampleModel/Fixtures/SampleModel.momd",
-                      "Resources/SampleModel/Fixtures/V2toV3.cdm"
-                    ],
-                    resources: [
-                      .copy("Resources/SampleModel/Fixtures/SampleModelV1.sqlite"),
-                      .copy("Resources/SampleModel/Fixtures/SampleModelV2.sqlite"),
-                      
-                      // When running tests from terminal, these resources needs to be copied in the test bundle,
-                      // viceversa when running tests from Xcode these lines should be commented out
-                      // because Xcode will create automatically these binaries.
-                      //.copy("Resources/SampleModel/Fixtures/SampleModel.momd"),
-                      //.copy("Resources/SampleModel/Fixtures/V2toV3.cdm"),
-                    ]
+                    exclude: excluded,
+                    resources: resources
         ),
     ],
     swiftLanguageVersions: [.v5]
