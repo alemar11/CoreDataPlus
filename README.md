@@ -14,7 +14,7 @@ Core data extensions.
 ## Requirements
 
 [![Swift 5.2](https://img.shields.io/badge/Swift-5.2-orange.svg?style=flat)](https://developer.apple.com/swift)
-![Platforms](https://img.shields.io/badge/Platform-iOS%2010%2B%20|%20macOS%2010.12+%20|%20tvOS%2010+%20|%20watchOS%203+-blue.svg) 
+![Platforms](https://img.shields.io/badge/Platform-iOS%2012%2B%20|%20macOS%2010.14+%20|%20tvOS%2012+%20|%20watchOS%205+-blue.svg) 
 ![Xcode](https://img.shields.io/badge/Xcode-12-blue.svg) 
 
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
