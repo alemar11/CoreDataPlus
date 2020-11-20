@@ -17,7 +17,7 @@
     <a title="NSFetchRequestResult Extension Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">CoreDataPlus 2.3.0 Docs</a> (87% documented)</p>
+        <p><a href="../index.html">CoreDataPlus 3.0.0-RC1 Docs</a> (87% documented)</p>
         <p class="header-right">
           <form role="search" action="../search.json">
             <input type="text" placeholder="Search documentation" data-typeahead>
@@ -239,6 +239,77 @@
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">newFetchRequest</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">NSFetchRequest</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span></code></pre>
 
                         </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzrlE6object4with2inxSgSo0gH2IDC_So0gH7ContextCtFZ"></a>
+                    <a name="//apple_ref/swift/Method/object(with:in:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzrlE6object4with2inxSgSo0gH2IDC_So0gH7ContextCtFZ">object(with:<wbr>in:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">object</span><span class="p">(</span><span class="n">with</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">NSManagedObjectID</span><span class="p">,</span> <span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>an object for a specified <code>id</code> even if the object needs to be fetched.
+If the object is not registered in the context, it may be fetched or returned as a fault.
+If use existingObject(with:) if you don&rsquo;t want a faulted object.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzrlE08existingH04with2inxSgSo0gH2IDC_So0gH7ContextCtKFZ"></a>
+                    <a name="//apple_ref/swift/Method/existingObject(with:in:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzrlE08existingH04with2inxSgSo0gH2IDC_So0gH7ContextCtKFZ">existingObject(with:<wbr>in:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+<div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    Unlike object(with:), this method never returns a fault.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">existingObject</span><span class="p">(</span><span class="n">with</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">NSManagedObjectID</span><span class="p">,</span> <span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>the object for the specified ID or nil if the object does not exist.
+If there is a managed object with the given ID already registered in the context, that object is returned directly; otherwise the corresponding object is faulted into the context.
+This method might perform I/O if the data is uncached.</p>
                       </div>
                     </section>
                   </div>
@@ -684,7 +755,8 @@ If it doesn’t find a matching materialized object in the context, tries to loa
                       <div class="abstract">
                         <p><strong>CoreDataPlus</strong></p>
 
-<p>Attempts to find an unique object matching a predicate or creates a new one and configures it; if uniqueness is not guaranted (more than one object matching the predicate) a fatal error will occour.</p>
+<p>Attempts to find an unique object matching a predicate or creates a new one and configures it;
+if uniqueness is not guaranted (more than one object matching the predicate) a fatal error will occour.</p>
 
 <p>If uniqueness is not relevant, use `findOneOrCreate(in:where:with) instead.</p>
 <div class="aside aside-note">
@@ -774,7 +846,8 @@ If it doesn’t find a matching materialized object in the context, tries to loa
 <p>Executes a fetch request where <strong>at most</strong> a single object is expected as result; if more than one object are fetched, a fatal error will occour.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    <p>To guarantee uniqueness the fetch accesses the underlying persistent stores to retrieve the latest results and, also, matches against currently unsaved changes in the managed object context.</p>
+    <p>To guarantee uniqueness the fetch accesses the underlying persistent stores to retrieve the latest results and, also, matches against currently
+unsaved changes in the managed object context.</p>
 
 </div>
 
@@ -1752,7 +1825,7 @@ Doing a batch insert with this method is more memory efficient than the standard
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2020-09-18)</p>
+          <p>&copy; 2020 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2020-11-20)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
