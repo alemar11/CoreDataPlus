@@ -10,6 +10,7 @@ final public class Person: NSManagedObject {
   @NSManaged public var firstName: String
   @NSManaged public var lastName: String
   @NSManaged public var cars: NSSet? // This is why it must be a NSSet https://twitter.com/an0/status/1157072652290445314
+  @NSManaged public var isDriving: Bool // Transient
 
   public var _cars: Set<Car>? {
     get {
