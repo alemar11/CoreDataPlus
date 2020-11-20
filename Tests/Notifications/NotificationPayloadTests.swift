@@ -847,7 +847,7 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
   // MARK: - NSPersistentStoreRemoteChange
 
   func testInvestigationPersistentStoreRemoteChangeAndBatchOperations() throws {
-    // Cross coordinator change notifications:
+    // Cross coordinators change notifications:
     // This notification notifies when history has been made even when batch operations are done.
 
     let container1 = InMemoryPersistentContainer.makeNew(named: "123")
