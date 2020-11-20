@@ -10,6 +10,7 @@ public class Car: NSManagedObject {
   @NSManaged public var model: String?
   @NSManaged public var numberPlate: String!
   @NSManaged public var owner: Person?
+  @NSManaged public var currentDrivingSpeed: Int // transient property
 }
 
 extension Car: DelayedDeletable {

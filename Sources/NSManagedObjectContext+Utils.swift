@@ -77,6 +77,15 @@ extension NSManagedObjectContext {
 extension NSManagedObjectContext {
   /// **CoreDataPlus**
   ///
+  /// Checks whether there are actually changes that will change the persistent store.
+  /// - Note: The `hasChanges` method would return `true` for transient changes as well which can lead to false positives.
+  public var hasPersistentChanges: Bool {
+    guard hasChanges else { return false }
+    return !insertedObjects.isEmpty || !deletedObjects.isEmpty || updatedObjects.first(where: { $0.hasPersistentChangedValues }) != nil
+  }
+
+  /// **CoreDataPlus**
+  ///
   /// Asynchronously performs changes and then saves them.
   ///
   /// - Parameters:
@@ -91,6 +100,9 @@ extension NSManagedObjectContext {
       var internalError: NSError?
       do {
         try changes(self)
+        // TODO
+        // add an option flag to decide whether or not a context can be saved if only transient properties are changed
+        // in that case hasPersistentChanges should be used instead of hasChanges
         if self.hasChanges {
           try self.save()
         }

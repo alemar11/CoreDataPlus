@@ -15,6 +15,74 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusInMemoryTestCase {
     XCTAssertTrue(context.persistentStores.isEmpty)
   }
 
+  func testHasPersistentChanges() throws {
+    let viewContext = container.viewContext
+    XCTAssertFalse(viewContext.hasPersistentChanges)
+    let car = Car(context: viewContext)
+    car.maker = "FIAT"
+    car.model = "Panda"
+    car.numberPlate = UUID().uuidString
+    car.currentDrivingSpeed = 50
+
+    XCTAssertTrue(viewContext.hasPersistentChanges)
+    try viewContext.save()
+    XCTAssertFalse(viewContext.hasPersistentChanges)
+    XCTAssertEqual(car.currentDrivingSpeed, 50)
+    car.currentDrivingSpeed = 10
+    XCTAssertTrue(car.hasChanges)
+    XCTAssertFalse(car.hasPersistentChangedValues)
+    XCTAssertFalse(viewContext.hasPersistentChanges, "viewContext shouldn't have committable changes because only transients properties are changed.")
+  }
+
+  func testHasPersistentChangesInParentChildContextRelationship() throws {
+    let viewContext = container.viewContext
+    let backgroundContext = viewContext.newBackgroundContext(asChildContext: true)
+
+    backgroundContext.performAndWait {
+      XCTAssertFalse(backgroundContext.hasPersistentChanges)
+      let car = Car(context: backgroundContext)
+      car.maker = "FIAT"
+      car.model = "Panda"
+      car.numberPlate = UUID().uuidString
+      XCTAssertTrue(backgroundContext.hasPersistentChanges)
+
+      try! backgroundContext.save()
+
+      XCTAssertFalse(backgroundContext.hasPersistentChanges)
+      XCTAssertEqual(car.currentDrivingSpeed, 0)
+      car.currentDrivingSpeed = 50
+      XCTAssertTrue(car.hasChanges)
+      XCTAssertFalse(car.hasPersistentChangedValues)
+      XCTAssertFalse(backgroundContext.hasPersistentChanges)
+
+      try! backgroundContext.save() // pushing the transient value up to the parent context
+    }
+
+    let car = try XCTUnwrap(try Car.fetchOne(in: viewContext, where: NSPredicate(value: true)))
+    XCTAssertEqual(car.currentDrivingSpeed, 50)
+    XCTAssertTrue(viewContext.hasChanges, "The viewContext should have uncommitted changes after the child save.")
+    XCTAssertTrue(viewContext.hasPersistentChanges, "The viewContext should have uncommitted changes after the child save.")
+
+    try viewContext.save()
+
+    backgroundContext.performAndWait {
+      do {
+        let car = try XCTUnwrap(try Car.fetchOne(in: backgroundContext, where: NSPredicate(value: true)))
+        XCTAssertEqual(car.currentDrivingSpeed, 0)
+        car.currentDrivingSpeed = 30
+        XCTAssertTrue(backgroundContext.hasChanges)
+        XCTAssertFalse(backgroundContext.hasPersistentChanges, "backgroundContext shouldn't have committable changes because only transients properties are changed.")
+        try backgroundContext.save()
+      } catch let error as NSError {
+        XCTFail(error.description)
+      }
+    }
+
+    XCTAssertTrue(viewContext.hasChanges, "The transient property has changed")
+    XCTAssertEqual(car.currentDrivingSpeed, 30)
+    XCTAssertFalse(viewContext.hasPersistentChanges, "viewContext shouldn't have committable changes because only transients properties are changed.")
+  }
+
   func testMetaData() {
     // When
     guard let firstPersistentStore = container.viewContext.persistentStores.first else {
@@ -487,18 +555,18 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusInMemoryTestCase {
 
   func testPerformSaveUpToTheLastParentContextAndWait() throws {
     let mainContext = container.viewContext
-    let backgroundContext = mainContext.newBackgroundContext(asChildContext: true) // main context children
-    let childBackgroundContext = backgroundContext.newBackgroundContext(asChildContext: true) // background context children
+    let backgroundContext = mainContext.newBackgroundContext(asChildContext: true) // main context child
+    let childBackgroundContext = backgroundContext.newBackgroundContext(asChildContext: true) // background context child
 
-    childBackgroundContext.performAndWaitResult { context in
+    childBackgroundContext.performAndWait { context in
       let person = Person(context: context)
       person.firstName = "Alessandro"
       person.lastName = "Marzoli"
     }
 
     try childBackgroundContext.performSaveUpToTheLastParentContextAndWait()
-    try backgroundContext.performAndWaitResult { _ in
-      let count = try Person.count(in: backgroundContext)
+    try backgroundContext.performAndWait {
+      let count = try Person.count(in: $0)
       XCTAssertEqual(count, 1)
     }
 

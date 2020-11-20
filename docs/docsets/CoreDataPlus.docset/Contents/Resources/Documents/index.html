@@ -16,7 +16,7 @@
     <a title="CoreDataPlus  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">CoreDataPlus 2.3.0 Docs</a> (87% documented)</p>
+        <p><a href="index.html">CoreDataPlus 3.0.0-RC1 Docs</a> (87% documented)</p>
         <p class="header-right">
           <form role="search" action="search.json">
             <input type="text" placeholder="Search documentation" data-typeahead>
@@ -145,10 +145,10 @@
         <section>
           <section class="section">
             
-            <p><img src="https://github.com/tinrobots/CoreDataPlus/workflows/CoreDataPlus%20CI/badge.svg?branch=master" alt="CoreDataPlus CI"></p>
+            <p><img src="https://github.com/alemar11/CoreDataPlus/workflows/CoreDataPlus%20CI/badge.svg?branch=master" alt="CoreDataPlus CI"></p>
 <h2 id='coredataplus' class='heading'>CoreDataPlus</h2>
 
-<p><a href="https://github.com/tinrobots/CoreDataPlus/releases"><img src="https://img.shields.io/github/release/tinrobots/CoreDataPlus.svg" alt="GitHub release"></a> </p>
+<p><a href="https://github.com/alemar11/CoreDataPlus/releases"><img src="https://img.shields.io/github/release/alemar11/CoreDataPlus.svg" alt="GitHub release"></a> </p>
 
 <p>Core data extensions.</p>
 
@@ -162,18 +162,14 @@
 <h2 id='requirements' class='heading'>Requirements</h2>
 
 <p><a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/Swift-5.2-orange.svg?style=flat" alt="Swift 5.2"></a>
-<img src="https://img.shields.io/badge/Platform-iOS%2010%2B%20%7C%20macOS%2010.12+%20%7C%20tvOS%2010+%20%7C%20watchOS%203+-blue.svg" alt="Platforms"> 
+<img src="https://img.shields.io/badge/Platform-iOS%2012%2B%20%7C%20macOS%2010.14+%20%7C%20tvOS%2012+%20%7C%20watchOS%205+-blue.svg" alt="Platforms"> 
 <img src="https://img.shields.io/badge/Xcode-12-blue.svg" alt="Xcode"> </p>
 
 <p><a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage Compatible"></a>
 <a href="https://cocoapods.org/pods/CoreDataPlus"><img src="https://img.shields.io/cocoapods/v/CoreDataPlus.svg" alt="CocoaPods Compatible"></a></p>
 <h2 id='documentation' class='heading'>Documentation</h2>
 
-<p>Documentation is <a href="http://www.tinrobots.org/CoreDataPlus/">available online</a>.</p>
-
-<blockquote>
-<p><a href="http://www.tinrobots.org/CoreDataPlus/">http://www.tinrobots.org/CoreDataPlus/</a></p>
-</blockquote>
+<p>Documentation is <a href="http://www.alessandromarzoli.com/CoreDataPlus">available online</a>.</p>
 <h2 id='installation' class='heading'>Installation</h2>
 <h3 id='cocoapods' class='heading'>CocoaPods</h3>
 
@@ -208,7 +204,7 @@
 </code></pre>
 
 <p>To integrate CoreDataPlus into your Xcode project using Carthage, specify it in your <code>Cartfile</code>:</p>
-<pre class="highlight plaintext"><code>github "tinrobots/CoreDataPlus" ~&gt; 3.0.0
+<pre class="highlight plaintext"><code>github "alemar11/CoreDataPlus" ~&gt; 3.0.0
 </code></pre>
 
 <p>Run <code>carthage update</code> to build the framework and drag the built <code>CoreDataPlus.framework</code> into your Xcode project.</p>
@@ -217,7 +213,7 @@
 <p>The <a href="https://swift.org/package-manager/">Swift Package Manager</a> is a tool for automating the distribution of Swift code and is integrated into the <code>swift</code> compiler. 
 Once you have your Swift package set up, adding CoreDataPlus as a dependency is as easy as adding it to the <code>dependencies</code> value of your <code>Package.swift</code>.</p>
 <pre class="highlight swift"><code><span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
-    <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/tinrobots/CoreDataPlus.git"</span><span class="p">,</span> <span class="o">.</span><span class="nf">upToNextMajor</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="s">"3.0.0"</span><span class="p">))</span>
+    <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/alemar11/CoreDataPlus.git"</span><span class="p">,</span> <span class="o">.</span><span class="nf">upToNextMajor</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="s">"3.0.0"</span><span class="p">))</span>
 <span class="p">]</span>
 </code></pre>
 <h3 id='manually' class='heading'>Manually</h3>
@@ -234,7 +230,7 @@ Once you have your Swift package set up, adding CoreDataPlus as a dependency is 
 <ul>
 <li>Add CoreDataPlus as a git <a href="http://git-scm.com/docs/git-submodule">submodule</a> by running the following command:</li>
 </ul>
-<pre class="highlight shell"><code><span class="nv">$ </span>git submodule add https://github.com/tinrobots/CoreDataPlus.git
+<pre class="highlight shell"><code><span class="nv">$ </span>git submodule add https://github.com/alemar11/CoreDataPlus.git
 </code></pre>
 
 <ul>
@@ -266,12 +262,12 @@ Once you have your Swift package set up, adding CoreDataPlus as a dependency is 
 <h2 id='contributing' class='heading'>Contributing</h2>
 
 <p>Pull requests are welcome!<br>
-<a href="https://github.com/tinrobots/CoreDataPlus/stargazers">Show your ❤ with a ★</a></p>
+<a href="https://github.com/alemar11/CoreDataPlus/stargazers">Show your ❤ with a ★</a></p>
 
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2020-09-18)</p>
+          <p>&copy; 2020 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2020-11-20)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

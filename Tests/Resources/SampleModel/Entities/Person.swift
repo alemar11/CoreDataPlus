@@ -10,6 +10,7 @@ final public class Person: NSManagedObject {
   @NSManaged public var firstName: String
   @NSManaged public var lastName: String
   @NSManaged public var cars: NSSet? // This is why it must be a NSSet https://twitter.com/an0/status/1157072652290445314
+  @NSManaged public var isDriving: Bool // transient property
 
   public var _cars: Set<Car>? {
     get {
@@ -46,6 +47,9 @@ extension Person {
 
   public override func willSave() {
     super.willSave()
+    // if only transients properties have changed, don't refresh the update date
+    guard hasPersistentChangedValues else { return }
+
     refreshUpdateDate(observingChanges: false) // we don't want to get notified when this value changes.
   }
 

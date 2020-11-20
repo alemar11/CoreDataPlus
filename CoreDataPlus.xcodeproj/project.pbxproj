@@ -395,8 +395,8 @@
 			isa = PBXGroup;
 			children = (
 				236526AA215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift */,
-				23FFB86122EC948C00391D40 /* Utils.swift */,
 				239F4CBF22F49F2F007888BA /* CoreDataPlusOnDiskTestCase.swift */,
+				23FFB86122EC948C00391D40 /* Utils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";

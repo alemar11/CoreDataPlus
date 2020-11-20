@@ -11,7 +11,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
       return name
     }
     // Attention: sometimes entity() returns nil due to a CoreData bug occurring in the Unit Test targets or when Generics are used.
-    // The bug seems fixed on Xcode 12
+    // The bug seems fixed on Xcode 12 but having a fallback option never hurts.
     // https://forums.developer.apple.com/message/203409#203409
     // https://stackoverflow.com/questions/37909392/exc-bad-access-when-calling-new-entity-method-in-ios-10-macos-sierra-core-da
     // https://stackoverflow.com/questions/43231873/nspersistentcontainer-unittests-with-ios10/43286175
@@ -29,6 +29,25 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   public static func newFetchRequest() -> NSFetchRequest<Self> {
     let fetchRequest = NSFetchRequest<Self>(entityName: entityName)
     return fetchRequest
+  }
+
+  /// **CoreDataPlus**
+  ///
+  /// - Returns: an object for a specified `id` even if the object needs to be fetched.
+  /// If the object is not registered in the context, it may be fetched or returned as a fault.
+  /// If use existingObject(with:) if you don't want a faulted object.
+  public static func object(with id: NSManagedObjectID, in context: NSManagedObjectContext) -> Self? {
+    return context.object(with: id) as? Self
+  }
+
+  /// **CoreDataPlus**
+  ///
+  /// - Returns: the object for the specified ID or nil if the object does not exist.
+  /// If there is a managed object with the given ID already registered in the context, that object is returned directly; otherwise the corresponding object is faulted into the context.
+  /// This method might perform I/O if the data is uncached.
+  /// - Important: Unlike object(with:), this method never returns a fault.
+  public static func existingObject(with id: NSManagedObjectID, in context: NSManagedObjectContext) throws -> Self? {
+    return try context.existingObject(with: id) as? Self
   }
 
   /// **CoreDataPlus**

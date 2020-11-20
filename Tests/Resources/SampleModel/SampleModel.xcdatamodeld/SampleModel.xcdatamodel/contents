@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14886.2" systemVersion="18G84" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="20B29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1">
     <entity name="Car" representedClassName="Car" syncable="YES">
+        <attribute name="currentDrivingSpeed" optional="YES" transient="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="maker" optional="YES" attributeType="String"/>
         <attribute name="markedForDeletionAsOf" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="model" optional="YES" attributeType="String"/>
@@ -18,6 +19,7 @@
     <entity name="Person" representedClassName="Person" syncable="YES">
         <attribute name="firstName" optional="YES" attributeType="String"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO" preserveAfterDeletion="YES"/>
+        <attribute name="isDriving" transient="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String"/>
         <attribute name="updatedAt" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="cars" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Car" inverseName="owner" inverseEntity="Car"/>
@@ -30,9 +32,9 @@
     </entity>
     <entity name="SportCar" representedClassName="SportCar" parentEntity="Car" syncable="YES"/>
     <elements>
-        <element name="Car" positionX="-54" positionY="-9" width="128" height="120"/>
+        <element name="Car" positionX="-54" positionY="-9" width="128" height="119"/>
         <element name="ExpensiveSportCar" positionX="-56" positionY="-189" width="128" height="58"/>
-        <element name="Person" positionX="-326" positionY="9" width="128" height="118"/>
+        <element name="Person" positionX="-326" positionY="9" width="128" height="119"/>
         <element name="SportCar" positionX="-54" positionY="-90" width="128" height="45"/>
     </elements>
 </model>

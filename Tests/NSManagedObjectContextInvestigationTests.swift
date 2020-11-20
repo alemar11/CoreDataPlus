@@ -66,13 +66,13 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
       childContext.automaticallyMergesChangesFromParent = true
 
       let childCar = try childContext.performAndWaitResult { context -> Car in
-        let car = try childContext.existingObject(with: car1.objectID) as! Car
+        let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: context))
         XCTAssertEqual(car.maker, "FIAT")
         return car
       }
 
       try parentContext.performSaveAndWait { context in
-        let car = try context.existingObject(with: car1.objectID) as! Car
+        let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: context))
         XCTAssertEqual(car.maker, "FIAT")
         car.maker = "😀"
         XCTAssertEqual(car.maker, "😀")
@@ -102,13 +102,13 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
       childContext.automaticallyMergesChangesFromParent = false
 
       let childCar = try childContext.performAndWaitResult { context -> Car in
-        let car = try childContext.existingObject(with: car1.objectID) as! Car
+        let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: context))
         XCTAssertEqual(car.maker, "FIAT")
         return car
       }
 
       try parentContext.performSaveAndWait { context in
-        let car = try context.existingObject(with: car1.objectID) as! Car
+        let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: context))
         XCTAssertEqual(car.maker, "FIAT")
         car.maker = "😀"
         XCTAssertEqual(car.maker, "😀")
@@ -132,13 +132,13 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
       childContext.automaticallyMergesChangesFromParent = true
 
       let childCar = try childContext.performAndWaitResult { context -> Car in
-        let car = try childContext.existingObject(with: car1.objectID) as! Car
+        let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: context))
         XCTAssertEqual(car.maker, "FIAT")
         return car
       }
 
       try parentContext.performSaveAndWait { context in
-        let car = try context.existingObject(with: car1.objectID) as! Car
+        let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: context))
         XCTAssertEqual(car.maker, "FIAT")
         car.maker = "😀"
         XCTAssertEqual(car.maker, "😀")
@@ -163,13 +163,13 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
       childContext.automaticallyMergesChangesFromParent = false
 
       let childCar = try childContext.performAndWaitResult { context -> Car in
-        let car = try childContext.existingObject(with: car1.objectID) as! Car
+        let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: context))
         XCTAssertEqual(car.maker, "FIAT")
         return car
       }
 
       try parentContext.performSaveAndWait { context in
-        let car = try context.existingObject(with: car1.objectID) as! Car
+        let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: context))
         XCTAssertEqual(car.maker, "FIAT")
         car.maker = "😀"
         XCTAssertEqual(car.maker, "😀")
@@ -251,6 +251,137 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
       readContext.refresh(readEntity!, mergeChanges: false)
       // However, manually refreshing does update it to FCA
       XCTAssertEqual(readEntity?.maker, "FCA")
+    }
+  }
+
+  func testInvestigationTransientProperties() throws {
+    let container = InMemoryPersistentContainer.makeNew()
+    let viewContext = container.viewContext
+
+    let car = Car(context: viewContext)
+    car.maker = "FIAT"
+    car.model = "Panda"
+    car.numberPlate = UUID().uuidString
+    car.currentDrivingSpeed = 50
+    try viewContext.save()
+
+    XCTAssertEqual(car.currentDrivingSpeed, 50)
+    viewContext.refreshAllObjects()
+    XCTAssertEqual(car.currentDrivingSpeed, 0)
+    car.currentDrivingSpeed = 100
+    XCTAssertEqual(car.currentDrivingSpeed, 100)
+    viewContext.reset()
+    XCTAssertEqual(car.currentDrivingSpeed, 0)
+  }
+
+  func testXXX() throws {
+    let container = InMemoryPersistentContainer.makeNew()
+    let viewContext = container.viewContext
+
+    viewContext.performAndWait {
+      let car = Car(context: viewContext)
+      car.maker = "FIAT"
+      car.model = "Panda"
+      car.numberPlate = UUID().uuidString
+      car.currentDrivingSpeed = 50
+      try! viewContext.save()
+    }
+
+    viewContext.performAndWait {
+      print(viewContext.registeredObjects)
+    }
+  }
+
+  func testInvestigationTransientPropertiesBehaviorInParentChildContextRelationship() throws {
+    let container = InMemoryPersistentContainer.makeNew()
+    let viewContext = container.viewContext
+    let childContext = viewContext.newBackgroundContext(asChildContext: true)
+    var carID: NSManagedObjectID?
+
+    let plateNumber = UUID().uuidString
+    let predicate = NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), plateNumber)
+
+    childContext.performAndWait {
+      let car = Car(context: $0)
+      car.maker = "FIAT"
+      car.model = "Panda"
+      car.numberPlate = plateNumber
+      car.currentDrivingSpeed = 50
+      try! $0.save()
+      carID = car.objectID
+      XCTAssertEqual(car.currentDrivingSpeed, 50)
+      print($0.registeredObjects)
+      car.currentDrivingSpeed = 20 // ⚠️ dirting the context again
+    }
+
+    childContext.performAndWait {
+      print(childContext.registeredObjects)
+    }
+
+    let id = try XCTUnwrap(carID)
+    let car = try XCTUnwrap(Car.object(with: id, in: viewContext))
+    XCTAssertEqual(car.maker, "FIAT")
+    XCTAssertEqual(car.model, "Panda")
+    XCTAssertEqual(car.numberPlate, plateNumber)
+    XCTAssertEqual(car.currentDrivingSpeed, 50, "The transient property value should be equal to the one saved by the child context.")
+
+    try childContext.performAndWait {
+      XCTAssertFalse(childContext.registeredObjects.isEmpty) // ⚠️ this condition is verified only because we have dirted the context after a save
+      let car = try XCTUnwrap($0.object(with: id) as? Car)
+      XCTAssertEqual(car.currentDrivingSpeed, 20)
+      try $0.save()
+    }
+
+    XCTAssertEqual(car.currentDrivingSpeed, 20, "The transient property value should be equal to the one saved by the child context.")
+
+    try childContext.performAndWait {
+      XCTAssertTrue(childContext.registeredObjects.isEmpty) // ⚠️ it seems that after a save, the objects are freed unless the context gets dirted again
+      let car = try XCTUnwrap(try Car.fetchUnique(in: $0, where: predicate))
+      XCTAssertEqual(car.currentDrivingSpeed, 0)
+    }
+
+    // see testInvestigationContextRegisteredObjectBehaviorAfterSaving
+  }
+
+  func testInvestigationContextRegisteredObjectBehaviorAfterSaving() throws {
+    let context = container.newBackgroundContext()
+
+    // A context keeps registered objects until it's dirted
+    try context.performAndWait {
+      let person = Person(context: context)
+      person.firstName = "Alessandro"
+      person.lastName = "Marzoli"
+      try $0.save()
+
+      let person2 = Person(context: context)
+      person2.firstName = "Andrea"
+      person2.lastName = "Marzoli"
+      // context dirted because person2 isn't yet saved
+    }
+
+    context.performAndWait {
+      XCTAssertFalse(context.registeredObjects.isEmpty)
+    }
+
+    try context.performAndWait {
+      try $0.save()
+      // context is no more dirted, everything has been saved
+    }
+
+    context.performAndWait {
+      XCTAssertTrue(context.registeredObjects.isEmpty)
+    }
+
+    try context.performAndWait {
+      let person = Person(context: context)
+      person.firstName = "Valedmaro"
+      person.lastName = "Marzoli"
+      try $0.save()
+      // context is no more dirted, everything has been saved
+    }
+
+    context.performAndWait {
+      XCTAssertTrue(context.registeredObjects.isEmpty)
     }
   }
 }
