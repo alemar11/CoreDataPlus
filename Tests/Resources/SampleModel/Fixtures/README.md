@@ -1,3 +1,5 @@
+### Run tests from terminal
+
 How to run `swift test` from terminal.
 
 When you open a Swift package with Xcode, Xcode knows how to handle common Apple resource types out-of-the box. These include (not an exhaustive list):
@@ -18,3 +20,7 @@ That's why the `Fixtures` folder contains these binaries:
 The main problem to have tests working from both Xcode and terminal is that, when building from Xcode, to avoid conflict errors, we need to exclude the compiled binaries described above because Xcode will create them automatically for us, while when building from terminal these binaries must be included and copied.
 
 In the `Package.swift` these inclusions and exclusions are done automatically based on whether or not tests are being run from the command line. 
+
+### Generate new binaries
+
+If you change the models, you are going to need new binaries; you can get them just running some Xcode tests with with a break point set at `CoreDataModelVersion._managedObjectModel()`: grab the new binaries stored at that URL and update the ones used in the tests.
