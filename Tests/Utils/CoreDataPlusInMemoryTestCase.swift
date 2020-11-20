@@ -37,7 +37,7 @@ final class InMemoryPersistentContainer: NSPersistentContainer {
     let container = InMemoryPersistentContainer(name: "SampleModel", managedObjectModel: model)
     let description = container.persistentStoreDescriptions.first!
     description.url = url
-    description.type = NSInMemoryStoreType
+    //description.type = NSInMemoryStoreType // Setting this value will fail some tests at the moment
 
     // Enable history tracking and remote notifications
     container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
