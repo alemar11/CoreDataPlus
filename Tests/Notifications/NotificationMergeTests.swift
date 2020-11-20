@@ -117,7 +117,7 @@ final class NotificationMergeTests: CoreDataPlusInMemoryTestCase {
       person.firstName = "Edythe"
       person.lastName = "Moreton"
 
-      let person2 = backgroundContext.object(with: person2.objectID) as! Person
+      let person2 = try XCTUnwrap(Person.object(with: person2.objectID, in: backgroundContext))
       person2.firstName += "**"
     }
 

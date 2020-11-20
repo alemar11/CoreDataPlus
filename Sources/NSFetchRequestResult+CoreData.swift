@@ -33,6 +33,25 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
   /// **CoreDataPlus**
   ///
+  /// - Returns: an object for a specified `id` even if the object needs to be fetched.
+  /// If the object is not registered in the context, it may be fetched or returned as a fault.
+  /// If use existingObject(with:) if you don't want a faulted object.
+  public static func object(with id: NSManagedObjectID, in context: NSManagedObjectContext) -> Self? {
+    return context.object(with: id) as? Self
+  }
+
+  /// **CoreDataPlus**
+  ///
+  /// - Returns: the object for the specified ID or nil if the object does not exist.
+  /// If there is a managed object with the given ID already registered in the context, that object is returned directly; otherwise the corresponding object is faulted into the context.
+  /// This method might perform I/O if the data is uncached.
+  /// - Important: Unlike object(with:), this method never returns a fault.
+  public static func existingObject(with id: NSManagedObjectID, in context: NSManagedObjectContext) throws -> Self? {
+    return try context.existingObject(with: id) as? Self
+  }
+
+  /// **CoreDataPlus**
+  ///
   /// Performs a configurable fetch request in a context.
   /// - Note: it always accesses the underlying persistent stores to retrieve the latest results.
   ///
