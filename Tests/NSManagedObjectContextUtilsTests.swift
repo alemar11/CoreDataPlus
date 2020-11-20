@@ -487,18 +487,18 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusInMemoryTestCase {
 
   func testPerformSaveUpToTheLastParentContextAndWait() throws {
     let mainContext = container.viewContext
-    let backgroundContext = mainContext.newBackgroundContext(asChildContext: true) // main context children
-    let childBackgroundContext = backgroundContext.newBackgroundContext(asChildContext: true) // background context children
+    let backgroundContext = mainContext.newBackgroundContext(asChildContext: true) // main context child
+    let childBackgroundContext = backgroundContext.newBackgroundContext(asChildContext: true) // background context child
 
-    childBackgroundContext.performAndWaitResult { context in
+    childBackgroundContext.performAndWait { context in
       let person = Person(context: context)
       person.firstName = "Alessandro"
       person.lastName = "Marzoli"
     }
 
     try childBackgroundContext.performSaveUpToTheLastParentContextAndWait()
-    try backgroundContext.performAndWaitResult { _ in
-      let count = try Person.count(in: backgroundContext)
+    try backgroundContext.performAndWait {
+      let count = try Person.count(in: $0)
       XCTAssertEqual(count, 1)
     }
 
