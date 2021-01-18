@@ -93,7 +93,7 @@ jobs:
         run: |
           swift --version
           brew update
-          brew upgrade swiftlint
+          brew install swiftlint
           swiftlint --reporter github-actions-logging
 
 
