@@ -84,16 +84,11 @@ jobs:
           swift test
   lint:
     name: Swift Lint
-    runs-on: macos-11.0
-    env:
-      DEVELOPER_DIR: /Applications/Xcode_12.3.app/Contents/Developer
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-      - name: GitHub Action for SwiftLint
+      - name: Run SwiftLint
         run: |
           swift --version
-          brew update
-          brew upgrade swiftlint
           swiftlint --reporter github-actions-logging
-
 
