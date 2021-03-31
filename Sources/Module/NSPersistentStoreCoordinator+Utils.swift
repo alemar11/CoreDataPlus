@@ -33,18 +33,20 @@ extension NSPersistentStoreCoordinator {
   }
 }
 
-// About moving stores disabling the WAL journaling mode
-// https://developer.apple.com/library/archive/qa/qa1809/_index.html
-// https://www.avanderlee.com/swift/write-ahead-logging-wal/
-//
-//  ```
-//  let options = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]] // the migration will be done without -wal and -shm files
-//  try! psc!.migratePersistentStore(store, to: url, options: options, withType: NSSQLiteStoreType)
-//  ```
-//
-//
-// https://developer.apple.com/forums/thread/651325
-// Additionally you should almost never use NSPersistentStoreCoordinator's migratePersistentStore... method but instead use the newer replacePersistentStoreAtURL.. (you can replace emptiness to make a copy).
-// The former loads the store into memory so you can do fairly radical things like write it out as a different store type.
-// It pre-dates iOS. The latter will perform an APFS clone where possible.
+/**
+ About moving stores disabling the WAL journaling mode
+ https://developer.apple.com/library/archive/qa/qa1809/_index.html
+ https://www.avanderlee.com/swift/write-ahead-logging-wal/
 
+ ```
+ let options = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]] // the migration will be done without -wal and -shm files
+ try! psc!.migratePersistentStore(store, to: url, options: options, withType: NSSQLiteStoreType)
+ ```
+
+
+ https://developer.apple.com/forums/thread/651325
+ Additionally you should almost never use NSPersistentStoreCoordinator's migratePersistentStore... method but instead use the newer replacePersistentStoreAtURL..
+ (you can replace emptiness to make a copy).
+ The former loads the store into memory so you can do fairly radical things like write it out as a different store type.
+ It pre-dates iOS. The latter will perform an APFS clone where possible.
+ */
