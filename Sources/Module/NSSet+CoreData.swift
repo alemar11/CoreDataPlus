@@ -31,3 +31,17 @@ extension NSSet {
     try managedObjects.materializeFaults()
   }
 }
+
+/**
+ From: https://developer.apple.com/forums/thread/651325
+
+ Set vs NSSet in Swift accessor methods
+
+ Set in Swift is an immutable value type. We do not recommend making Core Data relationships typed this way despite the obvious convenience.
+ Core Data makes heavy use of Futures, especially for relationship values. These are reference types expressed as NSSet. The concrete instance is a future subclass however.
+ This lets us optimize memory and performance across your object graph.
+ Declaring an accessor as Set forces an immediate copy of the entire relationship so it can be an immutable Swift Set.
+ This loads the entire relationship up front and fulfills the Future all the time, immediately. You probably do not want that.
+
+ Similarly for fetch requests with batching enabled, you do not want a Swift Array but instead an NSArray to avoid making an immediate copy of the future.
+ */

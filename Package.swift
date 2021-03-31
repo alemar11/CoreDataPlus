@@ -33,19 +33,27 @@ if isRunningTestsFromCommandLine {
 }
 
 let package = Package(
-    name: "CoreDataPlus",
-    platforms: [.macOS(.v10_14), .iOS(.v12), .tvOS(.v12), .watchOS(.v5)],
-    products: [
-        .library(name: "CoreDataPlus", targets: ["CoreDataPlus"])
-    ],
-    targets: [
-        .target(name: "CoreDataPlus", path: "Sources"),
-        .testTarget(name: "Tests",
-                    dependencies: ["CoreDataPlus"],
-                    path: "Tests",
-                    exclude: excluded,
-                    resources: resources
-        ),
-    ],
-    swiftLanguageVersions: [.v5]
+  name: "CoreDataPlus",
+  platforms: [.macOS(.v10_14), .iOS(.v12), .tvOS(.v12), .watchOS(.v5)],
+  products: [
+    .library(name: "CoreDataPlus", targets: ["CoreDataPlus"])
+  ],
+  targets: [
+    // Core features
+    .target(name: "CoreDataPlus", dependencies: ["CoreDataExtensions"], path: "Sources/Module"),
+    // Objc Utils
+    .target(name: "CoreDataExtensions",
+            dependencies: [],
+            path: "Sources/CoreDataExtensions",
+            publicHeadersPath: "Public"
+    ),
+
+    .testTarget(name: "Tests",
+                dependencies: ["CoreDataPlus"],
+                path: "Tests",
+                exclude: excluded,
+                resources: resources
+    ),
+  ],
+  swiftLanguageVersions: [.v5]
 )
