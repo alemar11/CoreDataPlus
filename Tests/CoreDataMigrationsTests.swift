@@ -35,6 +35,53 @@ class CoreDataMigrationsTests: XCTestCase {
                          "The store shouldn't exist.")
   }
 
+  func testMigrationEdgeCases() throws {
+    let name = "SampleModel-\(UUID())"
+    let container = NSPersistentContainer(name: name, managedObjectModel: model)
+    let context = container.viewContext
+
+    let expectation1 = expectation(description: "\(#function)\(#line)")
+
+    container.loadPersistentStores { (store, error) in
+      XCTAssertNil(error)
+      expectation1.fulfill()
+    }
+    wait(for: [expectation1], timeout: 5)
+
+    context.fillWithSampleData()
+    try context.save()
+    context.reset()
+
+    let sourceURL = try XCTUnwrap(container.persistentStoreCoordinator.persistentStores.first?.url)
+
+    let targetVersion = SampleModelVersion.version2
+    let steps = SampleModelVersion.version1.migrationSteps(to: .version2)
+    XCTAssertEqual(steps.count, 1)
+
+    let version = try SampleModelVersion(persistentStoreURL: sourceURL)
+    XCTAssertTrue(version == .version1)
+
+    // When
+    let progress = Progress(totalUnitCount: 1)
+
+    let enableWALCheckpoint = false // ⚠️ if the store is referenced, enabling the WAL checkpoint will block the migration
+    try CoreDataMigration.migrateStore(at: sourceURL, targetVersion: targetVersion, enableWALCheckpoint: enableWALCheckpoint, progress: progress)
+
+    // ⚠️ migration should be done before loading the NSPersistentContainer instance or you need to create a new one after the migration
+    let migratedContainer = NSPersistentContainer(name: name, managedObjectModel: targetVersion.managedObjectModel())
+
+    let expectation2 = expectation(description: "\(#function)\(#line)")
+    migratedContainer.loadPersistentStores { (store, error) in
+      XCTAssertNil(error)
+      expectation2.fulfill()
+    }
+    wait(for: [expectation2], timeout: 5)
+
+    let context2 = migratedContainer.viewContext
+    let luxuryCars = try context2.fetch(NSFetchRequest<NSManagedObject>(entityName: "LuxuryCar"))
+    luxuryCars.forEach { XCTAssertNotNil($0.value(forKey: "isLimitedEdition")) }
+  }
+
   func testIfMigrationIsNeeded() throws {
     let bundle = Bundle.tests
     let sourceURLV1 = try XCTUnwrap(bundle.url(forResource: "SampleModelV1", withExtension: "sqlite"))

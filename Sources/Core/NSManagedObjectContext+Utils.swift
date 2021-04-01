@@ -51,6 +51,22 @@ extension NSManagedObjectContext {
   }
 }
 
+// MARK: - Fetch
+
+extension NSManagedObjectContext {
+  /// **CoreDataPlus**
+  ///
+  /// Returns an array of objects that meet the criteria specified by a given fetch request.
+  /// @Note The Swift version returns an *Array* and for performance issues you should prefer using a NSArray* **for batched requests**: https://developer.apple.com/forums/thread/651325 .
+  public final func fetchNSArray<T>(_ request: NSFetchRequest<T>) throws -> NSArray {
+    // [...] Similarly for fetch requests with batching enabled, you do not want a Swift Array but instead an NSArray to avoid making an immediate copy of the future.
+    // https://developer.apple.com/forums/thread/651325.
+    // swiftlint:disable force_cast
+    let protocolRequest = request as! NSFetchRequest<NSFetchRequestResult>
+    return try cdp_execute(protocolRequest) as NSArray
+  }
+}
+
 // MARK: - Child Context
 
 extension NSManagedObjectContext {

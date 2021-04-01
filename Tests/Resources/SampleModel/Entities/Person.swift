@@ -9,7 +9,7 @@ final public class Person: NSManagedObject {
   @NSManaged public private(set) var id: UUID // preserved after deletion (tombstone)
   @NSManaged public var firstName: String
   @NSManaged public var lastName: String
-  @NSManaged public var cars: NSSet? // This is why it must be a NSSet https://twitter.com/an0/status/1157072652290445314
+  @NSManaged public var cars: NSSet? // This is why it must be a NSSet https://twitter.com/an0/status/1157072652290445314 and https://developer.apple.com/forums/thread/651325
   @NSManaged public var isDriving: Bool // transient property
 
   public var _cars: Set<Car>? {

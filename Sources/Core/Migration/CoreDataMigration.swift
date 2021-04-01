@@ -5,6 +5,17 @@
 // https://developer.apple.com/documentation/coredata/heavyweight_migration
 // https://www.objc.io/issues/4-core-data/core-data-migration/
 
+// Schema migration & performance
+// https://developer.apple.com/forums/thread/651325
+//
+// You should basically only use lightweight migration with an inferred mapping model.
+//
+// You should avoid your own custom mapping models and migration managers as these require an unbounded amount of memory.
+//
+// You can chain migrations together by avoiding NSMigratePersistentStoresAutomaticallyOption and checking for NSPersistentStoreIncompatibleVersionHashError from addPersistentStore.
+// The store metadata can drive your decision about a migration to perform and you can migrate to an intermediate schema and massage the data in code.
+// When ready you make a second migration to your final (the current app) schema.
+
 import CoreData
 
 public struct CoreDataMigration {

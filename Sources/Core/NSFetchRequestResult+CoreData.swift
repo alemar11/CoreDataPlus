@@ -1,6 +1,9 @@
 // CoreDataPlus
 
 import CoreData
+#if SWIFT_PACKAGE
+import CoreDataExtensions
+#endif
 
 extension NSFetchRequestResult where Self: NSManagedObject {
   /// **CoreDataPlus**
@@ -53,7 +56,10 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// **CoreDataPlus**
   ///
   /// Performs a configurable fetch request in a context.
-  /// - Note: it always accesses the underlying persistent stores to retrieve the latest results.
+  /// - Note: It always accesses the underlying persistent stores to retrieve the latest results.
+  /// - Attention: Core Data makes heavy use of Futures, especially for relationship values.
+  /// For fetch requests with batching enabled, you probably do not want a Swift *Array* but instead an *NSArray* to avoid making an immediate copy of the future.
+  /// See `fetchAsNSArray(in:with:)`. (Relationships are defined as *NSSet* and not as Swift *Set* for the same very reason).
   ///
   /// - Parameters:
   ///   - context: Searched context.
@@ -67,8 +73,30 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     // https://developer.apple.com/documentation/coredata/nsfetchrequest
     let request = NSFetchRequest<Self>(entityName: entityName)
     configuration(request)
-
     return try context.fetch(request)
+  }
+
+  /// **CoreDataPlus**
+  ///
+  /// Performs a configurable fetch request in a context.
+  ///  - Note: For fetch requests with **batching enabled** returning a *NSArray* optimizes memory and performance across your object graph.
+  ///
+  /// - Parameters:
+  ///   - context: Searched context.
+  ///   - configuration: Configuration closure applied **only** before fetching.
+  /// - Throws: It throws an error in cases of failure.
+  /// - Returns: Returns an array of objects that meet the criteria specified by a given fetch request.
+  public static func fetchNSArray(in context: NSManagedObjectContext, with configuration: (NSFetchRequest<Self>) -> Void = { _ in }) throws -> NSArray {
+    // Check the Discussion paragraph for the fetch(_:) documentation:
+    // https://developer.apple.com/documentation/coredata/nsmanagedobjectcontext/1506672-fetch
+
+    // When you execute an instance of NSFetchRequest, it always accesses the underlying persistent stores to retrieve the latest results.
+    // https://developer.apple.com/documentation/coredata/nsfetchrequest
+
+    let request = NSFetchRequest<Self>(entityName: entityName)
+    configuration(request)
+    
+    return try context.fetchNSArray(request)
   }
 
   /// **CoreDataPlus**

@@ -384,4 +384,51 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
       XCTAssertTrue(context.registeredObjects.isEmpty)
     }
   }
+
+  func testFetchAsNSArrayUsingBatchSize() throws {
+    // For this investigation you have to enable SQL logs in the test plan (-com.apple.CoreData.SQLDebug 3)
+    let context = container.viewContext
+    context.fillWithSampleData()
+    try context.save()
+    context.reset()
+
+    // NSFetchedResultsController isn't affected
+    do {
+      let request = Car.fetchRequest()
+      request.addSortDescriptors([NSSortDescriptor(key: #keyPath(Car.maker), ascending: true)])
+      request.fetchBatchSize = 10
+      let frc = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+      try frc.performFetch()
+      // A SELECT with LIMIT 10 is executed every 10 looped cars ✅
+      frc.fetchedObjects?.forEach { car in
+        let _ = car as! Car
+      }
+    }
+
+    // Running a Swift fetch request with a batch size doesn't work, you have to find a way to fallback to Obj-C
+    // https://mjtsai.com/blog/2021/03/31/making-nsfetchrequest-fetchbatchsize-work-with-swift/
+    // https://developer.apple.com/forums/thread/651325
+    // This fetch will execute SELECT with LIMIT 10 as many times as needed to fetch all the cars ❌
+
+    //let cars_batchSize_not_working = try Car.fetch(in: context) { $0.fetchBatchSize = 10 }
+
+    // This fetch will execute SELECT with LIMIT 10 just one time ✅
+    // let cars_batchLimit_working = try Car.fetch(in: context) { $0.fetchLimit = 10 }
+
+    // cars is a _PFBatchFaultingArray proxy
+    let cars = try Car.fetchNSArray(in: context) { $0.fetchBatchSize = 10 }
+
+    // This for loop will trigger a SELECT with LIMIT 10 every 10 looped cars. ✅
+    cars.forEach { car in
+      let _ = car as! Car
+    }
+
+    // This enumeration will trigger a SELECT with LIMIT 10 every 10 enumerated cars. ✅
+    cars.enumerateObjects { car, _, _ in
+      let _ = car as! Car
+    }
+
+    // firstObject will trigger only a single SELECT with LIMIT 10 ✅
+    let _ = cars.firstObject as! Car
+  }
 }
