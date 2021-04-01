@@ -17,7 +17,7 @@
     <a title="NSFetchRequestResult Extension Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">CoreDataPlus 3.0.0-RC1 Docs</a> (87% documented)</p>
+        <p><a href="../index.html">CoreDataPlus 3.0.0-RC1 Docs</a> (88% documented)</p>
         <p class="header-right">
           <form role="search" action="../search.json">
             <input type="text" placeholder="Search documentation" data-typeahead>
@@ -332,7 +332,13 @@ This method might perform I/O if the data is uncached.</p>
 <p>Performs a configurable fetch request in a context.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    <p>it always accesses the underlying persistent stores to retrieve the latest results.</p>
+    It always accesses the underlying persistent stores to retrieve the latest results.
+
+</div><div class="aside aside-attention">
+    <p class="aside-title">Attention</p>
+    <p>Core Data makes heavy use of Futures, especially for relationship values.
+For fetch requests with batching enabled, you probably do not want a Swift <em>Array</em> but instead an <em>NSArray</em> to avoid making an immediate copy of the future.
+See <code>fetchAsNSArray(in:with:)</code>. (Relationships are defined as <em>NSSet</em> and not as Swift <em>Set</em> for the same very reason).</p>
 
 </div><div class="aside aside-throws">
     <p class="aside-title">Throws</p>
@@ -383,6 +389,84 @@ This method might perform I/O if the data is uncached.</p>
                       <div>
                         <h4>Return Value</h4>
                         <p>An array of objects meeting the criteria specified by request fetched from <em>the receiver</em> and from <em>the persistent stores</em> associated with the receiver’s persistent store coordinator.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzrlE12fetchNSArray2in4withSo0J0CSo0gH7ContextC_ySo0aB0CyxGXEtKFZ"></a>
+                    <a name="//apple_ref/swift/Method/fetchNSArray(in:with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzrlE12fetchNSArray2in4withSo0J0CSo0gH7ContextC_ySo0aB0CyxGXEtKFZ">fetchNSArray(in:<wbr>with:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>CoreDataPlus</strong></p>
+
+<p>Performs a configurable fetch request in a context.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>For fetch requests with <strong>batching enabled</strong> returning a <em>NSArray</em> optimizes memory and performance across your object graph.</p>
+
+<ul>
+<li>context: Searched context.</li>
+<li>configuration: Configuration closure applied <strong>only</strong> before fetching.</li>
+</ul><div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    It throws an error in cases of failure.
+
+</div>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">fetchNSArray</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span> <span class="n">with</span> <span class="nv">configuration</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSFetchRequest</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">})</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">NSArray</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>context</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Searched context.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Configuration closure applied <strong>only</strong> before fetching.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns an array of objects that meet the criteria specified by a given fetch request.</p>
                       </div>
                     </section>
                   </div>
@@ -1421,7 +1505,7 @@ Faulted objects are not considered to prevent Core Data to make a round trip to 
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">iOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">iOSApplicationExtension</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">6.0</span><span class="p">,</span> <span class="n">macOS</span> <span class="mf">10.15</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+                          <pre class="highlight swift"><code><span class="kd">@available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)</span>
 <span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">batchInsert</span><span class="p">(</span><span class="n">using</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span>
                                <span class="nv">resultType</span><span class="p">:</span> <span class="kt">NSBatchInsertRequestResultType</span> <span class="o">=</span> <span class="o">.</span><span class="n">statusOnly</span><span class="p">,</span>
                                <span class="nv">objects</span><span class="p">:</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">NSBatchInsertResult</span></code></pre>
@@ -1510,7 +1594,7 @@ Doing a batch insert with this method is more memory efficient than the standard
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">iOS</span> <span class="mf">14.0</span><span class="p">,</span> <span class="n">iOSApplicationExtension</span> <span class="mf">14.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">14.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">7.0</span><span class="p">,</span> <span class="n">macOS</span> <span class="mf">11.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+                          <pre class="highlight swift"><code><span class="kd">@available(iOS 14.0, iOSApplicationExtension 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)</span>
 <span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">batchInsert</span><span class="p">(</span><span class="n">using</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span>
                                <span class="nv">resultType</span><span class="p">:</span> <span class="kt">NSBatchInsertRequestResultType</span> <span class="o">=</span> <span class="o">.</span><span class="n">statusOnly</span><span class="p">,</span>
                                <span class="n">dictionaryHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">NSMutableDictionary</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">NSBatchInsertResult</span></code></pre>
@@ -1599,7 +1683,7 @@ Doing a batch insert with this method is more memory efficient than the standard
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">iOS</span> <span class="mf">14.0</span><span class="p">,</span> <span class="n">iOSApplicationExtension</span> <span class="mf">14.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">14.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">7.0</span><span class="p">,</span> <span class="n">macOS</span> <span class="mf">11.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+                          <pre class="highlight swift"><code><span class="kd">@available(iOS 14.0, iOSApplicationExtension 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)</span>
 <span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">batchInsert</span><span class="p">(</span><span class="n">using</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span>
                                <span class="nv">resultType</span><span class="p">:</span> <span class="kt">NSBatchInsertRequestResultType</span> <span class="o">=</span> <span class="o">.</span><span class="n">statusOnly</span><span class="p">,</span>
                                <span class="n">managedObjectHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">NSBatchInsertResult</span></code></pre>
@@ -1682,7 +1766,7 @@ Doing a batch insert with this method is more memory efficient than the standard
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">progress</span> <span class="o">=</span> <span class="kt">Progress</span><span class="p">(</span><span class="nv">totalUnitCount</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">progress</span><span class="o">.</span><span class="nf">becomeCurrent</span><span class="p">(</span><span class="nv">withPendingUnitCount</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
 <span class="k">let</span> <span class="nv">fetchResultToken</span> <span class="o">=</span> <span class="k">try</span> <span class="kt">ENTITY</span><span class="o">.</span><span class="nf">fetchAsync</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span><span class="nv">with</span><span class="p">:</span><span class="nv">completion</span><span class="p">:)</span>
-<span class="k">let</span> <span class="nv">token</span> <span class="o">=</span> <span class="n">fetchResultToken</span><span class="o">.</span><span class="n">progress</span><span class="p">?</span><span class="o">.</span><span class="nf">observe</span><span class="p">(\</span><span class="o">.</span><span class="n">completedUnitCount</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="o">.</span><span class="n">old</span><span class="p">,</span> <span class="o">.</span><span class="k">new</span><span class="p">])</span> <span class="p">{</span> <span class="p">(</span><span class="n">progress</span><span class="p">,</span> <span class="n">change</span><span class="p">)</span> <span class="p">}</span>
+<span class="k">let</span> <span class="nv">token</span> <span class="o">=</span> <span class="n">fetchResultToken</span><span class="o">.</span><span class="n">progress</span><span class="p">?</span><span class="o">.</span><span class="nf">observe</span><span class="p">(</span><span class="err">\</span><span class="o">.</span><span class="n">completedUnitCount</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="o">.</span><span class="n">old</span><span class="p">,</span> <span class="o">.</span><span class="k">new</span><span class="p">])</span> <span class="p">{</span> <span class="p">(</span><span class="n">progress</span><span class="p">,</span> <span class="n">change</span><span class="p">)</span> <span class="p">}</span>
 <span class="n">progress</span><span class="o">.</span><span class="nf">resignCurrent</span><span class="p">()</span>
 </code></pre>
 
@@ -1825,8 +1909,8 @@ Doing a batch insert with this method is more memory efficient than the standard
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2020-11-20)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-04-01)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
