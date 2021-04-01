@@ -477,7 +477,7 @@
 			isa = PBXGroup;
 			children = (
 				D20119EE2614E3D9001902FB /* CoreDataExtensions */,
-				D20119F22614E3D9001902FB /* Module */,
+				D20119F22614E3D9001902FB /* Core */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -538,7 +538,7 @@
 			path = Public;
 			sourceTree = "<group>";
 		};
-		D20119F22614E3D9001902FB /* Module */ = {
+		D20119F22614E3D9001902FB /* Core */ = {
 			isa = PBXGroup;
 			children = (
 				D20119F32614E3D9001902FB /* NSBatchDeleteResult+Utils.swift */,
@@ -559,7 +559,7 @@
 				D2011A052614E3D9001902FB /* Notifications */,
 				D2011A082614E3D9001902FB /* NSFetchRequest+Utils.swift */,
 			);
-			path = Module;
+			path = Core;
 			sourceTree = "<group>";
 		};
 		D2011A012614E3D9001902FB /* Migration */ = {

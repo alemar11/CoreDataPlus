@@ -40,7 +40,7 @@ let package = Package(
   ],
   targets: [
     // Core features
-    .target(name: "CoreDataPlus", dependencies: ["CoreDataExtensions"], path: "Sources/Module"),
+    .target(name: "CoreDataPlus", dependencies: ["CoreDataExtensions"], path: "Sources/Core"),
     // Objc Utils
     .target(name: "CoreDataExtensions",
             dependencies: [],
