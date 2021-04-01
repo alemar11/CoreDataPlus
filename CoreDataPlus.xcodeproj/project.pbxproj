@@ -71,9 +71,9 @@
 		236526AB215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236526AA215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift */; };
 		236526AC215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236526AA215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift */; };
 		236526AD215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236526AA215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift */; };
-		237728652148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237728642148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift */; };
-		237728662148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237728642148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift */; };
-		237728672148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237728642148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift */; };
+		237728652148FACE00FDAF32 /* V2to3MakerPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237728642148FACE00FDAF32 /* V2to3MakerPolicy.swift */; };
+		237728662148FACE00FDAF32 /* V2to3MakerPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237728642148FACE00FDAF32 /* V2to3MakerPolicy.swift */; };
+		237728672148FACE00FDAF32 /* V2to3MakerPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237728642148FACE00FDAF32 /* V2to3MakerPolicy.swift */; };
 		2377287121490B9D00FDAF32 /* V2toV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2377287021490B9D00FDAF32 /* V2toV3.xcmappingmodel */; };
 		2377287221490B9D00FDAF32 /* V2toV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2377287021490B9D00FDAF32 /* V2toV3.xcmappingmodel */; };
 		2377287321490B9D00FDAF32 /* V2toV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2377287021490B9D00FDAF32 /* V2toV3.xcmappingmodel */; };
@@ -275,7 +275,7 @@
 		2363510B1F95F28C00B3A16A /* SampleModelVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleModelVersion.swift; sourceTree = "<group>"; };
 		236351241F95F53900B3A16A /* IDETemplateMacros.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = IDETemplateMacros.plist; path = CoreDataPlus.xcodeproj/xcshareddata/IDETemplateMacros.plist; sourceTree = SOURCE_ROOT; };
 		236526AA215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPlusInMemoryTestCase.swift; sourceTree = "<group>"; };
-		237728642148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V2to3MakerPolicyPolicy.swift; sourceTree = "<group>"; };
+		237728642148FACE00FDAF32 /* V2to3MakerPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V2to3MakerPolicy.swift; sourceTree = "<group>"; };
 		2377287021490B9D00FDAF32 /* V2toV3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = V2toV3.xcmappingmodel; sourceTree = "<group>"; };
 		2383AC631FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectDelayedDeletableTests.swift; sourceTree = "<group>"; };
 		23948D1E1F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSEntityDescriptionUtilsTests.swift; sourceTree = "<group>"; };
@@ -426,7 +426,7 @@
 		23A38AF62147F0990086C22A /* MappingModels */ = {
 			isa = PBXGroup;
 			children = (
-				237728642148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift */,
+				237728642148FACE00FDAF32 /* V2to3MakerPolicy.swift */,
 				2377287021490B9D00FDAF32 /* V2toV3.xcmappingmodel */,
 			);
 			path = MappingModels;
@@ -1087,7 +1087,7 @@
 				2351687222A2DD4500340611 /* NotificationPayloadTests.swift in Sources */,
 				D2C5CE36244762FA00AD19D8 /* NSSetCoreDataTests.swift in Sources */,
 				D29AA4E824D99DEA005CE7F4 /* NSManagedObject+DelayedDeletable.swift in Sources */,
-				237728652148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift in Sources */,
+				237728652148FACE00FDAF32 /* V2to3MakerPolicy.swift in Sources */,
 				23F8E9E01F965B2000C65565 /* SampleModel.xcdatamodeld in Sources */,
 				2383AC641FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift in Sources */,
 				232440B722D2546100A04649 /* NSManagedObjectContextInvestigationTests.swift in Sources */,
@@ -1124,7 +1124,7 @@
 				2351687322A2DD4500340611 /* NotificationPayloadTests.swift in Sources */,
 				D2C5CE37244762FA00AD19D8 /* NSSetCoreDataTests.swift in Sources */,
 				D29AA4E624D99DEA005CE7F4 /* NSManagedObject+DelayedDeletable.swift in Sources */,
-				237728662148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift in Sources */,
+				237728662148FACE00FDAF32 /* V2to3MakerPolicy.swift in Sources */,
 				23F8E9E11F965B2100C65565 /* SampleModel.xcdatamodeld in Sources */,
 				2383AC651FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift in Sources */,
 				232440B822D2546100A04649 /* NSManagedObjectContextInvestigationTests.swift in Sources */,
@@ -1161,7 +1161,7 @@
 				2351687422A2DD4500340611 /* NotificationPayloadTests.swift in Sources */,
 				D2C5CE38244762FA00AD19D8 /* NSSetCoreDataTests.swift in Sources */,
 				D29AA4E724D99DEA005CE7F4 /* NSManagedObject+DelayedDeletable.swift in Sources */,
-				237728672148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift in Sources */,
+				237728672148FACE00FDAF32 /* V2to3MakerPolicy.swift in Sources */,
 				23F8E9E21F965B2200C65565 /* SampleModel.xcdatamodeld in Sources */,
 				2383AC661FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift in Sources */,
 				232440B922D2546100A04649 /* NSManagedObjectContextInvestigationTests.swift in Sources */,
