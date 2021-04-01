@@ -275,7 +275,11 @@
 		2363510B1F95F28C00B3A16A /* SampleModelVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleModelVersion.swift; sourceTree = "<group>"; };
 		236351241F95F53900B3A16A /* IDETemplateMacros.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = IDETemplateMacros.plist; path = CoreDataPlus.xcodeproj/xcshareddata/IDETemplateMacros.plist; sourceTree = SOURCE_ROOT; };
 		236526AA215A46C200A51C9F /* CoreDataPlusInMemoryTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPlusInMemoryTestCase.swift; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		237728642148FACE00FDAF32 /* V2to3MakerPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V2to3MakerPolicy.swift; sourceTree = "<group>"; };
+=======
+		237728642148FACE00FDAF32 /* V2to3MakerPolicyPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V2to3MakerPolicyPolicy.swift; sourceTree = "<group>"; };
+>>>>>>> master
 		2377287021490B9D00FDAF32 /* V2toV3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = V2toV3.xcmappingmodel; sourceTree = "<group>"; };
 		2383AC631FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectDelayedDeletableTests.swift; sourceTree = "<group>"; };
 		23948D1E1F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSEntityDescriptionUtilsTests.swift; sourceTree = "<group>"; };
