@@ -385,7 +385,7 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
     }
   }
 
-  func testFetchLazilyUsingBatchSize() throws {
+  func testFetchAsNSArrayUsingBatchSize() throws {
     // For this investigation you have to enable SQL logs in the test plan (-com.apple.CoreData.SQLDebug 3)
     let context = container.viewContext
     context.fillWithSampleData()
@@ -416,7 +416,7 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
     // let cars_batchLimit_working = try Car.fetch(in: context) { $0.fetchLimit = 10 }
 
     // cars is a _PFBatchFaultingArray proxy
-    let cars = try Car.fetchLazily(in: context) { $0.fetchBatchSize = 10 }
+    let cars = try Car.fetchAsNSArray(in: context) { $0.fetchBatchSize = 10 }
 
     // This for loop will trigger a SELECT with LIMIT 10 every 10 looped cars. ✅
     cars.forEach { car in

@@ -59,7 +59,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Note: It always accesses the underlying persistent stores to retrieve the latest results.
   /// - Attention: Core Data makes heavy use of Futures, especially for relationship values.
   /// For fetch requests with batching enabled, you probably do not want a Swift *Array* but instead an *NSArray* to avoid making an immediate copy of the future.
-  /// See `fetchLazily(in:with:)`. (Relationships are defined as *NSSet* and not as Swift *Set* for the same very reason).
+  /// See `fetchAsNSArray(in:with:)`. (Relationships are defined as *NSSet* and not as Swift *Set* for the same very reason).
   ///
   /// - Parameters:
   ///   - context: Searched context.
@@ -86,7 +86,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - configuration: Configuration closure applied **only** before fetching.
   /// - Throws: It throws an error in cases of failure.
   /// - Returns: Returns an array of objects that meet the criteria specified by a given fetch request.
-  public static func fetchLazily(in context: NSManagedObjectContext, with configuration: (NSFetchRequest<Self>) -> Void = { _ in }) throws -> NSArray {
+  public static func fetchAsNSArray(in context: NSManagedObjectContext, with configuration: (NSFetchRequest<Self>) -> Void = { _ in }) throws -> NSArray {
     // Check the Discussion paragraph for the fetch(_:) documentation:
     // https://developer.apple.com/documentation/coredata/nsmanagedobjectcontext/1506672-fetch
 
