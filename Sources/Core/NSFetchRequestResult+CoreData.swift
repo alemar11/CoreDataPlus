@@ -95,7 +95,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
     let request = NSFetchRequest<Self>(entityName: entityName)
     configuration(request)
-    
+
     return try context.fetchNSArray(request)
   }
 

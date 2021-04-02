@@ -180,10 +180,15 @@ public func isMigrationNecessary<Version: CoreDataModelVersion>(for storeURL: UR
   // - configurations define named subsets of a model that contain some but not all entities.
   // - configuration set to nil uses the Default configuration (all entities in the model)
   // - multiple stores with different configurations (loaded with a NSPersistentContainer or added with a
-  // NSPersistentStoreCoordinator), have internally the full schema with all the entities; their configuration may define a subset of the entities but the underlying .sqlite file will have all the entities.
-  // - if multiple configurations contain the same entities, objects are saved in the first-added store (whose configuration includes that entity) or they can be assigned to another store with the NSManagedObjectContext method assign(object:to:) (before saving).
-  // - trying to assign an object to a store whose configuration doesn't include that particular entity will cause an error: 'Can't assign an object to a store that does not contain the object's entity.'
-  // - if an entity gets changed, then all the stores need to be migrated one by one (probably because all the underlying .sqlite files have to be properly migrated even if the entities are not used); for that reason, passing a configuration name or nil to isConfiguration(withName:compatibleWithStoreMetadata:) will always result in a false value (migration needed).
+  // NSPersistentStoreCoordinator), have internally the full schema with all the entities;
+  // their configuration may define a subset of the entities but the underlying .sqlite file will have all the entities.
+  // - if multiple configurations contain the same entities, objects are saved in the first-added store
+  // (whose configuration includes that entity) or they can be assigned to another store with the NSManagedObjectContext method assign(object:to:) (before saving).
+  // - trying to assign an object to a store whose configuration doesn't include that particular entity will cause an error:
+  // 'Can't assign an object to a store that does not contain the object's entity.'
+  // - if an entity gets changed, then all the stores need to be migrated one by one
+  // (probably because all the underlying .sqlite files have to be properly migrated even if the entities are not used); for that reason,
+  // passing a configuration name or nil to isConfiguration(withName:compatibleWithStoreMetadata:) will always result in a false value (migration needed).
   let isCompatible = targetModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
 
   if isCompatible {
