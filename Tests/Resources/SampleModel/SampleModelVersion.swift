@@ -54,18 +54,18 @@ extension SampleModelVersion {
       mappings = SampleModelVersion.version2.mappingModelToNextModelVersion()!
 
       for e in mappings.entityMappings {
-        if let em = e.entityMigrationPolicyClassName, em.contains("V2to3MakerPolicyPolicy") {
+        if let em = e.entityMigrationPolicyClassName, em.contains("V2to3MakerPolicy") {
           /// Hack: we need to change the project module depending on the test target we are currently running
-          /// By default in the V2toV3.xcmappingmodel the custom policy  is set to REPLACE_AT_RUNTIME.V2to3MakerPolicyPolicy so that we remember that
+          /// By default in the V2toV3.xcmappingmodel the custom policy  is set to REPLACE_AT_RUNTIME.V2to3MakerPolicy so that we remember that
           /// REPLACE_AT_RUNTIME is just a placeholder since we can have different targets (and different module names).
           /// https://stackoverflow.com/questions/48284404/core-data-custom-migration-policy-with-multiple-targets
 
-          /// iOS: "CoreDataPlus_Tests_iOS.V2to3MakerPolicyPolicy"
-          /// tvOS: "CoreDataPlus_Tests_tvOS.V2to3MakerPolicyPolicy"
-          /// macOS: "CoreDataPlus_Tests_macOS.V2to3MakerPolicyPolicy"
-          /// spm: "Tests.V2to3MakerPolicyPolicy"
+          /// iOS: "CoreDataPlus_Tests_iOS.V2to3MakerPolicy"
+          /// tvOS: "CoreDataPlus_Tests_tvOS.V2to3MakerPolicy"
+          /// macOS: "CoreDataPlus_Tests_macOS.V2to3MakerPolicy"
+          /// spm: "Tests.V2to3MakerPolicy"
 
-          let policyClassName = NSStringFromClass(V2to3MakerPolicyPolicy.self)
+          let policyClassName = NSStringFromClass(V2to3MakerPolicy.self)
           e.entityMigrationPolicyClassName = policyClassName
         }
       }
