@@ -63,7 +63,8 @@ extension NSManagedObjectContext {
     // https://developer.apple.com/forums/thread/651325.
     // swiftlint:disable force_cast
     let protocolRequest = request as! NSFetchRequest<NSFetchRequestResult>
-    return try cdp_execute(protocolRequest) as NSArray
+    let results = try fetch(protocolRequest) as NSArray
+    return results
   }
 }
 
