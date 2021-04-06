@@ -9,5 +9,3 @@ FOUNDATION_EXPORT double CoreDataPlusVersionNumber;
 FOUNDATION_EXPORT const unsigned char CoreDataPlusVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <CoreDataPlus/PublicHeader.h>
-
-#import <CoreDataPlus/NSManagedObjectContext+CoreDataPlus.h>

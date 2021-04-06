@@ -1,9 +1,6 @@
 // CoreDataPlus
 
 import CoreData
-#if SWIFT_PACKAGE
-import CoreDataExtensions
-#endif
 
 extension NSFetchRequestResult where Self: NSManagedObject {
   /// **CoreDataPlus**
@@ -77,9 +74,12 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   }
 
   /// **CoreDataPlus**
-  ///
+  /// 
   /// Performs a configurable fetch request in a context.
-  ///  - Note: For fetch requests with **batching enabled** returning a *NSArray* optimizes memory and performance across your object graph.
+  /// - Note: When fetching data from Core Data, you don’t always know how many values you’ll be getting back.
+  /// Core Data solves this problem by using a subclass of `NSArray` that will dynamically pull in data from the underlying store on demand.
+  /// On the other hand, a Swift `Array` requires having every element in the array all at once, and bridging an `NSArray` to a Swift `Array` requires retrieving every single value.
+  /// - Warning: **Batched requests** are supported only when returning a `NSArray`.
   ///
   /// - Parameters:
   ///   - context: Searched context.

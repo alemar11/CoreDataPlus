@@ -39,15 +39,7 @@ let package = Package(
     .library(name: "CoreDataPlus", targets: ["CoreDataPlus"])
   ],
   targets: [
-    // Core features
-    .target(name: "CoreDataPlus", dependencies: ["CoreDataExtensions"], path: "Sources/Core"),
-    // Objc Utils
-    .target(name: "CoreDataExtensions",
-            dependencies: [],
-            path: "Sources/CoreDataExtensions",
-            publicHeadersPath: "Public"
-    ),
-
+    .target(name: "CoreDataPlus", path: "Sources"),
     .testTarget(name: "Tests",
                 dependencies: ["CoreDataPlus"],
                 path: "Tests",
