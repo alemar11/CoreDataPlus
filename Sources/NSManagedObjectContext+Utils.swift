@@ -57,7 +57,10 @@ extension NSManagedObjectContext {
   /// **CoreDataPlus**
   ///
   /// Returns an array of objects that meet the criteria specified by a given fetch request.
-  /// - Note: The default Swift implementation returns an *Array* and for performance issues you should prefer using a NSArray* **for batched requests**.
+  /// - Note: When fetching data from Core Data, you don’t always know how many values you’ll be getting back.
+  /// Core Data solves this problem by using a subclass of `NSArray` that will dynamically pull in data from the underlying store on demand.
+  /// On the other hand, a Swift `Array` requires having every element in the array all at once, and bridging an `NSArray` to a Swift `Array` requires retrieving every single value.
+  /// - Warning: **Batched requests** are supported only when returning a `NSArray`.
   /// - SeeAlso:https://developer.apple.com/forums/thread/651325)
   public final func fetchNSArray<T>(_ request: NSFetchRequest<T>) throws -> NSArray {
     // [...] Similarly for fetch requests with batching enabled, you do not want a Swift Array but instead an NSArray to avoid making an immediate copy of the future.
