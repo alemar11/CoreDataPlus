@@ -1,9 +1,6 @@
 // CoreDataPlus
 
 import CoreData
-#if SWIFT_PACKAGE
-import CoreDataExtensions
-#endif
 
 extension NSFetchRequestResult where Self: NSManagedObject {
   /// **CoreDataPlus**
