@@ -14,4 +14,5 @@ class TransformerTests: CoreDataPlusOnDiskTestCase {
     print("\(cars.count)")
   }
   // TODO: to create a sqlite for migrations disable NSPersistentHistoryTrackingKey
+  // TODO: create a base XCTestCase to register (maybe unregister) transformers
 }

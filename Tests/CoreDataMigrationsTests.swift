@@ -97,7 +97,6 @@ class CoreDataMigrationsTests: XCTestCase {
   }
 
   func testMigrationFromVersion1ToVersion2() throws {
-    registerTransformers()
     let bundle = Bundle.tests
     let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModelV1", withExtension: "sqlite"))  // 125 cars, 5 sport cars
 

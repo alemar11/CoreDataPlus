@@ -38,7 +38,11 @@ final class Transformer<A: AnyObject, B: AnyObject>: ValueTransformer {
 final class DataTransformer<A: AnyObject & NSSecureCoding>: NSSecureUnarchiveFromDataTransformer {
   public static func registerTransformer(withName name: String) {
     let transformer = DataTransformer<A>()
-    Foundation.ValueTransformer.setValueTransformer(transformer, forName: NSValueTransformerName(rawValue: name))
+    let transformerName = NSValueTransformerName(rawValue: name)
+    // TODO: check if exists, remove or ad a fatal error
+    //Foundation.ValueTransformer.setValueTransformer(nil, forName: transformerName)
+    //Foundation.ValueTransformer.valueTransformerNames()
+    Foundation.ValueTransformer.setValueTransformer(transformer, forName: transformerName)
   }
   
   public override static func transformedValueClass() -> AnyClass { A.self }
