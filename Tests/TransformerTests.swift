@@ -15,4 +15,5 @@ class TransformerTests: CoreDataPlusOnDiskTestCase {
   }
   // TODO: to create a sqlite for migrations disable NSPersistentHistoryTrackingKey
   // TODO: create a base XCTestCase to register (maybe unregister) transformers
+  // TODO: remove old fixtures model prefixed with "_"
 }
