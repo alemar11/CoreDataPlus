@@ -50,7 +50,7 @@ extension NSPersistentStoreCoordinator {
  let options = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]] // the migration will be done without -wal and -shm files
  try! psc!.migratePersistentStore(store, to: url, options: options, withType: NSSQLiteStoreType)
  ```
- 
+
  https://developer.apple.com/forums/thread/651325
  Additionally you should almost never use NSPersistentStoreCoordinator's migratePersistentStore... method but instead use the newer replacePersistentStoreAtURL..
  (you can replace emptiness to make a copy).

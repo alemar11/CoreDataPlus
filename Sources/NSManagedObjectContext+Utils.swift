@@ -98,11 +98,27 @@ extension NSManagedObjectContext {
 extension NSManagedObjectContext {
   /// **CoreDataPlus**
   ///
+  /// Returns the number of uncommitted changes (transient changes are included).
+  public var changesCount: Int {
+    guard hasChanges else { return 0 }
+    return insertedObjects.count + deletedObjects.count + updatedObjects.count
+  }
+
+  /// **CoreDataPlus**
+  ///
   /// Checks whether there are actually changes that will change the persistent store.
   /// - Note: The `hasChanges` method would return `true` for transient changes as well which can lead to false positives.
   public var hasPersistentChanges: Bool {
     guard hasChanges else { return false }
     return !insertedObjects.isEmpty || !deletedObjects.isEmpty || updatedObjects.first(where: { $0.hasPersistentChangedValues }) != nil
+  }
+
+  /// **CoreDataPlus**
+  ///
+  /// Returns the number of changes that will change the persistent store (transient changes are ignored).
+  public var persistentChangesCount: Int {
+    guard hasChanges else { return 0 }
+    return insertedObjects.count + deletedObjects.count + updatedObjects.filter({ $0.hasPersistentChangedValues }).count
   }
 
   /// **CoreDataPlus**

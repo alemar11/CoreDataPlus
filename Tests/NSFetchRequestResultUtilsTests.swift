@@ -6,83 +6,83 @@ import CoreData
 
 final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
   // MARK: - Batch Faulting
-  
+
   func testFaultAndMaterializeObjectWithoutNSManagedObjectContext() throws {
     let context = container.viewContext
-    
+
     // Given
     let sportCar1 = SportCar(context: context)
     sportCar1.maker = "McLaren"
     sportCar1.model = "570GT"
     sportCar1.numberPlate = "203"
     try context.save()
-    
+
     context.reset()
     XCTAssertTrue(sportCar1.isFault)
     XCTAssertNil(sportCar1.managedObjectContext)
-    
+
     // When
     try [sportCar1].materializeFaults()
     // Then
     XCTAssertFalse(sportCar1.isFault)
   }
-  
+
   func testFaultAndMaterializeTemporaryObject() throws {
     let context = container.viewContext
-    
+
     // Given
     let sportCar1 = SportCar(context: context)
     sportCar1.maker = "McLaren"
     sportCar1.model = "570GT"
     sportCar1.numberPlate = "203"
-    
+
     XCTAssertTrue(sportCar1.objectID.isTemporaryID)
     XCTAssertFalse(sportCar1.isFault)
-    
+
     // When
     sportCar1.fault()
     // Then
     XCTAssertTrue(sportCar1.isFault)
-    
+
     try [sportCar1].materializeFaults()
     XCTAssertFalse(sportCar1.isFault)
   }
-  
+
   func testBatchFaulting() throws {
     // Given
     let context = container.viewContext
-    
+
     context.performAndWait {
       context.fillWithSampleData()
       try! context.save()
     }
-    
+
     /// re-fault objects that don't have pending changes
     context.refreshAllObjects()
-    
+
     let request = Car.newFetchRequest()
     request.predicate = NSPredicate(value: true)
-    
-    
+
+
     // When
     let cars = try context.fetch(request)
-    
+
     /// re-fault objects that don't have pending changes
     context.refreshAllObjects()
-    
+
     let previousFaultsCount = cars.filter { $0.isFault }.count
-    
+
     /// batch faulting
     XCTAssertNoThrow(try cars.materializeFaults())
-    
+
     // Then
     let currentNotFaultsCount = cars.filter { !$0.isFault }.count
     let currentFaultsCount = cars.filter { $0.isFault }.count
     XCTAssertTrue(previousFaultsCount == currentNotFaultsCount)
     XCTAssertTrue(currentFaultsCount == 0)
-    
+
   }
-  
+
   func testBatchFaultingEdgeCases() throws {
     // Given
     let context = container.viewContext
@@ -90,226 +90,226 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
       context.fillWithSampleData()
       try! context.save()
     }
-    
+
     // empty data set
     let objects: [NSManagedObject] = []
     XCTAssertNoThrow(try objects.materializeFaults())
-    
+
     // no faults objects
     let request = Car.newFetchRequest()
     request.predicate = NSPredicate(value: true)
     request.returnsObjectsAsFaults = false
     request.fetchLimit = 2
-    
+
     // When
     let cars = try context.fetch(request)
     let previousFaultsCount = cars.filter { $0.isFault }.count
     let previousNotFaultsCount = cars.filter { !$0.isFault }.count
-    
+
     XCTAssertNoThrow(try cars.materializeFaults())
-    
+
     // Then
     let currentFaultsCount = cars.filter { $0.isFault }.count
     let currentNotFaultsCount = cars.filter { !$0.isFault }.count
     XCTAssertTrue(previousFaultsCount == 0)
     XCTAssertTrue(currentFaultsCount == 0)
     XCTAssertTrue(previousNotFaultsCount == currentNotFaultsCount)
-    
+
   }
-  
+
   func testBatchFaultingWithDifferentContexts() {
     // Given
     let context1 = container.viewContext
     let context2 = context1.newBackgroundContext(asChildContext: false)
-    
+
     let car1 = Car(context: context1)
     car1.numberPlate = "car1-testBatchFaultingWithDifferentContexts"
     let sportCar1 = SportCar(context: context1)
     sportCar1.numberPlate = "sportCar1-testBatchFaultingWithDifferentContexts"
-    
+
     let person2 = context2.performAndWaitResult { context -> Person in
       let person = Person(context: context2)
       person.firstName = "firstName-testBatchFaultingWithDifferentContexts"
       person.lastName = "lastName-testBatchFaultingWithDifferentContexts"
       return person
     }
-    
+
     let car2 = context2.performAndWaitResult { context -> Car in
       let car = Car(context: context2)
       car.numberPlate = "car2-testBatchFaultingWithDifferentContexts"
       return car
     }
-    
+
     context1.performAndWait {
       try! context1.save()
     }
-    
+
     context2.performAndWait {
       try! context2.save()
     }
-    
+
     // When
     context1.refreshAllObjects()
     context2.performAndWait {
       context2.refreshAllObjects()
     }
-    
+
     let objects = [car1, sportCar1, person2, car2]
-    
+
     // Then
     XCTAssertTrue(objects.filter { !$0.isFault }.isEmpty)
     XCTAssertNoThrow(try objects.materializeFaults())
     XCTAssertTrue(objects.filter { !$0.isFault }.count == 4)
   }
-  
+
   func testBatchFaultingToManyRelationship() throws {
     let context = container.viewContext
-    
+
     context.performAndWait {
       context.fillWithSampleData()
       try! context.save()
     }
-    
+
     context.refreshAllObjects() //re-fault objects that don't have pending changes
-    
+
     let request = Person.newFetchRequest()
     request.predicate = NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone")
-    
+
     let persons = try context.fetch(request)
-    
+
     XCTAssertNotNil(persons)
     XCTAssertTrue(!persons.isEmpty)
-    
+
     let person = persons.first!
     let previousFaultsCount = person._cars?.filter { $0.isFault }.count
-    
+
     XCTAssertNoThrow(try person._cars?.materializeFaults())
     let currentNotFaultsCount = person._cars?.filter { !$0.isFault }.count
     let currentFaultsCount = person._cars?.filter { $0.isFault }.count
     XCTAssertTrue(previousFaultsCount == currentNotFaultsCount)
     XCTAssertTrue(currentFaultsCount == 0)
-    
+
   }
-  
+
   // MARK: - Fetch
-  
+
   func testFetch() throws {
     let context = container.viewContext
-    
+
     context.performAndWait {
       context.fillWithSampleData()
       try! context.save()
     }
-    
+
     do {
       let persons = try Person.fetch(in: context) { request in
         request.predicate = NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "Moreton")
       }
       XCTAssertTrue(persons.count == 2)
     }
-    
+
     do {
       let persons = try Person.fetch(in: context) { request in
         request.predicate = NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "MoretonXYZ")
       }
       XCTAssertTrue(persons.isEmpty)
     }
-    
+
   }
-  
+
   // MARK: - Count
-  
+
   func testCount() throws {
     let context = container.viewContext
-    
+
     context.performAndWait {
       context.fillWithSampleData()
       try! context.save()
     }
-    
+
     do {
       let persons = try Person.count(in: context) { request in
         request.predicate = NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "Moreton")
       }
       XCTAssertTrue(persons == 2)
     }
-    
+
     do {
       let persons = try Person.count(in: context) { request in
         request.predicate = NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "MoretonXYZ")
       }
       XCTAssertTrue(persons == 0)
     }
-    
+
   }
-  
+
   // MARK: - Unique
-  
+
   func testfetchUnique() throws {
     let context = container.viewContext
-    
+
     context.performAndWait {
       context.fillWithSampleData()
       try! context.save()
     }
-    
+
     // This fetch will cause a fatal error (multiple objects will be fetched
     //  _ = try Person.fetchUnique(in: context) {
     //    $0.predicate = NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "Moreton")
     //  }
-    
+
     do {
       let person = try Person.fetchUnique(in: context, where: NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "MoretonXYZ"))
       XCTAssertNil(person)
     }
-    
+
     do {
       let person = try Person.fetchUnique(in: context, where: NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone"))
       XCTAssertNotNil(person)
     }
-    
+
   }
-  
+
   func testFindUniqueAfterPendingDelete() throws {
     let context = container.viewContext
-    
+
     // 1. a Lamborghini with plate 304 is saved
     context.performAndWait {
       context.fillWithSampleData()
       try! context.save()
     }
-    
+
     context.reset()
     let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
     try ExpensiveSportCar.delete(in: context, where: predicate)
-    
+
     let car1 = try ExpensiveSportCar.fetchUnique(in: context, where: predicate)
     XCTAssertNil(car1)
-    
+
     // pending changes are lost
     context.reset()
-    
+
     let car2 = try ExpensiveSportCar.fetchUnique(in: context, where: predicate)
     XCTAssertNotNil(car2)
   }
-  
+
   func testFindUniqueOrCreate() throws {
     let context = container.viewContext
     context.performAndWait {
       context.fillWithSampleData()
       try! context.save()
     }
-    
+
     // Case 1: existing object
     do {
       let car = try Car.findUniqueOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")) { _ in
         XCTFail("A new car shouldn't be created.")
       }
-      
+
       XCTAssertNotNil(car)
       XCTAssertTrue(car.maker == "Lamborghini")
     }
-    
+
     // Case 2: new object
     do {
       let car = try Car.findUniqueOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-new"), with: { car in
@@ -323,11 +323,11 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
       XCTAssertEqual(car.model, "test")
       context.delete(car)
     }
-    
+
     // Case 3: new object (supposed to be unique) added in the context before the fetch
-    
+
     context.reset()
-    
+
     // first we materialiaze all cars
     XCTAssertNoThrow(try Car.fetch(in: context) { request in request.returnsObjectsAsFaults = false })
     // we add a new car to the context that has an already used numberPlate
@@ -335,61 +335,61 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     car.numberPlate = "304"
     car.maker = "fake-maker"
     car.model = "fake-model"
-    
+
     // There are 2 cars (one saved, one in memory) with the same number plate 304, uniqueness is not guaranteed and a throws is expected
-    
+
     // let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
     // The next fech is expected to print a fatal error
     //_ = try Car.findUniqueOrCreate(in: context, where: predicate, with: { _ in })
-    
+
     // All the cars match the predicate, uniqueness is not guaranteed and a throws is expected
     // The next fech is expected to print a fatal error
     //_ = try Car.findUniqueOrCreate(in: context, where: NSPredicate(value: true), with: { _ in })
   }
-  
+
   // MARK: - First
-  
+
   func testFetchOne() throws {
     let context = container.viewContext
-    
+
     context.performAndWait {
       context.fillWithSampleData()
       try! context.save()
     }
-    
+
     let car1 = try Car.fetchOne(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"))
     XCTAssertNotNil(car1)
-    
+
     car1?.numberPlate = "304-edited"
-    
+
     let car2 = try Car.fetchOne(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"))
     XCTAssertNil(car2)
-    
+
     // the fetch will be run only against saved values (number plate "304-edited" is a pending change)
     let car3 = try Car.fetchOne(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"), includesPendingChanges: false)
     XCTAssertNotNil(car3)
-    
-    
+
+
     let newCar = Car(context: context)
     newCar.numberPlate = "304-fake"
     newCar.maker = "fake-maker"
     newCar.model = "fake-model"
-    
+
     let car4 = try Car.fetchOne(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-fake"))
     XCTAssertNotNil(car4)
-    
+
     let car5 = try Car.fetchOne(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-fake"), includesPendingChanges: false)
     XCTAssertNil(car5)
   }
-  
+
   func testFindOneOrCreate() throws {
     let context = container.viewContext
-    
+
     context.performAndWait {
       context.fillWithSampleData()
       try! context.save()
     }
-    
+
     /// existing object
     do {
       let car = try Car.findOneOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")) { car in
@@ -399,7 +399,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
       XCTAssertTrue(car.maker == "Lamborghini")
       XCTAssertFalse(car.objectID.isTemporaryID)
     }
-    
+
     /// new object
     do {
       let car = try Car.findOneOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-new"), with: { car in
@@ -414,16 +414,16 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
       XCTAssertTrue(car.objectID.isTemporaryID)
       context.delete(car)
     }
-    
+
     /// new object added in the context before the fetch
-    
+
     // first we materialiaze all cars
     XCTAssertNoThrow(try Car.fetch(in: context) { request in request.returnsObjectsAsFaults = false })
     let car = Car(context: context)
     car.numberPlate = "304"
     car.maker = "fake-maker"
     car.model = "fake-model"
-    
+
     /// At this point we have two car with the same 304 number plate in the context, so the method will fetch one of these two.
     do {
       let car = try Car.findOneOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"), with: { car in
@@ -435,15 +435,15 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
       } else {
         XCTAssertEqual(car.maker, "Lamborghini")
       }
-      
+
       let car304 = context.registeredObjects.filter{ $0 is Car } as! Set<Car>
-      
+
       XCTAssertTrue(car304.filter { $0.numberPlate == "304" }.count == 2)
     }
-    
+
     context.refreshAllObjects()
     context.reset()
-    
+
     /// multiple objects, the first one matching the condition is returned
     do {
       let car = try Car.findOneOrCreate(in: context, where: NSPredicate(value: true), with: { car in
@@ -453,165 +453,165 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
       XCTAssertFalse(car.objectID.isTemporaryID)
     }
   }
-  
+
   func testFindFirstMaterializedObject() throws {
     let context = container.viewContext
-    
+
     context.performAndWait {
       context.fillWithSampleData()
       try! context.save()
     }
-    
+
     // materialize all expensive sport cars
     let request = ExpensiveSportCar.newFetchRequest()
     request.returnsObjectsAsFaults = false
     request.predicate = NSPredicate(value: true)
-    
+
     _ = try context.fetch(request)
-    
+
     XCTAssertNotNil(Car.materializedObject(in: context, where: NSPredicate(value: true)))
-    
+
     let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
     XCTAssertNotNil(Car.materializedObject(in: context, where: predicate))
-    
+
     // de-materialize all objects
     context.refreshAllObjects()
-    
+
     XCTAssertNil(Car.materializedObject(in: context, where: predicate))
   }
-  
+
   // MARK: Materialized Object
-  
+
   func testfindMaterializedObjects() throws {
     let context = container.viewContext
-    
+
     context.performAndWait {
       context.fillWithSampleData()
       try! context.save()
     }
-    
+
     // materialize all expensive sport cars
     let request = ExpensiveSportCar.newFetchRequest()
     request.returnsObjectsAsFaults = false
     request.predicate = NSPredicate(value: true)
     _ = try context.fetch(request)
-    
+
     XCTAssertTrue(Car.materializedObjects(in: context, where: NSPredicate(value: true)).count > 1)
     // with the previous fetch we have materialized only one Lamborghini (the expensive one)
     XCTAssertTrue(SportCar.materializedObjects(in: context, where: NSPredicate(format: "\(#keyPath(Car.maker)) == %@", "Lamborghini")).count == 1)
-    
+
     // de-materialize all objects
     context.refreshAllObjects()
-    
+
     XCTAssertTrue(Car.materializedObjects(in: context, where: NSPredicate(value: true)).isEmpty)
   }
-  
+
   // MARK: Batch Delete
-  
+
   func testbatchDeleteWithResultTypeStatusOnly() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
-    
+
     let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
     let result = try Car.batchDelete(using: context, resultType: .resultTypeStatusOnly) { $0.predicate = fiatPredicate }
-    
+
     XCTAssertNotNil(result.status)
     XCTAssertTrue(result.status! == true)
     XCTAssertNil(result.deletes)
     XCTAssertEqual(result.changes?[NSDeletedObjectsKey]?.count, nil) // wrong result type
   }
-  
+
   func testbatchDeleteWithResultTypeCount() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
-    
+
     let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
     let result = try Car.batchDelete(using: context, resultType: .resultTypeCount) { $0.predicate = fiatPredicate }
-    
+
     XCTAssertNotNil(result.count)
     XCTAssertTrue(result.count! > 1)
     XCTAssertEqual(result.changes?[NSDeletedObjectsKey]?.count, nil) // wrong result type
   }
-  
+
   func testbatchDeleteWithResultTypeObjectIDs() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
-    
-    
+
+
     let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
     let fiatCount = try Car.count(in: context) { request in request.predicate = fiatPredicate }
     XCTAssertTrue(fiatCount > 0)
-    
+
     let backgroundContext = context.newBackgroundContext()
     let result = try backgroundContext.performAndWaitResult {
       try Car.batchDelete(using: $0, resultType: .resultTypeObjectIDs) { $0.predicate = fiatPredicate }
     }
-    
+
     XCTAssertNotNil(result.deletes)
     let deletedValues = result.deletes?.count ?? 0
     XCTAssertTrue(deletedValues > 1)
     XCTAssertTrue(result.changes?[NSDeletedObjectsKey]?.count ?? 0 > 1)
-    
+
     // the var `changes`  is usefull when used while merging changes
     NSManagedObjectContext.mergeChanges(fromRemoteContextSave: result.changes!, into: [context])
-    
+
     let fiatCountAfterMerge = try Car.count(in: context) { request in request.predicate = fiatPredicate }
     XCTAssertEqual(fiatCountAfterMerge, 0)
   }
-  
+
   func testBatchdeleteEntities() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
-    
+
     // When, Then
     let result = try SportCar.batchDelete(using: context, resultType: .resultTypeStatusOnly)
     XCTAssertTrue(result.status!)
-    
+
     context.reset()
     let sportCarCount = try ExpensiveSportCar.count(in: context)
     let expensiveSportCarCount = try ExpensiveSportCar.count(in: context)
     XCTAssertEqual(sportCarCount, 0)
     XCTAssertEqual(expensiveSportCarCount, 0)
   }
-  
+
   func testBatchDeleteEntitiesExcludingSubEntities() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
-    
+
     let preDeleteSportCarCount = try SportCar.count(in: context) // This count include all the subentities
     let preDeleteExpensiveSportCarCount = try ExpensiveSportCar.count(in: context)
     let expectedRemovedCarCount = preDeleteSportCarCount - preDeleteExpensiveSportCarCount
     let expectedRemainingSportCartCount = preDeleteSportCarCount - expectedRemovedCarCount
-    
+
     // When, Then
     let result = try SportCar.batchDelete(using: context, resultType: .resultTypeStatusOnly) { request in
       request.includesSubentities = false
     }
     XCTAssertTrue(result.status!)
-    
+
     context.reset()
     let sportCarCount = try SportCar.count(in: context)
     let expensiveSportCarCount = try ExpensiveSportCar.count(in: context)
     XCTAssertEqual(sportCarCount, expectedRemainingSportCartCount)
     XCTAssertEqual(expensiveSportCarCount, preDeleteExpensiveSportCarCount)
   }
-  
+
   func testbatchDeleteMarkedForDeletion() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
-    
+
     let kias = [9, 10, 11]
     let kiasCars = try Car.fetch(in: context, with: { $0.predicate = NSPredicate(format: "%K IN %@", #keyPath(Car.numberPlate), kias) })
     XCTAssertEqual(kiasCars.count, 3)
@@ -619,88 +619,88 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
       car.markForDelayedDeletion()
     }
     try context.save()
-    
+
     let result = try Car.batchDeleteMarkedForDeletion(with: context, olderThan: Date(), resultType: .resultTypeStatusOnly)
     XCTAssertTrue(result.status!)
-    
+
     try context.save()
     let kiasCars2 = try Car.fetch(in: context, with: { $0.predicate = NSPredicate(format: "%K IN %@", #keyPath(Car.numberPlate), kias) })
     XCTAssertEqual(kiasCars2.count, 0)
   }
-  
+
   // MARK: Batch Insert
-  
+
   func testbatchInsertWithResultTypeStatusOnly() throws {
     guard #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) else { return }
-    
+
     // Given
     let context = container.viewContext
-    
+
     let object = [#keyPath(Car.maker): "FIAT",
                   #keyPath(Car.numberPlate): "123",
                   #keyPath(Car.model): "Panda"]
-    
+
     let result = try! Car.batchInsert(using: context,
                                       resultType: .statusOnly,
                                       objects: [object])
-    
+
     XCTAssertTrue(result.status!)
     XCTAssertEqual(result.changes?[NSInsertedObjectsKey]?.count, nil) // wrong result type
   }
-  
+
   func testbatchInsertWithResultTypeCount() throws {
     guard #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) else { return }
-    
+
     // Given
     let context = container.viewContext
-    
+
     let object = [#keyPath(Car.maker): "FIAT",
                   #keyPath(Car.numberPlate): "123",
                   #keyPath(Car.model): "Panda"]
-    
+
     let result = try! Car.batchInsert(using: context,
                                       resultType: .count,
                                       objects: [object])
-    
+
     XCTAssertEqual(result.count!, 1)
     XCTAssertEqual(result.changes?[NSInsertedObjectsKey]?.count, nil) // wrong result type
   }
-  
+
   func testbatchInsertWithResultObjectIDs() throws {
     guard #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) else { return }
-    
+
     // Given
     let context = container.viewContext
     let numberPlate = UUID().uuidString
     let numberPlate2 = UUID().uuidString
-    
+
     let objects = [
       // This object will be inserted without a maker
       ["WRONG_KEY": "FIAT",
        #keyPath(Car.numberPlate): numberPlate,
        #keyPath(Car.model): "Panda"],
-      
+
       // This object will not be inserted because the number plate has already been inserted
       [#keyPath(Car.maker): "FIAT",
        #keyPath(Car.numberPlate): numberPlate,
        #keyPath(Car.model): "Panda*"],
-      
+
       [#keyPath(Car.maker): "FIAT",
        #keyPath(Car.numberPlate): numberPlate2,
        #keyPath(Car.model): "Panda"]
     ]
-    
+
     if #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *) {
       // on iOS 14, throws an error (NSValidationErrorKey)
       XCTAssertThrowsError(try Car.batchInsert(using: context, resultType: .objectIDs, objects: objects))
     } else {
       // on iOS 13, it doesn't throw
       let result = try! Car.batchInsert(using: context, resultType: .objectIDs, objects: objects)
-      
+
       // the first two objects have the same numberPlate
       XCTAssertEqual(result.inserts!.count, 2)
       XCTAssertEqual(result.changes?[NSInsertedObjectsKey]?.count, 2)
-      
+
       let cars = try Car.fetch(in: context)
       let models = cars.compactMap { $0.model }
       let makers = cars.compactMap { $0.maker }
@@ -708,28 +708,28 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
       XCTAssertEqual(makers.count, 1)
     }
   }
-  
+
   func testFailedbatchInsertWithResultObjectIDs() throws {
     guard #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) else { return }
-    
+
     // Given
     let context = container.viewContext
-    
+
     let objects = [
       [#keyPath(Car.maker): "FIAT",
        "WRONG_REQUIRED_KEY": "1234",
        #keyPath(Car.model): "Panda"],
     ]
-    
+
     XCTAssertThrowsError(try Car.batchInsert(using: context, resultType: .objectIDs, objects: objects))
   }
-  
+
   func testbatchInsertWithDictionaryHandler() throws {
     guard #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *) else { return }
-    
+
     // Given
     let context = container.viewContext
-    
+
     let dictionaries: [[String: Any]] = [
       [#keyPath(Car.maker): "FIAT", #keyPath(Car.numberPlate): "1", #keyPath(Car.model): "Panda"],
       [#keyPath(Car.maker): "FIAT", #keyPath(Car.numberPlate): "2", #keyPath(Car.model): "Panda"],
@@ -737,7 +737,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
       [#keyPath(Car.maker): "FIAT", #keyPath(Car.numberPlate): "4", #keyPath(Car.model): "Panda"],
       [#keyPath(Car.maker): "FIAT", #keyPath(Car.numberPlate): "5", #keyPath(Car.model): "Panda"],
     ]
-    
+
     // Provide one dictionary at a time when the block is called.
     var index = 0
     let total = dictionaries.count
@@ -747,22 +747,22 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
       index += 1
       return false
     })
-    
+
     let insertResult = try XCTUnwrap(result)
     XCTAssertEqual(index, total)
     XCTAssertTrue(insertResult.status!)
     XCTAssertEqual(insertResult.changes?[NSInsertedObjectsKey]?.count, nil) // wrong result type
-    
+
     let count = try Car.count(in: context)
     XCTAssertEqual(count, total)
   }
-  
+
   func testBatchInserWithObjectHandler() throws {
     guard #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *) else { return }
-    
+
     // Given
     let context = container.viewContext
-    
+
     let dictionaries: [[String: Any]] = [
       [#keyPath(Car.maker): "FIAT", #keyPath(Car.numberPlate): "1", #keyPath(Car.model): "Panda"],
       [#keyPath(Car.maker): "FIAT", #keyPath(Car.numberPlate): "2", #keyPath(Car.model): "Panda"],
@@ -770,7 +770,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
       [#keyPath(Car.maker): "FIAT", #keyPath(Car.numberPlate): "4", #keyPath(Car.model): "Panda"],
       [#keyPath(Car.maker): "FIAT", #keyPath(Car.numberPlate): "5", #keyPath(Car.model): "Panda"],
     ]
-    
+
     // Provide one object at a time when the block is called.
     var index = 0
     let total = dictionaries.count
@@ -784,34 +784,34 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
       index += 1
       return false
     })
-    
+
     let insertResult = try XCTUnwrap(result)
     XCTAssertEqual(index, total)
     XCTAssertTrue(insertResult.status!)
     XCTAssertEqual(insertResult.changes?[NSInsertedObjectsKey]?.count, nil) // wrong result type
-    
+
     let count = try Car.count(in: context)
     XCTAssertEqual(count, total)
   }
-  
+
   // MARK: Batch Update
-  
+
   func testbatchUpdateWithResultTypeStatusOnly() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
-    
+
     let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
     let fcaPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FCA")
-    
+
     let fiatCount = try Car.count(in: context) { $0.predicate = fiatPredicate }
     let fcaCount = try Car.count(in: context) { $0.predicate = fcaPredicate }
     XCTAssertEqual(fcaCount, 0)
-    
+
     let result = try Car.batchUpdate(using: context, propertiesToUpdate: [#keyPath(Car.maker): "FCA"], predicate: fiatPredicate)
     XCTAssertTrue(result.status!)
-    
+
     context.reset()
     let newFiatCount = try Car.count(in: context) { $0.predicate = fiatPredicate }
     XCTAssertEqual(newFiatCount, 0)
@@ -819,23 +819,23 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     XCTAssertEqual(newFCACount, fiatCount)
     XCTAssertEqual(result.changes?[NSUpdatedObjectsKey]?.count, nil) // wrong result type
   }
-  
+
   func testbatchUpdateWithResultCountType() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
-    
+
     let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
     let fcaPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FCA")
-    
+
     let fiatCount = try Car.count(in: context) { $0.predicate = fiatPredicate }
     let fcaCount = try Car.count(in: context) { $0.predicate = fcaPredicate }
     XCTAssertEqual(fcaCount, 0)
-    
+
     let result = try Car.batchUpdate(using: context, resultType: .updatedObjectsCountResultType, propertiesToUpdate: [#keyPath(Car.maker): "FCA"], includesSubentities: true, predicate: fiatPredicate)
     XCTAssertEqual(result.count!, fiatCount)
-    
+
     context.reset()
     let newFiatCount = try Car.count(in: context) { $0.predicate = fiatPredicate }
     XCTAssertEqual(newFiatCount, 0)
@@ -843,29 +843,29 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     XCTAssertEqual(newFCACount, fiatCount)
     XCTAssertEqual(result.changes?[NSUpdatedObjectsKey]?.count, nil) // wrong result type
   }
-  
+
   func testbatchUpdateWithResultObjectIDsType() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
-    
+
     let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
     let fcaPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FCA")
-    
+
     let fiatCount = try Car.count(in: context) { $0.predicate = fiatPredicate }
     let fcaCount = try Car.count(in: context) { $0.predicate = fcaPredicate }
     XCTAssertEqual(fcaCount, 0)
-    
+
     let result = try Car.batchUpdate(using: context,
                                      resultType: .updatedObjectIDsResultType,
                                      propertiesToUpdate: [#keyPath(Car.maker): "FCA"],
                                      includesSubentities: true,
                                      predicate: fiatPredicate)
-    
+
     let changes = result.updates!
     XCTAssertEqual(changes.count, 103)
-    
+
     context.reset()
     let newFiatCount = try Car.count(in: context) { $0.predicate = fiatPredicate }
     XCTAssertEqual(newFiatCount, 0)
@@ -873,7 +873,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     XCTAssertEqual(newFCACount, fiatCount)
     XCTAssertEqual(result.changes?[NSUpdatedObjectsKey]?.count, 103)
   }
-  
+
   // TODO: investigate this behaviour (and open a FB)
   //  func testFailedbatchUpdateWithResultObjectIDs() throws {
   //    guard #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) else { return }
@@ -929,27 +929,27 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
   //    XCTAssertEqual(count2, 0)
   //    // https://developer.apple.com/library/archive/featuredarticles/CoreData_Batch_Guide/BatchUpdates/BatchUpdates.html
   //  }
-  
+
   // MARK: - Async Fetch
-  
+
   func testAsyncFetch() throws {
     // BUG: Async fetches can't be tested with the ConcurrencyDebug enabled,
     // https://stackoverflow.com/questions/31728425/coredata-asynchronous-fetch-causes-concurrency-debugger-error
     try XCTSkipIf(UserDefaults.standard.integer(forKey: "com.apple.CoreData.ConcurrencyDebug") == 1)
-    
+
     let expectation1 = self.expectation(description: "\(#function)\(#line)")
     let expectation2 = self.expectation(description: "\(#function)\(#line)")
     let mainContext = container.viewContext
-    
+
     (1...10_000).forEach { (i) in
       let car = Car(context: mainContext)
       car.numberPlate = "test\(i)"
     }
-    
+
     try mainContext.save()
     let currentProgress = Progress(totalUnitCount: 1)
     currentProgress.becomeCurrent(withPendingUnitCount: 1)
-    
+
     let token = try Car.fetchAsync(in: mainContext, with: { request in
       request.predicate = NSPredicate(value: true)
     }) { result in
@@ -961,49 +961,49 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
         XCTFail(error.localizedDescription)
       }
     }
-    
+
     XCTAssertNotNil(token.progress)
-    
+
     // progress is not nil only if we create a progress and call the becomeCurrent method
     let currentToken = token.progress?.observe(\.completedUnitCount, options: [.old, .new]) { (progress, change) in
-      
+
       if change.newValue == 10_000 {
         expectation2.fulfill()
       }
     }
-    
+
     waitForExpectations(timeout: 30, handler: nil)
     currentProgress.resignCurrent()
     currentToken?.invalidate()
   }
-  
+
   // MARK: - Thread Safe Access
-  
+
   func testManagedObjectThreadSafeAccess() {
     let context = container.viewContext.newBackgroundContext()
     let car = context.performAndWaitResult { return Car(context: $0) }
     car.safeAccess { XCTAssertEqual($0.managedObjectContext, context) }
   }
-  
+
   func testFetchedResultsControllerThreadSafeAccess() throws {
     let context = container.viewContext.newBackgroundContext()
     try context.performAndWaitResult { _ in
       context.fillWithSampleData()
       try context.save()
     }
-    
+
     let request = Car.newFetchRequest()
     request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Car.numberPlate), ascending: true)]
     let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
     try controller.performFetch()
-    
+
     let cars = controller.fetchedObjects!
     let firstCar = controller.object(at: IndexPath(item: 0, section: 0)) as Car
-    
+
     firstCar.safeAccess {
       XCTAssertEqual(controller.managedObjectContext, $0.managedObjectContext)
     }
-    
+
     for car in cars {
       _ = car.safeAccess { car -> String in
         XCTAssertEqual(controller.managedObjectContext, context)
@@ -1011,9 +1011,9 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
       }
     }
   }
-  
+
   // MARK: - Group By
-  
+
   // TODO: Wip
   // TODO: read documentation on how to use processPendingChanges and UndoManager
 
@@ -1052,7 +1052,7 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
   //
   //        print(results)
   //      }
-  
+
   //  // MARK: - Undo
   //
   //  // TODO: the undo manager is needed for undo, redo and rollback

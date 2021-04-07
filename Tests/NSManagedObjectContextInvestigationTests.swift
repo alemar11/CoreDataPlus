@@ -408,10 +408,10 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
     // Running a Swift fetch request with a batch size doesn't work, you have to find a way to fallback to Obj-C
     // https://mjtsai.com/blog/2021/03/31/making-nsfetchrequest-fetchbatchsize-work-with-swift/
     // https://developer.apple.com/forums/thread/651325
-    
+
     // This fetch will execute SELECT with LIMIT 10 just one time ✅
     // let cars_batchLimit_working = try Car.fetch(in: context) { $0.fetchLimit = 10 }
-    
+
     // This fetch will execute SELECT with LIMIT 10 as many times as needed to fetch all the cars ❌
     //let cars_batchSize_not_working = try Car.fetch(in: context) { $0.fetchBatchSize = 10 }
 
