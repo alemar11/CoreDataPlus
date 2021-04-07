@@ -69,3 +69,14 @@ extension Foundation.Bundle {
   }()
 }
 
+func registerTransformers() {
+//  Transformer<NSColor,NSData>.registerTransformer(withName: "ColorTransformer") { (color) -> NSData? in
+//    print("🔴\(color)")
+//    return NSData()
+//    //return NSString(string: "123")
+//  } reverseTransform: { (string) -> NSColor? in
+//    print("✅\(string)")
+//    return NSColor.red
+//  }
+  DataTransformer<Color>.registerTransformer(withName: "ColorTransformer") 
+}

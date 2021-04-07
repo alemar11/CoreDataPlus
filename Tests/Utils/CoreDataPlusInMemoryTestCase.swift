@@ -7,10 +7,15 @@ import CoreData
 // MARK: - In Memory XCTestCase
 
 class CoreDataPlusInMemoryTestCase: XCTestCase {
+  class override func setUp() {
+    registerTransformers()
+  }
+
   var container: NSPersistentContainer!
 
   override func setUp() {
     super.setUp()
+    registerTransformers()
     container = InMemoryPersistentContainer.makeNew()
   }
 
