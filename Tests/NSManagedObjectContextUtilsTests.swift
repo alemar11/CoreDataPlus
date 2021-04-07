@@ -25,12 +25,15 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusInMemoryTestCase {
     car.currentDrivingSpeed = 50
 
     XCTAssertTrue(viewContext.hasPersistentChanges)
+    XCTAssertEqual(viewContext.persistentChangesCount, 1)
     try viewContext.save()
     XCTAssertFalse(viewContext.hasPersistentChanges)
     XCTAssertEqual(car.currentDrivingSpeed, 50)
     car.currentDrivingSpeed = 10
     XCTAssertTrue(car.hasChanges)
     XCTAssertFalse(car.hasPersistentChangedValues)
+    XCTAssertEqual(viewContext.persistentChangesCount, 0)
+    XCTAssertEqual(viewContext.changesCount, 1)
     XCTAssertFalse(viewContext.hasPersistentChanges, "viewContext shouldn't have committable changes because only transients properties are changed.")
   }
 
@@ -40,20 +43,29 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusInMemoryTestCase {
 
     backgroundContext.performAndWait {
       XCTAssertFalse(backgroundContext.hasPersistentChanges)
+      XCTAssertEqual(backgroundContext.persistentChangesCount, 0)
+      XCTAssertEqual(backgroundContext.changesCount, 0)
+      XCTAssertEqual(viewContext.persistentChangesCount, 0)
+      XCTAssertEqual(viewContext.changesCount, 0)
       let car = Car(context: backgroundContext)
       car.maker = "FIAT"
       car.model = "Panda"
       car.numberPlate = UUID().uuidString
       XCTAssertTrue(backgroundContext.hasPersistentChanges)
+      XCTAssertEqual(backgroundContext.persistentChangesCount, 1)
+      XCTAssertEqual(backgroundContext.changesCount, 1)
 
       try! backgroundContext.save()
 
       XCTAssertFalse(backgroundContext.hasPersistentChanges)
+      XCTAssertEqual(backgroundContext.persistentChangesCount, 0)
       XCTAssertEqual(car.currentDrivingSpeed, 0)
       car.currentDrivingSpeed = 50
       XCTAssertTrue(car.hasChanges)
       XCTAssertFalse(car.hasPersistentChangedValues)
       XCTAssertFalse(backgroundContext.hasPersistentChanges)
+      XCTAssertEqual(backgroundContext.persistentChangesCount, 0)
+      XCTAssertEqual(backgroundContext.changesCount, 1)
 
       try! backgroundContext.save() // pushing the transient value up to the parent context
     }
@@ -62,7 +74,8 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusInMemoryTestCase {
     XCTAssertEqual(car.currentDrivingSpeed, 50)
     XCTAssertTrue(viewContext.hasChanges, "The viewContext should have uncommitted changes after the child save.")
     XCTAssertTrue(viewContext.hasPersistentChanges, "The viewContext should have uncommitted changes after the child save.")
-
+    XCTAssertEqual(viewContext.persistentChangesCount, 1)
+    XCTAssertEqual(viewContext.changesCount, 1)
     try viewContext.save()
 
     backgroundContext.performAndWait {
@@ -72,6 +85,8 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusInMemoryTestCase {
         car.currentDrivingSpeed = 30
         XCTAssertTrue(backgroundContext.hasChanges)
         XCTAssertFalse(backgroundContext.hasPersistentChanges, "backgroundContext shouldn't have committable changes because only transients properties are changed.")
+        XCTAssertEqual(backgroundContext.persistentChangesCount, 0)
+        XCTAssertEqual(backgroundContext.changesCount, 1)
         try backgroundContext.save()
       } catch let error as NSError {
         XCTFail(error.description)
@@ -81,6 +96,8 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusInMemoryTestCase {
     XCTAssertTrue(viewContext.hasChanges, "The transient property has changed")
     XCTAssertEqual(car.currentDrivingSpeed, 30)
     XCTAssertFalse(viewContext.hasPersistentChanges, "viewContext shouldn't have committable changes because only transients properties are changed.")
+    XCTAssertEqual(viewContext.persistentChangesCount, 0)
+    XCTAssertEqual(viewContext.changesCount, 1)
   }
 
   func testMetaData() {

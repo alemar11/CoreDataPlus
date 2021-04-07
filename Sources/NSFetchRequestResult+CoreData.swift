@@ -74,7 +74,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   }
 
   /// **CoreDataPlus**
-  /// 
+  ///
   /// Performs a configurable fetch request in a context.
   /// - Note: When fetching data from Core Data, you don’t always know how many values you’ll be getting back.
   /// Core Data solves this problem by using a subclass of `NSArray` that will dynamically pull in data from the underlying store on demand.
