@@ -68,4 +68,3 @@ extension Foundation.Bundle {
     return Bundle(for: Dummy.self)
   }()
 }
-

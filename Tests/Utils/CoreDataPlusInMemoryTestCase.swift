@@ -6,7 +6,7 @@ import CoreData
 
 // MARK: - In Memory XCTestCase
 
-class CoreDataPlusInMemoryTestCase: XCTestCase {
+class CoreDataPlusInMemoryTestCase: BaseTestCase {
   var container: NSPersistentContainer!
 
   override func setUp() {

@@ -6,7 +6,7 @@ import CoreData
 
 // MARK: - On Disk XCTestCase
 
-class CoreDataPlusOnDiskTestCase: XCTestCase {
+class CoreDataPlusOnDiskTestCase: BaseTestCase {
   var container: NSPersistentContainer!
 
   override func setUp() {

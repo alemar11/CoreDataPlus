@@ -16,6 +16,25 @@ public class BaseEntity: NSManagedObject, DelayedDeletable {
   @NSManaged public var markedForDeletionAsOf: Date?
 }
 
+// https://github.com/onmyway133/blog/issues/334
+public class Color: NSObject, NSSecureCoding {
+  public static var supportsSecureCoding: Bool { true }
+  public let name: String
+
+  public init(name: String) {
+    self.name = name
+  }
+
+  public func encode(with coder: NSCoder) {
+    coder.encode(name, forKey: "name")
+  }
+
+  public required init?(coder decoder: NSCoder) {
+    guard let name = decoder.decodeObject(of: [NSString.self], forKey: "name") as? String else { return nil }
+    self.name = name
+  }
+}
+
 @objc(Car)
 public class Car: BaseEntity {
   @NSManaged public var maker: String?
@@ -23,6 +42,7 @@ public class Car: BaseEntity {
   @NSManaged public var numberPlate: String!
   @NSManaged public var owner: Person?
   @NSManaged public var currentDrivingSpeed: Int // transient property
+  @NSManaged public var color: Color? // transformable property
 }
 
 @objc(SportCar)

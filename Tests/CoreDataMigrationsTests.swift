@@ -4,7 +4,10 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-class CoreDataMigrationsTests: XCTestCase {
+// TODO: to create a sqlite for migrations disable NSPersistentHistoryTrackingKey
+// TODO: test migrations without registering transformers result in a lot of warnings
+
+class CoreDataMigrationsTests: BaseTestCase {
   // MARK: - LightWeight Migration
 
   /// Creates a .sqlite with some data for the initial model (version 1)
@@ -175,7 +178,7 @@ class CoreDataMigrationsTests: XCTestCase {
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
     let makers = try Maker.fetch(in: migratedContext)
-    XCTAssertEqual(makers.count, 11)
+    XCTAssertEqual(makers.count, 10)
     XCTAssertEqual(cars.count, 125)
 
     cars.forEach { object in
@@ -230,7 +233,7 @@ class CoreDataMigrationsTests: XCTestCase {
 
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
     let makers = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Maker"))
-    XCTAssertEqual(makers.count, 11)
+    XCTAssertEqual(makers.count, 10)
 
     makers.forEach { (maker) in
       let name = maker.value(forKey: "name") as! String
