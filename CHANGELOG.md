@@ -2,6 +2,7 @@
 
 ### 3.0.0 ⭐
 
+- Added a generic *Transformer* class to implement CoreData *Transformable* attributes.
 - APIs improvements.
 - New CoreData notifications payloads.
 - History: added new history transactions and changes fetch requests.
