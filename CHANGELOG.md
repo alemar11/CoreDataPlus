@@ -7,7 +7,7 @@
 - New CoreData notifications payloads.
 - History: added new history transactions and changes fetch requests.
 - History: removed unused APIs.
-- Added a method to fetch with batched requests.
+- Added a fetch method that returns *NSArray* to support batched requests.
 - New batch inserts methods.
 - Removed entity and contexts observers.
 - More tests.
