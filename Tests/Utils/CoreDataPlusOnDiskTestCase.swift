@@ -6,11 +6,7 @@ import CoreData
 
 // MARK: - On Disk XCTestCase
 
-class CoreDataPlusOnDiskTestCase: XCTestCase {
-  class override func setUp() {
-    registerTransformers()
-  }
-  
+class CoreDataPlusOnDiskTestCase: BaseTestCase {
   var container: NSPersistentContainer!
 
   override func setUp() {

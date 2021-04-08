@@ -4,7 +4,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-class CoreDataMigrationsTests: XCTestCase {
+class CoreDataMigrationsTests: BaseTestCase {
   // MARK: - LightWeight Migration
 
   /// Creates a .sqlite with some data for the initial model (version 1)
@@ -205,7 +205,6 @@ class CoreDataMigrationsTests: XCTestCase {
   }
 
   func testMigrationFromVersion1ToVersion3() throws {
-    registerTransformers()
     let bundle = Bundle.tests
     let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModelV1", withExtension: "sqlite"))
 

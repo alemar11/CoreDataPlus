@@ -3,67 +3,96 @@
 import CoreData
 import Foundation
 
-final class Transformer<A: AnyObject, B: AnyObject>: ValueTransformer {
-  public typealias Transform = (A?) -> B?
-  public typealias ReverseTransform = (B?) -> A?
-
-  private let transform: Transform
-  private let reverseTransform: ReverseTransform
-
-  init(transform: @escaping Transform, reverseTransform: @escaping ReverseTransform) {
-    self.transform = transform
-    self.reverseTransform = reverseTransform
-    super.init()
+/// Generic transformer to implement *Transformable* attributes.
+///
+/// - Note: Core Data requires the transformer be NSSecureUnarchiveFromData or its subclass,
+/// and that its transformedValue(_:) method converts a Data object to an instance of the custom class specified in Data Model Inspector and that reverseTransformedValue(_:)
+/// does the opposite – converts an instance of the custom class to a Data object.
+public final class Transformer<T: NSObject & NSSecureCoding>: NSSecureUnarchiveFromDataTransformer {
+  /// The name of the transformer. It's used when registering the transformer using `DataTransformer.register()`.
+  /// It's composed combining the T class name and the suffix "Transformer" (i.e. if T is Object, the transformer name is *ObjectTransformer*).
+  public static var transformerName: NSValueTransformerName {
+    let transformerName = "\(T.self.classForCoder())" + "Transformer"
+    return NSValueTransformerName(transformerName)
   }
 
-  public static func registerTransformer(withName name: String, transform: @escaping Transform, reverseTransform: @escaping ReverseTransform) {
-    let transformer = Transformer(transform: transform, reverseTransform: reverseTransform)
-    Foundation.ValueTransformer.setValueTransformer(transformer, forName: NSValueTransformerName(rawValue: name))
+  /// Registers the provided value transformer.
+  public static func register() {
+    let transformer = Transformer<T>()
+    Foundation.ValueTransformer.setValueTransformer(transformer, forName: Self.transformerName)
   }
 
-  public override static func transformedValueClass() -> AnyClass { B.self }
+  /// Unregisters the provided value transformer.
+  public static func unregister() {
+    if Foundation.ValueTransformer.valueTransformerNames().contains(Self.transformerName) {
+      Foundation.ValueTransformer.setValueTransformer(nil, forName: Self.transformerName)
+    }
+  }
+
+  public override static func transformedValueClass() -> AnyClass { T.self }
 
   public override class func allowsReverseTransformation() -> Bool { true }
 
-  public override func transformedValue(_ value: Any?) -> Any? {
-    return transform(value as? A)
-  }
+  public class override var allowedTopLevelClasses: [AnyClass] { [T.self] }
 
-  public override func reverseTransformedValue(_ value: Any?) -> Any? {
-    reverseTransform(value as? B)
-  }
-}
-
-//Core Data requires the transformer be NSSecureUnarchiveFromData or its subclass, and that its transformedValue(_:) method converts a Data object to an instance of the custom class specified in Data Model Inspector and that reverseTransformedValue(_:) does the opposite – converts an instance of the custom class to a Data object.
-final class DataTransformer<A: AnyObject & NSSecureCoding>: NSSecureUnarchiveFromDataTransformer {
-  public static func registerTransformer(withName name: String) {
-    let transformer = DataTransformer<A>()
-    let transformerName = NSValueTransformerName(rawValue: name)
-    // TODO: check if exists, remove or ad a fatal error
-    //Foundation.ValueTransformer.setValueTransformer(nil, forName: transformerName)
-    //Foundation.ValueTransformer.valueTransformerNames()
-    Foundation.ValueTransformer.setValueTransformer(transformer, forName: transformerName)
-  }
-  
-  public override static func transformedValueClass() -> AnyClass { A.self }
-  
-  public override class func allowsReverseTransformation() -> Bool { true }
-  
   public override func transformedValue(_ value: Any?) -> Any? {
     guard let data = value as? Data else {
       return nil
-      fatalError("Wrong data type: value must be a Data object; received \(type(of: value)).")
+      // fatalError("Wrong data type: value must be a Data object; received \(String(describing: value.self)).")
     }
     return super.transformedValue(data)
   }
-  
+
   public override func reverseTransformedValue(_ value: Any?) -> Any? {
-    guard let receivedValue = value as? A else {
+    guard let receivedValue = value as? T else {
       return nil
-      fatalError("Wrong data type: value must be a \(A.self) object; received \(type(of: value)).")
+      // fatalError("Wrong data type: value must be a \(T.self) object; received \(String(describing: value.self)).")
     }
     return super.reverseTransformedValue(receivedValue)
   }
-  
-  public class override var allowedTopLevelClasses: [AnyClass] { [A.self] }
+
 }
+
+// Alternative Transformer implementation without conforming to NSSecureUnarchiveFromDataTransformer.
+//
+//public final class Transformer<T: NSObject & NSSecureCoding>: ValueTransformer {
+//  public static var transformerName: NSValueTransformerName {
+//    let transformerName = "\(T.self.classForCoder())" + "Transformer"
+//    return NSValueTransformerName(transformerName)
+//  }
+//
+//  public static func register() {
+//    let transformer = Transformer<T>()
+//    Foundation.ValueTransformer.setValueTransformer(transformer, forName: Self.transformerName)
+//  }
+//
+//  public static func unregister() {
+//    if Foundation.ValueTransformer.valueTransformerNames().contains(Self.transformerName) {
+//      Foundation.ValueTransformer.setValueTransformer(nil, forName: Self.transformerName)
+//    }
+//  }
+//
+//  public override static func transformedValueClass() -> AnyClass { T.self }
+//
+//  public override class func allowsReverseTransformation() -> Bool { true }
+//
+//  public override func transformedValue(_ value: Any?) -> Any? {
+//    guard let value = value as? T else {
+//      return nil
+//      // fatalError("Wrong data type: value must be a Data object; received \(String(describing: value.self)).")
+//    }
+//
+//    let data = try? NSKeyedArchiver.archivedData(withRootObject: value, requiringSecureCoding: true)
+//    return data
+//  }
+//
+//  public override func reverseTransformedValue(_ value: Any?) -> Any? {
+//    guard let data = value as? NSData else {
+//      return nil
+//      // fatalError("Wrong data type: value must be a \(T.self) object; received \(String(describing: value.self)).")
+//    }
+//
+//    let result = try? NSKeyedUnarchiver.unarchivedObject(ofClass: T.self, from: data as Data)
+//    return result
+//  }
+//}

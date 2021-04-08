@@ -20,15 +20,15 @@ public class BaseEntity: NSManagedObject, DelayedDeletable {
 public class Color: NSObject, NSSecureCoding {
   public static var supportsSecureCoding: Bool { true }
   public let name: String
-  
+
   public init(name: String) {
     self.name = name
   }
-  
+
   public func encode(with coder: NSCoder) {
     coder.encode(name, forKey: "name")
   }
-  
+
   public required init?(coder decoder: NSCoder) {
     guard let name = decoder.decodeObject(of: [NSString.self], forKey: "name") as? String else { return nil }
     self.name = name
