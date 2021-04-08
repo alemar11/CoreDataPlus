@@ -48,8 +48,4 @@ class TransformerTests: CoreDataPlusOnDiskTestCase {
     XCTAssertFalse(Foundation.ValueTransformer.valueTransformerNames().contains(Transformer<Dummy>.transformerName))
 
   }
-  // TODO: to create a sqlite for migrations disable NSPersistentHistoryTrackingKey
-  // TODO: create a base XCTestCase to register (maybe unregister) transformers
-  // TODO: remove old fixtures model prefixed with "_"
-  // TODO: test migrations without registering transformers result in a lot of warnings
 }
