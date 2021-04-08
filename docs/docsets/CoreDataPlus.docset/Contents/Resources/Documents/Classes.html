@@ -8,13 +8,21 @@
     <script src="js/jquery.min.js" defer></script>
     <script src="js/jazzy.js" defer></script>
     
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Section/Classes" class="dashAnchor"></a>
     <a title="Classes  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">CoreDataPlus Docs</a> (86% documented)</p>
+        <p><a href="index.html">CoreDataPlus 3.0.0-RC1 Docs</a> (86% documented)</p>
+        <p class="header-right">
+          <form role="search" action="search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -31,13 +39,7 @@
             <a href="Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Classes/EntityObserver.html">EntityObserver</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Classes/ManagedObjectContextChangesObserver.html">ManagedObjectContextChangesObserver</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Classes/ManagedObjectContextChangesObserver/ObservedManagedObjectContext.html">– ObservedManagedObjectContext</a>
+                <a href="Classes/Transformer.html">Transformer</a>
               </li>
             </ul>
           </li>
@@ -68,18 +70,6 @@
                 <a href="Extensions/NSBatchUpdateResult.html">NSBatchUpdateResult</a>
               </li>
               <li class="nav-group-task">
-                <a href="Extensions/NSEntityDescription.html">NSEntityDescription</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Extensions/NSError.html">NSError</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Extensions/NSError/ErrorCode.html">– ErrorCode</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Extensions/NSError.html#/s:So7NSErrorC12CoreDataPlusE3KeyO">– Key</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Extensions/NSFetchRequest.html">NSFetchRequest</a>
               </li>
               <li class="nav-group-task">
@@ -92,7 +82,7 @@
                 <a href="Extensions/NSManagedObjectContext.html">NSManagedObjectContext</a>
               </li>
               <li class="nav-group-task">
-                <a href="Extensions/NSManagedObjectContext/ObservableEvents.html">– ObservableEvents</a>
+                <a href="Extensions/NSPersistentHistoryChangeRequest.html">NSPersistentHistoryChangeRequest</a>
               </li>
               <li class="nav-group-task">
                 <a href="Extensions/NSPersistentStoreCoordinator.html">NSPersistentStoreCoordinator</a>
@@ -116,26 +106,11 @@
               <li class="nav-group-task">
                 <a href="Protocols/CoreDataModelVersion.html">CoreDataModelVersion</a>
               </li>
-              <li class="nav-group-task">
-                <a href="Protocols/DelayedDeletable.html">DelayedDeletable</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Protocols/ManagedObjectContextChange.html">ManagedObjectContextChange</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Protocols/ManagedObjectContextNotification.html">ManagedObjectContextNotification</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Protocols/UpdateTimestampable.html">UpdateTimestampable</a>
-              </li>
             </ul>
           </li>
           <li class="nav-group-name">
             <a href="Structs.html">Structures</a>
             <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="Structs/AnyManagedObjectContextChange.html">AnyManagedObjectContextChange</a>
-              </li>
               <li class="nav-group-task">
                 <a href="Structs/CoreDataMigration.html">CoreDataMigration</a>
               </li>
@@ -146,13 +121,22 @@
                 <a href="Structs/FetchedResultsSectionInfo.html">FetchedResultsSectionInfo</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/ManagedObjectContextDidSaveNotification.html">ManagedObjectContextDidSaveNotification</a>
+                <a href="Structs/ManagedObjectContextDidMergeChangesObjectIDs.html">ManagedObjectContextDidMergeChangesObjectIDs</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/ManagedObjectContextObjectsDidChangeNotification.html">ManagedObjectContextObjectsDidChangeNotification</a>
+                <a href="Structs/ManagedObjectContextDidSaveObjectIDs.html">ManagedObjectContextDidSaveObjectIDs</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/ManagedObjectContextWillSaveNotification.html">ManagedObjectContextWillSaveNotification</a>
+                <a href="Structs/ManagedObjectContextDidSaveObjects.html">ManagedObjectContextDidSaveObjects</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/ManagedObjectContextObjectsDidChange.html">ManagedObjectContextObjectsDidChange</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/ManagedObjectContextWillSaveObjects.html">ManagedObjectContextWillSaveObjects</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/PersistentStoreRemoteChange.html">PersistentStoreRemoteChange</a>
               </li>
             </ul>
           </li>
@@ -179,9 +163,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:12CoreDataPlus14EntityObserverC"></a>
-                    <a name="//apple_ref/swift/Class/EntityObserver" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus14EntityObserverC">EntityObserver</a>
+                    <a name="/s:12CoreDataPlus11TransformerC"></a>
+                    <a name="//apple_ref/swift/Class/Transformer" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus11TransformerC">Transformer</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -189,47 +173,22 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
+                        <p>Generic transformer to implement <em>Transformable</em> attributes.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Core Data requires the transformer be NSSecureUnarchiveFromData or its subclass,
+and that its transformedValue(<em>:) method converts a Data object to an instance of the custom class specified in Data Model Inspector and that reverseTransformedValue(</em>:)
+does the opposite – converts an instance of the custom class to a Data object.
 
-<p>An object that observes all the changes happening in a <code>NSManagedObjectContext</code> for a specific entity.</p>
+</div>
 
-                        <a href="Classes/EntityObserver.html" class="slightly-smaller">See more</a>
+                        <a href="Classes/Transformer.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">EntityObserver</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt">NSManagedObject</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:12CoreDataPlus35ManagedObjectContextChangesObserverC"></a>
-                    <a name="//apple_ref/swift/Class/ManagedObjectContextChangesObserver" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus35ManagedObjectContextChangesObserverC">ManagedObjectContextChangesObserver</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Observes all the changes happening on one or multiple NSManagedObjectContexts.</p>
-
-                        <a href="Classes/ManagedObjectContextChangesObserver.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">ManagedObjectContextChangesObserver</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">Transformer</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt">NSSecureUnarchiveFromDataTransformer</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt">NSSecureCoding</span></code></pre>
 
                         </div>
                       </div>
@@ -241,8 +200,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2020-04-22)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-04-08)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
