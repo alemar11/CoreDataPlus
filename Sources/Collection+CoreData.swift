@@ -5,6 +5,8 @@ import CoreData
 // MARK: - NSManagedObject
 
 extension Collection where Element: NSManagedObject {
+  /// **CoreDataPlus**
+  ///
   /// Specifies that all the `NSManagedObject` objects (with a `NSManangedObjectContext`) should be removed from its persistent store when changes are committed.
   public func deleteManagedObjects() {
     let managedObjectsWithtContext = self.filter { $0.managedObjectContext != nil }
