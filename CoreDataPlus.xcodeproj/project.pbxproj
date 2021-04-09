@@ -35,6 +35,10 @@
 		061C684E261EF969000BF0A2 /* BaseTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061C684D261EF969000BF0A2 /* BaseTestCase.swift */; };
 		061C684F261EF969000BF0A2 /* BaseTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061C684D261EF969000BF0A2 /* BaseTestCase.swift */; };
 		061C6850261EF969000BF0A2 /* BaseTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061C684D261EF969000BF0A2 /* BaseTestCase.swift */; };
+		061C689326209443000BF0A2 /* DataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061C689226209443000BF0A2 /* DataTransformer.swift */; };
+		061C689426209443000BF0A2 /* DataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061C689226209443000BF0A2 /* DataTransformer.swift */; };
+		061C689526209443000BF0A2 /* DataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061C689226209443000BF0A2 /* DataTransformer.swift */; };
+		061C689626209443000BF0A2 /* DataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061C689226209443000BF0A2 /* DataTransformer.swift */; };
 		06A6CDA0261DE0E7000563F0 /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A6CD9F261DE0E7000563F0 /* Transformer.swift */; };
 		06A6CDA1261DE0E7000563F0 /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A6CD9F261DE0E7000563F0 /* Transformer.swift */; };
 		06A6CDA2261DE0E7000563F0 /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A6CD9F261DE0E7000563F0 /* Transformer.swift */; };
@@ -254,6 +258,7 @@
 /* Begin PBXFileReference section */
 		061C6843261E100E000BF0A2 /* SampleModel.momd */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SampleModel.momd; sourceTree = "<group>"; };
 		061C684D261EF969000BF0A2 /* BaseTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTestCase.swift; sourceTree = "<group>"; };
+		061C689226209443000BF0A2 /* DataTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTransformer.swift; sourceTree = "<group>"; };
 		0693F915237C58A7008E4F31 /* workflows */ = {isa = PBXFileReference; lastKnownFileType = text; name = workflows; path = .github/workflows; sourceTree = SOURCE_ROOT; };
 		06A3C1D3239FD36100E08D45 /* CoreDataPlus macOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "CoreDataPlus macOS.xctestplan"; sourceTree = "<group>"; };
 		06A3C1D4239FD3E900E08D45 /* CoreDataPlus tvOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "CoreDataPlus tvOS.xctestplan"; sourceTree = "<group>"; };
@@ -390,6 +395,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		061C68912620942C000BF0A2 /* Transformers */ = {
+			isa = PBXGroup;
+			children = (
+				06A6CD9F261DE0E7000563F0 /* Transformer.swift */,
+				061C689226209443000BF0A2 /* DataTransformer.swift */,
+			);
+			path = Transformers;
+			sourceTree = "<group>";
+		};
 		06A4584D239FD20C007BA7C9 /* TestPlans */ = {
 			isa = PBXGroup;
 			children = (
@@ -476,6 +490,7 @@
 		23B580851F94FF0900A365C0 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				061C68912620942C000BF0A2 /* Transformers */,
 				D20119F72614E3D9001902FB /* Collection+CoreData.swift */,
 				D20119F82614E3D9001902FB /* CoreDataPlus.swift */,
 				D20119F92614E3D9001902FB /* FetchedResultsChanges.swift */,
@@ -491,7 +506,6 @@
 				D20119F42614E3D9001902FB /* NSManagedObjectContext+Utils.swift */,
 				D20119FD2614E3D9001902FB /* NSPersistentStoreCoordinator+Utils.swift */,
 				D20119FA2614E3D9001902FB /* NSSet+CoreData.swift */,
-				06A6CD9F261DE0E7000563F0 /* Transformer.swift */,
 				D2011A012614E3D9001902FB /* Migration */,
 				D2011A052614E3D9001902FB /* Notifications */,
 			);
@@ -942,6 +956,7 @@
 				D2011A262614E3D9001902FB /* CoreDataPlus.swift in Sources */,
 				D2011A222614E3D9001902FB /* Collection+CoreData.swift in Sources */,
 				D2011A4E2614E3D9001902FB /* CoreDataMigration.swift in Sources */,
+				061C689426209443000BF0A2 /* DataTransformer.swift in Sources */,
 				D2011A1A2614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
 				D2011A4A2614E3D9001902FB /* CoreDataModelVersion.swift in Sources */,
 			);
@@ -970,6 +985,7 @@
 				D2011A272614E3D9001902FB /* CoreDataPlus.swift in Sources */,
 				D2011A232614E3D9001902FB /* Collection+CoreData.swift in Sources */,
 				D2011A4F2614E3D9001902FB /* CoreDataMigration.swift in Sources */,
+				061C689526209443000BF0A2 /* DataTransformer.swift in Sources */,
 				D2011A1B2614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
 				D2011A4B2614E3D9001902FB /* CoreDataModelVersion.swift in Sources */,
 			);
@@ -998,6 +1014,7 @@
 				D2011A282614E3D9001902FB /* CoreDataPlus.swift in Sources */,
 				D2011A242614E3D9001902FB /* Collection+CoreData.swift in Sources */,
 				D2011A502614E3D9001902FB /* CoreDataMigration.swift in Sources */,
+				061C689626209443000BF0A2 /* DataTransformer.swift in Sources */,
 				D2011A1C2614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
 				D2011A4C2614E3D9001902FB /* CoreDataModelVersion.swift in Sources */,
 			);
@@ -1026,6 +1043,7 @@
 				D2011A252614E3D9001902FB /* CoreDataPlus.swift in Sources */,
 				D2011A212614E3D9001902FB /* Collection+CoreData.swift in Sources */,
 				D2011A4D2614E3D9001902FB /* CoreDataMigration.swift in Sources */,
+				061C689326209443000BF0A2 /* DataTransformer.swift in Sources */,
 				D2011A192614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
 				D2011A492614E3D9001902FB /* CoreDataModelVersion.swift in Sources */,
 			);
