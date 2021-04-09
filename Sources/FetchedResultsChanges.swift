@@ -29,7 +29,6 @@ public enum FetchedResultsObjectChange<T: NSManagedObject> {
 }
 
 extension FetchedResultsObjectChange {
-
   /// Creates a new `FetchedResultsObjectChange` element.
   ///
   /// - Parameters:
