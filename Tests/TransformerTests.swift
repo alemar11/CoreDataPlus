@@ -46,6 +46,7 @@ class TransformerTests: CoreDataPlusOnDiskTestCase {
     XCTAssertTrue(Foundation.ValueTransformer.valueTransformerNames().contains(Transformer<Dummy>.transformerName))
     Transformer<Dummy>.unregister()
     XCTAssertFalse(Foundation.ValueTransformer.valueTransformerNames().contains(Transformer<Dummy>.transformerName))
-
   }
+  
+  
 }
