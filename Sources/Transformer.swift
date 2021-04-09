@@ -50,7 +50,6 @@ public final class Transformer<T: NSObject & NSSecureCoding>: NSSecureUnarchiveF
     }
     return super.reverseTransformedValue(receivedValue)
   }
-
 }
 
 // Alternative Transformer implementation without conforming to NSSecureUnarchiveFromDataTransformer.
