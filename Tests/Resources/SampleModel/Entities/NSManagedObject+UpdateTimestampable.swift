@@ -4,16 +4,12 @@ import CoreData
 
 private let updateTimestampKey = "updatedAt"
 
-/// **CoreDataPlus**
-///
 /// Objects adopting the `UpdateTimestampable` have an `updateAt` property.
 public protocol UpdateTimestampable: class {
   var updatedAt: Date { get set }
 }
 
 extension UpdateTimestampable where Self: NSManagedObject {
-  /// **CoreDataPlus**
-  ///
   /// Protocol `UpdateTimestampable`.
   ///
   /// Refreshes the update date if and only if the object has not unsaved update date.

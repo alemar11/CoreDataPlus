@@ -3,8 +3,6 @@
 import CoreData
 
 extension NSFetchRequestResult where Self: NSManagedObject {
-  /// **CoreDataPlus**
-  ///
   /// The entity name.
   public static var entityName: String {
     if let name = entity().name {
@@ -22,8 +20,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
   // MARK: - Fetch
 
-  /// **CoreDataPlus**
-  ///
   /// Creates a `new` NSFetchRequest for `self`.
   /// - Note: Use this method instead of fetchRequest() to avoid a bug in CoreData occurring in the Unit Test targets or when Generics are used.
   public static func newFetchRequest() -> NSFetchRequest<Self> {
@@ -31,8 +27,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     return fetchRequest
   }
 
-  /// **CoreDataPlus**
-  ///
   /// - Returns: an object for a specified `id` even if the object needs to be fetched.
   /// If the object is not registered in the context, it may be fetched or returned as a fault.
   /// If use existingObject(with:) if you don't want a faulted object.
@@ -40,8 +34,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     return context.object(with: id) as? Self
   }
 
-  /// **CoreDataPlus**
-  ///
   /// - Returns: the object for the specified ID or nil if the object does not exist.
   /// If there is a managed object with the given ID already registered in the context, that object is returned directly; otherwise the corresponding object is faulted into the context.
   /// This method might perform I/O if the data is uncached.
@@ -50,8 +42,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     return try context.existingObject(with: id) as? Self
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Performs a configurable fetch request in a context.
   /// - Note: It always accesses the underlying persistent stores to retrieve the latest results.
   /// - Attention: Core Data makes heavy use of Futures, especially for relationship values.
@@ -73,8 +63,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     return try context.fetch(request)
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Performs a configurable fetch request in a context.
   /// - Note: When fetching data from Core Data, you don’t always know how many values you’ll be getting back.
   /// Core Data solves this problem by using a subclass of `NSArray` that will dynamically pull in data from the underlying store on demand.
@@ -99,8 +87,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     return try context.fetchNSArray(request)
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Fetches all the `NSManagedObjectID` for a given predicate.
   /// - Note: it always accesses the underlying persistent stores to retrieve the latest results.
   ///
@@ -132,8 +118,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
   // MARK: - First
 
-  /// **CoreDataPlus**
-  ///
   /// Fetches an object matching the given predicate.
   /// - Note: it always accesses the underlying persistent stores to retrieve the latest results.
   ///
@@ -152,8 +136,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     }.first
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Attempts to find an object matching a predicate or creates a new one and configures it (if multiple objects are found, configures the **first** one).
   ///
   /// For uniqueness, use `findUniqueOrCreate(in:where:with) instead.
@@ -174,8 +156,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     return object
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Tries to find the first existing object in the context (memory) matching a predicate.
   /// If it doesn’t find a matching materialized object in the context, tries to load it using a fetch request (if multiple objects are found, returns the **first** one).
   ///
@@ -196,8 +176,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
   // MARK: - Unique
 
-  /// **CoreDataPlus**
-  ///
   /// Attempts to find an unique object matching a predicate or creates a new one and configures it;
   /// if uniqueness is not guaranted (more than one object matching the predicate) a fatal error will occour.
   ///
@@ -221,8 +199,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     return object
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Executes a fetch request where **at most** a single object is expected as result; if more than one object are fetched, a fatal error will occour.
   /// - Note: To guarantee uniqueness the fetch accesses the underlying persistent stores to retrieve the latest results and, also, matches against currently
   /// unsaved changes in the managed object context.
@@ -250,8 +226,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
   // MARK: - Delete
 
-  /// **CoreDataPlus**
-  ///
   /// Specifies the objects (matching a given `predicate`) that should be removed from its persistent store when changes are committed.
   /// If objects have not yet been saved to a persistent store, they are simply removed from the context.
   /// If the dataset to delete is very large, use the `limit` value to decide the number of objects to be deleted otherwise the operation could last an unbounded amount time.
@@ -272,8 +246,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     }
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Removes all entities from within the specified `NSManagedObjectContext` excluding a given list of entities.
   ///
   /// - Parameters:
@@ -288,8 +260,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
   // MARK: - Count
 
-  /// **CoreDataPlus**
-  ///
   /// Counts the results of a configurable fetch request in a context.
   /// - Throws: It throws an error in cases of failure.
   public static func count(in context: NSManagedObjectContext, for configuration: (NSFetchRequest<Self>) -> Void = { _ in }) throws -> Int {
@@ -305,8 +275,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
   // MARK: - Materialized Object
 
-  /// **CoreDataPlus**
-  ///
   /// Iterates over the context’s registeredObjects set (which contains all managed objects the context currently knows about) until it finds one that is not a fault matching for a given predicate.
   /// Faulted objects are not considered to prevent Core Data to make a round trip to the persistent store.
   ///
@@ -323,8 +291,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     return nil
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Iterates over the context’s registeredObjects set (which contains all managed objects the context currently knows about) until it finds
   /// all the objects that aren't a fault matching for a given predicate.
   /// Faulted objects are not considered to prevent Core Data to make a round trip to the persistent store.
@@ -345,8 +311,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 // MARK: - Batch Operations
 
 extension NSFetchRequestResult where Self: NSManagedObject {
-  /// **CoreDataPlus**
-  ///
   /// Executes a batch update on the context's persistent store coordinator.
   /// - Parameters:
   ///   - context: The context whose the persistent store coordinator will be used to execute the batch update.
@@ -369,8 +333,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     return try context.execute(batchRequest) as! NSBatchUpdateResult
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Executes a batch delete on the context's persistent store coordinator.
   /// - Parameters:
   ///   - context: The context whose the persistent store coordinator will be used to execute the batch delete.
@@ -394,8 +356,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     return try context.execute(batchRequest) as! NSBatchDeleteResult
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Executes a batch insert on the context's persistent store coordinator.
   /// - Parameters:
   ///   - context: The context whose the persistent store coordinator will be used to execute the batch insert.
@@ -415,8 +375,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     return try context.execute(batchRequest) as! NSBatchInsertResult
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Executes a batch insert on the context's persistent store coordinator.
   /// Doing a batch insert with this method is more memory efficient than the standard batch insert where all the items are passed alltogether.
   /// - Parameters:
@@ -437,8 +395,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     return try context.execute(batchRequest) as! NSBatchInsertResult
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Executes a batch insert on the context's persistent store coordinator.
   /// Doing a batch insert with this method is more memory efficient than the standard batch insert where all the items are passed alltogether.
   /// - Parameters:
@@ -466,8 +422,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 // MARK: - Async Fetch
 
 extension NSFetchRequestResult where Self: NSManagedObject {
-  /// **CoreDataPlus**
-  ///
   /// Performs a configurable asynchronous fetch request in a context.
   ///
   /// - Parameter context: Searched context.

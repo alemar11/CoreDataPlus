@@ -3,15 +3,11 @@
 import CoreData
 
 extension NSManagedObjectContext {
-  /// **CoreDataPlus**
-  ///
   /// The persistent stores associated with the receiver (if any).
   public final var persistentStores: [NSPersistentStore] {
     return persistentStoreCoordinator?.persistentStores ?? []
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns a dictionary that contains the metadata currently stored or to-be-stored in a given persistent store.
   public final func metaData(for store: NSPersistentStore) -> [String: Any] {
     guard let persistentStoreCoordinator = persistentStoreCoordinator else { preconditionFailure("\(self.description) doesn't have a Persistent Store Coordinator.") }
@@ -19,8 +15,6 @@ extension NSManagedObjectContext {
     return persistentStoreCoordinator.metadata(for: store)
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Adds an `object` to the store's metadata and saves it **asynchronously**.
   ///
   /// - Parameters:
@@ -40,8 +34,6 @@ extension NSManagedObjectContext {
     })
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns the entity with the specified name (if any) from the managed object model associated with the specified managed object context’s persistent store coordinator.
   public final func entity(forEntityName name: String) -> NSEntityDescription? {
     guard let persistentStoreCoordinator = persistentStoreCoordinator else { preconditionFailure("\(self.description) doesn't have a Persistent Store Coordinator.") }
@@ -54,8 +46,6 @@ extension NSManagedObjectContext {
 // MARK: - Fetch
 
 extension NSManagedObjectContext {
-  /// **CoreDataPlus**
-  ///
   /// Returns an array of objects that meet the criteria specified by a given fetch request.
   /// - Note: When fetching data from Core Data, you don’t always know how many values you’ll be getting back.
   /// Core Data solves this problem by using a subclass of `NSArray` that will dynamically pull in data from the underlying store on demand.
@@ -75,9 +65,7 @@ extension NSManagedObjectContext {
 // MARK: - Child Context
 
 extension NSManagedObjectContext {
-  /// **CoreDataPlus**
-  ///
-  /// - Returns: a `new` background `NSManagedObjectContext`.
+  /// Returns a `new` background `NSManagedObjectContext`.
   /// - Parameters:
   ///   - asChildContext: Specifies if this new context is a child context of the current context (default *false*).
   public final func newBackgroundContext(asChildContext isChildContext: Bool = false) -> NSManagedObjectContext {
@@ -96,16 +84,12 @@ extension NSManagedObjectContext {
 // MARK: - Save
 
 extension NSManagedObjectContext {
-  /// **CoreDataPlus**
-  ///
   /// Returns the number of uncommitted changes (transient changes are included).
   public var changesCount: Int {
     guard hasChanges else { return 0 }
     return insertedObjects.count + deletedObjects.count + updatedObjects.count
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Checks whether there are actually changes that will change the persistent store.
   /// - Note: The `hasChanges` method would return `true` for transient changes as well which can lead to false positives.
   public var hasPersistentChanges: Bool {
@@ -113,16 +97,12 @@ extension NSManagedObjectContext {
     return !insertedObjects.isEmpty || !deletedObjects.isEmpty || updatedObjects.first(where: { $0.hasPersistentChangedValues }) != nil
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns the number of changes that will change the persistent store (transient changes are ignored).
   public var persistentChangesCount: Int {
     guard hasChanges else { return 0 }
     return insertedObjects.count + deletedObjects.count + updatedObjects.filter({ $0.hasPersistentChangedValues }).count
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Asynchronously performs changes and then saves them.
   ///
   /// - Parameters:
@@ -150,8 +130,6 @@ extension NSManagedObjectContext {
     }
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Synchronously performs changes and then saves them: if the changes fail throwing an execption, the context will be reset.
   ///
   /// - Throws: It throws an error in cases of failure (while applying changes or saving).
@@ -175,8 +153,6 @@ extension NSManagedObjectContext {
     }
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Saves the `NSManagedObjectContext` if changes are present or **rollbacks** if any error occurs.
   /// - Note: The rollback removes everything from the undo stack, discards all insertions and deletions, and restores updated objects to their last committed values.
   public final func saveOrRollBack() throws {
@@ -190,8 +166,6 @@ extension NSManagedObjectContext {
     }
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Saves the `NSManagedObjectContext` up to the last parent `NSManagedObjectContext`.
   internal final func performSaveUpToTheLastParentContextAndWait() throws {
     var parentContext: NSManagedObjectContext? = self
@@ -220,16 +194,12 @@ extension NSManagedObjectContext {
 // MARK: - Better PerformAndWait
 
 extension NSManagedObjectContext {
-  /// **CoreDataPlus**
-  ///
   /// Synchronously performs a given block on the context’s queue and returns the final result.
   /// - Throws: It throws an error in cases of failure.
   public func performAndWaitResult<T>(_ block: (NSManagedObjectContext) throws -> T) rethrows -> T {
     return try _performAndWait(function: performAndWait, execute: block, rescue: { throw $0 })
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Synchronously performs a given block on the context’s queue.
   /// - Throws: It throws an error in cases of failure.
   public func performAndWait(_ block: (NSManagedObjectContext) throws -> Void) rethrows {

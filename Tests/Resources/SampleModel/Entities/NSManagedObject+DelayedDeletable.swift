@@ -4,26 +4,18 @@ import CoreData
 
 private let markedForDeletionKey = "markedForDeletionAsOf"
 
-/// **CoreDataPlus**
-///
 /// Objects adopting the `DelayedDeletable` support *two-step* deletion.
 public protocol DelayedDeletable: class {
-  /// **CoreDataPlus**
-  ///
   /// Protocol `DelayedDeletable`.
   ///
   /// Checks whether or not the managed object’s `markedForDeletion` property has unsaved changes.
   var hasChangedForDelayedDeletion: Bool { get }
 
-  /// **CoreDataPlus**
-  ///
   /// Protocol `DelayedDeletable`.
   ///
   /// This object can be deleted starting from this particular date.
   var markedForDeletionAsOf: Date? { get set }
 
-  /// **CoreDataPlus**
-  ///
   /// Protocol `DelayedDeletable`.
   ///
   /// Marks an object to be deleted at a later point in time.
@@ -33,8 +25,6 @@ public protocol DelayedDeletable: class {
 // MARK: - DelayedDeletable Extension
 
 extension DelayedDeletable where Self: NSManagedObject {
-  /// **CoreDataPlus**
-  ///
   /// Protocol `DelayedDeletable`.
   ///
   /// Predicate to filter for objects that haven’t a deletion date.
@@ -42,8 +32,6 @@ extension DelayedDeletable where Self: NSManagedObject {
     return NSPredicate(format: "%K == NULL", markedForDeletionKey)
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Protocol `DelayedDeletable`.
   ///
   /// Predicate to filter for objects that have a deletion date.
@@ -55,8 +43,6 @@ extension DelayedDeletable where Self: NSManagedObject {
 // MARK: - NSManagedObject
 
 extension DelayedDeletable where Self: NSManagedObject {
-  /// **CoreDataPlus**
-  ///
   /// Protocol `DelayedDeletable`.
   ///
   /// Returns true if `self` has been marked for deletion.
@@ -64,8 +50,6 @@ extension DelayedDeletable where Self: NSManagedObject {
     return changedValue(forKey: markedForDeletionKey) as? Date != nil
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Marks an object to be deleted at a later point in time (if not already marked).
   /// An object marked for local deletion will no longer match the `notMarkedForDeletionPredicate`.
   public func markForDelayedDeletion() {
@@ -80,8 +64,6 @@ extension DelayedDeletable where Self: NSManagedObject {
 extension NSFetchRequestResult where Self: NSManagedObject & DelayedDeletable {
   // swiftlint:disable line_length
 
-  /// **CoreDataPlus**
-  ///
   /// Makes a batch delete operation for object conforming to `DelayedDeletable` older than the `cutOffDate` date.
   ///
   /// - Parameters:

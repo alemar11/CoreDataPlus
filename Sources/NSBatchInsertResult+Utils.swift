@@ -4,8 +4,6 @@ import CoreData
 
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 extension NSBatchInsertResult {
-  /// **CoreDataPlus**
-  ///
   /// Returns a dictionary containig all the inserted `NSManagedObjectID` instances ready to be passed to `NSManagedObjectContext.mergeChanges(fromRemoteContextSave:into:)`.
   public var changes: [String: [NSManagedObjectID]]? {
     guard let inserts = inserts else { return nil }
@@ -13,8 +11,6 @@ extension NSBatchInsertResult {
     return [NSInsertedObjectsKey: inserts]
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns all the inserted objects `NSManagedObjectID`.
   /// - Note: Make sure the resultType of the `NSBatchInsertResult` is set to `NSBatchInsertRequestResultType.objectIDs` before the request is executed otherwise the value is nil.
   public var inserts: [NSManagedObjectID]? {
@@ -32,8 +28,6 @@ extension NSBatchInsertResult {
     }
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns the number of inserted objcts.
   /// - Note: Make sure the resultType of the `NSBatchInsertResult` is set to `NSBatchInsertRequestResultType.count` before the request is executed otherwise the value is nil.
   public var count: Int? {
@@ -49,8 +43,6 @@ extension NSBatchInsertResult {
     }
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns `true` if the batch insert operation has been completed successfully.
   /// - Note: Make sure the resultType of the `NSBatchInsertResult` is set to `NSBatchInsertRequestResultType.statusOnly` before the request is executed otherwise the value is nil.
   public var status: Bool? {

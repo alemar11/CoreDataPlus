@@ -14,8 +14,6 @@ import Foundation
 // MARK: - Will Save
 
 public struct ManagedObjectContextWillSaveObjects {
-  /// **CoreDataPlus**
-  ///
   /// Notification name.
   public static let notificationName: Notification.Name = {
     if #available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11, *) {
@@ -24,13 +22,9 @@ public struct ManagedObjectContextWillSaveObjects {
     return .NSManagedObjectContextWillSave
   }()
 
-  /// **CoreDataPlus**
-  ///
   /// Underlying notification object.
   public let notification: Notification
 
-  /// **CoreDataPlus**
-  ///
   /// `NSManagedObjectContext` associated with the notification.
   public var managedObjectContext: NSManagedObjectContext {
     guard let context = notification.managedObjectContext else {
@@ -48,8 +42,6 @@ public struct ManagedObjectContextWillSaveObjects {
 // MARK: - Did Save
 
 public struct ManagedObjectContextDidSaveObjects {
-  /// **CoreDataPlus**
-  ///
   /// Notification name.
   public static let notificationName: Notification.Name = {
     if #available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11, *) {
@@ -58,13 +50,9 @@ public struct ManagedObjectContextDidSaveObjects {
     return .NSManagedObjectContextDidSave
   }()
 
-  /// **CoreDataPlus**
-  ///
   /// Underlying notification object.
   public let notification: Notification
 
-  /// **CoreDataPlus**
-  ///
   /// `NSManagedObjectContext` associated with the notification.
   public var managedObjectContext: NSManagedObjectContext {
     guard let context = notification.managedObjectContext else {
@@ -73,8 +61,6 @@ public struct ManagedObjectContextDidSaveObjects {
     return context
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns a `Set` of objects that were inserted into the context.
   public var insertedObjects: Set<NSManagedObject> {
     if #available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11, *) {
@@ -84,8 +70,6 @@ public struct ManagedObjectContextDidSaveObjects {
     }
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns a `Set` of objects that were updated.
   public var updatedObjects: Set<NSManagedObject> {
     if #available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11, *) {
@@ -95,8 +79,6 @@ public struct ManagedObjectContextDidSaveObjects {
     }
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns a `Set`of objects that were marked for deletion during the previous event.
   public var deletedObjects: Set<NSManagedObject> {
     if #available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11, *) {
@@ -106,8 +88,6 @@ public struct ManagedObjectContextDidSaveObjects {
     }
   }
 
-  /// **CoreDataPlus**
-  ///
   /// The `NSPersistentHistoryToken` associated to the save operation.
   /// - Note: Optional: NSPersistentHistoryTrackingKey must be enabled.
   public var historyToken: NSPersistentHistoryToken? {
@@ -115,8 +95,6 @@ public struct ManagedObjectContextDidSaveObjects {
     return notification.userInfo?["newChangeToken"] as? NSPersistentHistoryToken
   }
 
-  /// **CoreDataPlus**
-  ///
   /// The new `NSQueryGenerationToken` associated to the save operation.
   /// - Note: It's only available when you are using a SQLite persistent store.
   @available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
@@ -131,8 +109,6 @@ public struct ManagedObjectContextDidSaveObjects {
 }
 
 extension NSManagedObjectContext {
-  /// **CoreDataPlus**
-  ///
   /// Asynchronously merges the changes specified in a given payload.
   /// This method refreshes any objects which have been updated in the other context,
   /// faults in any newly-inserted objects, and invokes delete(_:): on those which have been deleted.
@@ -147,8 +123,6 @@ extension NSManagedObjectContext {
     }
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Synchronously merges the changes specified in a given payload.
   /// This method refreshes any objects which have been updated in the other context,
   /// faults in any newly-inserted objects, and invokes delete(_:): on those which have been deleted.
@@ -166,8 +140,6 @@ extension NSManagedObjectContext {
 // MARK: - Objects Did Change
 
 public struct ManagedObjectContextObjectsDidChange {
-  /// **CoreDataPlus**
-  ///
   /// Notification name.
   public static let notificationName: Notification.Name = {
     if #available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11, *) {
@@ -176,13 +148,9 @@ public struct ManagedObjectContextObjectsDidChange {
     return .NSManagedObjectContextObjectsDidChange
   }()
 
-  /// **CoreDataPlus**
-  ///
   /// Underlying notification object.
   public let notification: Notification
 
-  /// **CoreDataPlus**
-  ///
   /// `NSManagedObjectContext` associated with the notification.
   public var managedObjectContext: NSManagedObjectContext {
     guard let context = notification.managedObjectContext else {
@@ -191,8 +159,6 @@ public struct ManagedObjectContextObjectsDidChange {
     return context
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns a `Set` of objects that were inserted into the context.
   public var insertedObjects: Set<NSManagedObject> {
     if #available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11, *) {
@@ -202,8 +168,6 @@ public struct ManagedObjectContextObjectsDidChange {
     }
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns a `Set` of objects that were updated.
   public var updatedObjects: Set<NSManagedObject> {
     if #available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11, *) {
@@ -213,8 +177,6 @@ public struct ManagedObjectContextObjectsDidChange {
     }
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns a `Set`of objects that were marked for deletion during the previous event.
   public var deletedObjects: Set<NSManagedObject> {
     if #available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11, *) {
@@ -224,8 +186,6 @@ public struct ManagedObjectContextObjectsDidChange {
     }
   }
 
-  /// **CoreDataPlus**
-  ///
   /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
   /// - Note: It can be populated only for `NSManagedObjectContextObjectsDidChange` notifications.
   public var refreshedObjects: Set<NSManagedObject> {
@@ -236,8 +196,6 @@ public struct ManagedObjectContextObjectsDidChange {
     }
   }
 
-  /// **CoreDataPlus**
-  ///
   /// A `Set` of objects that were invalidated.
   /// - Note: It can be populated only for `NSManagedObjectContextObjectsDidChange` notifications.
   public var invalidatedObjects: Set<NSManagedObject> {
@@ -248,8 +206,6 @@ public struct ManagedObjectContextObjectsDidChange {
     }
   }
 
-  /// **CoreDataPlus**
-  ///
   /// When all the object in the context have been invalidated, returns a `Set` containing all the invalidated objects' NSManagedObjectID.
   /// - Note: It can be populated only for `NSManagedObjectContextObjectsDidChange` notifications.
   public var invalidatedAllObjects: Set<NSManagedObjectID> {
@@ -270,18 +226,12 @@ public struct ManagedObjectContextObjectsDidChange {
 
 @available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
 public struct ManagedObjectContextDidSaveObjectIDs {
-  /// **CoreDataPlus**
-  ///
   /// Notification name.
   public static let notificationName: Notification.Name = NSManagedObjectContext.didSaveObjectIDsNotification
 
-  /// **CoreDataPlus**
-  ///
   /// Underlying notification object.
   public let notification: Notification
 
-  /// **CoreDataPlus**
-  ///
   /// `NSManagedObjectContext` associated with the notification.
   public var managedObjectContext: NSManagedObjectContext {
     guard let context = notification.managedObjectContext else {
@@ -290,22 +240,16 @@ public struct ManagedObjectContextDidSaveObjectIDs {
     return context
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns a `Set` of object IDs that were inserted into the context.
   public var insertedObjectIDs: Set<NSManagedObjectID> {
     notification.objectIDs(forKey: .insertedObjectIDs)
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns a `Set` of object IDs that were updated.
   public var updatedObjectIDs: Set<NSManagedObjectID> {
     notification.objectIDs(forKey: .updatedObjectIDs)
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns a `Set`of object IDs that were marked for deletion during the previous event.
   public var deletedObjectIDs: Set<NSManagedObjectID> {
     notification.objectIDs(forKey: .deletedObjectIDs)
@@ -321,18 +265,12 @@ public struct ManagedObjectContextDidSaveObjectIDs {
 
 @available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
 public struct ManagedObjectContextDidMergeChangesObjectIDs {
-  /// **CoreDataPlus**
-  ///
   /// Notification name.
   public static let notificationName: Notification.Name = NSManagedObjectContext.didMergeChangesObjectIDsNotification
 
-  /// **CoreDataPlus**
-  ///
   /// Underlying notification object.
   public let notification: Notification
 
-  /// **CoreDataPlus**
-  ///
   /// `NSManagedObjectContext` associated with the notification.
   public var managedObjectContext: NSManagedObjectContext {
     guard let context = notification.managedObjectContext else {
@@ -341,36 +279,26 @@ public struct ManagedObjectContextDidMergeChangesObjectIDs {
     return context
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns a `Set` of object IDs that were inserted into the context.
   public var insertedObjectIDs: Set<NSManagedObjectID> {
     notification.objectIDs(forKey: .insertedObjectIDs)
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns a `Set` of object IDs that were updated.
   public var updatedObjectIDs: Set<NSManagedObjectID> {
     notification.objectIDs(forKey: .updatedObjectIDs)
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns a `Set`of object IDs that were marked for deletion during the previous event.
   public var deletedObjectIDs: Set<NSManagedObjectID> {
     notification.objectIDs(forKey: .deletedObjectIDs)
   }
 
-  /// **CoreDataPlus**
-  ///
   /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
   public var refreshedObjectIDs: Set<NSManagedObjectID> {
     notification.objectIDs(forKey: .refreshedObjectIDs)
   }
 
-  /// **CoreDataPlus**
-  ///
   /// A `Set` of object IDs that were invalidated.
   public var invalidatedObjectIDs: Set<NSManagedObjectID> {
     notification.objectIDs(forKey: .invalidatedObjectIDs)
@@ -385,27 +313,19 @@ public struct ManagedObjectContextDidMergeChangesObjectIDs {
 // MARK: - PersistentStore Remote Change
 
 public struct PersistentStoreRemoteChange {
-  /// **CoreDataPlus**
-  ///
   /// Notification name.
   public static let notificationName: Notification.Name = .NSPersistentStoreRemoteChange
 
-  /// **CoreDataPlus**
-  ///
   /// Underlying notification object.
   public let notification: Notification
 
-  /// **CoreDataPlus**
-  ///
   /// The `NSPersistentHistoryToken` associated to the change operation.
   /// -Note: It's optional because `NSPersistentHistoryTrackingKey` should be enabled.
   public var historyToken: NSPersistentHistoryToken? {
     return notification.userInfo?[NSPersistentHistoryTokenKey] as? NSPersistentHistoryToken
   }
 
-  /// **CoreDataPlus**
-  ///
-  // The changed store URL.
+  /// The changed store URL.
   public var storeURL: URL {
     guard let url = notification.userInfo?[NSPersistentStoreURLKey] as? URL else {
       fatalError("NSPersistentStoreRemoteChange always contains the NSPersistentStore URL.")

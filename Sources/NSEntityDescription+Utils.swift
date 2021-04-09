@@ -3,15 +3,11 @@
 import CoreData
 
 extension NSEntityDescription {
-  /// **CoreDataPlus**
-  ///
   /// Returns the topmost ancestor entity.
   var topMostEntity: NSEntityDescription {
     return hierarchyEntities().last ?? self
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns the super entities hierarchy of `self`.
   internal func hierarchyEntities() -> [NSEntityDescription] {
     var entities = [NSEntityDescription]()
@@ -27,8 +23,6 @@ extension NSEntityDescription {
     return entities
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns the common ancestor entity (if any) between `self` and a given `entity.`
   ///
   /// - Parameter entity: the entity to evaluate
@@ -47,8 +41,6 @@ extension NSEntityDescription {
     return entity
   }
 
-  /// **CoreDataPlus**
-  ///
   /// - Returns: Wheter or not `self` is a subentity of a given `entity`.
   /// If `recursive` is set to `true`, it will be evaluated if `self` super entities hierarchy contains the given `entity` at some point.
   func isSubEntity(of entity: NSEntityDescription, recursive: Bool = false) -> Bool {

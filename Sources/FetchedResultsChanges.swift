@@ -4,8 +4,6 @@ import CoreData
 
 // MARK: - Object
 
-/// **CoreDataPlus**
-///
 /// An `enum` representing the four types of object changes a `FetchedResultsController` can notify.
 public enum FetchedResultsObjectChange<T: NSManagedObject> {
   /// An object has been inserted.
@@ -31,8 +29,6 @@ public enum FetchedResultsObjectChange<T: NSManagedObject> {
 }
 
 extension FetchedResultsObjectChange {
-  /// **CoreDataPlus**
-  ///
   /// Creates a new `FetchedResultsObjectChange` element.
   ///
   /// - Parameters:
@@ -82,32 +78,20 @@ extension FetchedResultsObjectChange {
 
 // MARK: - Section
 
-/// **CoreDataPlus**
-///
 /// Section info used during the notification of a section being inserted or deleted.
 public struct FetchedResultsSectionInfo<T: NSManagedObject> {
-  /// **CoreDataPlus**
-  ///
   /// The number of objects belonging to the section.
   public var numberOfObjects: Int
 
-  /// **CoreDataPlus**
-  ///
   /// Array of objects belonging to the section.
   public let objects: [T]
 
-  /// **CoreDataPlus**
-  ///
   /// The name of the section
   public let name: String
 
-  /// **CoreDataPlus**
-  ///
   /// The string used as an index title of the section.
   public let indexTitle: String?
 
-  /// **CoreDataPlus**
-  ///
   /// Create a new element of `FetchedResultsSectionInfo` for a given `NSFetchedResultsSectionInfo` object.
   public init(_ info: NSFetchedResultsSectionInfo) {
     objects = (info.objects as? [T]) ?? []
@@ -117,8 +101,6 @@ public struct FetchedResultsSectionInfo<T: NSManagedObject> {
   }
 }
 
-/// **CoreDataPlus**
-///
 /// An `enum` representing the two type of section changes a `NSFetchedResultsController` can notify.
 public enum FetchedResultsSectionChange<T: NSManagedObject> {
   /// A section has been inserted.
@@ -133,8 +115,6 @@ public enum FetchedResultsSectionChange<T: NSManagedObject> {
 }
 
 extension FetchedResultsSectionChange {
-  /// **CoreDataPlus**
-  ///
   /// Creates a new FetchedResultsSectionChange element.
   ///
   /// - Parameters:

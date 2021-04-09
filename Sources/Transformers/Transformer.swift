@@ -3,8 +3,6 @@
 import CoreData
 import Foundation
 
-/// **CoreDataPlus**
-///
 /// A generic `NSSecureUnarchiveFromDataTransformer` subclass to implement CoreData *Transformable* attributes.
 ///
 /// - Note: Core Data requires the transformer be NSSecureUnarchiveFromData or its subclass,
