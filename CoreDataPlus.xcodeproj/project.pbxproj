@@ -490,7 +490,6 @@
 		23B580851F94FF0900A365C0 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				061C68912620942C000BF0A2 /* Transformers */,
 				D20119F72614E3D9001902FB /* Collection+CoreData.swift */,
 				D20119F82614E3D9001902FB /* CoreDataPlus.swift */,
 				D20119F92614E3D9001902FB /* FetchedResultsChanges.swift */,
@@ -508,6 +507,7 @@
 				D20119FA2614E3D9001902FB /* NSSet+CoreData.swift */,
 				D2011A012614E3D9001902FB /* Migration */,
 				D2011A052614E3D9001902FB /* Notifications */,
+				061C68912620942C000BF0A2 /* Transformers */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
