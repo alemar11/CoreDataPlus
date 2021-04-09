@@ -2,8 +2,6 @@
 
 import CoreData
 
-public typealias CoreDataMigrationStep = CoreDataMigration.Step
-
 extension CoreDataMigration {
   /// Represents a single step during the migration process.
   public final class Step {
