@@ -17,7 +17,7 @@
     <a title="CoreDataModelVersion Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">CoreDataPlus 3.0.0-RC1 Docs</a> (86% documented)</p>
+        <p><a href="../index.html">CoreDataPlus 3.0.0-RC1 Docs</a> (85% documented)</p>
         <p class="header-right">
           <form role="search" action="../search.json">
             <input type="text" placeholder="Search documentation" data-typeahead>
@@ -38,6 +38,9 @@
           <li class="nav-group-name">
             <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/DataTransformer.html">DataTransformer</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../Classes/Transformer.html">Transformer</a>
               </li>
@@ -161,9 +164,7 @@
 
                 </div>
               </div>
-            <p><strong>CoreDataPlus</strong></p>
-
-<p>Types adopting the <code>CoreDataModelVersion</code> protocol can be used to describe a Core Data Model and its versioning.</p>
+            <p>Types adopting the <code>CoreDataModelVersion</code> protocol can be used to describe a Core Data Model and its versioning.</p>
 
           </section>
           <section class="section task-group-section">
@@ -182,9 +183,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Protocol <code>CoreDataModelVersion</code>.</p>
+                        <p>Protocol <code>CoreDataModelVersion</code>.</p>
 
 <p>List with all versions until now.</p>
 
@@ -213,9 +212,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Protocol <code>CoreDataModelVersion</code>.</p>
+                        <p>Protocol <code>CoreDataModelVersion</code>.</p>
 
 <p>Current model version.</p>
 
@@ -244,9 +241,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Protocol <code>CoreDataModelVersion</code>.</p>
+                        <p>Protocol <code>CoreDataModelVersion</code>.</p>
 
 <p>Version name.</p>
 
@@ -275,9 +270,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Protocol <code>CoreDataModelVersion</code>.</p>
+                        <p>Protocol <code>CoreDataModelVersion</code>.</p>
 
 <p>The next <code>CoreDataModelVersion</code> in the progressive migration.</p>
 
@@ -306,11 +299,9 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
+                        <p>Protocol <code>CoreDataModelVersion</code>.</p>
 
-<p>Protocol <code>CoreDataModelVersion</code>.</p>
-
-<p>NSBundle object containing the model file.</p>
+<p><code>NSBundle</code> object containing the model file.</p>
 
                       </div>
                       <div class="declaration">
@@ -337,9 +328,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Protocol <code>CoreDataModelVersion</code>.</p>
+                        <p>Protocol <code>CoreDataModelVersion</code>.</p>
 
 <p>Model name.</p>
 
@@ -371,18 +360,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Protocol <code>ModelVersions</code>.</p>
+                        <p>Protocol <code>ModelVersions</code>.</p>
 
 <p>Return the NSManagedObjectModel for this <code>CoreDataModelVersion</code>.</p>
 
                       </div>
                       <h4>Default Implementation</h4>
                       <div class="default_impl abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Protocol <code>CoreDataModelVersion</code>.</p>
+                        <p>Protocol <code>CoreDataModelVersion</code>.</p>
 
 <p>Returns the NSManagedObjectModel for this <code>CoreDataModelVersion</code>.</p>
 
@@ -411,9 +396,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Protocol <code>CoreDataModelVersion</code>.</p>
+                        <p>Protocol <code>CoreDataModelVersion</code>.</p>
 
 <p>Returns a list of mapping models needed to migrate the current version of the database to the next one.</p>
 
@@ -445,7 +428,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Searches for the first CoreDataModelVersion whose model is compatible with the persistent store metedata</p>
 
                       </div>
                       <div class="declaration">
@@ -475,9 +458,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Initializes a <code>CoreDataModelVersion</code> from a <code>NSPersistentStore</code> URL; returns nil if a <code>CoreDataModelVersion</code> hasn&rsquo;t been correctly defined.</p>
+                        <p>Initializes a <code>CoreDataModelVersion</code> from a <code>NSPersistentStore</code> URL; returns nil if a <code>CoreDataModelVersion</code> hasn&rsquo;t been correctly defined.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     It throws an error if no store is found at <code>persistentStoreURL</code> or if there is a problem accessing its contents.
@@ -525,9 +506,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Returns a list of <code>MigrationStep</code> needed to mirate to the next <code>version</code> of the store.</p>
+                        <p>Returns a list of <code>MigrationStep</code> needed to mirate to the next <code>version</code> of the store.</p>
 
                       </div>
                       <div class="declaration">
@@ -557,9 +536,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Returns a <code>NSMappingModel</code> that specifies how to map a model to the next version model.</p>
+                        <p>Returns a <code>NSMappingModel</code> that specifies how to map a model to the next version model.</p>
 
                       </div>
                       <div class="declaration">
@@ -589,9 +566,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Returns a newly created mapping model that will migrate data from the source to the destination model.</p>
+                        <p>Returns a newly created mapping model that will migrate data from the source to the destination model.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     <p>A model will be created only if all changes are simple enough to be able to reasonably infer a mapping such as:</p>
@@ -644,8 +619,7 @@ attributes or entities in order to force Core Data to do the right thing during 
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-<div class="aside aside-note">
+                        <div class="aside aside-note">
     <p class="aside-title">Note</p>
     The mapping models must be inside the NSBundle object containing the model file.
 
@@ -672,8 +646,8 @@ attributes or entities in order to force Core Data to do the right thing during 
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-04-08)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-04-09)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

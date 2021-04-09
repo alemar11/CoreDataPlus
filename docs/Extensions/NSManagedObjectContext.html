@@ -17,7 +17,7 @@
     <a title="NSManagedObjectContext Extension Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">CoreDataPlus 3.0.0-RC1 Docs</a> (86% documented)</p>
+        <p><a href="../index.html">CoreDataPlus 3.0.0-RC1 Docs</a> (85% documented)</p>
         <p class="header-right">
           <form role="search" action="../search.json">
             <input type="text" placeholder="Search documentation" data-typeahead>
@@ -38,6 +38,9 @@
           <li class="nav-group-name">
             <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/DataTransformer.html">DataTransformer</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../Classes/Transformer.html">Transformer</a>
               </li>
@@ -296,9 +299,7 @@ Returns the last merged transaction&rsquo;s token and timestamp.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Deletes all history.</p>
+                        <p>Deletes all history.</p>
 
                       </div>
                       <div class="declaration">
@@ -326,9 +327,7 @@ Returns the last merged transaction&rsquo;s token and timestamp.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Deletes all history before a given <code>date</code>.</p>
+                        <p>Deletes all history before a given <code>date</code>.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     It throws an error in cases of failure.
@@ -388,9 +387,7 @@ Returns the last merged transaction&rsquo;s token and timestamp.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Deletes all history before a given <code>token</code>.</p>
+                        <p>Deletes all history before a given <code>token</code>.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     It throws an error in cases of failure.
@@ -446,7 +443,12 @@ Returns the last merged transaction&rsquo;s token and timestamp.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Deletes all history before a given <code>transaction</code>.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    It throws an error in cases of failure.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -457,6 +459,29 @@ Returns the last merged transaction&rsquo;s token and timestamp.</p>
 <span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteHistory</span><span class="p">(</span><span class="n">before</span> <span class="nv">transaction</span><span class="p">:</span> <span class="kt">NSPersistentHistoryTransaction</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>transaction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The transaction before which the history will be deleted.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>true</code> if the operation succeeds.</p>
                       </div>
                     </section>
                   </div>
@@ -474,9 +499,7 @@ Returns the last merged transaction&rsquo;s token and timestamp.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>The persistent stores associated with the receiver (if any).</p>
+                        <p>The persistent stores associated with the receiver (if any).</p>
 
                       </div>
                       <div class="declaration">
@@ -503,9 +526,7 @@ Returns the last merged transaction&rsquo;s token and timestamp.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Returns a dictionary that contains the metadata currently stored or to-be-stored in a given persistent store.</p>
+                        <p>Returns a dictionary that contains the metadata currently stored or to-be-stored in a given persistent store.</p>
 
                       </div>
                       <div class="declaration">
@@ -532,9 +553,7 @@ Returns the last merged transaction&rsquo;s token and timestamp.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Adds an <code>object</code> to the store&rsquo;s metadata and saves it <strong>asynchronously</strong>.</p>
+                        <p>Adds an <code>object</code> to the store&rsquo;s metadata and saves it <strong>asynchronously</strong>.</p>
 
                       </div>
                       <div class="declaration">
@@ -616,9 +635,7 @@ Returns the last merged transaction&rsquo;s token and timestamp.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Returns the entity with the specified name (if any) from the managed object model associated with the specified managed object context’s persistent store coordinator.</p>
+                        <p>Returns the entity with the specified name (if any) from the managed object model associated with the specified managed object context’s persistent store coordinator.</p>
 
                       </div>
                       <div class="declaration">
@@ -658,9 +675,7 @@ Returns the last merged transaction&rsquo;s token and timestamp.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Returns an array of objects that meet the criteria specified by a given fetch request.</p>
+                        <p>Returns an array of objects that meet the criteria specified by a given fetch request.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     When fetching data from Core Data, you don’t always know how many values you’ll be getting back.
@@ -715,7 +730,7 @@ On the other hand, a Swift <code>Array</code> requires having every element in t
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
+                        <p>Returns a <code>new</code> background <code>NSManagedObjectContext</code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -744,10 +759,6 @@ On the other hand, a Swift <code>Array</code> requires having every element in t
                             </tr>
                           </tbody>
                         </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>a <code>new</code> background <code>NSManagedObjectContext</code>.</p>
                       </div>
                     </section>
                   </div>
@@ -778,9 +789,7 @@ On the other hand, a Swift <code>Array</code> requires having every element in t
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Returns the number of uncommitted changes (transient changes are included).</p>
+                        <p>Returns the number of uncommitted changes (transient changes are included).</p>
 
                       </div>
                       <div class="declaration">
@@ -807,9 +816,7 @@ On the other hand, a Swift <code>Array</code> requires having every element in t
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Checks whether there are actually changes that will change the persistent store.</p>
+                        <p>Checks whether there are actually changes that will change the persistent store.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     The <code>hasChanges</code> method would return <code>true</code> for transient changes as well which can lead to false positives.
@@ -841,9 +848,7 @@ On the other hand, a Swift <code>Array</code> requires having every element in t
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Returns the number of changes that will change the persistent store (transient changes are ignored).</p>
+                        <p>Returns the number of changes that will change the persistent store (transient changes are ignored).</p>
 
                       </div>
                       <div class="declaration">
@@ -870,9 +875,7 @@ On the other hand, a Swift <code>Array</code> requires having every element in t
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Asynchronously performs changes and then saves them.</p>
+                        <p>Asynchronously performs changes and then saves them.</p>
 
                       </div>
                       <div class="declaration">
@@ -930,9 +933,7 @@ On the other hand, a Swift <code>Array</code> requires having every element in t
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Synchronously performs changes and then saves them: if the changes fail throwing an execption, the context will be reset.</p>
+                        <p>Synchronously performs changes and then saves them: if the changes fail throwing an execption, the context will be reset.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     It throws an error in cases of failure (while applying changes or saving).
@@ -964,9 +965,7 @@ On the other hand, a Swift <code>Array</code> requires having every element in t
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Saves the <code>NSManagedObjectContext</code> if changes are present or <strong>rollbacks</strong> if any error occurs.</p>
+                        <p>Saves the <code>NSManagedObjectContext</code> if changes are present or <strong>rollbacks</strong> if any error occurs.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     The rollback removes everything from the undo stack, discards all insertions and deletions, and restores updated objects to their last committed values.
@@ -1011,9 +1010,7 @@ On the other hand, a Swift <code>Array</code> requires having every element in t
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Synchronously performs a given block on the context’s queue and returns the final result.</p>
+                        <p>Synchronously performs a given block on the context’s queue and returns the final result.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     It throws an error in cases of failure.
@@ -1045,9 +1042,7 @@ On the other hand, a Swift <code>Array</code> requires having every element in t
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Synchronously performs a given block on the context’s queue.</p>
+                        <p>Synchronously performs a given block on the context’s queue.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     It throws an error in cases of failure.
@@ -1092,9 +1087,7 @@ On the other hand, a Swift <code>Array</code> requires having every element in t
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Asynchronously merges the changes specified in a given payload.
+                        <p>Asynchronously merges the changes specified in a given payload.
 This method refreshes any objects which have been updated in the other context,
 faults in any newly-inserted objects, and invokes delete(_:): on those which have been deleted.</p>
 
@@ -1154,9 +1147,7 @@ faults in any newly-inserted objects, and invokes delete(_:): on those which hav
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Synchronously merges the changes specified in a given payload.
+                        <p>Synchronously merges the changes specified in a given payload.
 This method refreshes any objects which have been updated in the other context,
 faults in any newly-inserted objects, and invokes delete(_:): on those which have been deleted.</p>
 
@@ -1208,8 +1199,8 @@ faults in any newly-inserted objects, and invokes delete(_:): on those which hav
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-04-08)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-04-09)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

@@ -17,7 +17,7 @@
     <a title="NSManagedObject Extension Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">CoreDataPlus 3.0.0-RC1 Docs</a> (86% documented)</p>
+        <p><a href="../index.html">CoreDataPlus 3.0.0-RC1 Docs</a> (85% documented)</p>
         <p class="header-right">
           <form role="search" action="../search.json">
             <input type="text" placeholder="Search documentation" data-typeahead>
@@ -38,6 +38,9 @@
           <li class="nav-group-name">
             <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/DataTransformer.html">DataTransformer</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../Classes/Transformer.html">Transformer</a>
               </li>
@@ -179,9 +182,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Returns the value of a persistent property that has been changed since <strong>last fetching</strong> or <strong>saving operation</strong>.</p>
+                        <p>Returns the value of a persistent property that has been changed since <strong>last fetching</strong> or <strong>saving operation</strong>.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     This method only reports changes to properties that are defined as persistent properties of the receiver, not changes to transient properties or custom instance variables.
@@ -213,9 +214,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Returns of the <strong>last fetched</strong> or <strong>saved</strong> value of the propery specified by the given key.</p>
+                        <p>Returns of the <strong>last fetched</strong> or <strong>saved</strong> value of the propery specified by the given key.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     This method only reports values of properties that are defined as persistent properties of the receiver, not values of transient properties or of custom instance variables.
@@ -247,9 +246,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Turns <code>self</code> into a fault.</p>
+                        <p>Turns <code>self</code> into a fault.</p>
 
                       </div>
                       <div class="declaration">
@@ -276,9 +273,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Materializes <code>self</code>.</p>
+                        <p>Materializes <code>self</code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -305,9 +300,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>If <code>flag</code> is <code>true</code> (default), the object won&rsquo;t turn into a fault; instead, it’ll update its unchanged properties from the row cache, preserving any unsaved changes;
+                        <p>If <code>flag</code> is <code>true</code> (default), the object won&rsquo;t turn into a fault; instead, it’ll update its unchanged properties from the row cache, preserving any unsaved changes;
 if <code>flag</code> is <code>false</code>, the object will be forced to turn into a fault without merging and unsaved changes will be lost (which also causes other related managed objects to be released, so you can use this method to trim the portion of your object graph you want to hold in memory).</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
@@ -360,9 +353,7 @@ If <code>flag</code> is set to <code>false</code>, the object will be forced to 
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Specifies an object that should be removed from its persistent store when changes are committed.</p>
+                        <p>Specifies an object that should be removed from its persistent store when changes are committed.</p>
 
                       </div>
                       <div class="declaration">
@@ -389,8 +380,7 @@ If <code>flag</code> is set to <code>false</code>, the object will be forced to 
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong>
-Converts the object ID to a permanent ID (if the object doesn&rsquo;t already have a permanent ID)</p>
+                        <p>Converts the object ID to a permanent ID (if the object doesn&rsquo;t already have a permanent ID)</p>
 
                       </div>
                       <div class="declaration">
@@ -409,8 +399,8 @@ Converts the object ID to a permanent ID (if the object doesn&rsquo;t already ha
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-04-08)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-04-09)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
