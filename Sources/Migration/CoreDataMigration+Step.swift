@@ -3,7 +3,7 @@
 import CoreData
 
 extension CoreDataMigration {
-  /// Represents a single step during the migration process.
+  /// Represents a single step during a migration process.
   public final class Step {
     public let sourceModel: NSManagedObjectModel
     public let destinationModel: NSManagedObjectModel
