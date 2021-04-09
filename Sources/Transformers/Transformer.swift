@@ -38,7 +38,7 @@ public final class Transformer<T: NSObject & NSSecureCoding>: NSSecureUnarchiveF
   public class override var allowedTopLevelClasses: [AnyClass] { [T.self] }
 
   public override func transformedValue(_ value: Any?) -> Any? {
-    // from Data to T
+    // Data -> T
     // CoreData calls this method during saves (write)
     // transformedValue(_:) and reverseTransformedValue(_:) methods for NSSecureUnarchiveFromDataTransformer subclasses are called
     // in the opposite way than on ValuteTransformer subclasses
@@ -47,7 +47,7 @@ public final class Transformer<T: NSObject & NSSecureCoding>: NSSecureUnarchiveF
   }
 
   public override func reverseTransformedValue(_ value: Any?) -> Any? {
-    // from T to Data
+    // T -> Data
     // CoreData calls this method during fetches (read).
     // context: this method may be called during a save
     guard let receivedValue = value as? T else { return nil }
