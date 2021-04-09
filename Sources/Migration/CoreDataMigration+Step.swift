@@ -5,8 +5,6 @@ import CoreData
 public typealias CoreDataMigrationStep = CoreDataMigration.Step
 
 extension CoreDataMigration {
-  /// **CoreDataPlus**
-  ///
   /// Represents a single step during the migration process.
   public final class Step {
     public let sourceModel: NSManagedObjectModel

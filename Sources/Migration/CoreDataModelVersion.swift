@@ -21,61 +21,43 @@ private enum ModelVersionFileExtension {
   static let cdm  = "cdm"
 }
 
-/// **CoreDataPlus**
-///
 /// Types adopting the `CoreDataModelVersion` protocol can be used to describe a Core Data Model and its versioning.
 public protocol CoreDataModelVersion: Equatable, RawRepresentable {
-  /// **CoreDataPlus**
-  ///
   /// Protocol `CoreDataModelVersion`.
   ///
   /// List with all versions until now.
   static var allVersions: [Self] { get }
 
-  /// **CoreDataPlus**
-  ///
   /// Protocol `CoreDataModelVersion`.
   ///
   /// Current model version.
   static var currentVersion: Self { get }
 
-  /// **CoreDataPlus**
-  ///
   /// Protocol `CoreDataModelVersion`.
   ///
   /// Version name.
   var versionName: String { get }
 
-  /// **CoreDataPlus**
-  ///
   /// Protocol `CoreDataModelVersion`.
   ///
   /// The next `CoreDataModelVersion` in the progressive migration.
   var successor: Self? { get }
 
-  /// **CoreDataPlus**
-  ///
   /// Protocol `CoreDataModelVersion`.
   ///
-  /// NSBundle object containing the model file.
+  /// `NSBundle` object containing the model file.
   var modelBundle: Bundle { get }
 
-  /// **CoreDataPlus**
-  ///
   /// Protocol `CoreDataModelVersion`.
   ///
   /// Model name.
   var modelName: String { get }
 
-  /// **CoreDataPlus**
-  ///
   /// Protocol `ModelVersions`.
   ///
   /// Return the NSManagedObjectModel for this `CoreDataModelVersion`.
   func managedObjectModel() -> NSManagedObjectModel
 
-  /// **CoreDataPlus**
-  ///
   /// Protocol `CoreDataModelVersion`.
   ///
   /// Returns a list of mapping models needed to migrate the current version of the database to the next one.
@@ -83,8 +65,6 @@ public protocol CoreDataModelVersion: Equatable, RawRepresentable {
 }
 
 extension CoreDataModelVersion {
-  /// **CoreDataPlus**
-  ///
   /// Protocol `CoreDataModelVersion`.
   ///
   /// Model file name.
@@ -92,9 +72,7 @@ extension CoreDataModelVersion {
 }
 
 extension CoreDataModelVersion {
-  /// **CoreDataPlus**
-  ///
-  // Searches for the first CoreDataModelVersion whose model is compatible with the persistent store metedata
+  /// Searches for the first CoreDataModelVersion whose model is compatible with the persistent store metedata
   public static subscript(_ metadata: [String: Any]) -> Self? {
     let version = Self.allVersions.first {
       $0.managedObjectModel().isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
@@ -103,8 +81,6 @@ extension CoreDataModelVersion {
     return version
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Initializes a `CoreDataModelVersion` from a `NSPersistentStore` URL; returns nil if a `CoreDataModelVersion` hasn't been correctly defined.
   /// - Throws: It throws an error if no store is found at `persistentStoreURL` or if there is a problem accessing its contents.
   public init?(persistentStoreURL: URL) throws {
@@ -118,8 +94,6 @@ extension CoreDataModelVersion {
     self = modelVersion
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Protocol `CoreDataModelVersion`.
   ///
   /// Returns the NSManagedObjectModel for this `CoreDataModelVersion`.
@@ -160,8 +134,6 @@ extension CoreDataModelVersion {
 
 // MARK: - Migration
 
-/// **CoreDataPlus**
-///
 /// Returns `true` if a migration to a given `CoreDataModelVersion` is necessary for the persistent store at a given `URL`.
 ///
 /// - Parameters:
@@ -208,8 +180,6 @@ public func isMigrationNecessary<Version: CoreDataModelVersion>(for storeURL: UR
 }
 
 extension CoreDataModelVersion {
-  /// **CoreDataPlus**
-  ///
   /// Returns a list of `MigrationStep` needed to mirate to the next `version` of the store.
   public func migrationSteps(to version: Self) -> [CoreDataMigration.Step] {
     guard self != version else {
@@ -225,8 +195,6 @@ extension CoreDataModelVersion {
     return [step] + nextVersion.migrationSteps(to: version)
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns a `NSMappingModel` that specifies how to map a model to the next version model.
   public func mappingModelToNextModelVersion() -> NSMappingModel? {
     guard let nextVersion = successor else {
@@ -240,8 +208,6 @@ extension CoreDataModelVersion {
     return mappingModel
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns a newly created mapping model that will migrate data from the source to the destination model.
   ///
   /// - Note:
@@ -268,8 +234,6 @@ extension CoreDataModelVersion {
     return try? NSMappingModel.inferredMappingModel(forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel())
   }
 
-  /// **CoreDataPlus**
-  ///
   /// - Returns: Returns a list of `NSMappingModel` given a list of mapping model names.
   /// - Note: The mapping models must be inside the NSBundle object containing the model file.
   public func mappingModels(for mappingModelNames: [String]) -> [NSMappingModel] {

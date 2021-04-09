@@ -3,8 +3,6 @@
 import CoreData
 
 extension NSFetchRequestResult where Self: NSManagedObject {
-  /// **CoreDataPlus**
-  ///
   /// Performs the given block in the right thread for the `NSManagedObject`'s managedObjectContext.
   ///
   /// - Parameter block: The closure to be performed.

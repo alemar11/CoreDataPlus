@@ -56,16 +56,12 @@ extension NSManagedObjectContext {
 
   // MARK: - Delete
 
-  /// **CoreDataPlus**
-  ///
   /// Deletes all history.
   @discardableResult
   public func deleteHistory() throws -> Bool {
     return try deleteHistory(before: .distantFuture)
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Deletes all history before a given `date`.
   ///
   /// - Parameter date: The date before which the history will be deleted.
@@ -78,8 +74,6 @@ extension NSManagedObjectContext {
     return try deleteHistory(using: deleteHistoryRequest)
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Deletes all history before a given `token`.
   ///
   /// - Parameter token: The token before which the history will be deleted.
@@ -91,6 +85,11 @@ extension NSManagedObjectContext {
     return try deleteHistory(using: deleteHistoryRequest)
   }
 
+  /// Deletes all history before a given `transaction`.
+  ///
+  /// - Parameter transaction: The transaction before which the history will be deleted.
+  /// - Returns: `true` if the operation succeeds.
+  /// - Throws: It throws an error in cases of failure.
   @discardableResult
   public func deleteHistory(before transaction: NSPersistentHistoryTransaction) throws -> Bool {
     let deleteHistoryRequest = NSPersistentHistoryChangeRequest.deleteHistory(before: transaction)
@@ -112,8 +111,6 @@ extension NSManagedObjectContext {
 }
 
 extension NSPersistentHistoryChangeRequest {
-  /// **CoreDataPlus**
-  ///
   /// Creates a NSPersistentHistoryChangeRequest to query the Transaction entity.
   /// - Note: context is used as hint to discover the Transaction entity.
   ///
@@ -141,8 +138,6 @@ extension NSPersistentHistoryChangeRequest {
     return historyFetchRequest
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Creates a NSPersistentHistoryChangeRequest to query the Change entity.
   /// - Note: context is used as hint to discover the Change entity.
   ///

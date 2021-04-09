@@ -3,8 +3,6 @@
 import CoreData
 
 extension NSBatchUpdateResult {
-  /// **CoreDataPlus**
-  ///
   /// Returns a dictionary containig all the updated `NSManagedObjectID` instances ready to be passed to `NSManagedObjectContext.mergeChanges(fromRemoteContextSave:into:)`.
   public var changes: [String: [NSManagedObjectID]]? {
     guard let updates = updates else { return nil }
@@ -12,8 +10,6 @@ extension NSBatchUpdateResult {
     return [NSUpdatedObjectsKey: updates]
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns all the updated objects `NSManagedObjectID`.
   /// - Note: Make sure the resultType of the `NSBatchUpdateResult` is set to `NSBatchUpdateRequestResultType.updatedObjectIDsResultType` before the request is executed otherwise the value is nil.
   public var updates: [NSManagedObjectID]? {
@@ -30,8 +26,6 @@ extension NSBatchUpdateResult {
     }
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns the number of updated objcts.
   /// - Note: Make sure the resultType of the `NSBatchUpdateResult` is set to `NSBatchUpdateRequestResultType.updatedObjectsCountResultType` before the request is executed otherwise the value is nil.
   public var count: Int? {
@@ -47,8 +41,6 @@ extension NSBatchUpdateResult {
     }
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns `true` if the batch update operation has been completed successfully.
   /// - Note: Make sure the resultType of the `NSBatchUpdateResult` is set to `NSBatchUpdateRequestResultType.statusOnlyResultType` before the request is executed otherwise the value is nil.
   public var status: Bool? {

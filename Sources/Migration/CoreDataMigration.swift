@@ -21,8 +21,6 @@ import CoreData
 public struct CoreDataMigration {
   private init() { }
 
-  /// **CoreDataPlus**
-  ///
   /// Migrates a store to a given version.
   ///
   /// - Parameters:
@@ -35,8 +33,6 @@ public struct CoreDataMigration {
     try migrateStore(from: sourceURL, to: sourceURL, targetVersion: targetVersion, deleteSource: false, enableWALCheckpoint: enableWALCheckpoint, progress: progress)
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Migrates a store to a given version if needed.
   ///
   /// - Parameters:

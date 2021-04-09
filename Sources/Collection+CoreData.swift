@@ -5,8 +5,6 @@ import CoreData
 // MARK: - NSManagedObject
 
 extension Collection where Element: NSManagedObject {
-  /// **CoreDataPlus**
-  ///
   /// Specifies that all the `NSManagedObject` objects (with a `NSManangedObjectContext`) should be removed from its persistent store when changes are committed.
   public func deleteManagedObjects() {
     let managedObjectsWithtContext = self.filter { $0.managedObjectContext != nil }
@@ -17,8 +15,6 @@ extension Collection where Element: NSManagedObject {
     }
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Materializes all the faulted objects in one batch, executing a single fetch request.
   /// Since this method is defined for a Collection of `NSManagedObject`, it does extra work to materialize all the objects; for this reason it's not optimized for performance.
   ///
@@ -63,8 +59,6 @@ extension Collection where Element: NSManagedObject {
     }
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Returns all the different `NSEntityDescription` defined in the collection.
   public func entities() -> Set<NSEntityDescription> {
     return Set(self.map { $0.entity })
@@ -74,8 +68,6 @@ extension Collection where Element: NSManagedObject {
 // MARK: - NSEntityDescription
 
 extension Collection where Element: NSEntityDescription {
-  /// **CoreDataPlus**
-  ///
   /// Returns a collection of `NSEntityDescription` with only the commong entity ancestors.
   internal func entitiesKeepingOnlyCommonEntityAncestors() -> Set<NSEntityDescription> {
     let grouped = Dictionary(grouping: self) { return $0.topMostEntity }

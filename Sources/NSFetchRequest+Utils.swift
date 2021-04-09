@@ -3,8 +3,6 @@
 import CoreData
 
 extension NSFetchRequest {
-  /// **CoreDataPlus**
-  ///
   /// Creates a NSFetchRequest.
   ///
   /// - parameter entity:    Core Data entity description.
@@ -20,8 +18,6 @@ extension NSFetchRequest {
     self.fetchBatchSize = batchSize
   }
 
-  /// **CoreDataPlus**
-  ///
   /// - Parameter predicate: A NSPredicate object.
   /// Associates to `self` a `new` compound NSPredicate formed by **AND**-ing the current predicate with a given `predicate`.
   @objc
@@ -33,8 +29,6 @@ extension NSFetchRequest {
     self.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [currentPredicate, predicate])
   }
 
-  /// **CoreDataPlus**
-  ///
   /// - Parameter predicate: A NSPredicate object.
   /// Associates to `self` a `new` compound NSPredicate formed by **OR**-ing the current predicate with a given `predicate`.
   @objc
@@ -46,8 +40,6 @@ extension NSFetchRequest {
     self.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: [currentPredicate, predicate])
   }
 
-  /// **CoreDataPlus**
-  ///
   /// - Parameter descriptors: An array of NSSortDescriptor objects.
   /// Appends to the current sort descriptors an array of `descriptors`.
   @objc

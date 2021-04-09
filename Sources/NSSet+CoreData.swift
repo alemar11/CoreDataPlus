@@ -4,8 +4,6 @@ import CoreData
 import Foundation
 
 extension NSSet {
-  /// **CoreDataPlus**
-  ///
   /// Specifies that all the `NSManagedObject` objects (with a `NSManangedObjectContext`) should be removed from its persistent store when changes are committed.
   public func deleteManagedObjects() {
     for object in self.allObjects {
@@ -17,8 +15,6 @@ extension NSSet {
     }
   }
 
-  /// **CoreDataPlus**
-  ///
   /// Materializes all the faulted objects in one batch, executing a single fetch request.
   /// Since this method is defined for a NSSet, it does extra work to materialize all the `NSManagedObject` objects (if any) in there; for this reason it's not optimized for performance.
   ///
