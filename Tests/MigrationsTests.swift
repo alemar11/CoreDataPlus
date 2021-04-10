@@ -5,7 +5,6 @@ import CoreData
 @testable import CoreDataPlus
 
 // TODO: to create a sqlite for migrations disable NSPersistentHistoryTrackingKey
-// TODO: test migrations without registering transformers result in a lot of warnings
 
 final class MigrationsTests: BaseTestCase {
   // MARK: - LightWeight Migration
