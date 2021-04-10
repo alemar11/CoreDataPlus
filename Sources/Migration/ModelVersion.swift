@@ -21,58 +21,58 @@ private enum ModelVersionFileExtension {
   static let cdm  = "cdm"
 }
 
-/// Types adopting the `CoreDataModelVersion` protocol can be used to describe a Core Data Model and its versioning.
-public protocol CoreDataModelVersion: Equatable, RawRepresentable {
-  /// Protocol `CoreDataModelVersion`.
+/// Types adopting the `ModelVersion` protocol can be used to describe a Core Data Model and its versioning.
+public protocol ModelVersion: Equatable, RawRepresentable {
+  /// Protocol `ModelVersion`.
   ///
   /// List with all versions until now.
   static var allVersions: [Self] { get }
 
-  /// Protocol `CoreDataModelVersion`.
+  /// Protocol `ModelVersion`.
   ///
   /// Current model version.
   static var currentVersion: Self { get }
 
-  /// Protocol `CoreDataModelVersion`.
+  /// Protocol `ModelVersion`.
   ///
   /// Version name.
   var versionName: String { get }
 
-  /// Protocol `CoreDataModelVersion`.
+  /// Protocol `ModelVersion`.
   ///
-  /// The next `CoreDataModelVersion` in the progressive migration.
+  /// The next `ModelVersion` in the progressive migration.
   var successor: Self? { get }
 
-  /// Protocol `CoreDataModelVersion`.
+  /// Protocol `ModelVersion`.
   ///
   /// `NSBundle` object containing the model file.
   var modelBundle: Bundle { get }
 
-  /// Protocol `CoreDataModelVersion`.
+  /// Protocol `ModelVersion`.
   ///
   /// Model name.
   var modelName: String { get }
 
   /// Protocol `ModelVersions`.
   ///
-  /// Return the NSManagedObjectModel for this `CoreDataModelVersion`.
+  /// Return the NSManagedObjectModel for this `ModelVersion`.
   func managedObjectModel() -> NSManagedObjectModel
 
-  /// Protocol `CoreDataModelVersion`.
+  /// Protocol `ModelVersion`.
   ///
   /// Returns a list of mapping models needed to migrate the current version of the database to the next one.
   func mappingModelsToNextModelVersion() -> [NSMappingModel]?
 }
 
-extension CoreDataModelVersion {
-  /// Protocol `CoreDataModelVersion`.
+extension ModelVersion {
+  /// Protocol `ModelVersion`.
   ///
   /// Model file name.
   var momd: String { return "\(modelName).\(ModelVersionFileExtension.momd)" }
 }
 
-extension CoreDataModelVersion {
-  /// Searches for the first CoreDataModelVersion whose model is compatible with the persistent store metedata
+extension ModelVersion {
+  /// Searches for the first ModelVersion whose model is compatible with the persistent store metedata
   public static subscript(_ metadata: [String: Any]) -> Self? {
     let version = Self.allVersions.first {
       $0.managedObjectModel().isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
@@ -81,7 +81,7 @@ extension CoreDataModelVersion {
     return version
   }
 
-  /// Initializes a `CoreDataModelVersion` from a `NSPersistentStore` URL; returns nil if a `CoreDataModelVersion` hasn't been correctly defined.
+  /// Initializes a `ModelVersion` from a `NSPersistentStore` URL; returns nil if a `ModelVersion` hasn't been correctly defined.
   /// - Throws: It throws an error if no store is found at `persistentStoreURL` or if there is a problem accessing its contents.
   public init?(persistentStoreURL: URL) throws {
     let metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: persistentStoreURL, options: nil)
@@ -94,9 +94,9 @@ extension CoreDataModelVersion {
     self = modelVersion
   }
 
-  /// Protocol `CoreDataModelVersion`.
+  /// Protocol `ModelVersion`.
   ///
-  /// Returns the NSManagedObjectModel for this `CoreDataModelVersion`.
+  /// Returns the NSManagedObjectModel for this `ModelVersion`.
   public func managedObjectModel() -> NSManagedObjectModel {
     return _managedObjectModel()
   }
@@ -134,13 +134,13 @@ extension CoreDataModelVersion {
 
 // MARK: - Migration
 
-/// Returns `true` if a migration to a given `CoreDataModelVersion` is necessary for the persistent store at a given `URL`.
+/// Returns `true` if a migration to a given `ModelVersion` is necessary for the persistent store at a given `URL`.
 ///
 /// - Parameters:
 ///   - storeURL: the current store URL.
 ///   - version: the ModelVersion to which the store is compared.
 /// - Throws: It throws an error in cases of failure.
-public func isMigrationNecessary<Version: CoreDataModelVersion>(for storeURL: URL, to version: Version) throws -> Bool {
+public func isMigrationNecessary<Version: ModelVersion>(for storeURL: URL, to version: Version) throws -> Bool {
   // Before you initiate a migration process, you should first determine whether it is necessary.
   // If the target model configuration is compatible with the persistent store metadata, there is no need to migrate
   // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmCustomizing.html#//apple_ref/doc/uid/TP40004399-CH8-SW2
@@ -179,7 +179,7 @@ public func isMigrationNecessary<Version: CoreDataModelVersion>(for storeURL: UR
   }
 }
 
-extension CoreDataModelVersion {
+extension ModelVersion {
   /// Returns a list of `MigrationStep` needed to mirate to the next `version` of the store.
   public func migrationSteps(to version: Self) -> [Migration.Step] {
     guard self != version else {

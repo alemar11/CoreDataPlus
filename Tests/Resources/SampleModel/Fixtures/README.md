@@ -23,4 +23,4 @@ In the `Package.swift` these inclusions and exclusions are done automatically ba
 
 ### Generate new binaries
 
-If you change the models, you are going to need new binaries; you can get them just running some Xcode tests with with a break point set at `CoreDataModelVersion._managedObjectModel()`: grab the new binaries stored at that URL and update the ones used in the tests.
+If you change the models, you are going to need new binaries; you can get them just running some Xcode tests with with a break point set at `ModelVersion._managedObjectModel()`: grab the new binaries stored at that URL and update the ones used in the tests.

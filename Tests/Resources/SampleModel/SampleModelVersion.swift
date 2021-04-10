@@ -12,7 +12,7 @@ public enum SampleModelVersion: String, CaseIterable {
   case version3 = "SampleModel3"
 }
 
-extension SampleModelVersion: CoreDataModelVersion {
+extension SampleModelVersion: ModelVersion {
   public static var allVersions: [SampleModelVersion] { return SampleModelVersion.allCases }
   public static var currentVersion: SampleModelVersion { return .version1 }
   public var modelName: String { return "SampleModel" }

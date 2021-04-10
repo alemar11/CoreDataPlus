@@ -190,10 +190,10 @@
 		D2011A462614E3D9001902FB /* NSFetchRequestResult+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A002614E3D9001902FB /* NSFetchRequestResult+CoreData.swift */; };
 		D2011A472614E3D9001902FB /* NSFetchRequestResult+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A002614E3D9001902FB /* NSFetchRequestResult+CoreData.swift */; };
 		D2011A482614E3D9001902FB /* NSFetchRequestResult+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A002614E3D9001902FB /* NSFetchRequestResult+CoreData.swift */; };
-		D2011A492614E3D9001902FB /* CoreDataModelVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A022614E3D9001902FB /* CoreDataModelVersion.swift */; };
-		D2011A4A2614E3D9001902FB /* CoreDataModelVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A022614E3D9001902FB /* CoreDataModelVersion.swift */; };
-		D2011A4B2614E3D9001902FB /* CoreDataModelVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A022614E3D9001902FB /* CoreDataModelVersion.swift */; };
-		D2011A4C2614E3D9001902FB /* CoreDataModelVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A022614E3D9001902FB /* CoreDataModelVersion.swift */; };
+		D2011A492614E3D9001902FB /* ModelVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A022614E3D9001902FB /* ModelVersion.swift */; };
+		D2011A4A2614E3D9001902FB /* ModelVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A022614E3D9001902FB /* ModelVersion.swift */; };
+		D2011A4B2614E3D9001902FB /* ModelVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A022614E3D9001902FB /* ModelVersion.swift */; };
+		D2011A4C2614E3D9001902FB /* ModelVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A022614E3D9001902FB /* ModelVersion.swift */; };
 		D2011A4D2614E3D9001902FB /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A032614E3D9001902FB /* Migration.swift */; };
 		D2011A4E2614E3D9001902FB /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A032614E3D9001902FB /* Migration.swift */; };
 		D2011A4F2614E3D9001902FB /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A032614E3D9001902FB /* Migration.swift */; };
@@ -325,7 +325,7 @@
 		D20119FE2614E3D9001902FB /* NSEntityDescription+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSEntityDescription+Utils.swift"; sourceTree = "<group>"; };
 		D20119FF2614E3D9001902FB /* NSManagedObject+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+Utils.swift"; sourceTree = "<group>"; };
 		D2011A002614E3D9001902FB /* NSFetchRequestResult+CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSFetchRequestResult+CoreData.swift"; sourceTree = "<group>"; };
-		D2011A022614E3D9001902FB /* CoreDataModelVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataModelVersion.swift; sourceTree = "<group>"; };
+		D2011A022614E3D9001902FB /* ModelVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelVersion.swift; sourceTree = "<group>"; };
 		D2011A032614E3D9001902FB /* Migration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Migration.swift; sourceTree = "<group>"; };
 		D2011A042614E3D9001902FB /* Migration+Step.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Migration+Step.swift"; sourceTree = "<group>"; };
 		D2011A062614E3D9001902FB /* Notification+Payloads.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Notification+Payloads.swift"; sourceTree = "<group>"; };
@@ -555,7 +555,7 @@
 		D2011A012614E3D9001902FB /* Migration */ = {
 			isa = PBXGroup;
 			children = (
-				D2011A022614E3D9001902FB /* CoreDataModelVersion.swift */,
+				D2011A022614E3D9001902FB /* ModelVersion.swift */,
 				D2011A032614E3D9001902FB /* Migration.swift */,
 				D2011A042614E3D9001902FB /* Migration+Step.swift */,
 			);
@@ -958,7 +958,7 @@
 				D2011A4E2614E3D9001902FB /* Migration.swift in Sources */,
 				061C689426209443000BF0A2 /* DataTransformer.swift in Sources */,
 				D2011A1A2614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
-				D2011A4A2614E3D9001902FB /* CoreDataModelVersion.swift in Sources */,
+				D2011A4A2614E3D9001902FB /* ModelVersion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -987,7 +987,7 @@
 				D2011A4F2614E3D9001902FB /* Migration.swift in Sources */,
 				061C689526209443000BF0A2 /* DataTransformer.swift in Sources */,
 				D2011A1B2614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
-				D2011A4B2614E3D9001902FB /* CoreDataModelVersion.swift in Sources */,
+				D2011A4B2614E3D9001902FB /* ModelVersion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1016,7 +1016,7 @@
 				D2011A502614E3D9001902FB /* Migration.swift in Sources */,
 				061C689626209443000BF0A2 /* DataTransformer.swift in Sources */,
 				D2011A1C2614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
-				D2011A4C2614E3D9001902FB /* CoreDataModelVersion.swift in Sources */,
+				D2011A4C2614E3D9001902FB /* ModelVersion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1045,7 +1045,7 @@
 				D2011A4D2614E3D9001902FB /* Migration.swift in Sources */,
 				061C689326209443000BF0A2 /* DataTransformer.swift in Sources */,
 				D2011A192614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
-				D2011A492614E3D9001902FB /* CoreDataModelVersion.swift in Sources */,
+				D2011A492614E3D9001902FB /* ModelVersion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
