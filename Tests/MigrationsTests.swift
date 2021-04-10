@@ -7,9 +7,9 @@ import CoreData
 // TODO: to create a sqlite for migrations disable NSPersistentHistoryTrackingKey
 // TODO: test migrations without registering transformers result in a lot of warnings
 
-class CoreDataMigrationsTests: BaseTestCase {
+final class MigrationsTests: BaseTestCase {
   // MARK: - LightWeight Migration
-
+  
   /// Creates a .sqlite with some data for the initial model (version 1)
   func createSampleVersion1(completion: @escaping (Result<URL,Error>) -> Void) {
     let containerSQLite = NSPersistentContainer(name: "SampleModel-\(UUID())", managedObjectModel: model)
@@ -31,60 +31,60 @@ class CoreDataMigrationsTests: BaseTestCase {
       }
     }
   }
-
+  
   func testMigrationFromNotExistingPersistentStore() {
     let url = URL(fileURLWithPath: "/path/to/nothing.sqlite")
-    XCTAssertThrowsError(try CoreDataMigration.migrateStore(at: url, targetVersion: SampleModelVersion.version2),
+    XCTAssertThrowsError(try Migration.migrateStore(at: url, targetVersion: SampleModelVersion.version2),
                          "The store shouldn't exist.")
   }
-
+  
   func testMigrationEdgeCases() throws {
     let name = "SampleModel-\(UUID())"
     let container = NSPersistentContainer(name: name, managedObjectModel: model)
     let context = container.viewContext
-
+    
     let expectation1 = expectation(description: "\(#function)\(#line)")
-
+    
     container.loadPersistentStores { (store, error) in
       XCTAssertNil(error)
       expectation1.fulfill()
     }
     wait(for: [expectation1], timeout: 5)
-
+    
     context.fillWithSampleData()
     try context.save()
     context.reset()
-
+    
     let sourceURL = try XCTUnwrap(container.persistentStoreCoordinator.persistentStores.first?.url)
-
+    
     let targetVersion = SampleModelVersion.version2
     let steps = SampleModelVersion.version1.migrationSteps(to: .version2)
     XCTAssertEqual(steps.count, 1)
-
+    
     let version = try SampleModelVersion(persistentStoreURL: sourceURL)
     XCTAssertTrue(version == .version1)
-
+    
     // When
     let progress = Progress(totalUnitCount: 1)
-
+    
     let enableWALCheckpoint = false // ⚠️ if the store is referenced, enabling the WAL checkpoint will block the migration
-    try CoreDataMigration.migrateStore(at: sourceURL, targetVersion: targetVersion, enableWALCheckpoint: enableWALCheckpoint, progress: progress)
-
+    try Migration.migrateStore(at: sourceURL, targetVersion: targetVersion, enableWALCheckpoint: enableWALCheckpoint, progress: progress)
+    
     // ⚠️ migration should be done before loading the NSPersistentContainer instance or you need to create a new one after the migration
     let migratedContainer = NSPersistentContainer(name: name, managedObjectModel: targetVersion.managedObjectModel())
-
+    
     let expectation2 = expectation(description: "\(#function)\(#line)")
     migratedContainer.loadPersistentStores { (store, error) in
       XCTAssertNil(error)
       expectation2.fulfill()
     }
     wait(for: [expectation2], timeout: 5)
-
+    
     let context2 = migratedContainer.viewContext
     let luxuryCars = try context2.fetch(NSFetchRequest<NSManagedObject>(entityName: "LuxuryCar"))
     luxuryCars.forEach { XCTAssertNotNil($0.value(forKey: "isLimitedEdition")) }
   }
-
+  
   func testIfMigrationIsNeeded() throws {
     let bundle = Bundle.tests
     let sourceURLV1 = try XCTUnwrap(bundle.url(forResource: "SampleModelV1", withExtension: "sqlite"))
@@ -98,24 +98,24 @@ class CoreDataMigrationsTests: BaseTestCase {
     let migrationNeededFromV2toV1 = try CoreDataPlus.isMigrationNecessary(for: sourceURLV2, to: SampleModelVersion.version1)
     XCTAssertFalse(migrationNeededFromV2toV1)
   }
-
+  
   func testMigrationFromVersion1ToVersion2() throws {
     let bundle = Bundle.tests
     let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModelV1", withExtension: "sqlite"))  // 125 cars, 5 sport cars
-
+    
     // Being the test run multiple times, we create an unique copy for every test
     let uuid = UUID().uuidString
     let sourceURL = bundle.bundleURL.appendingPathComponent("SampleModelV1_copy-\(uuid).sqlite")
     try FileManager.default.copyItem(at: _sourceURL, to: sourceURL)
     XCTAssertTrue(FileManager.default.fileExists(atPath: sourceURL.path))
-
+    
     let targetVersion = SampleModelVersion.version2
     let steps = SampleModelVersion.version1.migrationSteps(to: .version2)
     XCTAssertEqual(steps.count, 1)
-
+    
     let version = try SampleModelVersion(persistentStoreURL: sourceURL)
     XCTAssertTrue(version == .version1)
-
+    
     // When
     let progress = Progress(totalUnitCount: 1)
     var completionSteps = 0
@@ -124,15 +124,15 @@ class CoreDataMigrationsTests: BaseTestCase {
       completion = progress.fractionCompleted
       completionSteps += 1
     }
-
-    try CoreDataMigration.migrateStore(at: sourceURL, targetVersion: targetVersion, enableWALCheckpoint: true, progress: progress)
+    
+    try Migration.migrateStore(at: sourceURL, targetVersion: targetVersion, enableWALCheckpoint: true, progress: progress)
     let migratedContext = NSManagedObjectContext(model: targetVersion.managedObjectModel(), storeURL: sourceURL)
     let luxuryCars = try LuxuryCar.fetch(in: migratedContext)
     XCTAssertEqual(luxuryCars.count, 5)
-
+    
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
     XCTAssertTrue(cars.count >= 1)
-
+    
     if #available(iOS 11, tvOS 11, watchOS 4, macOS 10.13, *) {
       cars.forEach { car in
         if car is LuxuryCar || car is SportCar {
@@ -146,41 +146,41 @@ class CoreDataMigrationsTests: BaseTestCase {
         }
       }
     }
-
-    try CoreDataMigration.migrateStore(from: sourceURL, to: sourceURL, targetVersion: targetVersion)
-
+    
+    try Migration.migrateStore(from: sourceURL, to: sourceURL, targetVersion: targetVersion)
+    
     XCTAssertEqual(completionSteps, 1)
     XCTAssertEqual(completion, 1.0)
-
+    
     migratedContext._fix_sqlite_warning_when_destroying_a_store()
     token.invalidate()
   }
-
+  
   // MARK: - HeavyWeight Migration
-
+  
   func testMigrationFromVersion2ToVersion3() throws {
     let bundle = Bundle.tests
     let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModelV2", withExtension: "sqlite"))
-
+    
     // Being the test run multiple times, we create an unique copy for every test
     let uuid = UUID().uuidString
     let sourceURL = bundle.bundleURL.appendingPathComponent("SampleModelV2_copy-\(uuid).sqlite")
     try FileManager.default.copyItem(at: _sourceURL, to: sourceURL)
     XCTAssertTrue(FileManager.default.fileExists(atPath: sourceURL.path))
-
+    
     let targetURL = sourceURL
     let version = try SampleModelVersion(persistentStoreURL: sourceURL as URL)
-
+    
     XCTAssertTrue(version == .version2)
-
-    try CoreDataMigration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3)
-
+    
+    try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3)
+    
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
     let makers = try Maker.fetch(in: migratedContext)
     XCTAssertEqual(makers.count, 10)
     XCTAssertEqual(cars.count, 125)
-
+    
     cars.forEach { object in
       let owner = object.value(forKey: "owner") as? NSManagedObject
       let maker = object.value(forKey: "createdBy") as? NSManagedObject
@@ -188,7 +188,7 @@ class CoreDataMigrationsTests: BaseTestCase {
       let name = maker!.value(forKey: "name") as! String
       maker!.setValue("--\(name)--", forKey: "name")
       let previousOwners = object.value(forKey: "previousOwners") as! Set<NSManagedObject>
-
+      
       if let carOwner = owner {
         XCTAssertTrue(previousOwners.contains(carOwner))
         let previousCars = carOwner.value(forKey: "previousCars") as! Set<NSManagedObject>
@@ -197,30 +197,30 @@ class CoreDataMigrationsTests: BaseTestCase {
         XCTAssertEqual(previousOwners.count, 0)
       }
     }
-
+    
     try migratedContext.save()
     XCTAssertTrue(FileManager.default.fileExists(atPath: targetURL.path))
     XCTAssertTrue(FileManager.default.fileExists(atPath: sourceURL.path))
-
+    
     migratedContext._fix_sqlite_warning_when_destroying_a_store()
-
+    
     try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
   }
-
+  
   func testMigrationFromVersion1ToVersion3() throws {
     let bundle = Bundle.tests
     let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModelV1", withExtension: "sqlite"))
-
+    
     // Being the test run multiple times, we create an unique copy for every test
     let uuid = UUID().uuidString
     let sourceURL = bundle.bundleURL.appendingPathComponent("SampleModelV1_copy-\(uuid).sqlite")
     try FileManager.default.copyItem(at: _sourceURL, to: sourceURL)
     XCTAssertTrue(FileManager.default.fileExists(atPath: sourceURL.path))
-
+    
     let version = try SampleModelVersion(persistentStoreURL: sourceURL as URL)
-
+    
     XCTAssertTrue(version == .version1)
-
+    
     let targetURL = URL.temporaryDirectoryURL.appendingPathComponent("SampleModel").appendingPathExtension("sqlite")
     let progress = Progress(totalUnitCount: 1)
     var completionSteps = 0
@@ -229,24 +229,24 @@ class CoreDataMigrationsTests: BaseTestCase {
       completion = progress.fractionCompleted
       completionSteps += 1
     }
-    try CoreDataMigration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3, deleteSource: true, progress: progress)
-
+    try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3, deleteSource: true, progress: progress)
+    
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
     let makers = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Maker"))
     XCTAssertEqual(makers.count, 10)
-
+    
     makers.forEach { (maker) in
       let name = maker.value(forKey: "name") as! String
       maker.setValue("--\(name)--", forKey: "name")
     }
     try migratedContext.save()
-
+    
     XCTAssertEqual(completionSteps, 2)
     XCTAssertEqual(completion, 1.0)
-
+    
     XCTAssertFalse(FileManager.default.fileExists(atPath: sourceURL.path))
     XCTAssertTrue(FileManager.default.fileExists(atPath: targetURL.path))
-
+    
     migratedContext._fix_sqlite_warning_when_destroying_a_store()
     token.invalidate()
   }
@@ -259,7 +259,7 @@ extension NSManagedObjectContext {
     self.init(concurrencyType: .mainQueueConcurrencyType)
     persistentStoreCoordinator = psc
   }
-
+  
   func _fix_sqlite_warning_when_destroying_a_store() {
     /// solve the warning: "BUG IN CLIENT OF libsqlite3.dylib: database integrity compromised by API violation: vnode unlinked while in use..."
     for store in persistentStoreCoordinator!.persistentStores {
