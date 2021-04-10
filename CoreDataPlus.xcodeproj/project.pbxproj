@@ -534,6 +534,7 @@
 		23B580861F94FF0E00A365C0 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				D20F4C1F2622029400F0CB25 /* ModelBuilderTests.swift */,
 				230C087B21417E1900A1B6CB /* MigrationsTests.swift */,
 				23D1056A20D7EFEF00AE84CC /* FetchedResultsChangesTests.swift */,
 				236351041F95F28B00B3A16A /* ModelVersionTests.swift */,
@@ -602,7 +603,6 @@
 		D20F4BC52621F39600F0CB25 /* SampleModel2 */ = {
 			isa = PBXGroup;
 			children = (
-				D20F4C1F2622029400F0CB25 /* ModelBuilderTests.swift */,
 				D20F4BC62621F3B000F0CB25 /* SampleModel2.swift */,
 			);
 			path = SampleModel2;

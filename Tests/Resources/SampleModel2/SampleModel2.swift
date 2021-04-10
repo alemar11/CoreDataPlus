@@ -35,7 +35,7 @@ enum SampleModel2 {
     let bookToPages = NSRelationshipDescription()
     bookToPages.name = #keyPath(Book.pages)
     bookToPages.destinationEntity = page
-    bookToPages.isOptional = true
+    bookToPages.isOptional = false
     bookToPages.isOrdered = false
     bookToPages.minCount = 1
     bookToPages.maxCount = 10_000
@@ -53,7 +53,10 @@ enum SampleModel2 {
     author.properties += [authorToBooks]
     book.properties += [bookToAuthor, bookToPages]
     page.properties += [pageToBook]
-    //page.uniquenessConstraints += [[#keyPath(Page.book)]]
+
+    var pageUniquenessConstraints = page.uniquenessConstraints.flatMap { $0 }
+    pageUniquenessConstraints.append(#keyPath(Page.book))
+    page.uniquenessConstraints = [pageUniquenessConstraints]
 
     managedObjectModel.entities = [author, book, page]
     return managedObjectModel
@@ -112,15 +115,15 @@ enum SampleModel2 {
     entity.name = String(describing: Page.self)
     entity.managedObjectClassName = String(describing: Page.self)
 
-    //let number = NSAttributeDescription.int32(name: #keyPath(Page.number))
-    //number.isOptional = false
+    let number = NSAttributeDescription.int32(name: #keyPath(Page.number))
+    number.isOptional = false
 
     let isBookmarked = NSAttributeDescription.bool(name: #keyPath(Page.isBookmarked))
     isBookmarked.isOptional = false
     isBookmarked.defaultValue = false
 
-    entity.properties = [isBookmarked]
-    //entity.uniquenessConstraints = [[#keyPath(Page.number)]]
+    entity.properties = [isBookmarked, number]
+    entity.uniquenessConstraints = [[#keyPath(Page.number)]]
     return entity
   }
 
@@ -135,19 +138,16 @@ enum SampleModel2 {
     book1.title = "title 1"
     book1.uniqueID = UUID()
 
-    let mutableSet = NSMutableSet()
+    let book1Pages = NSMutableSet()
     (1..<100).forEach { index in
       let page = Page(context: context)
       page.book = book1
+      page.number = Int32(index)
       page.isBookmarked = true
-      mutableSet.add(page)
-
-      //page.number = Int32(index)
-
-      //book1.addToPages(page)
+      book1Pages.add(page)
     }
 
-    book1.pages = mutableSet
+    book1.pages = book1Pages
 
     let book2 = Book(context: context)
     book2.price = Decimal(3.3333333333)
@@ -155,6 +155,17 @@ enum SampleModel2 {
     book2.rating = 5
     book2.title = "title 2"
     book2.uniqueID = UUID()
+
+    let book2Pages = NSMutableSet()
+    (1..<2).forEach { index in
+      let page = Page(context: context)
+      page.book = book2
+      page.number = Int32(index)
+      page.isBookmarked = false
+      book2Pages.add(page)
+    }
+    book2.pages = book2Pages
+
 
     book1.author = author1
     let author1Books = NSMutableSet()
@@ -198,7 +209,7 @@ public class Book: NSManagedObject {
   @NSManaged public var publishedAt: Date
   @NSManaged public var rating: Double
   @NSManaged public var author: Author
-  @NSManaged public var pages: NSSet? // of Pages
+  @NSManaged public var pages: NSSet // of Pages
 }
 
 
@@ -221,7 +232,7 @@ public class Book: NSManagedObject {
 
 @objc(Page)
 public class Page: NSManagedObject {
-  //@NSManaged public var number: Int32
+  @NSManaged public var number: Int32
   @NSManaged public var isBookmarked: Bool
   @NSManaged public var book: Book
 }
