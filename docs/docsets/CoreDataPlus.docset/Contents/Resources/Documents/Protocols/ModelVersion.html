@@ -8,13 +8,21 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Protocol/ModelVersion" class="dashAnchor"></a>
     <a title="ModelVersion Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">CoreDataPlus Docs</a> (88% documented)</p>
+        <p><a href="../index.html">CoreDataPlus 3.0.0-RC1 Docs</a> (85% documented)</p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -31,13 +39,10 @@
             <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Classes/EntityObserver.html">EntityObserver</a>
+                <a href="../Classes/DataTransformer.html">DataTransformer</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/EntityObserver/ContextChange.html">– ContextChange</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes.html#/s:12CoreDataPlus13MigrationStepC">MigrationStep</a>
+                <a href="../Classes/Transformer.html">Transformer</a>
               </li>
             </ul>
           </li>
@@ -45,13 +50,16 @@
             <a href="../Enums.html">Enumerations</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Enums/CoreDataPlusError.html">CoreDataPlusError</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Enums/FetchedResultsObjectChange.html">FetchedResultsObjectChange</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/FetchedResultsSectionChange.html">FetchedResultsSectionChange</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Migration.html">Migration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Migration/Step.html">– Step</a>
               </li>
             </ul>
           </li>
@@ -63,6 +71,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/NSBatchDeleteResult.html">NSBatchDeleteResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSBatchInsertResult.html">NSBatchInsertResult</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/NSBatchUpdateResult.html">NSBatchUpdateResult</a>
@@ -80,7 +91,21 @@
                 <a href="../Extensions/NSManagedObjectContext.html">NSManagedObjectContext</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Extensions/ProcessInfo.html">ProcessInfo</a>
+                <a href="../Extensions/NSPersistentHistoryChangeRequest.html">NSPersistentHistoryChangeRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSPersistentStoreCoordinator.html">NSPersistentStoreCoordinator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSSet.html">NSSet</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:12CoreDataPlus20isMigrationNecessary3for2toSb10Foundation3URLV_xtKAA12ModelVersionRzlF">isMigrationNecessary(for:to:)</a>
               </li>
             </ul>
           </li>
@@ -88,22 +113,7 @@
             <a href="../Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Protocols/DelayedDeletable.html">DelayedDeletable</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Protocols/ModelVersion.html">ModelVersion</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Protocols/NSManagedObjectContextNotification.html">NSManagedObjectContextNotification</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Protocols/NSManagedObjectContextObservable.html">NSManagedObjectContextObservable</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Protocols/ThredSafeAccessible.html">ThredSafeAccessible</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Protocols/UpdateTimestampable.html">UpdateTimestampable</a>
               </li>
             </ul>
           </li>
@@ -111,22 +121,25 @@
             <a href="../Structs.html">Structures</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Structs/ContextDidSaveNotification.html">ContextDidSaveNotification</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/ContextWillSaveNotification.html">ContextWillSaveNotification</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Structs/FetchedResultsSectionInfo.html">FetchedResultsSectionInfo</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/Migration.html">Migration</a>
+                <a href="../Structs/ManagedObjectContextDidMergeChangesObjectIDs.html">ManagedObjectContextDidMergeChangesObjectIDs</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/ObjectsDidChangeNotification.html">ObjectsDidChangeNotification</a>
+                <a href="../Structs/ManagedObjectContextDidSaveObjectIDs.html">ManagedObjectContextDidSaveObjectIDs</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Structs/ObservedEvent.html">ObservedEvent</a>
+                <a href="../Structs/ManagedObjectContextDidSaveObjects.html">ManagedObjectContextDidSaveObjects</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ManagedObjectContextObjectsDidChange.html">ManagedObjectContextObjectsDidChange</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ManagedObjectContextWillSaveObjects.html">ManagedObjectContextWillSaveObjects</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PersistentStoreRemoteChange.html">PersistentStoreRemoteChange</a>
               </li>
             </ul>
           </li>
@@ -138,13 +151,12 @@
             <h1>ModelVersion</h1>
               <div class="declaration">
                 <div class="language">
+                  
                   <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ModelVersion</span> <span class="p">:</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
                 </div>
               </div>
-            <p><strong>CoreDataPlus</strong></p>
-
-<p>Types adopting the <code>ModelVersion</code> protocol can be used to describe a Core Data Model and its versioning.</p>
+            <p>Types adopting the <code>ModelVersion</code> protocol can be used to describe a Core Data Model and its versioning.</p>
 
           </section>
           <section class="section task-group-section">
@@ -163,9 +175,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Protocol <code>ModelVersion</code>.</p>
+                        <p>Protocol <code>ModelVersion</code>.</p>
 
 <p>List with all versions until now.</p>
 
@@ -194,9 +204,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Protocol <code>ModelVersion</code>.</p>
+                        <p>Protocol <code>ModelVersion</code>.</p>
 
 <p>Current model version.</p>
 
@@ -225,9 +233,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Protocol <code>ModelVersion</code>.</p>
+                        <p>Protocol <code>ModelVersion</code>.</p>
 
 <p>Version name.</p>
 
@@ -256,9 +262,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Protocol <code>ModelVersion</code>.</p>
+                        <p>Protocol <code>ModelVersion</code>.</p>
 
 <p>The next <code>ModelVersion</code> in the progressive migration.</p>
 
@@ -277,9 +281,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:12CoreDataPlus12ModelVersionP11modelBundleSo0G0Cvp"></a>
+                    <a name="/s:12CoreDataPlus12ModelVersionP11modelBundleSo8NSBundleCvp"></a>
                     <a name="//apple_ref/swift/Property/modelBundle" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus12ModelVersionP11modelBundleSo0G0Cvp">modelBundle</a>
+                    <a class="token" href="#/s:12CoreDataPlus12ModelVersionP11modelBundleSo8NSBundleCvp">modelBundle</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -287,11 +291,9 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
+                        <p>Protocol <code>ModelVersion</code>.</p>
 
-<p>Protocol <code>ModelVersion</code>.</p>
-
-<p>NSBundle object containing the model file.</p>
+<p><code>NSBundle</code> object containing the model file.</p>
 
                       </div>
                       <div class="declaration">
@@ -318,9 +320,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Protocol <code>ModelVersion</code>.</p>
+                        <p>Protocol <code>ModelVersion</code>.</p>
 
 <p>Model name.</p>
 
@@ -343,17 +343,25 @@
                     <a name="//apple_ref/swift/Method/managedObjectModel()" class="dashAnchor"></a>
                     <a class="token" href="#/s:12CoreDataPlus12ModelVersionP013managedObjectD0So09NSManagedgD0CyF">managedObjectModel()</a>
                     </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Protocol <code>ModelVersions</code>.</p>
+                        <p>Protocol <code>ModelVersions</code>.</p>
 
 <p>Return the NSManagedObjectModel for this <code>ModelVersion</code>.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p>Protocol <code>ModelVersion</code>.</p>
+
+<p>Returns the NSManagedObjectModel for this <code>ModelVersion</code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -380,9 +388,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Protocol <code>ModelVersion</code>.</p>
+                        <p>Protocol <code>ModelVersion</code>.</p>
 
 <p>Returns a list of mapping models needed to migrate the current version of the database to the next one.</p>
 
@@ -398,16 +404,12 @@
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:12CoreDataPlus12ModelVersionPAAExSg10Foundation3URLV015persistentStoreG0_tcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(persistentStoreURL:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus12ModelVersionPAAExSg10Foundation3URLV015persistentStoreG0_tcfc">init(persistentStoreURL:)</a>
+                    <a name="/s:12CoreDataPlus12ModelVersionPAAEyxSgSDySSypGcipZ"></a>
+                    <a name="//apple_ref/swift/Method/subscript(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus12ModelVersionPAAEyxSgSDySSypGcipZ">subscript(_:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -418,16 +420,49 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Initializes a <code>ModelVersion</code> from a <code>NSPersistentStore</code> URL.</p>
+                        <p>Searches for the first ModelVersion whose model is compatible with the persistent store metedata</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">?(</span><span class="nv">persistentStoreURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nf">subscript</span><span class="p">(</span><span class="nv">metadata</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:12CoreDataPlus12ModelVersionPAAE18persistentStoreURLxSg10Foundation0H0V_tKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(persistentStoreURL:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:12CoreDataPlus12ModelVersionPAAE18persistentStoreURLxSg10Foundation0H0V_tKcfc">init(persistentStoreURL:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initializes a <code>ModelVersion</code> from a <code>NSPersistentStore</code> URL; returns nil if a <code>ModelVersion</code> hasn&rsquo;t been correctly defined.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    It throws an error if no store is found at <code>persistentStoreURL</code> or if there is a problem accessing its contents.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">?(</span><span class="nv">persistentStoreURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">)</span> <span class="k">throws</span></code></pre>
 
                         </div>
                       </div>
@@ -440,85 +475,19 @@
               <div class="task-name-container">
                 <a name="/Migration"></a>
                 <a name="//apple_ref/swift/Section/Migration" class="dashAnchor"></a>
-                <a href="#/Migration">
-                  <h3 class="section-name">Migration</h3>
-                </a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Migration"></a>
+                  <h3 class="section-name"><p>Migration</p>
+</h3>
+                </div>
               </div>
               <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:12CoreDataPlus12ModelVersionPAAE19isMigrationPossibleSb10Foundation3URLV3for_qd__2totKAaBRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/isMigrationPossible(for:to:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus12ModelVersionPAAE19isMigrationPossibleSb10Foundation3URLV3for_qd__2totKAaBRd__lF">isMigrationPossible(for:to:)</a>
-                    </code>
-                      <span class="declaration-note">
-                        Extension method
-                      </span>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Returns <code>true</code> if a migration is possible for the current store to a given <code>ModelVersion</code>.</p>
-<div class="aside aside-throws">
-    <p class="aside-title">Throws</p>
-    It throws an error in cases of failure.
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">isMigrationPossible</span><span class="o">&lt;</span><span class="kt">Version</span><span class="o">&gt;</span><span class="p">(</span><span class="k">for</span> <span class="nv">storeURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">,</span> <span class="n">to</span> <span class="nv">version</span><span class="p">:</span> <span class="kt">Version</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="k">where</span> <span class="kt">Version</span> <span class="p">:</span> <span class="kt">ModelVersion</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>storeURL</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>the current store URL.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>version</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>the ModelVersion to which the store is compared.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:12CoreDataPlus12ModelVersionPAAE14migrationStepsSayAA13MigrationStepCGx2to_tF"></a>
+                    <a name="/s:12CoreDataPlus12ModelVersionPAAE14migrationSteps2toSayAA9MigrationO4StepCGx_tF"></a>
                     <a name="//apple_ref/swift/Method/migrationSteps(to:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus12ModelVersionPAAE14migrationStepsSayAA13MigrationStepCGx2to_tF">migrationSteps(to:)</a>
+                    <a class="token" href="#/s:12CoreDataPlus12ModelVersionPAAE14migrationSteps2toSayAA9MigrationO4StepCGx_tF">migrationSteps(to:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -529,16 +498,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Returns a list of <code><a href="../Classes.html#/s:12CoreDataPlus13MigrationStepC">MigrationStep</a></code> needed to mirate to the next <code>version</code> of the store.</p>
+                        <p>Returns a list of <code>MigrationStep</code> needed to mirate to the next <code>version</code> of the store.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">migrationSteps</span><span class="p">(</span><span class="n">to</span> <span class="nv">version</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt"><a href="../Classes.html#/s:12CoreDataPlus13MigrationStepC">MigrationStep</a></span><span class="p">]</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">migrationSteps</span><span class="p">(</span><span class="n">to</span> <span class="nv">version</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt"><a href="../Enums/Migration.html">Migration</a></span><span class="o">.</span><span class="kt">Step</span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
@@ -561,9 +528,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Returns a <code>NSMappingModel</code> that specifies how to map a model to the next version model.</p>
+                        <p>Returns a <code>NSMappingModel</code> that specifies how to map a model to the next version model.</p>
 
                       </div>
                       <div class="declaration">
@@ -593,9 +558,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
-
-<p>Returns a newly created mapping model that will migrate data from the source to the destination model.</p>
+                        <p>Returns a newly created mapping model that will migrate data from the source to the destination model.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     <p>A model will be created only if all changes are simple enough to be able to reasonably infer a mapping such as:</p>
@@ -635,9 +598,9 @@ attributes or entities in order to force Core Data to do the right thing during 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:12CoreDataPlus12ModelVersionPAAE13mappingModelsSaySo09NSMappingD0CGSaySSG3for_tF"></a>
+                    <a name="/s:12CoreDataPlus12ModelVersionPAAE13mappingModels3forSaySo09NSMappingD0CGSaySSG_tF"></a>
                     <a name="//apple_ref/swift/Method/mappingModels(for:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:12CoreDataPlus12ModelVersionPAAE13mappingModelsSaySo09NSMappingD0CGSaySSG3for_tF">mappingModels(for:)</a>
+                    <a class="token" href="#/s:12CoreDataPlus12ModelVersionPAAE13mappingModels3forSaySo09NSMappingD0CGSaySSG_tF">mappingModels(for:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -648,7 +611,11 @@ attributes or entities in order to force Core Data to do the right thing during 
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><strong>CoreDataPlus</strong></p>
+                        <div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The mapping models must be inside the NSBundle object containing the model file.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -671,8 +638,8 @@ attributes or entities in order to force Core Data to do the right thing during 
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="https://github.com/tinrobots/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2018-09-13)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-04-10)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

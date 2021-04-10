@@ -55,6 +55,12 @@
               <li class="nav-group-task">
                 <a href="../Enums/FetchedResultsSectionChange.html">FetchedResultsSectionChange</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Migration.html">Migration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Migration/Step.html">– Step</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -99,7 +105,7 @@
             <a href="../Functions.html">Functions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Functions.html#/s:12CoreDataPlus20isMigrationNecessary3for2toSb10Foundation3URLV_xtKAA0aB12ModelVersionRzlF">isMigrationNecessary(for:to:)</a>
+                <a href="../Functions.html#/s:12CoreDataPlus20isMigrationNecessary3for2toSb10Foundation3URLV_xtKAA12ModelVersionRzlF">isMigrationNecessary(for:to:)</a>
               </li>
             </ul>
           </li>
@@ -107,19 +113,13 @@
             <a href="../Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Protocols/CoreDataModelVersion.html">CoreDataModelVersion</a>
+                <a href="../Protocols/ModelVersion.html">ModelVersion</a>
               </li>
             </ul>
           </li>
           <li class="nav-group-name">
             <a href="../Structs.html">Structures</a>
             <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Structs/CoreDataMigration.html">CoreDataMigration</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/CoreDataMigration/Step.html">– Step</a>
-              </li>
               <li class="nav-group-task">
                 <a href="../Structs/FetchedResultsSectionInfo.html">FetchedResultsSectionInfo</a>
               </li>
@@ -140,14 +140,6 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/PersistentStoreRemoteChange.html">PersistentStoreRemoteChange</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a href="../Typealiases.html">Type Aliases</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Typealiases.html#/s:12CoreDataPlus0aB13MigrationStepa">CoreDataMigrationStep</a>
               </li>
             </ul>
           </li>
@@ -1479,7 +1471,7 @@ Faulted objects are not considered to prevent Core Data to make a round trip to 
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">iOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">iOSApplicationExtension</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">6.0</span><span class="p">,</span> <span class="n">macOS</span> <span class="mf">10.15</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+                          <pre class="highlight swift"><code><span class="kd">@available(iOS 13.0, iOSApplicationExtension 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)</span>
 <span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">batchInsert</span><span class="p">(</span><span class="n">using</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span>
                                <span class="nv">resultType</span><span class="p">:</span> <span class="kt">NSBatchInsertRequestResultType</span> <span class="o">=</span> <span class="o">.</span><span class="n">statusOnly</span><span class="p">,</span>
                                <span class="nv">objects</span><span class="p">:</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">NSBatchInsertResult</span></code></pre>
@@ -1566,7 +1558,7 @@ Doing a batch insert with this method is more memory efficient than the standard
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">iOS</span> <span class="mf">14.0</span><span class="p">,</span> <span class="n">iOSApplicationExtension</span> <span class="mf">14.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">14.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">7.0</span><span class="p">,</span> <span class="n">macOS</span> <span class="mf">11.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+                          <pre class="highlight swift"><code><span class="kd">@available(iOS 14.0, iOSApplicationExtension 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)</span>
 <span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">batchInsert</span><span class="p">(</span><span class="n">using</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span>
                                <span class="nv">resultType</span><span class="p">:</span> <span class="kt">NSBatchInsertRequestResultType</span> <span class="o">=</span> <span class="o">.</span><span class="n">statusOnly</span><span class="p">,</span>
                                <span class="n">dictionaryHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">NSMutableDictionary</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">NSBatchInsertResult</span></code></pre>
@@ -1653,7 +1645,7 @@ Doing a batch insert with this method is more memory efficient than the standard
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">iOS</span> <span class="mf">14.0</span><span class="p">,</span> <span class="n">iOSApplicationExtension</span> <span class="mf">14.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">14.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">7.0</span><span class="p">,</span> <span class="n">macOS</span> <span class="mf">11.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+                          <pre class="highlight swift"><code><span class="kd">@available(iOS 14.0, iOSApplicationExtension 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)</span>
 <span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">batchInsert</span><span class="p">(</span><span class="n">using</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="p">,</span>
                                <span class="nv">resultType</span><span class="p">:</span> <span class="kt">NSBatchInsertRequestResultType</span> <span class="o">=</span> <span class="o">.</span><span class="n">statusOnly</span><span class="p">,</span>
                                <span class="n">managedObjectHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">NSBatchInsertResult</span></code></pre>
@@ -1734,7 +1726,7 @@ Doing a batch insert with this method is more memory efficient than the standard
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">progress</span> <span class="o">=</span> <span class="kt">Progress</span><span class="p">(</span><span class="nv">totalUnitCount</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">progress</span><span class="o">.</span><span class="nf">becomeCurrent</span><span class="p">(</span><span class="nv">withPendingUnitCount</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
 <span class="k">let</span> <span class="nv">fetchResultToken</span> <span class="o">=</span> <span class="k">try</span> <span class="kt">ENTITY</span><span class="o">.</span><span class="nf">fetchAsync</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span><span class="nv">with</span><span class="p">:</span><span class="nv">completion</span><span class="p">:)</span>
-<span class="k">let</span> <span class="nv">token</span> <span class="o">=</span> <span class="n">fetchResultToken</span><span class="o">.</span><span class="n">progress</span><span class="p">?</span><span class="o">.</span><span class="nf">observe</span><span class="p">(\</span><span class="o">.</span><span class="n">completedUnitCount</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="o">.</span><span class="n">old</span><span class="p">,</span> <span class="o">.</span><span class="k">new</span><span class="p">])</span> <span class="p">{</span> <span class="p">(</span><span class="n">progress</span><span class="p">,</span> <span class="n">change</span><span class="p">)</span> <span class="p">}</span>
+<span class="k">let</span> <span class="nv">token</span> <span class="o">=</span> <span class="n">fetchResultToken</span><span class="o">.</span><span class="n">progress</span><span class="p">?</span><span class="o">.</span><span class="nf">observe</span><span class="p">(</span><span class="err">\</span><span class="o">.</span><span class="n">completedUnitCount</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="o">.</span><span class="n">old</span><span class="p">,</span> <span class="o">.</span><span class="k">new</span><span class="p">])</span> <span class="p">{</span> <span class="p">(</span><span class="n">progress</span><span class="p">,</span> <span class="n">change</span><span class="p">)</span> <span class="p">}</span>
 <span class="n">progress</span><span class="o">.</span><span class="nf">resignCurrent</span><span class="p">()</span>
 </code></pre>
 
@@ -1875,7 +1867,7 @@ Doing a batch insert with this method is more memory efficient than the standard
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-04-09)</p>
+          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-04-10)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
