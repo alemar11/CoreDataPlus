@@ -18,9 +18,7 @@
 
 import CoreData
 
-public struct CoreDataMigration {
-  private init() { }
-
+public enum Migration {
   /// Migrates a store to a given version.
   ///
   /// - Parameters:

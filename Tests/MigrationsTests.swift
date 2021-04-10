@@ -34,7 +34,7 @@ class CoreDataMigrationsTests: BaseTestCase {
 
   func testMigrationFromNotExistingPersistentStore() {
     let url = URL(fileURLWithPath: "/path/to/nothing.sqlite")
-    XCTAssertThrowsError(try CoreDataMigration.migrateStore(at: url, targetVersion: SampleModelVersion.version2),
+    XCTAssertThrowsError(try Migration.migrateStore(at: url, targetVersion: SampleModelVersion.version2),
                          "The store shouldn't exist.")
   }
 
@@ -68,7 +68,7 @@ class CoreDataMigrationsTests: BaseTestCase {
     let progress = Progress(totalUnitCount: 1)
 
     let enableWALCheckpoint = false // ⚠️ if the store is referenced, enabling the WAL checkpoint will block the migration
-    try CoreDataMigration.migrateStore(at: sourceURL, targetVersion: targetVersion, enableWALCheckpoint: enableWALCheckpoint, progress: progress)
+    try Migration.migrateStore(at: sourceURL, targetVersion: targetVersion, enableWALCheckpoint: enableWALCheckpoint, progress: progress)
 
     // ⚠️ migration should be done before loading the NSPersistentContainer instance or you need to create a new one after the migration
     let migratedContainer = NSPersistentContainer(name: name, managedObjectModel: targetVersion.managedObjectModel())
@@ -125,7 +125,7 @@ class CoreDataMigrationsTests: BaseTestCase {
       completionSteps += 1
     }
 
-    try CoreDataMigration.migrateStore(at: sourceURL, targetVersion: targetVersion, enableWALCheckpoint: true, progress: progress)
+    try Migration.migrateStore(at: sourceURL, targetVersion: targetVersion, enableWALCheckpoint: true, progress: progress)
     let migratedContext = NSManagedObjectContext(model: targetVersion.managedObjectModel(), storeURL: sourceURL)
     let luxuryCars = try LuxuryCar.fetch(in: migratedContext)
     XCTAssertEqual(luxuryCars.count, 5)
@@ -147,7 +147,7 @@ class CoreDataMigrationsTests: BaseTestCase {
       }
     }
 
-    try CoreDataMigration.migrateStore(from: sourceURL, to: sourceURL, targetVersion: targetVersion)
+    try Migration.migrateStore(from: sourceURL, to: sourceURL, targetVersion: targetVersion)
 
     XCTAssertEqual(completionSteps, 1)
     XCTAssertEqual(completion, 1.0)
@@ -173,7 +173,7 @@ class CoreDataMigrationsTests: BaseTestCase {
 
     XCTAssertTrue(version == .version2)
 
-    try CoreDataMigration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3)
+    try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3)
 
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
@@ -229,7 +229,7 @@ class CoreDataMigrationsTests: BaseTestCase {
       completion = progress.fractionCompleted
       completionSteps += 1
     }
-    try CoreDataMigration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3, deleteSource: true, progress: progress)
+    try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3, deleteSource: true, progress: progress)
 
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
     let makers = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Maker"))

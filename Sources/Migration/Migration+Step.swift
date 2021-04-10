@@ -2,7 +2,7 @@
 
 import CoreData
 
-extension CoreDataMigration {
+extension Migration {
   /// Represents a single step during a migration process.
   public final class Step {
     public let sourceModel: NSManagedObjectModel
