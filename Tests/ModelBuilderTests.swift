@@ -4,7 +4,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-class CoreDataPlusOnDiskWithProgrammaticallyModelTest: XCTestCase {
+class CoreDataPlusOnDiskWithProgrammaticallyModelTestCase: XCTestCase {
   var container: NSPersistentContainer!
 
   override func setUp() {
@@ -71,7 +71,7 @@ final class OnDiskWithProgrammaticallyModelPersistentContainer: NSPersistentCont
   }
 }
 
-final class ModelBuilderTests: CoreDataPlusOnDiskWithProgrammaticallyModelTest {
+final class ModelBuilderTests: CoreDataPlusOnDiskWithProgrammaticallyModelTestCase {
   func test_1() {
     let context = container.viewContext
     SampleModel2.fillWithSampleData(context: context)
