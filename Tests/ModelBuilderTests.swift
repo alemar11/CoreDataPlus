@@ -72,17 +72,18 @@ final class OnDiskWithProgrammaticallyModelPersistentContainer: NSPersistentCont
 }
 
 final class ModelBuilderTests: CoreDataPlusOnDiskWithProgrammaticallyModelTestCase {
-  func test_1() {
+  func test_1() throws {
     let context = container.viewContext
     SampleModel2.fillWithSampleData(context: context)
     do {
       try context.save()
-    } catch let error {
-      let e = error as NSError
-      //print(e.userInfo)
-      //print(e.debugDescription)
-      print(e.localizedDescription)
-      //XCTFail("yo")
+    } catch {
+      print(error)
+      //      let e = error as NSError
+      //      //print(e.userInfo)
+      //      //print(e.debugDescription)
+      //      print(e.localizedDescription)
+      //      //XCTFail("yo")
     }
   }
 }

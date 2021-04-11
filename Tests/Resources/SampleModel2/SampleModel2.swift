@@ -144,10 +144,11 @@ extension SampleModel2 {
     author1.alias = "Alessandro"
 
     let book1 = Book(context: context)
-    book1.price = Decimal(10.11)
+    //book1.price = Decimal(10.11)
+    book1.price = NSDecimalNumber(10.11)
     book1.publishedAt = Date()
     book1.rating = 3.2
-    book1.title = "title 1"
+    book1.title = "Title 1"
     book1.uniqueID = UUID()
 
     (1..<100).forEach { index in
@@ -159,7 +160,8 @@ extension SampleModel2 {
     }
 
     let book2 = Book(context: context)
-    book2.price = Decimal(3.3333333333)
+    //book2.price = Decimal(3.3333333333)
+    book2.price = NSDecimalNumber(3.3333333333)
     book2.publishedAt = Date()
     book2.rating = 5
     book2.title = "title 2"
@@ -198,22 +200,24 @@ public class Author: NSManagedObject {
 public class Book: NSManagedObject {
   @NSManaged public var uniqueID: UUID // unique
   @NSManaged public var title: String
-  @objc var price: Decimal {
-    // https://developer.apple.com/documentation/coredata/nsattributetype
-    // NSDecimalNumber doesn't have a scalar type
-    // https://stackoverflow.com/questions/23809462/data-type-mismatch-in-xcode-core-data-class
-    get {
-      willAccessValue(forKey: #keyPath(Book.price))
-      defer { didAccessValue(forKey: #keyPath(Book.price)) }
-      let pv = primitiveValue(forKey: #keyPath(Book.price)) as! NSDecimalNumber
-      return pv.decimalValue
-    }
-    set {
-      willChangeValue(forKey: #keyPath(Book.price))
-      defer { didChangeValue(forKey: #keyPath(Book.price)) }
-      setPrimitiveValue(NSDecimalNumber(decimal: newValue), forKey: #keyPath(Book.price))
-    }
-  }
+  @NSManaged public var price: NSDecimalNumber
+
+//  @objc var price: Decimal {
+//    // https://developer.apple.com/documentation/coredata/nsattributetype
+//    // NSDecimalNumber doesn't have a scalar type
+//    // https://stackoverflow.com/questions/23809462/data-type-mismatch-in-xcode-core-data-class
+//    get {
+//      willAccessValue(forKey: #keyPath(Book.price))
+//      defer { didAccessValue(forKey: #keyPath(Book.price)) }
+//      let pv = primitiveValue(forKey: #keyPath(Book.price)) as! NSDecimalNumber
+//      return pv.decimalValue
+//    }
+//    set {
+//      willChangeValue(forKey: #keyPath(Book.price))
+//      defer { didChangeValue(forKey: #keyPath(Book.price)) }
+//      setPrimitiveValue(NSDecimalNumber(decimal: newValue), forKey: #keyPath(Book.price))
+//    }
+//  }
 
   @NSManaged public var cover: Data?
   @NSManaged public var publishedAt: Date
