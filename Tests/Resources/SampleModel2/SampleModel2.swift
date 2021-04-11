@@ -3,6 +3,7 @@
 import CoreData
 import XCTest
 @testable import CoreDataPlus
+import CoreData.CoreDataDefines
 
 enum SampleModel2 {
   static func makeManagedObjectModel() -> NSManagedObjectModel {
@@ -93,8 +94,9 @@ enum SampleModel2 {
     title.isOptional = false
     // validation predicates are evaluated on validateForInsert(), overriding validateForInsert() without calling its
     // super implementation will ignore these predicates
-    let titlePredicate = NSPredicate(format: "length >= 3 AND length <= 20")
-    title.setValidationPredicates([titlePredicate], withValidationWarnings: ["Title length must have a length between 3 and 20 chars."])
+    let rule1 = (NSPredicate(format: "length >= 3 AND length <= 20"),"Title must have a length between 3 and 20 chars.")
+    let rule2 = (NSPredicate(format: "SELF CONTAINS %@", "title"), "Title must contain 'title'.")
+    title.setValidationPredicates([rule1.0, rule2.0], withValidationWarnings: [rule1.1, rule2.1])
 
     let price = NSAttributeDescription.decimal(name: #keyPath(Book.price))
     price.isOptional = false
@@ -134,8 +136,10 @@ enum SampleModel2 {
     entity.uniquenessConstraints = [[#keyPath(Page.number)]]
     return entity
   }
+}
 
-  static func fillWithSampleData(context: NSManagedObjectContext) throws {
+extension SampleModel2 {
+  static func fillWithSampleData(context: NSManagedObjectContext) {
     let author1 = Author(context: context)
     author1.alias = "Alessandro"
 
@@ -143,7 +147,7 @@ enum SampleModel2 {
     book1.price = Decimal(10.11)
     book1.publishedAt = Date()
     book1.rating = 3.2
-    book1.title = "title 1"
+    book1.title = "Title 1"
     book1.uniqueID = UUID()
 
     (1..<100).forEach { index in
@@ -217,15 +221,54 @@ public class Book: NSManagedObject {
   @NSManaged public var author: Author
   @NSManaged public var pages: NSSet // of Pages
 
-  // during a save, it's called for all the instances
-//  public override func validateForInsert() throws {
-//    print("--- validate ----")
-//    throw NSError(domain: "aaaa", code: 1, userInfo: nil)
-//    do {
-//      //try super.validateForInsert()
-//    } catch {
-//      //print("❌", error)
+  public override func validateForInsert() throws {
+    // during a save, it's called for all the new objetcs
+    // if the validation fails, the save method will thrown an error containing
+    // all the validation failures
+    try super.validateForInsert()
+    //return
+
+//    let attributes = entity.attributesByName.map { $0.value }
+//    let errors = attributes.compactMap { attribute -> [NSError]? in
+//      let rules = zip(attribute.validationPredicates, attribute.validationWarnings)
+//
+//      let errors = rules.compactMap { (predicate, warning) -> NSError? in
+//        return validateRule((predicate,warning), for: attribute.name)
+//      }
+//      return errors
+//    }.flatMap { $0 }
+//
+//    if !errors.isEmpty {
+//      throw errors.first!
 //    }
+    
+//    if !errors.isEmpty {
+//      let code = NSValidationMultipleErrorsError
+//      let domain = NSCocoaErrorDomain
+//      let userInfo: [String: Any] = [
+//        NSLocalizedDescriptionKey: "Multiple validation errors occurred.",
+//        NSDetailedErrorsKey: errors
+//      ]
+//      let error = NSError(domain: domain, code: code, userInfo: userInfo)
+//      throw error
+//    }
+  }
+
+//  typealias Rule = (NSPredicate, Any)
+//  func validateRule(_ rule: Rule, for name: String) -> NSError? {
+//    let valueToValidate = self.value(forKey: name)
+//    let result = rule.0.evaluate(with: valueToValidate)
+//    if !result {
+//      let userInfo: [String: Any] = [
+//        NSLocalizedDescriptionKey: rule.1,
+//        NSValidationObjectErrorKey: self
+//      ]
+//      let code = NSManagedObjectValidationError
+//      let domain = NSCocoaErrorDomain
+//      let error = NSError(domain: domain, code: code, userInfo: userInfo)
+//      return error
+//    }
+//    return nil
 //  }
 }
 
