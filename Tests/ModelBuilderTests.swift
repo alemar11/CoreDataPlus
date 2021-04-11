@@ -25,7 +25,7 @@ class CoreDataPlusOnDiskWithProgrammaticallyModelTest: XCTestCase {
   }
 }
 
-// MARK: - On Disk NSPersistentContainer
+// MARK: - On Disk NSPersistentContainer with Programmatically Model
 
 final class OnDiskWithProgrammaticallyModelPersistentContainer: NSPersistentContainer {
   static func makeNew() -> OnDiskWithProgrammaticallyModelPersistentContainer {
@@ -41,13 +41,11 @@ final class OnDiskWithProgrammaticallyModelPersistentContainer: NSPersistentCont
     description.shouldMigrateStoreAutomatically = false
     description.shouldInferMappingModelAutomatically = false
 
-
     // Enable history tracking and remote notifications
     description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
     if #available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) {
       description.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
     }
-
     container.persistentStoreDescriptions = [description]
 
     container.loadPersistentStores { (description, error) in
