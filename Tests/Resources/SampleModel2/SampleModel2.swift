@@ -147,7 +147,7 @@ extension SampleModel2 {
     book1.price = Decimal(10.11)
     book1.publishedAt = Date()
     book1.rating = 3.2
-    book1.title = "Title 1"
+    book1.title = "title 1"
     book1.uniqueID = UUID()
 
     (1..<100).forEach { index in
