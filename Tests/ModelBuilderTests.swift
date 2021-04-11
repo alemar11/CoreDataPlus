@@ -21,6 +21,14 @@ final class ModelBuilderTests: XCTestCase {
     print(description.url)
     let context = container.viewContext
     try SampleModel2.fillWithSampleData(context: context)
+    do {
     try context.save()
+    } catch {
+      print("--- catch ----")
+      let e = error as NSError
+      //print(e.userInfo)
+      //print(e.debugDescription)
+      print(e.localizedDescription)
+    }
   }
 }

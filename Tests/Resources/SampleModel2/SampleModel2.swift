@@ -91,6 +91,10 @@ enum SampleModel2 {
 
     let title = NSAttributeDescription.string(name: #keyPath(Book.title))
     title.isOptional = false
+    // validation predicates are evaluated on validateForInsert(), overriding validateForInsert() without calling its
+    // super implementation will ignore these predicates
+    let titlePredicate = NSPredicate(format: "length >= 3 AND length <= 20")
+    title.setValidationPredicates([titlePredicate], withValidationWarnings: ["Title length must have a length between 3 and 20 chars."])
 
     let price = NSAttributeDescription.decimal(name: #keyPath(Book.price))
     price.isOptional = false
@@ -100,6 +104,10 @@ enum SampleModel2 {
 
     let publishedAt = NSAttributeDescription.date(name: #keyPath(Book.publishedAt))
     publishedAt.isOptional = false
+    //let twelveHoursAgo = Date().addingTimeInterval(-43200)
+    //Date().timeIntervalSinceReferenceDate
+    //let publishedAtPredicate = NSPredicate(format: "timeIntervalSinceReferenceDate < %@", twelveHoursAgo.timeIntervalSinceReferenceDate)
+    //publishedAt.setValidationPredicates([publishedAtPredicate], withValidationWarnings: ["Date error"])
 
     let rating = NSAttributeDescription.double(name: #keyPath(Book.rating))
     rating.isOptional = false
@@ -138,16 +146,13 @@ enum SampleModel2 {
     book1.title = "title 1"
     book1.uniqueID = UUID()
 
-    let book1Pages = NSMutableSet()
     (1..<100).forEach { index in
       let page = Page(context: context)
       page.book = book1
       page.number = Int32(index)
       page.isBookmarked = true
-      book1Pages.add(page)
+      book1.addToPages(page)
     }
-
-    book1.pages = book1Pages
 
     let book2 = Book(context: context)
     book2.price = Decimal(3.3333333333)
@@ -164,7 +169,8 @@ enum SampleModel2 {
       page.isBookmarked = false
       book2Pages.add(page)
     }
-    book2.pages = book2Pages
+    //book2.pages = book2Pages
+    book2.addToPages(book2Pages)
 
 
     book1.author = author1
@@ -210,24 +216,35 @@ public class Book: NSManagedObject {
   @NSManaged public var rating: Double
   @NSManaged public var author: Author
   @NSManaged public var pages: NSSet // of Pages
+
+  // during a save, it's called for all the instances
+//  public override func validateForInsert() throws {
+//    print("--- validate ----")
+//    throw NSError(domain: "aaaa", code: 1, userInfo: nil)
+//    do {
+//      //try super.validateForInsert()
+//    } catch {
+//      //print("❌", error)
+//    }
+//  }
 }
 
 
-//extension Book {
-//
-//    @objc(addPagesObject:)
-//    @NSManaged public func addToPages(_ value: Page)
-//
-//    @objc(removePagesObject:)
-//    @NSManaged public func removeFromPages(_ value: Page)
-//
-//    @objc(addPages:)
-//    @NSManaged public func addToPages(_ values: NSSet)
-//
-//    @objc(removePages:)
-//    @NSManaged public func removeFromPages(_ values: NSSet)
-//
-//}
+extension Book {
+
+    @objc(addPagesObject:)
+    @NSManaged public func addToPages(_ value: Page)
+
+    @objc(removePagesObject:)
+    @NSManaged public func removeFromPages(_ value: Page)
+
+    @objc(addPages:)
+    @NSManaged public func addToPages(_ values: NSSet)
+
+    @objc(removePages:)
+    @NSManaged public func removeFromPages(_ values: NSSet)
+
+}
 
 
 @objc(Page)
@@ -238,3 +255,11 @@ public class Page: NSManagedObject {
 }
 
 // Missing fields: Int, Int16, Float, Transformable
+
+// Abstract/parent entities
+
+// Learn about uniquenessConstraints [[Any]]
+
+// validationPredicates, validationWarnings -> done, but we probably need to add a module to catch objc exceptions for tests
+
+// indexes
