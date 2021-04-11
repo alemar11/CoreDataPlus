@@ -18,7 +18,7 @@ class CoreDataPlusOnDiskWithProgrammaticallyModelTest: XCTestCase {
         try onDiskContainer.destroy()
       }
     } catch {
-      XCTFail("The persistent container couldn't be deostryed.")
+      XCTFail("The persistent container couldn't be destroyed.")
     }
     container = nil
     super.tearDown()
@@ -75,24 +75,9 @@ final class OnDiskWithProgrammaticallyModelPersistentContainer: NSPersistentCont
 
 final class ModelBuilderTests: CoreDataPlusOnDiskWithProgrammaticallyModelTest {
   func test_1() {
-//    let model = SampleModel2.makeManagedObjectModel()
-//    let container = NSPersistentContainer(name: "SampleModel2", managedObjectModel: model)
-//    let description = NSPersistentStoreDescription()
-//    // addPersistentStore-time behaviours
-//    description.url = URL.newDatabaseURL(withID: UUID())
-//    //description.shouldAddStoreAsynchronously = false
-//    description.shouldMigrateStoreAutomatically = false
-//    description.shouldInferMappingModelAutomatically = false
-//    container.persistentStoreDescriptions = [description]
-//    container.loadPersistentStores { (description, error) in
-//      XCTAssertNil(error)
-//    }
-//    print(description.url)
     let context = container.viewContext
-
     SampleModel2.fillWithSampleData(context: context)
     do {
-
       try context.save()
     } catch let error {
       let e = error as NSError

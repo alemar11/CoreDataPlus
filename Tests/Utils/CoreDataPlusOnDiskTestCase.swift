@@ -20,7 +20,7 @@ class CoreDataPlusOnDiskTestCase: BaseTestCase {
         try onDiskContainer.destroy()
       }
     } catch {
-      XCTFail("The persistent container couldn't be deostryed.")
+      XCTFail("The persistent container couldn't be destroyed.")
     }
     container = nil
     super.tearDown()
