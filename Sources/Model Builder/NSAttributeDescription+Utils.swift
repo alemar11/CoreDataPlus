@@ -131,29 +131,25 @@ extension NSAttributeDescription {
     return attributes
   }
 
-  private convenience init(name: String, type: NSAttributeType) {
+  /// Creates a new `NSAttributeDescription` instance.
+  /// - Parameters:
+  ///   - name: The name of the attribute.
+  ///   - type: The type of the attribute.
+  public convenience init(name: String, type: NSAttributeType) {
     self.init()
     self.name = name
     self.attributeType = type
   }
 }
 
-
-
-//case objectIDAttributeType = 2000
-// https://developer.apple.com/documentation/coredata/modeling_data/configuring_attributes?language=objc
-
-//https://developer.apple.com/documentation/coredata/modeling_data/configuring_attributes
-
-//https://hub.packtpub.com/core-data-ios-designing-data-model-and-building-data-objects/
 // Decimal, Double, and Float data types are for storing fractional numbers.
+//
 // The Double data type uses 64 bits to store a value while the Float data type uses 32 bits for storing a value.
 // The only limitation with these two data types is that they round off the values.
 // To avoid any rounding of values, the Decimal data type is preferred. The Decimal type uses fixed point numbers for storing values, so the numerical value stored in it is not rounded of
 
-/**
- "Optional" means something different to Core Data than it does to Swift.
+// "Optional" means something different to Core Data than it does to Swift.
+//
+// If a Core Data attribute is not optional, it must have a non-nil value when you save changes. At other times Core Data doesn't care if the attribute is nil.
+// If a Swift property is not optional, it must have a non-nil value at all times after initialization is complete.
 
- If a Core Data attribute is not optional, it must have a non-nil value when you save changes. At other times Core Data doesn't care if the attribute is nil.
- If a Swift property is not optional, it must have a non-nil value at all times after initialization is complete.
- */

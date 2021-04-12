@@ -138,10 +138,9 @@ enum SampleModel2 {
       #warning("Create some NSDerivedAttributeDescription utils")
       // TODO
       // https://developer.apple.com/documentation/coredata/nsderivedattributedescription
-      let pagesCount = NSDerivedAttributeDescription()
-      pagesCount.name = #keyPath(Book.pagesCount)
-      pagesCount.attributeType = .integer64AttributeType
-      pagesCount.derivationExpression = NSExpression(format: "pages.@count")
+      let pagesCount = NSDerivedAttributeDescription(name: #keyPath(Book.pagesCount),
+                                                     type: .integer64AttributeType,
+                                                     derivationExpression: NSExpression(format: "pages.@count"))
       pagesCount.isOptional = true
       entity.properties = [uniqueID, title, price, cover, publishedAt, rating, pagesCount]
     } else {

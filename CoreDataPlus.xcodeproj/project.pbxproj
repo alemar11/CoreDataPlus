@@ -246,6 +246,10 @@
 		D28232952624754700F37442 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28232942624754700F37442 /* Page.swift */; };
 		D28232962624754700F37442 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28232942624754700F37442 /* Page.swift */; };
 		D28232972624754700F37442 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28232942624754700F37442 /* Page.swift */; };
+		D28232AC26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28232AB26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift */; };
+		D28232AD26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28232AB26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift */; };
+		D28232AE26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28232AB26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift */; };
+		D28232AF26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28232AB26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift */; };
 		D29AA4E324D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
 		D29AA4E424D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
 		D29AA4E524D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
@@ -373,6 +377,7 @@
 		D282326826244D3A00F37442 /* Author.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Author.swift; sourceTree = "<group>"; };
 		D282327E2624569400F37442 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		D28232942624754700F37442 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
+		D28232AB26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "NSDerivedAttributeDescription+Utils.swift"; path = "Sources/NSDerivedAttributeDescription+Utils.swift"; sourceTree = SOURCE_ROOT; };
 		D2B7E1542448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSPersistentStoreCoordinatorUtilsTests.swift; sourceTree = "<group>"; };
 		D2C5CE35244762FA00AD19D8 /* NSSetCoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSSetCoreDataTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -617,6 +622,7 @@
 			children = (
 				D20F4B9B2621E24900F0CB25 /* NSEntityDescription+ModelBuilder.swift */,
 				D20F4BB72621E71500F0CB25 /* NSAttributeDescription+Utils.swift */,
+				D28232AB26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift */,
 			);
 			path = "Model Builder";
 			sourceTree = "<group>";
@@ -1010,6 +1016,7 @@
 			files = (
 				D2011A162614E3D9001902FB /* NSManagedObjectContext+Utils.swift in Sources */,
 				D2011A462614E3D9001902FB /* NSFetchRequestResult+CoreData.swift in Sources */,
+				D28232AD26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift in Sources */,
 				D2011A1E2614E3D9001902FB /* NSBatchInsertResult+Utils.swift in Sources */,
 				D2011A122614E3D9001902FB /* NSBatchDeleteResult+Utils.swift in Sources */,
 				D2011A2E2614E3D9001902FB /* NSSet+CoreData.swift in Sources */,
@@ -1041,6 +1048,7 @@
 			files = (
 				D2011A172614E3D9001902FB /* NSManagedObjectContext+Utils.swift in Sources */,
 				D2011A472614E3D9001902FB /* NSFetchRequestResult+CoreData.swift in Sources */,
+				D28232AE26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift in Sources */,
 				D2011A1F2614E3D9001902FB /* NSBatchInsertResult+Utils.swift in Sources */,
 				D2011A132614E3D9001902FB /* NSBatchDeleteResult+Utils.swift in Sources */,
 				D2011A2F2614E3D9001902FB /* NSSet+CoreData.swift in Sources */,
@@ -1072,6 +1080,7 @@
 			files = (
 				D2011A182614E3D9001902FB /* NSManagedObjectContext+Utils.swift in Sources */,
 				D2011A482614E3D9001902FB /* NSFetchRequestResult+CoreData.swift in Sources */,
+				D28232AF26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift in Sources */,
 				D2011A202614E3D9001902FB /* NSBatchInsertResult+Utils.swift in Sources */,
 				D2011A142614E3D9001902FB /* NSBatchDeleteResult+Utils.swift in Sources */,
 				D2011A302614E3D9001902FB /* NSSet+CoreData.swift in Sources */,
@@ -1103,6 +1112,7 @@
 			files = (
 				D2011A152614E3D9001902FB /* NSManagedObjectContext+Utils.swift in Sources */,
 				D2011A452614E3D9001902FB /* NSFetchRequestResult+CoreData.swift in Sources */,
+				D28232AC26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift in Sources */,
 				D2011A1D2614E3D9001902FB /* NSBatchInsertResult+Utils.swift in Sources */,
 				D2011A112614E3D9001902FB /* NSBatchDeleteResult+Utils.swift in Sources */,
 				D2011A2D2614E3D9001902FB /* NSSet+CoreData.swift in Sources */,
