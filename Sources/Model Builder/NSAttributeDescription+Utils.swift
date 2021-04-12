@@ -62,7 +62,7 @@ extension NSAttributeDescription {
     return attributes
   }
 
-  public static func date(name: String, defaultValue: NSDate? = nil, isOptional: Bool = false) -> NSAttributeDescription {
+  public static func date(name: String, defaultValue: Date? = nil, isOptional: Bool = false) -> NSAttributeDescription {
     let attributes = NSAttributeDescription(name: name, type: .dateAttributeType)
     attributes.isOptional = isOptional
     attributes.defaultValue = defaultValue
