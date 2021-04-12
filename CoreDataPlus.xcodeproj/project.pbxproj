@@ -464,11 +464,11 @@
 		2325898122F34FDD00E39FEA /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				061C684D261EF969000BF0A2 /* BaseTestCase.swift */,
 				236526AA215A46C200A51C9F /* InMemoryTestCase.swift */,
 				239F4CBF22F49F2F007888BA /* OnDiskTestCase.swift */,
-				23FFB86122EC948C00391D40 /* Utils.swift */,
-				061C684D261EF969000BF0A2 /* BaseTestCase.swift */,
 				D28232C22624A15000F37442 /* OnDiskWithProgrammaticallyModelTestCase.swift */,
+				23FFB86122EC948C00391D40 /* Utils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
