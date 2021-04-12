@@ -135,7 +135,7 @@ extension NSAttributeDescription {
 //case objectIDAttributeType = 2000
 //https://developer.apple.com/documentation/coredata/modeling_data/configuring_attributes?language=objc
 
-
+//test migration
 
 //https://hub.packtpub.com/core-data-ios-designing-data-model-and-building-data-objects/
 //Decimal, Double, and Float data types are for storing fractional numbers. The Double data type uses 64 bits to store a value while the Float data type uses 32 bits for storing a value. The only limitation with these two data types is that they round off the values. To avoid any rounding of values, the Decimal data type is preferred. The Decimal type uses fixed point numbers for storing values, so the numerical value stored in it is not rounded of
