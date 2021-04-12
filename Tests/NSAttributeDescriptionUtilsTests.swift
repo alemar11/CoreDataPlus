@@ -12,13 +12,13 @@ final class NSAttributeDescriptionUtilsTests: XCTestCase {
   }
 
   func testInt32() {
-    let attribute = NSAttributeDescription.int16(name: "test32", defaultValue: 11)
+    let attribute = NSAttributeDescription.int32(name: "test32", defaultValue: 11)
     XCTAssertEqual(attribute.name, "test32")
     XCTAssertEqual(attribute.defaultValue as? Int32, 11)
   }
 
   func testInt64() {
-    let attribute = NSAttributeDescription.int16(name: "test64", defaultValue: nil)
+    let attribute = NSAttributeDescription.int64(name: "test64", defaultValue: nil)
     XCTAssertEqual(attribute.name, "test64")
     XCTAssertNil(attribute.defaultValue)
   }
@@ -84,7 +84,21 @@ final class NSAttributeDescriptionUtilsTests: XCTestCase {
     XCTAssertTrue(attribute.allowsExternalBinaryDataStorage)
   }
 
-  func testTransformable() {
+  func testCustomTransformable() {
+    let color = Color(name: "color")
+    let attribute = NSAttributeDescription.customTransformable(for: Color.self, name: "testTransformable", defaultValue: color) { _ in
+      return nil
+    } reverse: { _ in
+      return nil
+    }
+    XCTAssertEqual(attribute.name, "testTransformable")
+    XCTAssertEqual(attribute.defaultValue as? Color, color)
+  }
 
+  func testTransformable() {
+    let color = Color(name: "color")
+    let attribute = NSAttributeDescription.transformable(for: Color.self, name: "testTransformable", defaultValue: color)
+    XCTAssertEqual(attribute.name, "testTransformable")
+    XCTAssertEqual(attribute.defaultValue as? Color, color)
   }
 }

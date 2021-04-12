@@ -122,7 +122,7 @@ enum SampleModel2 {
     price.isOptional = false
 
     let defaultCover = Cover(text: "default cover")
-    let cover = NSAttributeDescription.transformable(of: Cover.self, name: #keyPath(Book.cover), defaultValue: defaultCover)
+    let cover = NSAttributeDescription.transformable(for: Cover.self, name: #keyPath(Book.cover), defaultValue: defaultCover)
     cover.isOptional = false
 
     let publishedAt = NSAttributeDescription.date(name: #keyPath(Book.publishedAt))
@@ -165,7 +165,7 @@ enum SampleModel2 {
     isBookmarked.isOptional = false
     isBookmarked.defaultValue = false
 
-    let content = NSAttributeDescription.transformable(for: Content.self, name: #keyPath(Page.content)) { //(content: Content?) -> Data? in
+    let content = NSAttributeDescription.customTransformable(for: Content.self, name: #keyPath(Page.content)) { //(content: Content?) -> Data? in
       guard let content = $0 else { return nil }
       return try? NSKeyedArchiver.archivedData(withRootObject: content, requiringSecureCoding: true)
     } reverse: { //data -> Content? in

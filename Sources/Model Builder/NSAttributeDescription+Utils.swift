@@ -95,7 +95,7 @@ extension NSAttributeDescription {
   }
 
   // transformerName needs to be unique
-  public static func transformable<T: NSObject & NSSecureCoding>(for aClass: T.Type,
+  private static func transformable<T: NSObject & NSSecureCoding>(for aClass: T.Type,
                                                                  name: String,
                                                                  defaultValue: T? = nil,
                                                                  valueTransformerName: String) -> NSAttributeDescription {
@@ -106,7 +106,7 @@ extension NSAttributeDescription {
     return attributes
   }
 
-  public static func transformable<T: NSObject & NSSecureCoding>(for aClass: T.Type,
+  public static func customTransformable<T: NSObject & NSSecureCoding>(for aClass: T.Type,
                                                                  name: String,
                                                                  defaultValue: T? = nil,
                                                                  transform: @escaping DataTransformer<T>.Transform,
@@ -120,7 +120,7 @@ extension NSAttributeDescription {
     return attributes
   }
 
-  public static func transformable<T: NSObject & NSSecureCoding>(of aClass: T.Type,
+  public static func transformable<T: NSObject & NSSecureCoding>(for aClass: T.Type,
                                                                  name: String,
                                                                  defaultValue: T? = nil) -> NSAttributeDescription {
     Transformer<T>.register()
