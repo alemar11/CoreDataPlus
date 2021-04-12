@@ -275,50 +275,7 @@ public class Book: NSManagedObject {
     // if the validation fails, the save method will thrown an error containing
     // all the validation failures
     try super.validateForInsert()
-    //return
-
-//    let attributes = entity.attributesByName.map { $0.value }
-//    let errors = attributes.compactMap { attribute -> [NSError]? in
-//      let rules = zip(attribute.validationPredicates, attribute.validationWarnings)
-//
-//      let errors = rules.compactMap { (predicate, warning) -> NSError? in
-//        return validateRule((predicate,warning), for: attribute.name)
-//      }
-//      return errors
-//    }.flatMap { $0 }
-//
-//    if !errors.isEmpty {
-//      throw errors.first!
-//    }
-    
-//    if !errors.isEmpty {
-//      let code = NSValidationMultipleErrorsError
-//      let domain = NSCocoaErrorDomain
-//      let userInfo: [String: Any] = [
-//        NSLocalizedDescriptionKey: "Multiple validation errors occurred.",
-//        NSDetailedErrorsKey: errors
-//      ]
-//      let error = NSError(domain: domain, code: code, userInfo: userInfo)
-//      throw error
-//    }
   }
-
-//  typealias Rule = (NSPredicate, Any)
-//  func validateRule(_ rule: Rule, for name: String) -> NSError? {
-//    let valueToValidate = self.value(forKey: name)
-//    let result = rule.0.evaluate(with: valueToValidate)
-//    if !result {
-//      let userInfo: [String: Any] = [
-//        NSLocalizedDescriptionKey: rule.1,
-//        NSValidationObjectErrorKey: self
-//      ]
-//      let code = NSManagedObjectValidationError
-//      let domain = NSCocoaErrorDomain
-//      let error = NSError(domain: domain, code: code, userInfo: userInfo)
-//      return error
-//    }
-//    return nil
-//  }
 }
 
 
