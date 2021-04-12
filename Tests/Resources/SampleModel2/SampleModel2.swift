@@ -8,8 +8,10 @@ import CoreData.CoreDataDefines
 enum SampleModel2 {
   static func makeManagedObjectModel() -> NSManagedObjectModel {
     let managedObjectModel = NSManagedObjectModel()
+    let writer = makeWriterEntity()
     let author = makeAuthorEntity()
     let book = makeBookEntity()
+    let graphicNovel = makeGraphicNovelEntity()
     let page = makePageEntity()
 
     let authorToBooks = NSRelationshipDescription()
@@ -59,8 +61,26 @@ enum SampleModel2 {
     pageUniquenessConstraints.append(#keyPath(Page.book))
     page.uniquenessConstraints = [pageUniquenessConstraints]
 
-    managedObjectModel.entities = [author, book, page]
+    writer.subentities = [author]
+    book.subentities = [graphicNovel]
+
+    managedObjectModel.entities = [writer, author, book, graphicNovel, page]
     return managedObjectModel
+  }
+
+  static private func makeWriterEntity() -> NSEntityDescription {
+    var entity = NSEntityDescription()
+    entity = NSEntityDescription()
+    entity.name = String(describing: Writer.self)
+    entity.managedObjectClassName = String(describing: Writer.self)
+
+    let age = NSAttributeDescription.int16(name: #keyPath(Writer.age))
+    age.isOptional = false
+
+    entity.isAbstract = true
+    entity.properties = [age]
+
+    return entity
   }
 
   static private func makeAuthorEntity() -> NSEntityDescription {
@@ -78,6 +98,8 @@ enum SampleModel2 {
     entity.properties = [alias, siteURL]
     entity.uniquenessConstraints = [[#keyPath(Author.alias)]]
 
+    let index = NSFetchIndexDescription(name: "authorIndex", elements: [NSFetchIndexElementDescription(property: alias, collationType: .binary)])
+    entity.indexes.append(index)
     return entity
   }
 
@@ -136,19 +158,35 @@ enum SampleModel2 {
     entity.uniquenessConstraints = [[#keyPath(Page.number)]]
     return entity
   }
+
+  static private func makeGraphicNovelEntity() -> NSEntityDescription {
+    var entity = NSEntityDescription()
+    entity = NSEntityDescription()
+    entity.name = String(describing: GraphicNovel.self)
+    entity.managedObjectClassName = String(describing: GraphicNovel.self)
+
+    let isBlackAndWhite = NSAttributeDescription.bool(name: #keyPath(GraphicNovel.isBlackAndWhite))
+    isBlackAndWhite.isOptional = false
+    isBlackAndWhite.defaultValue = false
+
+    entity.properties = [isBlackAndWhite]
+
+    return entity
+  }
 }
 
 extension SampleModel2 {
   static func fillWithSampleData(context: NSManagedObjectContext) {
     let author1 = Author(context: context)
     author1.alias = "Alessandro"
+    author1.age = 40
 
     let book1 = Book(context: context)
     //book1.price = Decimal(10.11)
     book1.price = NSDecimalNumber(10.11)
     book1.publishedAt = Date()
     book1.rating = 3.2
-    book1.title = "Title 1"
+    book1.title = "title 1"
     book1.uniqueID = UUID()
 
     (1..<100).forEach { index in
@@ -178,6 +216,8 @@ extension SampleModel2 {
     //book2.pages = book2Pages
     book2.addToPages(book2Pages)
 
+    // TODO: add graphic novel
+
 
     book1.author = author1
     let author1Books = NSMutableSet()
@@ -189,8 +229,13 @@ extension SampleModel2 {
 
 // Author <-->> Book <--(Ordered)>> Page
 
+@objc(Writer)
+public class Writer: NSManagedObject {
+  @NSManaged public var age: Int16
+}
+
 @objc(Author)
-public class Author: NSManagedObject {
+public class Author: Writer {
   @NSManaged public var alias: String // unique
   @NSManaged public var siteURL: URL?
   @NSManaged public var books: NSSet // of Books
@@ -301,9 +346,12 @@ public class Page: NSManagedObject {
   @NSManaged public var book: Book
 }
 
-// Missing fields: Int, Int16, Float, Transformable
+@objc(GraphicNovel)
+public class GraphicNovel: NSManagedObject {
+  @NSManaged public var isBlackAndWhite: Bool
+}
 
-// Abstract/parent entities
+// Missing fields: Int, Int16, Float, Transformable
 
 // Learn about uniquenessConstraints [[Any]]
 
