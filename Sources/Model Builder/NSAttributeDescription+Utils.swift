@@ -96,14 +96,27 @@ extension NSAttributeDescription {
     return attributes
   }
 
-  // transformerName needs to be unique
-  public static func transformable<A: NSObject & NSSecureCoding>(name: String,
+  public static func transformable<T: NSObject & NSSecureCoding>(name: String,
                                                                  isOptional: Bool = false,
-                                                                 transform: @escaping DataTransformer<A>.Transform,
-                                                                 reverse: @escaping DataTransformer<A>.ReverseTransform) -> NSAttributeDescription {
+                                                                 defaultValue: T? = nil,
+                                                                 valueTransformerName: String) -> NSAttributeDescription {
     let attributes = NSAttributeDescription(name: name, type: .transformableAttributeType)
     attributes.isOptional = isOptional
-    attributes.defaultValue = nil
+    attributes.defaultValue = defaultValue
+    attributes.attributeValueClassName = "\(T.self.classForCoder())"
+    attributes.valueTransformerName =  valueTransformerName
+    return attributes
+  }
+
+  // transformerName needs to be unique
+  public static func transformable<T: NSObject & NSSecureCoding>(name: String,
+                                                                 isOptional: Bool = false,
+                                                                 defaultValue: T? = nil,
+                                                                 transform: @escaping DataTransformer<T>.Transform,
+                                                                 reverse: @escaping DataTransformer<T>.ReverseTransform) -> NSAttributeDescription {
+    let attributes = NSAttributeDescription(name: name, type: .transformableAttributeType)
+    attributes.isOptional = isOptional
+    attributes.defaultValue = defaultValue
 
 //    let t = { (a: A?) -> NSData? in
 //      a.flatMap { transform.forward($0) }
@@ -112,19 +125,22 @@ extension NSAttributeDescription {
 
     // If your attribute is of NSTransformableAttributeType, the attributeValueClassName must be set or attribute value class must implement NSCopying.
 
-    DataTransformer<A>.register(transform: transform, reverseTransform: reverse)
-    attributes.valueTransformerName =  DataTransformer<A>.transformerName.rawValue
+    /* The name of the transformer used to convert a NSTransformedAttributeType.  The transformer must output NSData from transformValue and allow reverse transformation.  If this value is not set, or set to nil, Core Data will default to using a transformer which uses NSCoding to archive/unarchive the attribute value.*/
+
+    DataTransformer<T>.register(transform: transform, reverseTransform: reverse)
+    attributes.valueTransformerName =  DataTransformer<T>.transformerName.rawValue
     return attributes
   }
 
-  public static func transformable<A: NSObject & NSSecureCoding>(name: String,
+  public static func transformable<T: NSObject & NSSecureCoding>(name: String,
                                                                  isOptional: Bool = false,
-                                                                 type: A.Type) -> NSAttributeDescription {
+                                                                 defaultValue: T? = nil,
+                                                                 type: T.Type) -> NSAttributeDescription {
     let attributes = NSAttributeDescription(name: name, type: .transformableAttributeType)
     attributes.isOptional = isOptional
-    attributes.defaultValue = nil
-    Transformer<A>.register()
-    attributes.valueTransformerName = Transformer<A>.transformerName.rawValue
+    attributes.defaultValue = defaultValue
+    Transformer<T>.register()
+    attributes.valueTransformerName = Transformer<T>.transformerName.rawValue
     return attributes
   }
 
