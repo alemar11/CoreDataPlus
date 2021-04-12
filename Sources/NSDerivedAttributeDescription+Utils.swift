@@ -1,4 +1,5 @@
 // CoreDataPlus
+// https://developer.apple.com/documentation/coredata/nsderivedattributedescription
 
 import CoreData
 

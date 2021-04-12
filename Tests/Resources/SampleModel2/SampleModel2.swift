@@ -4,6 +4,7 @@ import CoreData
 @testable import CoreDataPlus
 
 enum SampleModel2 {
+  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   static func makeManagedObjectModel() -> NSManagedObjectModel {
     let managedObjectModel = NSManagedObjectModel()
     let writer = makeWriterEntity()
@@ -101,6 +102,7 @@ enum SampleModel2 {
     return entity
   }
 
+  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   static private func makeBookEntity() -> NSEntityDescription {
     var entity = NSEntityDescription()
     entity = NSEntityDescription()
@@ -134,18 +136,11 @@ enum SampleModel2 {
     let rating = NSAttributeDescription.double(name: #keyPath(Book.rating))
     rating.isOptional = false
 
-    if #available(OSX 10.15, *) {
-      #warning("Create some NSDerivedAttributeDescription utils")
-      // TODO
-      // https://developer.apple.com/documentation/coredata/nsderivedattributedescription
-      let pagesCount = NSDerivedAttributeDescription(name: #keyPath(Book.pagesCount),
+    let pagesCount = NSDerivedAttributeDescription(name: #keyPath(Book.pagesCount),
                                                      type: .integer64AttributeType,
                                                      derivationExpression: NSExpression(format: "pages.@count"))
-      pagesCount.isOptional = true
-      entity.properties = [uniqueID, title, price, cover, publishedAt, rating, pagesCount]
-    } else {
-      entity.properties = [uniqueID, title, price, cover, publishedAt, rating]
-    }
+    pagesCount.isOptional = true
+    entity.properties = [uniqueID, title, price, cover, publishedAt, rating, pagesCount]
 
     entity.uniquenessConstraints = [[#keyPath(Book.uniqueID)]]
     return entity
