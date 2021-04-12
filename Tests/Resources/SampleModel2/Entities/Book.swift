@@ -33,7 +33,7 @@ public class Book: NSManagedObject {
   @NSManaged public var rating: Double
   @NSManaged public var author: Author
   @NSManaged public var pages: NSSet // of Pages
-  //@NSManaged public var pagesCount: Int
+  @NSManaged public var pagesCount: Int
 
   public override func validateForInsert() throws {
     // during a save, it's called for all the new objetcs

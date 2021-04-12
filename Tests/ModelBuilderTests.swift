@@ -80,9 +80,13 @@ final class ModelBuilderTests: CoreDataPlusOnDiskWithProgrammaticallyModelTestCa
     do {
       try context.save()
       context.reset()
-      let pages = try Page.fetch(in: context)
-      pages.forEach { (p) in
-        print(p.content)
+//      let pages = try Page.fetch(in: context)
+//      pages.forEach { (p) in
+//        print(p.content)
+//      }
+      let books = try Book.fetch(in: context)
+      books.forEach { (b) in
+        print(b.pagesCount)
       }
     } catch {
       print(error)

@@ -134,7 +134,20 @@ enum SampleModel2 {
     let rating = NSAttributeDescription.double(name: #keyPath(Book.rating))
     rating.isOptional = false
 
-    entity.properties = [uniqueID, title, price, cover, publishedAt, rating]
+    if #available(OSX 10.15, *) {
+      #warning("Create some NSDerivedAttributeDescription utils")
+      // TODO
+      // https://developer.apple.com/documentation/coredata/nsderivedattributedescription
+      let pagesCount = NSDerivedAttributeDescription()
+      pagesCount.name = #keyPath(Book.pagesCount)
+      pagesCount.attributeType = .integer64AttributeType
+      pagesCount.derivationExpression = NSExpression(format: "pages.@count")
+      pagesCount.isOptional = true
+      entity.properties = [uniqueID, title, price, cover, publishedAt, rating, pagesCount]
+    } else {
+      entity.properties = [uniqueID, title, price, cover, publishedAt, rating]
+    }
+
     entity.uniquenessConstraints = [[#keyPath(Book.uniqueID)]]
     return entity
   }
@@ -152,7 +165,7 @@ enum SampleModel2 {
     isBookmarked.isOptional = false
     isBookmarked.defaultValue = false
 
-    let content = NSAttributeDescription.transformable(of: Content.self, name: #keyPath(Page.content)) { //(content: Content?) -> Data? in
+    let content = NSAttributeDescription.transformable(for: Content.self, name: #keyPath(Page.content)) { //(content: Content?) -> Data? in
       guard let content = $0 else { return nil }
       return try? NSKeyedArchiver.archivedData(withRootObject: content, requiringSecureCoding: true)
     } reverse: { //data -> Content? in

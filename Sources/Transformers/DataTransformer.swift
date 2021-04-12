@@ -1,4 +1,8 @@
 // CoreDataPlus
+//
+// Docs:
+// The transformer must output NSData from transformValue and allow reverse transformation.
+// If this value is not set, or set to nil, Core Data will default to using a transformer which uses NSCoding to archive/unarchive the attribute value
 
 import CoreData
 import Foundation
