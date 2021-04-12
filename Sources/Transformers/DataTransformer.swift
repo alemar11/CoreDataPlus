@@ -8,6 +8,7 @@ import CoreData
 import Foundation
 
 /// A generic `ValueTransformer` subclass to implement CoreData *Transformable* attributes.
+///
 /// - Note: CoreData *Transformable* attributes are converted to and from the `Data` type.
 public final class DataTransformer<T: NSObject & NSSecureCoding>: ValueTransformer {
   public typealias Transform = (T?) -> Data?
