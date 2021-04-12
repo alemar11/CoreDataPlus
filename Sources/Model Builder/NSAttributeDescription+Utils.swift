@@ -44,7 +44,6 @@ extension NSAttributeDescription {
     return attributes
   }
 
-  // TODO: which type of float?
   public static func float(name: String, defaultValue: Float? = nil) -> NSAttributeDescription {
     let attributes = NSAttributeDescription(name: name, type: .floatAttributeType)
     attributes.defaultValue = defaultValue.map { NSNumber(value: $0) }
