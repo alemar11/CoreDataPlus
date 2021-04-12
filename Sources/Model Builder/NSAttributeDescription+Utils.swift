@@ -1,6 +1,17 @@
 // CoreDataPlus
 // https://developer.apple.com/documentation/coredata/nsattributetype
 
+// About the NSAttributeDescription isOptional property:
+//
+// The underlying SQLite database has the is_nullable value always set to TRUE for every table's column.
+// So, it seems that the isOptional is evaluated only at runtime (like probably many other CoreData properties, i.e. uniquenessConstraints)
+//
+// This can be verified easily if during a save we set not optional values to nil through their primitive values; the save will succeed.
+//
+//  public override func willSave() {
+//    setPrimitiveValue(nil, forKey: MY_KEY)
+//  }
+
 import CoreData
 
 extension NSAttributeDescription {
@@ -96,7 +107,8 @@ extension NSAttributeDescription {
     return attributes
   }
 
-  public static func transformable<T: NSObject & NSSecureCoding>(name: String,
+  public static func transformable<T: NSObject & NSSecureCoding>(of aClass: T.Type,
+                                                                 name: String,
                                                                  isOptional: Bool = false,
                                                                  defaultValue: T? = nil,
                                                                  valueTransformerName: String) -> NSAttributeDescription {
@@ -109,14 +121,15 @@ extension NSAttributeDescription {
   }
 
   // transformerName needs to be unique
-  public static func transformable<T: NSObject & NSSecureCoding>(name: String,
+  public static func transformable<T: NSObject & NSSecureCoding>(of aClass: T.Type,
+                                                                 name: String,
                                                                  isOptional: Bool = false,
                                                                  defaultValue: T? = nil,
                                                                  transform: @escaping DataTransformer<T>.Transform,
                                                                  reverse: @escaping DataTransformer<T>.ReverseTransform) -> NSAttributeDescription {
-    let attributes = NSAttributeDescription(name: name, type: .transformableAttributeType)
-    attributes.isOptional = isOptional
-    attributes.defaultValue = defaultValue
+//    let attributes = NSAttributeDescription(name: name, type: .transformableAttributeType)
+//    attributes.isOptional = isOptional
+//    attributes.defaultValue = defaultValue
 
 //    let t = { (a: A?) -> NSData? in
 //      a.flatMap { transform.forward($0) }
@@ -128,19 +141,26 @@ extension NSAttributeDescription {
     /* The name of the transformer used to convert a NSTransformedAttributeType.  The transformer must output NSData from transformValue and allow reverse transformation.  If this value is not set, or set to nil, Core Data will default to using a transformer which uses NSCoding to archive/unarchive the attribute value.*/
 
     DataTransformer<T>.register(transform: transform, reverseTransform: reverse)
-    attributes.valueTransformerName =  DataTransformer<T>.transformerName.rawValue
+
+    let attributes = NSAttributeDescription.transformable(of: T.self,
+                                                          name: name,
+                                                          isOptional: isOptional,
+                                                          defaultValue: defaultValue,
+                                                          valueTransformerName: DataTransformer<T>.transformerName.rawValue)
     return attributes
   }
 
-  public static func transformable<T: NSObject & NSSecureCoding>(name: String,
+  public static func transformable<T: NSObject & NSSecureCoding>(of aClass: T.Type,
+                                                                 name: String,
                                                                  isOptional: Bool = false,
-                                                                 defaultValue: T? = nil,
-                                                                 type: T.Type) -> NSAttributeDescription {
-    let attributes = NSAttributeDescription(name: name, type: .transformableAttributeType)
-    attributes.isOptional = isOptional
-    attributes.defaultValue = defaultValue
+                                                                 defaultValue: T? = nil) -> NSAttributeDescription {
     Transformer<T>.register()
-    attributes.valueTransformerName = Transformer<T>.transformerName.rawValue
+
+    let attributes = NSAttributeDescription.transformable(of: T.self,
+                                                          name: name,
+                                                          isOptional: isOptional,
+                                                          defaultValue: defaultValue,
+                                                          valueTransformerName: Transformer<T>.transformerName.rawValue)
     return attributes
   }
 
@@ -157,6 +177,14 @@ extension NSAttributeDescription {
 //https://developer.apple.com/documentation/coredata/modeling_data/configuring_attributes?language=objc
 
 //test migration
+//https://developer.apple.com/documentation/coredata/modeling_data/configuring_attributes
 
 //https://hub.packtpub.com/core-data-ios-designing-data-model-and-building-data-objects/
 //Decimal, Double, and Float data types are for storing fractional numbers. The Double data type uses 64 bits to store a value while the Float data type uses 32 bits for storing a value. The only limitation with these two data types is that they round off the values. To avoid any rounding of values, the Decimal data type is preferred. The Decimal type uses fixed point numbers for storing values, so the numerical value stored in it is not rounded of
+
+/**
+ "Optional" means something different to Core Data than it does to Swift.
+
+ If a Core Data attribute is not optional, it must have a non-nil value when you save changes. At other times Core Data doesn't care if the attribute is nil.
+ If a Swift property is not optional, it must have a non-nil value at all times after initialization is complete.
+ */

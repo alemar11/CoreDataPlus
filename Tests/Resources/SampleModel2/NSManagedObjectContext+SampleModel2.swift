@@ -24,6 +24,7 @@ extension NSManagedObjectContext {
       page.book = book1
       page.number = Int32(index)
       page.isBookmarked = true
+      page.content = Content(text: "content for page \(index)")
       book1.addToPages(page)
     }
 
@@ -41,6 +42,7 @@ extension NSManagedObjectContext {
       page.book = book2
       page.number = Int32(index)
       page.isBookmarked = false
+      page.content = Content(text: "content for page \(index)")
       book2Pages.add(page)
     }
     book2.addToPages(book2Pages)
@@ -53,6 +55,7 @@ extension NSManagedObjectContext {
     graphicNovel1.title = "title graphic novel - author 1"
     graphicNovel1.uniqueID = UUID()
     graphicNovel1.isBlackAndWhite = true
+    graphicNovel1.cover = Cover(text: "Cover Graphic Novel")
 
     let graphicNovel1Pages = NSMutableSet()
     (1..<20).forEach { index in
@@ -60,6 +63,7 @@ extension NSManagedObjectContext {
       page.book = graphicNovel1
       page.number = Int32(index)
       page.isBookmarked = index == 11
+      page.content = Content(text: "content for page \(index)")
       graphicNovel1Pages.add(page)
     }
     graphicNovel1.addToPages(graphicNovel1Pages)

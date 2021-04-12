@@ -28,11 +28,12 @@ public class Book: NSManagedObject {
 //    }
 //  }
 
-  @NSManaged public var cover: Data?
+  @NSManaged public var cover: Cover
   @NSManaged public var publishedAt: Date
   @NSManaged public var rating: Double
   @NSManaged public var author: Author
   @NSManaged public var pages: NSSet // of Pages
+  //@NSManaged public var pagesCount: Int
 
   public override func validateForInsert() throws {
     // during a save, it's called for all the new objetcs
@@ -57,15 +58,25 @@ extension Book {
   @NSManaged public func removeFromPages(_ values: NSSet)
 }
 
-
-@objc(Page)
-public class Page: NSManagedObject {
-  @NSManaged public var number: Int32
-  @NSManaged public var isBookmarked: Bool
-  @NSManaged public var book: Book
-}
-
 @objc(GraphicNovel)
 public class GraphicNovel: Book {
   @NSManaged public var isBlackAndWhite: Bool
+}
+
+public class Cover: NSObject, NSSecureCoding {
+  public static var supportsSecureCoding: Bool { true }
+  public let text: String
+
+  public init(text: String) {
+    self.text = text
+  }
+
+  public func encode(with coder: NSCoder) {
+    coder.encode(text, forKey: "text")
+  }
+
+  public required init?(coder decoder: NSCoder) {
+    guard let text = decoder.decodeObject(of: [NSString.self], forKey: "text") as? String else { return nil }
+    self.text = text
+  }
 }

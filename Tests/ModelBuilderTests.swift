@@ -6,12 +6,12 @@ import CoreData
 
 class CoreDataPlusOnDiskWithProgrammaticallyModelTestCase: XCTestCase {
   var container: NSPersistentContainer!
-
+  
   override func setUp() {
     super.setUp()
     container = OnDiskWithProgrammaticallyModelPersistentContainer.makeNew()
   }
-
+  
   override func tearDown() {
     do {
       if let onDiskContainer = container as? OnDiskWithProgrammaticallyModelPersistentContainer {
@@ -31,7 +31,7 @@ final class OnDiskWithProgrammaticallyModelPersistentContainer: NSPersistentCont
   static func makeNew() -> OnDiskWithProgrammaticallyModelPersistentContainer {
     Self.makeNew(id: UUID())
   }
-
+  
   static func makeNew(id: UUID) -> OnDiskWithProgrammaticallyModelPersistentContainer {
     let url = URL.newDatabaseURL(withID: id)
     print(url)
@@ -41,25 +41,25 @@ final class OnDiskWithProgrammaticallyModelPersistentContainer: NSPersistentCont
     description.url = url
     description.shouldMigrateStoreAutomatically = false
     description.shouldInferMappingModelAutomatically = false
-
+    
     // Enable history tracking and remote notifications
     description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
     if #available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) {
       description.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
     }
     container.persistentStoreDescriptions = [description]
-
+    
     container.loadPersistentStores { (description, error) in
       XCTAssertNil(error)
     }
     return container
   }
-
+  
   /// Destroys the database and reset all the registered contexts.
   func destroy() throws {
     guard let url = persistentStoreDescriptions[0].url else { return }
     guard !url.absoluteString.starts(with: "/dev/null") else { return }
-
+    
     // unload each store from the used context to avoid the sqlite3 bug warning.
     do {
       if let store = persistentStoreCoordinator.persistentStores.first {
@@ -79,6 +79,11 @@ final class ModelBuilderTests: CoreDataPlusOnDiskWithProgrammaticallyModelTestCa
     context.fillWithSampleData2()
     do {
       try context.save()
+      context.reset()
+      let pages = try Page.fetch(in: context)
+      pages.forEach { (p) in
+        print(p.content)
+      }
     } catch {
       print(error)
       //      let e = error as NSError
@@ -93,61 +98,62 @@ final class ModelBuilderTests: CoreDataPlusOnDiskWithProgrammaticallyModelTestCa
 import CoreData.CoreDataDefines
 
 let errorKeys = [
-NSDetailedErrorsKey
-,NSValidationObjectErrorKey
-,NSValidationKeyErrorKey
-,NSValidationPredicateErrorKey
-,NSValidationValueErrorKey
-,NSAffectedStoresErrorKey
-,NSAffectedObjectsErrorKey
-,NSPersistentStoreSaveConflictsErrorKey
-,NSSQLiteErrorDomain
+  NSDetailedErrorsKey,
+  NSValidationObjectErrorKey,
+  NSValidationKeyErrorKey,
+  NSValidationPredicateErrorKey,
+  NSValidationValueErrorKey,
+  NSAffectedStoresErrorKey,
+  NSAffectedObjectsErrorKey,
+  NSPersistentStoreSaveConflictsErrorKey,
+  NSSQLiteErrorDomain
 ]
+
 let errors = [
-NSManagedObjectValidationError
-,NSManagedObjectConstraintValidationError
-,NSValidationMultipleErrorsError
-,NSValidationMissingMandatoryPropertyError
-,NSValidationRelationshipLacksMinimumCountError
-,NSValidationRelationshipExceedsMaximumCountError
-,NSValidationRelationshipDeniedDeleteError
-,NSValidationNumberTooLargeError
-,NSValidationNumberTooSmallError
-,NSValidationDateTooLateError
-,NSValidationDateTooSoonError
-,NSValidationInvalidDateError
-,NSValidationStringTooLongError
-,NSValidationStringTooShortError
-,NSValidationStringPatternMatchingError
-,NSValidationInvalidURIError
-,NSManagedObjectContextLockingError
-,NSPersistentStoreCoordinatorLockingError
-,NSManagedObjectReferentialIntegrityError
-,NSManagedObjectExternalRelationshipError
-,NSManagedObjectMergeError
-,NSManagedObjectConstraintMergeError
-,NSPersistentStoreInvalidTypeError
-,NSPersistentStoreTypeMismatchError
-,NSPersistentStoreIncompatibleSchemaError
-,NSPersistentStoreSaveError
-,NSPersistentStoreIncompleteSaveError
-,NSPersistentStoreSaveConflictsError
-,NSCoreDataError
-,NSPersistentStoreOperationError
-,NSPersistentStoreOpenError
-,NSPersistentStoreTimeoutError
-,NSPersistentStoreUnsupportedRequestTypeError
-,NSPersistentStoreIncompatibleVersionHashError
-,NSMigrationError
-,NSMigrationConstraintViolationError
-,NSMigrationCancelledError
-,NSMigrationMissingSourceModelError
-,NSMigrationMissingMappingModelError
-,NSMigrationManagerSourceStoreError
-,NSMigrationManagerDestinationStoreError
-,NSEntityMigrationPolicyError
-,NSSQLiteError
-,NSInferredMappingModelError
-,NSExternalRecordImportError
-,NSPersistentHistoryTokenExpiredError
+  NSManagedObjectValidationError,
+  NSManagedObjectConstraintValidationError,
+  NSValidationMultipleErrorsError,
+  NSValidationMissingMandatoryPropertyError,
+  NSValidationRelationshipLacksMinimumCountError,
+  NSValidationRelationshipExceedsMaximumCountError,
+  NSValidationRelationshipDeniedDeleteError,
+  NSValidationNumberTooLargeError,
+  NSValidationNumberTooSmallError,
+  NSValidationDateTooLateError,
+  NSValidationDateTooSoonError,
+  NSValidationInvalidDateError,
+  NSValidationStringTooLongError,
+  NSValidationStringTooShortError,
+  NSValidationStringPatternMatchingError,
+  NSValidationInvalidURIError,
+  NSManagedObjectContextLockingError,
+  NSPersistentStoreCoordinatorLockingError,
+  NSManagedObjectReferentialIntegrityError,
+  NSManagedObjectExternalRelationshipError,
+  NSManagedObjectMergeError,
+  NSManagedObjectConstraintMergeError,
+  NSPersistentStoreInvalidTypeError,
+  NSPersistentStoreTypeMismatchError,
+  NSPersistentStoreIncompatibleSchemaError,
+  NSPersistentStoreSaveError,
+  NSPersistentStoreIncompleteSaveError,
+  NSPersistentStoreSaveConflictsError,
+  NSCoreDataError,
+  NSPersistentStoreOperationError,
+  NSPersistentStoreOpenError,
+  NSPersistentStoreTimeoutError,
+  NSPersistentStoreUnsupportedRequestTypeError,
+  NSPersistentStoreIncompatibleVersionHashError,
+  NSMigrationError,
+  NSMigrationConstraintViolationError,
+  NSMigrationCancelledError,
+  NSMigrationMissingSourceModelError,
+  NSMigrationMissingMappingModelError,
+  NSMigrationManagerSourceStoreError,
+  NSMigrationManagerDestinationStoreError,
+  NSEntityMigrationPolicyError,
+  NSSQLiteError,
+  NSInferredMappingModelError,
+  NSExternalRecordImportError,
+  NSPersistentHistoryTokenExpiredError,
 ]
