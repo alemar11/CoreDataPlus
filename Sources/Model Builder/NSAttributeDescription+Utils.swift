@@ -4,6 +4,11 @@
 import CoreData
 
 extension NSAttributeDescription {
+  /// - Parameters:
+  ///   - name: The name of the attribute.
+  ///   - defaultValue: The default value of the attribute.
+  ///   - isOptional: A Boolean value that indicates whether the attribute is optional.
+  /// - Returns: Returns a *Int16* attribute description.
   public static func int16(name: String, defaultValue: Int16? = nil, isOptional: Bool = false) -> NSAttributeDescription {
     let attributes = NSAttributeDescription(name: name, type: .integer16AttributeType)
     attributes.isOptional = isOptional
