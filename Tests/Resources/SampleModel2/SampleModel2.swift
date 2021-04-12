@@ -52,7 +52,7 @@ enum SampleModel2 {
     pageToBook.maxCount = 1
     pageToBook.deleteRule = .nullifyDeleteRule
 
-    author.properties += [authorToBooks]
+    author.add(authorToBooks) // author.properties += [authorToBooks]
     book.properties += [bookToAuthor, bookToPages]
     page.properties += [pageToBook]
 
@@ -68,16 +68,13 @@ enum SampleModel2 {
   }
 
   static private func makeWriterEntity() -> NSEntityDescription {
-    var entity = NSEntityDescription()
-    entity = NSEntityDescription()
-    entity.name = String(describing: Writer.self)
-    entity.managedObjectClassName = String(describing: Writer.self)
+    let entity = NSEntityDescription(Writer.self)
+    entity.isAbstract = true
 
     let age = NSAttributeDescription.int16(name: #keyPath(Writer.age))
     age.isOptional = false
 
-    entity.isAbstract = true
-    entity.properties = [age]
+    entity.add(age)
 
     return entity
   }

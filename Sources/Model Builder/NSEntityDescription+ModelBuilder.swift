@@ -2,23 +2,22 @@
 
 import CoreData
 
+extension NSEntityDescription {
+  public convenience init<T: NSManagedObject>(_ aClass: T.Type) {
+    self.init()
+    self.managedObjectClassName = NSStringFromClass(aClass) as String
+    self.name = String(describing: T.self)
+    self.isAbstract = false
+    self.subentities = []
+  }
+
+  public func add(_ property: NSPropertyDescription) {
+    properties.append(property)
+  }
+}
+
 //extension NSEntityDescription {
 //
-//  public convenience init<T: NSManagedObject>(_ aClass: T.Type, name: String) {
-//    self.init()
-//    let className = NSStringFromClass(aClass) as String
-//    self.managedObjectClassName = className
-//    self.name = name
-//    self.isAbstract = false
-//    self.subentities = []
-//  }
-//
-//  public func add(_ property: NSPropertyDescription) {
-//    // TODO: can we append directly?
-//    var p = properties
-//    p.append(property)
-//    properties = p
-//  }
 //
 //  // 1 <-> 1
 //  public func makeOneToOneRelation(to destinationEntity: NSEntityDescription, toName: String, fromName: String) {
