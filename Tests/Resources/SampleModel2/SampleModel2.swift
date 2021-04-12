@@ -307,6 +307,4 @@ public class Page: NSManagedObject {
 
 // Learn about uniquenessConstraints [[Any]]
 
-// validationPredicates, validationWarnings -> done, but we probably need to add a module to catch objc exceptions for tests
-
 // indexes
