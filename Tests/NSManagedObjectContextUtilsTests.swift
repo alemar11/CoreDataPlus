@@ -4,7 +4,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSManagedObjectContextUtilsTests: CoreDataPlusInMemoryTestCase {
+final class NSManagedObjectContextUtilsTests: InMemoryTestCase {
   func testSinglePersistentStore() {
     XCTAssertTrue(container.viewContext.persistentStores.count == 1)
     XCTAssertNotNil(container.viewContext.persistentStores.first)
