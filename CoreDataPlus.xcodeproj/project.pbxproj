@@ -234,6 +234,9 @@
 		D282323B2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282323A2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift */; };
 		D282323C2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282323A2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift */; };
 		D282323D2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282323A2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift */; };
+		D282325B26244AE200F37442 /* NSManagedObjectContext+SampleModel2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282325A26244AE200F37442 /* NSManagedObjectContext+SampleModel2.swift */; };
+		D282325C26244AE200F37442 /* NSManagedObjectContext+SampleModel2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282325A26244AE200F37442 /* NSManagedObjectContext+SampleModel2.swift */; };
+		D282325D26244AE200F37442 /* NSManagedObjectContext+SampleModel2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282325A26244AE200F37442 /* NSManagedObjectContext+SampleModel2.swift */; };
 		D29AA4E324D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
 		D29AA4E424D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
 		D29AA4E524D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
@@ -357,6 +360,7 @@
 		D27A2E2E255F29D20043B43F /* V2toV3.cdm */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = V2toV3.cdm; sourceTree = "<group>"; };
 		D27A2E9F255F2A3C0043B43F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D282323A2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributeDescriptionUtilsTests.swift; sourceTree = "<group>"; };
+		D282325A26244AE200F37442 /* NSManagedObjectContext+SampleModel2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+SampleModel2.swift"; sourceTree = "<group>"; };
 		D2B7E1542448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSPersistentStoreCoordinatorUtilsTests.swift; sourceTree = "<group>"; };
 		D2C5CE35244762FA00AD19D8 /* NSSetCoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSSetCoreDataTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -609,6 +613,7 @@
 			isa = PBXGroup;
 			children = (
 				D20F4BC62621F3B000F0CB25 /* SampleModel2.swift */,
+				D282325A26244AE200F37442 /* NSManagedObjectContext+SampleModel2.swift */,
 			);
 			path = SampleModel2;
 			sourceTree = "<group>";
@@ -1134,6 +1139,7 @@
 				23C3B2B61FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift in Sources */,
 				2377287121490B9D00FDAF32 /* V2toV3.xcmappingmodel in Sources */,
 				23EEF5451F962E5700A2E72F /* Car.swift in Sources */,
+				D282325B26244AE200F37442 /* NSManagedObjectContext+SampleModel2.swift in Sources */,
 				D282323B2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift in Sources */,
 				2341306B1F95FF90002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */,
 				D29AA4E524D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */,
@@ -1176,6 +1182,7 @@
 				23C3B2B71FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift in Sources */,
 				2377287221490B9D00FDAF32 /* V2toV3.xcmappingmodel in Sources */,
 				23EEF5461F962E5700A2E72F /* Car.swift in Sources */,
+				D282325C26244AE200F37442 /* NSManagedObjectContext+SampleModel2.swift in Sources */,
 				D282323C2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift in Sources */,
 				234130721F95FF91002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */,
 				D29AA4E324D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */,
@@ -1218,6 +1225,7 @@
 				23C3B2B81FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift in Sources */,
 				2377287321490B9D00FDAF32 /* V2toV3.xcmappingmodel in Sources */,
 				23EEF5471F962E5700A2E72F /* Car.swift in Sources */,
+				D282325D26244AE200F37442 /* NSManagedObjectContext+SampleModel2.swift in Sources */,
 				D282323D2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift in Sources */,
 				234130791F95FF91002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */,
 				D29AA4E424D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */,

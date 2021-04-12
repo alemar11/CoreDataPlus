@@ -116,7 +116,7 @@ enum SampleModel2 {
     title.isOptional = false
     // validation predicates are evaluated on validateForInsert(), overriding validateForInsert() without calling its
     // super implementation will ignore these predicates
-    let rule1 = (NSPredicate(format: "length >= 3 AND length <= 20"),"Title must have a length between 3 and 20 chars.")
+    let rule1 = (NSPredicate(format: "length >= 3 AND length <= 50"),"Title must have a length between 3 and 50 chars.")
     let rule2 = (NSPredicate(format: "SELF CONTAINS %@", "title"), "Title must contain 'title'.")
     title.setValidationPredicates([rule1.0, rule2.0], withValidationWarnings: [rule1.1, rule2.1])
 
@@ -304,7 +304,7 @@ public class Page: NSManagedObject {
 }
 
 @objc(GraphicNovel)
-public class GraphicNovel: NSManagedObject {
+public class GraphicNovel: Book {
   @NSManaged public var isBlackAndWhite: Bool
 }
 

@@ -34,6 +34,7 @@ final class OnDiskWithProgrammaticallyModelPersistentContainer: NSPersistentCont
 
   static func makeNew(id: UUID) -> OnDiskWithProgrammaticallyModelPersistentContainer {
     let url = URL.newDatabaseURL(withID: id)
+    print(url)
     let container = OnDiskWithProgrammaticallyModelPersistentContainer(name: "SampleModel2",
                                                                        managedObjectModel: SampleModel2.makeManagedObjectModel())
     let description = NSPersistentStoreDescription()
@@ -74,7 +75,8 @@ final class OnDiskWithProgrammaticallyModelPersistentContainer: NSPersistentCont
 final class ModelBuilderTests: CoreDataPlusOnDiskWithProgrammaticallyModelTestCase {
   func test_1() throws {
     let context = container.viewContext
-    SampleModel2.fillWithSampleData(context: context)
+    //SampleModel2.fillWithSampleData(context: context)
+    context.fillWithSampleData2()
     do {
       try context.save()
     } catch {
