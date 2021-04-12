@@ -109,14 +109,14 @@ extension NSAttributeDescription {
   public static func customTransformable<T: NSObject & NSSecureCoding>(for aClass: T.Type,
                                                                  name: String,
                                                                  defaultValue: T? = nil,
-                                                                 transform: @escaping DataTransformer<T>.Transform,
-                                                                 reverse: @escaping DataTransformer<T>.ReverseTransform) -> NSAttributeDescription {
-    DataTransformer<T>.register(transform: transform, reverseTransform: reverse)
+                                                                 transform: @escaping CustomTransformer<T>.Transform,
+                                                                 reverse: @escaping CustomTransformer<T>.ReverseTransform) -> NSAttributeDescription {
+    CustomTransformer<T>.register(transform: transform, reverseTransform: reverse)
 
     let attributes = NSAttributeDescription.transformable(for: T.self,
                                                           name: name,
                                                           defaultValue: defaultValue,
-                                                          valueTransformerName: DataTransformer<T>.transformerName.rawValue)
+                                                          valueTransformerName: CustomTransformer<T>.transformerName.rawValue)
     return attributes
   }
 

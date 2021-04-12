@@ -65,17 +65,17 @@ final class TransformerTests: CoreDataPlusOnDiskTestCase {
   }
   
   func testDataTransformerUnregister() {
-    XCTAssertFalse(Foundation.ValueTransformer.valueTransformerNames().contains(DataTransformer<Dummy>.transformerName))
-    DataTransformer<Dummy>.register {
+    XCTAssertFalse(Foundation.ValueTransformer.valueTransformerNames().contains(CustomTransformer<Dummy>.transformerName))
+    CustomTransformer<Dummy>.register {
       guard let color = $0 else { return nil }
       return try? NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: true)
     } reverseTransform: {
       guard let data = $0 else { return nil }
       return try? NSKeyedUnarchiver.unarchivedObject(ofClass: Dummy.self, from: data)
     }
-    XCTAssertTrue(Foundation.ValueTransformer.valueTransformerNames().contains(DataTransformer<Dummy>.transformerName))
+    XCTAssertTrue(Foundation.ValueTransformer.valueTransformerNames().contains(CustomTransformer<Dummy>.transformerName))
     Transformer<Dummy>.unregister()
-    XCTAssertFalse(Foundation.ValueTransformer.valueTransformerNames().contains(DataTransformer<Dummy>.transformerName))
+    XCTAssertFalse(Foundation.ValueTransformer.valueTransformerNames().contains(CustomTransformer<Dummy>.transformerName))
   }
   
   func testTransformer() throws {
@@ -89,7 +89,7 @@ final class TransformerTests: CoreDataPlusOnDiskTestCase {
   }
   
   func testCustomTransformer() throws {
-    let transformer = DataTransformer<Color> { color -> Data? in
+    let transformer = CustomTransformer<Color> { color -> Data? in
       guard let color = color else { return nil }
       return try? NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: true)
     } reverseTransform: { data -> Color? in
@@ -105,7 +105,7 @@ final class TransformerTests: CoreDataPlusOnDiskTestCase {
   }
   
   func testDataTransformerWithNSArray() throws {
-    let transformer = DataTransformer<NSArray> { array -> Data? in
+    let transformer = CustomTransformer<NSArray> { array -> Data? in
       guard let array = array else { return nil }
       return try? NSKeyedArchiver.archivedData(withRootObject: array, requiringSecureCoding: true)
     } reverseTransform: { data -> NSArray? in
