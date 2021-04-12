@@ -83,7 +83,7 @@ extension NSAttributeDescription {
     return attributes
   }
 
-  public static func binaryData(name: String, defaultValue: NSData? = nil, isOptional: Bool = false, allowsExternalBinaryDataStorage: Bool = false) -> NSAttributeDescription {
+  public static func binaryData(name: String, defaultValue: Data? = nil, isOptional: Bool = false, allowsExternalBinaryDataStorage: Bool = false) -> NSAttributeDescription {
     let attributes = NSAttributeDescription(name: name, type: .binaryDataAttributeType)
     attributes.isOptional = isOptional
     attributes.defaultValue = defaultValue

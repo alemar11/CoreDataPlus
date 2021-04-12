@@ -231,6 +231,9 @@
 		D27A2E36255F29D20043B43F /* SampleModelV2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D27A2E2D255F29D20043B43F /* SampleModelV2.sqlite */; };
 		D27A2E37255F29D20043B43F /* SampleModelV2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D27A2E2D255F29D20043B43F /* SampleModelV2.sqlite */; };
 		D27A2E38255F29D20043B43F /* SampleModelV2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D27A2E2D255F29D20043B43F /* SampleModelV2.sqlite */; };
+		D282323B2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282323A2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift */; };
+		D282323C2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282323A2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift */; };
+		D282323D2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282323A2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift */; };
 		D29AA4E324D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
 		D29AA4E424D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
 		D29AA4E524D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
@@ -353,6 +356,7 @@
 		D27A2E2D255F29D20043B43F /* SampleModelV2.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleModelV2.sqlite; sourceTree = "<group>"; };
 		D27A2E2E255F29D20043B43F /* V2toV3.cdm */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = V2toV3.cdm; sourceTree = "<group>"; };
 		D27A2E9F255F2A3C0043B43F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D282323A2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributeDescriptionUtilsTests.swift; sourceTree = "<group>"; };
 		D2B7E1542448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSPersistentStoreCoordinatorUtilsTests.swift; sourceTree = "<group>"; };
 		D2C5CE35244762FA00AD19D8 /* NSSetCoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSSetCoreDataTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -534,6 +538,7 @@
 		23B580861F94FF0E00A365C0 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				D282323A2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift */,
 				D20F4C1F2622029400F0CB25 /* ModelBuilderTests.swift */,
 				230C087B21417E1900A1B6CB /* MigrationsTests.swift */,
 				23D1056A20D7EFEF00AE84CC /* FetchedResultsChangesTests.swift */,
@@ -1129,6 +1134,7 @@
 				23C3B2B61FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift in Sources */,
 				2377287121490B9D00FDAF32 /* V2toV3.xcmappingmodel in Sources */,
 				23EEF5451F962E5700A2E72F /* Car.swift in Sources */,
+				D282323B2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift in Sources */,
 				2341306B1F95FF90002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */,
 				D29AA4E524D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */,
 				234130661F95FF90002BE7FC /* SampleModelVersion.swift in Sources */,
@@ -1170,6 +1176,7 @@
 				23C3B2B71FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift in Sources */,
 				2377287221490B9D00FDAF32 /* V2toV3.xcmappingmodel in Sources */,
 				23EEF5461F962E5700A2E72F /* Car.swift in Sources */,
+				D282323C2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift in Sources */,
 				234130721F95FF91002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */,
 				D29AA4E324D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */,
 				2341306D1F95FF91002BE7FC /* SampleModelVersion.swift in Sources */,
@@ -1211,6 +1218,7 @@
 				23C3B2B81FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift in Sources */,
 				2377287321490B9D00FDAF32 /* V2toV3.xcmappingmodel in Sources */,
 				23EEF5471F962E5700A2E72F /* Car.swift in Sources */,
+				D282323D2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift in Sources */,
 				234130791F95FF91002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */,
 				D29AA4E424D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */,
 				234130741F95FF91002BE7FC /* SampleModelVersion.swift in Sources */,
