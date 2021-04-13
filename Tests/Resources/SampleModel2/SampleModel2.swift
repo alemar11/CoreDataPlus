@@ -14,15 +14,25 @@ enum SampleModel2 {
     let page = makePageEntity()
     let feedback = makeFeedbackEntity()
 
-    let request = NSFetchRequest<NSFetchRequestResult>(entity: feedback)
-    request.resultType = .managedObjectResultType
-    request.predicate = NSPredicate(format: "%K == $FETCH_SOURCE.%K", #keyPath(Feedback.authorAlias), #keyPath(Author.alias))
-    request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Feedback.rating), ascending: true)]
-    let feedbackList = NSFetchedPropertyDescription()
-    feedbackList.name = Author.FetchedProperty.feedbacks
-    feedbackList.fetchRequest = request
-    author.add(feedbackList)
 
+    // Definition using the CoreDataPlus convenience init
+    let feedbackList = NSFetchedPropertyDescription(name: Author.FetchedProperty.feedbacks,
+                                                    destinationEntity: feedback,
+                                                    predicate: NSPredicate(format: "%K == $FETCH_SOURCE.%K", #keyPath(Feedback.authorAlias), #keyPath(Author.alias)),
+                                                    sortDescriptors: [NSSortDescriptor(key: #keyPath(Feedback.rating), ascending: true)])
+
+    // Definition without the CoreDataPlus convenience init
+//    let request = NSFetchRequest<NSFetchRequestResult>(entity: feedback)
+//    request.resultType = .managedObjectResultType
+//    request.predicate = NSPredicate(format: "%K == $FETCH_SOURCE.%K", #keyPath(Feedback.authorAlias), #keyPath(Author.alias))
+//    request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Feedback.rating), ascending: true)]
+//    let feedbackList = NSFetchedPropertyDescription()
+//    feedbackList.name = Author.FetchedProperty.feedbacks
+//    feedbackList.fetchRequest = request
+
+    author.add(feedbackList)
+    
+    // Definition without the CoreDataPlus convenience init
     let request2 = NSFetchRequest<NSFetchRequestResult>(entity: feedback)
     request2.resultType = .managedObjectResultType
     request2.predicate = NSPredicate(format: "authorAlias == $FETCH_SOURCE.alias AND (comment CONTAINS [c] $FETCHED_PROPERTY.userInfo.search)")
