@@ -4,6 +4,7 @@ import Foundation
 import CoreData
 
 extension NSManagedObjectContext {
+  // 1 Author with 3 Books
   func fillWithSampleData2() {
     let author1 = Author(context: self)
     author1.alias = "Alessandro"
