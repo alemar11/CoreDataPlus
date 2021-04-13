@@ -552,14 +552,15 @@
 		23B580851F94FF0900A365C0 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				D20F4B9A2621E22300F0CB25 /* Model Builder */,
 				D20119F72614E3D9001902FB /* Collection+CoreData.swift */,
 				D20119F82614E3D9001902FB /* CoreDataPlus.swift */,
 				D20119F92614E3D9001902FB /* FetchedResultsChanges.swift */,
 				D20119F32614E3D9001902FB /* NSBatchDeleteResult+Utils.swift */,
 				D20119F62614E3D9001902FB /* NSBatchInsertResult+Utils.swift */,
 				D20119F52614E3D9001902FB /* NSBatchUpdateResult+Utils.swift */,
+				D28232AB26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift */,
 				D20119FE2614E3D9001902FB /* NSEntityDescription+Utils.swift */,
+				D282330E2624A4FE00F37442 /* NSFetchedPropertyDescription+Utils.swift */,
 				D2011A082614E3D9001902FB /* NSFetchRequest+Utils.swift */,
 				D2011A002614E3D9001902FB /* NSFetchRequestResult+CoreData.swift */,
 				D20119FB2614E3D9001902FB /* NSFetchRequestResult+Utils.swift */,
@@ -569,6 +570,7 @@
 				D20119FD2614E3D9001902FB /* NSPersistentStoreCoordinator+Utils.swift */,
 				D20119FA2614E3D9001902FB /* NSSet+CoreData.swift */,
 				D2011A012614E3D9001902FB /* Migration */,
+				D20F4B9A2621E22300F0CB25 /* Model Builder */,
 				D2011A052614E3D9001902FB /* Notifications */,
 				061C68912620942C000BF0A2 /* Transformers */,
 			);
@@ -641,8 +643,6 @@
 			children = (
 				D20F4B9B2621E24900F0CB25 /* NSEntityDescription+ModelBuilder.swift */,
 				D20F4BB72621E71500F0CB25 /* NSAttributeDescription+Utils.swift */,
-				D28232AB26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift */,
-				D282330E2624A4FE00F37442 /* NSFetchedPropertyDescription+Utils.swift */,
 			);
 			path = "Model Builder";
 			sourceTree = "<group>";
