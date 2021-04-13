@@ -1,6 +1,6 @@
 // CoreDataPlus
 // https://developer.apple.com/documentation/coredata/nsattributetype
-
+//
 // About the NSAttributeDescription isOptional property:
 //
 // The underlying SQLite database has the is_nullable value always set to TRUE for every table's column.
