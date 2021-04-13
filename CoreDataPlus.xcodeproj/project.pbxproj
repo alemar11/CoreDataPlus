@@ -263,6 +263,18 @@
 		D282332C2625AB2300F37442 /* CoreDataErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282332B2625AB2300F37442 /* CoreDataErrors.swift */; };
 		D282332D2625AB2300F37442 /* CoreDataErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282332B2625AB2300F37442 /* CoreDataErrors.swift */; };
 		D282332E2625AB2300F37442 /* CoreDataErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282332B2625AB2300F37442 /* CoreDataErrors.swift */; };
+		D28233422625C23F00F37442 /* SampleModel2+V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28233412625C23F00F37442 /* SampleModel2+V1.swift */; };
+		D28233432625C23F00F37442 /* SampleModel2+V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28233412625C23F00F37442 /* SampleModel2+V1.swift */; };
+		D28233442625C23F00F37442 /* SampleModel2+V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28233412625C23F00F37442 /* SampleModel2+V1.swift */; };
+		D282334F2625C2A200F37442 /* SampleModel2+V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282334E2625C2A200F37442 /* SampleModel2+V2.swift */; };
+		D28233502625C2A200F37442 /* SampleModel2+V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282334E2625C2A200F37442 /* SampleModel2+V2.swift */; };
+		D28233512625C2A200F37442 /* SampleModel2+V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282334E2625C2A200F37442 /* SampleModel2+V2.swift */; };
+		D28233652625C55100F37442 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28233642625C55100F37442 /* Content.swift */; };
+		D28233662625C55100F37442 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28233642625C55100F37442 /* Content.swift */; };
+		D28233672625C55100F37442 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28233642625C55100F37442 /* Content.swift */; };
+		D28233722625C56A00F37442 /* Cover.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28233712625C56A00F37442 /* Cover.swift */; };
+		D28233732625C56A00F37442 /* Cover.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28233712625C56A00F37442 /* Cover.swift */; };
+		D28233742625C56A00F37442 /* Cover.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28233712625C56A00F37442 /* Cover.swift */; };
 		D29AA4E324D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
 		D29AA4E424D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
 		D29AA4E524D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
@@ -395,6 +407,10 @@
 		D282330E2624A4FE00F37442 /* NSFetchedPropertyDescription+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFetchedPropertyDescription+Utils.swift"; sourceTree = "<group>"; };
 		D282331E26257A7400F37442 /* Feedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feedback.swift; sourceTree = "<group>"; };
 		D282332B2625AB2300F37442 /* CoreDataErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataErrors.swift; sourceTree = "<group>"; };
+		D28233412625C23F00F37442 /* SampleModel2+V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SampleModel2+V1.swift"; sourceTree = "<group>"; };
+		D282334E2625C2A200F37442 /* SampleModel2+V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SampleModel2+V2.swift"; sourceTree = "<group>"; };
+		D28233642625C55100F37442 /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
+		D28233712625C56A00F37442 /* Cover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cover.swift; sourceTree = "<group>"; };
 		D2B7E1542448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSPersistentStoreCoordinatorUtilsTests.swift; sourceTree = "<group>"; };
 		D2C5CE35244762FA00AD19D8 /* NSSetCoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSSetCoreDataTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -651,8 +667,10 @@
 			isa = PBXGroup;
 			children = (
 				D282326726244D2D00F37442 /* Entities */,
-				D20F4BC62621F3B000F0CB25 /* SampleModel2.swift */,
 				D282325A26244AE200F37442 /* NSManagedObjectContext+SampleModel2.swift */,
+				D20F4BC62621F3B000F0CB25 /* SampleModel2.swift */,
+				D28233412625C23F00F37442 /* SampleModel2+V1.swift */,
+				D282334E2625C2A200F37442 /* SampleModel2+V2.swift */,
 			);
 			path = SampleModel2;
 			sourceTree = "<group>";
@@ -694,6 +712,8 @@
 				D282327E2624569400F37442 /* Book.swift */,
 				D28232942624754700F37442 /* Page.swift */,
 				D282331E26257A7400F37442 /* Feedback.swift */,
+				D28233642625C55100F37442 /* Content.swift */,
+				D28233712625C56A00F37442 /* Cover.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1190,7 +1210,10 @@
 				2383AC641FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift in Sources */,
 				232440B722D2546100A04649 /* NSManagedObjectContextInvestigationTests.swift in Sources */,
 				23541AFA22ECAB0000678A96 /* NSManagedObjectContextHistoryTests.swift in Sources */,
+				D28233652625C55100F37442 /* Content.swift in Sources */,
 				234130681F95FF90002BE7FC /* NSFetchRequestUtilsTests.swift in Sources */,
+				D282334F2625C2A200F37442 /* SampleModel2+V2.swift in Sources */,
+				D28233422625C23F00F37442 /* SampleModel2+V1.swift in Sources */,
 				236526AB215A46C200A51C9F /* InMemoryTestCase.swift in Sources */,
 				234DA7AB214A5D2B00D5C24F /* Maker.swift in Sources */,
 				23A8A44D1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift in Sources */,
@@ -1203,6 +1226,7 @@
 				D282327F2624569400F37442 /* Book.swift in Sources */,
 				23EEF5451F962E5700A2E72F /* Car.swift in Sources */,
 				D282325B26244AE200F37442 /* NSManagedObjectContext+SampleModel2.swift in Sources */,
+				D28233722625C56A00F37442 /* Cover.swift in Sources */,
 				D282323B2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift in Sources */,
 				2341306B1F95FF90002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */,
 				D28232C32624A15000F37442 /* OnDiskWithProgrammaticallyModelTestCase.swift in Sources */,
@@ -1239,7 +1263,10 @@
 				2383AC651FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift in Sources */,
 				232440B822D2546100A04649 /* NSManagedObjectContextInvestigationTests.swift in Sources */,
 				23541AFB22ECAB0000678A96 /* NSManagedObjectContextHistoryTests.swift in Sources */,
+				D28233662625C55100F37442 /* Content.swift in Sources */,
 				2341306F1F95FF91002BE7FC /* NSFetchRequestUtilsTests.swift in Sources */,
+				D28233502625C2A200F37442 /* SampleModel2+V2.swift in Sources */,
+				D28233432625C23F00F37442 /* SampleModel2+V1.swift in Sources */,
 				236526AC215A46C200A51C9F /* InMemoryTestCase.swift in Sources */,
 				234DA7AC214A5D2B00D5C24F /* Maker.swift in Sources */,
 				23A8A44E1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift in Sources */,
@@ -1252,6 +1279,7 @@
 				D28232802624569400F37442 /* Book.swift in Sources */,
 				23EEF5461F962E5700A2E72F /* Car.swift in Sources */,
 				D282325C26244AE200F37442 /* NSManagedObjectContext+SampleModel2.swift in Sources */,
+				D28233732625C56A00F37442 /* Cover.swift in Sources */,
 				D282323C2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift in Sources */,
 				234130721F95FF91002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */,
 				D28232C42624A15000F37442 /* OnDiskWithProgrammaticallyModelTestCase.swift in Sources */,
@@ -1288,7 +1316,10 @@
 				2383AC661FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift in Sources */,
 				232440B922D2546100A04649 /* NSManagedObjectContextInvestigationTests.swift in Sources */,
 				23541AFC22ECAB0000678A96 /* NSManagedObjectContextHistoryTests.swift in Sources */,
+				D28233672625C55100F37442 /* Content.swift in Sources */,
 				234130761F95FF91002BE7FC /* NSFetchRequestUtilsTests.swift in Sources */,
+				D28233512625C2A200F37442 /* SampleModel2+V2.swift in Sources */,
+				D28233442625C23F00F37442 /* SampleModel2+V1.swift in Sources */,
 				236526AD215A46C200A51C9F /* InMemoryTestCase.swift in Sources */,
 				234DA7AD214A5D2B00D5C24F /* Maker.swift in Sources */,
 				23A8A44F1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift in Sources */,
@@ -1301,6 +1332,7 @@
 				D28232812624569400F37442 /* Book.swift in Sources */,
 				23EEF5471F962E5700A2E72F /* Car.swift in Sources */,
 				D282325D26244AE200F37442 /* NSManagedObjectContext+SampleModel2.swift in Sources */,
+				D28233742625C56A00F37442 /* Cover.swift in Sources */,
 				D282323D2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift in Sources */,
 				234130791F95FF91002BE7FC /* NSManagedObjectUtilsTests.swift in Sources */,
 				D28232C52624A15000F37442 /* OnDiskWithProgrammaticallyModelTestCase.swift in Sources */,
