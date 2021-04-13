@@ -12,6 +12,25 @@ enum SampleModel2 {
     let book = makeBookEntity()
     let graphicNovel = makeGraphicNovelEntity()
     let page = makePageEntity()
+    let feedback = makeFeedbackEntity()
+
+    let request = NSFetchRequest<NSFetchRequestResult>(entity: feedback)
+    request.resultType = .managedObjectResultType
+    request.predicate = NSPredicate(format: "%K == $FETCH_SOURCE.%K", #keyPath(Feedback.authorAlias), #keyPath(Author.alias))
+    request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Feedback.rating), ascending: true)]
+    let feedbackList = NSFetchedPropertyDescription()
+    feedbackList.name = Author.FetchedProperty.feedbacks
+    feedbackList.fetchRequest = request
+    author.add(feedbackList)
+
+    let request2 = NSFetchRequest<NSFetchRequestResult>(entity: feedback)
+    request2.resultType = .managedObjectResultType
+    request2.predicate = NSPredicate(format: "authorAlias == $FETCH_SOURCE.alias AND (comment CONTAINS [c] $FETCHED_PROPERTY.userInfo.search)")
+    let favFeedbackList = NSFetchedPropertyDescription()
+    favFeedbackList.name = Author.FetchedProperty.favFeedbacks
+    favFeedbackList.fetchRequest = request2
+    favFeedbackList.userInfo?["search"] = "great"
+    author.add(favFeedbackList)
 
     let authorToBooks = NSRelationshipDescription()
     authorToBooks.name = #keyPath(Author.books)
@@ -63,7 +82,7 @@ enum SampleModel2 {
     writer.subentities = [author]
     book.subentities = [graphicNovel]
 
-    managedObjectModel.entities = [writer, author, book, graphicNovel, page]
+    managedObjectModel.entities = [writer, author, book, graphicNovel, page, feedback]
     return managedObjectModel
   }
 
@@ -96,6 +115,7 @@ enum SampleModel2 {
 
     let index = NSFetchIndexDescription(name: "authorIndex", elements: [NSFetchIndexElementDescription(property: alias, collationType: .binary)])
     entity.indexes.append(index)
+
     return entity
   }
 
@@ -130,14 +150,11 @@ enum SampleModel2 {
     //let publishedAtPredicate = NSPredicate(format: "timeIntervalSinceReferenceDate < %@", twelveHoursAgo.timeIntervalSinceReferenceDate)
     //publishedAt.setValidationPredicates([publishedAtPredicate], withValidationWarnings: ["Date error"])
 
-    let rating = NSAttributeDescription.double(name: #keyPath(Book.rating))
-    rating.isOptional = false
-
     let pagesCount = NSDerivedAttributeDescription(name: #keyPath(Book.pagesCount),
-                                                     type: .integer64AttributeType,
-                                                     derivationExpression: NSExpression(format: "pages.@count"))
+                                                   type: .integer64AttributeType,
+                                                   derivationExpression: NSExpression(format: "pages.@count"))
     pagesCount.isOptional = true
-    entity.properties = [uniqueID, title, price, cover, publishedAt, rating, pagesCount]
+    entity.properties = [uniqueID, title, price, cover, publishedAt, pagesCount]
 
     entity.uniquenessConstraints = [[#keyPath(Book.uniqueID)]]
     return entity
@@ -184,8 +201,26 @@ enum SampleModel2 {
 
     return entity
   }
+
+  static private func makeFeedbackEntity() -> NSEntityDescription {
+    let entity = NSEntityDescription(Feedback.self)
+    let bookID = NSAttributeDescription.uuid(name: #keyPath(Feedback.bookID))
+    bookID.isOptional = false
+    let authorAlias = NSAttributeDescription.string(name: #keyPath(Feedback.authorAlias))
+    authorAlias.isOptional = false
+    let comment = NSAttributeDescription.string(name: #keyPath(Feedback.comment))
+    bookID.isOptional = true
+    let rating = NSAttributeDescription.double(name: #keyPath(Feedback.rating))
+    rating.isOptional = false
+    entity.add(authorAlias)
+    entity.add(bookID)
+    entity.add(comment)
+    entity.add(rating)
+
+    return entity
+  }
 }
 
-// Missing fields: Int, Float, Transformable
-// Learn about uniquenessConstraints [[Any]]
+
+// Missing fields: Int16, Data, Float
 

@@ -14,3 +14,22 @@ public class Author: Writer {
   @NSManaged public var siteURL: URL?
   @NSManaged public var books: NSSet // of Books
 }
+
+extension Author {
+  enum FetchedProperty {
+    static let feedbacks = "feedbacks"
+    static let favFeedbacks = "favFeedbacks"
+  }
+
+  // Xcode doesn't generate the accessor for fetched properties (if you are using Xcode code gen).
+
+  // feedbacks ordered by rating ASC
+  var feedbacks: [Feedback]? {
+    return value(forKey: FetchedProperty.feedbacks) as? [Feedback]
+  }
+
+  // feedbacks with the "great" word in their comments
+  var favFeedbacks: [Feedback]? {
+    return value(forKey: FetchedProperty.favFeedbacks) as? [Feedback]
+  }
+}

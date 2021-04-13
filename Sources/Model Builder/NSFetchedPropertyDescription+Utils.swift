@@ -11,13 +11,19 @@ import CoreData
  */
 
 extension NSFetchedPropertyDescription {
-  public convenience init<T: NSManagedObject>(name: String, fetchRequest: NSFetchRequest<T>) {
+  public convenience init(name: String,
+                          destinationEntity: NSEntityDescription,
+                          predicate: NSPredicate,
+                          sortDescriptors: [NSSortDescriptor]? = .none) {
     self.init()
-    // swiftlint:disable:next force_cast
 
     //A fetched property is represented by an array, not a set. The fetch request associated with the property can have a sort ordering, and thus the fetched property may be ordered.
-    //let type = NSFetchRequestResultType.managedObjectResultType // always an array
-    self.fetchRequest = (fetchRequest as! NSFetchRequest<NSFetchRequestResult>)
+    let request = NSFetchRequest<NSFetchRequestResult>(entity: destinationEntity)
+    request.resultType = .managedObjectResultType // it's the only type supported
+    request.predicate = predicate
+    request.sortDescriptors = sortDescriptors
+    self.name = name
+    self.fetchRequest = request
   }
 }
 

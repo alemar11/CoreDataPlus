@@ -30,7 +30,6 @@ public class Book: NSManagedObject {
 
   @NSManaged public var cover: Cover
   @NSManaged public var publishedAt: Date
-  @NSManaged public var rating: Double
   @NSManaged public var author: Author
   @NSManaged public var pages: NSSet // of Pages
   @NSManaged public var pagesCount: Int

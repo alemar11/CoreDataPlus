@@ -257,6 +257,9 @@
 		D28233102624A4FE00F37442 /* NSFetchedPropertyDescription+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282330E2624A4FE00F37442 /* NSFetchedPropertyDescription+Utils.swift */; };
 		D28233112624A4FE00F37442 /* NSFetchedPropertyDescription+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282330E2624A4FE00F37442 /* NSFetchedPropertyDescription+Utils.swift */; };
 		D28233122624A4FE00F37442 /* NSFetchedPropertyDescription+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282330E2624A4FE00F37442 /* NSFetchedPropertyDescription+Utils.swift */; };
+		D282331F26257A7400F37442 /* Feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282331E26257A7400F37442 /* Feedback.swift */; };
+		D282332026257A7400F37442 /* Feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282331E26257A7400F37442 /* Feedback.swift */; };
+		D282332126257A7400F37442 /* Feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282331E26257A7400F37442 /* Feedback.swift */; };
 		D29AA4E324D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
 		D29AA4E424D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
 		D29AA4E524D99DEA005CE7F4 /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
@@ -387,6 +390,7 @@
 		D28232AB26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "NSDerivedAttributeDescription+Utils.swift"; path = "Sources/NSDerivedAttributeDescription+Utils.swift"; sourceTree = SOURCE_ROOT; };
 		D28232C22624A15000F37442 /* OnDiskWithProgrammaticallyModelTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnDiskWithProgrammaticallyModelTestCase.swift; sourceTree = "<group>"; };
 		D282330E2624A4FE00F37442 /* NSFetchedPropertyDescription+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFetchedPropertyDescription+Utils.swift"; sourceTree = "<group>"; };
+		D282331E26257A7400F37442 /* Feedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feedback.swift; sourceTree = "<group>"; };
 		D2B7E1542448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSPersistentStoreCoordinatorUtilsTests.swift; sourceTree = "<group>"; };
 		D2C5CE35244762FA00AD19D8 /* NSSetCoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSSetCoreDataTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -684,6 +688,7 @@
 				D282326826244D3A00F37442 /* Author.swift */,
 				D282327E2624569400F37442 /* Book.swift */,
 				D28232942624754700F37442 /* Page.swift */,
+				D282331E26257A7400F37442 /* Feedback.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1184,6 +1189,7 @@
 				234DA7AB214A5D2B00D5C24F /* Maker.swift in Sources */,
 				23A8A44D1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift in Sources */,
 				23D1056B20D7EFEF00AE84CC /* FetchedResultsChangesTests.swift in Sources */,
+				D282331F26257A7400F37442 /* Feedback.swift in Sources */,
 				D20F4C012621F3B400F0CB25 /* SampleModel2.swift in Sources */,
 				2341306A1F95FF90002BE7FC /* NSManagedObjectContextUtilsTests.swift in Sources */,
 				23C3B2B61FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift in Sources */,
@@ -1231,6 +1237,7 @@
 				234DA7AC214A5D2B00D5C24F /* Maker.swift in Sources */,
 				23A8A44E1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift in Sources */,
 				23D1056C20D7EFEF00AE84CC /* FetchedResultsChangesTests.swift in Sources */,
+				D282332026257A7400F37442 /* Feedback.swift in Sources */,
 				D20F4C0B2621F3B400F0CB25 /* SampleModel2.swift in Sources */,
 				234130711F95FF91002BE7FC /* NSManagedObjectContextUtilsTests.swift in Sources */,
 				23C3B2B71FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift in Sources */,
@@ -1278,6 +1285,7 @@
 				234DA7AD214A5D2B00D5C24F /* Maker.swift in Sources */,
 				23A8A44F1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift in Sources */,
 				23D1056D20D7EFEF00AE84CC /* FetchedResultsChangesTests.swift in Sources */,
+				D282332126257A7400F37442 /* Feedback.swift in Sources */,
 				D20F4C152621F3B500F0CB25 /* SampleModel2.swift in Sources */,
 				234130781F95FF91002BE7FC /* NSManagedObjectContextUtilsTests.swift in Sources */,
 				23C3B2B81FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift in Sources */,

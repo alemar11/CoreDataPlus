@@ -15,7 +15,6 @@ extension NSManagedObjectContext {
     //book1.price = Decimal(10.11)
     book1.price = NSDecimalNumber(10.11)
     book1.publishedAt = Date()
-    book1.rating = 3.2
     book1.title = "title 1 - author 1"
     book1.uniqueID = UUID()
 
@@ -32,7 +31,6 @@ extension NSManagedObjectContext {
     //book2.price = Decimal(3.3333333333)
     book2.price = NSDecimalNumber(3.3333333333)
     book2.publishedAt = Date()
-    book2.rating = 5
     book2.title = "title 2 - author 1"
     book2.uniqueID = UUID()
 
@@ -47,11 +45,9 @@ extension NSManagedObjectContext {
     }
     book2.addToPages(book2Pages)
 
-    // TODO: add graphic novel
     let graphicNovel1 = GraphicNovel(context: self)
     graphicNovel1.price = NSDecimalNumber(3.3333333333)
     graphicNovel1.publishedAt = Date()
-    graphicNovel1.rating = 5
     graphicNovel1.title = "title graphic novel - author 1"
     graphicNovel1.uniqueID = UUID()
     graphicNovel1.isBlackAndWhite = true
@@ -75,6 +71,22 @@ extension NSManagedObjectContext {
     author1Books.add(graphicNovel1)
     author1.books = author1Books
 
-    // author2 books
+    let feedbackBook1 = Feedback(context: self)
+    feedbackBook1.bookID = book1.uniqueID
+    feedbackBook1.rating = 4.2
+    feedbackBook1.comment = "great book"
+    feedbackBook1.authorAlias = author1.alias
+
+    let feedbackBook2 = Feedback(context: self)
+    feedbackBook2.bookID = book2.uniqueID
+    feedbackBook2.rating = 3.5
+    feedbackBook2.comment = "interesting book"
+    feedbackBook2.authorAlias = author1.alias
+
+    let feedbackGrapthicNovel1 = Feedback(context: self)
+    feedbackGrapthicNovel1.bookID = graphicNovel1.uniqueID
+    feedbackGrapthicNovel1.rating = 4.3
+    feedbackGrapthicNovel1.comment = "great novel"
+    feedbackGrapthicNovel1.authorAlias = author1.alias
   }
 }

@@ -5,29 +5,45 @@ import XCTest
 
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 final class ModelBuilderTests: OnDiskWithProgrammaticallyModelTestCase {
-  func test_1() throws {
+  func testSetup() throws {
     let context = container.viewContext
-    //SampleModel2.fillWithSampleData(context: context)
     context.fillWithSampleData2()
-    do {
-      try context.save()
-      context.reset()
-//      let pages = try Page.fetch(in: context)
-//      pages.forEach { (p) in
-//        print(p.content)
-//      }
-      let books = try Book.fetch(in: context)
-      books.forEach { (b) in
-        print(b.pagesCount)
-      }
-    } catch {
-      print(error)
-      //      let e = error as NSError
-      //      //print(e.userInfo)
-      //      //print(e.debugDescription)
-      //      print(e.localizedDescription)
-      //      //XCTFail("yo")
-    }
+    try context.save()
+    context.reset()
+
+    let books = try Book.fetch(in: context)
+    XCTAssertEqual(books.count, 3)
+
+    let authors = try Author.fetch(in: context)
+    XCTAssertEqual(authors.count, 1)
+
+    let fetchedAuthor = try Author.fetch(in: context) { $0.predicate = NSPredicate(format: "%K == %@", #keyPath(Author.alias), "Alessandro") }.first
+
+    let author = try XCTUnwrap(fetchedAuthor)
+    let feedbacks = try XCTUnwrap(author.feedbacks)
+    XCTAssertEqual(feedbacks.map({ $0.rating }), [3.5, 4.2, 4.3])
+
+    XCTAssertEqual(author.favFeedbacks?.count, 2)
+  }
+
+  func testTweakFetchedPropertyAtRuntime() throws {
+    let context = container.viewContext
+    context.fillWithSampleData2()
+    try context.save()
+    context.reset()
+
+    let fetchedAuthor = try Author.fetch(in: context) { $0.predicate = NSPredicate(format: "%K == %@", #keyPath(Author.alias), "Alessandro") }.first
+
+    let author = try XCTUnwrap(fetchedAuthor)
+    XCTAssertEqual(author.favFeedbacks?.count, 2)
+
+    let fetchedProperties = Author.entity().properties.compactMap { $0 as? NSFetchedPropertyDescription }
+    let favFeedbacksFetchedProperty = try XCTUnwrap(fetchedProperties.filter ({ $0.name == Author.FetchedProperty.favFeedbacks }).first)
+
+    // During the creation of the model, an key 'search' with value 'great' has been added to the fetched property
+    // If we change its value at runtime, the result will reflect that.
+    favFeedbacksFetchedProperty.userInfo?["search"] = "interesting"
+    XCTAssertEqual(author.favFeedbacks?.count, 1)
   }
 }
 

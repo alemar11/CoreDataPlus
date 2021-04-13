@@ -5,6 +5,7 @@ import CoreData
 extension NSFetchRequestResult where Self: NSManagedObject {
   /// The entity name.
   public static var entityName: String {
+    // If the the NSManagedObjectModel is not yet loaded, fallback to the String implementation.
     if let name = entity().name {
       return name
     }
@@ -22,6 +23,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
   /// Creates a `new` NSFetchRequest for `self`.
   /// - Note: Use this method instead of fetchRequest() to avoid a bug in CoreData occurring in the Unit Test targets or when Generics are used.
+  /// - Warning: This fetch request is created with a string name (`entityName`), and cannot respond to -entity until used by an NSManagedObjectContex.
   public static func newFetchRequest() -> NSFetchRequest<Self> {
     let fetchRequest = NSFetchRequest<Self>(entityName: entityName)
     return fetchRequest
