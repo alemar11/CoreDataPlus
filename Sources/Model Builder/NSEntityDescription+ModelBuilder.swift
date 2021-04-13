@@ -3,10 +3,12 @@
 import CoreData
 
 extension NSEntityDescription {
-  public convenience init<T: NSManagedObject>(_ aClass: T.Type) {
+  #warning("Check this implementation")
+  public convenience init<T: NSManagedObject>(_ aClass: T.Type, withName name: String? = .none) {
     self.init()
-    self.managedObjectClassName = NSStringFromClass(aClass) as String
-    self.name = String(describing: T.self)
+    self.managedObjectClassName = String(describing: aClass.self)
+    // unless specified otherwise the table name is equal to the class name
+    self.name = (name == nil) ? String(describing: T.self) : name
     self.isAbstract = false
     self.subentities = []
   }

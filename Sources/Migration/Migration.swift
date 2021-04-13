@@ -27,6 +27,9 @@ public enum Migration {
   ///   - enableWALCheckpoint: if `true` Core Data will perform a checkpoint operation which merges the data in the `-wal` file to the store file.
   ///   - progress: a Progress instance to monitor the migration.
   /// - Throws: It throws an error in cases of failure.
+  ///
+  /// During migration, Core Data creates two stacks, one for the source store and one for the destination store.
+  /// Core Data then fetches objects from the source stack and inserts the appropriate corresponding objects into the destination stack. Note that Core Data must re-create objects in the new stack.
   public static func migrateStore<Version: ModelVersion>(at sourceURL: URL, targetVersion: Version, enableWALCheckpoint: Bool = false, progress: Progress? = nil) throws {
     try migrateStore(from: sourceURL, to: sourceURL, targetVersion: targetVersion, deleteSource: false, enableWALCheckpoint: enableWALCheckpoint, progress: progress)
   }
@@ -41,6 +44,9 @@ public enum Migration {
   ///   - enableWALCheckpoint: if `true` Core Data will perform a checkpoint operation which merges the data in the -wal file to the store file.
   ///   - progress: a Progress instance to monitor the migration.
   /// - Throws: It throws an error in cases of failure.
+  ///
+  /// During migration, Core Data creates two stacks, one for the source store and one for the destination store.
+  /// Core Data then fetches objects from the source stack and inserts the appropriate corresponding objects into the destination stack. Note that Core Data must re-create objects in the new stack.
   public static func migrateStore<Version: ModelVersion>(from sourceURL: URL,
                                                          to targetURL: URL,
                                                          targetVersion: Version,

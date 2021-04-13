@@ -36,7 +36,6 @@ final class OnDiskWithProgrammaticallyModelPersistentContainer: NSPersistentCont
 
   static func makeNew(id: UUID) -> OnDiskWithProgrammaticallyModelPersistentContainer {
     let url = URL.newDatabaseURL(withID: id)
-    print(url)
     let container = OnDiskWithProgrammaticallyModelPersistentContainer(name: "SampleModel2",
                                                                        managedObjectModel: V1.makeManagedObjectModel())
     let description = NSPersistentStoreDescription()

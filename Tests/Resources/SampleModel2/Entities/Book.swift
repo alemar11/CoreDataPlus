@@ -68,16 +68,19 @@ public class GraphicNovel: SampleModel2.V1.Book {
 // Book:
 // - cover has been ranamed frontCover
 
-extension V2 {
-  @objc(Book)
-  public class Book: NSManagedObject {
+  @objc(BookV2)
+  public class BookV2: NSManagedObject {
     @NSManaged public var uniqueID: UUID // unique
     @NSManaged public var title: String
     @NSManaged public var price: NSDecimalNumber
     @NSManaged public var frontCover: Cover
     @NSManaged public var publishedAt: Date
-    @NSManaged public var author: Author
+    @NSManaged public var author: AuthorV2
     @NSManaged public var pages: NSSet // of Pages
     @NSManaged public var pagesCount: Int
   }
+
+@objc(GraphicNovelV2)
+public class GraphicNovelV2: BookV2 {
+  @NSManaged public var isBlackAndWhite: Bool
 }

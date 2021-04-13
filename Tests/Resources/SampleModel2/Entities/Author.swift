@@ -40,20 +40,19 @@ extension V1.Author {
 // Author:
 // - siteURL is removed
 
-extension V2 {
-  @objc(Writer)
-  public class Writer: NSManagedObject {
-    @NSManaged public var age: Int16
-  }
 
-  @objc(Author)
-  public class Author: Writer {
-    @NSManaged public var alias: String // unique
-    @NSManaged public var books: NSSet // of Books
-  }
+@objc(WriterV2)
+public class WriterV2: NSManagedObject {
+  @NSManaged public var age: Int16
 }
 
-extension V2.Author {
+@objc(AuthorV2)
+public class AuthorV2: WriterV2 {
+  @NSManaged public var alias: String // unique
+  @NSManaged public var books: NSSet // of Books
+}
+
+extension AuthorV2 {
   public enum FetchedProperty {
     static let feedbacks = "feedbacks"
     static let favFeedbacks = "favFeedbacks"

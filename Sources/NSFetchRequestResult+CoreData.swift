@@ -9,6 +9,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     if let name = entity().name {
       return name
     }
+    #warning("the fallback implementation is not 100% correct, I can have an entity with a name != from the class name, it's probably better to add a fatalError.")
     // Attention: sometimes entity() returns nil due to a CoreData bug occurring in the Unit Test targets or when Generics are used.
     // The bug seems fixed on Xcode 12 but having a fallback option never hurts.
     // https://forums.developer.apple.com/message/203409#203409
@@ -25,6 +26,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Note: Use this method instead of fetchRequest() to avoid a bug in CoreData occurring in the Unit Test targets or when Generics are used.
   /// - Warning: This fetch request is created with a string name (`entityName`), and cannot respond to -entity until used by an NSManagedObjectContex.
   public static func newFetchRequest() -> NSFetchRequest<Self> {
+    #warning("check if this implementation should be kept or removed since entityName is not 100% safe.")
     let fetchRequest = NSFetchRequest<Self>(entityName: entityName)
     return fetchRequest
   }
