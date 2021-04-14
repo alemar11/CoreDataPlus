@@ -77,9 +77,10 @@ public enum Migration {
     if let progress = progress {
       migrationProgress = Progress(totalUnitCount: Int64(steps.count), parent: progress, pendingUnitCount: progress.totalUnitCount)
     }
-    
+
     for step in steps {
       try autoreleasepool {
+        #warning("TODO: review the progress object")
         migrationProgress?.becomeCurrent(withPendingUnitCount: 1)
         let manager = NSMigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
         migrationProgress?.resignCurrent()
@@ -89,11 +90,11 @@ public enum Migration {
         for mapping in step.mappings {
           try manager.migrateStore(from: currentURL,
                                    sourceType: NSSQLiteStoreType,
-                                   options: nil,
+                                   options: step.sourceOptions,
                                    with: mapping,
                                    toDestinationURL: destinationURL,
                                    destinationType: NSSQLiteStoreType,
-                                   destinationOptions: nil)
+                                   destinationOptions: step.destinationOptions)
         }
         
         if currentURL != sourceURL {
@@ -102,7 +103,7 @@ public enum Migration {
         currentURL = destinationURL
       }
     }
-    
+        
     try NSPersistentStoreCoordinator.replaceStore(at: targetURL, withStoreAt: currentURL)
     
     if currentURL != sourceURL {
@@ -129,9 +130,20 @@ public enum Migration {
   
   /// Forces Core Data to perform a checkpoint operation, which merges the data in the `-wal` file to the store file.
   private static func performWALCheckpointForStore(at storeURL: URL, model: NSManagedObjectModel) throws {
+    #warning("Test this impl with options and multiple configurations")
+    // TODO: see https://williamboles.me/progressive-core-data-migration/
     let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
     let options = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]]
     let store = try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
     try persistentStoreCoordinator.remove(store)
   }
 }
+
+/// About moving stores disabling the WAL journaling mode
+/// https://developer.apple.com/library/archive/qa/qa1809/_index.html
+/// https://www.avanderlee.com/swift/write-ahead-logging-wal/
+///
+/// ```
+/// let options = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]] // the migration will be done without -wal and -shm files
+/// try! psc!.migratePersistentStore(store, to: url, options: options, withType: NSSQLiteStoreType)
+/// ```

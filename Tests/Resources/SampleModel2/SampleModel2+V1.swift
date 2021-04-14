@@ -91,7 +91,7 @@ extension SampleModel2.V1 {
 
     writer.subentities = [author]
     book.subentities = [graphicNovel]
-
+    
     managedObjectModel.entities = [writer, author, book, graphicNovel, page, feedback]
     return managedObjectModel
   }

@@ -109,53 +109,43 @@ final class ProgrammaticMigrationTests: XCTestCase {
 //      XCTAssertTrue(mappingProperties.removedProperties.isEmpty)
 //    }
 //  }
-
-  func testMigration() throws {
+  
+  func testMigrationFromV1ToV2() throws {
     #warning("This fails unless the model is loaded")
     //XCTAssertEqual(AuthorV2.entity().name, AuthorV2.entityName)
 
-    //let url = URL.newDatabaseURL(withName: "dummy")
     let url = URL.newDatabaseURL(withID: UUID())
-
+    
+    let options = [
+      //NSMigratePersistentStoresAutomaticallyOption: true,
+      //NSInferMappingModelAutomaticallyOption: false,
+      NSPersistentHistoryTrackingKey: true,
+      NSPersistentHistoryTokenKey: true
+      //NSReadOnlyPersistentStoreOption: true
+    ]
+    
     let oldManagedObjectModel = V1.makeManagedObjectModel()
     var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: oldManagedObjectModel)
-
-    try coordinator!.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: nil)
-
+    
+    try coordinator!.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: SampleModel2.SampleModel2Version.version1.options)
+    
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     context.persistentStoreCoordinator = coordinator
     context.fillWithSampleData2()
     try context.save()
     coordinator = nil
-
-//          let person = NSEntityDescription.insertNewObjectForEntityForName("Person",
-//              inManagedObjectContext: managedObjectContext)
-//          person.setValue("John", forKey: "firstname")
-//          person.setValue("Smith", forKey: "lastname")
-//          person.setValue(0, forKey: "type")
-//
-//          let person2 = NSEntityDescription.insertNewObjectForEntityForName("Person",
-//              inManagedObjectContext: managedObjectContext)
-//          person2.setValue("Lily", forKey: "firstname")
-//          person2.setValue("Brown", forKey: "lastname")
-//          person2.setValue(1, forKey: "type")
-//          try! managedObjectContext.save()
-//
-//          //
-//          // Migration
-//          //
+    
+    // Migration
     try CoreDataPlus.Migration.migrateStore(at: url, targetVersion: SampleModel2.SampleModel2Version.version2)
-
-          //
-          // Validation
-          //
+    
+    // Validation
     let newManagedObjectModel = V2.makeManagedObjectModel()
-    let newOoordinator = NSPersistentStoreCoordinator(managedObjectModel: newManagedObjectModel)
-    try newOoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: nil)
-
+    let newCoordinator = NSPersistentStoreCoordinator(managedObjectModel: newManagedObjectModel)
+    try newCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: options)
+    
     let newContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-    newContext.persistentStoreCoordinator = newOoordinator
-
+    newContext.persistentStoreCoordinator = newCoordinator
+    
     let _authors = try AuthorV2.fetch(in: newContext)
     XCTAssertEqual(AuthorV2.entity().name, AuthorV2.entityName)
     let authorRequest = NSFetchRequest<NSManagedObject>(entityName: "Author") as! NSFetchRequest<AuthorV2>
@@ -163,26 +153,30 @@ final class ProgrammaticMigrationTests: XCTestCase {
     XCTAssertEqual(authors.count, 2)
     authors.forEach { object in
       object.materialize()
-      print(object)
+      object.alias += "-"
+      //print(object)
       //XCTAssertNil(object.value(forKey: #keyPath(V1.Author.siteURL)))
     }
-
+    
     let bookRequest = NSFetchRequest<NSManagedObject>(entityName: "Book")
     let books = try newContext.fetch(bookRequest)
     XCTAssertEqual(books.count, 52)
     books.forEach { object in
       object.materialize()
-      print(object)
+      //print(object)
       XCTAssertNotNil(object.value(forKey: #keyPath(BookV2.frontCover)))
     }
-
+    
     //print(authors.first?.age)
-//    let personRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "Person")
-//          XCTAssertEqual(try! newManagedObjectContext.executeFetchRequest(personRequest).count, 2)
-//    let teacherRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "Teacher")
-//          XCTAssertEqual(try! newManagedObjectContext.executeFetchRequest(teacherRequest).count, 1)
-
-      }
+    //    let personRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "Person")
+    //          XCTAssertEqual(try! newManagedObjectContext.executeFetchRequest(personRequest).count, 2)
+    //    let teacherRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "Teacher")
+    //          XCTAssertEqual(try! newManagedObjectContext.executeFetchRequest(teacherRequest).count, 1)
+    
+    try! newContext.save()
+    newContext._fix_sqlite_warning_when_destroying_a_store()
+    //try FileManager.default.removeItem(at: url)
+  }
 
 
 //    func testMigrationFromV1toV2() throws {
@@ -226,3 +220,11 @@ extension NSEntityMapping {
     return Properties(userInfo: info)
   }
 }
+/*
+https://developer.apple.com/forums/thread/118924
+That error is because you also removed the history tracking option. Which you shouldn't do after you've enabled it.
+You can disable CloudKit sync simply by setting the cloudKitContainer options property on your store description to nil.
+However, you should leave history tracking on so that NSPersitentCloudKitContainer can catch up if you turn it on again.
+ 
+ NSPersistentStoreRemoteChangeNotificationPostOptionKey
+*/

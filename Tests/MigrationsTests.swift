@@ -225,6 +225,7 @@ final class MigrationsTests: BaseTestCase {
     var completionSteps = 0
     var completion = 0.0
     let token = progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
+      print(progress.fractionCompleted)
       completion = progress.fractionCompleted
       completionSteps += 1
     }

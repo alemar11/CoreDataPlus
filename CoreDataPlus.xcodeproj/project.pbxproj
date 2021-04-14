@@ -49,6 +49,9 @@
 		06A6CE26261E0966000563F0 /* SampleModelV1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 06A6CE25261E0961000563F0 /* SampleModelV1.sqlite */; };
 		06A6CE30261E0966000563F0 /* SampleModelV1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 06A6CE25261E0961000563F0 /* SampleModelV1.sqlite */; };
 		06A6CE3A261E0966000563F0 /* SampleModelV1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 06A6CE25261E0961000563F0 /* SampleModelV1.sqlite */; };
+		06B5237B2626F935006B984F /* SampleModel2V1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 06B5237A2626F935006B984F /* SampleModel2V1.sqlite */; };
+		06B5237C2626F935006B984F /* SampleModel2V1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 06B5237A2626F935006B984F /* SampleModel2V1.sqlite */; };
+		06B5237D2626F935006B984F /* SampleModel2V1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 06B5237A2626F935006B984F /* SampleModel2V1.sqlite */; };
 		230C087C21417E1900A1B6CB /* MigrationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230C087B21417E1900A1B6CB /* MigrationsTests.swift */; };
 		230C087D21417E1900A1B6CB /* MigrationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230C087B21417E1900A1B6CB /* MigrationsTests.swift */; };
 		230C087E21417E1900A1B6CB /* MigrationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230C087B21417E1900A1B6CB /* MigrationsTests.swift */; };
@@ -325,6 +328,7 @@
 		06A6CD9F261DE0E7000563F0 /* Transformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transformer.swift; sourceTree = "<group>"; };
 		06A6CDC6261DFC8F000563F0 /* TransformerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformerTests.swift; sourceTree = "<group>"; };
 		06A6CE25261E0961000563F0 /* SampleModelV1.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleModelV1.sqlite; sourceTree = "<group>"; };
+		06B5237A2626F935006B984F /* SampleModel2V1.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleModel2V1.sqlite; sourceTree = "<group>"; };
 		230C087A214179D400A1B6CB /* SampleModel2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel2.xcdatamodel; sourceTree = "<group>"; };
 		230C087B21417E1900A1B6CB /* MigrationsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationsTests.swift; sourceTree = "<group>"; };
 		231C313E22F5E3BB00BF7129 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
@@ -488,6 +492,14 @@
 				06A3C1D4239FD3E900E08D45 /* CoreDataPlus tvOS.xctestplan */,
 			);
 			path = TestPlans;
+			sourceTree = "<group>";
+		};
+		06B5232D2626D0F9006B984F /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				06B5237A2626F935006B984F /* SampleModel2V1.sqlite */,
+			);
+			path = Fixtures;
 			sourceTree = "<group>";
 		};
 		2325898122F34FDD00E39FEA /* Utils */ = {
@@ -666,6 +678,7 @@
 		D20F4BC52621F39600F0CB25 /* SampleModel2 */ = {
 			isa = PBXGroup;
 			children = (
+				06B5232D2626D0F9006B984F /* Fixtures */,
 				D282326726244D2D00F37442 /* Entities */,
 				D282325A26244AE200F37442 /* NSManagedObjectContext+SampleModel2.swift */,
 				D20F4BC62621F3B000F0CB25 /* SampleModel2.swift */,
@@ -994,6 +1007,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06B5237B2626F935006B984F /* SampleModel2V1.sqlite in Resources */,
 				06A6CE26261E0966000563F0 /* SampleModelV1.sqlite in Resources */,
 				D27A2E36255F29D20043B43F /* SampleModelV2.sqlite in Resources */,
 			);
@@ -1003,6 +1017,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06B5237C2626F935006B984F /* SampleModel2V1.sqlite in Resources */,
 				06A6CE30261E0966000563F0 /* SampleModelV1.sqlite in Resources */,
 				D27A2E37255F29D20043B43F /* SampleModelV2.sqlite in Resources */,
 			);
@@ -1012,6 +1027,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06B5237D2626F935006B984F /* SampleModel2V1.sqlite in Resources */,
 				06A6CE3A261E0966000563F0 /* SampleModelV1.sqlite in Resources */,
 				D27A2E38255F29D20043B43F /* SampleModelV2.sqlite in Resources */,
 			);

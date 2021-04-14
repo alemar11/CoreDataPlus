@@ -81,7 +81,9 @@ extension V2 {
     writer.subentities = [author]
     book.subentities = [graphicNovel]
 
-    managedObjectModel.entities = [writer, author, book, graphicNovel, page, feedback]
+    let entities = [writer, author, book, graphicNovel, page, feedback]
+    managedObjectModel.entities = entities
+    managedObjectModel.setEntities(entities, forConfigurationName: "SampleConfiguration")
     return managedObjectModel
   }
 
