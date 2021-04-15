@@ -124,10 +124,17 @@ final class _ProgrammaticMigrationTests: XCTestCase {
       //NSReadOnlyPersistentStoreOption: true
     ]
     
+    let description = NSPersistentStoreDescription(url: url)
+    description.configuration = nil
+    description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+    description.setOption(true as NSNumber, forKey: NSPersistentHistoryTokenKey)
+    
     let oldManagedObjectModel = V1.makeManagedObjectModel()
     var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: oldManagedObjectModel)
-    
-    try coordinator!.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: SampleModel2.SampleModel2Version.version1.options)
+    coordinator!.addPersistentStore(with: description) { (description, error) in
+      XCTAssertNil(error)
+    }
+    //try coordinator!.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: SampleModel2.SampleModel2Version.version1.options)
     
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     context.persistentStoreCoordinator = coordinator
