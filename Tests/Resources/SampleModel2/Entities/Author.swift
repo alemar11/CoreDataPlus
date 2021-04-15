@@ -61,12 +61,12 @@ extension AuthorV2 {
   // Xcode doesn't generate the accessor for fetched properties (if you are using Xcode code gen).
 
   // feedbacks ordered by rating ASC
-  public var feedbacks: [V1.Feedback]? { // it should probably be a NSArray to avoid prefetching all the objects
-    return value(forKey: FetchedProperty.feedbacks) as? [V1.Feedback]
+  public var feedbacks: [FeedbackV2]? { // it should probably be a NSArray to avoid prefetching all the objects
+    return value(forKey: FetchedProperty.feedbacks) as? [FeedbackV2]
   }
 
   // feedbacks with the "great" word in their comments
-  public var favFeedbacks: [V1.Feedback]? {
-    return value(forKey: FetchedProperty.favFeedbacks) as? [V1.Feedback]
+  public var favFeedbacks: [FeedbackV2]? {
+    return value(forKey: FetchedProperty.favFeedbacks) as? [FeedbackV2]
   }
 }

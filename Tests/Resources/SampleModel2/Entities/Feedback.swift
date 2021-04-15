@@ -12,6 +12,7 @@ extension V1 {
   }
 }
 
+@objc(FeedbackV2)
 public class FeedbackV2: NSManagedObject {
   @NSManaged public var bookID: UUID
   @NSManaged public var authorAlias: String
