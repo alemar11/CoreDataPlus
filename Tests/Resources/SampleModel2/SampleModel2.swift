@@ -42,7 +42,7 @@ extension SampleModel2.SampleModel2Version: ModelVersion {
     var options = [
       NSMigratePersistentStoresAutomaticallyOption: true,
       NSInferMappingModelAutomaticallyOption: false,
-      NSPersistentHistoryTrackingKey: false,
+      NSPersistentHistoryTrackingKey: true,
       NSPersistentHistoryTokenKey: true
     ]
     

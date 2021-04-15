@@ -4,6 +4,9 @@ import CoreData
 @testable import CoreDataPlus
 
 extension SampleModel2.V1 {
+  enum Configurations {
+    static let one = "SampleConfigurationV1"
+  }
   @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   static func makeManagedObjectModel() -> NSManagedObjectModel {
     let managedObjectModel = NSManagedObjectModel()
@@ -92,7 +95,9 @@ extension SampleModel2.V1 {
     writer.subentities = [author]
     book.subentities = [graphicNovel]
     
-    managedObjectModel.entities = [writer, author, book, graphicNovel, page, feedback]
+    let entities = [writer, author, book, graphicNovel, page, feedback]
+    managedObjectModel.entities = entities
+    managedObjectModel.setEntities(entities, forConfigurationName: Configurations.one)
     return managedObjectModel
   }
 

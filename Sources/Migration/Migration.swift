@@ -87,7 +87,7 @@ public enum Migration {
         
         let destinationURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString)
         
-        for mapping in step.mappings {
+        for mapping in step.mappings {          
           try manager.migrateStore(from: currentURL,
                                    sourceType: NSSQLiteStoreType,
                                    options: step.sourceOptions,
