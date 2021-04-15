@@ -375,3 +375,4 @@ extension NSEntityMapping {
 // TODO: use NSPersistentStoreDescription
 // Check fetched properties after migration
 // TODO: affectedStores as param in all the fetch methods
+// coordinator import method
