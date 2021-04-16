@@ -2,6 +2,7 @@
 
 import CoreData
 
+#warning("remove this method because it's missleading")
 extension NSFetchRequestResult where Self: NSManagedObject {
   /// Performs the given block in the right thread for the `NSManagedObject`'s managedObjectContext.
   ///
@@ -10,7 +11,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Throws: It throws an error in cases of failure.
   public func safeAccess<T>(_ block: (Self) throws -> T) rethrows -> T {
     guard let context = managedObjectContext else { fatalError("\(self) doesn't have a managedObjectContext.") }
-
+    
     return try context.performAndWaitResult { _ -> T in
       return try block(self)
     }
