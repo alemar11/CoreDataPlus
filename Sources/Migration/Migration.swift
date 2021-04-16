@@ -30,8 +30,19 @@ public enum Migration {
   ///
   /// During migration, Core Data creates two stacks, one for the source store and one for the destination store.
   /// Core Data then fetches objects from the source stack and inserts the appropriate corresponding objects into the destination stack. Note that Core Data must re-create objects in the new stack.
-  public static func migrateStore<Version: ModelVersion>(at sourceURL: URL, targetVersion: Version, enableWALCheckpoint: Bool = false, progress: Progress? = nil) throws {
-    try migrateStore(from: sourceURL, to: sourceURL, targetVersion: targetVersion, deleteSource: false, enableWALCheckpoint: enableWALCheckpoint, progress: progress)
+  public static func migrateStore<Version: ModelVersion>(at sourceURL: URL,
+                                                         options: [AnyHashable: Any]? = nil,
+                                                         targetVersion: Version,
+                                                         enableWALCheckpoint: Bool = false,
+                                                         progress: Progress? = nil) throws {
+    try migrateStore(from: sourceURL,
+                     sourceOptions: options,
+                     to: sourceURL,
+                     targetOptions: options,
+                     targetVersion: targetVersion,
+                     deleteSource: false,
+                     enableWALCheckpoint: enableWALCheckpoint,
+                     progress: progress)
   }
   
   /// Migrates a store to a given version if needed.
@@ -48,7 +59,9 @@ public enum Migration {
   /// During migration, Core Data creates two stacks, one for the source store and one for the destination store.
   /// Core Data then fetches objects from the source stack and inserts the appropriate corresponding objects into the destination stack. Note that Core Data must re-create objects in the new stack.
   public static func migrateStore<Version: ModelVersion>(from sourceURL: URL,
+                                                         sourceOptions: [AnyHashable: Any]? = nil,
                                                          to targetURL: URL,
+                                                         targetOptions: [AnyHashable: Any]? = nil,
                                                          targetVersion: Version,
                                                          deleteSource: Bool = false,
                                                          enableWALCheckpoint: Bool = false,
@@ -94,11 +107,11 @@ public enum Migration {
           // migrations fails if the targetURL points to an already existing file
           try manager.migrateStore(from: currentURL,
                                    sourceType: NSSQLiteStoreType,
-                                   options: step.sourceOptions,
+                                   options: sourceOptions,
                                    with: mapping,
                                    toDestinationURL: temporaryURL,
                                    destinationType: NSSQLiteStoreType,
-                                   destinationOptions: step.destinationOptions)
+                                   destinationOptions: targetOptions)
         }
         
         // once the migration is done (and the store is migrated to temporaryURL)
@@ -157,3 +170,33 @@ public enum Migration {
 /// let options = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]] // the migration will be done without -wal and -shm files
 /// try! psc!.migratePersistentStore(store, to: url, options: options, withType: NSSQLiteStoreType)
 /// ```
+
+extension Migration {
+  static func migrateStore<Version: ModelVersion>(from sourceStoreDescription: NSPersistentStoreDescription,
+                                                  to destinationStoreDescription: NSPersistentStoreDescription,
+                                                  targetVersion: Version,
+                                                  deleteSource: Bool = false,
+                                                  enableWALCheckpoint: Bool = false,
+                                                  progress: Progress? = nil) throws {
+    
+    guard let sourceURL = sourceStoreDescription.url else { fatalError("Source NSPersistentStoreDescription requires a URL.") }
+    guard let destinationURL = destinationStoreDescription.url else { fatalError("Destination NSPersistentStoreDescription requires a URL.") }
+    
+    try Self.migrateStore(from: sourceURL,
+                          sourceOptions: sourceStoreDescription.options,
+                          to: destinationURL,
+                          targetOptions: destinationStoreDescription.options,
+                          targetVersion: targetVersion,
+                          deleteSource: deleteSource,
+                          enableWALCheckpoint: enableWALCheckpoint,
+                          progress: progress)
+  }
+}
+
+/**
+ 
+ - a version can have multiple stores
+ - we need to do multiple migrations (1 per store)
+ 
+ 
+ */

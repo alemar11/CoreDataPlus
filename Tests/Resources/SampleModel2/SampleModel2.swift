@@ -37,25 +37,6 @@ extension SampleModel2.SampleModel2Version: ModelVersion {
   public var versionName: String { return rawValue }
 
   public var modelBundle: Bundle { Bundle.tests }
-  
-  public var options: [AnyHashable : Any]? {
-    var options = [
-      NSMigratePersistentStoresAutomaticallyOption: true,
-      NSInferMappingModelAutomaticallyOption: false,
-      NSPersistentHistoryTrackingKey: true,
-      NSPersistentHistoryTokenKey: true
-    ]
-    
-    switch self {
-    case .version1, .version3:
-      return options
-    case .version2:
-      options[NSPersistentHistoryTrackingKey] = true //❌ you can't change this value once set to true
-      options[NSPersistentHistoryTokenKey] = true
-      options[NSReadOnlyPersistentStoreOption] = false
-    }
-    return options
-  }
 
   public func managedObjectModel() -> NSManagedObjectModel {
     switch self {

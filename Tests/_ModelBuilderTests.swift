@@ -115,13 +115,12 @@ final class _ProgrammaticMigrationTests: XCTestCase {
     //XCTAssertEqual(AuthorV2.entity().name, AuthorV2.entityName)
     
     let url = URL.newDatabaseURL(withID: UUID())
-    
+
     let options = [
-      //NSMigratePersistentStoresAutomaticallyOption: true,
-      //NSInferMappingModelAutomaticallyOption: false,
-      NSPersistentHistoryTrackingKey: true,
+      NSMigratePersistentStoresAutomaticallyOption: true,
+      NSInferMappingModelAutomaticallyOption: false,
+      NSPersistentHistoryTrackingKey: true, // cann't be changed once set to true
       NSPersistentHistoryTokenKey: true
-      //NSReadOnlyPersistentStoreOption: true
     ]
     
     let description = NSPersistentStoreDescription(url: url)
@@ -148,7 +147,9 @@ final class _ProgrammaticMigrationTests: XCTestCase {
     // Migration
     //try CoreDataPlus.Migration.migrateStore(at: url, targetVersion: SampleModel2.SampleModel2Version.version2, enableWALCheckpoint: true)
     try CoreDataPlus.Migration.migrateStore(from: url,
+                                            sourceOptions: options,
                                             to: url,
+                                            targetOptions: options,
                                             targetVersion: SampleModel2.SampleModel2Version.version2,
                                             deleteSource: false,
                                             enableWALCheckpoint: true,
@@ -225,23 +226,21 @@ final class _ProgrammaticMigrationTests: XCTestCase {
     #warning("This fails unless the model is loaded")
     //XCTAssertEqual(AuthorV2.entity().name, AuthorV2.entityName)
     
+    let options = [
+      NSMigratePersistentStoresAutomaticallyOption: true,
+      NSInferMappingModelAutomaticallyOption: false,
+      NSPersistentHistoryTrackingKey: true, // cann't be changed once set to true
+      NSPersistentHistoryTokenKey: true
+    ]
+    
     let cachesURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
-    let testsURL = cachesURL.appendingPathComponent(bundleIdentifier)
     let id = UUID()
     let url = URL.newDatabaseURL(withID: id)
-    
-    let options = [
-      //NSMigratePersistentStoresAutomaticallyOption: true,
-      //NSInferMappingModelAutomaticallyOption: false,
-      NSPersistentHistoryTrackingKey: true,
-      NSPersistentHistoryTokenKey: true
-      //NSReadOnlyPersistentStoreOption: true
-    ]
     
     let oldManagedObjectModel = V1.makeManagedObjectModel()
     let coordinator = NSPersistentStoreCoordinator(managedObjectModel: oldManagedObjectModel)
     
-    try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: V1.Configurations.one, at: url, options: SampleModel2.SampleModel2Version.version1.options)
+    try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: V1.Configurations.one, at: url, options: options)
     
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     context.persistentStoreCoordinator = coordinator
@@ -253,13 +252,15 @@ final class _ProgrammaticMigrationTests: XCTestCase {
     })
     
     // Migration
-    try CoreDataPlus.Migration.migrateStore(at: url, targetVersion: SampleModel2.SampleModel2Version.version2)
+    try CoreDataPlus.Migration.migrateStore(at: url, options: options, targetVersion: SampleModel2.SampleModel2Version.version2)
     
     // Validation
     
-    // V2 has 2 configurations: "SampleConfigurationV2Part1" and "SampleConfigurationV2Part2"
+    // V2 model has 2 configurations: "SampleConfigurationV2Part1" and "SampleConfigurationV2Part2"
     // "SampleConfigurationV2Part1" has all the entities while "SampleConfigurationV2Part2" has only "Feedback"
-    // We can't copy the migrated db and use it for the second store with configuration "SampleConfigurationV2Part2" (CoreData will throw an exception) so we create an empty db for the second store and we will move records (Feedback) from one db to the other (that is why we need to have both the configurations with the "Feedback" entity on them.
+    // We can't copy the migrated db and use it for the second store with configuration "SampleConfigurationV2Part2" because CoreData will throw an exception;
+    // instead we create an empty db for the second store and we will move records (Feedback) from one db to the other (that is why we need to have both the configurations with the "Feedback" entity on them.
+    // An optional step would be to delete "Feedback" records from the store with configuration "SampleConfigurationV2Part1"
     let urlPart2 = URL.newDatabaseURL(withID: UUID())
     
     let newCoordinator = NSPersistentStoreCoordinator(managedObjectModel: V2.makeManagedObjectModel())

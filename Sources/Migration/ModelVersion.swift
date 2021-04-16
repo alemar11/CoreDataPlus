@@ -52,12 +52,6 @@ public protocol ModelVersion: Equatable, RawRepresentable {
   ///
   /// Model name.
   var modelName: String { get }
-
-  #warning("Review this implementation of options")
-  /// Protocol `ModelVersions`.
-  ///
-  /// A dictionary containing key-value pairs options.
-  var options: [AnyHashable : Any]? { get }
   
   /// Protocol `ModelVersions`.
   ///
@@ -197,9 +191,7 @@ extension ModelVersion {
     }
 
     let step = Migration.Step(source: managedObjectModel(),
-                              sourceOptions: options,
                               destination: nextVersion.managedObjectModel(),
-                              destinationOptions: nextVersion.options,
                               mappings: mappings)
 
     return [step] + nextVersion.migrationSteps(to: version)
