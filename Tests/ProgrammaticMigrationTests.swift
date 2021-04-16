@@ -40,8 +40,10 @@ final class ProgrammaticMigrationTests: XCTestCase {
     }
   }
   
-  func test_1() {
-    //XCTAssertEqual(AuthorV2.entity().name, AuthorV2.entityName)
+  func testEntityName() {
+    XCTAssertNil(V1.Author.entity().name)
+    _ = NSPersistentStoreCoordinator(managedObjectModel: V1.makeManagedObjectModel())
+    XCTAssertNotNil(V1.Author.entity().name)
   }
   
   func testMigrationFromV1ToV2() throws {
@@ -50,7 +52,7 @@ final class ProgrammaticMigrationTests: XCTestCase {
     let options = [
       NSMigratePersistentStoresAutomaticallyOption: true,
       NSInferMappingModelAutomaticallyOption: false,
-      NSPersistentHistoryTrackingKey: true, // cann't be changed once set to true
+      NSPersistentHistoryTrackingKey: true, // ⚠️ cannot be changed once set to true
       NSPersistentHistoryTokenKey: true
     ]
     
@@ -85,8 +87,6 @@ final class ProgrammaticMigrationTests: XCTestCase {
     let newContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     newContext.persistentStoreCoordinator = newCoordinator
     
-    let _authors = try AuthorV2.fetch(in: newContext)
-    XCTAssertEqual(AuthorV2.entity().name, AuthorV2.entityName)
     let authorRequest = NSFetchRequest<NSManagedObject>(entityName: "Author") as! NSFetchRequest<AuthorV2>
     let authors = try newContext.fetch(authorRequest)
     XCTAssertEqual(authors.count, 2)
@@ -112,13 +112,10 @@ final class ProgrammaticMigrationTests: XCTestCase {
   }
   
   func testMigrationFromV1ToV2WithMultipleStores() throws {
-    #warning("This fails unless the model is loaded")
-    //XCTAssertEqual(AuthorV2.entity().name, AuthorV2.entityName)
-    
     let options = [
       NSMigratePersistentStoresAutomaticallyOption: true,
       NSInferMappingModelAutomaticallyOption: false,
-      NSPersistentHistoryTrackingKey: true, // cann't be changed once set to true
+      NSPersistentHistoryTrackingKey: true, // ⚠️ cannot be changed once set to true
       NSPersistentHistoryTokenKey: true
     ]
         
@@ -160,8 +157,8 @@ final class ProgrammaticMigrationTests: XCTestCase {
     let part1 = try XCTUnwrap(newCoordinator.persistentStores.first { $0.configurationName == V2.Configurations.part1 })
     let part2 = try XCTUnwrap(newCoordinator.persistentStores.first { $0.configurationName == V2.Configurations.part2 })
 
-    let _authors = try AuthorV2.fetch(in: newContext)
-    XCTAssertEqual(AuthorV2.entity().name, AuthorV2.entityName)
+//    let _authors = try AuthorV2.fetch(in: newContext)
+//    XCTAssertEqual(AuthorV2.entity().name, AuthorV2.entityName)
     
     let authorRequest = NSFetchRequest<NSManagedObject>(entityName: "Author") as! NSFetchRequest<AuthorV2>
     let authors = try newContext.fetch(authorRequest)
@@ -250,8 +247,10 @@ extension NSEntityMapping {
  NSPersistentStoreRemoteChangeNotificationPostOptionKey
  */
 
+// TODO: migration isn't commited to the actual url until the end (which is expected)
+// but if we try to run mutiple steps, using a tempURL is probably better
 
 // TODO: use NSPersistentStoreDescription
-// Check fetched properties after migration
+
 // TODO: affectedStores as param in all the fetch methods
-// coordinator import method
+

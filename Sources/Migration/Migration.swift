@@ -79,7 +79,7 @@ public enum Migration {
       // is currently active and using the database file.
       // You need to remove it before performing a WAL checkpoint.
       #warning("this method should at least use some options form the source probably, sourceVersion.options")
-      try Self.performWALCheckpoint(version: sourceVersion, storeURL: sourceURL)
+      try Self.performWALCheckpoint(version: sourceVersion, storeURL: sourceURL, storeOptions: sourceOptions)
     }
     
     let steps = sourceVersion.migrationSteps(to: targetVersion)
@@ -141,22 +141,33 @@ public enum Migration {
   // MARK: - WAL Checkpoint
   
   // Forces Core Data to perform a checkpoint operation, which merges the data in the `-wal` file to the store file.
-  static func performWALCheckpoint<V: ModelVersion>(version: V, storeURL: URL) throws {
+  static func performWALCheckpoint<V: ModelVersion>(version: V, storeURL: URL, storeOptions: [AnyHashable: Any]? = nil) throws {
     // If the -wal file is not present, using this approach to add the store won't cause any exceptions, but the transactions recorded in the missing -wal file will be lost.
     // https://developer.apple.com/library/archive/qa/qa1809/_index.html
     // credits:
     // https://williamboles.me/progressive-core-data-migration/
     // http://pablin.org/2013/05/24/problems-with-core-data-migration-manager-and-journal-mode-wal/
     // https://www.avanderlee.com/swift/write-ahead-logging-wal/
-    try performWALCheckpointForStore(at: storeURL, model: version.managedObjectModel())
+    try performWALCheckpointForStore(at: storeURL, model: version.managedObjectModel(), storeOptions: storeOptions)
   }
   
   /// Forces Core Data to perform a checkpoint operation, which merges the data in the `-wal` file to the store file.
-  private static func performWALCheckpointForStore(at storeURL: URL, model: NSManagedObjectModel) throws {
+  private static func performWALCheckpointForStore(at storeURL: URL, model: NSManagedObjectModel, storeOptions: [AnyHashable: Any]? = nil) throws {
     #warning("Test this impl with options and multiple configurations")
     // TODO: see https://williamboles.me/progressive-core-data-migration/
     let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
-    let options = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]]
+    var options: [AnyHashable: Any] = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]]
+    if
+      let persistentHistoryTokenKey = storeOptions?[NSPersistentHistoryTrackingKey] as? NSNumber,
+      persistentHistoryTokenKey.boolValue {
+      // once this key is enabled, it can be reverted back
+      // for WAL checkpoint this step prevents this warning in the console:
+      // "Store opened without NSPersistentHistoryTrackingKey but previously had been opened
+      // with NSPersistentHistoryTrackingKey - Forcing into Read Only mode store at ..."
+      // https://developer.apple.com/forums/thread/118924
+      options[NSPersistentHistoryTrackingKey] = [NSPersistentHistoryTrackingKey: true as NSNumber]
+    }
+    
     let store = try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
     try persistentStoreCoordinator.remove(store)
   }
