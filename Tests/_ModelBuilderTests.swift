@@ -130,8 +130,8 @@ final class _ProgrammaticMigrationTests: XCTestCase {
     description.setOption(true as NSNumber, forKey: NSPersistentHistoryTokenKey)
     
     let oldManagedObjectModel = V1.makeManagedObjectModel()
-    var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: oldManagedObjectModel)
-    coordinator!.addPersistentStore(with: description) { (description, error) in
+    let coordinator = NSPersistentStoreCoordinator(managedObjectModel: oldManagedObjectModel)
+    coordinator.addPersistentStore(with: description) { (description, error) in
       XCTAssertNil(error)
     }
     //try coordinator!.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: SampleModel2.SampleModel2Version.version1.options)
@@ -140,10 +140,20 @@ final class _ProgrammaticMigrationTests: XCTestCase {
     context.persistentStoreCoordinator = coordinator
     context.fillWithSampleData2()
     try context.save()
-    coordinator = nil
+    // This step is required if you want to do a migration with WAL checkpoint enabled
+    try coordinator.persistentStores.forEach({ (store) in
+      try coordinator.remove(store)
+    })
     
     // Migration
-    try CoreDataPlus.Migration.migrateStore(at: url, targetVersion: SampleModel2.SampleModel2Version.version2)
+    //try CoreDataPlus.Migration.migrateStore(at: url, targetVersion: SampleModel2.SampleModel2Version.version2, enableWALCheckpoint: true)
+    try CoreDataPlus.Migration.migrateStore(from: url,
+                                            to: url,
+                                            targetVersion: SampleModel2.SampleModel2Version.version2,
+                                            deleteSource: false,
+                                            enableWALCheckpoint: true,
+                                            progress: nil)
+    
     
     // Validation
     let newManagedObjectModel = V2.makeManagedObjectModel()
@@ -160,7 +170,7 @@ final class _ProgrammaticMigrationTests: XCTestCase {
     XCTAssertEqual(authors.count, 2)
     authors.forEach { object in
       object.materialize()
-      //object.alias += "-"
+      object.alias += "-"
       print(object.feedbacks?.count)
       //XCTAssertNil(object.value(forKey: #keyPath(V1.Author.siteURL)))
     }
@@ -229,15 +239,18 @@ final class _ProgrammaticMigrationTests: XCTestCase {
     ]
     
     let oldManagedObjectModel = V1.makeManagedObjectModel()
-    var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: oldManagedObjectModel)
+    let coordinator = NSPersistentStoreCoordinator(managedObjectModel: oldManagedObjectModel)
     
-    try coordinator!.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: V1.Configurations.one, at: url, options: SampleModel2.SampleModel2Version.version1.options)
+    try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: V1.Configurations.one, at: url, options: SampleModel2.SampleModel2Version.version1.options)
     
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     context.persistentStoreCoordinator = coordinator
     context.fillWithSampleData2()
     try context.save()
-    coordinator = nil
+    // This step is required if you want to do a migration with WAL checkpoint enabled
+    try coordinator.persistentStores.forEach({ (store) in
+      try coordinator.remove(store)
+    })
     
     // Migration
     try CoreDataPlus.Migration.migrateStore(at: url, targetVersion: SampleModel2.SampleModel2Version.version2)

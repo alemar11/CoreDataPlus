@@ -62,22 +62,25 @@ public enum Migration {
     }
     
     if enableWALCheckpoint {
+      // A dead lock can occur if a NSPersistentStore with a different journaling mode
+      // is currently active and using the database file.
+      // You need to remove it before performing a WAL checkpoint.
+      #warning("this method should at least use some options form the source probably, sourceVersion.options")
       try Self.performWALCheckpoint(version: sourceVersion, storeURL: sourceURL)
     }
     
-    var currentURL = sourceURL
     let steps = sourceVersion.migrationSteps(to: targetVersion)
-    
-    guard steps.count > 0 else {
-      return
-    }
+    guard steps.count > 0 else { return }
     
     var migrationProgress: Progress?
-    
     if let progress = progress {
       migrationProgress = Progress(totalUnitCount: Int64(steps.count), parent: progress, pendingUnitCount: progress.totalUnitCount)
     }
 
+    // TODO: if there is only a step and sourceURL != targetURL, we could skip the temporaryURL phase
+    // TODO: a callback could provide the partial currentURL
+
+    var currentURL = sourceURL
     for step in steps {
       try autoreleasepool {
         #warning("TODO: review the progress object")
@@ -85,31 +88,38 @@ public enum Migration {
         let manager = NSMigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
         migrationProgress?.resignCurrent()
         
-        let destinationURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString)
+        let temporaryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString)
         
-        for mapping in step.mappings {          
+        for mapping in step.mappings {
+          // migrations fails if the targetURL points to an already existing file
           try manager.migrateStore(from: currentURL,
                                    sourceType: NSSQLiteStoreType,
                                    options: step.sourceOptions,
                                    with: mapping,
-                                   toDestinationURL: destinationURL,
+                                   toDestinationURL: temporaryURL,
                                    destinationType: NSSQLiteStoreType,
                                    destinationOptions: step.destinationOptions)
         }
         
+        // once the migration is done (and the store is migrated to temporaryURL)
+        // the store at currentSourceURL can be safely destroyed unless it is the
+        // initial store
         if currentURL != sourceURL {
           try NSPersistentStoreCoordinator.destroyStore(at: currentURL)
         }
-        currentURL = destinationURL
+        currentURL = temporaryURL
       }
     }
-        
+
+    // move the store at currentURL to (final) targetURL
     try NSPersistentStoreCoordinator.replaceStore(at: targetURL, withStoreAt: currentURL)
-    
+
+    // delete the store at currentURL if it's not the initial store
     if currentURL != sourceURL {
       try NSPersistentStoreCoordinator.destroyStore(at: currentURL)
     }
-    
+
+    // delete the initial store only if the option is set to true
     if targetURL != sourceURL && deleteSource {
       try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
     }
