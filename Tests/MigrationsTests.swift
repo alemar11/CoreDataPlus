@@ -62,11 +62,13 @@ final class MigrationsTests: BaseTestCase {
     
     let version = try SampleModelVersion(persistentStoreURL: sourceURL)
     XCTAssertTrue(version == .version1)
-    
+
     // When
     let progress = Progress(totalUnitCount: 1)
     
-    let enableWALCheckpoint = false // ⚠️ if the store is referenced, enabling the WAL checkpoint will block the migration
+    // ⚠️ if the store is referenced, enabling the WAL checkpoint will block the migration
+    // you can solve this removing the store from the container from the NSPersistentStoreCoordinator
+    let enableWALCheckpoint = false
     try Migration.migrateStore(at: sourceURL, targetVersion: targetVersion, enableWALCheckpoint: enableWALCheckpoint, progress: progress)
     
     // ⚠️ migration should be done before loading the NSPersistentContainer instance or you need to create a new one after the migration

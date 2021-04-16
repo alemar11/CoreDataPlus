@@ -139,7 +139,7 @@ final class _ProgrammaticMigrationTests: XCTestCase {
     context.persistentStoreCoordinator = coordinator
     context.fillWithSampleData2()
     try context.save()
-    // This step is required if you want to do a migration with WAL checkpoint enabled
+    // ⚠️ This step is required if you want to do a migration with WAL checkpoint enabled
     try coordinator.persistentStores.forEach({ (store) in
       try coordinator.remove(store)
     })
@@ -246,7 +246,7 @@ final class _ProgrammaticMigrationTests: XCTestCase {
     context.persistentStoreCoordinator = coordinator
     context.fillWithSampleData2()
     try context.save()
-    // This step is required if you want to do a migration with WAL checkpoint enabled
+    // ⚠️ This step is required if you want to do a migration with WAL checkpoint enabled
     try coordinator.persistentStores.forEach({ (store) in
       try coordinator.remove(store)
     })
