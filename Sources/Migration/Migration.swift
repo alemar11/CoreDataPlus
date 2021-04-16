@@ -31,7 +31,7 @@ public enum Migration {
   /// During migration, Core Data creates two stacks, one for the source store and one for the destination store.
   /// Core Data then fetches objects from the source stack and inserts the appropriate corresponding objects into the destination stack. Note that Core Data must re-create objects in the new stack.
   public static func migrateStore<Version: ModelVersion>(at sourceURL: URL,
-                                                         options: [AnyHashable: Any]? = nil,
+                                                         options: StoreOptions? = nil,
                                                          targetVersion: Version,
                                                          enableWALCheckpoint: Bool = false,
                                                          progress: Progress? = nil) throws {
@@ -59,9 +59,9 @@ public enum Migration {
   /// During migration, Core Data creates two stacks, one for the source store and one for the destination store.
   /// Core Data then fetches objects from the source stack and inserts the appropriate corresponding objects into the destination stack. Note that Core Data must re-create objects in the new stack.
   public static func migrateStore<Version: ModelVersion>(from sourceURL: URL,
-                                                         sourceOptions: [AnyHashable: Any]? = nil,
+                                                         sourceOptions: StoreOptions? = nil,
                                                          to targetURL: URL,
-                                                         targetOptions: [AnyHashable: Any]? = nil,
+                                                         targetOptions: StoreOptions? = nil,
                                                          targetVersion: Version,
                                                          deleteSource: Bool = false,
                                                          enableWALCheckpoint: Bool = false,
@@ -141,7 +141,7 @@ public enum Migration {
   // MARK: - WAL Checkpoint
   
   // Forces Core Data to perform a checkpoint operation, which merges the data in the `-wal` file to the store file.
-  static func performWALCheckpoint<V: ModelVersion>(version: V, storeURL: URL, storeOptions: [AnyHashable: Any]? = nil) throws {
+  static func performWALCheckpoint<V: ModelVersion>(version: V, storeURL: URL, storeOptions: StoreOptions? = nil) throws {
     // If the -wal file is not present, using this approach to add the store won't cause any exceptions, but the transactions recorded in the missing -wal file will be lost.
     // https://developer.apple.com/library/archive/qa/qa1809/_index.html
     // credits:
@@ -152,11 +152,11 @@ public enum Migration {
   }
   
   /// Forces Core Data to perform a checkpoint operation, which merges the data in the `-wal` file to the store file.
-  private static func performWALCheckpointForStore(at storeURL: URL, model: NSManagedObjectModel, storeOptions: [AnyHashable: Any]? = nil) throws {
+  private static func performWALCheckpointForStore(at storeURL: URL, model: NSManagedObjectModel, storeOptions: StoreOptions? = nil) throws {
     #warning("Test this impl with options and multiple configurations")
     // TODO: see https://williamboles.me/progressive-core-data-migration/
     let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
-    var options: [AnyHashable: Any] = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]]
+    var options: StoreOptions = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]]
     if
       let persistentHistoryTokenKey = storeOptions?[NSPersistentHistoryTrackingKey] as? NSNumber,
       persistentHistoryTokenKey.boolValue {
@@ -203,11 +203,3 @@ extension Migration {
                           progress: progress)
   }
 }
-
-/**
- 
- - a version can have multiple stores
- - we need to do multiple migrations (1 per store)
- 
- 
- */
