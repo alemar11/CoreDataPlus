@@ -187,7 +187,6 @@ extension Migration {
                                                   deleteSource: Bool = false,
                                                   enableWALCheckpoint: Bool = false,
                                                   progress: Progress? = nil) throws {
-
     guard let sourceURL = sourceStoreDescription.url else { fatalError("Source NSPersistentStoreDescription requires a URL.") }
     guard let destinationURL = destinationStoreDescription.url else { fatalError("Destination NSPersistentStoreDescription requires a URL.") }
 

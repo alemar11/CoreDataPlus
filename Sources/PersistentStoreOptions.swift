@@ -1,3 +1,3 @@
 // CoreDataPlus
 
-public typealias PersistentStoreOptions = [AnyHashable : Any]
+public typealias PersistentStoreOptions = [AnyHashable: Any]

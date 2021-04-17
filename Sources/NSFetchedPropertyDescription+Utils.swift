@@ -25,7 +25,8 @@ extension NSFetchedPropertyDescription {
   /// - Note: The effect of a fetched property is similar to executing a fetch request yourself and placing the results in a transient attribute, although with the framework managing the details.
   /// In particular, a fetched property is not fetched until it is requested, and the results are then cached until the object is turned into a fault.
   ///
-  /// You use `refresh(_:mergeChanges:)` (NSManagedObjectContext) to manually refresh the properties; this causes the fetch request associated with this property to be executed again when the object fault is next fired.
+  /// You use `refresh(_:mergeChanges:)` (NSManagedObjectContext) to manually refresh the properties;
+  /// this causes the fetch request associated with this property to be executed again when the object fault is next fired.
   ///
   /// Unlike other relationships, which are all sets, fetched properties are represented by an ordered NSArray object just as if you executed the fetch request yourself.
   public convenience init(name: String,

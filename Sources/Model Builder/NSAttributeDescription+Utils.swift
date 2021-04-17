@@ -95,21 +95,21 @@ extension NSAttributeDescription {
 
   // transformerName needs to be unique
   private static func transformable<T: NSObject & NSSecureCoding>(for aClass: T.Type,
-                                                                 name: String,
-                                                                 defaultValue: T? = nil,
-                                                                 valueTransformerName: String) -> NSAttributeDescription {
+                                                                  name: String,
+                                                                  defaultValue: T? = nil,
+                                                                  valueTransformerName: String) -> NSAttributeDescription {
     let attributes = NSAttributeDescription(name: name, type: .transformableAttributeType)
     attributes.defaultValue = defaultValue
     attributes.attributeValueClassName = "\(T.self.classForCoder())"
-    attributes.valueTransformerName =  valueTransformerName
+    attributes.valueTransformerName = valueTransformerName
     return attributes
   }
 
   public static func customTransformable<T: NSObject & NSSecureCoding>(for aClass: T.Type,
-                                                                 name: String,
-                                                                 defaultValue: T? = nil,
-                                                                 transform: @escaping CustomTransformer<T>.Transform,
-                                                                 reverse: @escaping CustomTransformer<T>.ReverseTransform) -> NSAttributeDescription {
+                                                                       name: String,
+                                                                       defaultValue: T? = nil,
+                                                                       transform: @escaping CustomTransformer<T>.Transform,
+                                                                       reverse: @escaping CustomTransformer<T>.ReverseTransform) -> NSAttributeDescription {
     CustomTransformer<T>.register(transform: transform, reverseTransform: reverse)
 
     let attributes = NSAttributeDescription.transformable(for: T.self,
@@ -123,7 +123,6 @@ extension NSAttributeDescription {
                                                                  name: String,
                                                                  defaultValue: T? = nil) -> NSAttributeDescription {
     Transformer<T>.register()
-
     let attributes = NSAttributeDescription.transformable(for: T.self,
                                                           name: name,
                                                           defaultValue: defaultValue,
@@ -152,4 +151,3 @@ extension NSAttributeDescription {
 //
 // If a Core Data attribute is not optional, it must have a non-nil value when you save changes. At other times Core Data doesn't care if the attribute is nil.
 // If a Swift property is not optional, it must have a non-nil value at all times after initialization is complete.
-

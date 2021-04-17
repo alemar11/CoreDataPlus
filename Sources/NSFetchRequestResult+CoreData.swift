@@ -16,7 +16,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
     // Returning a string representation of Self metatype doesn't work if you have a NSManagedObject subclass
     // with a name different from the NSEntityDescription name.
-    //return String(describing: Self.self)
+    // return String(describing: Self.self)
 
     // see testEntityName()
     fatalError("Have you loaded your NSManagedObjectModel yet?")
