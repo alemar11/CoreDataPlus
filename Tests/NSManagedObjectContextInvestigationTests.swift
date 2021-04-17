@@ -79,7 +79,9 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
       }
 
       // this will fail without automaticallyMergesChangesFromParent to true
-      XCTAssertEqual(childCar.safeAccess({ $0.maker }), "😀")
+      childContext.performAndWait {
+        XCTAssertEqual(childCar.maker, "😀")
+      }
     }
 
     // automaticallyMergesChangesFromParent = false
@@ -114,7 +116,9 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
         XCTAssertEqual(car.maker, "😀")
       }
 
-      XCTAssertEqual(childCar.safeAccess({ $0.maker }), "FIAT") // no changes
+      childContext.performAndWait {
+        XCTAssertEqual(childCar.maker, "FIAT") // no changes
+      }
     }
 
     // automaticallyMergesChangesFromParent = true
@@ -145,7 +149,9 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
       }
 
       // this will fail without automaticallyMergesChangesFromParent to true
-      XCTAssertEqual(childCar.safeAccess({ $0.maker }), "😀")
+      childContext.performAndWait {
+        XCTAssertEqual(childCar.maker, "😀")
+      }
     }
 
     // automaticallyMergesChangesFromParent = false
@@ -175,7 +181,9 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
         XCTAssertEqual(car.maker, "😀")
       }
 
-      XCTAssertEqual(childCar.safeAccess({ $0.maker }), "FIAT") // no changes
+      childContext.performAndWait {
+        XCTAssertEqual(childCar.maker, "FIAT") // no changes
+      }
     }
   }
 
