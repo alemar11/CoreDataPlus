@@ -7,19 +7,7 @@ let model = SampleModelVersion.version1.managedObjectModel()
 
 extension URL {
   static func newDatabaseURL(withID id: UUID) -> URL {
-//    let cachesURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
-//    let testsURL = cachesURL.appendingPathComponent(bundleIdentifier)
-//    var directory: ObjCBool = ObjCBool(true)
-//    let directoryExists = FileManager.default.fileExists(atPath: testsURL.path, isDirectory: &directory)
-//
-//    if !directoryExists {
-//      try! FileManager.default.createDirectory(at: testsURL, withIntermediateDirectories: true, attributes: nil)
-//    }
-//
-//    let databaseURL = testsURL.appendingPathComponent("\(id).sqlite")
-//    return databaseURL
-    #warning("Check this implementation")
-    return newDatabaseURL(withName: id.uuidString)
+    newDatabaseURL(withName: id.uuidString)
   }
 
   static func newDatabaseURL(withName name: String) -> URL {

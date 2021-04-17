@@ -30,23 +30,9 @@ class OnDiskTestCase: BaseTestCase {
 // MARK: - On Disk NSPersistentContainer
 
 final class OnDiskPersistentContainer: NSPersistentContainer {
-  #warning("Clean this code")
+
   static func makeNew() -> OnDiskPersistentContainer {
     Self.makeNew(id: UUID())
-//    let url = URL.newDatabaseURL(withID: UUID())
-//    let container = OnDiskPersistentContainer(name: "SampleModel", managedObjectModel: model)
-//    container.persistentStoreDescriptions[0].url = url
-//
-//    // Enable history tracking and remote notifications
-//    container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
-//    if #available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) {
-//      container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
-//    }
-//
-//    container.loadPersistentStores { (description, error) in
-//      XCTAssertNil(error)
-//    }
-//    return container
   }
 
   static func makeNew(id: UUID) -> OnDiskPersistentContainer {
