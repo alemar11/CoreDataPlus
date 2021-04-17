@@ -103,7 +103,7 @@ extension V2 {
   }
 
   static private func makeWriterEntity() -> NSEntityDescription {
-    let entity = NSEntityDescription(WriterV2.self, withName: String(describing: V1.Writer.self))
+    let entity = NSEntityDescription(for: WriterV2.self, withName: String(describing: V1.Writer.self))
     entity.isAbstract = true
 
     let age = NSAttributeDescription.int16(name: #keyPath(WriterV2.age))
@@ -215,7 +215,7 @@ extension V2 {
   }
 
   static private func makeFeedbackEntity() -> NSEntityDescription {
-    let entity = NSEntityDescription(FeedbackV2.self, withName: String(describing: V1.Feedback.self))
+    let entity = NSEntityDescription(for: FeedbackV2.self, withName: String(describing: V1.Feedback.self))
     let bookID = NSAttributeDescription.uuid(name: #keyPath(FeedbackV2.bookID))
     bookID.isOptional = false
     let authorAlias = NSAttributeDescription.string(name: #keyPath(FeedbackV2.authorAlias))

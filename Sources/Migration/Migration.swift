@@ -31,7 +31,7 @@ public enum Migration {
   /// During migration, Core Data creates two stacks, one for the source store and one for the destination store.
   /// Core Data then fetches objects from the source stack and inserts the appropriate corresponding objects into the destination stack. Note that Core Data must re-create objects in the new stack.
   public static func migrateStore<Version: ModelVersion>(at sourceURL: URL,
-                                                         options: StoreOptions? = nil,
+                                                         options: PersistentStoreOptions? = nil,
                                                          targetVersion: Version,
                                                          enableWALCheckpoint: Bool = false,
                                                          progress: Progress? = nil) throws {
@@ -59,9 +59,9 @@ public enum Migration {
   /// During migration, Core Data creates two stacks, one for the source store and one for the destination store.
   /// Core Data then fetches objects from the source stack and inserts the appropriate corresponding objects into the destination stack. Note that Core Data must re-create objects in the new stack.
   public static func migrateStore<Version: ModelVersion>(from sourceURL: URL,
-                                                         sourceOptions: StoreOptions? = nil,
+                                                         sourceOptions: PersistentStoreOptions? = nil,
                                                          to targetURL: URL,
-                                                         targetOptions: StoreOptions? = nil,
+                                                         targetOptions: PersistentStoreOptions? = nil,
                                                          targetVersion: Version,
                                                          deleteSource: Bool = false,
                                                          enableWALCheckpoint: Bool = false,
@@ -124,7 +124,7 @@ public enum Migration {
     }
 
     // move the store at currentURL to (final) targetURL
-    try NSPersistentStoreCoordinator.replaceStore(at: targetURL, withStoreAt: currentURL)
+    try NSPersistentStoreCoordinator.replaceStore(at: targetURL, withPersistentStoreFrom: currentURL)
 
     // delete the store at currentURL if it's not the initial store
     if currentURL != sourceURL {
@@ -140,7 +140,7 @@ public enum Migration {
   // MARK: - WAL Checkpoint
   
   // Forces Core Data to perform a checkpoint operation, which merges the data in the `-wal` file to the store file.
-  static func performWALCheckpoint<V: ModelVersion>(version: V, storeURL: URL, storeOptions: StoreOptions? = nil) throws {
+  static func performWALCheckpoint<V: ModelVersion>(version: V, storeURL: URL, storeOptions: PersistentStoreOptions? = nil) throws {
     // If the -wal file is not present, using this approach to add the store won't cause any exceptions, but the transactions recorded in the missing -wal file will be lost.
     // https://developer.apple.com/library/archive/qa/qa1809/_index.html
     // credits:
@@ -151,10 +151,10 @@ public enum Migration {
   }
   
   /// Forces Core Data to perform a checkpoint operation, which merges the data in the `-wal` file to the store file.
-  private static func performWALCheckpointForStore(at storeURL: URL, model: NSManagedObjectModel, storeOptions: StoreOptions? = nil) throws {
+  private static func performWALCheckpointForStore(at storeURL: URL, model: NSManagedObjectModel, storeOptions: PersistentStoreOptions? = nil) throws {
     // TODO: see https://williamboles.me/progressive-core-data-migration/
     let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
-    var options: StoreOptions = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]]
+    var options: PersistentStoreOptions = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]]
     if
       let persistentHistoryTokenKey = storeOptions?[NSPersistentHistoryTrackingKey] as? NSNumber,
       persistentHistoryTokenKey.boolValue {

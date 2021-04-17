@@ -4,10 +4,10 @@ import CoreData
 
 extension NSPersistentStoreCoordinator {
   /// Safely deletes a store at a given url.
-  public static func destroyStore(at url: URL) throws {
+  public static func destroyStore(at url: URL, options: PersistentStoreOptions? = nil) throws {
     let persistentStoreCoordinator = self.init(managedObjectModel: NSManagedObjectModel())
     /// destroyPersistentStore safely deletes everything in the database and leaves an empty database behind.
-    try persistentStoreCoordinator.destroyPersistentStore(at: url, ofType: NSSQLiteStoreType, options: nil)
+    try persistentStoreCoordinator.destroyPersistentStore(at: url, ofType: NSSQLiteStoreType, options: options)
 
     let fileManager = FileManager.default
 
@@ -22,20 +22,20 @@ extension NSPersistentStoreCoordinator {
   }
 
   /// Replaces the destination persistent store with the source store.
-  /// - Attention: The stored must be SQLite
-  public static func replaceStore(at targetURL: URL, withStoreAt sourceURL: URL) throws {
+  /// - Attention: The stored must be of SQLite type.
+  public static func replaceStore(at destinationURL: URL,
+                                  destinationOptions: PersistentStoreOptions? = nil,
+                                  withPersistentStoreFrom sourceURL: URL,
+                                  sourceOptions: PersistentStoreOptions? = nil) throws {
     // https://mjtsai.com/blog/2021/03/31/replacing-vs-migrating-core-data-stores/
     // https://atomicbird.com/blog/mostly-undocumented/
     // https://github.com/atomicbird/CDMoveDemo
     let persistentStoreCoordinator = self.init(managedObjectModel: NSManagedObjectModel())
-    #warning("TODO: review this new impl")
-    
-
     // replacing a store has a side effect of removing the current store from the psc
-    try persistentStoreCoordinator.replacePersistentStore(at: targetURL,
-                                                          destinationOptions: nil,
+    try persistentStoreCoordinator.replacePersistentStore(at: destinationURL,
+                                                          destinationOptions: destinationOptions,
                                                           withPersistentStoreFrom: sourceURL,
-                                                          sourceOptions: nil,
+                                                          sourceOptions: sourceOptions,
                                                           ofType: NSSQLiteStoreType)
   }
 }

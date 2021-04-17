@@ -102,7 +102,7 @@ extension SampleModel2.V1 {
   }
 
   static private func makeWriterEntity() -> NSEntityDescription {
-    let entity = NSEntityDescription(Writer.self)
+    let entity = NSEntityDescription(for: Writer.self)
     entity.isAbstract = true
 
     let age = NSAttributeDescription.int16(name: #keyPath(Writer.age))
@@ -218,7 +218,7 @@ extension SampleModel2.V1 {
   }
 
   static private func makeFeedbackEntity() -> NSEntityDescription {
-    let entity = NSEntityDescription(Feedback.self)
+    let entity = NSEntityDescription(for: Feedback.self)
     let bookID = NSAttributeDescription.uuid(name: #keyPath(Feedback.bookID))
     bookID.isOptional = false
     let authorAlias = NSAttributeDescription.string(name: #keyPath(Feedback.authorAlias))

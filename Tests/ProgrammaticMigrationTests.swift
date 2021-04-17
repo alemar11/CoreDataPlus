@@ -249,10 +249,16 @@ extension NSEntityMapping {
  NSPersistentStoreRemoteChangeNotificationPostOptionKey
  */
 
-// TODO: migration isn't commited to the actual url until the end (which is expected)
+
+#warning("TODO LIST")
+
+// TODO: migration isn't committed to the actual url until the end (which is expected)
 // but if we try to run mutiple steps, using a tempURL is probably better
 
 // TODO: use NSPersistentStoreDescription
 
-// TODO: affectedStores as param in all the fetch methods
+// TODO: pass affectedStores as param in all the fetch methods
 
+// TODO: SampleModel2V1.sqlite isn't used and can be removed
+
+// TODO: programmatic mapping models (investigate how we can leverage them to show a progress)
