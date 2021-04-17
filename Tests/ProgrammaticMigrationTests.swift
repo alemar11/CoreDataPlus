@@ -221,6 +221,7 @@ final class ProgrammaticMigrationTests: XCTestCase {
   }
 }
 
+// TODO: make it public?
 extension NSEntityMapping {
   // Represents all the mapping properties.
   public struct Properties {
