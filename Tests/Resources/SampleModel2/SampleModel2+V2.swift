@@ -118,7 +118,7 @@ extension V2 {
     var entity = NSEntityDescription()
     entity = NSEntityDescription()
     entity.name = String(describing: V1.Author.self) // 🚩 the entity name should stay the same
-    entity.managedObjectClassName = String(describing: AuthorV2.className())
+    entity.managedObjectClassName = String(describing: AuthorV2.self)
 
     // ❌ Removed siteURL
 

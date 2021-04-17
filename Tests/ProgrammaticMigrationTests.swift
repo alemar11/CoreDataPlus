@@ -1,6 +1,7 @@
 // CoreDataPlus
 
 import XCTest
+import CoreData
 @testable import CoreDataPlus
 
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
@@ -42,8 +43,9 @@ final class ProgrammaticMigrationTests: XCTestCase {
   
   func testEntityName() {
     XCTAssertNil(V1.Author.entity().name)
-    _ = NSPersistentStoreCoordinator(managedObjectModel: V1.makeManagedObjectModel())
+    let coordinator = NSPersistentStoreCoordinator(managedObjectModel: V1.makeManagedObjectModel())
     XCTAssertNotNil(V1.Author.entity().name)
+    XCTAssertNotNil(coordinator.managedObjectModel.entitiesByName["Author"])
   }
   
   func testMigrationFromV1ToV2() throws {
