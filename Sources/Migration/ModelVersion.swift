@@ -52,7 +52,7 @@ public protocol ModelVersion: Equatable, RawRepresentable {
   ///
   /// Model name.
   var modelName: String { get }
-  
+
   /// Protocol `ModelVersions`.
   ///
   /// Return the NSManagedObjectModel for this `ModelVersion`.

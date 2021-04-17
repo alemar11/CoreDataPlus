@@ -9,7 +9,7 @@ extension V1 {
     @NSManaged public var isBookmarked: Bool
     @NSManaged public var content: Content?
     @NSManaged public var book: Book
-    
+
     var isEmpty: Bool { content == .none }
   }
 }
@@ -22,7 +22,7 @@ public class PageV2: NSManagedObject {
   @NSManaged public var isBookmarked: Bool
   @NSManaged public var content: Content?
   @NSManaged public var book: BookV2
-  
+
   var isEmpty: Bool { content == .none }
 }
 

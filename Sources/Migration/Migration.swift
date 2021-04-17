@@ -44,7 +44,7 @@ public enum Migration {
                      enableWALCheckpoint: enableWALCheckpoint,
                      progress: progress)
   }
-  
+
   /// Migrates a store to a given version if needed.
   ///
   /// - Parameters:
@@ -69,21 +69,21 @@ public enum Migration {
     guard let sourceVersion = try Version(persistentStoreURL: sourceURL) else {
       fatalError("A ModelVersion for the store at URL \(sourceURL) could not be found.")
     }
-    
+
     guard try CoreDataPlus.isMigrationNecessary(for: sourceURL, to: targetVersion) else {
       return
     }
-    
+
     if enableWALCheckpoint {
       // A dead lock can occur if a NSPersistentStore with a different journaling mode
       // is currently active and using the database file.
       // You need to remove it before performing a WAL checkpoint.
       try Self.performWALCheckpoint(version: sourceVersion, storeURL: sourceURL, storeOptions: sourceOptions)
     }
-    
+
     let steps = sourceVersion.migrationSteps(to: targetVersion)
     guard steps.count > 0 else { return }
-    
+
     var migrationProgress: Progress?
     if let progress = progress {
       migrationProgress = Progress(totalUnitCount: Int64(steps.count), parent: progress, pendingUnitCount: progress.totalUnitCount)
@@ -99,9 +99,9 @@ public enum Migration {
         migrationProgress?.becomeCurrent(withPendingUnitCount: 1)
         let manager = NSMigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
         migrationProgress?.resignCurrent()
-        
+
         let temporaryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString)
-        
+
         for mapping in step.mappings {
           // migrations fails if the targetURL points to an already existing file
           try manager.migrateStore(from: currentURL,
@@ -112,7 +112,7 @@ public enum Migration {
                                    destinationType: NSSQLiteStoreType,
                                    destinationOptions: targetOptions)
         }
-        
+
         // once the migration is done (and the store is migrated to temporaryURL)
         // the store at currentSourceURL can be safely destroyed unless it is the
         // initial store
@@ -136,9 +136,9 @@ public enum Migration {
       try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
     }
   }
-  
+
   // MARK: - WAL Checkpoint
-  
+
   // Forces Core Data to perform a checkpoint operation, which merges the data in the `-wal` file to the store file.
   static func performWALCheckpoint<V: ModelVersion>(version: V, storeURL: URL, storeOptions: PersistentStoreOptions? = nil) throws {
     // If the -wal file is not present, using this approach to add the store won't cause any exceptions, but the transactions recorded in the missing -wal file will be lost.
@@ -149,7 +149,7 @@ public enum Migration {
     // https://www.avanderlee.com/swift/write-ahead-logging-wal/
     try performWALCheckpointForStore(at: storeURL, model: version.managedObjectModel(), storeOptions: storeOptions)
   }
-  
+
   /// Forces Core Data to perform a checkpoint operation, which merges the data in the `-wal` file to the store file.
   private static func performWALCheckpointForStore(at storeURL: URL, model: NSManagedObjectModel, storeOptions: PersistentStoreOptions? = nil) throws {
     // TODO: see https://williamboles.me/progressive-core-data-migration/
@@ -165,7 +165,7 @@ public enum Migration {
       // https://developer.apple.com/forums/thread/118924
       options[NSPersistentHistoryTrackingKey] = [NSPersistentHistoryTrackingKey: true as NSNumber]
     }
-    
+
     let store = try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
     try persistentStoreCoordinator.remove(store)
   }
@@ -187,10 +187,10 @@ extension Migration {
                                                   deleteSource: Bool = false,
                                                   enableWALCheckpoint: Bool = false,
                                                   progress: Progress? = nil) throws {
-    
+
     guard let sourceURL = sourceStoreDescription.url else { fatalError("Source NSPersistentStoreDescription requires a URL.") }
     guard let destinationURL = destinationStoreDescription.url else { fatalError("Destination NSPersistentStoreDescription requires a URL.") }
-    
+
     try Self.migrateStore(from: sourceURL,
                           sourceOptions: sourceStoreDescription.options,
                           to: destinationURL,

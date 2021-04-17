@@ -74,7 +74,7 @@ final class NSAttributeDescriptionUtilsTests: XCTestCase {
     XCTAssertEqual(attribute.name, #function)
     XCTAssertEqual(attribute.defaultValue as? URL, url)
   }
-  
+
   func testBinaryData() {
     let data = "Test".data(using: .utf8)
     let attribute = NSAttributeDescription.binaryData(name: #function,
