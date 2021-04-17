@@ -152,7 +152,6 @@ public enum Migration {
   
   /// Forces Core Data to perform a checkpoint operation, which merges the data in the `-wal` file to the store file.
   private static func performWALCheckpointForStore(at storeURL: URL, model: NSManagedObjectModel, storeOptions: StoreOptions? = nil) throws {
-    #warning("Test this impl with options and multiple configurations")
     // TODO: see https://williamboles.me/progressive-core-data-migration/
     let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
     var options: StoreOptions = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]]
