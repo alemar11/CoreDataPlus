@@ -6,14 +6,9 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// The entity name.
   /// - Warning: The NSManagedObjectModel must be loaded or the execution will be stopped.
   public static var entityName: String {
-    // If the the NSManagedObjectModel is not yet loaded, fallback to the String implementation.
     if let name = entity().name {
       return name
     }
-
-    // Attention: sometimes entity() returns nil due to a CoreData bug occurring in the Unit Test targets or when Generics are used.
-    // The bug seems fixed on Xcode 12 but having a fallback option never hurts.
-    // https://forums.developer.apple.com/message/203409#203409
     // https://stackoverflow.com/questions/37909392/exc-bad-access-when-calling-new-entity-method-in-ios-10-macos-sierra-core-da
     // https://stackoverflow.com/questions/43231873/nspersistentcontainer-unittests-with-ios10/43286175
     // https://www.jessesquires.com/blog/swift-coredata-and-testing/
@@ -29,12 +24,10 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
   // MARK: - Fetch
 
-  /// Creates a `new` NSFetchRequest for `self`.
-  /// - Note: Use this method instead of fetchRequest() to avoid a bug in CoreData occurring in the Unit Test targets or when Generics are used.
+  /// Returns a new fetch request initialized with the entity represented by this subclass (`self`).
   /// - Warning: This fetch request is created with a string name (`entityName`), and cannot respond to -entity until used by an NSManagedObjectContex.
   public static func newFetchRequest() -> NSFetchRequest<Self> {
-    // swiftlint:disable:next force_cast
-    return Self.fetchRequest() as! NSFetchRequest<Self>
+    NSFetchRequest<Self>(entityName: entityName)
   }
 
   /// - Returns: an object for a specified `id` even if the object needs to be fetched.
