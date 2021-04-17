@@ -42,9 +42,9 @@ final class ProgrammaticMigrationTests: XCTestCase {
   }
 
   func testEntityName() {
-    XCTAssertNil(V1.Author.entity().name)
+    XCTAssertNil(Author.entity().name)
     let coordinator = NSPersistentStoreCoordinator(managedObjectModel: V1.makeManagedObjectModel())
-    XCTAssertNotNil(V1.Author.entity().name)
+    XCTAssertNotNil(Author.entity().name)
     XCTAssertNotNil(coordinator.managedObjectModel.entitiesByName["Author"])
   }
 
@@ -199,7 +199,7 @@ final class ProgrammaticMigrationTests: XCTestCase {
 
     do {
       let fetchedAuthorRequest = NSFetchRequest<NSManagedObject>(entityName: "Author") as! NSFetchRequest<AuthorV2>
-      fetchedAuthorRequest.predicate = NSPredicate(format: "%K == %@", #keyPath(V1.Author.alias), "Alessandro")
+      fetchedAuthorRequest.predicate = NSPredicate(format: "%K == %@", #keyPath(Author.alias), "Alessandro")
       let fetchedAuthor = try newContext.fetch(fetchedAuthorRequest).first
 
       let author = try XCTUnwrap(fetchedAuthor)
@@ -208,7 +208,7 @@ final class ProgrammaticMigrationTests: XCTestCase {
 
     do {
       let fetchedAuthorRequest = NSFetchRequest<NSManagedObject>(entityName: "Author") as! NSFetchRequest<AuthorV2>
-      fetchedAuthorRequest.predicate = NSPredicate(format: "%K == %@", #keyPath(V1.Author.alias), "Andrea")
+      fetchedAuthorRequest.predicate = NSPredicate(format: "%K == %@", #keyPath(Author.alias), "Andrea")
       let fetchedAuthor = try newContext.fetch(fetchedAuthorRequest).first
 
       let author = try XCTUnwrap(fetchedAuthor)

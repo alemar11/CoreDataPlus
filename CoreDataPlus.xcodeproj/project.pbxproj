@@ -612,11 +612,10 @@
 		23B580861F94FF0E00A365C0 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				D20F4C1F2622029400F0CB25 /* ProgrammaticMigrationTests.swift */,
-				D282323A2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift */,
-				230C087B21417E1900A1B6CB /* MigrationsTests.swift */,
 				23D1056A20D7EFEF00AE84CC /* FetchedResultsChangesTests.swift */,
+				230C087B21417E1900A1B6CB /* MigrationsTests.swift */,
 				236351041F95F28B00B3A16A /* ModelVersionTests.swift */,
+				D282323A2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift */,
 				23948D1E1F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift */,
 				23A8A44C1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift */,
 				23DAFA291F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift */,
@@ -629,12 +628,13 @@
 				236351061F95F28C00B3A16A /* NSManagedObjectUtilsTests.swift */,
 				D2B7E1542448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift */,
 				D2C5CE35244762FA00AD19D8 /* NSSetCoreDataTests.swift */,
+				06B71C732629CB4F008DFD11 /* ProgrammaticallyDefinedModelTests.swift */,
+				D20F4C1F2622029400F0CB25 /* ProgrammaticMigrationTests.swift */,
 				06A6CDC6261DFC8F000563F0 /* TransformerTests.swift */,
 				D23A9E3824E2D4DF006C2964 /* Notifications */,
 				D2708842255EF13600309E7A /* Resources */,
 				06A4584D239FD20C007BA7C9 /* TestPlans */,
 				2325898122F34FDD00E39FEA /* Utils */,
-				06B71C732629CB4F008DFD11 /* ProgrammaticallyDefinedModelTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";

@@ -103,7 +103,7 @@ extension V2 {
   }
 
   static private func makeWriterEntity() -> NSEntityDescription {
-    let entity = NSEntityDescription(for: WriterV2.self, withName: String(describing: V1.Writer.self))
+    let entity = NSEntityDescription(for: WriterV2.self, withName: String(describing: Writer.self))
     entity.isAbstract = true
 
     let age = NSAttributeDescription.int16(name: #keyPath(WriterV2.age))
@@ -117,7 +117,7 @@ extension V2 {
   static private func makeAuthorEntity() -> NSEntityDescription {
     var entity = NSEntityDescription()
     entity = NSEntityDescription()
-    entity.name = String(describing: V1.Author.self) // 🚩 the entity name should stay the same
+    entity.name = String(describing: Author.self) // 🚩 the entity name should stay the same
     entity.managedObjectClassName = String(describing: AuthorV2.self)
 
     // ❌ Removed siteURL
@@ -138,7 +138,7 @@ extension V2 {
   static private func makeBookEntity() -> NSEntityDescription {
     var entity = NSEntityDescription()
     entity = NSEntityDescription()
-    entity.name = String(describing: V1.Book.self)
+    entity.name = String(describing: Book.self)
     entity.managedObjectClassName = String(describing: BookV2.self)
 
     let uniqueID = NSAttributeDescription.uuid(name: #keyPath(BookV2.uniqueID))
@@ -157,7 +157,7 @@ extension V2 {
     let defaultCover = Cover(text: "default cover")
     let cover = NSAttributeDescription.transformable(for: Cover.self, name: #keyPath(BookV2.frontCover), defaultValue: defaultCover)
     cover.isOptional = false
-    cover.renamingIdentifier = #keyPath(V1.Book.cover)
+    cover.renamingIdentifier = #keyPath(Book.cover)
 
     let publishedAt = NSAttributeDescription.date(name: #keyPath(BookV2.publishedAt))
     publishedAt.isOptional = false
@@ -175,7 +175,7 @@ extension V2 {
   static private func makePageEntity() -> NSEntityDescription {
     var entity = NSEntityDescription()
     entity = NSEntityDescription()
-    entity.name = String(describing: V1.Page.self)
+    entity.name = String(describing: Page.self)
     entity.managedObjectClassName = String(describing: PageV2.self)
 
     let number = NSAttributeDescription.int32(name: #keyPath(PageV2.number))
@@ -215,7 +215,7 @@ extension V2 {
   }
 
   static private func makeFeedbackEntity() -> NSEntityDescription {
-    let entity = NSEntityDescription(for: FeedbackV2.self, withName: String(describing: V1.Feedback.self))
+    let entity = NSEntityDescription(for: FeedbackV2.self, withName: String(describing: Feedback.self))
     let bookID = NSAttributeDescription.uuid(name: #keyPath(FeedbackV2.bookID))
     bookID.isOptional = false
     let authorAlias = NSAttributeDescription.string(name: #keyPath(FeedbackV2.authorAlias))

@@ -19,7 +19,7 @@ extension SampleModel2.V1 {
 
 
     // Definition using the CoreDataPlus convenience init
-    let feedbackList = NSFetchedPropertyDescription(name: V1.Author.FetchedProperty.feedbacks,
+    let feedbackList = NSFetchedPropertyDescription(name: Author.FetchedProperty.feedbacks,
                                                     destinationEntity: feedback,
                                                     predicate: NSPredicate(format: "%K == $FETCH_SOURCE.%K", #keyPath(Feedback.authorAlias), #keyPath(Author.alias)),
                                                     sortDescriptors: [NSSortDescriptor(key: #keyPath(Feedback.rating), ascending: true)])
@@ -40,7 +40,7 @@ extension SampleModel2.V1 {
     request2.resultType = .managedObjectResultType
     request2.predicate = NSPredicate(format: "authorAlias == $FETCH_SOURCE.alias AND (comment CONTAINS [c] $FETCHED_PROPERTY.userInfo.search)")
     let favFeedbackList = NSFetchedPropertyDescription()
-    favFeedbackList.name = V1.Author.FetchedProperty.favFeedbacks
+    favFeedbackList.name = Author.FetchedProperty.favFeedbacks
     favFeedbackList.fetchRequest = request2
     favFeedbackList.userInfo?["search"] = "great"
     author.add(favFeedbackList)
