@@ -183,7 +183,7 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     // Given
     let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
     let storeURL = URL.newDatabaseURL(withID: UUID())
-    let options: StoreOptions = [NSPersistentHistoryTrackingKey: true as NSNumber] // enable History Tracking
+    let options: PersistentStoreOptions = [NSPersistentHistoryTrackingKey: true as NSNumber] // enable History Tracking
     try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
