@@ -78,7 +78,6 @@ public enum Migration {
       // A dead lock can occur if a NSPersistentStore with a different journaling mode
       // is currently active and using the database file.
       // You need to remove it before performing a WAL checkpoint.
-      #warning("this method should at least use some options form the source probably, sourceVersion.options")
       try Self.performWALCheckpoint(version: sourceVersion, storeURL: sourceURL, storeOptions: sourceOptions)
     }
     
