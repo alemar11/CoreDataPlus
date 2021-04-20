@@ -7,6 +7,7 @@ public typealias V1 = SampleModel2.V1
 public typealias V2 = SampleModel2.V2
 
 public enum SampleModel2 {
+  static var modelCache = [String: NSManagedObjectModel]()
   public enum V1 { }
   public enum V2 { }
 }

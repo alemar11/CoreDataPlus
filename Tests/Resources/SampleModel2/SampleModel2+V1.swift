@@ -9,6 +9,10 @@ extension SampleModel2.V1 {
   }
   @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   static func makeManagedObjectModel() -> NSManagedObjectModel {
+    if let model = SampleModel2.modelCache["V1"] {
+      return model
+    }
+
     let managedObjectModel = NSManagedObjectModel()
     let writer = makeWriterEntity()
     let author = makeAuthorEntity()
@@ -98,6 +102,8 @@ extension SampleModel2.V1 {
     let entities = [writer, author, book, graphicNovel, page, feedback]
     managedObjectModel.entities = entities
     managedObjectModel.setEntities(entities, forConfigurationName: Configurations.one)
+
+    SampleModel2.modelCache["V1"] = managedObjectModel
     return managedObjectModel
   }
 
