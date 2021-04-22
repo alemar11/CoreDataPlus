@@ -10,7 +10,12 @@ public class Book: NSManagedObject {
   @NSManaged public var uniqueID: UUID // unique
   @NSManaged public var title: String
   @NSManaged public var price: NSDecimalNumber
-  
+
+  public var priceAsDecimal: Decimal { price.decimalValue }
+
+  // ⚠️ This implementation may trigger memory issues and then crashes becasue
+  // price is defined as Decimal while its primitive value is defined as NSDecimalNumber
+  //
   //  @objc var price: Decimal {
   //    // https://developer.apple.com/documentation/coredata/nsattributetype
   //    // NSDecimalNumber doesn't have a scalar type
@@ -70,6 +75,7 @@ public class BookV2: NSManagedObject {
   @NSManaged public var uniqueID: UUID // unique
   @NSManaged public var title: String
   @NSManaged public var price: NSDecimalNumber
+  public var priceAsDecimal: Decimal { price.decimalValue }
   @NSManaged public var frontCover: Cover
   @NSManaged public var publishedAt: Date
   @NSManaged public var author: AuthorV2

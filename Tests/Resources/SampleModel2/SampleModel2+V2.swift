@@ -82,10 +82,6 @@ extension V2 {
     book.properties += [bookToAuthor, bookToPages]
     page.properties += [pageToBook]
 
-    var pageUniquenessConstraints = page.uniquenessConstraints.flatMap { $0 }
-    pageUniquenessConstraints.append(#keyPath(PageV2.book))
-    page.uniquenessConstraints = [pageUniquenessConstraints]
-
     writer.subentities = [author]
     book.subentities = [graphicNovel]
 
@@ -201,7 +197,6 @@ extension V2 {
     content.isOptional = false
 
     entity.properties = [isBookmarked, number, content]
-    entity.uniquenessConstraints = [[#keyPath(PageV2.number)]]
     return entity
   }
 

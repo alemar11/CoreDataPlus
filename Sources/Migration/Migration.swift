@@ -97,8 +97,12 @@ public enum Migration {
       try autoreleasepool {
         #warning("TODO: review the progress object")
         migrationProgress?.becomeCurrent(withPendingUnitCount: 1)
-        let manager = NSMigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
+        NSMigrationManager.setValue(1, forKey: "migrationDebugLevel")
+        print(NSMigrationManager.value(forKey: "migrationDebugLevel"))
+        let manager = MigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
         migrationProgress?.resignCurrent()
+        
+        manager.usesStoreSpecificMigrationManager = false
 
         let temporaryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString)
 
@@ -199,4 +203,44 @@ extension Migration {
                           enableWALCheckpoint: enableWALCheckpoint,
                           progress: progress)
   }
+}
+
+
+internal final class MigrationManager: NSMigrationManager, ProgressReporting {
+
+  // MARK: ProgressReporting
+  let progress: Progress = Progress(totalUnitCount: 100)
+
+  // MARK: NSObject
+  override func didChangeValue(forKey key: String) {
+    guard key == #keyPath(NSMigrationManager.migrationProgress) else { return }
+    let progress = self.progress
+    progress.completedUnitCount = max(progress.completedUnitCount,
+                                      Int64(Float(progress.totalUnitCount) * self.migrationProgress)
+    )
+    print("🚩", progress.completedUnitCount)
+  }
+
+//  override func associate(sourceInstance: NSManagedObject, withDestinationInstance destinationInstance: NSManagedObject, for entityMapping: NSEntityMapping) {
+//    super.associate(sourceInstance: sourceInstance, withDestinationInstance: destinationInstance, for: entityMapping)
+//    print(entityMapping)
+//    return
+//    if entityMapping.destinationEntityName == "Page" {
+//      let sn = sourceInstance.value(forKey: "number")
+//      let dn = destinationInstance.value(forKey: "number")
+//      let sb = sourceInstance.value(forKeyPath: "book.title")
+//      let db = destinationInstance.value(forKeyPath: "book.title")
+//      print(sn,dn,sb,db)
+//    }
+//  }
+
+//  override func cancelMigrationWithError(_ error: Error) {
+//    super.cancelMigrationWithError(error)
+//  }
+
+  // MARK: NSMigrationManager
+//  init(sourceModel: NSManagedObjectModel, destinationModel: NSManagedObjectModel, progress: Progress) {
+//    self.progress = progress
+//    super.init(sourceModel: sourceModel, destinationModel: destinationModel)
+//  }
 }

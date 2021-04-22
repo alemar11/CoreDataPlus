@@ -110,7 +110,7 @@ final class ProgrammaticMigrationTests: XCTestCase {
 
     try! newContext.save()
     newContext._fix_sqlite_warning_when_destroying_a_store()
-    try FileManager.default.removeItem(at: url)
+    //try FileManager.default.removeItem(at: url)
   }
 
   func testMigrationFromV1ToV2WithMultipleStores() throws {
@@ -263,3 +263,5 @@ extension NSEntityMapping {
 // TODO: SampleModel2V1.sqlite isn't used and can be removed
 
 // TODO: programmatic mapping models (investigate how we can leverage them to show a progress)
+
+// TODO: method to create a View context's child VIEW context

@@ -54,7 +54,9 @@ class CoreDataMigrator: CoreDataMigratorProtocol {
     
     var migrationProgress: Progress?
     if let progress = progress {
-      migrationProgress = Progress(totalUnitCount: Int64(migrationSteps.count), parent: progress, pendingUnitCount: progress.totalUnitCount)
+      migrationProgress = Progress(totalUnitCount: 100, parent: progress, pendingUnitCount: progress.totalUnitCount)
+//      let childProgress = Progress(parent: progress, userInfo: nil)
+//                  childProgress.totalUnitCount = 100
     }
     print("--------\(migrationSteps.count)--------\n")
     var i = 0
@@ -62,8 +64,8 @@ class CoreDataMigrator: CoreDataMigratorProtocol {
       i += 1
       print("------ STEP \(i)\n")
       migrationProgress?.becomeCurrent(withPendingUnitCount: 1)
-      let manager = NSMigrationManager(sourceModel: migrationStep.sourceModel,
-                                       destinationModel: migrationStep.destinationModel)
+      let manager = MigrationManager(sourceModel: migrationStep.sourceModel,
+                                     destinationModel: migrationStep.destinationModel, progress: migrationProgress!)
      
       // set to false will report migrationProgress for steps without mapping models
       // https://stackoverflow.com/questions/7430180/how-to-show-migration-progress-of-nsmigrationmanager-in-a-uilabel
@@ -73,7 +75,7 @@ class CoreDataMigrator: CoreDataMigratorProtocol {
       
       // http://rayray.github.io/2016/02/03/two-of-many.html
       // https://gist.github.com/alemar11/f5644343a773b9955b09b0edfdffbac8
-      manager.usesStoreSpecificMigrationManager = false
+      //manager.usesStoreSpecificMigrationManager = true
      
       let token = manager.observe(\.migrationProgress, options: [.new]) { (manager, change) in
         print("🔴\(change.newValue)")
@@ -82,7 +84,6 @@ class CoreDataMigrator: CoreDataMigratorProtocol {
       let token2 = manager.observe(\.currentEntityMapping, options: [.new]) { (manager, change) in
         print("➡️\(change.newValue)")
       }
-      
       
       tokens.append(token)
       tokens.append(token2)
@@ -165,5 +166,28 @@ private extension CoreDataMigrationVersion {
     }
     
     return compatibleVersion
+  }
+}
+
+internal final class MigrationManager: NSMigrationManager, ProgressReporting {
+
+  // MARK: ProgressReporting
+  let progress: Progress
+
+  // MARK: NSObject
+  override func didChangeValue(forKey key: String) {
+    super.didChangeValue(forKey: key)
+    guard key == #keyPath(NSMigrationManager.migrationProgress) else { return }
+    let progress = self.progress
+    progress.completedUnitCount = max(progress.completedUnitCount,
+                                      Int64(Float(progress.totalUnitCount) * self.migrationProgress)
+    )
+    print("🚩", progress.completedUnitCount)
+  }
+
+  // MARK: NSMigrationManager
+  init(sourceModel: NSManagedObjectModel, destinationModel: NSManagedObjectModel, progress: Progress) {
+    self.progress = progress
+    super.init(sourceModel: sourceModel, destinationModel: destinationModel)
   }
 }

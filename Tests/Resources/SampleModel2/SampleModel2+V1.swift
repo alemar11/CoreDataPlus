@@ -92,10 +92,6 @@ extension SampleModel2.V1 {
     book.properties += [bookToAuthor, bookToPages]
     page.properties += [pageToBook]
 
-    var pageUniquenessConstraints = page.uniquenessConstraints.flatMap { $0 }
-    pageUniquenessConstraints.append(#keyPath(Page.book))
-    page.uniquenessConstraints = [pageUniquenessConstraints]
-
     writer.subentities = [author]
     book.subentities = [graphicNovel]
 
@@ -132,6 +128,11 @@ extension SampleModel2.V1 {
     siteURL.isOptional = true
 
     entity.properties = [alias, siteURL]
+
+    // Why uniquenessConstraints is defined as [[Any]]?
+    // That is relevant to inheritance in Core Data model.
+    // For an entity that has a parent entity, `uniquenessConstraints` returns the constraints of both entities:
+    // [ [parent’s constraint1, parent’s constraint2, ...], [child’s constraint1, child’s constraint2, ...] ]
     entity.uniquenessConstraints = [[#keyPath(Author.alias)]]
 
     let index = NSFetchIndexDescription(name: "authorIndex", elements: [NSFetchIndexElementDescription(property: alias, collationType: .binary)])
@@ -204,7 +205,6 @@ extension SampleModel2.V1 {
     content.isOptional = false
 
     entity.properties = [isBookmarked, number, content]
-    entity.uniquenessConstraints = [[#keyPath(Page.number)]]
     return entity
   }
 
