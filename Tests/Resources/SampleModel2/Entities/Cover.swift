@@ -3,7 +3,7 @@
 import CoreData
 import Foundation
 
-// V1
+// V1 and V2
 
 public class Cover: NSObject, NSSecureCoding {
   public static var supportsSecureCoding: Bool { true }
