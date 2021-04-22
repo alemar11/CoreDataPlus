@@ -1,6 +1,9 @@
 // CoreDataPlus
 
+import CoreData
 import Foundation
+
+// V1
 
 public class Cover: NSObject, NSSecureCoding {
   public static var supportsSecureCoding: Bool { true }
@@ -18,4 +21,12 @@ public class Cover: NSObject, NSSecureCoding {
     guard let text = decoder.decodeObject(of: [NSString.self], forKey: "text") as? String else { return nil }
     self.text = text
   }
+}
+
+// V3
+
+@objc(CoverV3)
+public class CoverV3: NSManagedObject {
+  @NSManaged public var data: Data
+  @NSManaged public var book: BookV3
 }

@@ -47,3 +47,34 @@ final class ProgrammaticallyDefinedModelTests: OnDiskWithProgrammaticallyModelTe
     XCTAssertEqual(author.favFeedbacks?.count, 1)
   }
 }
+
+#warning("TODO: move from here or comment it out")
+@available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+final class ProgrammaticallyDefinedModelV3Tests: XCTestCase {
+  // Tests to make it sure that the model V3 is correctly defined
+  func testSetupV3() throws {
+    let url = URL.newDatabaseURL(withID: UUID())
+    let container = NSPersistentContainer(name: "SampleModel2", managedObjectModel: V3.makeManagedObjectModel())
+    let description = NSPersistentStoreDescription()
+    description.url = url
+    description.shouldMigrateStoreAutomatically = false
+    description.shouldInferMappingModelAutomatically = false
+    container.persistentStoreDescriptions = [description]
+    container.loadPersistentStores { (description, error) in
+      XCTAssertNil(error)
+    }
+    let context = container.viewContext
+    context.fillWithSampleData2UsingModelV3()
+
+    try context.save()
+    context.reset()
+
+    let fetchedAuthor = try AuthorV3.fetch(in: context) { $0.predicate = NSPredicate(format: "%K == %@", #keyPath(Author.alias), "Alessandro") }.first
+
+    let author = try XCTUnwrap(fetchedAuthor)
+    let feedbacks = try XCTUnwrap(author.feedbacks)
+    XCTAssertEqual(feedbacks.map({ $0.rating }), [3.5, 4.2, 4.3])
+
+    XCTAssertEqual(author.favFeedbacks?.count, 2)
+  }
+}

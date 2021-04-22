@@ -46,6 +46,7 @@ public class Book: NSManagedObject {
     try super.validateForInsert()
   }
 }
+
 extension Book {
   @objc(addPagesObject:)
   @NSManaged public func addToPages(_ value: Page)
@@ -83,7 +84,60 @@ public class BookV2: NSManagedObject {
   @NSManaged public var pagesCount: Int
 }
 
+extension BookV2 {
+  @objc(addPagesObject:)
+  @NSManaged public func addToPages(_ value: PageV2)
+
+  @objc(removePagesObject:)
+  @NSManaged public func removeFromPages(_ value: PageV2)
+
+  @objc(addPages:)
+  @NSManaged public func addToPages(_ values: NSSet)
+
+  @objc(removePages:)
+  @NSManaged public func removeFromPages(_ values: NSSet)
+}
+
 @objc(GraphicNovelV2)
 public class GraphicNovelV2: BookV2 {
+  @NSManaged public var isBlackAndWhite: Bool
+}
+
+// MARK: - V3
+
+// CoverV3:
+// - new entity
+// Book:
+// - frontCover is a CoverV3 type
+
+@objc(BookV3)
+public class BookV3: NSManagedObject {
+  @NSManaged public var uniqueID: UUID // unique
+  @NSManaged public var title: String
+  @NSManaged public var price: NSDecimalNumber
+  public var priceAsDecimal: Decimal { price.decimalValue }
+  @NSManaged public var frontCover: CoverV3
+  @NSManaged public var publishedAt: Date
+  @NSManaged public var author: AuthorV3
+  @NSManaged public var pages: NSSet // of Pages
+  @NSManaged public var pagesCount: Int
+}
+
+extension BookV3 {
+  @objc(addPagesObject:)
+  @NSManaged public func addToPages(_ value: PageV3)
+
+  @objc(removePagesObject:)
+  @NSManaged public func removeFromPages(_ value: PageV3)
+
+  @objc(addPages:)
+  @NSManaged public func addToPages(_ values: NSSet)
+
+  @objc(removePages:)
+  @NSManaged public func removeFromPages(_ values: NSSet)
+}
+
+@objc(GraphicNovelV3)
+public class GraphicNovelV3: BookV3 {
   @NSManaged public var isBlackAndWhite: Bool
 }

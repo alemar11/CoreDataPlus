@@ -5,11 +5,13 @@ import CoreData
 
 public typealias V1 = SampleModel2.V1
 public typealias V2 = SampleModel2.V2
+public typealias V3 = SampleModel2.V3
 
 public enum SampleModel2 {
   static var modelCache = [String: NSManagedObjectModel]()
   public enum V1 { }
   public enum V2 { }
+  public enum V3 { }
 }
 
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)

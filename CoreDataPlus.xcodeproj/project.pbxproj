@@ -287,6 +287,9 @@
 		D29AA4E624D99DEA005CE7F4 /* NSManagedObject+DelayedDeletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808D1F94FFF600A365C0 /* NSManagedObject+DelayedDeletable.swift */; };
 		D29AA4E724D99DEA005CE7F4 /* NSManagedObject+DelayedDeletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808D1F94FFF600A365C0 /* NSManagedObject+DelayedDeletable.swift */; };
 		D29AA4E824D99DEA005CE7F4 /* NSManagedObject+DelayedDeletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808D1F94FFF600A365C0 /* NSManagedObject+DelayedDeletable.swift */; };
+		D2A448252631B937003059A7 /* SampleModel2+V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A448242631B937003059A7 /* SampleModel2+V3.swift */; };
+		D2A448262631B937003059A7 /* SampleModel2+V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A448242631B937003059A7 /* SampleModel2+V3.swift */; };
+		D2A448272631B937003059A7 /* SampleModel2+V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A448242631B937003059A7 /* SampleModel2+V3.swift */; };
 		D2B7E1552448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B7E1542448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift */; };
 		D2B7E1562448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B7E1542448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift */; };
 		D2B7E1572448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B7E1542448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift */; };
@@ -419,6 +422,7 @@
 		D282334E2625C2A200F37442 /* SampleModel2+V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SampleModel2+V2.swift"; sourceTree = "<group>"; };
 		D28233642625C55100F37442 /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
 		D28233712625C56A00F37442 /* Cover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cover.swift; sourceTree = "<group>"; };
+		D2A448242631B937003059A7 /* SampleModel2+V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SampleModel2+V3.swift"; sourceTree = "<group>"; };
 		D2B7E1542448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSPersistentStoreCoordinatorUtilsTests.swift; sourceTree = "<group>"; };
 		D2C5CE35244762FA00AD19D8 /* NSSetCoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSSetCoreDataTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -689,6 +693,7 @@
 				D20F4BC62621F3B000F0CB25 /* SampleModel2.swift */,
 				D28233412625C23F00F37442 /* SampleModel2+V1.swift */,
 				D282334E2625C2A200F37442 /* SampleModel2+V2.swift */,
+				D2A448242631B937003059A7 /* SampleModel2+V3.swift */,
 			);
 			path = SampleModel2;
 			sourceTree = "<group>";
@@ -1217,6 +1222,7 @@
 				239F4CC022F49F2F007888BA /* OnDiskTestCase.swift in Sources */,
 				23DAFA2A1F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift in Sources */,
 				23EEF5491F962E6A00A2E72F /* Person.swift in Sources */,
+				D2A448252631B937003059A7 /* SampleModel2+V3.swift in Sources */,
 				06A6CDC7261DFC8F000563F0 /* TransformerTests.swift in Sources */,
 				230C087C21417E1900A1B6CB /* MigrationsTests.swift in Sources */,
 				D282326926244D3A00F37442 /* Author.swift in Sources */,
@@ -1271,6 +1277,7 @@
 				239F4CC122F49F2F007888BA /* OnDiskTestCase.swift in Sources */,
 				23DAFA2B1F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift in Sources */,
 				23EEF54A1F962E6A00A2E72F /* Person.swift in Sources */,
+				D2A448262631B937003059A7 /* SampleModel2+V3.swift in Sources */,
 				06A6CDC8261DFC8F000563F0 /* TransformerTests.swift in Sources */,
 				230C087D21417E1900A1B6CB /* MigrationsTests.swift in Sources */,
 				D282326A26244D3A00F37442 /* Author.swift in Sources */,
@@ -1325,6 +1332,7 @@
 				239F4CC222F49F2F007888BA /* OnDiskTestCase.swift in Sources */,
 				23DAFA2C1F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift in Sources */,
 				23EEF54B1F962E6A00A2E72F /* Person.swift in Sources */,
+				D2A448272631B937003059A7 /* SampleModel2+V3.swift in Sources */,
 				06A6CDC9261DFC8F000563F0 /* TransformerTests.swift in Sources */,
 				230C087E21417E1900A1B6CB /* MigrationsTests.swift in Sources */,
 				D282326B26244D3A00F37442 /* Author.swift in Sources */,

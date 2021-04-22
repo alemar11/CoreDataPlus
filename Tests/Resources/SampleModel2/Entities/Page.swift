@@ -26,4 +26,15 @@ public class PageV2: NSManagedObject {
   var isEmpty: Bool { content == .none }
 }
 
+// MARK: - V3
+
+@objc(PageV3)
+public class PageV3: NSManagedObject {
+  @NSManaged public var number: Int32
+  @NSManaged public var isBookmarked: Bool
+  @NSManaged public var content: Content?
+  @NSManaged public var book: BookV3
+
+  var isEmpty: Bool { content == .none }
+}
 
