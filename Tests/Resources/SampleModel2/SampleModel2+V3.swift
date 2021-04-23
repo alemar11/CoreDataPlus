@@ -297,7 +297,7 @@ extension V3 {
     mapping.mappingType = .customEntityMappingType
     mapping.sourceEntityName = "Book"
     mapping.destinationEntityName = "Book"
-    mapping.entityMigrationPolicyClassName = "BookToBookMigrationPolicy"
+    mapping.entityMigrationPolicyClassName = String(describing: BookCoverToCoverMigrationPolicy.self)
     mapping.sourceEntityVersionHash = V2.makeBookEntity().versionHash
     mapping.destinationEntityVersionHash = V3.makeBookEntity().versionHash
 
@@ -351,7 +351,7 @@ extension V3 {
     mapping.mappingType = .customEntityMappingType
     mapping.sourceEntityName = "GraphicNovel"
     mapping.destinationEntityName = "GraphicNovel"
-    mapping.entityMigrationPolicyClassName = "BookToBookMigrationPolicy"
+    mapping.entityMigrationPolicyClassName = String(describing: BookCoverToCoverMigrationPolicy.self)
     mapping.sourceEntityVersionHash = V2.makeGraphicNovelEntity().versionHash
     mapping.destinationEntityVersionHash = V3.makeGraphicNovelEntity().versionHash
 
@@ -518,8 +518,8 @@ extension V3 {
   }
 }
 
-@objc(BookToBookMigrationPolicy)
-class BookToBookMigrationPolicy: NSEntityMigrationPolicy {
+@objc(BookCoverToCoverMigrationPolicy)
+class BookCoverToCoverMigrationPolicy: NSEntityMigrationPolicy {
   override func createDestinationInstances(forSource sInstance: NSManagedObject, in mapping: NSEntityMapping, manager: NSMigrationManager) throws {
     try super.createDestinationInstances(forSource: sInstance, in: mapping, manager: manager)
 
