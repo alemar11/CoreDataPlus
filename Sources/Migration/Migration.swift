@@ -97,8 +97,8 @@ public enum Migration {
       try autoreleasepool {
         #warning("TODO: review the progress object")
         migrationProgress?.becomeCurrent(withPendingUnitCount: 1)
-        NSMigrationManager.setValue(1, forKey: "migrationDebugLevel")
-        print(NSMigrationManager.value(forKey: "migrationDebugLevel"))
+        //NSMigrationManager.setValue(1, forKey: "migrationDebugLevel")
+        //print(NSMigrationManager.value(forKey: "migrationDebugLevel"))
         let manager = MigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
         migrationProgress?.resignCurrent()
         
@@ -107,7 +107,6 @@ public enum Migration {
         let temporaryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString)
 
         for mapping in step.mappings {
-          print(mapping)
           // migrations fails if the targetURL points to an already existing file
           try manager.migrateStore(from: currentURL,
                                    sourceType: NSSQLiteStoreType,

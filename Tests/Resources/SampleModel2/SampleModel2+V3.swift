@@ -77,7 +77,8 @@ extension V3 {
     bookToCover.isOrdered = false
     bookToCover.minCount = 1
     bookToCover.maxCount = 1
-    bookToCover.deleteRule = .nullifyDeleteRule
+    // there was a warning during migration tests about not having this set as cascade
+    bookToCover.deleteRule = .cascadeDeleteRule
 
     coverToBook.inverseRelationship = bookToCover
     bookToCover.inverseRelationship = coverToBook
@@ -265,6 +266,8 @@ extension V3 {
   }
 }
 
+// MARK: - Mapping
+
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 extension V3 {
 
@@ -323,7 +326,7 @@ extension V3 {
 
     let pages = NSPropertyMapping()
     pages.name = #keyPath(BookV3.pages)
-    pages.valueExpression = NSExpression(format: "FUNCTION($manager, \"destinationInstancesForEntityMappingNamed:sourceInstances:\", \"PageToPage\", $source.pages)")
+    pages.valueExpression = NSExpression(format: "FUNCTION($manager, \"destinationInstancesForEntityMappingNamed:sourceInstances:\", \"PageToPage\", $source.\(#keyPath(BookV2.pages)))")
 
     let author = NSPropertyMapping()
     author.name = #keyPath(BookV3.author)
@@ -506,14 +509,12 @@ extension V3 {
 
   static func makeMappingModelV2toV3() -> NSMappingModel {
     let mappingModel = NSMappingModel()
-
     mappingModel.entityMappings.append(makeGraphicNovelMapping())
     mappingModel.entityMappings.append(makeFeedbackMapping())
     mappingModel.entityMappings.append(makePageMapping())
     mappingModel.entityMappings.append(makeAuthorMapping())
     mappingModel.entityMappings.append(makeCoverMapping())
     mappingModel.entityMappings.append(makeBookMapping())
-
     return mappingModel
   }
 }
