@@ -268,11 +268,21 @@ extension V3 {
 
 // MARK: - Mapping
 
+// Abstract class (Writer) don't need a NSEntityMapping
+// Subclasses (Author, GraphicNovel) need to define all the property mappings (for super properties too)
+// Entity hashes may change, it's better to use the ones already defined in the model (note: models in this implementation are cached)
+// It seems that if we create a mapping model via Xcode UI, hashes differ too if we use derived attributes (http://openradar.appspot.com/FB9044112)
+// Here hashes seems to differ also for transformable properties
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 extension V3 {
 
   static func makeCoverMapping() -> NSEntityMapping {
     let destinationEntityVersionHash = V3.makeManagedObjectModel().entityVersionHashesByName["Cover"]
+
+    print(V3.makeCoverEntity().versionHash == V3.makeCoverEntity().versionHash)
+    print(V3.makeCoverEntity().versionHash == V3.makeCoverEntity().versionHash)
+    print(V3.makeCoverEntity().versionHash == V3.makeCoverEntity().versionHash)
+    print(V3.makeCoverEntity().versionHash == destinationEntityVersionHash)
 
     let mapping = NSEntityMapping()
     mapping.name = "Cover"
@@ -326,12 +336,11 @@ extension V3 {
 
     let pages = NSPropertyMapping()
     pages.name = #keyPath(BookV3.pages)
-    pages.valueExpression = NSExpression(format: "FUNCTION($manager, \"destinationInstancesForEntityMappingNamed:sourceInstances:\", \"PageToPage\", $source.\(#keyPath(BookV2.pages)))")
+    pages.valueExpression = NSExpression(format: #"FUNCTION($manager, "destinationInstancesForEntityMappingNamed:sourceInstances:", "PageToPage", $source.\#(#keyPath(BookV2.pages)))"#)
 
     let author = NSPropertyMapping()
     author.name = #keyPath(BookV3.author)
-    //author.valueExpression = NSExpression(format: "$source.author") // TODO
-    author.valueExpression = NSExpression(format: "FUNCTION($manager, \"destinationInstancesForEntityMappingNamed:sourceInstances:\", \"AuthorToAuthor\", $source.\(#keyPath(BookV2.author)))")
+    author.valueExpression = NSExpression(format: #"FUNCTION($manager, "destinationInstancesForEntityMappingNamed:sourceInstances:", "AuthorToAuthor", $source.\#(#keyPath(BookV2.author)))"#)
 
     let frontCover = NSPropertyMapping()
     frontCover.name = #keyPath(BookV3.frontCover)
@@ -344,7 +353,7 @@ extension V3 {
     ]
 
     mapping.relationshipMappings = [author, frontCover, pages]
-    mapping.sourceExpression = NSExpression(format: "FETCH(FUNCTION($manager, \"fetchRequestForSourceEntityNamed:predicateString:\" , \"Book\", \"TRUEPREDICATE\"), $manager.sourceContext, NO)")
+    mapping.sourceExpression = NSExpression(format: #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "Book", "TRUEPREDICATE"), $manager.sourceContext, NO)"#)
     return mapping
   }
 
@@ -380,12 +389,11 @@ extension V3 {
 
     let pages = NSPropertyMapping()
     pages.name = #keyPath(BookV3.pages)
-    pages.valueExpression = NSExpression(format: "FUNCTION($manager, \"destinationInstancesForEntityMappingNamed:sourceInstances:\", \"PageToPage\", $source.\(#keyPath(BookV2.pages)))")
+    pages.valueExpression = NSExpression(format: #"FUNCTION($manager, "destinationInstancesForEntityMappingNamed:sourceInstances:", "PageToPage", $source.\#(#keyPath(BookV2.pages)))"#)
 
     let author = NSPropertyMapping()
     author.name = #keyPath(BookV3.author)
-    //author.valueExpression = NSExpression(format: "$source.author") // TODO
-    author.valueExpression = NSExpression(format: "FUNCTION($manager, \"destinationInstancesForEntityMappingNamed:sourceInstances:\", \"AuthorToAuthor\", $source.\(#keyPath(GraphicNovelV2.author)))")
+    author.valueExpression = NSExpression(format: #"FUNCTION($manager, "destinationInstancesForEntityMappingNamed:sourceInstances:", "AuthorToAuthor", $source.\#(#keyPath(GraphicNovelV2.author)))"#)
 
     let frontCover = NSPropertyMapping()
     frontCover.name = #keyPath(BookV3.frontCover)
@@ -403,7 +411,7 @@ extension V3 {
     ]
 
     mapping.relationshipMappings = [author, frontCover, pages]
-    mapping.sourceExpression = NSExpression(format: "FETCH(FUNCTION($manager, \"fetchRequestForSourceEntityNamed:predicateString:\" , \"GraphicNovel\", \"TRUEPREDICATE\"), $manager.sourceContext, NO)")
+    mapping.sourceExpression = NSExpression(format: #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "GraphicNovel", "TRUEPREDICATE"), $manager.sourceContext, NO)"#)
     return mapping
   }
 
@@ -419,7 +427,6 @@ extension V3 {
     let bookID = NSPropertyMapping()
     bookID.name = #keyPath(FeedbackV3.bookID)
     bookID.valueExpression = NSExpression(format: "$source.\(#keyPath(FeedbackV2.bookID))")
-    //bookIDPropertyMapping.valueExpression = NSExpression(format: "FUNCTION($source, \"valueForKey:\", \"bookID\"") // TODO
 
     let authorAlias = NSPropertyMapping()
     authorAlias.name = #keyPath(FeedbackV3.authorAlias)
@@ -434,7 +441,7 @@ extension V3 {
     rating.valueExpression = NSExpression(format: "$source.\(#keyPath(FeedbackV2.rating))")
 
     mapping.attributeMappings = [authorAlias, bookID, comment, rating]
-    mapping.sourceExpression = NSExpression(format: "FETCH(FUNCTION($manager, \"fetchRequestForSourceEntityNamed:predicateString:\" , \"Feedback\", \"TRUEPREDICATE\"), $manager.sourceContext, NO)")
+    mapping.sourceExpression = NSExpression(format: #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "Feedback", "TRUEPREDICATE"), $manager.sourceContext, NO)"#)
 
     return mapping
   }
@@ -457,7 +464,7 @@ extension V3 {
 
     let book = NSPropertyMapping()
     book.name = #keyPath(PageV3.book)
-    book.valueExpression = NSExpression(format: "FUNCTION($manager, \"destinationInstancesForSourceRelationshipNamed:sourceInstances:\", \"book\", $source.\(#keyPath(PageV2.book)))")
+    book.valueExpression = NSExpression(format: #"FUNCTION($manager, "destinationInstancesForSourceRelationshipNamed:sourceInstances:", "book", $source.\#(#keyPath(PageV2.book)))"#)
 
     let isBookmarked = NSPropertyMapping()
     isBookmarked.name = #keyPath(PageV3.isBookmarked)
@@ -469,7 +476,7 @@ extension V3 {
 
     mapping.attributeMappings = [content, isBookmarked, number]
     mapping.relationshipMappings = [book]
-    mapping.sourceExpression = NSExpression(format: "FETCH(FUNCTION($manager, \"fetchRequestForSourceEntityNamed:predicateString:\" , \"Page\", \"TRUEPREDICATE\"), $manager.sourceContext, NO)")
+    mapping.sourceExpression = NSExpression(format: #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "Page", "TRUEPREDICATE"), $manager.sourceContext, NO)"#)
     return mapping
   }
 
@@ -499,11 +506,11 @@ extension V3 {
 
     let books = NSPropertyMapping()
     books.name = #keyPath(AuthorV3.books)
-    books.valueExpression = NSExpression(format: "FUNCTION($manager, \"destinationInstancesForSourceRelationshipNamed:sourceInstances:\", \"books\", $source.\(#keyPath(AuthorV2.books)))")
+    books.valueExpression = NSExpression(format: #"FUNCTION($manager, "destinationInstancesForSourceRelationshipNamed:sourceInstances:", "books", $source.\#(#keyPath(AuthorV2.books)))"#)
 
     mapping.attributeMappings = [age, alias, socialURL]
     mapping.relationshipMappings = [books]
-    mapping.sourceExpression = NSExpression(format: "FETCH(FUNCTION($manager, \"fetchRequestForSourceEntityNamed:predicateString:\" , \"Author\", \"TRUEPREDICATE\"), $manager.sourceContext, NO)")
+    mapping.sourceExpression = NSExpression(format: #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "Author", "TRUEPREDICATE"), $manager.sourceContext, NO)"#)
     return mapping
   }
 
