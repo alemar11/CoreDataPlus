@@ -523,7 +523,7 @@ class BookCoverToCoverMigrationPolicy: NSEntityMigrationPolicy {
   override func createDestinationInstances(forSource sInstance: NSManagedObject, in mapping: NSEntityMapping, manager: NSMigrationManager) throws {
     try super.createDestinationInstances(forSource: sInstance, in: mapping, manager: manager)
 
-    guard let frontCover = sInstance.value(forKey: "frontCover") as? Cover else {
+    guard let frontCover = sInstance.value(forKey: #keyPath(BookV2.frontCover)) as? Cover else {
       return
     }
 
@@ -535,7 +535,7 @@ class BookCoverToCoverMigrationPolicy: NSEntityMigrationPolicy {
     }
 
     let cover = NSEntityDescription.insertNewObject(forEntityName: "Cover", into: context)
-    cover.setValue(frontCover.text.data(using: .utf8), forKey: "data")
-    cover.setValue(book, forKey: "book")
+    cover.setValue(frontCover.text.data(using: .utf8), forKey: #keyPath(CoverV3.data))
+    cover.setValue(book, forKey: #keyPath(CoverV3.book))
   }
 }
