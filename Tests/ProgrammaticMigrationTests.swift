@@ -251,12 +251,14 @@ final class ProgrammaticMigrationTests: XCTestCase {
       })
 
       // Migration
-      do {
-      try CoreDataPlus.Migration.migrateStore(at: url, options: options, targetVersion: SampleModel2.SampleModel2Version.version3, enableWALCheckpoint: true)
-      } catch {
-        let nse = error as NSError
-        print(nse)
-      }
+
+      try CoreDataPlus.Migration.migrateStore(at: url,
+                                              options: options,
+                                              targetVersion: SampleModel2.SampleModel2Version.version3,
+                                              enableWALCheckpoint: true)
+
+      // Validation
+      // TODO
   }
 }
 
