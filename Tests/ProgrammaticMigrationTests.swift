@@ -219,6 +219,45 @@ final class ProgrammaticMigrationTests: XCTestCase {
     try FileManager.default.removeItem(at: url)
     try FileManager.default.removeItem(at: urlPart2)
   }
+
+    func testMigrationFromV1toV3() throws {
+      let url = URL.newDatabaseURL(withID: UUID())
+
+      let options = [
+        NSMigratePersistentStoresAutomaticallyOption: true,
+        NSInferMappingModelAutomaticallyOption: false,
+        NSPersistentHistoryTrackingKey: true, // ⚠️ cannot be changed once set to true
+        NSPersistentHistoryTokenKey: true
+      ]
+
+      let description = NSPersistentStoreDescription(url: url)
+      description.configuration = nil
+      description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+      description.setOption(true as NSNumber, forKey: NSPersistentHistoryTokenKey)
+
+      let oldManagedObjectModel = V1.makeManagedObjectModel()
+      let coordinator = NSPersistentStoreCoordinator(managedObjectModel: oldManagedObjectModel)
+      coordinator.addPersistentStore(with: description) { (description, error) in
+        XCTAssertNil(error)
+      }
+
+      let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+      context.persistentStoreCoordinator = coordinator
+      context.fillWithSampleData2()
+      try context.save()
+      // ⚠️ This step is required if you want to do a migration with WAL checkpoint enabled
+      try coordinator.persistentStores.forEach({ (store) in
+        try coordinator.remove(store)
+      })
+
+      // Migration
+      do {
+      try CoreDataPlus.Migration.migrateStore(at: url, options: options, targetVersion: SampleModel2.SampleModel2Version.version3, enableWALCheckpoint: true)
+      } catch {
+        let nse = error as NSError
+        print(nse)
+      }
+  }
 }
 
 // TODO: make it public?

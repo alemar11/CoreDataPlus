@@ -78,6 +78,9 @@ extension V2 {
     pageToBook.maxCount = 1
     pageToBook.deleteRule = .nullifyDeleteRule
 
+    bookToPages.inverseRelationship = pageToBook
+    pageToBook.inverseRelationship = bookToPages
+
     author.add(authorToBooks) // author.properties += [authorToBooks]
     book.properties += [bookToAuthor, bookToPages]
     page.properties += [pageToBook]
@@ -104,7 +107,7 @@ extension V2 {
     return managedObjectModel
   }
 
-  static private func makeWriterEntity() -> NSEntityDescription {
+  static func makeWriterEntity() -> NSEntityDescription {
     let entity = NSEntityDescription(for: WriterV2.self, withName: String(describing: Writer.self))
     entity.isAbstract = true
 
@@ -116,7 +119,7 @@ extension V2 {
     return entity
   }
 
-  static private func makeAuthorEntity() -> NSEntityDescription {
+  static func makeAuthorEntity() -> NSEntityDescription {
     var entity = NSEntityDescription()
     entity = NSEntityDescription()
     entity.name = String(describing: Author.self) // 🚩 the entity name should stay the same
@@ -137,7 +140,7 @@ extension V2 {
   }
 
   @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-  static private func makeBookEntity() -> NSEntityDescription {
+  static func makeBookEntity() -> NSEntityDescription {
     var entity = NSEntityDescription()
     entity = NSEntityDescription()
     entity.name = String(describing: Book.self)
@@ -174,7 +177,7 @@ extension V2 {
     return entity
   }
 
-  static private func makePageEntity() -> NSEntityDescription {
+  static func makePageEntity() -> NSEntityDescription {
     var entity = NSEntityDescription()
     entity = NSEntityDescription()
     entity.name = String(describing: Page.self)
@@ -200,7 +203,7 @@ extension V2 {
     return entity
   }
 
-  static private func makeGraphicNovelEntity() -> NSEntityDescription {
+  static func makeGraphicNovelEntity() -> NSEntityDescription {
     var entity = NSEntityDescription()
     entity = NSEntityDescription()
     entity.name = String(describing: GraphicNovel.self)
@@ -215,14 +218,14 @@ extension V2 {
     return entity
   }
 
-  static private func makeFeedbackEntity() -> NSEntityDescription {
+  static func makeFeedbackEntity() -> NSEntityDescription {
     let entity = NSEntityDescription(for: FeedbackV2.self, withName: String(describing: Feedback.self))
     let bookID = NSAttributeDescription.uuid(name: #keyPath(FeedbackV2.bookID))
     bookID.isOptional = false
     let authorAlias = NSAttributeDescription.string(name: #keyPath(FeedbackV2.authorAlias))
     authorAlias.isOptional = false
     let comment = NSAttributeDescription.string(name: #keyPath(FeedbackV2.comment))
-    bookID.isOptional = true
+    comment.isOptional = true
     let rating = NSAttributeDescription.double(name: #keyPath(FeedbackV2.rating))
     rating.isOptional = false
     entity.add(authorAlias)

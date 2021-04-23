@@ -107,6 +107,7 @@ public enum Migration {
         let temporaryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString)
 
         for mapping in step.mappings {
+          print(mapping)
           // migrations fails if the targetURL points to an already existing file
           try manager.migrateStore(from: currentURL,
                                    sourceType: NSSQLiteStoreType,
@@ -234,9 +235,9 @@ internal final class MigrationManager: NSMigrationManager, ProgressReporting {
 //    }
 //  }
 
-//  override func cancelMigrationWithError(_ error: Error) {
-//    super.cancelMigrationWithError(error)
-//  }
+  override func cancelMigrationWithError(_ error: Error) {
+    super.cancelMigrationWithError(error)
+  }
 
   // MARK: NSMigrationManager
 //  init(sourceModel: NSManagedObjectModel, destinationModel: NSManagedObjectModel, progress: Progress) {

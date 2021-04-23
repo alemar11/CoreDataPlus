@@ -88,6 +88,9 @@ extension SampleModel2.V1 {
     pageToBook.maxCount = 1
     pageToBook.deleteRule = .nullifyDeleteRule
 
+    bookToPages.inverseRelationship = pageToBook
+    pageToBook.inverseRelationship = bookToPages
+
     author.add(authorToBooks) // author.properties += [authorToBooks]
     book.properties += [bookToAuthor, bookToPages]
     page.properties += [pageToBook]
@@ -230,7 +233,7 @@ extension SampleModel2.V1 {
     let authorAlias = NSAttributeDescription.string(name: #keyPath(Feedback.authorAlias))
     authorAlias.isOptional = false
     let comment = NSAttributeDescription.string(name: #keyPath(Feedback.comment))
-    bookID.isOptional = true
+    comment.isOptional = true
     let rating = NSAttributeDescription.double(name: #keyPath(Feedback.rating))
     rating.isOptional = false
     entity.add(authorAlias)

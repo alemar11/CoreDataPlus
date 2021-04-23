@@ -9,6 +9,9 @@
             "argument" : "-com.apple.CoreData.ThreadingDebug 3"
           },
           {
+            "argument" : "com.apple.CoreData.MigrationDebug 1"
+          },
+          {
             "argument" : "-com.apple.CoreData.ConcurrencyDebug 1"
           },
           {
@@ -38,6 +41,9 @@
             "argument" : "-com.apple.CoreData.ThreadingDebug 3"
           },
           {
+            "argument" : "com.apple.CoreData.MigrationDebug 1"
+          },
+          {
             "argument" : "-com.apple.CoreData.ConcurrencyDebug 1"
           },
           {
@@ -65,6 +71,9 @@
             "argument" : "-com.apple.CoreData.ThreadingDebug 3"
           },
           {
+            "argument" : "com.apple.CoreData.MigrationDebug 1"
+          },
+          {
             "argument" : "-com.apple.CoreData.SQLDebug 1",
             "enabled" : false
           },
@@ -86,6 +95,9 @@
     "commandLineArgumentEntries" : [
       {
         "argument" : "-com.apple.CoreData.ThreadingDebug 3"
+      },
+      {
+        "argument" : "com.apple.CoreData.MigrationDebug 1"
       },
       {
         "argument" : "-com.apple.CoreData.SQLDebug 1",

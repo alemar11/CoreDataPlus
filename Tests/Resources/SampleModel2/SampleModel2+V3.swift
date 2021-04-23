@@ -77,7 +77,7 @@ extension V3 {
     bookToCover.isOrdered = false
     bookToCover.minCount = 1
     bookToCover.maxCount = 1
-    bookToCover.deleteRule = .cascadeDeleteRule
+    bookToCover.deleteRule = .nullifyDeleteRule
 
     coverToBook.inverseRelationship = bookToCover
     bookToCover.inverseRelationship = coverToBook
@@ -99,6 +99,9 @@ extension V3 {
     pageToBook.minCount = 1
     pageToBook.maxCount = 1
     pageToBook.deleteRule = .nullifyDeleteRule
+
+    bookToPages.inverseRelationship = pageToBook
+    pageToBook.inverseRelationship = bookToPages
 
     author.add(authorToBooks) // author.properties += [authorToBooks]
     book.properties += [bookToAuthor, bookToPages, bookToCover]
@@ -137,6 +140,7 @@ extension V3 {
     // ✅ added in V3
     let socialURL = NSAttributeDescription.uri(name: #keyPath(AuthorV3.socialURL))
     socialURL.isOptional = true
+    socialURL.renamingIdentifier = #keyPath(AuthorV3.socialURL)
 
     let alias = NSAttributeDescription.string(name: #keyPath(AuthorV3.alias))
     alias.isOptional = false
@@ -249,7 +253,7 @@ extension V3 {
     let authorAlias = NSAttributeDescription.string(name: #keyPath(FeedbackV3.authorAlias))
     authorAlias.isOptional = false
     let comment = NSAttributeDescription.string(name: #keyPath(FeedbackV3.comment))
-    bookID.isOptional = true
+    comment.isOptional = true
     let rating = NSAttributeDescription.double(name: #keyPath(FeedbackV3.rating))
     rating.isOptional = false
     entity.add(authorAlias)
@@ -261,189 +265,277 @@ extension V3 {
   }
 }
 
+@available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 extension V3 {
-  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-  static func makeMappingModelV2toV3() -> NSMappingModel {
-    let mappingModel = NSMappingModel(from: [Bundle.tests], forSourceModel: V2.makeManagedObjectModel(), destinationModel: V3.makeManagedObjectModel())!
 
-    // Writer
-    let writerToWriter = NSEntityMapping()
-    writerToWriter.name = "WriterV2toWriterV3"
-    writerToWriter.mappingType = .copyEntityMappingType
-    writerToWriter.sourceEntityName = "Writer"
-    writerToWriter.destinationEntityName = "Writer"
+  static func makeCoverMapping() -> NSEntityMapping {
+    let destinationEntityVersionHash = V3.makeManagedObjectModel().entityVersionHashesByName["Cover"]
 
-    let agePropertyMapping = NSPropertyMapping()
-    agePropertyMapping.name = #keyPath(WriterV3.age)
-    agePropertyMapping.valueExpression = NSExpression(format: "$source.age")
-    writerToWriter.attributeMappings = [agePropertyMapping]
+    let mapping = NSEntityMapping()
+    mapping.name = "Cover"
+    mapping.mappingType = .addEntityMappingType
+    mapping.sourceEntityName = nil
+    mapping.destinationEntityName = "Cover"
+    mapping.destinationEntityVersionHash = destinationEntityVersionHash
+
+    let data = NSPropertyMapping()
+    data.name = #keyPath(CoverV3.data)
+    data.valueExpression = nil
+
+    let book = NSPropertyMapping()
+    book.name = #keyPath(CoverV3.book)
+    book.valueExpression = nil
+
+    mapping.attributeMappings = [data]
+    mapping.relationshipMappings = [book]
+    return mapping
+  }
+
+  static func makeBookMapping() -> NSEntityMapping {
+    let mapping = NSEntityMapping()
+    mapping.name = "BookToBook"
+    mapping.mappingType = .customEntityMappingType
+    mapping.sourceEntityName = "Book"
+    mapping.destinationEntityName = "Book"
+    mapping.entityMigrationPolicyClassName = "BookToBookMigrationPolicy"
+    mapping.sourceEntityVersionHash = V2.makeBookEntity().versionHash
+    mapping.destinationEntityVersionHash = V3.makeBookEntity().versionHash
+
+    let uniqueID = NSPropertyMapping()
+    uniqueID.name = #keyPath(BookV3.uniqueID)
+    uniqueID.valueExpression = NSExpression(format: "$source.uniqueID")
+
+    let title = NSPropertyMapping()
+    title.name = #keyPath(BookV3.title)
+    title.valueExpression = NSExpression(format: "$source.title")
+
+    let price = NSPropertyMapping()
+    price.name = #keyPath(BookV3.price)
+    price.valueExpression = NSExpression(format: "$source.price")
+
+    let publishedAt = NSPropertyMapping()
+    publishedAt.name = #keyPath(BookV3.publishedAt)
+    publishedAt.valueExpression = NSExpression(format: "$source.publishedAt")
+
+    let pagesCount = NSPropertyMapping()
+    pagesCount.name = #keyPath(BookV3.pagesCount)
+    pagesCount.valueExpression = NSExpression(format: "$source.pagesCount")
+
+    let pages = NSPropertyMapping()
+    pages.name = #keyPath(BookV3.pages)
+    pages.valueExpression = NSExpression(format: "FUNCTION($manager, \"destinationInstancesForEntityMappingNamed:sourceInstances:\", \"PageToPage\", $source.pages)")
+
+    let author = NSPropertyMapping()
+    author.name = #keyPath(BookV3.author)
+    //author.valueExpression = NSExpression(format: "$source.author") // TODO
+    author.valueExpression = NSExpression(format: "FUNCTION($manager, \"destinationInstancesForEntityMappingNamed:sourceInstances:\", \"AuthorToAuthor\", $source.author)")
+
+    let frontCover = NSPropertyMapping()
+    frontCover.name = #keyPath(BookV3.frontCover)
+
+    mapping.attributeMappings = [pagesCount,
+                                 price,
+                                 publishedAt,
+                                 title,
+                                 uniqueID
+    ]
+
+    mapping.relationshipMappings = [author, frontCover, pages]
+    mapping.sourceExpression = NSExpression(format: "FETCH(FUNCTION($manager, \"fetchRequestForSourceEntityNamed:predicateString:\" , \"Book\", \"TRUEPREDICATE\"), $manager.sourceContext, NO)")
+    return mapping
+  }
+
+  static func makeGraphicNovelMapping() -> NSEntityMapping {
+    let mapping = NSEntityMapping()
+    mapping.name = "GraphicNovelToGraphicNovel"
+    mapping.mappingType = .customEntityMappingType
+    mapping.sourceEntityName = "GraphicNovel"
+    mapping.destinationEntityName = "GraphicNovel"
+    mapping.entityMigrationPolicyClassName = "BookToBookMigrationPolicy"
+    mapping.sourceEntityVersionHash = V2.makeGraphicNovelEntity().versionHash
+    mapping.destinationEntityVersionHash = V3.makeGraphicNovelEntity().versionHash
+
+    let uniqueID = NSPropertyMapping()
+    uniqueID.name = #keyPath(BookV3.uniqueID)
+    uniqueID.valueExpression = NSExpression(format: "$source.uniqueID")
+
+    let title = NSPropertyMapping()
+    title.name = #keyPath(BookV3.title)
+    title.valueExpression = NSExpression(format: "$source.title")
+
+    let price = NSPropertyMapping()
+    price.name = #keyPath(BookV3.price)
+    price.valueExpression = NSExpression(format: "$source.price")
+
+    let publishedAt = NSPropertyMapping()
+    publishedAt.name = #keyPath(BookV3.publishedAt)
+    publishedAt.valueExpression = NSExpression(format: "$source.publishedAt")
+
+    let pageCount = NSPropertyMapping()
+    pageCount.name = #keyPath(BookV3.pagesCount)
+    pageCount.valueExpression = NSExpression(format: "$source.pagesCount")
+
+    let pages = NSPropertyMapping()
+    pages.name = #keyPath(BookV3.pages)
+    pages.valueExpression = NSExpression(format: "FUNCTION($manager, \"destinationInstancesForEntityMappingNamed:sourceInstances:\", \"PageToPage\", $source.pages)")
+
+    let author = NSPropertyMapping()
+    author.name = #keyPath(BookV3.author)
+    //author.valueExpression = NSExpression(format: "$source.author") // TODO
+    author.valueExpression = NSExpression(format: "FUNCTION($manager, \"destinationInstancesForEntityMappingNamed:sourceInstances:\", \"AuthorToAuthor\", $source.author)")
+
+    let frontCover = NSPropertyMapping()
+    frontCover.name = #keyPath(BookV3.frontCover)
+
+    let isBlackAndWhite = NSPropertyMapping()
+    isBlackAndWhite.name = #keyPath(GraphicNovelV3.isBlackAndWhite)
+    isBlackAndWhite.valueExpression = NSExpression(format: "$source.isBlackAndWhite")
+
+    mapping.attributeMappings = [isBlackAndWhite,
+                                 pageCount,
+                                 price,
+                                 publishedAt,
+                                 title,
+                                 uniqueID,
+    ]
+
+    mapping.relationshipMappings = [author, frontCover, pages]
+    mapping.sourceExpression = NSExpression(format: "FETCH(FUNCTION($manager, \"fetchRequestForSourceEntityNamed:predicateString:\" , \"GraphicNovel\", \"TRUEPREDICATE\"), $manager.sourceContext, NO)")
+    return mapping
+  }
+
+  static func makeFeedbackMapping() -> NSEntityMapping {
+    let mapping = NSEntityMapping()
+    mapping.name = "FeedbackToFeedback"
+    mapping.mappingType = .copyEntityMappingType
+    mapping.sourceEntityName = "Feedback"
+    mapping.destinationEntityName = "Feedback"
+    mapping.sourceEntityVersionHash = V2.makeFeedbackEntity().versionHash
+    mapping.destinationEntityVersionHash = V3.makeFeedbackEntity().versionHash
+
+    let bookID = NSPropertyMapping()
+    bookID.name = #keyPath(FeedbackV3.bookID)
+    bookID.valueExpression = NSExpression(format: "$source.bookID")
+    //bookIDPropertyMapping.valueExpression = NSExpression(format: "FUNCTION($source, \"valueForKey:\", \"bookID\"") // TODO
+
+    let authorAlias = NSPropertyMapping()
+    authorAlias.name = #keyPath(FeedbackV3.authorAlias)
+    authorAlias.valueExpression = NSExpression(format: "$source.authorAlias")
+
+    let comment = NSPropertyMapping()
+    comment.name = #keyPath(FeedbackV3.comment)
+    comment.valueExpression = NSExpression(format: "$source.comment")
+
+    let rating = NSPropertyMapping()
+    rating.name = #keyPath(FeedbackV3.rating)
+    rating.valueExpression = NSExpression(format: "$source.rating")
+
+    mapping.attributeMappings = [authorAlias, bookID, comment, rating]
+    mapping.sourceExpression = NSExpression(format: "FETCH(FUNCTION($manager, \"fetchRequestForSourceEntityNamed:predicateString:\" , \"Feedback\", \"TRUEPREDICATE\"), $manager.sourceContext, NO)")
+
+    return mapping
+  }
+
+  static func makePageMapping() -> NSEntityMapping {
+    let sourceEntityVersionHash = V2.makeManagedObjectModel().entityVersionHashesByName["Page"]
+    let destinationEntityVersionHash = V3.makeManagedObjectModel().entityVersionHashesByName["Page"]
+
+    let mapping = NSEntityMapping()
+    mapping.name = "PageToPage"
+    mapping.mappingType = .copyEntityMappingType
+    mapping.sourceEntityName = "Page"
+    mapping.destinationEntityName = "Page"
+    mapping.sourceEntityVersionHash = sourceEntityVersionHash
+    mapping.destinationEntityVersionHash = destinationEntityVersionHash
+
+    let number = NSPropertyMapping()
+    number.name = #keyPath(PageV3.number)
+    number.valueExpression = NSExpression(format: "$source.number")
+
+    let book = NSPropertyMapping()
+    book.name = #keyPath(PageV3.book)
+    book.valueExpression = NSExpression(format: "FUNCTION($manager, \"destinationInstancesForSourceRelationshipNamed:sourceInstances:\", \"book\", $source.book)")
+
+    let isBookmarked = NSPropertyMapping()
+    isBookmarked.name = #keyPath(PageV3.isBookmarked)
+    isBookmarked.valueExpression = NSExpression(format: "$source.isBookmarked")
+
+    let content = NSPropertyMapping()
+    content.name = #keyPath(PageV3.content)
+    content.valueExpression = NSExpression(format: "$source.content")
+
+    mapping.attributeMappings = [content, isBookmarked, number]
+    mapping.relationshipMappings = [book]
+    mapping.sourceExpression = NSExpression(format: "FETCH(FUNCTION($manager, \"fetchRequestForSourceEntityNamed:predicateString:\" , \"Page\", \"TRUEPREDICATE\"), $manager.sourceContext, NO)")
+    return mapping
+  }
+
+  static func makeAuthorMapping() -> NSEntityMapping {
+    let sourceEntityVersionHash = V2.makeManagedObjectModel().entityVersionHashesByName["Author"]
+    let destinationEntityVersionHash = V3.makeManagedObjectModel().entityVersionHashesByName["Author"]
 
     // Author
-    let authorToAuthor = NSEntityMapping()
-    authorToAuthor.name = "AuthorV2toAuthorV3"
-    authorToAuthor.sourceEntityName = "Author"
-    authorToAuthor.destinationEntityName = "Author"
-    authorToAuthor.mappingType = .transformEntityMappingType // TODO: custom?
+    let mapping = NSEntityMapping()
+    mapping.name = "AuthorToAuthor"
+    mapping.sourceEntityName = "Author"
+    mapping.destinationEntityName = "Author"
+    mapping.mappingType = .copyEntityMappingType
+    mapping.sourceEntityVersionHash = sourceEntityVersionHash
+    mapping.destinationEntityVersionHash = destinationEntityVersionHash
 
-    let aliasPropertyMapping = NSPropertyMapping()
-    aliasPropertyMapping.name = #keyPath(AuthorV3.alias)
-    aliasPropertyMapping.valueExpression = NSExpression(format: "$source.alias")
+    let alias = NSPropertyMapping()
+    alias.name = #keyPath(AuthorV3.alias)
+    alias.valueExpression = NSExpression(format: "$source.alias")
 
-    let socialURLPropertyMapping = NSPropertyMapping()
-    socialURLPropertyMapping.name = #keyPath(AuthorV3.socialURL)
+    let socialURL = NSPropertyMapping()
+    socialURL.name = #keyPath(AuthorV3.socialURL)
 
-    let booksPropertyMapping = NSPropertyMapping()
-    booksPropertyMapping.name = #keyPath(AuthorV3.books)
-    booksPropertyMapping.valueExpression = NSExpression(format: "FUNCTION($manager, \"destinationInstancesForEntityMappingNamed:sourceInstances:\", \"BookV2toBookV3\", $source.books)")
+    let age = NSPropertyMapping()
+    age.name = #keyPath(WriterV3.age)
+    age.valueExpression = NSExpression(format: "$source.age")
 
-    authorToAuthor.attributeMappings = [aliasPropertyMapping, socialURLPropertyMapping]
-    authorToAuthor.relationshipMappings = [booksPropertyMapping]
+    let books = NSPropertyMapping()
+    books.name = #keyPath(AuthorV3.books)
+    books.valueExpression = NSExpression(format: "FUNCTION($manager, \"destinationInstancesForSourceRelationshipNamed:sourceInstances:\", \"books\", $source.books)")
 
-    // Cover
-    let cover = NSEntityMapping()
-    cover.name = "Cover"
-    cover.mappingType = .addEntityMappingType
-    cover.sourceEntityName = nil
-    cover.destinationEntityName = "Cover"
+    mapping.attributeMappings = [age, alias, socialURL]
+    mapping.relationshipMappings = [books]
+    mapping.sourceExpression = NSExpression(format: "FETCH(FUNCTION($manager, \"fetchRequestForSourceEntityNamed:predicateString:\" , \"Author\", \"TRUEPREDICATE\"), $manager.sourceContext, NO)")
+    return mapping
+  }
 
-    let dataPropertyMapping = NSPropertyMapping()
-    dataPropertyMapping.name = #keyPath(CoverV3.data)
-    dataPropertyMapping.valueExpression = nil
+  static func makeMappingModelV2toV3() -> NSMappingModel {
+    let mappingModel = NSMappingModel()
 
-    let bookPropertyMapping = NSPropertyMapping()
-    bookPropertyMapping.name = #keyPath(CoverV3.book)
-    bookPropertyMapping.valueExpression = nil
+    mappingModel.entityMappings.append(makeGraphicNovelMapping())
+    mappingModel.entityMappings.append(makeFeedbackMapping())
+    mappingModel.entityMappings.append(makePageMapping())
+    mappingModel.entityMappings.append(makeAuthorMapping())
+    mappingModel.entityMappings.append(makeCoverMapping())
+    mappingModel.entityMappings.append(makeBookMapping())
 
-    cover.attributeMappings = [dataPropertyMapping]
-    cover.relationshipMappings = [booksPropertyMapping]
-
-    // Book
-    let bookToBook = NSEntityMapping()
-    bookToBook.name = "BookV2toBookV3"
-    bookToBook.mappingType = .customEntityMappingType
-    bookToBook.sourceEntityName = "Cover"
-    bookToBook.destinationEntityName = "Cover"
-    bookToBook.entityMigrationPolicyClassName = "BookV2toBookV3MigrationPolicy"
-
-    let bookIdPropertyMapping = NSPropertyMapping()
-    bookIdPropertyMapping.name = #keyPath(BookV3.uniqueID)
-    bookIdPropertyMapping.valueExpression = NSExpression(format: "$source.uniqueID")
-
-    let titlePropertyMapping = NSPropertyMapping()
-    titlePropertyMapping.name = #keyPath(BookV3.title)
-    titlePropertyMapping.valueExpression = NSExpression(format: "$source.title")
-
-    let pricePropertyMapping = NSPropertyMapping()
-    pricePropertyMapping.name = #keyPath(BookV3.price)
-    pricePropertyMapping.valueExpression = NSExpression(format: "$source.price")
-
-    let publishedAtPropertyMapping = NSPropertyMapping()
-    publishedAtPropertyMapping.name = #keyPath(BookV3.publishedAt)
-    publishedAtPropertyMapping.valueExpression = NSExpression(format: "$source.publishedAt")
-
-    let pagesPropertyMapping = NSPropertyMapping()
-    pagesPropertyMapping.name = #keyPath(BookV3.pages)
-    pagesPropertyMapping.valueExpression = NSExpression(format: "FUNCTION($manager, \"destinationInstancesForEntityMappingNamed:sourceInstances:\", \"PageV2toPageV3\", $source.pages)")
-
-    let authorPropertyMapping = NSPropertyMapping()
-    authorPropertyMapping.name = #keyPath(BookV3.author)
-    authorPropertyMapping.valueExpression = NSExpression(format: "$source.author")
-
-    // TODO: cover
-    // TODO: pageCount?
-    bookToBook.attributeMappings = [booksPropertyMapping,
-                                    titlePropertyMapping,
-                                    pricePropertyMapping,
-                                    publishedAtPropertyMapping,
-                                    pagesPropertyMapping
-    ]
-
-    bookToBook.relationshipMappings = [pagesPropertyMapping, authorPropertyMapping]
-
-    // Graphic Novel
-
-    let graphicNovelToGraphicNovel = NSEntityMapping()
-    graphicNovelToGraphicNovel.name = "GraphicNovelV2toGraphicNovelV3"
-    graphicNovelToGraphicNovel.mappingType = .copyEntityMappingType
-    graphicNovelToGraphicNovel.sourceEntityName = "GraphicNovel"
-    graphicNovelToGraphicNovel.destinationEntityName = "GraphicNovel"
-
-    let blackAndWhitePropertyMapping = NSPropertyMapping()
-    blackAndWhitePropertyMapping.name = #keyPath(GraphicNovelV3.isBlackAndWhite)
-    blackAndWhitePropertyMapping.valueExpression = NSExpression(format: "$source.isBlackAndWhite")
-
-    graphicNovelToGraphicNovel.attributeMappings = [blackAndWhitePropertyMapping]
-
-    // Page
-
-    let pageToPage = NSEntityMapping()
-    pageToPage.name = "PageV2toPageV3"
-    pageToPage.mappingType = .copyEntityMappingType
-    pageToPage.sourceEntityName = "Page"
-    pageToPage.destinationEntityName = "Page"
-
-    let numberPropertyMapping = NSPropertyMapping()
-    numberPropertyMapping.name = #keyPath(PageV3.number)
-    numberPropertyMapping.valueExpression = NSExpression(format: "$source.number")
-
-    let pageBookPropertyMapping = NSPropertyMapping()
-    pageBookPropertyMapping.name = #keyPath(PageV3.book)
-    pageBookPropertyMapping.valueExpression = NSExpression(format: "$source.book")
-
-    let isBookmarkedPropertyMapping = NSPropertyMapping()
-    isBookmarkedPropertyMapping.name = #keyPath(PageV3.isBookmarked)
-    isBookmarkedPropertyMapping.valueExpression = NSExpression(format: "$source.isBookmarked")
-
-    let contentPropertyMapping = NSPropertyMapping()
-    contentPropertyMapping.name = #keyPath(PageV3.content)
-    contentPropertyMapping.valueExpression = NSExpression(format: "$source.content")
-
-    pageToPage.attributeMappings = [numberPropertyMapping,
-                                    isBookmarkedPropertyMapping,
-                                    contentPropertyMapping]
-    pageToPage.relationshipMappings = [pageBookPropertyMapping]
-
-    // Feedback
-
-    let feedbackToFeedback = NSEntityMapping()
-    pageToPage.name = "FeedbackV2ToFeedbackV3"
-    pageToPage.mappingType = .copyEntityMappingType
-    pageToPage.sourceEntityName = "Feedback"
-    pageToPage.destinationEntityName = "Feedback"
-
-    let bookIDPropertyMapping = NSPropertyMapping()
-    bookIDPropertyMapping.name = #keyPath(PageV3.content)
-    bookIDPropertyMapping.valueExpression = NSExpression(format: "$source.bookID")
-
-    let authorAliasPropertyMapping = NSPropertyMapping()
-    authorAliasPropertyMapping.name = #keyPath(PageV3.content)
-    authorAliasPropertyMapping.valueExpression = NSExpression(format: "$source.authorAlias")
-
-    let commentPropertyMapping = NSPropertyMapping()
-    commentPropertyMapping.name = #keyPath(PageV3.content)
-    commentPropertyMapping.valueExpression = NSExpression(format: "$source.comment")
-
-    let ratingPropertyMapping = NSPropertyMapping()
-    ratingPropertyMapping.name = #keyPath(PageV3.content)
-    ratingPropertyMapping.valueExpression = NSExpression(format: "$source.rating")
-
-    feedbackToFeedback.attributeMappings = [bookIdPropertyMapping, authorAliasPropertyMapping, commentPropertyMapping, ratingPropertyMapping]
-
-    mappingModel.entityMappings = [writerToWriter,
-                                   authorToAuthor,
-                                   cover,
-                                   bookToBook,
-                                   graphicNovelToGraphicNovel,
-                                   pageToPage,
-                                   feedbackToFeedback
-    ]
     return mappingModel
   }
 }
 
-@objc(BookV2toBookV3MigrationPolicy)
-class BookV2toBookV3MigrationPolicy: NSEntityMigrationPolicy {
+@objc(BookToBookMigrationPolicy)
+class BookToBookMigrationPolicy: NSEntityMigrationPolicy {
   override func createDestinationInstances(forSource sInstance: NSManagedObject, in mapping: NSEntityMapping, manager: NSMigrationManager) throws {
-    print("----")
+    try super.createDestinationInstances(forSource: sInstance, in: mapping, manager: manager)
+
+    guard let frontCover = sInstance.value(forKey: "frontCover") as? Cover else {
+      return
+    }
+
+    guard let book = manager.destinationInstances(forEntityMappingName: mapping.name, sourceInstances: [sInstance]).first else {
+      fatalError("must return book") }
+
+    guard let context = book.managedObjectContext else {
+      fatalError("must have context")
+    }
+
+    let cover = NSEntityDescription.insertNewObject(forEntityName: "Cover", into: context)
+    cover.setValue(frontCover.text.data(using: .utf8), forKey: "data")
+    cover.setValue(book, forKey: "book")
   }
 }
