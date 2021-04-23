@@ -270,9 +270,21 @@ extension V3 {
 
 // Abstract class (Writer) don't need a NSEntityMapping
 // Subclasses (Author, GraphicNovel) need to define all the property mappings (for super properties too)
-// Entity hashes may change, it's better to use the ones already defined in the model (note: models in this implementation are cached)
-// It seems that if we create a mapping model via Xcode UI, hashes differ too if we use derived attributes (http://openradar.appspot.com/FB9044112)
-// Here hashes seems to differ also for transformable properties
+//
+// BUG:
+// It seems that entity version hashes change if the entity has a derived attribute (it happens too if the model is created using the
+// Xcode UI - http://openradar.appspot.com/FB9044112)
+// Since an entity version hash depends on its property hashes, all the entity in relation with that entity have this bug.
+//
+// In the sample, "Book" has a derived attribute (pagesCount), all the related entities suffer from this bug:
+// 1. Cover (has a book relationship)
+// 2. Authour (has a books relationship)
+// 3. Book and GraphicNovel
+// 4. Page (has a book relationship)
+//
+// Fix: since the models are cached (and hence the entities descriptions with their version hasesh too), we use NSManagedObjectModel entityVersionHashesByName;
+// if the model isn't recreated on demand, the entities version hashes will stay the same.
+// If we use Xcode UI, we need to do some manual cleaning: https://github.com/diogot/CoreDataModelMigrationBug
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 extension V3 {
 
