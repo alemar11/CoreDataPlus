@@ -260,6 +260,52 @@ final class ProgrammaticMigrationTests: XCTestCase {
       // Validation
       // TODO
   }
+
+  func testInvestigationNSExpression() {
+    // https://nshipster.com/nsexpression/
+    // https://funwithobjc.tumblr.com/post/2922267976/using-custom-functions-with-nsexpression
+    // https://nshipster.com/kvc-collection-operators/
+    // https://spin.atomicobject.com/2015/03/24/evaluate-string-expressions-ios-objective-c-swift/
+    do {
+      let expression = NSExpression(format: "4 + 5 - 2**3")
+      let value = expression.expressionValue(with: nil, context: nil) as? Int
+      XCTAssertEqual(value, 1)
+    }
+
+    do {
+      let expression = NSPredicate(format: "1 + 2 > 2") // for logical expressions use NSPredicate
+      let value = expression.evaluate(with: nil)
+      XCTAssertEqual(value, true)
+    }
+
+    do {
+      let numbers = [1, 2, 3, 4, 4, 5, 9, 11]
+      let args = [NSExpression(forConstantValue: numbers)]
+      let expression = NSExpression(forFunction:"max:", arguments: args)
+      let value = expression.expressionValue(with: nil, context: nil) as? Int
+      XCTAssertEqual(value, 11)
+    }
+
+    do {
+      // This test demonstrate how to use a custom function with arguments
+      // One of the things to be wary of when using custom functions is that all of the parameters to the method must be objects,
+      // and the return value of the method must also be an object!
+      // FUNCTION(operand, 'function', arguments, ...)
+
+      let expression = NSExpression(format:#"FUNCTION(%@, 'substring2ToIndex:', %@)"#, argumentArray: ["hello world", NSNumber(1)])
+      // same as:
+      //let expression = NSExpression(format:#"FUNCTION("hello world", 'substring2ToIndex:', %@)"#, argumentArray: [NSNumber(1)])
+      let value = expression.expressionValue(with: nil, context: nil) as? NSString
+      XCTAssertEqual(value, "h")
+    }
+  }
+}
+
+extension NSString {
+  @objc(substring2ToIndex:)
+  func substring2(to index: NSNumber) -> NSString {
+    return self.substring(to: index.intValue) as NSString
+  }
 }
 
 // TODO: make it public?
