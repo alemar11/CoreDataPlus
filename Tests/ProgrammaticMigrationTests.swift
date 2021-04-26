@@ -259,6 +259,33 @@ final class ProgrammaticMigrationTests: XCTestCase {
 
       // Validation
       // TODO
+
+      let newManagedObjectModel = V3.makeManagedObjectModel()
+      let newCoordinator = NSPersistentStoreCoordinator(managedObjectModel: newManagedObjectModel)
+      try newCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: options)
+
+      let newContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+      newContext.persistentStoreCoordinator = newCoordinator
+
+      let authors = try AuthorV3.fetch(in: newContext) {
+        $0.predicate = NSPredicate(format: "%K == %@", #keyPath(Author.alias), "Andrea")
+      }
+      let author = try XCTUnwrap(authors.first)
+      let booksCount = try BookV3.count(in: newContext)
+      XCTAssertEqual(booksCount, 52)
+      XCTAssertEqual(author.books.count, 49)
+      let feedbacksForAndrea = try XCTUnwrap(author.feedbacks)
+      XCTAssertEqual(feedbacksForAndrea.count, 441)
+      feedbacksForAndrea.forEach {
+        if $0.comment.contains("great") {
+          // min value assigned randomly is 1.3, during the migration all the ratings get a +10
+          XCTAssertTrue($0.rating >= 11.3)
+        } else {
+          // The max value assigned randomly is 5.8
+          XCTAssertTrue($0.rating <= 5.8, "Rating \($0.rating) should be lesser than 5.8")
+        }
+      }
+
   }
 
   func testInvestigationNSExpression() {

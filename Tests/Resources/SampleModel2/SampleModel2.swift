@@ -60,8 +60,8 @@ extension SampleModel2.SampleModel2Version {
         // Renamed Book cover into frontCover
         return [mappingModel]
       case .version2:
-        let mappingModel = V3.makeMappingModelV2toV3()
-        return [mappingModel]
+        let mappingModels = V3.makeMappingModelV2toV3()
+        return mappingModels
       default:
         return []
     }

@@ -97,16 +97,18 @@ public enum Migration {
       try autoreleasepool {
         #warning("TODO: review the progress object")
         migrationProgress?.becomeCurrent(withPendingUnitCount: 1)
-        //NSMigrationManager.setValue(1, forKey: "migrationDebugLevel")
-        //print(NSMigrationManager.value(forKey: "migrationDebugLevel"))
         let manager = MigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
         migrationProgress?.resignCurrent()
         
-        manager.usesStoreSpecificMigrationManager = false
+        //manager.usesStoreSpecificMigrationManager = false
 
         let temporaryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString)
 
         for mapping in step.mappings {
+          //let manager = MigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
+          print("-------------------------\n")
+          // Reusing the same NSMigrationManager instance seems to cause some validation errors
+          //let manager = MigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
           // migrations fails if the targetURL points to an already existing file
           try manager.migrateStore(from: currentURL,
                                    sourceType: NSSQLiteStoreType,
@@ -207,6 +209,7 @@ extension Migration {
 
 
 internal final class MigrationManager: NSMigrationManager, ProgressReporting {
+  // When you use a custom `NSMigrationManager`, Core Data ignores `usesStoreSpecificMigrationManager`, because you are using a custom manager class.
 
   // MARK: ProgressReporting
   let progress: Progress = Progress(totalUnitCount: 100)
@@ -218,25 +221,41 @@ internal final class MigrationManager: NSMigrationManager, ProgressReporting {
     progress.completedUnitCount = max(progress.completedUnitCount,
                                       Int64(Float(progress.totalUnitCount) * self.migrationProgress)
     )
-    print("🚩", progress.completedUnitCount)
+    print("🚩", progress.completedUnitCount, self.migrationProgress)
   }
 
-//  override func associate(sourceInstance: NSManagedObject, withDestinationInstance destinationInstance: NSManagedObject, for entityMapping: NSEntityMapping) {
-//    super.associate(sourceInstance: sourceInstance, withDestinationInstance: destinationInstance, for: entityMapping)
-//    print(entityMapping)
-//    return
-//    if entityMapping.destinationEntityName == "Page" {
-//      let sn = sourceInstance.value(forKey: "number")
-//      let dn = destinationInstance.value(forKey: "number")
-//      let sb = sourceInstance.value(forKeyPath: "book.title")
-//      let db = destinationInstance.value(forKeyPath: "book.title")
-//      print(sn,dn,sb,db)
-//    }
-//  }
+  override func migrateStore(from sourceURL: URL,
+                             sourceType sStoreType: String,
+                             options sOptions: [AnyHashable : Any]? = nil,
+                             with mappings: NSMappingModel?,
+                             toDestinationURL dURL: URL,
+                             destinationType dStoreType: String,
+                             destinationOptions dOptions: [AnyHashable : Any]? = nil) throws {
+    progress.completedUnitCount = 0 // the NSMigrationManager instance may be used for multiple migrations
+    try super.migrateStore(from: sourceURL,
+                       sourceType: sStoreType,
+                       options: sOptions,
+                       with: mappings,
+                       toDestinationURL: dURL,
+                       destinationType: dStoreType,
+                       destinationOptions: dOptions)
+  }
 
   override func cancelMigrationWithError(_ error: Error) {
+    // TODO: add progress cancel
+    // Cancels the migration with the specified error. Calling this method causes migrateStoreFromURL:type:options:withMappingModel:toDestinationURL:destinationType:destinationOptions:error: to abort the migration and return the specified error.
     super.cancelMigrationWithError(error)
   }
+
+//  override func destinationInstances(forEntityMappingName mappingName: String, sourceInstances: [NSManagedObject]?) -> [NSManagedObject] {
+//    return super.destinationInstances(forEntityMappingName: mappingName, sourceInstances: sourceInstances)
+//    if mappingName == "PageToPage" {
+//      let res = super.destinationInstances(forEntityMappingName: mappingName, sourceInstances: sourceInstances)
+//      return res
+//    } else {
+//      return super.destinationInstances(forEntityMappingName: mappingName, sourceInstances: sourceInstances)
+//    }
+//  }
 
   // MARK: NSMigrationManager
 //  init(sourceModel: NSManagedObjectModel, destinationModel: NSManagedObjectModel, progress: Progress) {

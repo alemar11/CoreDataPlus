@@ -441,6 +441,73 @@ extension V3 {
     return mapping
   }
 
+  // This mapping takes all the feedbacks whose comment property contains the word "great" a increse their rating by 10
+  static func makeFeedbackMappingPartOne() -> NSEntityMapping {
+    let mapping = NSEntityMapping()
+    mapping.name = "FeedbackToFeedbackPartOne"
+    mapping.mappingType = .copyEntityMappingType
+    mapping.sourceEntityName = "Feedback"
+    mapping.destinationEntityName = "Feedback"
+    mapping.sourceEntityVersionHash = V2.makeFeedbackEntity().versionHash
+    mapping.destinationEntityVersionHash = V3.makeFeedbackEntity().versionHash
+
+    let bookID = NSPropertyMapping()
+    bookID.name = #keyPath(FeedbackV3.bookID)
+    bookID.valueExpression = NSExpression(format: "$source.\(#keyPath(FeedbackV2.bookID))")
+
+    let authorAlias = NSPropertyMapping()
+    authorAlias.name = #keyPath(FeedbackV3.authorAlias)
+    authorAlias.valueExpression = NSExpression(format: "$source.\(#keyPath(FeedbackV2.authorAlias))")
+
+    let comment = NSPropertyMapping()
+    comment.name = #keyPath(FeedbackV3.comment)
+    comment.valueExpression = NSExpression(format: "$source.\(#keyPath(FeedbackV2.comment))")
+
+    let rating = NSPropertyMapping()
+    rating.name = #keyPath(FeedbackV3.rating)
+    rating.valueExpression = NSExpression(format: "$source.\(#keyPath(FeedbackV2.rating)) + 10")
+
+    mapping.attributeMappings = [authorAlias, bookID, comment, rating]
+
+    let predicate = NSPredicate(format: "%K CONTAINS [c] %@", "comment", "great")
+    mapping.sourceExpression = NSExpression(format: #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "Feedback", %@), $manager.sourceContext, NO)"#, argumentArray: [predicate.description])
+    return mapping
+  }
+
+  // This mapping takes all the other feedbacks without any custom changes
+  static func makeFeedbackMappingPartTwo() -> NSEntityMapping {
+    let mapping = NSEntityMapping()
+    mapping.name = "FeedbackToFeedbackPartTwo"
+    mapping.mappingType = .copyEntityMappingType
+    mapping.sourceEntityName = "Feedback"
+    mapping.destinationEntityName = "Feedback"
+    mapping.sourceEntityVersionHash = V2.makeFeedbackEntity().versionHash
+    mapping.destinationEntityVersionHash = V3.makeFeedbackEntity().versionHash
+
+    let bookID = NSPropertyMapping()
+    bookID.name = #keyPath(FeedbackV3.bookID)
+    bookID.valueExpression = NSExpression(format: "$source.\(#keyPath(FeedbackV2.bookID))")
+
+    let authorAlias = NSPropertyMapping()
+    authorAlias.name = #keyPath(FeedbackV3.authorAlias)
+    authorAlias.valueExpression = NSExpression(format: "$source.\(#keyPath(FeedbackV2.authorAlias))")
+
+    let comment = NSPropertyMapping()
+    comment.name = #keyPath(FeedbackV3.comment)
+    comment.valueExpression = NSExpression(format: "$source.\(#keyPath(FeedbackV2.comment))")
+
+    let rating = NSPropertyMapping()
+    rating.name = #keyPath(FeedbackV3.rating)
+    rating.valueExpression = NSExpression(format: "$source.\(#keyPath(FeedbackV2.rating))")
+
+    mapping.attributeMappings = [authorAlias, bookID, comment, rating]
+
+    let predicate = NSPredicate(format: "NOT (%K CONTAINS [c] %@)", "comment", "great")
+    mapping.sourceExpression = NSExpression(format: #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "Feedback", %@), $manager.sourceContext, NO)"#, argumentArray: [predicate.description])
+    return mapping
+  }
+
+  // Not used (see FeedbackToFeedbackPartOne and FeedbackToFeedbackPartTwo)
   static func makeFeedbackMapping() -> NSEntityMapping {
     let mapping = NSEntityMapping()
     mapping.name = "FeedbackToFeedback"
@@ -468,7 +535,6 @@ extension V3 {
 
     mapping.attributeMappings = [authorAlias, bookID, comment, rating]
     mapping.sourceExpression = NSExpression(format: #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "Feedback", "TRUEPREDICATE"), $manager.sourceContext, NO)"#)
-
     return mapping
   }
 
@@ -540,17 +606,40 @@ extension V3 {
     return mapping
   }
 
-  static func makeMappingModelV2toV3() -> NSMappingModel {
-    let mappingModel = NSMappingModel()
-    mappingModel.entityMappings.append(makeGraphicNovelMapping())
-    mappingModel.entityMappings.append(makeFeedbackMapping())
-    mappingModel.entityMappings.append(makePageMapping())
-    mappingModel.entityMappings.append(makeAuthorMapping())
-    mappingModel.entityMappings.append(makeCoverMapping())
-    mappingModel.entityMappings.append(makeBookMapping())
-    return mappingModel
+  static func makeMappingModelV2toV3() -> [NSMappingModel] {
+    // Multiple Passes—Dealing With Large Datasets
+    // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmCustomizing.html#//apple_ref/doc/uid/TP40004399-CH8-SW9
+    // https://www.objc.io/issues/4-core-data/core-data-migration/
+    // https://stackoverflow.com/questions/4875553/memory-issues-migrating-large-coredata-datastores-on-iphone
+    
+    let mappingModel1 = NSMappingModel()
+    mappingModel1.entityMappings.append(makeFeedbackMappingPartOne())
+    mappingModel1.entityMappings.append(makeFeedbackMappingPartTwo())
+    //mappingModel1.entityMappings.append(makeFeedbackMapping())
+
+//    let mappingModel = NSMappingModel()
+//    mappingModel.entityMappings.append(makeGraphicNovelMapping())
+//    mappingModel.entityMappings.append(makeFeedbackMapping())
+//    mappingModel.entityMappings.append(makePageMapping())
+//    mappingModel.entityMappings.append(makeAuthorMapping())
+//    mappingModel.entityMappings.append(makeCoverMapping())
+//    mappingModel.entityMappings.append(makeBookMapping())
+//    return [mappingModel]
+
+    let mappingModel2 = NSMappingModel()
+    mappingModel2.entityMappings.append(makeCoverMapping())
+    mappingModel2.entityMappings.append(makeAuthorMapping())
+
+    mappingModel2.entityMappings.append(makePageMapping())
+    mappingModel2.entityMappings.append(makeGraphicNovelMapping())
+    mappingModel2.entityMappings.append(makeBookMapping())
+
+    return [mappingModel2, mappingModel1]
   }
 }
+
+// More on migrations:
+// https://stackoverflow.com/questions/11190385/custom-nsentitymigrationpolicy-relation
 
 @objc(BookCoverToCoverMigrationPolicy)
 class BookCoverToCoverMigrationPolicy: NSEntityMigrationPolicy {
@@ -596,16 +685,32 @@ class BookCoverToCoverMigrationPolicy: NSEntityMigrationPolicy {
 
     print("⚠️", context.registeredObjects.count)
 
+//    let sAlias = sInstance.value(forKeyPath: "author.alias") as? String
+//    let author = context.registeredObjects.first { object -> Bool in
+//      if object.entity.name == "Author", let dAlias = object.value(forKey: "alias") as? String {
+//        return dAlias == sAlias
+//      }
+//      return false
+//    }
+    //book.setValue(author, forKey: "author")
+
     let cover = NSEntityDescription.insertNewObject(forEntityName: "Cover", into: context)
     cover.setValue(frontCover.text.data(using: .utf8), forKey: #keyPath(CoverV3.data))
     cover.setValue(book, forKey: #keyPath(CoverV3.book))
   }
 
   override func createRelationships(forDestination dInstance: NSManagedObject, in mapping: NSEntityMapping, manager: NSMigrationManager) throws {
-    try super.createRelationships(forDestination: dInstance, in: mapping, manager: manager)
     // In a properly designed data model, this method will rarely, if ever, be needed.
     // The intention of this method (which is called in the second pass) is to build any relationships for the new destination entity
-    // that was created in the previ- ous method. However, if all the relationships in the model are double-sided, this method is not necessary
+    // that was created in the previous method. However, if all the relationships in the model are double-sided, this method is not necessary
     // because we already set up one side of them.
+  }
+
+  override func performCustomValidation(forMapping mapping: NSEntityMapping, manager: NSMigrationManager) throws {
+    do {
+    try super.performCustomValidation(forMapping: mapping, manager: manager)
+    } catch {
+      print(error)
+    }
   }
 }
