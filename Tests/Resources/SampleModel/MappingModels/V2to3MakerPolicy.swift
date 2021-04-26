@@ -17,7 +17,17 @@ final class V2to3MakerPolicy: NSEntityMigrationPolicy {
       fatalError("must have context")
     }
 
+    // implementation 1
     let maker = context.findOrCreateMaker(withName: makerName)
+
+    // implementation 2
+    //
+    // This implementation relies on the NSMigrationManager userInfo as lookup table to avoid fetch request
+    // (the previous implementation is fine too because it searches for already registered object, no actual fetch request are done)
+    // In general you may want to avoid to do many fetch requests doing a migration (mostly because you need to check for performance
+    // and memory pressure)
+    // let maker = context.findOrCreateMaker(withName: makerName, in: manager)
+
     if var currentCars = maker.value(forKey: CarsKey) as? Set<NSManagedObject> {
       currentCars.insert(car)
       maker.setValue(currentCars, forKey: CarsKey)
@@ -26,6 +36,10 @@ final class V2to3MakerPolicy: NSEntityMigrationPolicy {
       cars.insert(car)
       maker.setValue(cars, forKey: CarsKey)
     }
+  }
+  override func endInstanceCreation(forMapping mapping: NSEntityMapping, manager: NSMigrationManager) throws {
+    try super.endInstanceCreation(forMapping: mapping, manager: manager)
+    // This could be a good place to do same cleaning (i.e. NSMigrationManager userInfo) if they are needed
   }
 }
 
@@ -42,6 +56,34 @@ extension NSManagedObject {
 }
 
 extension NSManagedObjectContext {
+  fileprivate func findOrCreateMaker(withName name: String, in manager: NSMigrationManager) -> NSManagedObject {
+    // It's pretty common to use the NSMigrationManager userInfo property as a lookup table to avoid fetch requests
+    var userInfo: [AnyHashable: Any]
+    if let managerUserInfo = manager.userInfo {
+      userInfo = managerUserInfo
+    } else {
+      userInfo = [AnyHashable: Any]()
+    }
+    var makersLookup: [String: NSManagedObject]
+    if let lookup = userInfo["makers"] as? [String:NSManagedObject] {
+      makersLookup = lookup
+    } else {
+      makersLookup = [String: NSManagedObject]()
+      userInfo["makers"] = makersLookup
+    }
+
+    if let maker = makersLookup[name] {
+      return maker
+    }
+
+    let maker = NSEntityDescription.insertNewObject(forEntityName: MakerEntityName, into: self)
+    maker.setValue(name, forKey: NameKey)
+    makersLookup[name] = maker
+    userInfo["makers"] = makersLookup
+    manager.userInfo = userInfo
+    return maker
+  }
+
   fileprivate func findOrCreateMaker(withName name: String) -> NSManagedObject {
     guard let maker = materializedObject(matching: { $0.isMaker(withName: name) }) else {
       let maker = NSEntityDescription.insertNewObject(forEntityName: MakerEntityName, into: self)
