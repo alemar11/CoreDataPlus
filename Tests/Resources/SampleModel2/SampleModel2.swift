@@ -61,76 +61,9 @@ extension SampleModel2.SampleModel2Version {
         return [mappingModel]
       case .version2:
         let mappingModel = V3.makeMappingModelV2toV3()
-
-        let sourceModel = V2.makeManagedObjectModel()
-        let destinationModel = V3.makeManagedObjectModel()
-        var entityMappings = [NSEntityMapping]()
-
-        for mapping in mappingModel.entityMappings {
-          if let sourceName = mapping.sourceEntityName {
-            let mappingSourceHash = mapping.sourceEntityVersionHash!
-            let sourceHash = sourceModel.entityVersionHashesByName[sourceName]!
-            if mappingSourceHash != sourceHash, sourceModel.entitiesByName[sourceName]!.canBugMigration() {
-              mapping.sourceEntityVersionHash = sourceHash
-            } else if mappingSourceHash != sourceHash {
-              print("❌---- \(mapping)")
-            }
-          }
-          let destName = mapping.destinationEntityName!
-          let mappingDestHash = mapping.destinationEntityVersionHash!
-          let destHash = destinationModel.entityVersionHashesByName[destName]!
-          if mappingDestHash != destHash, destinationModel.entitiesByName[destName]!.canBugMigration() {
-            mapping.destinationEntityVersionHash = destHash
-          } else if mappingDestHash != destHash {
-            print("❌---- \(mapping)")
-          }
-          entityMappings.append(mapping)
-        }
-        mappingModel.entityMappings = entityMappings
-
-
-
         return [mappingModel]
       default:
         return []
     }
   }
-}
-
-//@available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-//private extension NSMappingModel {
-//  func fixMe() {
-//    let sourceModel = V2.makeManagedObjectModel()
-//    let destinationModel = V3.makeManagedObjectModel()
-//
-//    var entityMappings = [NSEntityMapping]()
-//    for mapping in self.entityMappings {
-//
-//      if let sourceName = mapping.sourceEntityName {
-//        let mappingSourceHash = mapping.sourceEntityVersionHash!
-//        let sourceHash = sourceModel.entityVersionHashesByName[sourceName]!
-//        if mappingSourceHash != sourceHash, sourceModel.entitiesByName[sourceName]!.canBugMigration() {
-//          mapping.sourceEntityVersionHash = sourceHash
-//        }
-//      }
-//      if let destName = mapping.destinationEntityName {
-//      let mappingDestHash = mapping.destinationEntityVersionHash!
-//      let destHash = destinationModel.entityVersionHashesByName[destName]!
-//      if mappingDestHash != destHash, destinationModel.entitiesByName[destName]!.canBugMigration() {
-//        mapping.destinationEntityVersionHash = destHash
-//      }
-//      }
-//      entityMappings.append(mapping)
-//    }
-//
-//    self.entityMappings = entityMappings
-//  }
-//}
-
-// https://github.com/diogot/CoreDataModelMigrationBug
-@available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-private extension NSEntityDescription {
-    func canBugMigration() -> Bool {
-      !properties.compactMap { $0 as? NSDerivedAttributeDescription }.isEmpty
-    }
 }

@@ -317,14 +317,21 @@ extension V3 {
   }
 
   static func makeBookMapping() -> NSEntityMapping {
+    let sourceEntityVersionHash = V2.makeManagedObjectModel().entityVersionHashesByName["Book"]
+    let destinationEntityVersionHash = V3.makeManagedObjectModel().entityVersionHashesByName["Book"]
+
     let mapping = NSEntityMapping()
     mapping.name = "BookToBook"
     mapping.mappingType = .customEntityMappingType
     mapping.sourceEntityName = "Book"
     mapping.destinationEntityName = "Book"
     mapping.entityMigrationPolicyClassName = String(describing: BookCoverToCoverMigrationPolicy.self)
-    mapping.sourceEntityVersionHash = V2.makeBookEntity().versionHash
-    mapping.destinationEntityVersionHash = V3.makeBookEntity().versionHash
+    mapping.sourceEntityVersionHash = sourceEntityVersionHash
+    mapping.destinationEntityVersionHash = destinationEntityVersionHash
+    // you can use the userInfo property to pass additional data to the migration policy
+    var userInfo = [AnyHashable: Any]()
+    userInfo["modelVersion"] = "V3"
+    mapping.userInfo = userInfo
 
     let uniqueID = NSPropertyMapping()
     uniqueID.name = #keyPath(BookV3.uniqueID)
@@ -370,14 +377,21 @@ extension V3 {
   }
 
   static func makeGraphicNovelMapping() -> NSEntityMapping {
+    let sourceEntityVersionHash = V2.makeManagedObjectModel().entityVersionHashesByName["GraphicNovel"]
+    let destinationEntityVersionHash = V3.makeManagedObjectModel().entityVersionHashesByName["GraphicNovel"]
+
     let mapping = NSEntityMapping()
     mapping.name = "GraphicNovelToGraphicNovel"
     mapping.mappingType = .customEntityMappingType
     mapping.sourceEntityName = "GraphicNovel"
     mapping.destinationEntityName = "GraphicNovel"
     mapping.entityMigrationPolicyClassName = String(describing: BookCoverToCoverMigrationPolicy.self)
-    mapping.sourceEntityVersionHash = V2.makeGraphicNovelEntity().versionHash
-    mapping.destinationEntityVersionHash = V3.makeGraphicNovelEntity().versionHash
+    mapping.sourceEntityVersionHash = sourceEntityVersionHash
+    mapping.destinationEntityVersionHash = destinationEntityVersionHash
+    // you can use the userInfo property to pass additional data to the migration policy
+    var userInfo = [AnyHashable: Any]()
+    userInfo["modelVersion"] = "V3"
+    mapping.userInfo = userInfo
 
     let uniqueID = NSPropertyMapping()
     uniqueID.name = #keyPath(BookV3.uniqueID)
@@ -560,6 +574,13 @@ class BookCoverToCoverMigrationPolicy: NSEntityMigrationPolicy {
 //    }
 //    manager.associate(sourceInstance: sInstance, withDestinationInstance: destinationInstance, for: mapping)
 
+
+    // This is how we can use the NSEntityMapping userInfo to pass additional data to the policy.
+    // This way we can, for instance, re-use the same policy for different migrations and change its loginc
+    // depending on the data passed in the userInfo dictionary.
+    guard let version = mapping.userInfo?["modelVersion"] as? String, version == "V3" else {
+      fatalError("Missing model version .")
+    }
 
     guard let frontCover = sInstance.value(forKey: #keyPath(BookV2.frontCover)) as? Cover else {
       return
