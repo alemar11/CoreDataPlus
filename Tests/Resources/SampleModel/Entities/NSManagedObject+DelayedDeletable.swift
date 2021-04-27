@@ -5,7 +5,7 @@ import CoreData
 private let markedForDeletionKey = "markedForDeletionAsOf"
 
 /// Objects adopting the `DelayedDeletable` support *two-step* deletion.
-public protocol DelayedDeletable: class {
+public protocol DelayedDeletable: AnyObject {
   /// Protocol `DelayedDeletable`.
   ///
   /// Checks whether or not the managed object’s `markedForDeletion` property has unsaved changes.

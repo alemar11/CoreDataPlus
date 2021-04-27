@@ -42,13 +42,6 @@ final class ProgrammaticMigrationTests: XCTestCase {
     }
   }
 
-  func testEntityName() {
-    XCTAssertNil(Author.entity().name)
-    let coordinator = NSPersistentStoreCoordinator(managedObjectModel: V1.makeManagedObjectModel())
-    XCTAssertNotNil(Author.entity().name)
-    XCTAssertNotNil(coordinator.managedObjectModel.entitiesByName["Author"])
-  }
-
   func testMigrationFromV1ToV2() throws {
     let url = URL.newDatabaseURL(withID: UUID())
 
@@ -353,6 +346,7 @@ final class ProgrammaticMigrationTests: XCTestCase {
     context.persistentStoreCoordinator = coordinator
     context.fillWithSampleData2()
     try context.save()
+    context._fix_sqlite_warning_when_destroying_a_store()
 
     let sourceVersion = try XCTUnwrap(try SampleModel2.SampleModel2Version(persistentStoreURL: url))
     let step = try XCTUnwrap(sourceVersion.migrationSteps(to: SampleModel2.SampleModel2Version.version2).first)
