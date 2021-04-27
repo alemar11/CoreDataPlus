@@ -77,4 +77,14 @@ final class ProgrammaticallyDefinedModelV3Tests: XCTestCase {
 
     XCTAssertEqual(author.favFeedbacks?.count, 2)
   }
+
+  func testInvestigationVersionHashes() {
+    // http://openradar.appspot.com/FB9044112
+    let coverVersionHash = V3.makeManagedObjectModel().entityVersionHashesByName["Cover"]
+    let bookVersionHash = V3.makeManagedObjectModel().entityVersionHashesByName["Book"]
+    XCTAssertEqual(V3.makeCoverEntity().versionHash, V3.makeCoverEntity().versionHash)
+    XCTAssertEqual(V3.makeBookEntity().versionHash, V3.makeBookEntity().versionHash)
+    XCTAssertNotEqual(V3.makeCoverEntity().versionHash, coverVersionHash) // Bug: these are expected to be equal
+    XCTAssertNotEqual(V3.makeBookEntity().versionHash, bookVersionHash) // Bug: these are expected to be equal
+  }
 }

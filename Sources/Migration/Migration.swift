@@ -97,16 +97,28 @@ public enum Migration {
       try autoreleasepool {
         #warning("TODO: review the progress object")
         migrationProgress?.becomeCurrent(withPendingUnitCount: 1)
-        let manager = MigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
+        //let manager = MigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
         migrationProgress?.resignCurrent()
         
         //manager.usesStoreSpecificMigrationManager = false
 
         let temporaryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString)
 
+        let stepProgress = Progress(totalUnitCount: Int64(step.mappings.count))
+        let token = stepProgress.observe(\.fractionCompleted, options: [.new]) { p, change in
+          print("✅", change.newValue)
+        }
+
         for mapping in step.mappings {
-          //let manager = MigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
-          print("-------------------------\n")
+          // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmCustomizing.html#//apple_ref/doc/uid/TP40004399-CH8-SW9
+          // Usually reusing the same NSMigrationManager for multiple mapping models works fine... until it doesn't
+          // (in particular if the model has entities with "uncommon" rules, i.e. relationships with min and max set with custom values).
+          // In these cases, one of the migrations could fail (mostly due to validation errors) unless we use different NSMigrationManager instance.
+          // Also, we can't add the same child progress multiple times.
+
+          let manager = MigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
+          //stepProgress.addChild(manager.progress, withPendingUnitCount: 1)
+
           // Reusing the same NSMigrationManager instance seems to cause some validation errors
           //let manager = MigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
           // migrations fails if the targetURL points to an already existing file

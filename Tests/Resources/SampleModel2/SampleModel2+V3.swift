@@ -52,9 +52,11 @@ extension V3 {
     let bookToAuthor = NSRelationshipDescription()
     bookToAuthor.name = #keyPath(BookV3.author)
     bookToAuthor.destinationEntity = author
-    bookToAuthor.isOptional = false
+    // 🚩 Set to optional just because if the model is build using the Xcode UI we have this error otherwise:
+    // Misconfigured Entity: Entity Author cannot have uniqueness constraints and to-one mandatory inverse relationship Book.author
+    bookToAuthor.isOptional = true
     bookToAuthor.isOrdered = false
-    bookToAuthor.minCount = 1
+    bookToAuthor.minCount = 0
     bookToAuthor.maxCount = 1
     bookToAuthor.deleteRule = .nullifyDeleteRule
 
@@ -95,9 +97,11 @@ extension V3 {
     let pageToBook = NSRelationshipDescription()
     pageToBook.name = #keyPath(PageV3.book)
     pageToBook.destinationEntity = book
-    pageToBook.isOptional = false
+    // 🚩 Set to optional just because if the model is build using the Xcode UI we have this error otherwise:
+    // Misconfigured Entity: Entity Book cannot have uniqueness constraints and to-one mandatory inverse relationship Page.book
+    pageToBook.isOptional = true
     pageToBook.isOrdered = false
-    pageToBook.minCount = 1
+    pageToBook.minCount = 0
     pageToBook.maxCount = 1
     pageToBook.deleteRule = .nullifyDeleteRule
 
@@ -120,7 +124,7 @@ extension V3 {
     return managedObjectModel
   }
 
-  static private func makeWriterEntity() -> NSEntityDescription {
+  static func makeWriterEntity() -> NSEntityDescription {
     let entity = NSEntityDescription(for: WriterV3.self, withName: String(describing: Writer.self))
     entity.isAbstract = true
 
@@ -132,7 +136,7 @@ extension V3 {
     return entity
   }
 
-  static private func makeAuthorEntity() -> NSEntityDescription {
+  static func makeAuthorEntity() -> NSEntityDescription {
     var entity = NSEntityDescription()
     entity = NSEntityDescription()
     entity.name = String(describing: Author.self) // 🚩 the entity name should stay the same
@@ -156,7 +160,7 @@ extension V3 {
   }
 
   @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-  static private func makeCoverEntity() -> NSEntityDescription {
+  static func makeCoverEntity() -> NSEntityDescription {
     var entity = NSEntityDescription()
     entity = NSEntityDescription()
     entity.name = String(describing: "Cover")
@@ -170,7 +174,7 @@ extension V3 {
   }
 
   @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-  static private func makeBookEntity() -> NSEntityDescription {
+  static func makeBookEntity() -> NSEntityDescription {
     var entity = NSEntityDescription()
     entity = NSEntityDescription()
     entity.name = String(describing: Book.self)
@@ -206,7 +210,7 @@ extension V3 {
     return entity
   }
 
-  static private func makePageEntity() -> NSEntityDescription {
+  static func makePageEntity() -> NSEntityDescription {
     var entity = NSEntityDescription()
     entity = NSEntityDescription()
     entity.name = String(describing: Page.self)
@@ -232,7 +236,7 @@ extension V3 {
     return entity
   }
 
-  static private func makeGraphicNovelEntity() -> NSEntityDescription {
+  static func makeGraphicNovelEntity() -> NSEntityDescription {
     var entity = NSEntityDescription()
     entity = NSEntityDescription()
     entity.name = String(describing: GraphicNovel.self)
@@ -247,7 +251,7 @@ extension V3 {
     return entity
   }
 
-  static private func makeFeedbackEntity() -> NSEntityDescription {
+  static func makeFeedbackEntity() -> NSEntityDescription {
     let entity = NSEntityDescription(for: FeedbackV3.self, withName: String(describing: Feedback.self))
     let bookID = NSAttributeDescription.uuid(name: #keyPath(FeedbackV3.bookID))
     bookID.isOptional = false
@@ -290,11 +294,6 @@ extension V3 {
 
   static func makeCoverMapping() -> NSEntityMapping {
     let destinationEntityVersionHash = V3.makeManagedObjectModel().entityVersionHashesByName["Cover"]
-
-    print(V3.makeCoverEntity().versionHash == V3.makeCoverEntity().versionHash)
-    print(V3.makeCoverEntity().versionHash == V3.makeCoverEntity().versionHash)
-    print(V3.makeCoverEntity().versionHash == V3.makeCoverEntity().versionHash)
-    print(V3.makeCoverEntity().versionHash == destinationEntityVersionHash)
 
     let mapping = NSEntityMapping()
     mapping.name = "Cover"
@@ -356,6 +355,7 @@ extension V3 {
     let pages = NSPropertyMapping()
     pages.name = #keyPath(BookV3.pages)
     pages.valueExpression = NSExpression(format: #"FUNCTION($manager, "destinationInstancesForEntityMappingNamed:sourceInstances:", "PageToPage", $source.\#(#keyPath(BookV2.pages)))"#)
+
 
     let author = NSPropertyMapping()
     author.name = #keyPath(BookV3.author)
@@ -611,35 +611,68 @@ extension V3 {
     // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmCustomizing.html#//apple_ref/doc/uid/TP40004399-CH8-SW9
     // https://www.objc.io/issues/4-core-data/core-data-migration/
     // https://stackoverflow.com/questions/4875553/memory-issues-migrating-large-coredata-datastores-on-iphone
-    
+
+    // Model for a single mapping model without 2 separate Feedback entity mappings
+    //    let mappingModel = NSMappingModel()
+    //    mappingModel.entityMappings.append(makeGraphicNovelMapping())
+    //    mappingModel.entityMappings.append(makeFeedbackMapping())
+    //    mappingModel.entityMappings.append(makePageMapping())
+    //    mappingModel.entityMappings.append(makeAuthorMapping())
+    //    mappingModel.entityMappings.append(makeCoverMapping())
+    //    mappingModel.entityMappings.append(makeBookMapping())
+    //    return [mappingModel]
+
     let mappingModel1 = NSMappingModel()
     mappingModel1.entityMappings.append(makeFeedbackMappingPartOne())
     mappingModel1.entityMappings.append(makeFeedbackMappingPartTwo())
     //mappingModel1.entityMappings.append(makeFeedbackMapping())
 
-//    let mappingModel = NSMappingModel()
-//    mappingModel.entityMappings.append(makeGraphicNovelMapping())
-//    mappingModel.entityMappings.append(makeFeedbackMapping())
-//    mappingModel.entityMappings.append(makePageMapping())
-//    mappingModel.entityMappings.append(makeAuthorMapping())
-//    mappingModel.entityMappings.append(makeCoverMapping())
-//    mappingModel.entityMappings.append(makeBookMapping())
-//    return [mappingModel]
-
     let mappingModel2 = NSMappingModel()
+    mappingModel2.entityMappings.append(makePageMapping())
     mappingModel2.entityMappings.append(makeCoverMapping())
     mappingModel2.entityMappings.append(makeAuthorMapping())
-
-    mappingModel2.entityMappings.append(makePageMapping())
-    mappingModel2.entityMappings.append(makeGraphicNovelMapping())
     mappingModel2.entityMappings.append(makeBookMapping())
+    mappingModel2.entityMappings.append(makeGraphicNovelMapping())
 
-    return [mappingModel2, mappingModel1]
+    // ⚠️ if we use the same NSMigrationManager to to migrate these mapping models,
+    // the order count: [1,2] will fail while [2,1] will succeed.
+    //
+    // In the failing case ([1,2]) it seems that when books are saved a validation error is thrown about
+    // not having enough pages.
+    // This could be solved in 2 ways:
+    // 1.
+    //
+    // bookToPages.isOptional = false
+    // bookToPages.isOrdered = false
+    // bookToPages.minCount = 1
+    // bookToPages.maxCount = 10_000
+    //
+    // should be set as:
+    //
+    // bookToPages.isOptional = false
+    // bookToPages.isOrdered = false
+    // bookToPages.minCount = 0 🚩
+    // bookToPages.maxCount = 10_000
+    //
+    // 2.
+    //
+    // Recreate the relationship between Book and Page in the BookCoverToCoverMigrationPolicy
+    // in the createDestinationInstances(forSource:in:manager:); we can't do it in createRelationships(forDestination:in:manager:)
+    // because the migration will fail before calling that method.
+    //
+    // Sample error:
+    // "Error Domain=NSCocoaErrorDomain Code=1580 \"Troppi pochi elementi in %{PROPERTY}@.\" UserInfo={NSValidationErrorObject=<NSManagedObject: 0x7b14000349e0> (entity: Book; id: 0x7b08000ca1a0 <x-coredata:///Book/t64D6FDB7-03DB-4244-90D3-EE867E8019C316396>; data: <fault>), NSLocalizedDescription=Troppi pochi elementi in %{PROPERTY}@., NSValidationErrorKey=pages, NSValidationErrorValue=Relationship 'pages' on managed object (0x7b14000349e0) <NSManagedObject: 0x7b14000349e0> (entity: Book; id: 0x7b08000ca1a0 <x-coredata:///Book/t64D6FDB7-03DB-4244-90D3-EE867E8019C316396>; data: <fault>) with objects {(\n)}}"
+    // Since the error is about having not enough elements, I think that setting minCount to 1 triggers a pre-save validation on the first migration pass (before relationships are set again in the second migration pass).
+    //
+    // I haven't figured it out why inverting the order to [2,1] doesn't cause any errors (the the entities in the mapping models aren't releated).
+    // Maybe these validations aren't triggered in [2,1] because the Book table is created and then populated right away.
+    return [mappingModel1, mappingModel2]
   }
 }
 
 // More on migrations:
 // https://stackoverflow.com/questions/11190385/custom-nsentitymigrationpolicy-relation
+// https://horseshoe7.wordpress.com/2017/09/13/manual-core-data-migrations-lessons-learned/
 
 @objc(BookCoverToCoverMigrationPolicy)
 class BookCoverToCoverMigrationPolicy: NSEntityMigrationPolicy {
@@ -652,7 +685,7 @@ class BookCoverToCoverMigrationPolicy: NSEntityMigrationPolicy {
     // If we don't call the super implementation we need to do the association programmatically like so:
     // Note: since you already have a destinationInstance, you won't need to call anymore manager.destinationInstances(forEntityMappingName:sourceInstances:)
 //    let destinationInstance = NSEntityDescription.insertNewObject(forEntityName: mapping.destinationEntityName!, into: manager.destinationContext)
-//    let destinationInstanceKeys = destinationInstance.entity.attributesByName.keys
+//    let destinationInstanceKeys = destinationInstance.entity.attributesByName.keys // relationship keys aren't defined here (which is fine)
 //    destinationInstanceKeys.forEach { (key) in
 //      if let value = sInstance.value(forKey: key) {
 //        if let nsobject = value as? NSObject, nsobject.isEqual(NSNull()) {
@@ -683,16 +716,10 @@ class BookCoverToCoverMigrationPolicy: NSEntityMigrationPolicy {
       fatalError("must have context")
     }
 
-    print("⚠️", context.registeredObjects.count)
-
-//    let sAlias = sInstance.value(forKeyPath: "author.alias") as? String
-//    let author = context.registeredObjects.first { object -> Bool in
-//      if object.entity.name == "Author", let dAlias = object.value(forKey: "alias") as? String {
-//        return dAlias == sAlias
-//      }
-//      return false
-//    }
-    //book.setValue(author, forKey: "author")
+    // ⚠️
+//    let sBooks = sInstance.value(forKey: "pages") as? Set<NSManagedObject> ?? Set()
+//    let dBooks = manager.destinationInstances(forEntityMappingName: "PageToPage", sourceInstances: Array(sBooks))
+//    book.setValue(Set(dBooks), forKey: "pages")
 
     let cover = NSEntityDescription.insertNewObject(forEntityName: "Cover", into: context)
     cover.setValue(frontCover.text.data(using: .utf8), forKey: #keyPath(CoverV3.data))
@@ -706,11 +733,7 @@ class BookCoverToCoverMigrationPolicy: NSEntityMigrationPolicy {
     // because we already set up one side of them.
   }
 
-  override func performCustomValidation(forMapping mapping: NSEntityMapping, manager: NSMigrationManager) throws {
-    do {
-    try super.performCustomValidation(forMapping: mapping, manager: manager)
-    } catch {
-      print(error)
-    }
-  }
+//  override func performCustomValidation(forMapping mapping: NSEntityMapping, manager: NSMigrationManager) throws {
+//    try super.performCustomValidation(forMapping: mapping, manager: manager)
+//  }
 }

@@ -22,10 +22,8 @@ final class MigrationsTests: BaseTestCase {
         let sourceURL = containerSQLite.persistentStoreDescriptions[0].url!
         context.fillWithSampleData()
         try context.save()
-        print("sample create at: \(sourceURL)")
         completion(.success(sourceURL))
       } catch {
-        print(error)
         completion(.failure(error))
       }
     }

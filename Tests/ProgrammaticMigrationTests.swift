@@ -286,6 +286,13 @@ final class ProgrammaticMigrationTests: XCTestCase {
         }
       }
 
+      let books = try XCTUnwrap(author.books as? Set<BookV3>)
+      books.forEach {
+        XCTAssertEqual($0.pages.count, 99)
+      }
+
+      newContext._fix_sqlite_warning_when_destroying_a_store()
+      try FileManager.default.removeItem(at: url)
   }
 
   func testInvestigationNSExpression() {

@@ -282,24 +282,6 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
     XCTAssertEqual(car.currentDrivingSpeed, 0)
   }
 
-  func testXXX() throws {
-    let container = InMemoryPersistentContainer.makeNew()
-    let viewContext = container.viewContext
-
-    viewContext.performAndWait {
-      let car = Car(context: viewContext)
-      car.maker = "FIAT"
-      car.model = "Panda"
-      car.numberPlate = UUID().uuidString
-      car.currentDrivingSpeed = 50
-      try! viewContext.save()
-    }
-
-    viewContext.performAndWait {
-      print(viewContext.registeredObjects)
-    }
-  }
-
   func testInvestigationTransientPropertiesBehaviorInParentChildContextRelationship() throws {
     let container = InMemoryPersistentContainer.makeNew()
     let viewContext = container.viewContext
