@@ -426,5 +426,3 @@ extension NSEntityMapping {
 // TODO: programmatic mapping models (investigate how we can leverage them to show a progress)
 
 // TODO: method to create a View context's child VIEW context
-
-// TODO: disable migration log in test plans
