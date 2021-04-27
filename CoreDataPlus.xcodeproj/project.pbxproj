@@ -234,6 +234,10 @@
 		D20F4C202622029400F0CB25 /* ProgrammaticMigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20F4C1F2622029400F0CB25 /* ProgrammaticMigrationTests.swift */; };
 		D20F4C212622029400F0CB25 /* ProgrammaticMigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20F4C1F2622029400F0CB25 /* ProgrammaticMigrationTests.swift */; };
 		D20F4C222622029400F0CB25 /* ProgrammaticMigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20F4C1F2622029400F0CB25 /* ProgrammaticMigrationTests.swift */; };
+		D261DA21263861820075BA3C /* MigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D261DA20263861820075BA3C /* MigrationManager.swift */; };
+		D261DA22263861820075BA3C /* MigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D261DA20263861820075BA3C /* MigrationManager.swift */; };
+		D261DA23263861820075BA3C /* MigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D261DA20263861820075BA3C /* MigrationManager.swift */; };
+		D261DA24263861820075BA3C /* MigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D261DA20263861820075BA3C /* MigrationManager.swift */; };
 		D27A2E36255F29D20043B43F /* SampleModelV2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D27A2E2D255F29D20043B43F /* SampleModelV2.sqlite */; };
 		D27A2E37255F29D20043B43F /* SampleModelV2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D27A2E2D255F29D20043B43F /* SampleModelV2.sqlite */; };
 		D27A2E38255F29D20043B43F /* SampleModelV2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D27A2E2D255F29D20043B43F /* SampleModelV2.sqlite */; };
@@ -405,6 +409,7 @@
 		D20F4BC62621F3B000F0CB25 /* SampleModel2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleModel2.swift; sourceTree = "<group>"; };
 		D20F4C1F2622029400F0CB25 /* ProgrammaticMigrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammaticMigrationTests.swift; sourceTree = "<group>"; };
 		D254E22A23C3BA7F00A1586E /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = SOURCE_ROOT; };
+		D261DA20263861820075BA3C /* MigrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationManager.swift; sourceTree = "<group>"; };
 		D27A2E2D255F29D20043B43F /* SampleModelV2.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleModelV2.sqlite; sourceTree = "<group>"; };
 		D27A2E2E255F29D20043B43F /* V2toV3.cdm */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = V2toV3.cdm; sourceTree = "<group>"; };
 		D27A2E9F255F2A3C0043B43F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -662,6 +667,7 @@
 				D2011A022614E3D9001902FB /* ModelVersion.swift */,
 				D2011A032614E3D9001902FB /* Migration.swift */,
 				D2011A042614E3D9001902FB /* Migration+Step.swift */,
+				D261DA20263861820075BA3C /* MigrationManager.swift */,
 			);
 			path = Migration;
 			sourceTree = "<group>";
@@ -1106,6 +1112,7 @@
 				061C689426209443000BF0A2 /* CustomTransformer.swift in Sources */,
 				D2011A1A2614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
 				06B71CB92629DB04008DFD11 /* PersistentStoreOptions.swift in Sources */,
+				D261DA22263861820075BA3C /* MigrationManager.swift in Sources */,
 				D2011A4A2614E3D9001902FB /* ModelVersion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1139,6 +1146,7 @@
 				061C689526209443000BF0A2 /* CustomTransformer.swift in Sources */,
 				D2011A1B2614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
 				06B71CBA2629DB05008DFD11 /* PersistentStoreOptions.swift in Sources */,
+				D261DA23263861820075BA3C /* MigrationManager.swift in Sources */,
 				D2011A4B2614E3D9001902FB /* ModelVersion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1172,6 +1180,7 @@
 				061C689626209443000BF0A2 /* CustomTransformer.swift in Sources */,
 				D2011A1C2614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
 				06B71CBB2629DB05008DFD11 /* PersistentStoreOptions.swift in Sources */,
+				D261DA24263861820075BA3C /* MigrationManager.swift in Sources */,
 				D2011A4C2614E3D9001902FB /* ModelVersion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1205,6 +1214,7 @@
 				061C689326209443000BF0A2 /* CustomTransformer.swift in Sources */,
 				D2011A192614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
 				06B71CB82629DB04008DFD11 /* PersistentStoreOptions.swift in Sources */,
+				D261DA21263861820075BA3C /* MigrationManager.swift in Sources */,
 				D2011A492614E3D9001902FB /* ModelVersion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -2,6 +2,7 @@
 
 import XCTest
 import CoreData
+import Foundation
 @testable import CoreDataPlus
 
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
@@ -258,7 +259,6 @@ final class ProgrammaticMigrationTests: XCTestCase {
                                               enableWALCheckpoint: true)
 
       // Validation
-      // TODO
 
       let newManagedObjectModel = V3.makeManagedObjectModel()
       let newCoordinator = NSPersistentStoreCoordinator(managedObjectModel: newManagedObjectModel)
@@ -332,6 +332,52 @@ final class ProgrammaticMigrationTests: XCTestCase {
       let value = expression.expressionValue(with: nil, context: nil) as? NSString
       XCTAssertEqual(value, "h")
     }
+  }
+
+  func testCustomMigrationManagerCancellation() throws {
+    let url = URL.newDatabaseURL(withID: UUID())
+    let url2 = URL.newDatabaseURL(withID: UUID())
+
+    let description = NSPersistentStoreDescription(url: url)
+    description.configuration = nil
+    description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+    description.setOption(true as NSNumber, forKey: NSPersistentHistoryTokenKey)
+
+    let oldManagedObjectModel = V1.makeManagedObjectModel()
+    let coordinator = NSPersistentStoreCoordinator(managedObjectModel: oldManagedObjectModel)
+    coordinator.addPersistentStore(with: description) { (description, error) in
+      XCTAssertNil(error)
+    }
+
+    let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+    context.persistentStoreCoordinator = coordinator
+    context.fillWithSampleData2()
+    try context.save()
+
+    let sourceVersion = try XCTUnwrap(try SampleModel2.SampleModel2Version(persistentStoreURL: url))
+    let step = try XCTUnwrap(sourceVersion.migrationSteps(to: SampleModel2.SampleModel2Version.version2).first)
+
+    let mappingModel = step.mappings.first!
+
+    let manager = MigrationManager(sourceModel: sourceVersion.managedObjectModel(), destinationModel: step.destinationModel)
+    manager.progress.cancel()
+    XCTAssertThrowsError(
+      try manager.migrateStore(from: url,
+                               sourceType: NSSQLiteStoreType,
+                               options: nil,
+                               with: mappingModel,
+                               toDestinationURL: url2,
+                               destinationType: NSSQLiteStoreType,
+                               destinationOptions: nil),
+      "It should throw an error because the migration has been cancelled.")
+    { error in
+      let nserror = error as NSError
+      XCTAssertEqual(nserror.domain, bundleIdentifier)
+      XCTAssertEqual(nserror.code, NSMigrationCancelledError)
+    }
+
+    try FileManager.default.removeItem(at: url)
+    try FileManager.default.removeItem(at: url2)
   }
 }
 
