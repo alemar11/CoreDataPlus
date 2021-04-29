@@ -224,3 +224,31 @@ extension Migration {
                           progress: progress)
   }
 }
+
+open class Migrator: NSObject, ProgressReporting {
+  public private(set) lazy var progress: Progress = {
+    var progress = Progress(totalUnitCount: 100)
+    return progress
+  }()
+
+  let sourceStoreDescription: NSPersistentStoreDescription
+  let destinationStoreDescription: NSPersistentStoreDescription
+
+  init(sourceStoreDescription: NSPersistentStoreDescription, destinationStoreDescription: NSPersistentStoreDescription) {
+    self.sourceStoreDescription = sourceStoreDescription
+    self.destinationStoreDescription = destinationStoreDescription
+  }
+
+  func migrate<Version: ModelVersion>(to targetVersion: Version, deleteSource: Bool, enableWALCheckpoint: Bool = false) {
+
+  }
+
+  open func lightweightMigrationManager() -> NSMigrationManager.Type {
+    // return estimated time not a NSMigrationManager
+    return NSMigrationManager.self
+  }
+
+  open func heavyweightMigrationManager() -> NSMigrationManager.Type {
+    return NSMigrationManager.self
+  }
+}
