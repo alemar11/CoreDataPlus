@@ -1,5 +1,15 @@
 # Changelog
 
+### 4.0.0 WIP
+
+- Added `NSDerivedAttributeDescription` utility methods.
+- Added `NSAttributeDescription` utility methods.
+- Added `NSEntityMapping` utility methods.
+- Added `NSAttributeDescription` utility methods.
+- Added a `NSMigrationManager` subclass (`MigrationManger`) to do programmatic *heavyweight* migrations with progress reporting.
+- `DataTransformer` renamed as `CustomTransformer`.
+- Added a way to fake progress reporting for *lightweight* migrations.
+
 ### 3.0.0 ⭐
 
 - Added a generic `NSSecureUnarchiveFromDataTransformer` subclass (*Transformer*) to easily implement CoreData *Transformable* attributes.

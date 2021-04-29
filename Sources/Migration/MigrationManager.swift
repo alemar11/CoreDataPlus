@@ -12,8 +12,7 @@ open class MigrationManager: NSMigrationManager, ProgressReporting {
   public private(set) lazy var progress: Progress = {
     let progress = Progress(totalUnitCount: 100)
     progress.cancellationHandler = { [weak self] in
-      let error = NSError(domain: bundleIdentifier, code: NSMigrationCancelledError, userInfo: nil)
-      self?.cancel(error)
+      self?.cancel()
     }
     return progress
   }()
@@ -32,6 +31,8 @@ open class MigrationManager: NSMigrationManager, ProgressReporting {
 
   // MARK: - NSMigrationManager
 
+  private var error: Error?
+
   open override func migrateStore(from sourceURL: URL,
                              sourceType sStoreType: String,
                              options sOptions: [AnyHashable : Any]? = nil,
@@ -49,14 +50,21 @@ open class MigrationManager: NSMigrationManager, ProgressReporting {
                        destinationOptions: dOptions)
   }
 
+  //let lock = NSLock()
+
   open override func cancelMigrationWithError(_ error: Error) {
+//    lock.lock()
+//    defer { lock.unlock() }
     // TODO: lock
     if !progress.isCancelled {
+      self.error = error
       progress.cancel()
     }
   }
 
-  private func cancel(_ error: Error) {
+  private func cancel() {
+    let error = self.error ?? NSError(domain: bundleIdentifier, code: NSMigrationCancelledError, userInfo: nil)
+    self.error = nil // the NSMigrationManager instance may be used for multiple migrations
     super.cancelMigrationWithError(error)
   }
 }

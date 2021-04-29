@@ -9,8 +9,9 @@ import Foundation
 final class ProgrammaticMigrationTests: XCTestCase {
 
   func testInferringMappingModelFromV1toV2() throws {
-    let mappingModel = SampleModel2.SampleModel2Version.version1.inferredMappingModelToNextModelVersion()
-    let mappings = try XCTUnwrap(mappingModel?.entityMappings)
+    let mappingModel = try XCTUnwrap(SampleModel2.SampleModel2Version.version1.inferredMappingModelToNextModelVersion())
+    XCTAssertTrue(mappingModel.isInferred)
+    let mappings = try XCTUnwrap(mappingModel.entityMappings)
     let authorMappingModel = try XCTUnwrap(mappings.first(where:{ $0.sourceEntityName == "Author" }))
     XCTAssertEqual(authorMappingModel.mappingType, .transformEntityMappingType)
 
@@ -402,6 +403,9 @@ extension NSEntityMapping {
     return Properties(userInfo: info)
   }
 }
+
+
+
 /*
  https://developer.apple.com/forums/thread/118924
  That error is because you also removed the history tracking option. Which you shouldn't do after you've enabled it.

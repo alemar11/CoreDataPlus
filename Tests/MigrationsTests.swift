@@ -250,21 +250,54 @@ final class MigrationsTests: BaseTestCase {
     migratedContext._fix_sqlite_warning_when_destroying_a_store()
     token.invalidate()
   }
-}
 
-extension NSManagedObjectContext {
-  convenience init(model: NSManagedObjectModel, storeURL: URL) {
-    let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
-    try! psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
-    self.init(concurrencyType: .mainQueueConcurrencyType)
-    persistentStoreCoordinator = psc
+  func testFakeProgressReportingWorkerProgress() throws {
+    let workExpectation = self.expectation(description: "Actual work is completed.")
+    let worker = FakeProgressReportingWorker(estimatedTime: 2, work: { isAlreadyCancelled in
+      XCTAssertFalse(isAlreadyCancelled)
+      sleep(2)
+      workExpectation.fulfill()
+    }, cancellation: {
+      XCTFail("No cancel commands have been sent.")
+    })
+
+    let token = worker.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
+      print(progress.fractionCompleted)
+    }
+
+    let progressExpectation = XCTKVOExpectation(keyPath: #keyPath(Progress.isFinished), object: worker.progress, expectedValue: true, options: [.new])
+
+    try worker.run()
+
+    wait(for: [workExpectation, progressExpectation], timeout: 10, enforceOrder: true)
+    token.invalidate()
   }
 
-  func _fix_sqlite_warning_when_destroying_a_store() {
-    /// If SQLITE_ENABLE_FILE_ASSERTIONS is set to 1 tests crash without this fix.
-    /// solve the warning: "BUG IN CLIENT OF libsqlite3.dylib: database integrity compromised by API violation: vnode unlinked while in use..."
-    for store in persistentStoreCoordinator!.persistentStores {
-      try! persistentStoreCoordinator?.remove(store)
+  func testFakeProgressReportingWorkerCancellation() throws {
+    let workExpectation = self.expectation(description: "Actual work is completed.")
+    let cancellationExpectation = self.expectation(description: "Actual work is completed.")
+
+    let worker = FakeProgressReportingWorker(estimatedTime: 2, work: { isAlreadyCancelled in
+      XCTAssertTrue(isAlreadyCancelled)
+      sleep(2)
+      workExpectation.fulfill()
+    }, cancellation: {
+      cancellationExpectation.fulfill()
+    })
+
+    let token = worker.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
+      print(progress.fractionCompleted)
     }
+
+    let progressCancellationExpectation = XCTKVOExpectation(keyPath: #keyPath(Progress.isCancelled),
+                                                            object: worker.progress,
+                                                            expectedValue: true,
+                                                            options: [.new])
+
+    worker.progress.cancel()
+    try worker.run()
+
+    wait(for: [progressCancellationExpectation, cancellationExpectation, workExpectation], timeout: 10, enforceOrder: true)
+    token.invalidate()
   }
 }

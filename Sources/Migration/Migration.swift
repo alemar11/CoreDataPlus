@@ -110,6 +110,12 @@ public enum Migration {
         }
 
         for mapping in step.mappings {
+          if mapping.isInferred {
+            print("➡️➡️ LIGHT MIGRATION")
+          } else {
+            print("➡️➡️ HEAVY MIGRATION")
+          }
+
           // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmCustomizing.html#//apple_ref/doc/uid/TP40004399-CH8-SW9
           // Usually reusing the same NSMigrationManager for multiple mapping models works fine... until it doesn't
           // (in particular if the model has entities with "uncommon" rules, i.e. relationships with min and max set with custom values).
@@ -117,7 +123,7 @@ public enum Migration {
           // Also, we can't add the same child progress multiple times.
 
           let manager = MigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
-          //stepProgress.addChild(manager.progress, withPendingUnitCount: 1)
+          stepProgress.addChild(manager.progress, withPendingUnitCount: 1)
 
           // Reusing the same NSMigrationManager instance seems to cause some validation errors
           //let manager = MigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)

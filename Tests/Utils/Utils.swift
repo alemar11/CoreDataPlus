@@ -5,6 +5,8 @@ import CoreData
 
 let model = SampleModelVersion.version1.managedObjectModel()
 
+// MARK: - URL
+
 extension URL {
   static func newDatabaseURL(withID id: UUID) -> URL {
     newDatabaseURL(withName: id.uuidString)
@@ -71,4 +73,23 @@ extension Foundation.Bundle {
     // XCTests Fallback
     return Bundle(for: Dummy.self)
   }()
+}
+
+// MARK: - NSManagedObjectContext
+
+extension NSManagedObjectContext {
+  convenience init(model: NSManagedObjectModel, storeURL: URL) {
+    let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
+    try! psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
+    self.init(concurrencyType: .mainQueueConcurrencyType)
+    persistentStoreCoordinator = psc
+  }
+
+  func _fix_sqlite_warning_when_destroying_a_store() {
+    /// If SQLITE_ENABLE_FILE_ASSERTIONS is set to 1 tests crash without this fix.
+    /// solve the warning: "BUG IN CLIENT OF libsqlite3.dylib: database integrity compromised by API violation: vnode unlinked while in use..."
+    for store in persistentStoreCoordinator!.persistentStores {
+      try! persistentStoreCoordinator?.remove(store)
+    }
+  }
 }
