@@ -31,6 +31,10 @@ open class MigrationManager: NSMigrationManager, ProgressReporting {
 
   // MARK: - NSMigrationManager
 
+  public required override init(sourceModel: NSManagedObjectModel, destinationModel: NSManagedObjectModel) {
+    super.init(sourceModel: sourceModel, destinationModel: destinationModel)
+  }
+
   private var error: Error?
 
   open override func migrateStore(from sourceURL: URL,

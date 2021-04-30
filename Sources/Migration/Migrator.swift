@@ -3,11 +3,6 @@
 import CoreData
 
 open class Migrator: NSObject, ProgressReporting {
-  enum MigrationType {
-    case lightweight
-    case heavyweight
-  }
-  
   public private(set) lazy var progress: Progress = {
     // We don't need to manage any cancellations here:
     // if this progress is cancelled, the cancellation is inherited by all the migration step progresses
@@ -20,12 +15,12 @@ open class Migrator: NSObject, ProgressReporting {
   let sourceStoreDescription: NSPersistentStoreDescription
   let destinationStoreDescription: NSPersistentStoreDescription
 
-  init(sourceStoreDescription: NSPersistentStoreDescription, destinationStoreDescription: NSPersistentStoreDescription) {
+  public init(sourceStoreDescription: NSPersistentStoreDescription, destinationStoreDescription: NSPersistentStoreDescription) {
     self.sourceStoreDescription = sourceStoreDescription
     self.destinationStoreDescription = destinationStoreDescription
   }
 
-  func migrate<Version: ModelVersion>(to targetVersion: Version, deleteSource: Bool, enableWALCheckpoint: Bool = false) throws {
+  public func migrate<Version: ModelVersion>(to targetVersion: Version, enableWALCheckpoint: Bool = false) throws {
     guard let sourceURL = sourceStoreDescription.url else { fatalError("Source NSPersistentStoreDescription requires a URL.") }
     guard let destinationURL = destinationStoreDescription.url else { fatalError("Destination NSPersistentStoreDescription requires a URL.") }
 
@@ -37,20 +32,17 @@ open class Migrator: NSObject, ProgressReporting {
                      enableWALCheckpoint: enableWALCheckpoint)
   }
 
-  private var currentMigrationManager: NSMigrationManager?
+  /// Returns the estimated time for a lightweight migration step.
+  open func estimatedTimeForForLightweightMigration(sourceVersionName: String, to destinationVersionName: String, using mappingModel: NSMappingModel) -> TimeInterval { 60 }
 
-//  open func migrationManagerForLightweightMigration() -> NSMigrationManager.Type {
-//    // return estimated time not a NSMigrationManager
-//    return NSMigrationManager.self
-//  }
-//
-//  open func migrationManagerForHeavyweightMigration() -> NSMigrationManager.Type {
-//    return NSMigrationManager.self
-//  }
+  /// Returns the `MigrationManager` type to be used during a heavyweight migration step.
+  open func migrationManagerForHeavyWeightMigrationFrom(sourceVersionName: String, to destinationVersionName: String, using mappingModel: NSMappingModel) -> MigrationManager.Type {
+    MigrationManager.self
+  }
 }
 
 extension Migrator {
-  func migrateStore<Version: ModelVersion>(from sourceURL: URL,
+  fileprivate func migrateStore<Version: ModelVersion>(from sourceURL: URL,
                                            sourceOptions: PersistentStoreOptions? = nil,
                                            to targetURL: URL,
                                            targetOptions: PersistentStoreOptions? = nil,
@@ -103,7 +95,10 @@ extension Migrator {
 
             let manager = NSMigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
             manager.usesStoreSpecificMigrationManager = true // default
-            let worker = FakeProgressReportingWorker(estimatedTime: 2, totalUnitCount: 100, interval: 0.001) { isAlreadyCancelled in
+
+            let estimatedTime = self.estimatedTimeForForLightweightMigration(sourceVersionName: step.sourceVersionName, to: step.destinationVersionName, using: mappingModel)
+
+            let worker = FakeProgressReportingWorker(estimatedTime: estimatedTime, totalUnitCount: 100, interval: 1) { isAlreadyCancelled in
               if isAlreadyCancelled {
                 manager.cancelMigrationWithError(NSError.migrationCancelled)
               }
@@ -128,7 +123,8 @@ extension Migrator {
             // In these cases, one of the migrations could fail (mostly due to validation errors) unless we use different NSMigrationManager instance.
             // Also, we can't add the same child progress multiple times.
 
-            let manager = MigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
+            let managerClass = self.migrationManagerForHeavyWeightMigrationFrom(sourceVersionName: step.sourceVersionName, to: step.destinationVersionName, using: mappingModel)
+            let manager = managerClass.init(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
             mappingModelMigrationProgress.cancellationHandler = {
               manager.cancelMigrationWithError(NSError.migrationCancelled)
             }

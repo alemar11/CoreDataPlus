@@ -137,8 +137,6 @@ public enum Migration {
             manager = customManager
           }
 
-
-
           // Reusing the same NSMigrationManager instance seems to cause some validation errors
           // migrations fails if the targetURL points to an already existing file
           try manager.migrateStore(from: currentURL,

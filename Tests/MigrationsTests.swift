@@ -175,7 +175,7 @@ final class MigrationsTests: BaseTestCase {
     let sourceDescription = NSPersistentStoreDescription(url: sourceURL)
     let destinationDescription = NSPersistentStoreDescription(url: sourceURL)
 
-    let migrator = Migrator(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
+    let migrator = CustomMigrator(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
 
     // When
     var completion = 0.0
@@ -183,7 +183,7 @@ final class MigrationsTests: BaseTestCase {
       completion = progress.fractionCompleted
     }
 
-    try migrator.migrate(to: targetVersion, deleteSource: false, enableWALCheckpoint: true)
+    try migrator.migrate(to: targetVersion, enableWALCheckpoint: true)
 
     //try Migration.migrateStore(at: sourceURL, targetVersion: targetVersion, enableWALCheckpoint: true, progress: progress)
     let migratedContext = NSManagedObjectContext(model: targetVersion.managedObjectModel(), storeURL: sourceURL)
@@ -370,5 +370,13 @@ final class MigrationsTests: BaseTestCase {
 
     wait(for: [progressCancellationExpectation, cancellationExpectation, workExpectation], timeout: 10, enforceOrder: true)
     token.invalidate()
+  }
+}
+
+extension MigrationsTests {
+  class CustomMigrator: Migrator {
+    override func estimatedTimeForForLightweightMigration(sourceVersionName: String,
+                                                          to destinationVersionName: String,
+                                                          using mappingModel: NSMappingModel) -> TimeInterval { 2 }
   }
 }

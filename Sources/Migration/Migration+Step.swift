@@ -18,9 +18,9 @@ extension Migration {
 }
 
 public final class MigrationStep<Version: ModelVersion> {
-  public let sourceVersion: Version.RawValue
+  public let sourceVersionName: String
   public let sourceModel: NSManagedObjectModel
-  public let destinationVersion: Version.RawValue
+  public let destinationVersionName: String
   public let destinationModel: NSManagedObjectModel
   public let mappingModels: [NSMappingModel]
 
@@ -28,9 +28,9 @@ public final class MigrationStep<Version: ModelVersion> {
     guard let mappingModels = sourceVersion.mappingModelsToNextModelVersion() else {
       return nil
     }
-    self.sourceVersion = sourceVersion.rawValue
+    self.sourceVersionName = sourceVersion.modelName
     self.sourceModel = sourceVersion.managedObjectModel()
-    self.destinationVersion = destinationVersion.rawValue
+    self.destinationVersionName = destinationVersion.modelName
     self.destinationModel = destinationVersion.managedObjectModel()
     self.mappingModels = mappingModels
   }

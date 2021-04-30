@@ -6,6 +6,40 @@ import Foundation
 @testable import CoreDataPlus
 
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+extension ProgrammaticMigrationTests {
+  class CustomMigrationManager: MigrationManager {
+    override func migrateStore(from sourceURL: URL,
+                               sourceType sStoreType: String,
+                               options sOptions: [AnyHashable : Any]? = nil,
+                               with mappings: NSMappingModel?,
+                               toDestinationURL dURL: URL,
+                               destinationType dStoreType: String,
+                               destinationOptions dOptions: [AnyHashable : Any]? = nil) throws {
+      try super.migrateStore(from: sourceURL,
+                             sourceType: sStoreType,
+                             options: sOptions,
+                             with: mappings,
+                             toDestinationURL: dURL,
+                             destinationType: dStoreType,
+                             destinationOptions: dOptions)
+    }
+  }
+
+  class CustomMigrator: Migrator {
+    override func estimatedTimeForForLightweightMigration(sourceVersionName: String,
+                                                          to destinationVersionName: String,
+                                                          using mappingModel: NSMappingModel) -> TimeInterval { 2 }
+    override func migrationManagerForHeavyWeightMigrationFrom(sourceVersionName: String,
+                                                              to destinationVersionName: String,
+                                                              using mappingModel: NSMappingModel) -> MigrationManager.Type {
+      print(sourceVersionName, destinationVersionName)
+      return CustomMigrationManager.self
+    }
+  }
+}
+
+
+@available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 final class ProgrammaticMigrationTests: XCTestCase {
 
   func testInferringMappingModelFromV1toV2() throws {
@@ -288,6 +322,82 @@ final class ProgrammaticMigrationTests: XCTestCase {
       newContext._fix_sqlite_warning_when_destroying_a_store()
       try FileManager.default.removeItem(at: url)
   }
+
+  func testMigrationFromV1toV3__() throws {
+    let url = URL.newDatabaseURL(withID: UUID())
+
+    let options = [
+      NSMigratePersistentStoresAutomaticallyOption: true,
+      NSInferMappingModelAutomaticallyOption: false,
+      NSPersistentHistoryTrackingKey: true, // ⚠️ cannot be changed once set to true
+      NSPersistentHistoryTokenKey: true
+    ]
+
+    let description = NSPersistentStoreDescription(url: url)
+    description.configuration = nil
+    description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+    description.setOption(true as NSNumber, forKey: NSPersistentHistoryTokenKey)
+
+    let oldManagedObjectModel = V1.makeManagedObjectModel()
+    let coordinator = NSPersistentStoreCoordinator(managedObjectModel: oldManagedObjectModel)
+    coordinator.addPersistentStore(with: description) { (description, error) in
+      XCTAssertNil(error)
+    }
+
+    let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+    context.persistentStoreCoordinator = coordinator
+    context.fillWithSampleData2()
+    try context.save()
+    // ⚠️ This step is required if you want to do a migration with WAL checkpoint enabled
+    try coordinator.persistentStores.forEach({ (store) in
+      try coordinator.remove(store)
+    })
+
+    // Migration
+
+    let migrator = CustomMigrator(sourceStoreDescription: description, destinationStoreDescription: description)
+    try migrator.migrate(to: SampleModel2.SampleModel2Version.version3, enableWALCheckpoint: true)
+//    try CoreDataPlus.Migration.migrateStore(at: url,
+//                                            options: options,
+//                                            targetVersion: SampleModel2.SampleModel2Version.version3,
+//                                            enableWALCheckpoint: true)
+
+    // Validation
+
+    let newManagedObjectModel = V3.makeManagedObjectModel()
+    let newCoordinator = NSPersistentStoreCoordinator(managedObjectModel: newManagedObjectModel)
+    try newCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: options)
+
+    let newContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+    newContext.persistentStoreCoordinator = newCoordinator
+
+    let authors = try AuthorV3.fetch(in: newContext) {
+      $0.predicate = NSPredicate(format: "%K == %@", #keyPath(Author.alias), "Andrea")
+    }
+    let author = try XCTUnwrap(authors.first)
+    let booksCount = try BookV3.count(in: newContext)
+    XCTAssertEqual(booksCount, 52)
+    XCTAssertEqual(author.books.count, 49)
+    let feedbacksForAndrea = try XCTUnwrap(author.feedbacks)
+    XCTAssertEqual(feedbacksForAndrea.count, 441)
+    feedbacksForAndrea.forEach {
+      if $0.comment.contains("great") {
+        // min value assigned randomly is 1.3, during the migration all the ratings get a +10
+        XCTAssertTrue($0.rating >= 11.3)
+      } else {
+        // The max value assigned randomly is 5.8
+        XCTAssertTrue($0.rating <= 5.8, "Rating \($0.rating) should be lesser than 5.8")
+      }
+    }
+
+    let books = try XCTUnwrap(author.books as? Set<BookV3>)
+    books.forEach {
+      XCTAssertEqual($0.pages.count, 99)
+    }
+
+    newContext._fix_sqlite_warning_when_destroying_a_store()
+    try FileManager.default.removeItem(at: url)
+}
 
   func testInvestigationNSExpression() {
     // https://nshipster.com/nsexpression/
