@@ -63,8 +63,12 @@ open class MigrationManager: NSMigrationManager, ProgressReporting {
   }
 
   private func cancel() {
-    let error = self.error ?? NSError(domain: bundleIdentifier, code: NSMigrationCancelledError, userInfo: nil)
+    let error = self.error ?? NSError.migrationCancelled
     self.error = nil // the NSMigrationManager instance may be used for multiple migrations
     super.cancelMigrationWithError(error)
   }
+}
+
+extension NSError {
+  static let migrationCancelled = NSError(domain: bundleIdentifier, code: NSMigrationCancelledError, userInfo: nil)
 }

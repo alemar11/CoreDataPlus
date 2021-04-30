@@ -155,6 +155,66 @@ final class MigrationsTests: BaseTestCase {
     token.invalidate()
   }
 
+  func testMigrationFromVersion1ToVersion2__() throws {
+    let bundle = Bundle.tests
+    let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModelV1", withExtension: "sqlite"))  // 125 cars, 5 sport cars
+
+    // Being the test run multiple times, we create an unique copy for every test
+    let uuid = UUID().uuidString
+    let sourceURL = bundle.bundleURL.appendingPathComponent("SampleModelV1_copy-\(uuid).sqlite")
+    try FileManager.default.copyItem(at: _sourceURL, to: sourceURL)
+    XCTAssertTrue(FileManager.default.fileExists(atPath: sourceURL.path))
+
+    let targetVersion = SampleModelVersion.version2
+    let steps = SampleModelVersion.version1.migrationSteps(to: .version2)
+    XCTAssertEqual(steps.count, 1)
+
+    let version = try SampleModelVersion(persistentStoreURL: sourceURL)
+    XCTAssertTrue(version == .version1)
+
+    let sourceDescription = NSPersistentStoreDescription(url: sourceURL)
+    let destinationDescription = NSPersistentStoreDescription(url: sourceURL)
+
+    let migrator = Migrator(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
+
+    // When
+    var completion = 0.0
+    let token = migrator.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
+      completion = progress.fractionCompleted
+    }
+
+    try migrator.migrate(to: targetVersion, deleteSource: false, enableWALCheckpoint: true)
+
+    //try Migration.migrateStore(at: sourceURL, targetVersion: targetVersion, enableWALCheckpoint: true, progress: progress)
+    let migratedContext = NSManagedObjectContext(model: targetVersion.managedObjectModel(), storeURL: sourceURL)
+    let luxuryCars = try LuxuryCar.fetch(in: migratedContext)
+    XCTAssertEqual(luxuryCars.count, 5)
+
+    let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
+    XCTAssertTrue(cars.count >= 1)
+
+    if #available(iOS 11, tvOS 11, watchOS 4, macOS 10.13, *) {
+      cars.forEach { car in
+        if car is LuxuryCar || car is SportCar {
+          XCTAssertEqual(car.entity.indexes.count, 0)
+        } else if car is Car {
+          let index = car.entity.indexes.first
+          XCTAssertNotNil(index, "There should be a compound index")
+          XCTAssertEqual(index!.elements.count, 2)
+        } else {
+          XCTFail("Undefined")
+        }
+      }
+    }
+
+    try Migration.migrateStore(from: sourceURL, to: sourceURL, targetVersion: targetVersion)
+
+    XCTAssertEqual(completion, 1.0)
+
+    migratedContext._fix_sqlite_warning_when_destroying_a_store()
+    token.invalidate()
+  }
+
   // MARK: - HeavyWeight Migration
 
   func testMigrationFromVersion2ToVersion3() throws {
@@ -222,12 +282,10 @@ final class MigrationsTests: BaseTestCase {
 
     let targetURL = URL.temporaryDirectoryURL.appendingPathComponent("SampleModel").appendingPathExtension("sqlite")
     let progress = Progress(totalUnitCount: 1)
-    var completionSteps = 0
     var completion = 0.0
     let token = progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
       print(progress.fractionCompleted)
       completion = progress.fractionCompleted
-      completionSteps += 1
     }
     try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3, deleteSource: true, progress: progress)
 
@@ -241,7 +299,6 @@ final class MigrationsTests: BaseTestCase {
     }
     try migratedContext.save()
 
-    XCTAssertEqual(completionSteps, 2)
     XCTAssertEqual(completion, 1.0)
 
     XCTAssertFalse(FileManager.default.fileExists(atPath: sourceURL.path))
@@ -251,9 +308,24 @@ final class MigrationsTests: BaseTestCase {
     token.invalidate()
   }
 
-  func testFakeProgressReportingWorkerProgress() throws {
+  func testInvestigationProgress() {
+    let expectationChildCancelled = expectation(description: "Child Progress cancelled")
+    let expectationGrandChildCancelled = expectation(description: "Grandchild Progress cancelled")
+    let progress = Progress(totalUnitCount: 1)
+    progress.cancel()
+    // if the parent is already cancelled, children and grandchildren will inherit the cancellation
+    let child = Progress(totalUnitCount: 1, parent: progress, pendingUnitCount: 1)
+    child.cancellationHandler = { expectationChildCancelled.fulfill() }
+    let grandChild = Progress(totalUnitCount: 1, parent: child, pendingUnitCount: 1)
+    grandChild.cancellationHandler = { expectationGrandChildCancelled.fulfill() }
+    XCTAssertTrue(child.isCancelled)
+    XCTAssertTrue(grandChild.isCancelled)
+    wait(for: [expectationChildCancelled, expectationGrandChildCancelled], timeout: 2)
+  }
+
+  func testFakeProgressReportingWorker() throws {
     let workExpectation = self.expectation(description: "Actual work is completed.")
-    let worker = FakeProgressReportingWorker(estimatedTime: 2, work: { isAlreadyCancelled in
+    let worker = FakeProgressReportingWorker(estimatedTime: 2, interval: 0.01, work: { isAlreadyCancelled in
       XCTAssertFalse(isAlreadyCancelled)
       sleep(2)
       workExpectation.fulfill()
@@ -293,7 +365,6 @@ final class MigrationsTests: BaseTestCase {
                                                             object: worker.progress,
                                                             expectedValue: true,
                                                             options: [.new])
-
     worker.progress.cancel()
     try worker.run()
 

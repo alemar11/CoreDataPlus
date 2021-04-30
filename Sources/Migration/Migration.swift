@@ -84,49 +84,62 @@ public enum Migration {
     let steps = sourceVersion.migrationSteps(to: targetVersion)
     guard steps.count > 0 else { return }
 
-    var migrationProgress: Progress?
+    var migrationStepsProgress: Progress?
     if let progress = progress {
-      migrationProgress = Progress(totalUnitCount: Int64(steps.count), parent: progress, pendingUnitCount: progress.totalUnitCount)
+      migrationStepsProgress = Progress(totalUnitCount: Int64(steps.count), parent: progress, pendingUnitCount: progress.totalUnitCount)
     }
 
     // TODO: if there is only a step and sourceURL != targetURL, we could skip the temporaryURL phase
     // TODO: a callback could provide the partial currentURL
 
+    // overall migration progress
+
+
     var currentURL = sourceURL
     for step in steps {
       try autoreleasepool {
         #warning("TODO: review the progress object")
-        migrationProgress?.becomeCurrent(withPendingUnitCount: 1)
-        //let manager = MigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
-        migrationProgress?.resignCurrent()
+
         
-        //manager.usesStoreSpecificMigrationManager = false
+
 
         let temporaryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString)
 
-        let stepProgress = Progress(totalUnitCount: Int64(step.mappings.count))
-        let token = stepProgress.observe(\.fractionCompleted, options: [.new]) { p, change in
-          print("✅", change.newValue)
-        }
+        let mappingModelMigrationProgress = Progress(totalUnitCount: Int64(step.mappingModels.count))
+        migrationStepsProgress?.addChild(mappingModelMigrationProgress, withPendingUnitCount: 1)
+//        let token = stepsProgress.observe(\.fractionCompleted, options: [.new]) { p, change in
+//          print("✅", change.newValue)
+//        }
 
-        for mapping in step.mappings {
+        for mapping in step.mappingModels {
+          let manager: NSMigrationManager
+
           if mapping.isInferred {
             print("➡️➡️ LIGHT MIGRATION")
+            mappingModelMigrationProgress.becomeCurrent(withPendingUnitCount: 1)
+            // You don't want to use a subclass of NSMigrationManager for lightweight migrations because it's way more slow and consume more RAM.
+            // Also, for the same reasons, don't set usesStoreSpecificMigrationManager to true.
+            // However, NSMigrationManager with usesStoreSpecificMigrationManager set to false won't report its progress; that's why we need
+            // to fake it (again: the benefits in terms of performance and RAM consumption are too important that is better to fake the progress).
+            manager = NSMigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
+            manager.usesStoreSpecificMigrationManager = true // default
+            mappingModelMigrationProgress.resignCurrent()
           } else {
             print("➡️➡️ HEAVY MIGRATION")
+            // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmCustomizing.html#//apple_ref/doc/uid/TP40004399-CH8-SW9
+            // Usually reusing the same NSMigrationManager for multiple mapping models works fine... until it doesn't!
+            // (in particular if the model has entities with "uncommon" rules, i.e. relationships with min and max set with custom values).
+            // In these cases, one of the migrations could fail (mostly due to validation errors) unless we use different NSMigrationManager instance.
+            // Also, we can't add the same child progress multiple times.
+
+            let customManager = MigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
+            mappingModelMigrationProgress.addChild(customManager.progress, withPendingUnitCount: 1)
+            manager = customManager
           }
 
-          // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmCustomizing.html#//apple_ref/doc/uid/TP40004399-CH8-SW9
-          // Usually reusing the same NSMigrationManager for multiple mapping models works fine... until it doesn't
-          // (in particular if the model has entities with "uncommon" rules, i.e. relationships with min and max set with custom values).
-          // In these cases, one of the migrations could fail (mostly due to validation errors) unless we use different NSMigrationManager instance.
-          // Also, we can't add the same child progress multiple times.
 
-          let manager = MigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
-          stepProgress.addChild(manager.progress, withPendingUnitCount: 1)
 
           // Reusing the same NSMigrationManager instance seems to cause some validation errors
-          //let manager = MigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
           // migrations fails if the targetURL points to an already existing file
           try manager.migrateStore(from: currentURL,
                                    sourceType: NSSQLiteStoreType,
@@ -222,33 +235,5 @@ extension Migration {
                           deleteSource: deleteSource,
                           enableWALCheckpoint: enableWALCheckpoint,
                           progress: progress)
-  }
-}
-
-open class Migrator: NSObject, ProgressReporting {
-  public private(set) lazy var progress: Progress = {
-    var progress = Progress(totalUnitCount: 100)
-    return progress
-  }()
-
-  let sourceStoreDescription: NSPersistentStoreDescription
-  let destinationStoreDescription: NSPersistentStoreDescription
-
-  init(sourceStoreDescription: NSPersistentStoreDescription, destinationStoreDescription: NSPersistentStoreDescription) {
-    self.sourceStoreDescription = sourceStoreDescription
-    self.destinationStoreDescription = destinationStoreDescription
-  }
-
-  func migrate<Version: ModelVersion>(to targetVersion: Version, deleteSource: Bool, enableWALCheckpoint: Bool = false) {
-
-  }
-
-  open func lightweightMigrationManager() -> NSMigrationManager.Type {
-    // return estimated time not a NSMigrationManager
-    return NSMigrationManager.self
-  }
-
-  open func heavyweightMigrationManager() -> NSMigrationManager.Type {
-    return NSMigrationManager.self
   }
 }

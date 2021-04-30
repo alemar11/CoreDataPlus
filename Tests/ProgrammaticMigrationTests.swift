@@ -352,7 +352,7 @@ final class ProgrammaticMigrationTests: XCTestCase {
     let sourceVersion = try XCTUnwrap(try SampleModel2.SampleModel2Version(persistentStoreURL: url))
     let step = try XCTUnwrap(sourceVersion.migrationSteps(to: SampleModel2.SampleModel2Version.version2).first)
 
-    let mappingModel = step.mappings.first!
+    let mappingModel = step.mappingModels.first!
 
     let manager = MigrationManager(sourceModel: sourceVersion.managedObjectModel(), destinationModel: step.destinationModel)
     manager.progress.cancel()

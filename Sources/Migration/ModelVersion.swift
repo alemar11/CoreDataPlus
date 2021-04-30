@@ -186,7 +186,11 @@ extension ModelVersion {
       return []
     }
 
-    guard let mappings = mappingModelsToNextModelVersion(), let nextVersion = successor else {
+    guard let nextVersion = successor else {
+      return []
+    }
+
+    guard let mappings = mappingModelsToNextModelVersion() else {
       fatalError("Couldn't find any mapping models.")
     }
 
@@ -206,7 +210,7 @@ extension ModelVersion {
     guard let mappingModel = NSMappingModel(from: [modelBundle], forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel()) else {
       fatalError("No NSMappingModel found for \(self) to \(nextVersion).")
     }
-
+    
     return mappingModel
   }
 
