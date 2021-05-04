@@ -303,11 +303,14 @@ class LightMigrationManager: NSMigrationManager, ProgressReporting {
     
   open override var currentEntityMapping: NSEntityMapping { manager.currentEntityMapping }
   
-  private var _migrationProgress: Float = 0
+  private var _migrationProgress: Float = 0.0
   
   override class func automaticallyNotifiesObservers(forKey key: String) -> Bool {
-    // https://stackoverflow.com/questions/17267572/cocoa-kvoobservevalueforkeypathofobjectchangecontext-is-called-twice-for-on
-    return false
+    // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/KeyValueObserving/Articles/KVOCompliance.html#//apple_ref/doc/uid/20002178-SW3
+    if key == #keyPath(NSMigrationManager.migrationProgress) {
+      return false
+    }
+    return super.automaticallyNotifiesObservers(forKey: key)
   }
   
   open override var migrationProgress: Float {
@@ -315,9 +318,7 @@ class LightMigrationManager: NSMigrationManager, ProgressReporting {
     set {
       guard _migrationProgress != newValue else { return }
       willChangeValue(forKey: #keyPath(NSMigrationManager.migrationProgress))
-      //willChangeValue(for: \.migrationProgress)
       _migrationProgress = newValue
-      //didChangeValue(for: \.migrationProgress)
       didChangeValue(forKey: #keyPath(NSMigrationManager.migrationProgress))
     }
   }
