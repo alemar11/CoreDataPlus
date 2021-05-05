@@ -63,16 +63,23 @@ class CoreDataMigrator: CoreDataMigratorProtocol {
     for migrationStep in migrationSteps {
       i += 1
       print("------ STEP \(i)\n")
-      migrationProgress?.becomeCurrent(withPendingUnitCount: 1)
-      // let manager = MigrationManager(sourceModel: migrationStep.sourceModel, destinationModel: migrationStep.destinationModel, progress: migrationProgress!)
       
-      let manager = LightweightMigrationManager(sourceModel: migrationStep.sourceModel, destinationModel: migrationStep.destinationModel)
-      let implicitProgress = manager.progress
+      let manager = MigrationManager(sourceModel: migrationStep.sourceModel, destinationModel: migrationStep.destinationModel, progress: migrationProgress!)
+      
+//      let manager = LightweightMigrationManager(sourceModel: migrationStep.sourceModel, destinationModel: migrationStep.destinationModel)
+
+      
+//      let manager = LightweightMigrationManager2(sourceModel: migrationStep.sourceModel, destinationModel: migrationStep.destinationModel)
+//      manager.estimatedTime = 5
+//      manager.interval = 0.1
+      let mp = MigrationProgressReporter(manager: manager)
+      migrationProgress?.becomeCurrent(withPendingUnitCount: 1)
+      let implicitProgress = mp.progress
+      //let implicitProgress = manager.progress
       
       migrationProgress?.resignCurrent()
       
-      manager.estimatedTime = 5
-      manager.interval = 0.1
+  
       
       //migrationProgress?.addChild(manager.progress, withPendingUnitCount: 1)
       
@@ -111,6 +118,8 @@ class CoreDataMigrator: CoreDataMigratorProtocol {
       } catch let error {
         fatalError("failed attempting to migrate from \(migrationStep.sourceModel) to \(migrationStep.destinationModel), error: \(error)")
       }
+      
+      print("☢️☢️☢️ \(manager.migrationProgress)")
       
       if currentURL != storeURL {
         //Destroy intermediate step's store
@@ -199,6 +208,11 @@ internal final class MigrationManager: NSMigrationManager, ProgressReporting {
   override func didChangeValue(forKey key: String) {
     super.didChangeValue(forKey: key)
     guard key == #keyPath(NSMigrationManager.migrationProgress) else { return }
+    
+//    if migrationProgress > 0.5 {
+//      cancelMigrationWithError(NSError(domain: "test", code: 11, userInfo: nil))
+//    }
+    
     let progress = self.progress
     progress.completedUnitCount = max(progress.completedUnitCount,
                                       Int64(Float(progress.totalUnitCount) * self.migrationProgress)
@@ -361,4 +375,179 @@ public final class LightweightMigrationManager: NSMigrationManager, ProgressRepo
   }
 }
 
+public final class LightweightMigrationManager2: NSMigrationManager {
+  /// An estimated interval (with a 10% tolerance) to carry out the migration.
+  public var estimatedTime: TimeInterval = 60
+  /// How often the progress is updated (default: 1 second).
+  public var interval: TimeInterval = 1
+  
+  private let manager: NSMigrationManager
+  private let totalUnitCount: Int64 = 100
+  private lazy var fakeTotalUnitCount: Float = { Float(totalUnitCount) * 0.9 }() // 10% tolerance
+  private var fakeProgress: Float = 0 // 0 to 1
+  
+  public override var usesStoreSpecificMigrationManager: Bool {
+    get { manager.usesStoreSpecificMigrationManager }
+    set { fatalError("Not implemented.") }
+  }
+  
+  public override var mappingModel: NSMappingModel { manager.mappingModel }
+  public override var sourceModel: NSManagedObjectModel { manager.sourceModel }
+  public override var destinationModel: NSManagedObjectModel { manager.destinationModel }
+  public override var sourceContext: NSManagedObjectContext { manager.sourceContext }
+  public override var destinationContext: NSManagedObjectContext { manager.destinationContext }
+  
+  public override init(sourceModel: NSManagedObjectModel, destinationModel: NSManagedObjectModel) {
+    self.manager = NSMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
+    self.manager.usesStoreSpecificMigrationManager = true // default
+    super.init()
+  }
+  
+  public override func migrateStore(from sourceURL: URL, sourceType sStoreType: String, options sOptions: [AnyHashable : Any]? = nil, with mappings: NSMappingModel?, toDestinationURL dURL: URL, destinationType dStoreType: String, destinationOptions dOptions: [AnyHashable : Any]? = nil) throws {
+    let tick = Float(interval / estimatedTime) // progress increment tick
+    let queue = DispatchQueue(label: "\("test").FakeProgress", qos: .utility)
+    var progressUpdater: () -> Void = {}
+    progressUpdater = { [weak self] in
+      guard let self = self else { return }
+      guard self.fakeProgress < 1 else { return }
 
+      if self.fakeProgress > 0 {
+        let fakeCompletedUnitCount = self.fakeTotalUnitCount * self.fakeProgress
+        self.migrationProgress = fakeCompletedUnitCount/self.fakeTotalUnitCount
+      }
+      self.fakeProgress += tick
+      
+//      if self.fakeProgress > 0.5 {
+//        self.cancelMigrationWithError(NSError(domain: "test", code: 118, userInfo: nil))
+//      }
+
+      queue.asyncAfter(deadline: .now() + self.interval, execute: progressUpdater)
+    }
+    queue.async(execute: progressUpdater)
+    sleep(4)
+    do {
+    try manager.migrateStore(from: sourceURL,
+                             sourceType: sStoreType,
+                             options: sOptions,
+                             with: mappings,
+                             toDestinationURL: dURL,
+                             destinationType: dStoreType,
+                             destinationOptions: dOptions)
+    } catch {
+      // stop the fake progress
+      queue.sync { fakeProgress = 1 }
+      // reset the migrationProgress (as expected for normal NSMigrationManager instances)
+      // before throwing the error without firing KVO.
+      migrationProgress = 0
+      throw error
+    }
+    
+    queue.sync { fakeProgress = 1 }
+    migrationProgress = 1.0
+    // a NSMigrationManager instance may be used for multiple migrations;
+    // the migrationProgress should be reset without firing KVO.
+    migrationProgress = 0
+  }
+  
+  public override func sourceEntity(for mEntity: NSEntityMapping) -> NSEntityDescription? {
+    manager.sourceEntity(for: mEntity)
+  }
+
+  public override func destinationEntity(for mEntity: NSEntityMapping) -> NSEntityDescription? {
+    manager.destinationEntity(for: mEntity)
+  }
+  
+  public override func reset() {
+    manager.reset()
+  }
+  
+  public override func associate(sourceInstance: NSManagedObject, withDestinationInstance destinationInstance: NSManagedObject, for entityMapping: NSEntityMapping) {
+    manager.associate(sourceInstance: sourceInstance, withDestinationInstance: destinationInstance, for: entityMapping)
+  }
+  
+  public override func destinationInstances(forEntityMappingName mappingName: String, sourceInstances: [NSManagedObject]?) -> [NSManagedObject] {
+    manager.destinationInstances(forEntityMappingName: mappingName, sourceInstances: sourceInstances)
+  }
+  
+  public override func sourceInstances(forEntityMappingName mappingName: String, destinationInstances: [NSManagedObject]?) -> [NSManagedObject] {
+    manager.sourceInstances(forEntityMappingName: mappingName, destinationInstances: destinationInstances)
+  }
+    
+  public override var currentEntityMapping: NSEntityMapping { manager.currentEntityMapping }
+  
+  public override class func automaticallyNotifiesObservers(forKey key: String) -> Bool {
+    // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/KeyValueObserving/Articles/KVOCompliance.html#//apple_ref/doc/uid/20002178-SW3
+    if key == #keyPath(NSMigrationManager.migrationProgress) {
+      return false
+    }
+    return super.automaticallyNotifiesObservers(forKey: key)
+  }
+  
+  private var _migrationProgress: Float = 0.0
+  
+  public override var migrationProgress: Float {
+    get { _migrationProgress }
+    set {
+      guard _migrationProgress != newValue else { return }
+      
+      if newValue == 0 { // reset if manager is reused
+        _migrationProgress = newValue
+      } else {
+        willChangeValue(forKey: #keyPath(NSMigrationManager.migrationProgress))
+        _migrationProgress = newValue
+        didChangeValue(forKey: #keyPath(NSMigrationManager.migrationProgress))
+      }
+    }
+  }
+  
+  public override var userInfo: [AnyHashable : Any]? {
+    get { manager.userInfo }
+    set { manager.userInfo = newValue }
+  }
+  public override func cancelMigrationWithError(_ error: Error) {
+    manager.cancelMigrationWithError(error)
+  }
+}
+
+public final class MigrationProgressReporter: NSObject, ProgressReporting {
+  public private(set) lazy var progress: Progress = {
+    let progress = Progress(totalUnitCount: Int64(totalUnitCount))
+    progress.cancellationHandler = { [weak self] in
+      self?.cancel()
+    }
+    progress.pausingHandler = nil // not supported
+    return progress
+  }()
+  
+  private let totalUnitCount: Int64 = 100
+  private let manager: NSMigrationManager
+  private var token: NSKeyValueObservation?
+
+  public init(manager: NSMigrationManager) {
+    self.manager = manager
+    super.init()
+    self.token = manager.observe(\.migrationProgress, options: [.new]) { [weak self] (_, change) in
+      guard let self = self else { return }
+      
+      if let newProgress = change.newValue {
+        self.progress.completedUnitCount = Int64(newProgress*Float(self.totalUnitCount))
+      }
+    }
+  }
+  
+  deinit {
+    token?.invalidate()
+    token = nil
+  }
+  
+  func cancel() {
+    let error = NSError(domain: "test", code: 1, userInfo: nil) // TODO
+    manager.cancelMigrationWithError(error)
+  }
+}
+
+extension NSMigrationManager {
+  func makeProgressReporter() -> MigrationProgressReporter {
+    return MigrationProgressReporter(manager: self)
+  }
+}
