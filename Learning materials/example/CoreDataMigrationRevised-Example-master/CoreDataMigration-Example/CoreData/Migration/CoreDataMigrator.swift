@@ -63,16 +63,17 @@ class CoreDataMigrator: CoreDataMigratorProtocol {
     for migrationStep in migrationSteps {
       i += 1
       print("------ STEP \(i)\n")
-//      migrationProgress?.becomeCurrent(withPendingUnitCount: 1)
+      migrationProgress?.becomeCurrent(withPendingUnitCount: 100)
 //      let manager = MigrationManager(sourceModel: migrationStep.sourceModel,
 //                                     destinationModel: migrationStep.destinationModel, progress: migrationProgress!)
       
       
       let manager = LightMigrationManager(sourceModel: migrationStep.sourceModel,
                                      destinationModel: migrationStep.destinationModel)
-      manager.estimatedTime = 5
-      manager.interval = 0.5
-      migrationProgress?.addChild(manager.progress, withPendingUnitCount: 100)
+      manager.estimatedTime = 5 //0.5
+      manager.interval = 0.001
+      
+      //migrationProgress?.addChild(manager.progress, withPendingUnitCount: 1)
       
       
       // set to false will report migrationProgress for steps without mapping models
@@ -86,12 +87,13 @@ class CoreDataMigrator: CoreDataMigratorProtocol {
       //manager.usesStoreSpecificMigrationManager = true
      
       let token = manager.observe(\.migrationProgress, options: [.old, .new]) { (manager, change) in
-        print("🔴 \(change.oldValue) --> \(change.newValue) ")
+        //print("🔴 \(change.oldValue) --> \(change.newValue) ")
       }
       
       let token2 = manager.observe(\.currentEntityMapping, options: [.new]) { (manager, change) in
         //print("➡️\(change.newValue)")
       }
+
       
       tokens.append(token)
       tokens.append(token2)
@@ -207,15 +209,10 @@ internal final class MigrationManager: NSMigrationManager, ProgressReporting {
 
 
 
-class LightMigrationManager: NSMigrationManager, ProgressReporting {
-  public var totalUnitCount = 100
+public final class LightMigrationManager: NSMigrationManager, ProgressReporting {
   public var estimatedTime: TimeInterval = 60
   public var interval: TimeInterval = 1
-  
-  private lazy var fakeTotalUnitCount: Float = { Float(totalUnitCount) * 0.9 }() // 90% of the total, a 10% is left in case the estimated time isn't enough
-  private var fakeProgress: Float = 0 // 0 to 1
-  
-  private(set) lazy var progress: Progress = {
+  public private(set) lazy var progress: Progress = {
     let progress = Progress(totalUnitCount: Int64(totalUnitCount))
     progress.cancellationHandler = { [weak self] in
       self?.cancel()
@@ -225,17 +222,20 @@ class LightMigrationManager: NSMigrationManager, ProgressReporting {
   }()
   
   private let manager: NSMigrationManager
+  private let totalUnitCount = 100
+  private lazy var fakeTotalUnitCount: Float = { Float(totalUnitCount) * 0.9 }() // 90% of the total, a 10% is left in case the estimated time isn't enough
+  private var fakeProgress: Float = 0 // 0 to 1
   
-  open override var usesStoreSpecificMigrationManager: Bool {
+  public override var usesStoreSpecificMigrationManager: Bool {
     get { manager.usesStoreSpecificMigrationManager }
     set { fatalError("Not implemented.") }
   }
   
-  open override var mappingModel: NSMappingModel { manager.mappingModel }
-  open override var sourceModel: NSManagedObjectModel { manager.sourceModel }
-  open override var destinationModel: NSManagedObjectModel { manager.destinationModel }
-  open override var sourceContext: NSManagedObjectContext { manager.sourceContext }
-  open override var destinationContext: NSManagedObjectContext { manager.destinationContext }
+  public override var mappingModel: NSMappingModel { manager.mappingModel }
+  public override var sourceModel: NSManagedObjectModel { manager.sourceModel }
+  public override var destinationModel: NSManagedObjectModel { manager.destinationModel }
+  public override var sourceContext: NSManagedObjectContext { manager.sourceContext }
+  public override var destinationContext: NSManagedObjectContext { manager.destinationContext }
   
   public override init(sourceModel: NSManagedObjectModel, destinationModel: NSManagedObjectModel) {
     self.manager = NSMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
@@ -243,26 +243,24 @@ class LightMigrationManager: NSMigrationManager, ProgressReporting {
     super.init()
   }
   
-  open override func migrateStore(from sourceURL: URL, sourceType sStoreType: String, options sOptions: [AnyHashable : Any]? = nil, with mappings: NSMappingModel?, toDestinationURL dURL: URL, destinationType dStoreType: String, destinationOptions dOptions: [AnyHashable : Any]? = nil) throws {
-    progress.completedUnitCount = 0 // the NSMigrationManager instance may be used for multiple migrations
-    _migrationProgress = 0.0
+  public override func migrateStore(from sourceURL: URL, sourceType sStoreType: String, options sOptions: [AnyHashable : Any]? = nil, with mappings: NSMappingModel?, toDestinationURL dURL: URL, destinationType dStoreType: String, destinationOptions dOptions: [AnyHashable : Any]? = nil) throws {
+    migrationProgress = 0 // the NSMigrationManager instance may be used for multiple migrations
     let tick = Float(interval / estimatedTime) // progress increment tick
     let queue = DispatchQueue(label: "\("test").FakeProgress", qos: .utility, attributes: [])
-    var recursiveCheck: () -> Void = {}
-    recursiveCheck = { [weak self] in
+    var progressUpdater: () -> Void = {}
+    progressUpdater = { [weak self] in
       guard let self = self else { return }
       guard self.fakeProgress < 1 else { return }
 
-      let completed = Int64(self.fakeTotalUnitCount * self.fakeProgress)
-      if completed > 0 {
-        self.migrationProgress = Float(completed)/self.fakeTotalUnitCount
-        self.progress.completedUnitCount = Int64(self.fakeTotalUnitCount * self.fakeProgress)
+      if self.fakeProgress > 0 {
+        let fakeCompletedUnitCount = self.fakeTotalUnitCount * self.fakeProgress
+        self.migrationProgress = fakeCompletedUnitCount/self.fakeTotalUnitCount
       }
       self.fakeProgress += tick
 
-      queue.asyncAfter(deadline: .now() + self.interval, execute: recursiveCheck)
+      queue.asyncAfter(deadline: .now() + self.interval, execute: progressUpdater)
     }
-    queue.async(execute: recursiveCheck)
+    queue.async(execute: progressUpdater)
     sleep(4)
     try manager.migrateStore(from: sourceURL,
                              sourceType: sStoreType,
@@ -273,39 +271,36 @@ class LightMigrationManager: NSMigrationManager, ProgressReporting {
                              destinationOptions: dOptions)
     
     queue.sync { fakeProgress = 1 }
-    self.migrationProgress = 1.0
-    progress.completedUnitCount = self.progress.totalUnitCount
+    migrationProgress = 1.0
   }
   
-  open override func sourceEntity(for mEntity: NSEntityMapping) -> NSEntityDescription? {
+  public override func sourceEntity(for mEntity: NSEntityMapping) -> NSEntityDescription? {
     manager.sourceEntity(for: mEntity)
   }
 
-  open override func destinationEntity(for mEntity: NSEntityMapping) -> NSEntityDescription? {
+  public override func destinationEntity(for mEntity: NSEntityMapping) -> NSEntityDescription? {
     manager.destinationEntity(for: mEntity)
   }
   
-  open override func reset() {
+  public override func reset() {
     manager.reset()
   }
   
-  open override func associate(sourceInstance: NSManagedObject, withDestinationInstance destinationInstance: NSManagedObject, for entityMapping: NSEntityMapping) {
+  public override func associate(sourceInstance: NSManagedObject, withDestinationInstance destinationInstance: NSManagedObject, for entityMapping: NSEntityMapping) {
     manager.associate(sourceInstance: sourceInstance, withDestinationInstance: destinationInstance, for: entityMapping)
   }
   
-  open override func destinationInstances(forEntityMappingName mappingName: String, sourceInstances: [NSManagedObject]?) -> [NSManagedObject] {
+  public override func destinationInstances(forEntityMappingName mappingName: String, sourceInstances: [NSManagedObject]?) -> [NSManagedObject] {
     manager.destinationInstances(forEntityMappingName: mappingName, sourceInstances: sourceInstances)
   }
   
-  open override func sourceInstances(forEntityMappingName mappingName: String, destinationInstances: [NSManagedObject]?) -> [NSManagedObject] {
+  public override func sourceInstances(forEntityMappingName mappingName: String, destinationInstances: [NSManagedObject]?) -> [NSManagedObject] {
     manager.sourceInstances(forEntityMappingName: mappingName, destinationInstances: destinationInstances)
   }
     
-  open override var currentEntityMapping: NSEntityMapping { manager.currentEntityMapping }
+  public override var currentEntityMapping: NSEntityMapping { manager.currentEntityMapping }
   
-  private var _migrationProgress: Float = 0.0
-  
-  override class func automaticallyNotifiesObservers(forKey key: String) -> Bool {
+  public override class func automaticallyNotifiesObservers(forKey key: String) -> Bool {
     // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/KeyValueObserving/Articles/KVOCompliance.html#//apple_ref/doc/uid/20002178-SW3
     if key == #keyPath(NSMigrationManager.migrationProgress) {
       return false
@@ -313,28 +308,37 @@ class LightMigrationManager: NSMigrationManager, ProgressReporting {
     return super.automaticallyNotifiesObservers(forKey: key)
   }
   
-  open override var migrationProgress: Float {
+  private var _migrationProgress: Float = 0.0
+  
+  public override var migrationProgress: Float {
     get { _migrationProgress }
     set {
       guard _migrationProgress != newValue else { return }
-      willChangeValue(forKey: #keyPath(NSMigrationManager.migrationProgress))
-      _migrationProgress = newValue
-      didChangeValue(forKey: #keyPath(NSMigrationManager.migrationProgress))
+      
+      if newValue == 0 { // reset
+        _migrationProgress = newValue
+        progress.completedUnitCount = 0
+      } else {
+        willChangeValue(forKey: #keyPath(NSMigrationManager.migrationProgress))
+        _migrationProgress = newValue
+        progress.completedUnitCount = Int64(newValue*100)
+        didChangeValue(forKey: #keyPath(NSMigrationManager.migrationProgress))
+      }
     }
   }
   
-  open override var userInfo: [AnyHashable : Any]? {
+  public override var userInfo: [AnyHashable : Any]? {
     get { manager.userInfo }
     set { manager.userInfo = newValue }
   }
   
   private var error: Error?
-  //let lock = NSLock()
+  private let lock = NSLock()
 
-  open override func cancelMigrationWithError(_ error: Error) {
-//    lock.lock()
-//    defer { lock.unlock() }
-    // TODO: lock
+  public override func cancelMigrationWithError(_ error: Error) {
+    lock.lock()
+    defer { lock.unlock() }
+
     if !progress.isCancelled {
       self.error = error
       progress.cancel()
@@ -342,8 +346,10 @@ class LightMigrationManager: NSMigrationManager, ProgressReporting {
   }
 
   private func cancel() {
-    let error = self.error ?? NSError(domain: "test", code: 1, userInfo: nil)
+    let error = self.error ?? NSError(domain: "test", code: 1, userInfo: nil) // TODO
     self.error = nil // the NSMigrationManager instance may be used for multiple migrations
     manager.cancelMigrationWithError(error)
   }
 }
+
+

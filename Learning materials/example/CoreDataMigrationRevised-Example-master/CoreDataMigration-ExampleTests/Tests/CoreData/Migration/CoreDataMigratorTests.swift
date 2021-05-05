@@ -88,7 +88,7 @@ class CoreDataMigratorTests: XCTestCase {
     
     let progress = Progress(totalUnitCount: 1)
     sut.progress = progress
-    let token = progress.observe(\.fractionCompleted, options: [.initial, .new]) { (p, c) in
+    let token = progress.observe(\.fractionCompleted, options: [.new]) { (p, c) in
       print("✅ \(c.newValue)")
     }
     
