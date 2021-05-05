@@ -232,7 +232,7 @@ public final class LightweightMigrationManager: NSMigrationManager, ProgressRepo
   
   private let manager: NSMigrationManager
   private let totalUnitCount: Int64 = 100
-  private lazy var fakeTotalUnitCount: Float = { Float(totalUnitCount) * 0.9 }() // 90% of the total, a 10% is left in case the estimated time isn't enough
+  private lazy var fakeTotalUnitCount: Float = { Float(totalUnitCount) * 0.9 }() // 10% tolerance
   private var fakeProgress: Float = 0 // 0 to 1
   
   public override var usesStoreSpecificMigrationManager: Bool {
