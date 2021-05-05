@@ -326,8 +326,7 @@ public final class LightweightMigrationManager: NSMigrationManager, ProgressRepo
       
       if newValue == 0 { // reset if manager is reused
         _migrationProgress = newValue
-        progress.setValue(0, forKey: #keyPath(NSProgress.completedUnitCount))
-        //progress.completedUnitCount = 0
+        progress.completedUnitCount = 0
       } else {
         willChangeValue(forKey: #keyPath(NSMigrationManager.migrationProgress))
         _migrationProgress = newValue
