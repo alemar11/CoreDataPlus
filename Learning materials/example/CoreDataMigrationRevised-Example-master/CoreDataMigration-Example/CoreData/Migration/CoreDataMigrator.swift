@@ -54,7 +54,7 @@ class CoreDataMigrator: CoreDataMigratorProtocol {
     
     var migrationProgress: Progress?
     if let progress = progress {
-      migrationProgress = Progress(totalUnitCount: 100, parent: progress, pendingUnitCount: progress.totalUnitCount)
+      migrationProgress = Progress(totalUnitCount: 1, parent: progress, pendingUnitCount: progress.totalUnitCount)
 //      let childProgress = Progress(parent: progress, userInfo: nil)
 //                  childProgress.totalUnitCount = 100
     }
@@ -63,15 +63,16 @@ class CoreDataMigrator: CoreDataMigratorProtocol {
     for migrationStep in migrationSteps {
       i += 1
       print("------ STEP \(i)\n")
-      migrationProgress?.becomeCurrent(withPendingUnitCount: 100)
-//      let manager = MigrationManager(sourceModel: migrationStep.sourceModel,
-//                                     destinationModel: migrationStep.destinationModel, progress: migrationProgress!)
+      migrationProgress?.becomeCurrent(withPendingUnitCount: 1)
+      // let manager = MigrationManager(sourceModel: migrationStep.sourceModel, destinationModel: migrationStep.destinationModel, progress: migrationProgress!)
       
+      let manager = LightweightMigrationManager(sourceModel: migrationStep.sourceModel, destinationModel: migrationStep.destinationModel)
+      let implicitProgress = manager.progress
       
-      let manager = LightMigrationManager(sourceModel: migrationStep.sourceModel,
-                                     destinationModel: migrationStep.destinationModel)
-      manager.estimatedTime = 5 //0.5
-      manager.interval = 0.001
+      migrationProgress?.resignCurrent()
+      
+      manager.estimatedTime = 5
+      manager.interval = 0.1
       
       //migrationProgress?.addChild(manager.progress, withPendingUnitCount: 1)
       
@@ -93,10 +94,15 @@ class CoreDataMigrator: CoreDataMigratorProtocol {
       let token2 = manager.observe(\.currentEntityMapping, options: [.new]) { (manager, change) in
         //print("➡️\(change.newValue)")
       }
+      
+//      let token3 = manager.progress.observe(\.fractionCompleted, options: [.new]) { (manager, change) in
+//        print("➡️\(change.newValue)")
+//      }
 
       
       tokens.append(token)
       tokens.append(token2)
+      //tokens.append(token3)
       
       let destinationURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString)
       
@@ -112,7 +118,7 @@ class CoreDataMigrator: CoreDataMigratorProtocol {
       }
       
       currentURL = destinationURL
-      migrationProgress?.resignCurrent()
+     
       print("------ STEP \(i) ENDED\n")
     }
     
@@ -209,9 +215,12 @@ internal final class MigrationManager: NSMigrationManager, ProgressReporting {
 
 
 
-public final class LightMigrationManager: NSMigrationManager, ProgressReporting {
+public final class LightweightMigrationManager: NSMigrationManager, ProgressReporting {
+  /// An estimated interval (with a 10% tolerance) to carry out the migration.
   public var estimatedTime: TimeInterval = 60
+  /// How often the progress is updated (default: 1 second).
   public var interval: TimeInterval = 1
+  /// Migration progress.
   public private(set) lazy var progress: Progress = {
     let progress = Progress(totalUnitCount: Int64(totalUnitCount))
     progress.cancellationHandler = { [weak self] in
@@ -222,7 +231,7 @@ public final class LightMigrationManager: NSMigrationManager, ProgressReporting 
   }()
   
   private let manager: NSMigrationManager
-  private let totalUnitCount = 100
+  private let totalUnitCount: Int64 = 100
   private lazy var fakeTotalUnitCount: Float = { Float(totalUnitCount) * 0.9 }() // 90% of the total, a 10% is left in case the estimated time isn't enough
   private var fakeProgress: Float = 0 // 0 to 1
   
@@ -246,7 +255,7 @@ public final class LightMigrationManager: NSMigrationManager, ProgressReporting 
   public override func migrateStore(from sourceURL: URL, sourceType sStoreType: String, options sOptions: [AnyHashable : Any]? = nil, with mappings: NSMappingModel?, toDestinationURL dURL: URL, destinationType dStoreType: String, destinationOptions dOptions: [AnyHashable : Any]? = nil) throws {
     migrationProgress = 0 // the NSMigrationManager instance may be used for multiple migrations
     let tick = Float(interval / estimatedTime) // progress increment tick
-    let queue = DispatchQueue(label: "\("test").FakeProgress", qos: .utility, attributes: [])
+    let queue = DispatchQueue(label: "\("test").FakeProgress", qos: .utility)
     var progressUpdater: () -> Void = {}
     progressUpdater = { [weak self] in
       guard let self = self else { return }
@@ -315,14 +324,15 @@ public final class LightMigrationManager: NSMigrationManager, ProgressReporting 
     set {
       guard _migrationProgress != newValue else { return }
       
-      if newValue == 0 { // reset
+      if newValue == 0 { // reset if manager is reused
         _migrationProgress = newValue
-        progress.completedUnitCount = 0
+        progress.setValue(0, forKey: #keyPath(NSProgress.completedUnitCount))
+        //progress.completedUnitCount = 0
       } else {
         willChangeValue(forKey: #keyPath(NSMigrationManager.migrationProgress))
         _migrationProgress = newValue
-        progress.completedUnitCount = Int64(newValue*100)
         didChangeValue(forKey: #keyPath(NSMigrationManager.migrationProgress))
+        progress.completedUnitCount = Int64(newValue*Float(totalUnitCount))
       }
     }
   }
