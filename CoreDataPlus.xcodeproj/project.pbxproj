@@ -39,6 +39,14 @@
 		061C689426209443000BF0A2 /* CustomTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061C689226209443000BF0A2 /* CustomTransformer.swift */; };
 		061C689526209443000BF0A2 /* CustomTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061C689226209443000BF0A2 /* CustomTransformer.swift */; };
 		061C689626209443000BF0A2 /* CustomTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061C689226209443000BF0A2 /* CustomTransformer.swift */; };
+		065094062643E8BC00B3EE12 /* MigrationProgressReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065094052643E8BC00B3EE12 /* MigrationProgressReporter.swift */; };
+		065094072643E8BC00B3EE12 /* MigrationProgressReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065094052643E8BC00B3EE12 /* MigrationProgressReporter.swift */; };
+		065094082643E8BC00B3EE12 /* MigrationProgressReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065094052643E8BC00B3EE12 /* MigrationProgressReporter.swift */; };
+		065094092643E8BC00B3EE12 /* MigrationProgressReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065094052643E8BC00B3EE12 /* MigrationProgressReporter.swift */; };
+		0650940B2643E8EB00B3EE12 /* LightweightMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0650940A2643E8EB00B3EE12 /* LightweightMigrationManager.swift */; };
+		0650940C2643E8EB00B3EE12 /* LightweightMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0650940A2643E8EB00B3EE12 /* LightweightMigrationManager.swift */; };
+		0650940D2643E8EB00B3EE12 /* LightweightMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0650940A2643E8EB00B3EE12 /* LightweightMigrationManager.swift */; };
+		0650940E2643E8EB00B3EE12 /* LightweightMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0650940A2643E8EB00B3EE12 /* LightweightMigrationManager.swift */; };
 		06A6CDA0261DE0E7000563F0 /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A6CD9F261DE0E7000563F0 /* Transformer.swift */; };
 		06A6CDA1261DE0E7000563F0 /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A6CD9F261DE0E7000563F0 /* Transformer.swift */; };
 		06A6CDA2261DE0E7000563F0 /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A6CD9F261DE0E7000563F0 /* Transformer.swift */; };
@@ -338,6 +346,8 @@
 		061C6843261E100E000BF0A2 /* SampleModel.momd */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SampleModel.momd; sourceTree = "<group>"; };
 		061C684D261EF969000BF0A2 /* BaseTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTestCase.swift; sourceTree = "<group>"; };
 		061C689226209443000BF0A2 /* CustomTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransformer.swift; sourceTree = "<group>"; };
+		065094052643E8BC00B3EE12 /* MigrationProgressReporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationProgressReporter.swift; sourceTree = "<group>"; };
+		0650940A2643E8EB00B3EE12 /* LightweightMigrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightweightMigrationManager.swift; sourceTree = "<group>"; };
 		0693F915237C58A7008E4F31 /* workflows */ = {isa = PBXFileReference; lastKnownFileType = text; name = workflows; path = .github/workflows; sourceTree = SOURCE_ROOT; };
 		06A3C1D3239FD36100E08D45 /* CoreDataPlus macOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "CoreDataPlus macOS.xctestplan"; sourceTree = "<group>"; };
 		06A3C1D4239FD3E900E08D45 /* CoreDataPlus tvOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "CoreDataPlus tvOS.xctestplan"; sourceTree = "<group>"; };
@@ -681,6 +691,8 @@
 				D261DA20263861820075BA3C /* MigrationManager.swift */,
 				D214B99F263B07EC000BBD13 /* FakeProgressReportingWorker.swift */,
 				D214B9A9263BFA22000BBD13 /* Migrator.swift */,
+				065094052643E8BC00B3EE12 /* MigrationProgressReporter.swift */,
+				0650940A2643E8EB00B3EE12 /* LightweightMigrationManager.swift */,
 			);
 			path = Migration;
 			sourceTree = "<group>";
@@ -1110,6 +1122,7 @@
 				D2011A362614E3D9001902FB /* NSManagedObjectContext+History.swift in Sources */,
 				D2011A5A2614E3D9001902FB /* Notification+Utils.swift in Sources */,
 				D2011A262614E3D9001902FB /* CoreDataPlus.swift in Sources */,
+				0650940C2643E8EB00B3EE12 /* LightweightMigrationManager.swift in Sources */,
 				D20F4BB92621E71500F0CB25 /* NSAttributeDescription+Utils.swift in Sources */,
 				D214B9A6263B0FDE000BBD13 /* NSMappingModel+Utils.swift in Sources */,
 				D2011A222614E3D9001902FB /* Collection+CoreData.swift in Sources */,
@@ -1117,6 +1130,7 @@
 				D28233102624A4FE00F37442 /* NSFetchedPropertyDescription+Utils.swift in Sources */,
 				061C689426209443000BF0A2 /* CustomTransformer.swift in Sources */,
 				D2011A1A2614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
+				065094072643E8BC00B3EE12 /* MigrationProgressReporter.swift in Sources */,
 				06B71CB92629DB04008DFD11 /* PersistentStoreOptions.swift in Sources */,
 				D261DA22263861820075BA3C /* MigrationManager.swift in Sources */,
 				D2011A4A2614E3D9001902FB /* ModelVersion.swift in Sources */,
@@ -1146,6 +1160,7 @@
 				D2011A372614E3D9001902FB /* NSManagedObjectContext+History.swift in Sources */,
 				D2011A5B2614E3D9001902FB /* Notification+Utils.swift in Sources */,
 				D2011A272614E3D9001902FB /* CoreDataPlus.swift in Sources */,
+				0650940D2643E8EB00B3EE12 /* LightweightMigrationManager.swift in Sources */,
 				D20F4BBA2621E71500F0CB25 /* NSAttributeDescription+Utils.swift in Sources */,
 				D214B9A7263B0FDE000BBD13 /* NSMappingModel+Utils.swift in Sources */,
 				D2011A232614E3D9001902FB /* Collection+CoreData.swift in Sources */,
@@ -1153,6 +1168,7 @@
 				D28233112624A4FE00F37442 /* NSFetchedPropertyDescription+Utils.swift in Sources */,
 				061C689526209443000BF0A2 /* CustomTransformer.swift in Sources */,
 				D2011A1B2614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
+				065094082643E8BC00B3EE12 /* MigrationProgressReporter.swift in Sources */,
 				06B71CBA2629DB05008DFD11 /* PersistentStoreOptions.swift in Sources */,
 				D261DA23263861820075BA3C /* MigrationManager.swift in Sources */,
 				D2011A4B2614E3D9001902FB /* ModelVersion.swift in Sources */,
@@ -1182,6 +1198,7 @@
 				D2011A382614E3D9001902FB /* NSManagedObjectContext+History.swift in Sources */,
 				D2011A5C2614E3D9001902FB /* Notification+Utils.swift in Sources */,
 				D2011A282614E3D9001902FB /* CoreDataPlus.swift in Sources */,
+				0650940E2643E8EB00B3EE12 /* LightweightMigrationManager.swift in Sources */,
 				D20F4BBB2621E71500F0CB25 /* NSAttributeDescription+Utils.swift in Sources */,
 				D214B9A8263B0FDE000BBD13 /* NSMappingModel+Utils.swift in Sources */,
 				D2011A242614E3D9001902FB /* Collection+CoreData.swift in Sources */,
@@ -1189,6 +1206,7 @@
 				D28233122624A4FE00F37442 /* NSFetchedPropertyDescription+Utils.swift in Sources */,
 				061C689626209443000BF0A2 /* CustomTransformer.swift in Sources */,
 				D2011A1C2614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
+				065094092643E8BC00B3EE12 /* MigrationProgressReporter.swift in Sources */,
 				06B71CBB2629DB05008DFD11 /* PersistentStoreOptions.swift in Sources */,
 				D261DA24263861820075BA3C /* MigrationManager.swift in Sources */,
 				D2011A4C2614E3D9001902FB /* ModelVersion.swift in Sources */,
@@ -1218,6 +1236,7 @@
 				D2011A352614E3D9001902FB /* NSManagedObjectContext+History.swift in Sources */,
 				D2011A592614E3D9001902FB /* Notification+Utils.swift in Sources */,
 				D2011A252614E3D9001902FB /* CoreDataPlus.swift in Sources */,
+				0650940B2643E8EB00B3EE12 /* LightweightMigrationManager.swift in Sources */,
 				D20F4BB82621E71500F0CB25 /* NSAttributeDescription+Utils.swift in Sources */,
 				D214B9A5263B0FDE000BBD13 /* NSMappingModel+Utils.swift in Sources */,
 				D2011A212614E3D9001902FB /* Collection+CoreData.swift in Sources */,
@@ -1225,6 +1244,7 @@
 				D282330F2624A4FE00F37442 /* NSFetchedPropertyDescription+Utils.swift in Sources */,
 				061C689326209443000BF0A2 /* CustomTransformer.swift in Sources */,
 				D2011A192614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
+				065094062643E8BC00B3EE12 /* MigrationProgressReporter.swift in Sources */,
 				06B71CB82629DB04008DFD11 /* PersistentStoreOptions.swift in Sources */,
 				D261DA21263861820075BA3C /* MigrationManager.swift in Sources */,
 				D2011A492614E3D9001902FB /* ModelVersion.swift in Sources */,

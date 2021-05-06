@@ -64,20 +64,22 @@ class CoreDataMigrator: CoreDataMigratorProtocol {
       i += 1
       print("------ STEP \(i)\n")
       
-      let manager = MigrationManager(sourceModel: migrationStep.sourceModel, destinationModel: migrationStep.destinationModel, progress: migrationProgress!)
+//      let manager = NSMigrationManager(sourceModel: migrationStep.sourceModel, destinationModel: migrationStep.destinationModel)
       
 //      let manager = LightweightMigrationManager(sourceModel: migrationStep.sourceModel, destinationModel: migrationStep.destinationModel)
 
       
-//      let manager = LightweightMigrationManager2(sourceModel: migrationStep.sourceModel, destinationModel: migrationStep.destinationModel)
-//      manager.estimatedTime = 5
-//      manager.interval = 0.1
-      let mp = MigrationProgressReporter(manager: manager)
+      let manager = LightweightMigrationManager2(sourceModel: migrationStep.sourceModel, destinationModel: migrationStep.destinationModel)
+      manager.estimatedTime = 5
+      manager.interval = 0.1
+     
       migrationProgress?.becomeCurrent(withPendingUnitCount: 1)
-      let implicitProgress = mp.progress
+      let mp = MigrationProgressReporter(manager: manager)
+      mp.progress.cancel()
+      //let implicitProgress = mp.progress
       //let implicitProgress = manager.progress
-      
       migrationProgress?.resignCurrent()
+     
       
   
       
@@ -115,12 +117,13 @@ class CoreDataMigrator: CoreDataMigratorProtocol {
       
       do {
         try manager.migrateStore(from: currentURL, sourceType: NSSQLiteStoreType, options: nil, with: migrationStep.mappingModel, toDestinationURL: destinationURL, destinationType: NSSQLiteStoreType, destinationOptions: nil)
+        mp.markAsFinishedIfNeeded()
       } catch let error {
         fatalError("failed attempting to migrate from \(migrationStep.sourceModel) to \(migrationStep.destinationModel), error: \(error)")
       }
       
       print("☢️☢️☢️ \(manager.migrationProgress)")
-      
+     
       if currentURL != storeURL {
         //Destroy intermediate step's store
         NSPersistentStoreCoordinator.destroyStore(at: currentURL)
@@ -193,6 +196,8 @@ private extension CoreDataMigrationVersion {
     return compatibleVersion
   }
 }
+
+final class MigrationManager2: NSMigrationManager {}
 
 internal final class MigrationManager: NSMigrationManager, ProgressReporting {
 
@@ -510,6 +515,7 @@ public final class LightweightMigrationManager2: NSMigrationManager {
 }
 
 public final class MigrationProgressReporter: NSObject, ProgressReporting {
+  /// Migration progress.
   public private(set) lazy var progress: Progress = {
     let progress = Progress(totalUnitCount: Int64(totalUnitCount))
     progress.cancellationHandler = { [weak self] in
@@ -533,11 +539,23 @@ public final class MigrationProgressReporter: NSObject, ProgressReporting {
         self.progress.completedUnitCount = Int64(newProgress*Float(self.totalUnitCount))
       }
     }
+    // force lazy init for implicit progress support
+    // https://developer.apple.com/documentation/foundation/progress
+    _ = progress
   }
   
   deinit {
     token?.invalidate()
     token = nil
+  }
+  
+  /// Marks the progress as finished if it's not already.
+  /// - Note: Since lightweight migrations don't support progress, this method ensures that a lightweight migration is at least finished.
+  public func markAsFinishedIfNeeded() {
+    if !progress.isFinished {
+      print(#function)
+      progress.completedUnitCount = progress.totalUnitCount
+    }
   }
   
   func cancel() {
@@ -546,8 +564,9 @@ public final class MigrationProgressReporter: NSObject, ProgressReporting {
   }
 }
 
-extension NSMigrationManager {
+public extension NSMigrationManager {
+  /// Creates a new `MigrationProgressReporter` for the migration manager.
   func makeProgressReporter() -> MigrationProgressReporter {
-    return MigrationProgressReporter(manager: self)
+    MigrationProgressReporter(manager: self)
   }
 }
