@@ -2,6 +2,8 @@
 
 import CoreData
 
+// TODO: test if it can be reused
+
 public final class LightweightMigrationManager: NSMigrationManager {
   /// An estimated interval (with a 10% tolerance) to carry out the migration.
   public var estimatedTime: TimeInterval = 60
@@ -15,7 +17,7 @@ public final class LightweightMigrationManager: NSMigrationManager {
   
   public override var usesStoreSpecificMigrationManager: Bool {
     get { manager.usesStoreSpecificMigrationManager }
-    set { fatalError("Not implemented.") }
+    set { fatalError("Not implemented.") } // TODO better text
   }
   
   public override var mappingModel: NSMappingModel { manager.mappingModel }
@@ -30,7 +32,13 @@ public final class LightweightMigrationManager: NSMigrationManager {
     super.init()
   }
   
-  public override func migrateStore(from sourceURL: URL, sourceType sStoreType: String, options sOptions: [AnyHashable : Any]? = nil, with mappings: NSMappingModel?, toDestinationURL dURL: URL, destinationType dStoreType: String, destinationOptions dOptions: [AnyHashable : Any]? = nil) throws {
+  public override func migrateStore(from sourceURL: URL,
+                                    sourceType sStoreType: String,
+                                    options sOptions: [AnyHashable : Any]? = nil,
+                                    with mappings: NSMappingModel?,
+                                    toDestinationURL dURL: URL,
+                                    destinationType dStoreType: String,
+                                    destinationOptions dOptions: [AnyHashable : Any]? = nil) throws {
     let tick = Float(interval / estimatedTime) // progress increment tick
     let queue = DispatchQueue(label: "\(bundleIdentifier).\(String(describing: Self.self)).Progress", qos: .utility)
     var progressUpdater: () -> Void = {}
