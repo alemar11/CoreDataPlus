@@ -64,14 +64,14 @@ class CoreDataMigrator: CoreDataMigratorProtocol {
       i += 1
       print("------ STEP \(i)\n")
       
-//      let manager = NSMigrationManager(sourceModel: migrationStep.sourceModel, destinationModel: migrationStep.destinationModel)
+      let manager = NSMigrationManager(sourceModel: migrationStep.sourceModel, destinationModel: migrationStep.destinationModel)
       
 //      let manager = LightweightMigrationManager(sourceModel: migrationStep.sourceModel, destinationModel: migrationStep.destinationModel)
 
       
-      let manager = LightweightMigrationManager2(sourceModel: migrationStep.sourceModel, destinationModel: migrationStep.destinationModel)
-      manager.estimatedTime = 5
-      manager.interval = 0.1
+//      let manager = LightweightMigrationManager2(sourceModel: migrationStep.sourceModel, destinationModel: migrationStep.destinationModel)
+//      manager.estimatedTime = 5
+//      manager.interval = 0.1
      
       migrationProgress?.becomeCurrent(withPendingUnitCount: 1)
       let mp = MigrationProgressReporter(manager: manager)
@@ -80,7 +80,7 @@ class CoreDataMigrator: CoreDataMigratorProtocol {
       //let implicitProgress = manager.progress
       migrationProgress?.resignCurrent()
      
-      
+      //manager.cancelMigrationWithError(NSError(domain: "test", code: 11, userInfo: nil))
   
       
       //migrationProgress?.addChild(manager.progress, withPendingUnitCount: 1)
@@ -119,6 +119,7 @@ class CoreDataMigrator: CoreDataMigratorProtocol {
         try manager.migrateStore(from: currentURL, sourceType: NSSQLiteStoreType, options: nil, with: migrationStep.mappingModel, toDestinationURL: destinationURL, destinationType: NSSQLiteStoreType, destinationOptions: nil)
         mp.markAsFinishedIfNeeded()
       } catch let error {
+        fatalError("\(error)")
         fatalError("failed attempting to migrate from \(migrationStep.sourceModel) to \(migrationStep.destinationModel), error: \(error)")
       }
       

@@ -31,8 +31,11 @@ final class MigrationsTests: BaseTestCase {
 
   func testMigrationFromNotExistingPersistentStore() {
     let url = URL(fileURLWithPath: "/path/to/nothing.sqlite")
-    XCTAssertThrowsError(try Migration.migrateStore(at: url, targetVersion: SampleModelVersion.version2),
-                         "The store shouldn't exist.")
+    let sourceDescription = NSPersistentStoreDescription(url: url)
+    let destinationDescription = NSPersistentStoreDescription(url: url)
+    let migrator = Migrator<SampleModelVersion>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
+    
+    XCTAssertThrowsError(try migrator.migrate(to: .version3, enableWALCheckpoint: true), "The store shouldn't exist.")
   }
 
   func testMigrationEdgeCases() throws {
@@ -62,12 +65,14 @@ final class MigrationsTests: BaseTestCase {
     XCTAssertTrue(version == .version1)
 
     // When
-    let progress = Progress(totalUnitCount: 1)
 
     // ⚠️ if the store is referenced, enabling the WAL checkpoint will block the migration
     // you can solve this removing the store from the container from the NSPersistentStoreCoordinator
     let enableWALCheckpoint = false
-    try Migration.migrateStore(at: sourceURL, targetVersion: targetVersion, enableWALCheckpoint: enableWALCheckpoint, progress: progress)
+    let sourceDescription = NSPersistentStoreDescription(url: sourceURL)
+    let destinationDescription = NSPersistentStoreDescription(url: sourceURL)
+    let migrator = Migrator<SampleModelVersion>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
+    try migrator.migrate(to: targetVersion, enableWALCheckpoint:  enableWALCheckpoint)
 
     // ⚠️ migration should be done before loading the NSPersistentContainer instance or you need to create a new one after the migration
     let migratedContainer = NSPersistentContainer(name: name, managedObjectModel: targetVersion.managedObjectModel())
@@ -116,15 +121,17 @@ final class MigrationsTests: BaseTestCase {
     XCTAssertTrue(version == .version1)
 
     // When
-    let progress = Progress(totalUnitCount: 1)
-    var completionSteps = 0
+    let sourceDescription = NSPersistentStoreDescription(url: sourceURL)
+    let destinationDescription = NSPersistentStoreDescription(url: sourceURL)
+    let migrator = Migrator<SampleModelVersion>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
+    
     var completion = 0.0
-    let token = progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
+    let token = migrator.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
       completion = progress.fractionCompleted
-      completionSteps += 1
     }
-
-    try Migration.migrateStore(at: sourceURL, targetVersion: targetVersion, enableWALCheckpoint: true, progress: progress)
+    
+    try migrator.migrate(to: targetVersion, enableWALCheckpoint: true)
+    
     let migratedContext = NSManagedObjectContext(model: targetVersion.managedObjectModel(), storeURL: sourceURL)
     let luxuryCars = try LuxuryCar.fetch(in: migratedContext)
     XCTAssertEqual(luxuryCars.count, 5)
@@ -146,16 +153,13 @@ final class MigrationsTests: BaseTestCase {
       }
     }
 
-    try Migration.migrateStore(from: sourceURL, to: sourceURL, targetVersion: targetVersion)
-
-    XCTAssertEqual(completionSteps, 1)
     XCTAssertEqual(completion, 1.0)
 
     migratedContext._fix_sqlite_warning_when_destroying_a_store()
     token.invalidate()
   }
 
-  func testMigrationFromVersion1ToVersion2__() throws {
+  func testMigrationFromVersion1ToVersion2UsingCustomMigrator() throws {
     let bundle = Bundle.tests
     let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModelV1", withExtension: "sqlite"))  // 125 cars, 5 sport cars
 
@@ -185,7 +189,6 @@ final class MigrationsTests: BaseTestCase {
 
     try migrator.migrate(to: targetVersion, enableWALCheckpoint: true)
 
-    //try Migration.migrateStore(at: sourceURL, targetVersion: targetVersion, enableWALCheckpoint: true, progress: progress)
     let migratedContext = NSManagedObjectContext(model: targetVersion.managedObjectModel(), storeURL: sourceURL)
     let luxuryCars = try LuxuryCar.fetch(in: migratedContext)
     XCTAssertEqual(luxuryCars.count, 5)
@@ -206,8 +209,6 @@ final class MigrationsTests: BaseTestCase {
         }
       }
     }
-
-    try Migration.migrateStore(from: sourceURL, to: sourceURL, targetVersion: targetVersion)
 
     XCTAssertEqual(completion, 1.0)
 
@@ -232,7 +233,10 @@ final class MigrationsTests: BaseTestCase {
 
     XCTAssertTrue(version == .version2)
 
-    try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3)
+    let sourceDescription = NSPersistentStoreDescription(url: sourceURL)
+    let destinationDescription = NSPersistentStoreDescription(url: sourceURL)
+    let migrator = Migrator<SampleModelVersion>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
+    try migrator.migrate(to: .version3, enableWALCheckpoint: true)
 
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
@@ -281,14 +285,18 @@ final class MigrationsTests: BaseTestCase {
     XCTAssertTrue(version == .version1)
 
     let targetURL = URL.temporaryDirectoryURL.appendingPathComponent("SampleModel").appendingPathExtension("sqlite")
-    let progress = Progress(totalUnitCount: 1)
+    let sourceDescription = NSPersistentStoreDescription(url: sourceURL)
+    let destinationDescription = NSPersistentStoreDescription(url: targetURL)
+    let migrator = Migrator<SampleModelVersion>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
+    
     var completion = 0.0
-    let token = progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
+    let token = migrator.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
       print(progress.fractionCompleted)
       completion = progress.fractionCompleted
     }
-    try Migration.migrateStore(from: sourceURL, to: targetURL, targetVersion: SampleModelVersion.version3, deleteSource: true, progress: progress)
-
+    
+    try migrator.migrate(to: .version3, enableWALCheckpoint: true)
+    
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
     let makers = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Maker"))
     XCTAssertEqual(makers.count, 10)
@@ -300,7 +308,6 @@ final class MigrationsTests: BaseTestCase {
     try migratedContext.save()
 
     XCTAssertEqual(completion, 1.0)
-
     XCTAssertFalse(FileManager.default.fileExists(atPath: sourceURL.path))
     XCTAssertTrue(FileManager.default.fileExists(atPath: targetURL.path))
 
@@ -322,61 +329,16 @@ final class MigrationsTests: BaseTestCase {
     XCTAssertTrue(grandChild.isCancelled)
     wait(for: [expectationChildCancelled, expectationGrandChildCancelled], timeout: 2)
   }
-
-  func testFakeProgressReportingWorker() throws {
-    let workExpectation = self.expectation(description: "Actual work is completed.")
-    let worker = FakeProgressReportingWorker(estimatedTime: 2, interval: 0.01, work: { isAlreadyCancelled in
-      XCTAssertFalse(isAlreadyCancelled)
-      sleep(2)
-      workExpectation.fulfill()
-    }, cancellation: {
-      XCTFail("No cancel commands have been sent.")
-    })
-
-    let token = worker.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
-      print(progress.fractionCompleted)
-    }
-
-    let progressExpectation = XCTKVOExpectation(keyPath: #keyPath(Progress.isFinished), object: worker.progress, expectedValue: true, options: [.new])
-
-    try worker.run()
-
-    wait(for: [workExpectation, progressExpectation], timeout: 10, enforceOrder: true)
-    token.invalidate()
-  }
-
-  func testFakeProgressReportingWorkerCancellation() throws {
-    let workExpectation = self.expectation(description: "Actual work is completed.")
-    let cancellationExpectation = self.expectation(description: "Actual work is completed.")
-
-    let worker = FakeProgressReportingWorker(estimatedTime: 2, work: { isAlreadyCancelled in
-      XCTAssertTrue(isAlreadyCancelled)
-      sleep(2)
-      workExpectation.fulfill()
-    }, cancellation: {
-      cancellationExpectation.fulfill()
-    })
-
-    let token = worker.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
-      print(progress.fractionCompleted)
-    }
-
-    let progressCancellationExpectation = XCTKVOExpectation(keyPath: #keyPath(Progress.isCancelled),
-                                                            object: worker.progress,
-                                                            expectedValue: true,
-                                                            options: [.new])
-    worker.progress.cancel()
-    try worker.run()
-
-    wait(for: [progressCancellationExpectation, cancellationExpectation, workExpectation], timeout: 10, enforceOrder: true)
-    token.invalidate()
-  }
 }
 
 extension MigrationsTests {
-  class CustomMigrator: Migrator {
-    override func estimatedTimeForForLightweightMigration(sourceVersionName: String,
-                                                          to destinationVersionName: String,
-                                                          using mappingModel: NSMappingModel) -> TimeInterval { 2 }
+  class CustomMigrator: Migrator<SampleModelVersion> {
+    override func migrationManager(sourceVersion: String, sourceModel: NSManagedObjectModel, destinationVersion: String, destinationModel: NSManagedObjectModel, mappingModel: NSMappingModel) -> NSMigrationManager {
+      XCTAssertTrue(mappingModel.isInferred)
+      let manager = LightweightMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
+      manager.interval = 0.001 // we need to set a very low refresh interval to get some fake progress updates
+      manager.estimatedTime = 0.1
+      return manager
+    }
   }
 }

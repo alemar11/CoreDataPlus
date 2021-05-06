@@ -30,15 +30,9 @@ public final class LightweightMigrationManager: NSMigrationManager {
     super.init()
   }
   
-  public override func migrateStore(from sourceURL: URL,
-                                    sourceType sStoreType: String,
-                                    options sOptions: [AnyHashable : Any]? = nil,
-                                    with mappings: NSMappingModel?,
-                                    toDestinationURL dURL: URL,
-                                    destinationType dStoreType: String,
-                                    destinationOptions dOptions: [AnyHashable : Any]? = nil) throws {
+  public override func migrateStore(from sourceURL: URL, sourceType sStoreType: String, options sOptions: [AnyHashable : Any]? = nil, with mappings: NSMappingModel?, toDestinationURL dURL: URL, destinationType dStoreType: String, destinationOptions dOptions: [AnyHashable : Any]? = nil) throws {
     let tick = Float(interval / estimatedTime) // progress increment tick
-    let queue = DispatchQueue(label: "\(bundleIdentifier).LightweightMigrationManager.FakeProgress", qos: .utility)
+    let queue = DispatchQueue(label: "\(bundleIdentifier).\(String(describing: Self.self)).Progress", qos: .utility)
     var progressUpdater: () -> Void = {}
     progressUpdater = { [weak self] in
       guard let self = self else { return }
@@ -65,8 +59,10 @@ public final class LightweightMigrationManager: NSMigrationManager {
     } catch {
       // stop the fake progress
       queue.sync { fakeProgress = 1 }
-      // reset the migrationProgress (as expected for normal NSMigrationManager instances)
+      // reset the migrationProgress (as expected for NSMigrationManager instances)
       // before throwing the error without firing KVO.
+      // Although cancelling ligthweight migrations is ignored;
+      // see comments in cancelMigrationWithError(_:)
       migrationProgress = 0
       throw error
     }
@@ -90,22 +86,15 @@ public final class LightweightMigrationManager: NSMigrationManager {
     manager.reset()
   }
   
-  public override func associate(sourceInstance: NSManagedObject,
-                                 withDestinationInstance destinationInstance: NSManagedObject,
-                                 for entityMapping: NSEntityMapping) {
-    manager.associate(sourceInstance: sourceInstance,
-                      withDestinationInstance: destinationInstance,
-                      for: entityMapping)
+  public override func associate(sourceInstance: NSManagedObject, withDestinationInstance destinationInstance: NSManagedObject, for entityMapping: NSEntityMapping) {
+    manager.associate(sourceInstance: sourceInstance, withDestinationInstance: destinationInstance, for: entityMapping)
   }
   
-  public override func destinationInstances(forEntityMappingName mappingName: String,
-                                            sourceInstances: [NSManagedObject]?) -> [NSManagedObject] {
-    manager.destinationInstances(forEntityMappingName: mappingName,
-                                 sourceInstances: sourceInstances)
+  public override func destinationInstances(forEntityMappingName mappingName: String, sourceInstances: [NSManagedObject]?) -> [NSManagedObject] {
+    manager.destinationInstances(forEntityMappingName: mappingName, sourceInstances: sourceInstances)
   }
   
-  public override func sourceInstances(forEntityMappingName mappingName: String,
-                                       destinationInstances: [NSManagedObject]?) -> [NSManagedObject] {
+  public override func sourceInstances(forEntityMappingName mappingName: String, destinationInstances: [NSManagedObject]?) -> [NSManagedObject] {
     manager.sourceInstances(forEntityMappingName: mappingName, destinationInstances: destinationInstances)
   }
   
@@ -142,6 +131,8 @@ public final class LightweightMigrationManager: NSMigrationManager {
   }
   
   public override func cancelMigrationWithError(_ error: Error) {
+    // During my tests, cancelling a lightweight migration doesn't work
+    // probably due to performance optimizations
     manager.cancelMigrationWithError(error)
   }
 }

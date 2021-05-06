@@ -208,14 +208,10 @@
 		D2011A4A2614E3D9001902FB /* ModelVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A022614E3D9001902FB /* ModelVersion.swift */; };
 		D2011A4B2614E3D9001902FB /* ModelVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A022614E3D9001902FB /* ModelVersion.swift */; };
 		D2011A4C2614E3D9001902FB /* ModelVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A022614E3D9001902FB /* ModelVersion.swift */; };
-		D2011A4D2614E3D9001902FB /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A032614E3D9001902FB /* Migration.swift */; };
-		D2011A4E2614E3D9001902FB /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A032614E3D9001902FB /* Migration.swift */; };
-		D2011A4F2614E3D9001902FB /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A032614E3D9001902FB /* Migration.swift */; };
-		D2011A502614E3D9001902FB /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A032614E3D9001902FB /* Migration.swift */; };
-		D2011A512614E3D9001902FB /* Migration+Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A042614E3D9001902FB /* Migration+Step.swift */; };
-		D2011A522614E3D9001902FB /* Migration+Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A042614E3D9001902FB /* Migration+Step.swift */; };
-		D2011A532614E3D9001902FB /* Migration+Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A042614E3D9001902FB /* Migration+Step.swift */; };
-		D2011A542614E3D9001902FB /* Migration+Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A042614E3D9001902FB /* Migration+Step.swift */; };
+		D2011A512614E3D9001902FB /* MigrationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A042614E3D9001902FB /* MigrationStep.swift */; };
+		D2011A522614E3D9001902FB /* MigrationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A042614E3D9001902FB /* MigrationStep.swift */; };
+		D2011A532614E3D9001902FB /* MigrationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A042614E3D9001902FB /* MigrationStep.swift */; };
+		D2011A542614E3D9001902FB /* MigrationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A042614E3D9001902FB /* MigrationStep.swift */; };
 		D2011A552614E3D9001902FB /* Notification+Payloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A062614E3D9001902FB /* Notification+Payloads.swift */; };
 		D2011A562614E3D9001902FB /* Notification+Payloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A062614E3D9001902FB /* Notification+Payloads.swift */; };
 		D2011A572614E3D9001902FB /* Notification+Payloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A062614E3D9001902FB /* Notification+Payloads.swift */; };
@@ -238,10 +234,6 @@
 		D20F4C202622029400F0CB25 /* ProgrammaticMigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20F4C1F2622029400F0CB25 /* ProgrammaticMigrationTests.swift */; };
 		D20F4C212622029400F0CB25 /* ProgrammaticMigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20F4C1F2622029400F0CB25 /* ProgrammaticMigrationTests.swift */; };
 		D20F4C222622029400F0CB25 /* ProgrammaticMigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20F4C1F2622029400F0CB25 /* ProgrammaticMigrationTests.swift */; };
-		D214B9A0263B07EC000BBD13 /* FakeProgressReportingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D214B99F263B07EC000BBD13 /* FakeProgressReportingWorker.swift */; };
-		D214B9A1263B07EC000BBD13 /* FakeProgressReportingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D214B99F263B07EC000BBD13 /* FakeProgressReportingWorker.swift */; };
-		D214B9A2263B07EC000BBD13 /* FakeProgressReportingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D214B99F263B07EC000BBD13 /* FakeProgressReportingWorker.swift */; };
-		D214B9A3263B07EC000BBD13 /* FakeProgressReportingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D214B99F263B07EC000BBD13 /* FakeProgressReportingWorker.swift */; };
 		D214B9A5263B0FDE000BBD13 /* NSMappingModel+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D214B9A4263B0FDE000BBD13 /* NSMappingModel+Utils.swift */; };
 		D214B9A6263B0FDE000BBD13 /* NSMappingModel+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D214B9A4263B0FDE000BBD13 /* NSMappingModel+Utils.swift */; };
 		D214B9A7263B0FDE000BBD13 /* NSMappingModel+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D214B9A4263B0FDE000BBD13 /* NSMappingModel+Utils.swift */; };
@@ -250,10 +242,6 @@
 		D214B9AB263BFA22000BBD13 /* Migrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D214B9A9263BFA22000BBD13 /* Migrator.swift */; };
 		D214B9AC263BFA22000BBD13 /* Migrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D214B9A9263BFA22000BBD13 /* Migrator.swift */; };
 		D214B9AD263BFA22000BBD13 /* Migrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D214B9A9263BFA22000BBD13 /* Migrator.swift */; };
-		D261DA21263861820075BA3C /* MigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D261DA20263861820075BA3C /* MigrationManager.swift */; };
-		D261DA22263861820075BA3C /* MigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D261DA20263861820075BA3C /* MigrationManager.swift */; };
-		D261DA23263861820075BA3C /* MigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D261DA20263861820075BA3C /* MigrationManager.swift */; };
-		D261DA24263861820075BA3C /* MigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D261DA20263861820075BA3C /* MigrationManager.swift */; };
 		D27A2E36255F29D20043B43F /* SampleModelV2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D27A2E2D255F29D20043B43F /* SampleModelV2.sqlite */; };
 		D27A2E37255F29D20043B43F /* SampleModelV2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D27A2E2D255F29D20043B43F /* SampleModelV2.sqlite */; };
 		D27A2E38255F29D20043B43F /* SampleModelV2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D27A2E2D255F29D20043B43F /* SampleModelV2.sqlite */; };
@@ -417,19 +405,16 @@
 		D20119FF2614E3D9001902FB /* NSManagedObject+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+Utils.swift"; sourceTree = "<group>"; };
 		D2011A002614E3D9001902FB /* NSFetchRequestResult+CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSFetchRequestResult+CoreData.swift"; sourceTree = "<group>"; };
 		D2011A022614E3D9001902FB /* ModelVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelVersion.swift; sourceTree = "<group>"; };
-		D2011A032614E3D9001902FB /* Migration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Migration.swift; sourceTree = "<group>"; };
-		D2011A042614E3D9001902FB /* Migration+Step.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Migration+Step.swift"; sourceTree = "<group>"; };
+		D2011A042614E3D9001902FB /* MigrationStep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MigrationStep.swift; sourceTree = "<group>"; };
 		D2011A062614E3D9001902FB /* Notification+Payloads.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Notification+Payloads.swift"; sourceTree = "<group>"; };
 		D2011A072614E3D9001902FB /* Notification+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Notification+Utils.swift"; sourceTree = "<group>"; };
 		D2011A082614E3D9001902FB /* NSFetchRequest+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSFetchRequest+Utils.swift"; sourceTree = "<group>"; };
 		D20F4BB72621E71500F0CB25 /* NSAttributeDescription+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributeDescription+Utils.swift"; sourceTree = "<group>"; };
 		D20F4BC62621F3B000F0CB25 /* SampleModel2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleModel2.swift; sourceTree = "<group>"; };
 		D20F4C1F2622029400F0CB25 /* ProgrammaticMigrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammaticMigrationTests.swift; sourceTree = "<group>"; };
-		D214B99F263B07EC000BBD13 /* FakeProgressReportingWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeProgressReportingWorker.swift; sourceTree = "<group>"; };
 		D214B9A4263B0FDE000BBD13 /* NSMappingModel+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMappingModel+Utils.swift"; sourceTree = "<group>"; };
 		D214B9A9263BFA22000BBD13 /* Migrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Migrator.swift; sourceTree = "<group>"; };
 		D254E22A23C3BA7F00A1586E /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = SOURCE_ROOT; };
-		D261DA20263861820075BA3C /* MigrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationManager.swift; sourceTree = "<group>"; };
 		D27A2E2D255F29D20043B43F /* SampleModelV2.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleModelV2.sqlite; sourceTree = "<group>"; };
 		D27A2E2E255F29D20043B43F /* V2toV3.cdm */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = V2toV3.cdm; sourceTree = "<group>"; };
 		D27A2E9F255F2A3C0043B43F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -686,10 +671,7 @@
 			isa = PBXGroup;
 			children = (
 				D2011A022614E3D9001902FB /* ModelVersion.swift */,
-				D2011A032614E3D9001902FB /* Migration.swift */,
-				D2011A042614E3D9001902FB /* Migration+Step.swift */,
-				D261DA20263861820075BA3C /* MigrationManager.swift */,
-				D214B99F263B07EC000BBD13 /* FakeProgressReportingWorker.swift */,
+				D2011A042614E3D9001902FB /* MigrationStep.swift */,
 				D214B9A9263BFA22000BBD13 /* Migrator.swift */,
 				065094052643E8BC00B3EE12 /* MigrationProgressReporter.swift */,
 				0650940A2643E8EB00B3EE12 /* LightweightMigrationManager.swift */,
@@ -1104,7 +1086,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2011A162614E3D9001902FB /* NSManagedObjectContext+Utils.swift in Sources */,
-				D214B9A1263B07EC000BBD13 /* FakeProgressReportingWorker.swift in Sources */,
 				D2011A462614E3D9001902FB /* NSFetchRequestResult+CoreData.swift in Sources */,
 				D28232AD26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift in Sources */,
 				D2011A1E2614E3D9001902FB /* NSBatchInsertResult+Utils.swift in Sources */,
@@ -1112,7 +1093,7 @@
 				D2011A2E2614E3D9001902FB /* NSSet+CoreData.swift in Sources */,
 				D2011A562614E3D9001902FB /* Notification+Payloads.swift in Sources */,
 				D2011A3E2614E3D9001902FB /* NSEntityDescription+Utils.swift in Sources */,
-				D2011A522614E3D9001902FB /* Migration+Step.swift in Sources */,
+				D2011A522614E3D9001902FB /* MigrationStep.swift in Sources */,
 				D2011A2A2614E3D9001902FB /* FetchedResultsChanges.swift in Sources */,
 				D2011A3A2614E3D9001902FB /* NSPersistentStoreCoordinator+Utils.swift in Sources */,
 				06A6CDA1261DE0E7000563F0 /* Transformer.swift in Sources */,
@@ -1126,13 +1107,11 @@
 				D20F4BB92621E71500F0CB25 /* NSAttributeDescription+Utils.swift in Sources */,
 				D214B9A6263B0FDE000BBD13 /* NSMappingModel+Utils.swift in Sources */,
 				D2011A222614E3D9001902FB /* Collection+CoreData.swift in Sources */,
-				D2011A4E2614E3D9001902FB /* Migration.swift in Sources */,
 				D28233102624A4FE00F37442 /* NSFetchedPropertyDescription+Utils.swift in Sources */,
 				061C689426209443000BF0A2 /* CustomTransformer.swift in Sources */,
 				D2011A1A2614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
 				065094072643E8BC00B3EE12 /* MigrationProgressReporter.swift in Sources */,
 				06B71CB92629DB04008DFD11 /* PersistentStoreOptions.swift in Sources */,
-				D261DA22263861820075BA3C /* MigrationManager.swift in Sources */,
 				D2011A4A2614E3D9001902FB /* ModelVersion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1142,7 +1121,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2011A172614E3D9001902FB /* NSManagedObjectContext+Utils.swift in Sources */,
-				D214B9A2263B07EC000BBD13 /* FakeProgressReportingWorker.swift in Sources */,
 				D2011A472614E3D9001902FB /* NSFetchRequestResult+CoreData.swift in Sources */,
 				D28232AE26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift in Sources */,
 				D2011A1F2614E3D9001902FB /* NSBatchInsertResult+Utils.swift in Sources */,
@@ -1150,7 +1128,7 @@
 				D2011A2F2614E3D9001902FB /* NSSet+CoreData.swift in Sources */,
 				D2011A572614E3D9001902FB /* Notification+Payloads.swift in Sources */,
 				D2011A3F2614E3D9001902FB /* NSEntityDescription+Utils.swift in Sources */,
-				D2011A532614E3D9001902FB /* Migration+Step.swift in Sources */,
+				D2011A532614E3D9001902FB /* MigrationStep.swift in Sources */,
 				D2011A2B2614E3D9001902FB /* FetchedResultsChanges.swift in Sources */,
 				D2011A3B2614E3D9001902FB /* NSPersistentStoreCoordinator+Utils.swift in Sources */,
 				06A6CDA2261DE0E7000563F0 /* Transformer.swift in Sources */,
@@ -1164,13 +1142,11 @@
 				D20F4BBA2621E71500F0CB25 /* NSAttributeDescription+Utils.swift in Sources */,
 				D214B9A7263B0FDE000BBD13 /* NSMappingModel+Utils.swift in Sources */,
 				D2011A232614E3D9001902FB /* Collection+CoreData.swift in Sources */,
-				D2011A4F2614E3D9001902FB /* Migration.swift in Sources */,
 				D28233112624A4FE00F37442 /* NSFetchedPropertyDescription+Utils.swift in Sources */,
 				061C689526209443000BF0A2 /* CustomTransformer.swift in Sources */,
 				D2011A1B2614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
 				065094082643E8BC00B3EE12 /* MigrationProgressReporter.swift in Sources */,
 				06B71CBA2629DB05008DFD11 /* PersistentStoreOptions.swift in Sources */,
-				D261DA23263861820075BA3C /* MigrationManager.swift in Sources */,
 				D2011A4B2614E3D9001902FB /* ModelVersion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1180,7 +1156,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2011A182614E3D9001902FB /* NSManagedObjectContext+Utils.swift in Sources */,
-				D214B9A3263B07EC000BBD13 /* FakeProgressReportingWorker.swift in Sources */,
 				D2011A482614E3D9001902FB /* NSFetchRequestResult+CoreData.swift in Sources */,
 				D28232AF26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift in Sources */,
 				D2011A202614E3D9001902FB /* NSBatchInsertResult+Utils.swift in Sources */,
@@ -1188,7 +1163,7 @@
 				D2011A302614E3D9001902FB /* NSSet+CoreData.swift in Sources */,
 				D2011A582614E3D9001902FB /* Notification+Payloads.swift in Sources */,
 				D2011A402614E3D9001902FB /* NSEntityDescription+Utils.swift in Sources */,
-				D2011A542614E3D9001902FB /* Migration+Step.swift in Sources */,
+				D2011A542614E3D9001902FB /* MigrationStep.swift in Sources */,
 				D2011A2C2614E3D9001902FB /* FetchedResultsChanges.swift in Sources */,
 				D2011A3C2614E3D9001902FB /* NSPersistentStoreCoordinator+Utils.swift in Sources */,
 				06A6CDA3261DE0E7000563F0 /* Transformer.swift in Sources */,
@@ -1202,13 +1177,11 @@
 				D20F4BBB2621E71500F0CB25 /* NSAttributeDescription+Utils.swift in Sources */,
 				D214B9A8263B0FDE000BBD13 /* NSMappingModel+Utils.swift in Sources */,
 				D2011A242614E3D9001902FB /* Collection+CoreData.swift in Sources */,
-				D2011A502614E3D9001902FB /* Migration.swift in Sources */,
 				D28233122624A4FE00F37442 /* NSFetchedPropertyDescription+Utils.swift in Sources */,
 				061C689626209443000BF0A2 /* CustomTransformer.swift in Sources */,
 				D2011A1C2614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
 				065094092643E8BC00B3EE12 /* MigrationProgressReporter.swift in Sources */,
 				06B71CBB2629DB05008DFD11 /* PersistentStoreOptions.swift in Sources */,
-				D261DA24263861820075BA3C /* MigrationManager.swift in Sources */,
 				D2011A4C2614E3D9001902FB /* ModelVersion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1218,7 +1191,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2011A152614E3D9001902FB /* NSManagedObjectContext+Utils.swift in Sources */,
-				D214B9A0263B07EC000BBD13 /* FakeProgressReportingWorker.swift in Sources */,
 				D2011A452614E3D9001902FB /* NSFetchRequestResult+CoreData.swift in Sources */,
 				D28232AC26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift in Sources */,
 				D2011A1D2614E3D9001902FB /* NSBatchInsertResult+Utils.swift in Sources */,
@@ -1226,7 +1198,7 @@
 				D2011A2D2614E3D9001902FB /* NSSet+CoreData.swift in Sources */,
 				D2011A552614E3D9001902FB /* Notification+Payloads.swift in Sources */,
 				D2011A3D2614E3D9001902FB /* NSEntityDescription+Utils.swift in Sources */,
-				D2011A512614E3D9001902FB /* Migration+Step.swift in Sources */,
+				D2011A512614E3D9001902FB /* MigrationStep.swift in Sources */,
 				D2011A292614E3D9001902FB /* FetchedResultsChanges.swift in Sources */,
 				D2011A392614E3D9001902FB /* NSPersistentStoreCoordinator+Utils.swift in Sources */,
 				06A6CDA0261DE0E7000563F0 /* Transformer.swift in Sources */,
@@ -1240,13 +1212,11 @@
 				D20F4BB82621E71500F0CB25 /* NSAttributeDescription+Utils.swift in Sources */,
 				D214B9A5263B0FDE000BBD13 /* NSMappingModel+Utils.swift in Sources */,
 				D2011A212614E3D9001902FB /* Collection+CoreData.swift in Sources */,
-				D2011A4D2614E3D9001902FB /* Migration.swift in Sources */,
 				D282330F2624A4FE00F37442 /* NSFetchedPropertyDescription+Utils.swift in Sources */,
 				061C689326209443000BF0A2 /* CustomTransformer.swift in Sources */,
 				D2011A192614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
 				065094062643E8BC00B3EE12 /* MigrationProgressReporter.swift in Sources */,
 				06B71CB82629DB04008DFD11 /* PersistentStoreOptions.swift in Sources */,
-				D261DA21263861820075BA3C /* MigrationManager.swift in Sources */,
 				D2011A492614E3D9001902FB /* ModelVersion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

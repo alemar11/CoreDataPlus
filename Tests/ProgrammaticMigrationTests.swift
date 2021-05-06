@@ -7,7 +7,7 @@ import Foundation
 
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 extension ProgrammaticMigrationTests {
-  class CustomMigrationManager: MigrationManager {
+  class CustomMigrationManager: NSMigrationManager {
     override func migrateStore(from sourceURL: URL,
                                sourceType sStoreType: String,
                                options sOptions: [AnyHashable : Any]? = nil,
@@ -25,15 +25,17 @@ extension ProgrammaticMigrationTests {
     }
   }
 
-  class CustomMigrator: Migrator {
-    override func estimatedTimeForForLightweightMigration(sourceVersionName: String,
-                                                          to destinationVersionName: String,
-                                                          using mappingModel: NSMappingModel) -> TimeInterval { 2 }
-    override func migrationManagerForHeavyWeightMigrationFrom(sourceVersionName: String,
-                                                              to destinationVersionName: String,
-                                                              using mappingModel: NSMappingModel) -> MigrationManager.Type {
-      print(sourceVersionName, destinationVersionName)
-      return CustomMigrationManager.self
+  class CustomMigrator: Migrator<SampleModel2.SampleModel2Version> {
+    override func migrationManager(sourceVersion: String, sourceModel: NSManagedObjectModel, destinationVersion: String, destinationModel: NSManagedObjectModel, mappingModel: NSMappingModel) -> NSMigrationManager {
+      
+      print(sourceVersion, destinationVersion, mappingModel.isInferred)
+      if mappingModel.isInferred {
+        let manager = LightweightMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
+        manager.interval = 0.001 // we need to set a very low refresh interval to get some fake progress updates
+        manager.estimatedTime = 0.1
+        return manager
+      }
+      return NSMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
     }
   }
 }
@@ -108,7 +110,15 @@ final class ProgrammaticMigrationTests: XCTestCase {
     })
 
     // Migration
-    try CoreDataPlus.Migration.migrateStore(at: url, options: options, targetVersion: SampleModel2.SampleModel2Version.version2, enableWALCheckpoint: true)
+    let sourceDescription = NSPersistentStoreDescription(url: url)
+    let destinationDescription = NSPersistentStoreDescription(url: url)
+    options.forEach { key, value in
+      sourceDescription.setOption(value as NSObject, forKey: key)
+      destinationDescription.setOption(value as NSObject, forKey: key)
+    }
+    
+    let migrator = Migrator<SampleModel2.SampleModel2Version>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
+    try migrator.migrate(to: .version2, enableWALCheckpoint: true)
 
     // Validation
     let newManagedObjectModel = V2.makeManagedObjectModel()
@@ -166,7 +176,15 @@ final class ProgrammaticMigrationTests: XCTestCase {
     })
 
     // Migration
-    try CoreDataPlus.Migration.migrateStore(at: url, options: options, targetVersion: SampleModel2.SampleModel2Version.version2)
+    let sourceDescription = NSPersistentStoreDescription(url: url)
+    let destinationDescription = NSPersistentStoreDescription(url: url)
+    options.forEach { key, value in
+      sourceDescription.setOption(value as NSObject, forKey: key)
+      destinationDescription.setOption(value as NSObject, forKey: key)
+    }
+    
+    let migrator = Migrator<SampleModel2.SampleModel2Version>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
+    try migrator.migrate(to: .version2, enableWALCheckpoint: true)
 
     // Validation
 
@@ -280,11 +298,15 @@ final class ProgrammaticMigrationTests: XCTestCase {
       })
 
       // Migration
-
-      try CoreDataPlus.Migration.migrateStore(at: url,
-                                              options: options,
-                                              targetVersion: SampleModel2.SampleModel2Version.version3,
-                                              enableWALCheckpoint: true)
+      let sourceDescription = NSPersistentStoreDescription(url: url)
+      let destinationDescription = NSPersistentStoreDescription(url: url)
+      options.forEach { key, value in
+        sourceDescription.setOption(value as NSObject, forKey: key)
+        destinationDescription.setOption(value as NSObject, forKey: key)
+      }
+      
+      let migrator = Migrator<SampleModel2.SampleModel2Version>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
+      try migrator.migrate(to: .version3, enableWALCheckpoint: true)
 
       // Validation
 
@@ -323,7 +345,7 @@ final class ProgrammaticMigrationTests: XCTestCase {
       try FileManager.default.removeItem(at: url)
   }
 
-  func testMigrationFromV1toV3__() throws {
+  func testMigrationFromV1toV3UsingCustomMigrator() throws {
     let url = URL.newDatabaseURL(withID: UUID())
 
     let options = [
@@ -356,13 +378,17 @@ final class ProgrammaticMigrationTests: XCTestCase {
     // Migration
 
     let migrator = CustomMigrator(sourceStoreDescription: description, destinationStoreDescription: description)
-    try migrator.migrate(to: SampleModel2.SampleModel2Version.version3, enableWALCheckpoint: true)
-//    try CoreDataPlus.Migration.migrateStore(at: url,
-//                                            options: options,
-//                                            targetVersion: SampleModel2.SampleModel2Version.version3,
-//                                            enableWALCheckpoint: true)
+    var completion = 0.0
+    let token = migrator.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
+      print(progress.fractionCompleted)
+      completion = progress.fractionCompleted
+    }
+    
+    try migrator.migrate(to: .version3, enableWALCheckpoint: true)
 
     // Validation
+    XCTAssertEqual(completion, 1.0)
+    token.invalidate()
 
     let newManagedObjectModel = V3.makeManagedObjectModel()
     let newCoordinator = NSPersistentStoreCoordinator(managedObjectModel: newManagedObjectModel)
@@ -436,53 +462,6 @@ final class ProgrammaticMigrationTests: XCTestCase {
       let value = expression.expressionValue(with: nil, context: nil) as? NSString
       XCTAssertEqual(value, "h")
     }
-  }
-
-  func testCustomMigrationManagerCancellation() throws {
-    let url = URL.newDatabaseURL(withID: UUID())
-    let url2 = URL.newDatabaseURL(withID: UUID())
-
-    let description = NSPersistentStoreDescription(url: url)
-    description.configuration = nil
-    description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
-    description.setOption(true as NSNumber, forKey: NSPersistentHistoryTokenKey)
-
-    let oldManagedObjectModel = V1.makeManagedObjectModel()
-    let coordinator = NSPersistentStoreCoordinator(managedObjectModel: oldManagedObjectModel)
-    coordinator.addPersistentStore(with: description) { (description, error) in
-      XCTAssertNil(error)
-    }
-
-    let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-    context.persistentStoreCoordinator = coordinator
-    context.fillWithSampleData2()
-    try context.save()
-    context._fix_sqlite_warning_when_destroying_a_store()
-
-    let sourceVersion = try XCTUnwrap(try SampleModel2.SampleModel2Version(persistentStoreURL: url))
-    let step = try XCTUnwrap(sourceVersion.migrationSteps(to: SampleModel2.SampleModel2Version.version2).first)
-
-    let mappingModel = step.mappingModels.first!
-
-    let manager = MigrationManager(sourceModel: sourceVersion.managedObjectModel(), destinationModel: step.destinationModel)
-    manager.progress.cancel()
-    XCTAssertThrowsError(
-      try manager.migrateStore(from: url,
-                               sourceType: NSSQLiteStoreType,
-                               options: nil,
-                               with: mappingModel,
-                               toDestinationURL: url2,
-                               destinationType: NSSQLiteStoreType,
-                               destinationOptions: nil),
-      "It should throw an error because the migration has been cancelled.")
-    { error in
-      let nserror = error as NSError
-      XCTAssertEqual(nserror.domain, bundleIdentifier)
-      XCTAssertEqual(nserror.code, NSMigrationCancelledError)
-    }
-
-    try FileManager.default.removeItem(at: url)
-    try FileManager.default.removeItem(at: url2)
   }
 }
 

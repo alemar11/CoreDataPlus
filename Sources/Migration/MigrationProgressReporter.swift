@@ -41,7 +41,6 @@ public final class MigrationProgressReporter: NSObject, ProgressReporting {
   /// - Note: Since lightweight migrations don't support progress, this method ensures that a lightweight migration is at least finished.
   public func markAsFinishedIfNeeded() {
     if !progress.isFinished {
-      print(#function)
       progress.completedUnitCount = progress.totalUnitCount
     }
   }
@@ -57,4 +56,11 @@ public extension NSMigrationManager {
   func makeProgressReporter() -> MigrationProgressReporter {
     MigrationProgressReporter(manager: self)
   }
+}
+
+extension NSError {
+  static let migrationCancelled: NSError = {
+    let info: [String: Any] = [NSDebugDescriptionErrorKey: "Progress has cancelled this migration."]
+    return NSError(domain: bundleIdentifier, code: NSMigrationCancelledError, userInfo: info)
+  }()
 }
