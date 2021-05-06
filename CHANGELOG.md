@@ -1,14 +1,15 @@
 # Changelog
 
-### 4.0.0 WIP
+### 4.0.0 ⭐
 
+- Added a new `Migrator` class to handle migrations (lightweight and heavyweight).
 - Added `NSDerivedAttributeDescription` utility methods.
 - Added `NSAttributeDescription` utility methods.
 - Added `NSEntityMapping` utility methods.
 - Added `NSAttributeDescription` utility methods.
-- Added a `NSMigrationManager` subclass (`MigrationManger`) to do programmatic *heavyweight* migrations with progress reporting.
+- Added `LightweightMigrationManger`,  a `NSMigrationManager` subclass to do *lightweight* migrations with a fake progress reporting.
+- Added `MigrationProgressReporter` to report migration progress via a `Progress` object.
 - `DataTransformer` renamed as `CustomTransformer`.
-- Added a way to fake progress reporting for *lightweight* migrations.
 
 ### 3.0.0 ⭐
 
