@@ -15,7 +15,7 @@ public final class MigrationStep<Version: ModelVersion> {
     }
     self.sourceVersion = sourceVersion.rawValue
     self.sourceModel = sourceVersion.managedObjectModel()
-    self.destinationVersion = sourceVersion.rawValue
+    self.destinationVersion = destinationVersion.rawValue
     self.destinationModel = destinationVersion.managedObjectModel()
     self.mappingModels = mappingModels
   }
