@@ -5,9 +5,7 @@ import CoreData
 public extension NSMappingModel {
   /// Wheter or not the mapping model is inferred.
   var isInferred: Bool {
-    entityMappings.allSatisfy { mapping in
-      result && mapping.isInferred
-    }
+    entityMappings.allSatisfy { $0.isInferred }
   }
 }
 
