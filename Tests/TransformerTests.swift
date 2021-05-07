@@ -74,7 +74,7 @@ final class TransformerTests: OnDiskTestCase {
       return try? NSKeyedUnarchiver.unarchivedObject(ofClass: Dummy.self, from: data)
     }
     XCTAssertTrue(Foundation.ValueTransformer.valueTransformerNames().contains(CustomTransformer<Dummy>.transformerName))
-    Transformer<Dummy>.unregister()
+    CustomTransformer<Dummy>.unregister()
     XCTAssertFalse(Foundation.ValueTransformer.valueTransformerNames().contains(CustomTransformer<Dummy>.transformerName))
   }
 
