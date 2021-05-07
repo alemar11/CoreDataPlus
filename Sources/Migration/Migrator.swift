@@ -112,9 +112,9 @@ extension Migrator {
     let start = DispatchTime.now()
     
     guard let sourceVersion = try Version(persistentStoreURL: sourceURL) else {
-      let error = "A ModelVersion for the store at URL \(sourceURL) could not be found."
-      os_log(.error, log: log, "%s", error)
-      fatalError(error)
+      let message = "A ModelVersion could not be found for the initial store at: \(sourceURL)."
+      os_log(.error, log: log, "%s", message)
+      fatalError(message)
     }
 
     guard try CoreDataPlus.isMigrationNecessary(for: sourceURL, to: targetVersion) else {
