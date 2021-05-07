@@ -98,6 +98,10 @@
 		06968B0926454CE500088D76 /* OnDiskWithProgrammaticallyModelTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28232C22624A15000F37442 /* OnDiskWithProgrammaticallyModelTestCase.swift */; };
 		06968B0A26454CE500088D76 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FFB86122EC948C00391D40 /* Utils.swift */; };
 		06968B0B26454CE500088D76 /* CoreDataErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282332B2625AB2300F37442 /* CoreDataErrors.swift */; };
+		06968B0D26454FBE00088D76 /* BookCoverToCoverMigrationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06968B0C26454FBE00088D76 /* BookCoverToCoverMigrationPolicy.swift */; };
+		06968B0E26454FBE00088D76 /* BookCoverToCoverMigrationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06968B0C26454FBE00088D76 /* BookCoverToCoverMigrationPolicy.swift */; };
+		06968B0F26454FBE00088D76 /* BookCoverToCoverMigrationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06968B0C26454FBE00088D76 /* BookCoverToCoverMigrationPolicy.swift */; };
+		06968B1026454FBF00088D76 /* BookCoverToCoverMigrationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06968B0C26454FBE00088D76 /* BookCoverToCoverMigrationPolicy.swift */; };
 		06A6CDA0261DE0E7000563F0 /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A6CD9F261DE0E7000563F0 /* Transformer.swift */; };
 		06A6CDA1261DE0E7000563F0 /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A6CD9F261DE0E7000563F0 /* Transformer.swift */; };
 		06A6CDA2261DE0E7000563F0 /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A6CD9F261DE0E7000563F0 /* Transformer.swift */; };
@@ -394,6 +398,7 @@
 		0693F915237C58A7008E4F31 /* workflows */ = {isa = PBXFileReference; lastKnownFileType = text; name = workflows; path = .github/workflows; sourceTree = SOURCE_ROOT; };
 		06968ACE26454AFF00088D76 /* CoreDataPlus Tests watchOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CoreDataPlus Tests watchOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		06968AD926454BA300088D76 /* CoreDataPlus watchOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "CoreDataPlus watchOS.xctestplan"; sourceTree = "<group>"; };
+		06968B0C26454FBE00088D76 /* BookCoverToCoverMigrationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCoverToCoverMigrationPolicy.swift; sourceTree = "<group>"; };
 		06A3C1D3239FD36100E08D45 /* CoreDataPlus macOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "CoreDataPlus macOS.xctestplan"; sourceTree = "<group>"; };
 		06A3C1D4239FD3E900E08D45 /* CoreDataPlus tvOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "CoreDataPlus tvOS.xctestplan"; sourceTree = "<group>"; };
 		06A3C1D5239FD83D00E08D45 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = SOURCE_ROOT; };
@@ -755,6 +760,7 @@
 				D28233412625C23F00F37442 /* SampleModel2+V1.swift */,
 				D282334E2625C2A200F37442 /* SampleModel2+V2.swift */,
 				D2A448242631B937003059A7 /* SampleModel2+V3.swift */,
+				06968B0C26454FBE00088D76 /* BookCoverToCoverMigrationPolicy.swift */,
 			);
 			path = SampleModel2;
 			sourceTree = "<group>";
@@ -1170,6 +1176,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06968B1026454FBF00088D76 /* BookCoverToCoverMigrationPolicy.swift in Sources */,
 				06968AE126454CAC00088D76 /* FetchedResultsChangesTests.swift in Sources */,
 				06968ADF26454CAC00088D76 /* MigrationsTests.swift in Sources */,
 				06968AE826454CAC00088D76 /* NSFetchRequestUtilsTests.swift in Sources */,
@@ -1365,6 +1372,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06968B0D26454FBE00088D76 /* BookCoverToCoverMigrationPolicy.swift in Sources */,
 				D2B7E1552448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift in Sources */,
 				23948D1F1F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift in Sources */,
 				23FFB86222EC948C00391D40 /* Utils.swift in Sources */,
@@ -1420,6 +1428,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06968B0E26454FBE00088D76 /* BookCoverToCoverMigrationPolicy.swift in Sources */,
 				D2B7E1562448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift in Sources */,
 				23948D201F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift in Sources */,
 				23FFB86322EC948C00391D40 /* Utils.swift in Sources */,
@@ -1475,6 +1484,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06968B0F26454FBE00088D76 /* BookCoverToCoverMigrationPolicy.swift in Sources */,
 				D2B7E1572448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift in Sources */,
 				23948D211F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift in Sources */,
 				23FFB86422EC948C00391D40 /* Utils.swift in Sources */,

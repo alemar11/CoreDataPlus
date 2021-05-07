@@ -6,42 +6,6 @@ import Foundation
 @testable import CoreDataPlus
 
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-extension ProgrammaticMigrationTests {
-  class CustomMigrationManager: NSMigrationManager {
-    override func migrateStore(from sourceURL: URL,
-                               sourceType sStoreType: String,
-                               options sOptions: [AnyHashable : Any]? = nil,
-                               with mappings: NSMappingModel?,
-                               toDestinationURL dURL: URL,
-                               destinationType dStoreType: String,
-                               destinationOptions dOptions: [AnyHashable : Any]? = nil) throws {
-      try super.migrateStore(from: sourceURL,
-                             sourceType: sStoreType,
-                             options: sOptions,
-                             with: mappings,
-                             toDestinationURL: dURL,
-                             destinationType: dStoreType,
-                             destinationOptions: dOptions)
-    }
-  }
-
-  class CustomMigrator: Migrator<SampleModel2.SampleModel2Version> {
-    override func migrationManager(sourceVersion: String, sourceModel: NSManagedObjectModel, destinationVersion: String, destinationModel: NSManagedObjectModel, mappingModel: NSMappingModel) -> NSMigrationManager {
-
-      print(sourceVersion, destinationVersion, mappingModel.isInferred)
-      if mappingModel.isInferred {
-        let manager = LightweightMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
-        manager.updateProgressInterval = 0.001 // we need to set a very low refresh interval to get some fake progress updates
-        manager.estimatedTime = 0.1
-        return manager
-      }
-      return NSMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
-    }
-  }
-}
-
-
-@available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 final class ProgrammaticMigrationTests: XCTestCase {
 
   func testInferringMappingModelFromV1toV2() throws {
@@ -493,5 +457,29 @@ extension NSEntityMapping {
   public var mappingProperties: Properties? {
     guard let info = userInfo else { return nil }
     return Properties(userInfo: info)
+  }
+}
+
+@available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+extension ProgrammaticMigrationTests {
+  class CustomMigrationManager: NSMigrationManager {
+//    @objc func customFetchRequest(forSourceEntityNamed entityName: String, predicateString: String) -> NSFetchRequest<NSFetchRequestResult> {
+//      let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+//      return request
+//    }
+  }
+
+  class CustomMigrator: Migrator<SampleModel2.SampleModel2Version> {
+    override func migrationManager(sourceVersion: String, sourceModel: NSManagedObjectModel, destinationVersion: String, destinationModel: NSManagedObjectModel, mappingModel: NSMappingModel) -> NSMigrationManager {
+
+      print(sourceVersion, destinationVersion, mappingModel.isInferred)
+      if mappingModel.isInferred {
+        let manager = LightweightMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
+        manager.updateProgressInterval = 0.001 // we need to set a very low refresh interval to get some fake progress updates
+        manager.estimatedTime = 0.1
+        return manager
+      }
+      return NSMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
+    }
   }
 }
