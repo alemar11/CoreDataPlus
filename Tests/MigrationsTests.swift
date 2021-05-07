@@ -238,23 +238,26 @@ final class MigrationsTests: BaseTestCase {
   }
   
   func testCancelMigrationFromV2ToV3() throws {
+    // Given
     let sourceURL = try createSQLiteSampleForV2()
-    
-    let version = try SampleModelVersion(persistentStoreURL: sourceURL as URL)
-
-    XCTAssertTrue(version == .version2)
-
     let sourceDescription = NSPersistentStoreDescription(url: sourceURL)
     let destinationDescription = NSPersistentStoreDescription(url: sourceURL)
     let migrator = Migrator<SampleModelVersion>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
     migrator.enableLog = true
+    // When
     migrator.progress.cancel()
+    // Then
     XCTAssertThrowsError(try migrator.migrate(to: .version3, enableWALCheckpoint: true),
-                         "The migrator should throw because the progress has cancelled the migration steps") { error in
+                         "The migrator should throw an error because the progress has cancelled the migration steps") { error in
       let nserror = error as NSError
       XCTAssertEqual(nserror.domain, NSError.migrationCancelled.domain)
       XCTAssertEqual(nserror.code, NSError.migrationCancelled.code)
     }
+
+    // When
+    let migrator2 = Migrator<SampleModelVersion>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
+    migrator2.enableLog = true
+    XCTAssertNoThrow(try migrator2.migrate(to: .version3, enableWALCheckpoint: true), "A new migrator should handle the migration phase without any errors.")
 
     try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
   }
