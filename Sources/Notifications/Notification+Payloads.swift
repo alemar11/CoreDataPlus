@@ -6,7 +6,7 @@
 
 // TODO
 // WWDC 2020: there should be a NSManagedObjectContext.NotificationKey.sourceContext to access the context from the userInfo
-// but as of Xcode12b4 it's not there (and the userInfo contains a _PFWeakReference for key "managedObjectContext")
+// but as of Xcode12.5 it's not there (and the userInfo contains a _PFWeakReference for key "managedObjectContext")
 
 import CoreData
 import Foundation

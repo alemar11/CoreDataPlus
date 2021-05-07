@@ -199,3 +199,11 @@ private func performWALCheckpointForStore(at storeURL: URL, storeOptions: Persis
   let store = try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
   try persistentStoreCoordinator.remove(store)
 }
+
+// About NSPersistentStoreRemoteChangeNotificationPostOptionKey and migrations
+// https://developer.apple.com/forums/thread/118924
+//
+// That error is because you also removed the history tracking option. Which you shouldn't do after you've enabled it.
+// You can disable CloudKit sync simply by setting the cloudKitContainer options property on your store description to nil.
+// However, you should leave history tracking on so that NSPersitentCloudKitContainer can catch up if you turn it on again.
+ 

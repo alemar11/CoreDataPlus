@@ -476,7 +476,6 @@ extension NSString {
   }
 }
 
-// TODO: make it public?
 extension NSEntityMapping {
   // Represents all the mapping properties.
   public struct Properties {
@@ -496,12 +495,3 @@ extension NSEntityMapping {
     return Properties(userInfo: info)
   }
 }
-
-/*
- https://developer.apple.com/forums/thread/118924
- That error is because you also removed the history tracking option. Which you shouldn't do after you've enabled it.
- You can disable CloudKit sync simply by setting the cloudKitContainer options property on your store description to nil.
- However, you should leave history tracking on so that NSPersitentCloudKitContainer can catch up if you turn it on again.
-
- NSPersistentStoreRemoteChangeNotificationPostOptionKey
- */
