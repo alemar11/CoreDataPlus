@@ -511,10 +511,6 @@ extension NSEntityMapping {
 
 #warning("TODO LIST")
 
-// TODO: migration isn't committed to the actual url until the end (which is expected)
-// but if we try to run mutiple steps, using a tempURL is probably better
-
-
 // TODO: pass affectedStores as param in all the fetch methods
 
 // TODO: SampleModel2V1.sqlite isn't used and can be removed
