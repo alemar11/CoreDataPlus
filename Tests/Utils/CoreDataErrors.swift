@@ -65,3 +65,4 @@ let errors = [
   NSPersistentHistoryTokenExpiredError,
 ]
 
+NSPersistentHistoryTrackingKey
