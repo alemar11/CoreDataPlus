@@ -17,7 +17,7 @@
     <a title="Extensions  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">CoreDataPlus 3.0.0-RC1 Docs</a> (85% documented)</p>
+        <p><a href="index.html">CoreDataPlus 3.0.0 Docs</a> (74% documented)</p>
         <p class="header-right">
           <form role="search" action="search.json">
             <input type="text" placeholder="Search documentation" data-typeahead>
@@ -39,7 +39,19 @@
             <a href="Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Classes/DataTransformer.html">DataTransformer</a>
+                <a href="Classes/CustomTransformer.html">CustomTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/LightweightMigrationManager.html">LightweightMigrationManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MigrationProgressReporter.html">MigrationProgressReporter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MigrationStep.html">MigrationStep</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Migrator.html">Migrator</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/Transformer.html">Transformer</a>
@@ -55,12 +67,6 @@
               <li class="nav-group-task">
                 <a href="Enums/FetchedResultsSectionChange.html">FetchedResultsSectionChange</a>
               </li>
-              <li class="nav-group-task">
-                <a href="Enums/Migration.html">Migration</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Enums/Migration/Step.html">– Step</a>
-              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -68,6 +74,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="Extensions/Collection.html">Collection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSAttributeDescription.html">NSAttributeDescription</a>
               </li>
               <li class="nav-group-task">
                 <a href="Extensions/NSBatchDeleteResult.html">NSBatchDeleteResult</a>
@@ -79,16 +88,37 @@
                 <a href="Extensions/NSBatchUpdateResult.html">NSBatchUpdateResult</a>
               </li>
               <li class="nav-group-task">
+                <a href="Extensions/NSDerivedAttributeDescription.html">NSDerivedAttributeDescription</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSEntityDescription.html">NSEntityDescription</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSEntityMapping.html">NSEntityMapping</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSError.html">NSError</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Extensions/NSFetchRequest.html">NSFetchRequest</a>
               </li>
               <li class="nav-group-task">
                 <a href="Extensions/NSFetchRequestResult.html">NSFetchRequestResult</a>
               </li>
               <li class="nav-group-task">
+                <a href="Extensions/NSFetchedPropertyDescription.html">NSFetchedPropertyDescription</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Extensions/NSManagedObject.html">NSManagedObject</a>
               </li>
               <li class="nav-group-task">
                 <a href="Extensions/NSManagedObjectContext.html">NSManagedObjectContext</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSMappingModel.html">NSMappingModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSMigrationManager.html">NSMigrationManager</a>
               </li>
               <li class="nav-group-task">
                 <a href="Extensions/NSPersistentHistoryChangeRequest.html">NSPersistentHistoryChangeRequest</a>
@@ -143,6 +173,14 @@
               </li>
             </ul>
           </li>
+          <li class="nav-group-name">
+            <a href="Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:12CoreDataPlus22PersistentStoreOptionsa">PersistentStoreOptions</a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <article class="main-content">
@@ -185,6 +223,114 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">Collection</span> <span class="k">where</span> <span class="kt">Element</span><span class="p">:</span> <span class="kt">NSManagedObject</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)NSMigrationManager"></a>
+                    <a name="//apple_ref/swift/Extension/NSMigrationManager" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)NSMigrationManager">NSMigrationManager</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Extensions/NSMigrationManager.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">extension</span> <span class="kt">NSMigrationManager</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)NSError"></a>
+                    <a name="//apple_ref/swift/Extension/NSError" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)NSError">NSError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Extensions/NSError.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">extension</span> <span class="kt">NSError</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)NSEntityDescription"></a>
+                    <a name="//apple_ref/swift/Extension/NSEntityDescription" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)NSEntityDescription">NSEntityDescription</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Extensions/NSEntityDescription.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">NSEntityDescription</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)NSAttributeDescription"></a>
+                    <a name="//apple_ref/swift/Extension/NSAttributeDescription" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)NSAttributeDescription">NSAttributeDescription</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Extensions/NSAttributeDescription.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">NSAttributeDescription</span></code></pre>
 
                         </div>
                       </div>
@@ -275,6 +421,33 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:objc(cs)NSDerivedAttributeDescription"></a>
+                    <a name="//apple_ref/swift/Extension/NSDerivedAttributeDescription" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)NSDerivedAttributeDescription">NSDerivedAttributeDescription</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Extensions/NSDerivedAttributeDescription.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">NSDerivedAttributeDescription</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:objc(cs)NSFetchRequest"></a>
                     <a name="//apple_ref/swift/Extension/NSFetchRequest" class="dashAnchor"></a>
                     <a class="token" href="#/c:objc(cs)NSFetchRequest">NSFetchRequest</a>
@@ -320,6 +493,33 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">NSFetchRequestResult</span> <span class="k">where</span> <span class="k">Self</span><span class="p">:</span> <span class="kt">NSManagedObject</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)NSFetchedPropertyDescription"></a>
+                    <a name="//apple_ref/swift/Extension/NSFetchedPropertyDescription" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)NSFetchedPropertyDescription">NSFetchedPropertyDescription</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Extensions/NSFetchedPropertyDescription.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">NSFetchedPropertyDescription</span></code></pre>
 
                         </div>
                       </div>
@@ -410,6 +610,60 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:objc(cs)NSMappingModel"></a>
+                    <a name="//apple_ref/swift/Extension/NSMappingModel" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)NSMappingModel">NSMappingModel</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Extensions/NSMappingModel.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">extension</span> <span class="kt">NSMappingModel</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)NSEntityMapping"></a>
+                    <a name="//apple_ref/swift/Extension/NSEntityMapping" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)NSEntityMapping">NSEntityMapping</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Extensions/NSEntityMapping.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">extension</span> <span class="kt">NSEntityMapping</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:objc(cs)NSPersistentStoreCoordinator"></a>
                     <a name="//apple_ref/swift/Extension/NSPersistentStoreCoordinator" class="dashAnchor"></a>
                     <a class="token" href="#/c:objc(cs)NSPersistentStoreCoordinator">NSPersistentStoreCoordinator</a>
@@ -466,7 +720,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-04-10)</p>
+          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-05-07)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

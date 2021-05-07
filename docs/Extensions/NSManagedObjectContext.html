@@ -17,7 +17,7 @@
     <a title="NSManagedObjectContext Extension Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">CoreDataPlus 3.0.0-RC1 Docs</a> (85% documented)</p>
+        <p><a href="../index.html">CoreDataPlus 3.0.0 Docs</a> (74% documented)</p>
         <p class="header-right">
           <form role="search" action="../search.json">
             <input type="text" placeholder="Search documentation" data-typeahead>
@@ -39,7 +39,19 @@
             <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Classes/DataTransformer.html">DataTransformer</a>
+                <a href="../Classes/CustomTransformer.html">CustomTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/LightweightMigrationManager.html">LightweightMigrationManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MigrationProgressReporter.html">MigrationProgressReporter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MigrationStep.html">MigrationStep</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Migrator.html">Migrator</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/Transformer.html">Transformer</a>
@@ -55,12 +67,6 @@
               <li class="nav-group-task">
                 <a href="../Enums/FetchedResultsSectionChange.html">FetchedResultsSectionChange</a>
               </li>
-              <li class="nav-group-task">
-                <a href="../Enums/Migration.html">Migration</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Enums/Migration/Step.html">– Step</a>
-              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -68,6 +74,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Extensions/Collection.html">Collection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSAttributeDescription.html">NSAttributeDescription</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/NSBatchDeleteResult.html">NSBatchDeleteResult</a>
@@ -79,16 +88,37 @@
                 <a href="../Extensions/NSBatchUpdateResult.html">NSBatchUpdateResult</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Extensions/NSDerivedAttributeDescription.html">NSDerivedAttributeDescription</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSEntityDescription.html">NSEntityDescription</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSEntityMapping.html">NSEntityMapping</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSError.html">NSError</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Extensions/NSFetchRequest.html">NSFetchRequest</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/NSFetchRequestResult.html">NSFetchRequestResult</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Extensions/NSFetchedPropertyDescription.html">NSFetchedPropertyDescription</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Extensions/NSManagedObject.html">NSManagedObject</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/NSManagedObjectContext.html">NSManagedObjectContext</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSMappingModel.html">NSMappingModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSMigrationManager.html">NSMigrationManager</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/NSPersistentHistoryChangeRequest.html">NSPersistentHistoryChangeRequest</a>
@@ -140,6 +170,14 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/PersistentStoreRemoteChange.html">PersistentStoreRemoteChange</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:12CoreDataPlus22PersistentStoreOptionsa">PersistentStoreOptions</a>
               </li>
             </ul>
           </li>
@@ -755,6 +793,52 @@ On the other hand, a Swift <code>Array</code> requires having every element in t
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE08newChildC015concurrencyTypeABSo0abc11ConcurrencyJ0VSg_tF"></a>
+                    <a name="//apple_ref/swift/Method/newChildContext(concurrencyType:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE08newChildC015concurrencyTypeABSo0abc11ConcurrencyJ0VSg_tF">newChildContext(concurrencyType:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns a <code>new</code> child <code>NSManagedObjectContext</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">newChildContext</span><span class="p">(</span><span class="nv">concurrencyType</span><span class="p">:</span> <span class="kt">NSManagedObjectContextConcurrencyType</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSManagedObjectContext</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>concurrencyType</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Specifies the concurrency pattern used by this child context (defaults to the parent type).</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
             <div class="task-group">
@@ -1191,7 +1275,7 @@ faults in any newly-inserted objects, and invokes delete(_:): on those which hav
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-04-10)</p>
+          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-05-07)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

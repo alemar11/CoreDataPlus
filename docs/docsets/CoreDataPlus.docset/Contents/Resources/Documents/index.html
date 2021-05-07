@@ -16,7 +16,7 @@
     <a title="CoreDataPlus  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">CoreDataPlus 3.0.0-RC1 Docs</a> (85% documented)</p>
+        <p><a href="index.html">CoreDataPlus 3.0.0 Docs</a> (74% documented)</p>
         <p class="header-right">
           <form role="search" action="search.json">
             <input type="text" placeholder="Search documentation" data-typeahead>
@@ -38,7 +38,19 @@
             <a href="Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Classes/DataTransformer.html">DataTransformer</a>
+                <a href="Classes/CustomTransformer.html">CustomTransformer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/LightweightMigrationManager.html">LightweightMigrationManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MigrationProgressReporter.html">MigrationProgressReporter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MigrationStep.html">MigrationStep</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Migrator.html">Migrator</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/Transformer.html">Transformer</a>
@@ -54,12 +66,6 @@
               <li class="nav-group-task">
                 <a href="Enums/FetchedResultsSectionChange.html">FetchedResultsSectionChange</a>
               </li>
-              <li class="nav-group-task">
-                <a href="Enums/Migration.html">Migration</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Enums/Migration/Step.html">– Step</a>
-              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -67,6 +73,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="Extensions/Collection.html">Collection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSAttributeDescription.html">NSAttributeDescription</a>
               </li>
               <li class="nav-group-task">
                 <a href="Extensions/NSBatchDeleteResult.html">NSBatchDeleteResult</a>
@@ -78,16 +87,37 @@
                 <a href="Extensions/NSBatchUpdateResult.html">NSBatchUpdateResult</a>
               </li>
               <li class="nav-group-task">
+                <a href="Extensions/NSDerivedAttributeDescription.html">NSDerivedAttributeDescription</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSEntityDescription.html">NSEntityDescription</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSEntityMapping.html">NSEntityMapping</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSError.html">NSError</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Extensions/NSFetchRequest.html">NSFetchRequest</a>
               </li>
               <li class="nav-group-task">
                 <a href="Extensions/NSFetchRequestResult.html">NSFetchRequestResult</a>
               </li>
               <li class="nav-group-task">
+                <a href="Extensions/NSFetchedPropertyDescription.html">NSFetchedPropertyDescription</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Extensions/NSManagedObject.html">NSManagedObject</a>
               </li>
               <li class="nav-group-task">
                 <a href="Extensions/NSManagedObjectContext.html">NSManagedObjectContext</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSMappingModel.html">NSMappingModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSMigrationManager.html">NSMigrationManager</a>
               </li>
               <li class="nav-group-task">
                 <a href="Extensions/NSPersistentHistoryChangeRequest.html">NSPersistentHistoryChangeRequest</a>
@@ -142,6 +172,14 @@
               </li>
             </ul>
           </li>
+          <li class="nav-group-name">
+            <a href="Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:12CoreDataPlus22PersistentStoreOptionsa">PersistentStoreOptions</a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <article class="main-content">
@@ -177,7 +215,7 @@
 <h3 id='cocoapods' class='heading'>CocoaPods</h3>
 
 <p><a href="http://cocoapods.org">CocoaPods</a> is a dependency manager for Cocoa projects. You can install it with the following command:</p>
-<pre class="highlight shell"><code><span class="gp">$ </span>gem install cocoapods
+<pre class="highlight shell"><code><span class="nv">$ </span>gem <span class="nb">install </span>cocoapods
 </code></pre>
 
 <blockquote>
@@ -195,15 +233,15 @@
 </code></pre>
 
 <p>Then, run the following command:</p>
-<pre class="highlight shell"><code><span class="gp">$ </span>pod install
+<pre class="highlight shell"><code><span class="nv">$ </span>pod <span class="nb">install</span>
 </code></pre>
 <h3 id='carthage' class='heading'>Carthage</h3>
 
 <p><a href="https://github.com/Carthage/Carthage">Carthage</a> is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.</p>
 
 <p>You can install Carthage with <a href="http://brew.sh/">Homebrew</a> using the following command:</p>
-<pre class="highlight shell"><code><span class="gp">$ </span>brew update
-<span class="gp">$ </span>brew install carthage
+<pre class="highlight shell"><code><span class="nv">$ </span>brew update
+<span class="nv">$ </span>brew <span class="nb">install </span>carthage
 </code></pre>
 
 <p>To integrate CoreDataPlus into your Xcode project using Carthage, specify it in your <code>Cartfile</code>:</p>
@@ -227,13 +265,13 @@ Once you have your Swift package set up, adding CoreDataPlus as a dependency is 
 <ul>
 <li>Open up Terminal, <code>cd</code> into your top-level project directory, and run the following command &ldquo;if&rdquo; your project is not initialized as a git repository:</li>
 </ul>
-<pre class="highlight shell"><code><span class="gp">$ </span>git init
+<pre class="highlight shell"><code><span class="nv">$ </span>git init
 </code></pre>
 
 <ul>
 <li>Add CoreDataPlus as a git <a href="http://git-scm.com/docs/git-submodule">submodule</a> by running the following command:</li>
 </ul>
-<pre class="highlight shell"><code><span class="gp">$ </span>git submodule add https://github.com/alemar11/CoreDataPlus.git
+<pre class="highlight shell"><code><span class="nv">$ </span>git submodule add https://github.com/alemar11/CoreDataPlus.git
 </code></pre>
 
 <ul>
@@ -270,7 +308,7 @@ Once you have your Swift package set up, adding CoreDataPlus as a dependency is 
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-04-10)</p>
+          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-05-07)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
