@@ -497,8 +497,6 @@ extension NSEntityMapping {
   }
 }
 
-
-
 /*
  https://developer.apple.com/forums/thread/118924
  That error is because you also removed the history tracking option. Which you shouldn't do after you've enabled it.
@@ -507,10 +505,3 @@ extension NSEntityMapping {
 
  NSPersistentStoreRemoteChangeNotificationPostOptionKey
  */
-
-
-#warning("TODO LIST")
-
-// TODO: pass affectedStores as param in all the fetch methods
-
-// TODO: programmatic mapping models (investigate how we can leverage them to show a progress)
