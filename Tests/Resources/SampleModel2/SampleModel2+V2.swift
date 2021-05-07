@@ -96,7 +96,7 @@ extension V2 {
     // 2. load another store - store 2 - with a different url (this db is going to be empty)
     // 3. move all the "Feedback" records from store 1 to store 2 (this can be done because both the stores have "Feedback" in their configurations)
     // 4. delete all the "Feedback" records from store 1 (optional)
-    // 5. At this point we could probably do another migration step in where store 1 won't have anymore in its configuration the "Feedback" entity - not sure if we can simply do that loading another NSManagedObjectModel with a different configurations.
+    // 5. At this point we could probably do another migration step in where store 1 won't have anymore in its configuration the "Feedback" entity - not sure if we can simply do that loading another NSManagedObjectModel with a different configuration.
     #warning("Check if we can load different managedobjectmodel after a migration")
     let entities = [writer, author, book, graphicNovel, page, feedback]
     managedObjectModel.entities = entities
