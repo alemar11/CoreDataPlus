@@ -31,7 +31,7 @@ extension ProgrammaticMigrationTests {
       print(sourceVersion, destinationVersion, mappingModel.isInferred)
       if mappingModel.isInferred {
         let manager = LightweightMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
-        manager.interval = 0.001 // we need to set a very low refresh interval to get some fake progress updates
+        manager.updateProgressInterval = 0.001 // we need to set a very low refresh interval to get some fake progress updates
         manager.estimatedTime = 0.1
         return manager
       }

@@ -2,13 +2,12 @@
 
 import CoreData
 
-// TODO: test if it can be reused
-
+/// A `NSMigrationManager` proxy for lightweight migrations with a customizable faking `migrationProgress`.
 public final class LightweightMigrationManager: NSMigrationManager {
-  /// An estimated interval (with a 10% tolerance) to carry out the migration.
+  /// An estimated interval (with a 10% tolerance) to carry out the migration (default: 60 seconds).
   public var estimatedTime: TimeInterval = 60
   /// How often the progress is updated (default: 1 second).
-  public var interval: TimeInterval = 1
+  public var updateProgressInterval: TimeInterval = 1
   
   private let manager: NSMigrationManager
   private let totalUnitCount: Int64 = 100
@@ -17,7 +16,7 @@ public final class LightweightMigrationManager: NSMigrationManager {
   
   public override var usesStoreSpecificMigrationManager: Bool {
     get { manager.usesStoreSpecificMigrationManager }
-    set { fatalError("Not implemented.") } // TODO better text
+    set { fatalError("usesStoreSpecificMigrationManager can't be set for lightweight migrations.") }
   }
   
   public override var mappingModel: NSMappingModel { manager.mappingModel }
@@ -39,7 +38,7 @@ public final class LightweightMigrationManager: NSMigrationManager {
                                     toDestinationURL dURL: URL,
                                     destinationType dStoreType: String,
                                     destinationOptions dOptions: [AnyHashable : Any]? = nil) throws {
-    let tick = Float(interval / estimatedTime) // progress increment tick
+    let tick = Float(updateProgressInterval / estimatedTime) // progress increment tick
     let queue = DispatchQueue(label: "\(bundleIdentifier).\(String(describing: Self.self)).Progress", qos: .utility)
     var progressUpdater: () -> Void = {}
     progressUpdater = { [weak self] in
@@ -52,7 +51,7 @@ public final class LightweightMigrationManager: NSMigrationManager {
       }
       self.fakeProgress += tick
       
-      queue.asyncAfter(deadline: .now() + self.interval, execute: progressUpdater)
+      queue.asyncAfter(deadline: .now() + self.updateProgressInterval, execute: progressUpdater)
     }
     queue.async(execute: progressUpdater)
     

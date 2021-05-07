@@ -336,7 +336,7 @@ extension MigrationsTests {
     override func migrationManager(sourceVersion: String, sourceModel: NSManagedObjectModel, destinationVersion: String, destinationModel: NSManagedObjectModel, mappingModel: NSMappingModel) -> NSMigrationManager {
       XCTAssertTrue(mappingModel.isInferred)
       let manager = LightweightMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
-      manager.interval = 0.001 // we need to set a very low refresh interval to get some fake progress updates
+      manager.updateProgressInterval = 0.001 // we need to set a very low refresh interval to get some fake progress updates
       manager.estimatedTime = 0.1
       return manager
     }
