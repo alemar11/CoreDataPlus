@@ -42,7 +42,7 @@ jobs:
       DEVELOPER_DIR: /Applications/Xcode_12.5.app/Contents/Developer
     strategy:
       matrix:
-        destination: ["OS=14.4,name=iPhone 11 Pro"] #, "OS=12.4,name=iPhone XS", "OS=11.4,name=iPhone X"]
+        destination: ["OS=14.5,name=iPhone 11 Pro"] #, "OS=12.4,name=iPhone XS", "OS=11.4,name=iPhone X"]
     steps:
       - uses: actions/checkout@v2
       - name: iOS - ${{ matrix.destination }}
@@ -54,7 +54,7 @@ jobs:
       DEVELOPER_DIR: /Applications/Xcode_12.5.app/Contents/Developer
     strategy:
       matrix:
-        destination: ["OS=14.4,name=Apple TV 4K"] #, "OS=13.0,name=Apple TV 4K (at 1080p)", "OS=11.4,name=Apple TV 4K"]
+        destination: ["OS=14.5,name=Apple TV 4K"] #, "OS=13.0,name=Apple TV 4K (at 1080p)", "OS=11.4,name=Apple TV 4K"]
     steps:
       - uses: actions/checkout@v2
       - name: tvOS - ${{ matrix.destination }}
@@ -66,7 +66,7 @@ jobs:
       DEVELOPER_DIR: /Applications/Xcode_12.5.app/Contents/Developer
     strategy:
       matrix:
-        destination: ["OS=7.2,name=Apple Watch Series 5 - 44mm"] #, ""OS=5.3,name=Apple Watch Series 4 - 44mm", "OS=4.2,name=Apple Watch Series 3 - 42mm"]
+        destination: ["OS=7.4,name=Apple Watch Series 5 - 44mm"] #, ""OS=5.3,name=Apple Watch Series 4 - 44mm", "OS=4.2,name=Apple Watch Series 3 - 42mm"]
     steps:
       - uses: actions/checkout@v2
       - name: watchOS - ${{ matrix.destination }}
