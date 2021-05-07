@@ -513,6 +513,4 @@ extension NSEntityMapping {
 
 // TODO: pass affectedStores as param in all the fetch methods
 
-// TODO: SampleModel2V1.sqlite isn't used and can be removed
-
 // TODO: programmatic mapping models (investigate how we can leverage them to show a progress)
