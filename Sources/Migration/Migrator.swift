@@ -31,8 +31,7 @@
 // In these cases, one of the migrations could fail (mostly due to validation errors) unless we use different NSMigrationManager instance.
 
 import CoreData
-
-// TODO: os_log
+import os.log
 
 /// Handles a multi step migration for SQLite store.
 open class Migrator<Version: ModelVersion>: NSObject, ProgressReporting {
@@ -45,6 +44,19 @@ open class Migrator<Version: ModelVersion>: NSObject, ProgressReporting {
     var progress = Progress(totalUnitCount: 1)
     return progress
   }()
+  
+  /// Enable log.
+  public var enableLog: Bool = false {
+    didSet {
+      if enableLog {
+        log = OSLog(subsystem: bundleIdentifier, category: "Migrator")
+      } else {
+        log = .disabled
+      }
+    }
+  }
+  
+  private var log: OSLog = .disabled
 
   /// Source description used as starting point for the migration steps.
   let sourceStoreDescription: NSPersistentStoreDescription
@@ -96,15 +108,22 @@ extension Migrator {
                                 destinationOptions: PersistentStoreOptions? = nil,
                                 targetVersion: Version,
                                 enableWALCheckpoint: Bool = false) throws {
+    os_log(.default, log: log, "Migrator has started, initial store at: %{public}@.", sourceURL as CVarArg)
+    let start = DispatchTime.now()
+    
     guard let sourceVersion = try Version(persistentStoreURL: sourceURL) else {
-      fatalError("A ModelVersion for the store at URL \(sourceURL) could not be found.")
+      let error = "A ModelVersion for the store at URL \(sourceURL) could not be found."
+      os_log(.error, log: log, "%s", error)
+      fatalError(error)
     }
 
     guard try CoreDataPlus.isMigrationNecessary(for: sourceURL, to: targetVersion) else {
+      os_log(.default, log: log, "Migration to %s is not necessary.", "\(targetVersion.rawValue)")
       return
     }
 
     if enableWALCheckpoint {
+      os_log(.debug, log: log, "Performing a WAL checkpoint.")
       // A dead lock can occur if a NSPersistentStore with a different journaling mode
       // is currently active and using the database file.
       // You need to remove it before performing a WAL checkpoint.
@@ -112,6 +131,8 @@ extension Migrator {
     }
 
     let steps = sourceVersion.migrationSteps(to: targetVersion)
+    
+    os_log(.debug, log: log, "Number of steps needed: %d", steps.count)
 
     guard steps.count > 0 else { return }
 
@@ -120,14 +141,19 @@ extension Migrator {
     // TODO: if there is only a step and sourceURL != targetURL, we could skip the temporaryURL phase
 
     var currentURL = sourceURL
-    for step in steps {
+    try steps.enumerated().forEach { (stepIndex, step) in
+      os_log(.default, log: log, "Step %d (of %d) started; %s to %s.", stepIndex + 1, steps.count, "\(step.sourceVersion)", "\(step.destinationVersion)")
+      
       try autoreleasepool {
-        let temporaryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString)
+        let temporaryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString).appendingPathExtension("sqlite")
 
         let mappingModelMigrationProgress = Progress(totalUnitCount: Int64(step.mappingModels.count))
         migrationStepsProgress.addChild(mappingModelMigrationProgress, withPendingUnitCount: 1)
-
-        for mappingModel in step.mappingModels {
+        
+        for (mappingModelIndex, mappingModel) in step.mappingModels.enumerated() {
+          os_log(.default, log: log, "Starting migration for mapping model %d.", mappingModelIndex + 1)
+          os_log(.debug, log: log, "The store at: %{public}@ will be migrated in a temporary store at: %{public}@.", currentURL as CVarArg, temporaryURL as CVarArg)
+          
           let manager = migrationManager(sourceVersion: step.sourceVersion,
                                          sourceModel: step.sourceModel,
                                          destinationVersion: step.destinationVersion,
@@ -137,38 +163,59 @@ extension Migrator {
           // a reporter instance handles parent progress cancellations automatically
           let progressReporter = manager.makeProgressReporter()
           mappingModelMigrationProgress.resignCurrent()
-
-          try manager.migrateStore(from: currentURL,
-                                   sourceType: NSSQLiteStoreType,
-                                   options: sourceOptions,
-                                   with: mappingModel,
-                                   toDestinationURL: temporaryURL,
-                                   destinationType: NSSQLiteStoreType,
-                                   destinationOptions: destinationOptions)
+          let start = DispatchTime.now()
+          do {
+            try manager.migrateStore(from: currentURL,
+                                     sourceType: NSSQLiteStoreType,
+                                     options: sourceOptions,
+                                     with: mappingModel,
+                                     toDestinationURL: temporaryURL,
+                                     destinationType: NSSQLiteStoreType,
+                                     destinationOptions: destinationOptions)
+          } catch {
+            os_log(.error, "Migration for mapping model %d: %@", mappingModelIndex + 1, error as NSError) // TODO make the error public
+            throw error
+          }
+          let end = DispatchTime.now()
           progressReporter.markAsFinishedIfNeeded() // Ligthweight migrations don't report progress
+          
+          let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
+          let timeInterval = Double(nanoTime) / 1_000_000_000
+          
+          os_log(.default, log: log, "Migration for mapping model %d finished in %.2f seconds.", mappingModelIndex + 1, timeInterval)
         }
         // once the migration is done (and the store is migrated to temporaryURL)
-        // the store at currentSourceURL can be safely destroyed unless it is the
+        // the store at currentURL can be safely destroyed unless it is the
         // initial store
         if currentURL != sourceURL {
+          os_log(.debug, log: log, "Destroying store at %@.", currentURL as CVarArg)
           try NSPersistentStoreCoordinator.destroyStore(at: currentURL)
         }
         currentURL = temporaryURL
       }
+      os_log(.default, log: log, "Step %d (of %d) completed.", stepIndex + 1, steps.count)
     }
 
-    // move the store at currentURL to (final) targetURL
+    // move the store at currentURL to (final) destinationURL
+    os_log(.debug, log: log, "Moving the store at: %@ to final store: %{public}@.", currentURL as CVarArg, destinationURL as CVarArg)
     try NSPersistentStoreCoordinator.replaceStore(at: destinationURL, withPersistentStoreFrom: currentURL)
 
     // delete the store at currentURL if it's not the initial store
     if currentURL != sourceURL {
+      os_log(.debug, log: log, "Destroying store at %{public}@.", currentURL as CVarArg)
       try NSPersistentStoreCoordinator.destroyStore(at: currentURL)
     }
 
     // delete the initial store only if the option is set to true
     if destinationURL != sourceURL {
+      os_log(.debug, log: log, "Destroying initial store at %{public}@.", sourceURL as CVarArg)
       try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
     }
+    
+    let end = DispatchTime.now()
+    let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
+    let timeInterval = Double(nanoTime) / 1_000_000_000
+    os_log(.default, log: log, "Migrator has finished in %.2f seconds, final store at: %{public}@.", timeInterval, destinationURL as CVarArg)
   }
 }
 
@@ -205,3 +252,6 @@ private func performWALCheckpointForStore(at storeURL: URL, storeOptions: Persis
 // That error is because you also removed the history tracking option. Which you shouldn't do after you've enabled it.
 // You can disable CloudKit sync simply by setting the cloudKitContainer options property on your store description to nil.
 // However, you should leave history tracking on so that NSPersitentCloudKitContainer can catch up if you turn it on again.
+//
+// About logs:
+// https://developer.apple.com/documentation/os/logging/generating_log_messages_from_your_code

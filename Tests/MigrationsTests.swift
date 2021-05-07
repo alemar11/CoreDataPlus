@@ -247,6 +247,7 @@ final class MigrationsTests: BaseTestCase {
     let sourceDescription = NSPersistentStoreDescription(url: sourceURL)
     let destinationDescription = NSPersistentStoreDescription(url: sourceURL)
     let migrator = Migrator<SampleModelVersion>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
+    migrator.enableLog = true
     migrator.progress.cancel()
     XCTAssertThrowsError(try migrator.migrate(to: .version3, enableWALCheckpoint: true),
                          "The migrator should throw because the progress has cancelled the migration steps") { error in
@@ -269,7 +270,7 @@ final class MigrationsTests: BaseTestCase {
     let sourceDescription = NSPersistentStoreDescription(url: sourceURL)
     let destinationDescription = NSPersistentStoreDescription(url: targetURL)
     let migrator = Migrator<SampleModelVersion>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
-
+    migrator.enableLog = true
     var completion = 0.0
     let token = migrator.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
       print(progress.fractionCompleted)
