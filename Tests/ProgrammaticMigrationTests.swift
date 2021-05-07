@@ -392,11 +392,17 @@ extension ProgrammaticMigrationTests {
         manager.estimatedTime = 0.1
         return manager
       } else {
+        // In FeedbackMigrationManager.swift there are 2 possibile solutions:
+        
+        // solution #1
         if mappingModel.entityMappingsByName["FeedbackToFeedbackPartOne"] != nil && mappingModel.entityMappingsByName["FeedbackToFeedbackPartTwo"] != nil {
           return FeedbackMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
         } else {
           return NSMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
         }
+        
+        // solution #2 (currently commented out in FeedbackMigrationManager.swift)
+        //return NSMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
       }
     }
   }
