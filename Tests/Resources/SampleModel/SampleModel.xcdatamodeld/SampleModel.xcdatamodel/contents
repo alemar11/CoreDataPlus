@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D91" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1">
     <entity name="Car" representedClassName="Car" syncable="YES">
-        <attribute name="color" optional="YES" attributeType="Transformable" valueTransformerName="ColorTransformer"/>
+        <attribute name="color" optional="YES" attributeType="Transformable" valueTransformerName="ColorTransformer" customClassName="Color"/>
         <attribute name="currentDrivingSpeed" optional="YES" transient="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="maker" optional="YES" attributeType="String"/>
         <attribute name="markedForDeletionAsOf" optional="YES" attributeType="Date" usesScalarValueType="NO"/>

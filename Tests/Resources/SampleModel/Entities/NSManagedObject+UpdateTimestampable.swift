@@ -5,7 +5,7 @@ import CoreData
 private let updateTimestampKey = "updatedAt"
 
 /// Objects adopting the `UpdateTimestampable` have an `updateAt` property.
-public protocol UpdateTimestampable: class {
+public protocol UpdateTimestampable: AnyObject {
   var updatedAt: Date { get set }
 }
 

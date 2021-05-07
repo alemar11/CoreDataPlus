@@ -4,7 +4,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSFetchRequestResultCoreDataTests: CoreDataPlusInMemoryTestCase {
+final class NSFetchRequestResultCoreDataTests: InMemoryTestCase {
 
   func testFetchObjectsIDs() throws {
     let context = container.viewContext

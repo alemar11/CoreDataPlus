@@ -3,7 +3,7 @@
 import CoreData
 import XCTest
 
-final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCase {
+final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
   /// Investigation test: calling refreshAllObjects calls refreshObject:mergeChanges on all objects in the context.
   func testInvestigationRefreshAllObjects() throws {
     let viewContext = container.viewContext
@@ -79,7 +79,9 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
       }
 
       // this will fail without automaticallyMergesChangesFromParent to true
-      XCTAssertEqual(childCar.safeAccess({ $0.maker }), "😀")
+      childContext.performAndWait {
+        XCTAssertEqual(childCar.maker, "😀")
+      }
     }
 
     // automaticallyMergesChangesFromParent = false
@@ -114,7 +116,9 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
         XCTAssertEqual(car.maker, "😀")
       }
 
-      XCTAssertEqual(childCar.safeAccess({ $0.maker }), "FIAT") // no changes
+      childContext.performAndWait {
+        XCTAssertEqual(childCar.maker, "FIAT") // no changes
+      }
     }
 
     // automaticallyMergesChangesFromParent = true
@@ -145,7 +149,9 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
       }
 
       // this will fail without automaticallyMergesChangesFromParent to true
-      XCTAssertEqual(childCar.safeAccess({ $0.maker }), "😀")
+      childContext.performAndWait {
+        XCTAssertEqual(childCar.maker, "😀")
+      }
     }
 
     // automaticallyMergesChangesFromParent = false
@@ -175,7 +181,9 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
         XCTAssertEqual(car.maker, "😀")
       }
 
-      XCTAssertEqual(childCar.safeAccess({ $0.maker }), "FIAT") // no changes
+      childContext.performAndWait {
+        XCTAssertEqual(childCar.maker, "FIAT") // no changes
+      }
     }
   }
 
@@ -272,24 +280,6 @@ final class NSManagedObjectContextInvestigationTests: CoreDataPlusInMemoryTestCa
     XCTAssertEqual(car.currentDrivingSpeed, 100)
     viewContext.reset()
     XCTAssertEqual(car.currentDrivingSpeed, 0)
-  }
-
-  func testXXX() throws {
-    let container = InMemoryPersistentContainer.makeNew()
-    let viewContext = container.viewContext
-
-    viewContext.performAndWait {
-      let car = Car(context: viewContext)
-      car.maker = "FIAT"
-      car.model = "Panda"
-      car.numberPlate = UUID().uuidString
-      car.currentDrivingSpeed = 50
-      try! viewContext.save()
-    }
-
-    viewContext.performAndWait {
-      print(viewContext.registeredObjects)
-    }
   }
 
   func testInvestigationTransientPropertiesBehaviorInParentChildContextRelationship() throws {

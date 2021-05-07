@@ -4,7 +4,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSManagedObjectContextUtilsTests: CoreDataPlusInMemoryTestCase {
+final class NSManagedObjectContextUtilsTests: InMemoryTestCase {
   func testSinglePersistentStore() {
     XCTAssertTrue(container.viewContext.persistentStores.count == 1)
     XCTAssertNotNil(container.viewContext.persistentStores.first)
@@ -138,6 +138,15 @@ final class NSManagedObjectContextUtilsTests: CoreDataPlusInMemoryTestCase {
     let backgroundContext2 = container.viewContext.newBackgroundContext()
     XCTAssertEqual(backgroundContext2.concurrencyType,.privateQueueConcurrencyType)
     XCTAssertNotEqual(backgroundContext2.parent,container.viewContext)
+  }
+  
+  func testNewChildContext() {
+    let childContext = container.viewContext.newChildContext()
+    XCTAssertEqual(childContext.concurrencyType, container.viewContext.concurrencyType)
+    XCTAssertTrue(childContext.parent === container.viewContext)
+    let childContext2 = container.viewContext.newChildContext(concurrencyType: .privateQueueConcurrencyType)
+    XCTAssertNotEqual(childContext2.concurrencyType, container.viewContext.concurrencyType)
+    XCTAssertTrue(childContext2.parent === container.viewContext)
   }
 
   func testMultipleSaveAndWait() throws {

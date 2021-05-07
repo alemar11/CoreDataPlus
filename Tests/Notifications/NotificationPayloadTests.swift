@@ -6,7 +6,7 @@ import Combine
 @testable import CoreDataPlus
 
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
+final class NotificationPayloadTests: InMemoryTestCase {
   /// To issue a NSManagedObjectContextObjectsDidChangeNotification from a background thread, call the NSManagedObjectContext’s processPendingChanges method.
   /// http://openradar.appspot.com/14310964
   /// NSManagedObjectContext’s `perform` method encapsulates an autorelease pool and a call to processPendingChanges, `performAndWait` does not.
@@ -890,7 +890,7 @@ final class NotificationPayloadTests: CoreDataPlusInMemoryTestCase {
 }
 
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-final class NotificationPayloadOnDiskTests: CoreDataPlusOnDiskTestCase {
+final class NotificationPayloadOnDiskTests: OnDiskTestCase {
   func testObserveInsertionsOnDidSaveNotification() throws {
     let context = container.viewContext
     try context.setQueryGenerationFrom(.current)

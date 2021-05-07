@@ -4,7 +4,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class FetchedResultsChangesTests: CoreDataPlusInMemoryTestCase {
+final class FetchedResultsChangesTests: InMemoryTestCase {
   func testNoChanges() throws {
     // Given
     let context = container.viewContext

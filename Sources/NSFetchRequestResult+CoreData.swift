@@ -4,34 +4,37 @@ import CoreData
 
 extension NSFetchRequestResult where Self: NSManagedObject {
   /// The entity name.
+  /// - Warning: The NSManagedObjectModel must be loaded or the execution will be stopped.
   public static var entityName: String {
     if let name = entity().name {
       return name
     }
-    // Attention: sometimes entity() returns nil due to a CoreData bug occurring in the Unit Test targets or when Generics are used.
-    // The bug seems fixed on Xcode 12 but having a fallback option never hurts.
-    // https://forums.developer.apple.com/message/203409#203409
     // https://stackoverflow.com/questions/37909392/exc-bad-access-when-calling-new-entity-method-in-ios-10-macos-sierra-core-da
     // https://stackoverflow.com/questions/43231873/nspersistentcontainer-unittests-with-ios10/43286175
     // https://www.jessesquires.com/blog/swift-coredata-and-testing/
     // https://github.com/jessesquires/rdar-19368054
-    return String(describing: Self.self)
+
+    // Returning a string representation of Self metatype doesn't work if you have a NSManagedObject subclass
+    // with a name different from the NSEntityDescription name.
+    // return String(describing: Self.self)
+
+    // see testEntityName()
+    fatalError("Have you loaded your NSManagedObjectModel yet?")
   }
 
   // MARK: - Fetch
 
-  /// Creates a `new` NSFetchRequest for `self`.
-  /// - Note: Use this method instead of fetchRequest() to avoid a bug in CoreData occurring in the Unit Test targets or when Generics are used.
+  /// Returns a new fetch request initialized with the entity represented by this subclass (`self`).
+  /// - Warning: This fetch request is created with a string name (`entityName`), and cannot respond to -entity until used by an NSManagedObjectContex.
   public static func newFetchRequest() -> NSFetchRequest<Self> {
-    let fetchRequest = NSFetchRequest<Self>(entityName: entityName)
-    return fetchRequest
+    NSFetchRequest<Self>(entityName: entityName)
   }
 
   /// - Returns: an object for a specified `id` even if the object needs to be fetched.
   /// If the object is not registered in the context, it may be fetched or returned as a fault.
   /// If use existingObject(with:) if you don't want a faulted object.
   public static func object(with id: NSManagedObjectID, in context: NSManagedObjectContext) -> Self? {
-    return context.object(with: id) as? Self
+    context.object(with: id) as? Self
   }
 
   /// - Returns: the object for the specified ID or nil if the object does not exist.
@@ -39,7 +42,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// This method might perform I/O if the data is uncached.
   /// - Important: Unlike object(with:), this method never returns a fault.
   public static func existingObject(with id: NSManagedObjectID, in context: NSManagedObjectContext) throws -> Self? {
-    return try context.existingObject(with: id) as? Self
+    try context.existingObject(with: id) as? Self
   }
 
   /// Performs a configurable fetch request in a context.
@@ -215,12 +218,12 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     }
 
     switch result.count {
-    case 0:
-      return nil
-    case 1:
-      return result[0]
-    default:
-      fatalError("Returned multiple objects, expected max 1.")
+      case 0:
+        return nil
+      case 1:
+        return result[0]
+      default:
+        fatalError("Returned multiple objects, expected max 1.")
     }
   }
 
@@ -459,7 +462,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
         fatalError("Unexpected behaviour")
       }
     }
-     asynchronousRequest.estimatedResultCount = estimatedResultCount
+    asynchronousRequest.estimatedResultCount = estimatedResultCount
 
     // swiftlint:disable:next force_cast
     return try context.execute(asynchronousRequest) as! NSAsynchronousFetchResult<Self>

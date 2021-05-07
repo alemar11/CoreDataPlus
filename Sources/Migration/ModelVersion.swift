@@ -181,16 +181,26 @@ public func isMigrationNecessary<Version: ModelVersion>(for storeURL: URL, to ve
 
 extension ModelVersion {
   /// Returns a list of `MigrationStep` needed to mirate to the next `version` of the store.
-  public func migrationSteps(to version: Self) -> [Migration.Step] {
+  public func migrationSteps(to version: Self) -> [MigrationStep<Self>] {
     guard self != version else {
       return []
     }
 
-    guard let mappings = mappingModelsToNextModelVersion(), let nextVersion = successor else {
-      fatalError("Couldn't find any mapping models.")
+    guard let nextVersion = successor else {
+      return []
     }
 
-    let step = Migration.Step(source: managedObjectModel(), destination: nextVersion.managedObjectModel(), mappings: mappings)
+//    guard let mappings = mappingModelsToNextModelVersion() else {
+//      fatalError("Couldn't find any mapping models.")
+//    }
+//
+//    let step = Migration.Step(source: managedObjectModel(),
+//                              destination: nextVersion.managedObjectModel(),
+//                              mappings: mappings)
+
+    guard let step = MigrationStep(sourceVersion: self, destinationVersion: nextVersion) else {
+      fatalError("Couldn't find any mapping models.")
+    }
 
     return [step] + nextVersion.migrationSteps(to: version)
   }
@@ -204,7 +214,7 @@ extension ModelVersion {
     guard let mappingModel = NSMappingModel(from: [modelBundle], forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel()) else {
       fatalError("No NSMappingModel found for \(self) to \(nextVersion).")
     }
-
+    
     return mappingModel
   }
 

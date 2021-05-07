@@ -4,7 +4,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
+final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
   // MARK: - Batch Faulting
 
   func testFaultAndMaterializeObjectWithoutNSManagedObjectContext() throws {
@@ -875,60 +875,60 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
   }
 
   // TODO: investigate this behaviour (and open a FB)
-  //  func testFailedbatchUpdateWithResultObjectIDs() throws {
-  //    guard #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) else { return }
-  //
-  //    // Given
-  //    let context = container.viewContext
-  //    context.fillWithSampleData()
-  //    try context.save()
-  //
-  //    // numberPlate is not optional constraint for the Car Entity
-  //    // but in the backing .sqlite file it's actually just an optional string
-  //
-  //    XCTAssertThrowsError(try Car.batchUpdate(using: context,
-  //                                             resultType: .statusOnlyResultType,
-  //                                             propertiesToUpdate: [#keyPath(Car.numberPlate): NSExpression(forConstantValue: "SAME_VALE")],
-  //                                             includesSubentities: true))
-  //
-  //    let cars = try Car.fetch(in: context)
-  //    XCTAssertEqual(cars.count, 125) // Nothing changed here
-  //
-  //    // While setting the same value for a constraint property throws an exception, setting nil doesn't throw anything but then
-  //    // all the updated objects are "broken"
-  //    let result2 = try Car.batchUpdate(using: context,
-  //                                      resultType: .statusOnlyResultType,
-  //                                      propertiesToUpdate: [#keyPath(Car.numberPlate): NSExpression(forConstantValue: nil)],
-  //                                      includesSubentities: true)
-  //    XCTAssertNotNil(result2.status, "There should be a status for a batch update with statusOnlyResultType option.")
-  //    XCTAssertTrue(result2.status!)
-  //
-  //    // Row (pk = 1) for entity 'Car' is missing mandatory text data for property 'numberPlate'
-  //    do {
-  //      let car = try Car.fetchOne(in: context, where: NSPredicate(value: true))
-  //      XCTAssertNotNil(car) // since the object is broken the fetch returns nil
-  //    }
-  //
-  //    try context.save()
-  //    try Car.delete(in: context)
-  //    try context.save()
-  //    let cars2 = try! Car.fetch(in: context)
-  //    XCTAssertTrue(cars2.isEmpty) // All the cars aren't valid (for the CoreData model) anymore
-  //
-  //    do {
-  //      let car = try Car.fetchOne(in: context, where: NSPredicate(value: true))
-  //      XCTAssertNotNil(car) // since the object is broken the fetch returns nil
-  //    }
-  //
-  //    let count = try Car.count(in: context)
-  //    XCTAssertEqual(count, 125)
-  //
-  //    try Car.batchDelete(using: context, resultType: .resultTypeCount) { $0.predicate = NSPredicate(format: "%K == NULL", #keyPath(Car.numberPlate))}
-  //    let count2 = try Car.count(in: context)
-  //
-  //    XCTAssertEqual(count2, 0)
-  //    // https://developer.apple.com/library/archive/featuredarticles/CoreData_Batch_Guide/BatchUpdates/BatchUpdates.html
-  //  }
+//    func testFailedbatchUpdateWithResultObjectIDs() throws {
+//      guard #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) else { return }
+//  
+//      // Given
+//      let context = container.viewContext
+//      context.fillWithSampleData()
+//      try context.save()
+//  
+//      // numberPlate is not optional constraint for the Car Entity
+//      // but in the backing .sqlite file it's actually just an optional string
+//  
+//      XCTAssertThrowsError(try Car.batchUpdate(using: context,
+//                                               resultType: .statusOnlyResultType,
+//                                               propertiesToUpdate: [#keyPath(Car.numberPlate): NSExpression(forConstantValue: "SAME_VALE")],
+//                                               includesSubentities: true))
+//  
+//      let cars = try Car.fetch(in: context)
+//      XCTAssertEqual(cars.count, 125) // Nothing changed here
+//  
+//      // While setting the same value for a constraint property throws an exception, setting nil doesn't throw anything but then
+//      // all the updated objects are "broken"
+//      let result2 = try Car.batchUpdate(using: context,
+//                                        resultType: .statusOnlyResultType,
+//                                        propertiesToUpdate: [#keyPath(Car.numberPlate): NSExpression(forConstantValue: nil)],
+//                                        includesSubentities: true)
+//      XCTAssertNotNil(result2.status, "There should be a status for a batch update with statusOnlyResultType option.")
+//      XCTAssertTrue(result2.status!)
+//  
+//      // Row (pk = 1) for entity 'Car' is missing mandatory text data for property 'numberPlate'
+//      do {
+//        let car = try Car.fetchOne(in: context, where: NSPredicate(value: true))
+//        XCTAssertNotNil(car) // since the object is broken the fetch returns nil
+//      }
+//  
+//      try context.save()
+//      try Car.delete(in: context)
+//      try context.save()
+//      let cars2 = try! Car.fetch(in: context)
+//      XCTAssertTrue(cars2.isEmpty) // All the cars aren't valid (for the CoreData model) anymore
+//  
+//      do {
+//        let car = try Car.fetchOne(in: context, where: NSPredicate(value: true))
+//        XCTAssertNotNil(car) // since the object is broken the fetch returns nil
+//      }
+//  
+//      let count = try Car.count(in: context)
+//      XCTAssertEqual(count, 125)
+//  
+//      try Car.batchDelete(using: context, resultType: .resultTypeCount) { $0.predicate = NSPredicate(format: "%K == NULL", #keyPath(Car.numberPlate))}
+//      let count2 = try Car.count(in: context)
+//  
+//      XCTAssertEqual(count2, 0)
+//      // https://developer.apple.com/library/archive/featuredarticles/CoreData_Batch_Guide/BatchUpdates/BatchUpdates.html
+//    }
 
   // MARK: - Async Fetch
 
@@ -975,41 +975,6 @@ final class NSFetchRequestResultUtilsTests: CoreDataPlusOnDiskTestCase {
     waitForExpectations(timeout: 30, handler: nil)
     currentProgress.resignCurrent()
     currentToken?.invalidate()
-  }
-
-  // MARK: - Thread Safe Access
-
-  func testManagedObjectThreadSafeAccess() {
-    let context = container.viewContext.newBackgroundContext()
-    let car = context.performAndWaitResult { return Car(context: $0) }
-    car.safeAccess { XCTAssertEqual($0.managedObjectContext, context) }
-  }
-
-  func testFetchedResultsControllerThreadSafeAccess() throws {
-    let context = container.viewContext.newBackgroundContext()
-    try context.performAndWaitResult { _ in
-      context.fillWithSampleData()
-      try context.save()
-    }
-
-    let request = Car.newFetchRequest()
-    request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Car.numberPlate), ascending: true)]
-    let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-    try controller.performFetch()
-
-    let cars = controller.fetchedObjects!
-    let firstCar = controller.object(at: IndexPath(item: 0, section: 0)) as Car
-
-    firstCar.safeAccess {
-      XCTAssertEqual(controller.managedObjectContext, $0.managedObjectContext)
-    }
-
-    for car in cars {
-      _ = car.safeAccess { car -> String in
-        XCTAssertEqual(controller.managedObjectContext, context)
-        return car.numberPlate
-      }
-    }
   }
 
   // MARK: - Group By

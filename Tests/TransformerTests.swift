@@ -4,26 +4,26 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class TransformerTests: CoreDataPlusOnDiskTestCase {
+final class TransformerTests: OnDiskTestCase {
   @objc(Dummy)
   class Dummy: NSObject, NSSecureCoding {
     static var supportsSecureCoding: Bool { true }
     let name: String
-    
+
     init(name: String) {
       self.name = name
     }
-    
+
     func encode(with coder: NSCoder) {
       coder.encode(name, forKey: "name")
     }
-    
+
     required init?(coder decoder: NSCoder) {
       guard let name = decoder.decodeObject(of: [NSString.self], forKey: "name") as? String else { return nil }
       self.name = name
     }
   }
-  
+
   func testSaveAndFetchTransformableValue() throws {
     let context = container.viewContext
     let car = Car(context: context)
@@ -33,13 +33,13 @@ final class TransformerTests: CoreDataPlusOnDiskTestCase {
     car.color = Color(name: "red")
     try context.save()
     context.reset()
-    
+
     let firstCar = try XCTUnwrap(try Car.fetchOne(in: context, where: NSPredicate(value: true)))
-    
+
     let color = try XCTUnwrap(firstCar.color)
     XCTAssertEqual(color.name, "red")
   }
-  
+
   func testSaveAndFetchTransformableValueUsingCustomTransformer() throws {
     let context = container.viewContext
     let car = Car(context: context)
@@ -49,13 +49,13 @@ final class TransformerTests: CoreDataPlusOnDiskTestCase {
     car.color = Color(name: "red")
     try context.save()
     context.reset()
-    
+
     let firstCar = try XCTUnwrap(try Car.fetchOne(in: context, where: NSPredicate(value: true)))
-    
+
     let color = try XCTUnwrap(firstCar.color)
     XCTAssertEqual(color.name, "red")
   }
-  
+
   func testTransformerUnregister() {
     XCTAssertFalse(Foundation.ValueTransformer.valueTransformerNames().contains(Transformer<Dummy>.transformerName))
     Transformer<Dummy>.register()
@@ -63,21 +63,21 @@ final class TransformerTests: CoreDataPlusOnDiskTestCase {
     Transformer<Dummy>.unregister()
     XCTAssertFalse(Foundation.ValueTransformer.valueTransformerNames().contains(Transformer<Dummy>.transformerName))
   }
-  
+
   func testDataTransformerUnregister() {
-    XCTAssertFalse(Foundation.ValueTransformer.valueTransformerNames().contains(DataTransformer<Dummy>.transformerName))
-    DataTransformer<Dummy>.register {
+    XCTAssertFalse(Foundation.ValueTransformer.valueTransformerNames().contains(CustomTransformer<Dummy>.transformerName))
+    CustomTransformer<Dummy>.register {
       guard let color = $0 else { return nil }
       return try? NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: true)
     } reverseTransform: {
       guard let data = $0 else { return nil }
       return try? NSKeyedUnarchiver.unarchivedObject(ofClass: Dummy.self, from: data)
     }
-    XCTAssertTrue(Foundation.ValueTransformer.valueTransformerNames().contains(DataTransformer<Dummy>.transformerName))
+    XCTAssertTrue(Foundation.ValueTransformer.valueTransformerNames().contains(CustomTransformer<Dummy>.transformerName))
     Transformer<Dummy>.unregister()
-    XCTAssertFalse(Foundation.ValueTransformer.valueTransformerNames().contains(DataTransformer<Dummy>.transformerName))
+    XCTAssertFalse(Foundation.ValueTransformer.valueTransformerNames().contains(CustomTransformer<Dummy>.transformerName))
   }
-  
+
   func testTransformer() throws {
     let transformer = Transformer<Color>()
     let data = transformer.reverseTransformedValue(Color(name: "green"))
@@ -87,9 +87,9 @@ final class TransformerTests: CoreDataPlusOnDiskTestCase {
     let name = try XCTUnwrap(expectedColor?.name)
     XCTAssertEqual(name, "green")
   }
-  
+
   func testCustomTransformer() throws {
-    let transformer = DataTransformer<Color> { color -> Data? in
+    let transformer = CustomTransformer<Color> { color -> Data? in
       guard let color = color else { return nil }
       return try? NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: true)
     } reverseTransform: { data -> Color? in
@@ -103,16 +103,16 @@ final class TransformerTests: CoreDataPlusOnDiskTestCase {
     let name = try XCTUnwrap(expectedColor?.name)
     XCTAssertEqual(name, "green")
   }
-  
+
   func testDataTransformerWithNSArray() throws {
-    let transformer = DataTransformer<NSArray> { array -> Data? in
+    let transformer = CustomTransformer<NSArray> { array -> Data? in
       guard let array = array else { return nil }
       return try? NSKeyedArchiver.archivedData(withRootObject: array, requiringSecureCoding: true)
     } reverseTransform: { data -> NSArray? in
       guard let data = data else { return nil }
       return try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? NSArray
     }
-    
+
     let array = NSMutableArray()
     array.add(1)
     array.add(Color(name: "green"))
@@ -120,7 +120,7 @@ final class TransformerTests: CoreDataPlusOnDiskTestCase {
     array.add([Dummy(name: "dummy2"), Dummy(name: "dummy2")])
     let data = transformer.transformedValue(NSArray(array: array))
     XCTAssertNotNil(data)
-    
+
     let expectedTransformedValue = transformer.reverseTransformedValue(data)
     let expectedNSArray = try XCTUnwrap(expectedTransformedValue as? NSArray)
     let first = try XCTUnwrap(expectedNSArray.object(at: 0) as? Int)

@@ -12,6 +12,10 @@
             "argument" : "-com.apple.CoreData.ConcurrencyDebug 1"
           },
           {
+            "argument" : "-com.apple.CoreData.MigrationDebug 1",
+            "enabled" : false
+          },
+          {
             "argument" : "-com.apple.CoreData.ThreadingDebug 3"
           },
           {
@@ -41,6 +45,10 @@
             "argument" : "-com.apple.CoreData.ConcurrencyDebug 1"
           },
           {
+            "argument" : "-com.apple.CoreData.MigrationDebug 1",
+            "enabled" : false
+          },
+          {
             "argument" : "-com.apple.CoreData.ThreadingDebug 3"
           },
           {
@@ -68,6 +76,10 @@
             "argument" : "-com.apple.CoreData.ThreadingDebug 3"
           },
           {
+            "argument" : "-com.apple.CoreData.MigrationDebug 1",
+            "enabled" : false
+          },
+          {
             "argument" : "-com.apple.CoreData.SQLDebug 3",
             "enabled" : false
           },
@@ -90,6 +102,10 @@
         "argument" : "-com.apple.CoreData.ThreadingDebug 3"
       },
       {
+        "argument" : "-com.apple.CoreData.MigrationDebug 1",
+        "enabled" : false
+      },
+      {
         "argument" : "-com.apple.CoreData.Logging.stderr 1",
         "enabled" : false
       },
@@ -101,6 +117,18 @@
     "environmentVariableEntries" : [
       {
         "key" : "XCODE_TESTS",
+        "value" : "1"
+      },
+      {
+        "key" : "SQLITE_ENABLE_THREAD_ASSERTIONS",
+        "value" : "1"
+      },
+      {
+        "key" : "SQLITE_AUTO_TRACE",
+        "value" : "0"
+      },
+      {
+        "key" : "SQLITE_ENABLE_FILE_ASSERTIONS",
         "value" : "1"
       }
     ],

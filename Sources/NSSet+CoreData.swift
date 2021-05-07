@@ -7,9 +7,9 @@ extension NSSet {
   /// Specifies that all the `NSManagedObject` objects (with a `NSManangedObjectContext`) should be removed from its persistent store when changes are committed.
   public func deleteManagedObjects() {
     for object in self.allObjects {
-      if let managedObject = object as? NSManagedObject, managedObject.managedObjectContext != nil {
-        managedObject.safeAccess {
-          $0.delete()
+      if let managedObject = object as? NSManagedObject, let context = managedObject.managedObjectContext {
+        context.performAndWait {
+          managedObject.delete()
         }
       }
     }
