@@ -231,89 +231,7 @@ final class ProgrammaticMigrationTests: XCTestCase {
     try FileManager.default.removeItem(at: urlPart2)
   }
 
-    func testMigrationFromV1toV3() throws {
-      let url = URL.newDatabaseURL(withID: UUID())
-
-      let options = [
-        NSMigratePersistentStoresAutomaticallyOption: true,
-        NSInferMappingModelAutomaticallyOption: false,
-        NSPersistentHistoryTrackingKey: true, // ⚠️ cannot be changed once set to true
-        NSPersistentHistoryTokenKey: true
-      ]
-
-      let description = NSPersistentStoreDescription(url: url)
-      description.configuration = nil
-      description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
-      description.setOption(true as NSNumber, forKey: NSPersistentHistoryTokenKey)
-
-      let oldManagedObjectModel = V1.makeManagedObjectModel()
-      let coordinator = NSPersistentStoreCoordinator(managedObjectModel: oldManagedObjectModel)
-      coordinator.addPersistentStore(with: description) { (description, error) in
-        XCTAssertNil(error)
-      }
-
-      let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-      context.persistentStoreCoordinator = coordinator
-      context.fillWithSampleData2()
-      try context.save()
-      // ⚠️ This step is required if you want to do a migration with WAL checkpoint enabled
-      try coordinator.persistentStores.forEach({ (store) in
-        try coordinator.remove(store)
-      })
-
-      // Migration
-      let sourceDescription = NSPersistentStoreDescription(url: url)
-      let destinationDescription = NSPersistentStoreDescription(url: url)
-      options.forEach { key, value in
-        sourceDescription.setOption(value as NSObject, forKey: key)
-        destinationDescription.setOption(value as NSObject, forKey: key)
-      }
-
-      let migrator = Migrator<SampleModel2.SampleModel2Version>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
-      let token = migrator.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
-        print(progress.fractionCompleted)
-      }
-      try migrator.migrate(to: .version3, enableWALCheckpoint: true)
-
-      // Validation
-      XCTAssertTrue(migrator.progress.isFinished)
-      token.invalidate()
-      let newManagedObjectModel = V3.makeManagedObjectModel()
-      let newCoordinator = NSPersistentStoreCoordinator(managedObjectModel: newManagedObjectModel)
-      try newCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: options)
-
-      let newContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-      newContext.persistentStoreCoordinator = newCoordinator
-
-      let authors = try AuthorV3.fetch(in: newContext) {
-        $0.predicate = NSPredicate(format: "%K == %@", #keyPath(Author.alias), "Andrea")
-      }
-      let author = try XCTUnwrap(authors.first)
-      let booksCount = try BookV3.count(in: newContext)
-      XCTAssertEqual(booksCount, 52)
-      XCTAssertEqual(author.books.count, 49)
-      let feedbacksForAndrea = try XCTUnwrap(author.feedbacks)
-      XCTAssertEqual(feedbacksForAndrea.count, 441)
-      feedbacksForAndrea.forEach {
-        if $0.comment.contains("great") {
-          // min value assigned randomly is 1.3, during the migration all the ratings get a +10
-          XCTAssertTrue($0.rating >= 11.3)
-        } else {
-          // The max value assigned randomly is 5.8
-          XCTAssertTrue($0.rating <= 5.8, "Rating \($0.rating) should be lesser than 5.8")
-        }
-      }
-
-      let books = try XCTUnwrap(author.books as? Set<BookV3>)
-      books.forEach {
-        XCTAssertEqual($0.pages.count, 99)
-      }
-
-      newContext._fix_sqlite_warning_when_destroying_a_store()
-      try FileManager.default.removeItem(at: url)
-  }
-
-  func testMigrationFromV1toV3UsingCustomMigrator() throws {
+  func testMigrationFromV1toV3() throws {
     let url = URL.newDatabaseURL(withID: UUID())
 
     let options = [
@@ -461,25 +379,25 @@ extension NSEntityMapping {
 }
 
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-extension ProgrammaticMigrationTests {
-  class CustomMigrationManager: NSMigrationManager {
-//    @objc func customFetchRequest(forSourceEntityNamed entityName: String, predicateString: String) -> NSFetchRequest<NSFetchRequestResult> {
-//      let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-//      return request
-//    }
-  }
-
+extension ProgrammaticMigrationTests {  
   class CustomMigrator: Migrator<SampleModel2.SampleModel2Version> {
-    override func migrationManager(sourceVersion: String, sourceModel: NSManagedObjectModel, destinationVersion: String, destinationModel: NSManagedObjectModel, mappingModel: NSMappingModel) -> NSMigrationManager {
-
-      print(sourceVersion, destinationVersion, mappingModel.isInferred)
+    override func migrationManager(sourceVersion: String,
+                                   sourceModel: NSManagedObjectModel,
+                                   destinationVersion: String,
+                                   destinationModel: NSManagedObjectModel,
+                                   mappingModel: NSMappingModel) -> NSMigrationManager {
       if mappingModel.isInferred {
         let manager = LightweightMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
         manager.updateProgressInterval = 0.001 // we need to set a very low refresh interval to get some fake progress updates
         manager.estimatedTime = 0.1
         return manager
+      } else {
+        if mappingModel.entityMappingsByName["FeedbackToFeedbackPartOne"] != nil && mappingModel.entityMappingsByName["FeedbackToFeedbackPartTwo"] != nil {
+          return FeedbackMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
+        } else {
+          return NSMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
+        }
       }
-      return NSMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
     }
   }
 }

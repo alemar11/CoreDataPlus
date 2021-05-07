@@ -474,7 +474,10 @@ extension V3 {
     mapping.attributeMappings = [authorAlias, bookID, comment, rating]
 
     let predicate = NSPredicate(format: "%K CONTAINS [c] %@", "comment", "great")
-    mapping.sourceExpression = NSExpression(format: #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "Feedback", %@), $manager.sourceContext, NO)"#, argumentArray: [predicate.description])
+    // 🚩 Investigating how to implement and call custom methods in the manager
+    // the FETCH uses customfetchRequestForSourceEntityNamed:predicateString: defined in FeedbackMigrationManager instead of:
+    // mapping.sourceExpression = NSExpression(format: #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "Feedback", %@), $manager.sourceContext, NO)"#, argumentArray: [predicate.description])
+    mapping.sourceExpression = NSExpression(format: #"FETCH(FUNCTION($manager, "customfetchRequestForSourceEntityNamed:predicateString:" , "Feedback", %@), $manager.sourceContext, NO)"#, argumentArray: [predicate.description])
     return mapping
   }
 
