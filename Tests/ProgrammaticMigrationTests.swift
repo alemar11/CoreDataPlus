@@ -159,8 +159,8 @@ final class ProgrammaticMigrationTests: XCTestCase {
     // An optional step would be to delete "Feedback" records from the store with configuration "SampleConfigurationV2Part1"
     let urlPart2 = URL.newDatabaseURL(withID: UUID())
 
+    // The new coordinator will load both the stores.
     let newCoordinator = NSPersistentStoreCoordinator(managedObjectModel: V2.makeManagedObjectModel())
-
     try newCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: V2.Configurations.part1, at: url, options: options)
     try newCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: V2.Configurations.part2, at: urlPart2, options: options)
 
