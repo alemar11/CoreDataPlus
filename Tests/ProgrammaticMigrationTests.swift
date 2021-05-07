@@ -306,10 +306,14 @@ final class ProgrammaticMigrationTests: XCTestCase {
       }
       
       let migrator = Migrator<SampleModel2.SampleModel2Version>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
+      let token = migrator.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
+        print(progress.fractionCompleted)
+      }
       try migrator.migrate(to: .version3, enableWALCheckpoint: true)
-
+      
       // Validation
-
+      XCTAssertTrue(migrator.progress.isFinished)
+      token.invalidate()
       let newManagedObjectModel = V3.makeManagedObjectModel()
       let newCoordinator = NSPersistentStoreCoordinator(managedObjectModel: newManagedObjectModel)
       try newCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: options)
