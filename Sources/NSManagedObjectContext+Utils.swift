@@ -79,7 +79,7 @@ extension NSManagedObjectContext {
 
     return context
   }
-  
+
   /// Returns a `new` child `NSManagedObjectContext`.
   /// - Parameters:
   ///   - concurrencyType: Specifies the concurrency pattern used by this child context (defaults to the parent type).

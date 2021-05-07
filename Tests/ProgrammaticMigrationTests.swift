@@ -27,7 +27,7 @@ extension ProgrammaticMigrationTests {
 
   class CustomMigrator: Migrator<SampleModel2.SampleModel2Version> {
     override func migrationManager(sourceVersion: String, sourceModel: NSManagedObjectModel, destinationVersion: String, destinationModel: NSManagedObjectModel, mappingModel: NSMappingModel) -> NSMigrationManager {
-      
+
       print(sourceVersion, destinationVersion, mappingModel.isInferred)
       if mappingModel.isInferred {
         let manager = LightweightMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
@@ -116,7 +116,7 @@ final class ProgrammaticMigrationTests: XCTestCase {
       sourceDescription.setOption(value as NSObject, forKey: key)
       destinationDescription.setOption(value as NSObject, forKey: key)
     }
-    
+
     let migrator = Migrator<SampleModel2.SampleModel2Version>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
     try migrator.migrate(to: .version2, enableWALCheckpoint: true)
 
@@ -182,7 +182,7 @@ final class ProgrammaticMigrationTests: XCTestCase {
       sourceDescription.setOption(value as NSObject, forKey: key)
       destinationDescription.setOption(value as NSObject, forKey: key)
     }
-    
+
     let migrator = Migrator<SampleModel2.SampleModel2Version>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
     try migrator.migrate(to: .version2, enableWALCheckpoint: true)
 
@@ -304,13 +304,13 @@ final class ProgrammaticMigrationTests: XCTestCase {
         sourceDescription.setOption(value as NSObject, forKey: key)
         destinationDescription.setOption(value as NSObject, forKey: key)
       }
-      
+
       let migrator = Migrator<SampleModel2.SampleModel2Version>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
       let token = migrator.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
         print(progress.fractionCompleted)
       }
       try migrator.migrate(to: .version3, enableWALCheckpoint: true)
-      
+
       // Validation
       XCTAssertTrue(migrator.progress.isFinished)
       token.invalidate()
@@ -387,7 +387,7 @@ final class ProgrammaticMigrationTests: XCTestCase {
       print(progress.fractionCompleted)
       completion = progress.fractionCompleted
     }
-    
+
     try migrator.migrate(to: .version3, enableWALCheckpoint: true)
 
     // Validation

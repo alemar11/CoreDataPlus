@@ -45,18 +45,18 @@ open class Migrator<Version: ModelVersion>: NSObject, ProgressReporting {
     var progress = Progress(totalUnitCount: 1)
     return progress
   }()
-  
+
   /// Source description used as starting point for the migration steps.
   let sourceStoreDescription: NSPersistentStoreDescription
-  
+
   /// Desitnation description used as final point for the migrations steps.
   let destinationStoreDescription: NSPersistentStoreDescription
-  
+
   /// Creates a `Migrator` instance to handle a multi step migration at `targetStoreDescription`.
   public convenience init(targetStoreDescription: NSPersistentStoreDescription) {
     self.init(sourceStoreDescription: targetStoreDescription, destinationStoreDescription: targetStoreDescription)
   }
-  
+
   /// Creates a `Migrator` instance to handle a multi step migration from `sourceStoreDescription` to `destinationStoreDescription`.
   public required init(sourceStoreDescription: NSPersistentStoreDescription, destinationStoreDescription: NSPersistentStoreDescription) {
     self.sourceStoreDescription = sourceStoreDescription
@@ -64,12 +64,12 @@ open class Migrator<Version: ModelVersion>: NSObject, ProgressReporting {
     super.init()
     _ = progress // lazy init for implicit progress support
   }
-  
+
   /// Migrates the store to a given `Version`, performing a WAL checkpoint if opted in.
   public final func migrate(to targetVersion: Version, enableWALCheckpoint: Bool = false) throws {
     guard let sourceURL = sourceStoreDescription.url else { fatalError("Source NSPersistentStoreDescription requires a URL.") }
     guard let destinationURL = destinationStoreDescription.url else { fatalError("Destination NSPersistentStoreDescription requires a URL.") }
-    
+
     try migrateStore(from: sourceURL,
                      sourceOptions: sourceStoreDescription.options,
                      to: destinationURL,
@@ -77,7 +77,7 @@ open class Migrator<Version: ModelVersion>: NSObject, ProgressReporting {
                      targetVersion: targetVersion,
                      enableWALCheckpoint: enableWALCheckpoint)
   }
-  
+
   /// Returns a `NSMigrationManager` instance for a migration step.
   open func migrationManager(sourceVersion: Version.RawValue,
                              sourceModel: NSManagedObjectModel,
@@ -99,34 +99,34 @@ extension Migrator {
     guard let sourceVersion = try Version(persistentStoreURL: sourceURL) else {
       fatalError("A ModelVersion for the store at URL \(sourceURL) could not be found.")
     }
-    
+
     guard try CoreDataPlus.isMigrationNecessary(for: sourceURL, to: targetVersion) else {
       return
     }
-    
+
     if enableWALCheckpoint {
       // A dead lock can occur if a NSPersistentStore with a different journaling mode
       // is currently active and using the database file.
       // You need to remove it before performing a WAL checkpoint.
       try performWALCheckpointForStore(at: sourceURL, storeOptions: sourceOptions, model: sourceVersion.managedObjectModel())
     }
-    
+
     let steps = sourceVersion.migrationSteps(to: targetVersion)
-    
+
     guard steps.count > 0 else { return }
-    
+
     let migrationStepsProgress = Progress(totalUnitCount: Int64(steps.count), parent: progress, pendingUnitCount: progress.totalUnitCount)
-    
+
     // TODO: if there is only a step and sourceURL != targetURL, we could skip the temporaryURL phase
-    
+
     var currentURL = sourceURL
     for step in steps {
       try autoreleasepool {
         let temporaryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString)
-        
+
         let mappingModelMigrationProgress = Progress(totalUnitCount: Int64(step.mappingModels.count))
         migrationStepsProgress.addChild(mappingModelMigrationProgress, withPendingUnitCount: 1)
-        
+
         for mappingModel in step.mappingModels {
           let manager = migrationManager(sourceVersion: step.sourceVersion,
                                          sourceModel: step.sourceModel,
@@ -137,7 +137,7 @@ extension Migrator {
           // a reporter instance handles parent progress cancellations automatically
           let progressReporter = manager.makeProgressReporter()
           mappingModelMigrationProgress.resignCurrent()
-          
+
           try manager.migrateStore(from: currentURL,
                                    sourceType: NSSQLiteStoreType,
                                    options: sourceOptions,
@@ -156,29 +156,28 @@ extension Migrator {
         currentURL = temporaryURL
       }
     }
-    
-    
+
     // move the store at currentURL to (final) targetURL
     try NSPersistentStoreCoordinator.replaceStore(at: destinationURL, withPersistentStoreFrom: currentURL)
-    
+
     // delete the store at currentURL if it's not the initial store
     if currentURL != sourceURL {
       try NSPersistentStoreCoordinator.destroyStore(at: currentURL)
     }
-    
+
     // delete the initial store only if the option is set to true
     if destinationURL != sourceURL {
       try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
     }
   }
-  
 }
 
 // MARK: - WAL Checkpoint
 
 /// Forces Core Data to perform a checkpoint operation, which merges the data in the `-wal` file to the store file.
 private func performWALCheckpointForStore(at storeURL: URL, storeOptions: PersistentStoreOptions? = nil, model: NSManagedObjectModel) throws {
-  // "If the -wal file is not present, using this approach to add the store won't cause any exceptions, but the transactions recorded in the missing -wal file will be lost." (from: https://developer.apple.com/library/archive/qa/qa1809/_index.html)
+  // "If the -wal file is not present, using this approach to add the store won't cause any exceptions,
+  // but the transactions recorded in the missing -wal file will be lost." (from: https://developer.apple.com/library/archive/qa/qa1809/_index.html)
   // credits:
   // https://williamboles.me/progressive-core-data-migration/
   // http://pablin.org/2013/05/24/problems-with-core-data-migration-manager-and-journal-mode-wal/
@@ -195,7 +194,7 @@ private func performWALCheckpointForStore(at storeURL: URL, storeOptions: Persis
     // https://developer.apple.com/forums/thread/118924
     options[NSPersistentHistoryTrackingKey] = [NSPersistentHistoryTrackingKey: true as NSNumber]
   }
-  
+
   let store = try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
   try persistentStoreCoordinator.remove(store)
 }
@@ -206,4 +205,3 @@ private func performWALCheckpointForStore(at storeURL: URL, storeOptions: Persis
 // That error is because you also removed the history tracking option. Which you shouldn't do after you've enabled it.
 // You can disable CloudKit sync simply by setting the cloudKitContainer options property on your store description to nil.
 // However, you should leave history tracking on so that NSPersitentCloudKitContainer can catch up if you turn it on again.
- 

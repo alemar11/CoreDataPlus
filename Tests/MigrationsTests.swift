@@ -34,7 +34,7 @@ final class MigrationsTests: BaseTestCase {
     let sourceDescription = NSPersistentStoreDescription(url: url)
     let destinationDescription = NSPersistentStoreDescription(url: url)
     let migrator = Migrator<SampleModelVersion>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
-    
+
     XCTAssertThrowsError(try migrator.migrate(to: .version3, enableWALCheckpoint: true), "The store shouldn't exist.")
   }
 
@@ -124,14 +124,14 @@ final class MigrationsTests: BaseTestCase {
     let sourceDescription = NSPersistentStoreDescription(url: sourceURL)
     let destinationDescription = NSPersistentStoreDescription(url: sourceURL)
     let migrator = Migrator<SampleModelVersion>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
-    
+
     var completion = 0.0
     let token = migrator.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
       completion = progress.fractionCompleted
     }
-    
+
     try migrator.migrate(to: targetVersion, enableWALCheckpoint: true)
-    
+
     let migratedContext = NSManagedObjectContext(model: targetVersion.managedObjectModel(), storeURL: sourceURL)
     let luxuryCars = try LuxuryCar.fetch(in: migratedContext)
     XCTAssertEqual(luxuryCars.count, 5)
@@ -288,15 +288,15 @@ final class MigrationsTests: BaseTestCase {
     let sourceDescription = NSPersistentStoreDescription(url: sourceURL)
     let destinationDescription = NSPersistentStoreDescription(url: targetURL)
     let migrator = Migrator<SampleModelVersion>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
-    
+
     var completion = 0.0
     let token = migrator.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
       print(progress.fractionCompleted)
       completion = progress.fractionCompleted
     }
-    
+
     try migrator.migrate(to: .version3, enableWALCheckpoint: true)
-    
+
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
     let makers = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Maker"))
     XCTAssertEqual(makers.count, 10)
