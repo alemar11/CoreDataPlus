@@ -64,5 +64,3 @@ let errors = [
   NSExternalRecordImportError,
   NSPersistentHistoryTokenExpiredError,
 ]
-
-NSPersistentHistoryTrackingKey
