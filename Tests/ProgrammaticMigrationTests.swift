@@ -514,7 +514,6 @@ extension NSEntityMapping {
 // TODO: migration isn't committed to the actual url until the end (which is expected)
 // but if we try to run mutiple steps, using a tempURL is probably better
 
-// TODO: use NSPersistentStoreDescription
 
 // TODO: pass affectedStores as param in all the fetch methods
 

@@ -34,7 +34,9 @@ import CoreData
 
 // TODO: os_log
 
+/// Handles a multi step migration for SQLite store.
 open class Migrator<Version: ModelVersion>: NSObject, ProgressReporting {
+  /// Multi step migration progress.
   public private(set) lazy var progress: Progress = {
     // We don't need to manage any cancellations here:
     // if this progress is cancelled, the cancellation is inherited by all the migration step progresses
@@ -44,24 +46,34 @@ open class Migrator<Version: ModelVersion>: NSObject, ProgressReporting {
     return progress
   }()
   
+  /// Source description used as starting point for the migration steps.
   let sourceStoreDescription: NSPersistentStoreDescription
+  
+  /// Desitnation description used as final point for the migrations steps.
   let destinationStoreDescription: NSPersistentStoreDescription
   
-  public init(sourceStoreDescription: NSPersistentStoreDescription, destinationStoreDescription: NSPersistentStoreDescription) {
+  /// Creates a `Migrator` instance to handle a multi step migration at `targetStoreDescription`.
+  public convenience init(targetStoreDescription: NSPersistentStoreDescription) {
+    self.init(sourceStoreDescription: targetStoreDescription, destinationStoreDescription: targetStoreDescription)
+  }
+  
+  /// Creates a `Migrator` instance to handle a multi step migration from `sourceStoreDescription` to `destinationStoreDescription`.
+  public required init(sourceStoreDescription: NSPersistentStoreDescription, destinationStoreDescription: NSPersistentStoreDescription) {
     self.sourceStoreDescription = sourceStoreDescription
     self.destinationStoreDescription = destinationStoreDescription
     super.init()
     _ = progress // lazy init for implicit progress support
   }
   
-  public func migrate(to targetVersion: Version, enableWALCheckpoint: Bool = false) throws {
+  /// Migrates the store to a given `Version`, performing a WAL checkpoint if opted in.
+  public final func migrate(to targetVersion: Version, enableWALCheckpoint: Bool = false) throws {
     guard let sourceURL = sourceStoreDescription.url else { fatalError("Source NSPersistentStoreDescription requires a URL.") }
     guard let destinationURL = destinationStoreDescription.url else { fatalError("Destination NSPersistentStoreDescription requires a URL.") }
     
     try migrateStore(from: sourceURL,
                      sourceOptions: sourceStoreDescription.options,
                      to: destinationURL,
-                     targetOptions: destinationStoreDescription.options,
+                     destinationOptions: destinationStoreDescription.options,
                      targetVersion: targetVersion,
                      enableWALCheckpoint: enableWALCheckpoint)
   }
@@ -77,10 +89,11 @@ open class Migrator<Version: ModelVersion>: NSObject, ProgressReporting {
 }
 
 extension Migrator {
+  /// Migrates the store at a given source URL to the store at a given destination URL, performing all the migration steps to the target version.
   fileprivate func migrateStore(from sourceURL: URL,
                                 sourceOptions: PersistentStoreOptions? = nil,
-                                to targetURL: URL,
-                                targetOptions: PersistentStoreOptions? = nil,
+                                to destinationURL: URL,
+                                destinationOptions: PersistentStoreOptions? = nil,
                                 targetVersion: Version,
                                 enableWALCheckpoint: Bool = false) throws {
     guard let sourceVersion = try Version(persistentStoreURL: sourceURL) else {
@@ -104,9 +117,7 @@ extension Migrator {
     
     let migrationStepsProgress = Progress(totalUnitCount: Int64(steps.count), parent: progress, pendingUnitCount: progress.totalUnitCount)
     
-    
     // TODO: if there is only a step and sourceURL != targetURL, we could skip the temporaryURL phase
-    // TODO: a callback could provide the partial currentURL
     
     var currentURL = sourceURL
     for step in steps {
@@ -133,7 +144,7 @@ extension Migrator {
                                    with: mappingModel,
                                    toDestinationURL: temporaryURL,
                                    destinationType: NSSQLiteStoreType,
-                                   destinationOptions: targetOptions)
+                                   destinationOptions: destinationOptions)
           progressReporter.markAsFinishedIfNeeded() // Ligthweight migrations don't report progress
         }
         // once the migration is done (and the store is migrated to temporaryURL)
@@ -148,7 +159,7 @@ extension Migrator {
     
     
     // move the store at currentURL to (final) targetURL
-    try NSPersistentStoreCoordinator.replaceStore(at: targetURL, withPersistentStoreFrom: currentURL)
+    try NSPersistentStoreCoordinator.replaceStore(at: destinationURL, withPersistentStoreFrom: currentURL)
     
     // delete the store at currentURL if it's not the initial store
     if currentURL != sourceURL {
@@ -156,7 +167,7 @@ extension Migrator {
     }
     
     // delete the initial store only if the option is set to true
-    if targetURL != sourceURL {
+    if destinationURL != sourceURL {
       try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
     }
   }

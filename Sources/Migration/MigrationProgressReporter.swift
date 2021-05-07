@@ -2,6 +2,7 @@
 
 import CoreData
 
+/// Provides a `Progress` instance during a `NSMigrationManager` migration phase.
 public final class MigrationProgressReporter: NSObject, ProgressReporting {
   /// Migration progress.
   public private(set) lazy var progress: Progress = {
@@ -58,7 +59,8 @@ public extension NSMigrationManager {
   }
 }
 
-extension NSError {
+public extension NSError {
+  /// NSError generated when a migration is cancelled by a `Progress` cancel method.
   static let migrationCancelled: NSError = {
     let info: [String: Any] = [NSDebugDescriptionErrorKey: "Progress has cancelled this migration."]
     return NSError(domain: bundleIdentifier, code: NSMigrationCancelledError, userInfo: info)
