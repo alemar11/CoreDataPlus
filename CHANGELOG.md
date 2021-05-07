@@ -9,6 +9,7 @@
 - Added `NSAttributeDescription` utility methods.
 - Added `LightweightMigrationManger`,  a `NSMigrationManager` subclass to do *lightweight* migrations with a fake progress reporting.
 - Added `MigrationProgressReporter` to report migration progress via a `Progress` object.
+- Added a `NSManagedObjectContext` helper method to create a child context.
 - `DataTransformer` renamed as `CustomTransformer`.
 
 ### 3.0.0 ⭐

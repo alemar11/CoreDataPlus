@@ -48,7 +48,8 @@ final class ProgrammaticallyDefinedModelTests: OnDiskWithProgrammaticallyModelTe
   }
 }
 
-#warning("TODO: move from here or comment it out")
+// MARK: - V3
+
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 final class ProgrammaticallyDefinedModelV3Tests: XCTestCase {
   // Tests to make it sure that the model V3 is correctly defined

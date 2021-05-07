@@ -79,6 +79,16 @@ extension NSManagedObjectContext {
 
     return context
   }
+  
+  /// Returns a `new` child `NSManagedObjectContext`.
+  /// - Parameters:
+  ///   - concurrencyType: Specifies the concurrency pattern used by this child context (defaults to the parent type).
+  public final func newChildContext(concurrencyType: NSManagedObjectContextConcurrencyType? = nil) -> NSManagedObjectContext {
+    let type = concurrencyType ?? self.concurrencyType
+    let context = NSManagedObjectContext(concurrencyType: type)
+    context.parent = self
+    return context
+  }
 }
 
 // MARK: - Save

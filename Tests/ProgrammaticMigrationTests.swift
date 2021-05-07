@@ -520,5 +520,3 @@ extension NSEntityMapping {
 // TODO: SampleModel2V1.sqlite isn't used and can be removed
 
 // TODO: programmatic mapping models (investigate how we can leverage them to show a progress)
-
-// TODO: method to create a View context's child VIEW context
