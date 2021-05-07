@@ -59,10 +59,10 @@ public extension NSMigrationManager {
   }
 }
 
-public extension NSError {
+extension NSError {
   /// NSError generated when a migration is cancelled by a `Progress` cancel method.
   static let migrationCancelled: NSError = {
-    let info: [String: Any] = [NSDebugDescriptionErrorKey: "Progress has cancelled this migration."]
+    let info: [String: Any] = [NSDebugDescriptionErrorKey: "The migration has been cancelled by its Progress object."]
     return NSError(domain: bundleIdentifier, code: NSMigrationCancelledError, userInfo: info)
   }()
 }
