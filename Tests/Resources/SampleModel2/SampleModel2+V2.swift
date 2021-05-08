@@ -96,7 +96,7 @@ extension V2 {
     // 2. load another store - store 2 - with a different url (this db is going to be empty)
     // 3. move all the "Feedback" records from store 1 to store 2 (this can be done because both the stores have "Feedback" in their configurations)
     // 4. delete all the "Feedback" records from store 1 (optional)
-    // 5. (alternative to 4) create a migration for store 1 in where the "Feedback" entity is deleted and removed from its configuration. At this point store 1 an store 2 will have 2 separate models.
+    // 5. (alternative to 4) create a migration for store 1 in where the "Feedback" entity is deleted and removed from its configuration. At this point store 1 an store 2 will have 2 separate models.migration
     let entities = [writer, author, book, graphicNovel, page, feedback]
     managedObjectModel.entities = entities
     managedObjectModel.setEntities([writer, author, book, page, feedback], forConfigurationName: Configurations.part1)
