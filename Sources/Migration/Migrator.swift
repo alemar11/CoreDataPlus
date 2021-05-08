@@ -90,7 +90,8 @@ open class Migrator<Version: ModelVersion>: NSObject, ProgressReporting {
                      enableWALCheckpoint: enableWALCheckpoint)
   }
 
-  /// Returns a `NSMigrationManager` instance for a migration step.
+  /// The default implementation returns a unique `NSMigrationManager` instance for every migration step.
+  /// To provide different `NSMigrationManager` implementations, override this method.
   open func migrationManager(sourceVersion: Version.RawValue,
                              sourceModel: NSManagedObjectModel,
                              destinationVersion: Version.RawValue,
