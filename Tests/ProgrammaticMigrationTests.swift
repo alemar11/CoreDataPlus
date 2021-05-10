@@ -81,8 +81,10 @@ final class ProgrammaticMigrationTests: XCTestCase {
       destinationDescription.setOption(value as NSObject, forKey: key)
     }
     
-    let migrator = Migrator<SampleModel2.SampleModel2Version>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
-    try migrator.migrate(to: .version2, enableWALCheckpoint: true)
+    let migrator = Migrator<SampleModel2.SampleModel2Version>(sourceStoreDescription: sourceDescription,
+                                                              destinationStoreDescription: destinationDescription,
+                                                              targetVersion: .version2)
+    try migrator.migrate(enableWALCheckpoint: true)
     
     // Validation
     let newManagedObjectModel = V2.makeManagedObjectModel()
@@ -147,8 +149,10 @@ final class ProgrammaticMigrationTests: XCTestCase {
       destinationDescription.setOption(value as NSObject, forKey: key)
     }
     
-    let migrator = Migrator<SampleModel2.SampleModel2Version>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
-    try migrator.migrate(to: .version2, enableWALCheckpoint: true)
+    let migrator = Migrator<SampleModel2.SampleModel2Version>(sourceStoreDescription: sourceDescription,
+                                                              destinationStoreDescription: destinationDescription,
+                                                              targetVersion: .version2)
+    try migrator.migrate(enableWALCheckpoint: true)
     
     // Validation
     
@@ -263,14 +267,16 @@ final class ProgrammaticMigrationTests: XCTestCase {
     
     // Migration
     
-    let migrator = Migrator<SampleModel2.SampleModel2Version>(sourceStoreDescription: description, destinationStoreDescription: description)
+    let migrator = Migrator<SampleModel2.SampleModel2Version>(sourceStoreDescription: description,
+                                                              destinationStoreDescription: description,
+                                                              targetVersion: .version3)
     var completion = 0.0
     let token = migrator.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
       print(progress.fractionCompleted)
       completion = progress.fractionCompleted
     }
     
-    try migrator.migrate(to: .version3, enableWALCheckpoint: true) { metadata in
+    try migrator.migrate(enableWALCheckpoint: true) { metadata in
       if metadata.mappingModel.isInferred {
         let manager = LightweightMigrationManager(sourceModel: metadata.sourceModel, destinationModel: metadata.destinationModel)
         manager.updateProgressInterval = 0.001 // we need to set a very low refresh interval to get some fake progress updates
