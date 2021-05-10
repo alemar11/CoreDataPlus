@@ -111,7 +111,10 @@ final class MigrationsTests: BaseTestCase {
     // When
     let targetDescription = NSPersistentStoreDescription(url: sourceURL)
     let migrator = Migrator<SampleModelVersion>(targetStoreDescription:
-                                                  targetDescription, targetVersion: targetVersion)
+                                                  targetDescription,
+                                                targetVersion: targetVersion)
+    migrator.enableLog = true
+    migrator.enableLog = false
 
     var completion = 0.0
     let token = migrator.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
