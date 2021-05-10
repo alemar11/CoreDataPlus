@@ -6,7 +6,7 @@ import CoreData
 
 class BaseTestCase: XCTestCase {
   class override func setUp() {
-//    DataTransformer<Color>.register {
+//    CustomTransformer<Color>.register {
 //      guard let color = $0 else { return nil }
 //      return try? NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: true)
 //    } reverseTransform: {
@@ -18,5 +18,6 @@ class BaseTestCase: XCTestCase {
 
   open override class func tearDown() {
     Transformer<Color>.unregister()
+    //CustomTransformer<Color>.unregister()
   }
 }

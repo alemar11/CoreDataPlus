@@ -90,14 +90,13 @@ extension V2 {
 
     // Relationships can't be split between different stores (configurations)
     // "Feedback" is related to "Author" only via a fetched property and can be moved safely to another store
-    // but in order to migrate all the feedbacks from store 1 to store 2 we need a step in where the both the configurations
+    // but, in order to migrate all the feedbacks from store 1 to store 2, we need a step in where the both the configurations
     // have the "Feedback" entity; doing so, once the migration is completed we can:
     // 1. load store 1 with the migrated url
     // 2. load another store - store 2 - with a different url (this db is going to be empty)
     // 3. move all the "Feedback" records from store 1 to store 2 (this can be done because both the stores have "Feedback" in their configurations)
-    // 4. delete all teh "Feedback" records from store 1 (optional)
-    // 5. At this point we could probably do another migration step in where store 1 won't have anymore in its configuration the "Feedback" entity - not sure if we can simply do that loading another NSManagedObjectModel with a different configurations.
-    #warning("Check if we can load different managedobjectmodel after a migration")
+    // 4. delete all the "Feedback" records from store 1 (optional)
+    // 5. (alternative to 4) create a migration for store 1 in where the "Feedback" entity is deleted and removed from its configuration. At this point store 1 an store 2 will have 2 separate models.migration
     let entities = [writer, author, book, graphicNovel, page, feedback]
     managedObjectModel.entities = entities
     managedObjectModel.setEntities([writer, author, book, page, feedback], forConfigurationName: Configurations.part1)

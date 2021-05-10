@@ -139,7 +139,7 @@ final class NSManagedObjectContextUtilsTests: InMemoryTestCase {
     XCTAssertEqual(backgroundContext2.concurrencyType,.privateQueueConcurrencyType)
     XCTAssertNotEqual(backgroundContext2.parent,container.viewContext)
   }
-  
+
   func testNewChildContext() {
     let childContext = container.viewContext.newChildContext()
     XCTAssertEqual(childContext.concurrencyType, container.viewContext.concurrencyType)

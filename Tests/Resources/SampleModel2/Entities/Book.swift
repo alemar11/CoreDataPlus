@@ -32,13 +32,13 @@ public class Book: NSManagedObject {
   //      setPrimitiveValue(NSDecimalNumber(decimal: newValue), forKey: #keyPath(Book.price))
   //    }
   //  }
-  
+
   @NSManaged public var cover: Cover
   @NSManaged public var publishedAt: Date
   @NSManaged public var author: Author
   @NSManaged public var pages: NSSet // of Pages
   @NSManaged public var pagesCount: Int
-  
+
   public override func validateForInsert() throws {
     // during a save, it's called for all the new objetcs
     // if the validation fails, the save method will thrown an error containing
@@ -50,13 +50,13 @@ public class Book: NSManagedObject {
 extension Book {
   @objc(addPagesObject:)
   @NSManaged public func addToPages(_ value: Page)
-  
+
   @objc(removePagesObject:)
   @NSManaged public func removeFromPages(_ value: Page)
-  
+
   @objc(addPages:)
   @NSManaged public func addToPages(_ values: NSSet)
-  
+
   @objc(removePages:)
   @NSManaged public func removeFromPages(_ values: NSSet)
 }

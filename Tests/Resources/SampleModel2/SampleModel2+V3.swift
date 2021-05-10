@@ -338,7 +338,9 @@ extension V3 {
 
     let title = NSPropertyMapping()
     title.name = #keyPath(BookV3.title)
-    title.valueExpression = NSExpression(format: "$source.\(#keyPath(BookV2.title))")
+    // 🚩 Investigating how to implement and call custom methods in the policy
+    //title.valueExpression = NSExpression(format: "$source.\(#keyPath(BookV2.title))")
+    title.valueExpression = NSExpression(format: #"FUNCTION($entityPolicy, "destinationTitleForSourceBookTitle:manager:", $source.\#(#keyPath(BookV2.title)),$manager)"#)
 
     let price = NSPropertyMapping()
     price.name = #keyPath(BookV3.price)
@@ -399,7 +401,9 @@ extension V3 {
 
     let title = NSPropertyMapping()
     title.name = #keyPath(BookV3.title)
-    title.valueExpression = NSExpression(format: "$source.\(#keyPath(GraphicNovelV2.title))")
+    // 🚩 Investigating how to implement and call custom methods in the policy
+    //title.valueExpression = NSExpression(format: "$source.\(#keyPath(GraphicNovelV2.title))")
+    title.valueExpression = NSExpression(format: #"FUNCTION($entityPolicy, "destinationTitleForSourceBookTitle:manager:", $source.\#(#keyPath(BookV2.title)),$manager)"#)
 
     let price = NSPropertyMapping()
     price.name = #keyPath(BookV3.price)
@@ -470,7 +474,10 @@ extension V3 {
     mapping.attributeMappings = [authorAlias, bookID, comment, rating]
 
     let predicate = NSPredicate(format: "%K CONTAINS [c] %@", "comment", "great")
-    mapping.sourceExpression = NSExpression(format: #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "Feedback", %@), $manager.sourceContext, NO)"#, argumentArray: [predicate.description])
+    // 🚩 Investigating how to implement and call custom methods in the manager
+    // the FETCH uses customfetchRequestForSourceEntityNamed:predicateString: defined in FeedbackMigrationManager instead of:
+    // mapping.sourceExpression = NSExpression(format: #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "Feedback", %@), $manager.sourceContext, NO)"#, argumentArray: [predicate.description])
+    mapping.sourceExpression = NSExpression(format: #"FETCH(FUNCTION($manager, "customfetchRequestForSourceEntityNamed:predicateString:" , "Feedback", %@), $manager.sourceContext, NO)"#, argumentArray: [predicate.description])
     return mapping
   }
 
@@ -670,70 +677,3 @@ extension V3 {
   }
 }
 
-// More on migrations:
-// https://stackoverflow.com/questions/11190385/custom-nsentitymigrationpolicy-relation
-// https://horseshoe7.wordpress.com/2017/09/13/manual-core-data-migrations-lessons-learned/
-
-@objc(BookCoverToCoverMigrationPolicy)
-class BookCoverToCoverMigrationPolicy: NSEntityMigrationPolicy {
-  override func createDestinationInstances(forSource sInstance: NSManagedObject, in mapping: NSEntityMapping, manager: NSMigrationManager) throws {
-    // This method is invoked by the migration manager on each source instance (as specified by the sourceExpression in the mapping)
-    // to create the corresponding destination instance(s).
-    // It also associates the source and destination instances by calling NSMigrationManager’s associate(sourceInstance:withDestinationInstance:for:) method.
-    try super.createDestinationInstances(forSource: sInstance, in: mapping, manager: manager)
-
-    // If we don't call the super implementation we need to do the association programmatically like so:
-    // Note: since you already have a destinationInstance, you won't need to call anymore manager.destinationInstances(forEntityMappingName:sourceInstances:)
-//    let destinationInstance = NSEntityDescription.insertNewObject(forEntityName: mapping.destinationEntityName!, into: manager.destinationContext)
-//    let destinationInstanceKeys = destinationInstance.entity.attributesByName.keys // relationship keys aren't defined here (which is fine)
-//    destinationInstanceKeys.forEach { (key) in
-//      if let value = sInstance.value(forKey: key) {
-//        if let nsobject = value as? NSObject, nsobject.isEqual(NSNull()) {
-//          return
-//        }
-//        destinationInstance.setValue(value, forKey: key)
-//      }
-//    }
-//    manager.associate(sourceInstance: sInstance, withDestinationInstance: destinationInstance, for: mapping)
-
-
-    // This is how we can use the NSEntityMapping userInfo to pass additional data to the policy.
-    // This way we can, for instance, re-use the same policy for different migrations and change its loginc
-    // depending on the data passed in the userInfo dictionary.
-    guard let version = mapping.userInfo?["modelVersion"] as? String, version == "V3" else {
-      fatalError("Missing model version .")
-    }
-
-    guard let frontCover = sInstance.value(forKey: #keyPath(BookV2.frontCover)) as? Cover else {
-      return
-    }
-
-    guard let book = manager.destinationInstances(forEntityMappingName: mapping.name, sourceInstances: [sInstance]).first else {
-      fatalError("must return book")
-    }
-
-    guard let context = book.managedObjectContext else {
-      fatalError("must have context")
-    }
-
-    // ⚠️
-//    let sBooks = sInstance.value(forKey: "pages") as? Set<NSManagedObject> ?? Set()
-//    let dBooks = manager.destinationInstances(forEntityMappingName: "PageToPage", sourceInstances: Array(sBooks))
-//    book.setValue(Set(dBooks), forKey: "pages")
-
-    let cover = NSEntityDescription.insertNewObject(forEntityName: "Cover", into: context)
-    cover.setValue(frontCover.text.data(using: .utf8), forKey: #keyPath(CoverV3.data))
-    cover.setValue(book, forKey: #keyPath(CoverV3.book))
-  }
-
-  override func createRelationships(forDestination dInstance: NSManagedObject, in mapping: NSEntityMapping, manager: NSMigrationManager) throws {
-    // In a properly designed data model, this method will rarely, if ever, be needed.
-    // The intention of this method (which is called in the second pass) is to build any relationships for the new destination entity
-    // that was created in the previous method. However, if all the relationships in the model are double-sided, this method is not necessary
-    // because we already set up one side of them.
-  }
-
-//  override func performCustomValidation(forMapping mapping: NSEntityMapping, manager: NSMigrationManager) throws {
-//    try super.performCustomValidation(forMapping: mapping, manager: manager)
-//  }
-}

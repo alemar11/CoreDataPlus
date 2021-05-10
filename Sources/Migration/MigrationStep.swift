@@ -3,9 +3,9 @@
 import CoreData
 
 public final class MigrationStep<Version: ModelVersion> {
-  public let sourceVersion: Version.RawValue
+  public let sourceVersion: Version
   public let sourceModel: NSManagedObjectModel
-  public let destinationVersion: Version.RawValue
+  public let destinationVersion: Version
   public let destinationModel: NSManagedObjectModel
   public let mappingModels: [NSMappingModel]
 
@@ -13,9 +13,9 @@ public final class MigrationStep<Version: ModelVersion> {
     guard let mappingModels = sourceVersion.mappingModelsToNextModelVersion() else {
       return nil
     }
-    self.sourceVersion = sourceVersion.rawValue
+    self.sourceVersion = sourceVersion
     self.sourceModel = sourceVersion.managedObjectModel()
-    self.destinationVersion = sourceVersion.rawValue
+    self.destinationVersion = destinationVersion
     self.destinationModel = destinationVersion.managedObjectModel()
     self.mappingModels = mappingModels
   }
