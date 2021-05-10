@@ -34,7 +34,7 @@ import CoreData
 import os.log
 
 /// Handles a multi step migration for SQLite store.
-open class Migrator<Version: ModelVersion>: NSObject, ProgressReporting {
+final class Migrator<Version: ModelVersion>: NSObject, ProgressReporting {
   /// Multi step migration progress.
   public private(set) lazy var progress: Progress = {
     // We don't need to manage any cancellations here:
@@ -78,7 +78,12 @@ open class Migrator<Version: ModelVersion>: NSObject, ProgressReporting {
   }
 
   /// Migrates the store to a given `Version`, performing a WAL checkpoint if opted in.
-  public final func migrate(to targetVersion: Version, enableWALCheckpoint: Bool = false) throws {
+  /// - Parameters:
+  ///   - targetVersion: The final `Version`.
+  ///   - enableWALCheckpoint: Wheter or not a WAL checkpoint needs to be done.
+  ///   - managerProvider: Closure to provide a custom `NSMigrationManager` instance.
+  /// - Throws: It throws an error if the migration fails.
+  public func migrate(to targetVersion: Version, enableWALCheckpoint: Bool = false, managerProvider: ((Metadata) -> NSMigrationManager)? = nil) throws {
     guard let sourceURL = sourceStoreDescription.url else { fatalError("Source NSPersistentStoreDescription requires a URL.") }
     guard let destinationURL = destinationStoreDescription.url else { fatalError("Destination NSPersistentStoreDescription requires a URL.") }
 
@@ -87,17 +92,8 @@ open class Migrator<Version: ModelVersion>: NSObject, ProgressReporting {
                      to: destinationURL,
                      destinationOptions: destinationStoreDescription.options,
                      targetVersion: targetVersion,
-                     enableWALCheckpoint: enableWALCheckpoint)
-  }
-
-  /// The default implementation returns a unique `NSMigrationManager` instance for every migration step.
-  /// To provide different `NSMigrationManager` implementations, override this method.
-  open func migrationManager(sourceVersion: Version.RawValue,
-                             sourceModel: NSManagedObjectModel,
-                             destinationVersion: Version.RawValue,
-                             destinationModel: NSManagedObjectModel,
-                             mappingModel: NSMappingModel) -> NSMigrationManager {
-    NSMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
+                     enableWALCheckpoint: enableWALCheckpoint,
+                     managerProvider: managerProvider)
   }
 }
 
@@ -108,7 +104,8 @@ extension Migrator {
                                 to destinationURL: URL,
                                 destinationOptions: PersistentStoreOptions? = nil,
                                 targetVersion: Version,
-                                enableWALCheckpoint: Bool = false) throws {
+                                enableWALCheckpoint: Bool = false,
+                                managerProvider: ((Metadata) -> NSMigrationManager)? = nil) throws {
     os_log(.default, log: log, "Migrator has started, initial store at: %{public}@.", sourceURL as CVarArg)
     let start = DispatchTime.now()
     guard let sourceVersion = try Version(persistentStoreURL: sourceURL) else {
@@ -146,13 +143,14 @@ extension Migrator {
         for (mappingModelIndex, mappingModel) in step.mappingModels.enumerated() {
           os_log(.default, log: log, "Starting migration for mapping model %d.", mappingModelIndex + 1)
           os_log(.debug, log: log, "The store at: %{public}@ will be migrated in a temporary store at: %{public}@.", currentURL as CVarArg, temporaryURL as CVarArg)
-          let manager = migrationManager(sourceVersion: step.sourceVersion,
-                                         sourceModel: step.sourceModel,
-                                         destinationVersion: step.destinationVersion,
-                                         destinationModel: step.destinationModel,
-                                         mappingModel: mappingModel)
+          let metadata = Metadata(sourceVersion: step.sourceVersion,
+                                  sourceModel: step.sourceModel,
+                                  destinationVersion: step.destinationVersion,
+                                  destinationModel: step.destinationModel,
+                                  mappingModel: mappingModel)
+          let manager = managerProvider?(metadata) ?? NSMigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
           mappingModelMigrationProgress.becomeCurrent(withPendingUnitCount: 1)
-          // a reporter instance handles parent progress cancellations automatically
+          // a progress reporter handles a parent progress cancellations automatically
           let progressReporter = manager.makeProgressReporter()
           mappingModelMigrationProgress.resignCurrent()
           let start = DispatchTime.now()
@@ -233,6 +231,29 @@ private func performWALCheckpointForStore(at storeURL: URL, storeOptions: Persis
 
   let store = try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
   try persistentStoreCoordinator.remove(store)
+}
+
+extension Migrator {
+  /// Metadata about a single migration phase.
+  public struct Metadata {
+    let sourceVersion: Version
+    let sourceModel: NSManagedObjectModel
+    let destinationVersion: Version
+    let destinationModel: NSManagedObjectModel
+    let mappingModel: NSMappingModel
+    
+    fileprivate init(sourceVersion: Version,
+                     sourceModel: NSManagedObjectModel,
+                     destinationVersion: Version,
+                     destinationModel: NSManagedObjectModel,
+                     mappingModel: NSMappingModel) {
+      self.sourceVersion = sourceVersion
+      self.sourceModel = sourceModel
+      self.destinationVersion = destinationVersion
+      self.destinationModel = destinationModel
+      self.mappingModel = mappingModel
+    }
+  }
 }
 
 // About NSPersistentStoreRemoteChangeNotificationPostOptionKey and migrations

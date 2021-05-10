@@ -140,7 +140,7 @@ final class MigrationsTests: BaseTestCase {
     token.invalidate()
   }
 
-  func testMigrationFromV1ToV2UsingCustomMigrator() throws {
+  func testMigrationFromV1ToV2UsingCustomMigratorProvider() throws {
     let sourceURL = try createSQLiteSampleForV1()
 
     let targetVersion = SampleModelVersion.version2
@@ -153,7 +153,7 @@ final class MigrationsTests: BaseTestCase {
     let sourceDescription = NSPersistentStoreDescription(url: sourceURL)
     let destinationDescription = NSPersistentStoreDescription(url: sourceURL)
 
-    let migrator = CustomMigrator(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
+    let migrator = Migrator<SampleModelVersion>(sourceStoreDescription: sourceDescription, destinationStoreDescription: destinationDescription)
 
     // When
     var completion = 0.0
@@ -161,7 +161,13 @@ final class MigrationsTests: BaseTestCase {
       completion = progress.fractionCompleted
     }
 
-    try migrator.migrate(to: targetVersion, enableWALCheckpoint: true)
+    try migrator.migrate(to: targetVersion, enableWALCheckpoint: true) { metadata in
+      XCTAssertTrue(metadata.mappingModel.isInferred)
+      let manager = LightweightMigrationManager(sourceModel: metadata.sourceModel, destinationModel: metadata.destinationModel)
+      manager.updateProgressInterval = 0.001 // we need to set a very low refresh interval to get some fake progress updates
+      manager.estimatedTime = 0.1
+      return manager
+    }
 
     let migratedContext = NSManagedObjectContext(model: targetVersion.managedObjectModel(), storeURL: sourceURL)
     let luxuryCars = try LuxuryCar.fetch(in: migratedContext)
@@ -313,18 +319,6 @@ final class MigrationsTests: BaseTestCase {
     XCTAssertTrue(child.isCancelled)
     XCTAssertTrue(grandChild.isCancelled)
     wait(for: [expectationChildCancelled, expectationGrandChildCancelled], timeout: 2)
-  }
-}
-
-extension MigrationsTests {
-  class CustomMigrator: Migrator<SampleModelVersion> {
-    override func migrationManager(sourceVersion: String, sourceModel: NSManagedObjectModel, destinationVersion: String, destinationModel: NSManagedObjectModel, mappingModel: NSMappingModel) -> NSMigrationManager {
-      XCTAssertTrue(mappingModel.isInferred)
-      let manager = LightweightMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
-      manager.updateProgressInterval = 0.001 // we need to set a very low refresh interval to get some fake progress updates
-      manager.estimatedTime = 0.1
-      return manager
-    }
   }
 }
 
