@@ -952,3 +952,103 @@ final class NotificationPayloadOnDiskTests: OnDiskTestCase {
     cancellables.forEach { $0.cancel() }
   }
 }
+
+@available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+final class NotificationPayloadTests__: XCTestCase {
+  func testNotificationsForStores() throws {
+    let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
+    
+    var cancellables = [AnyCancellable]()
+    NotificationCenter.default.publisher(for: .NSPersistentStoreCoordinatorStoresWillChange, object: nil)
+      .sink { notification in
+        print("⚠️")
+    }.store(in: &cancellables)
+    
+    NotificationCenter.default.publisher(for: .NSPersistentStoreCoordinatorStoresDidChange, object: nil)
+      .sink { notification in
+        print("❌ added", notification.userInfo?[NSAddedPersistentStoresKey] as? [NSPersistentStore] ?? [])
+        print("❌ removed",notification.userInfo?[NSRemovedPersistentStoresKey] as? [NSPersistentStore] ?? [])
+        //print("❌ changed",notification.userInfo?[NSUUIDChangedPersistentStoresKey])
+        if let data = notification.userInfo?[NSUUIDChangedPersistentStoresKey] {
+          print("---", notification.userInfo?[NSRemovedPersistentStoresKey])
+          print("---", data)
+          let array = data as! NSArray
+          print("❌ changed",array)
+          
+          // The object at index 0 is the old store instance,
+          // and the object at index 1 the new.
+          // When migration happens, the array contains a third object (at index 2) that is an array containing the new objectIDs for all the migrated objects.
+          
+          if let stores = data as? NSArray {
+            let oldStore = stores[0] as? NSPersistentStore
+            let newStore = stores[1] as? NSPersistentStore
+            let migratedIds = stores[2] as? [NSManagedObjectID]
+            
+            print("🔸old:", oldStore, "\n🔸new:", newStore, "\n🔸migrated:", migratedIds)
+            
+            print("\n\n----------")
+            for i in migratedIds! {
+              print(i)
+            }
+            print("----------\n\n")
+          }
+        }
+        
+    }.store(in: &cancellables)
+    
+    NotificationCenter.default.publisher(for: .NSPersistentStoreCoordinatorWillRemoveStore, object: nil)
+      .sink { notification in
+        print("✅", notification.object)
+    }.store(in: &cancellables)
+    
+    let storeURL = URL.newDatabaseURL(withID: UUID())
+    try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
+    
+    let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+    context.persistentStoreCoordinator = psc
+    let person1 = Person(context: context)
+    person1.firstName = "Edythe"
+    person1.lastName = "Moreton"
+    
+    let person2 = Person(context: context)
+    person2.firstName = "Alessandro"
+    person2.lastName = "Marzoli"
+    try context.save()
+    context.reset()
+    
+    // trigger a change
+    try psc.persistentStores.forEach {
+      try psc.migratePersistentStore($0, to: URL.newDatabaseURL(withID: UUID()), options: nil, withType: NSSQLiteStoreType)
+    }
+   
+    let people = try Person.fetch(in: context) { $0.sortDescriptors = [NSSortDescriptor(key: #keyPath(Person.firstName), ascending: false)] }
+    
+
+    try psc.persistentStores.forEach {
+      try psc.remove($0)
+    }
+    
+//    let storeURL2 = URL.newDatabaseURL(withID: UUID())
+//    try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL2, options: nil)
+  }
+}
+
+/*
+ObjectIDs after save in the old store
+
+0xc4549980eaebab6a <x-coredata://1996EEB5-8536-4968-8725-FBC0D06A3F72/Person/p1> // A
+0xc4549980eae7ab6a <x-coredata://1996EEB5-8536-4968-8725-FBC0D06A3F72/Person/p2> // B
+
+ObjectIDs returned as third element by the NSPersistentStoreCoordinatorStoresDidChange
+It contains both the old and new ObjectIds in sequence.
+ 
+0xc4549980eaebab6a <x-coredata://1996EEB5-8536-4968-8725-FBC0D06A3F72/Person/p1> // A
+0xc4549980eae7ab6e <x-coredata://0E12C804-B3CA-4CC3-9CD0-A98A473C3C3C/Person/p2> // A1
+0xc4549980eae7ab6a <x-coredata://1996EEB5-8536-4968-8725-FBC0D06A3F72/Person/p2> // B
+0xc4549980eaebab6e <x-coredata://0E12C804-B3CA-4CC3-9CD0-A98A473C3C3C/Person/p1> // B1
+
+ObjectIDs after fetch with the new store
+ 
+0xc4549980eae7ab6e <x-coredata://0E12C804-B3CA-4CC3-9CD0-A98A473C3C3C/Person/p2> // A1
+0xc4549980eaebab6e <x-coredata://0E12C804-B3CA-4CC3-9CD0-A98A473C3C3C/Person/p1> // B1
+*/

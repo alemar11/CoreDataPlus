@@ -123,6 +123,10 @@
 		06B71CB92629DB04008DFD11 /* PersistentStoreOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B71CB72629DB04008DFD11 /* PersistentStoreOptions.swift */; };
 		06B71CBA2629DB05008DFD11 /* PersistentStoreOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B71CB72629DB04008DFD11 /* PersistentStoreOptions.swift */; };
 		06B71CBB2629DB05008DFD11 /* PersistentStoreOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B71CB72629DB04008DFD11 /* PersistentStoreOptions.swift */; };
+		06E06360264942A4009145B6 /* PSC+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E0635F264942A4009145B6 /* PSC+Notifications.swift */; };
+		06E06361264942A4009145B6 /* PSC+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E0635F264942A4009145B6 /* PSC+Notifications.swift */; };
+		06E06362264942A4009145B6 /* PSC+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E0635F264942A4009145B6 /* PSC+Notifications.swift */; };
+		06E06363264942A4009145B6 /* PSC+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E0635F264942A4009145B6 /* PSC+Notifications.swift */; };
 		230C087C21417E1900A1B6CB /* MigrationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230C087B21417E1900A1B6CB /* MigrationsTests.swift */; };
 		230C087D21417E1900A1B6CB /* MigrationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230C087B21417E1900A1B6CB /* MigrationsTests.swift */; };
 		230C087E21417E1900A1B6CB /* MigrationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230C087B21417E1900A1B6CB /* MigrationsTests.swift */; };
@@ -413,6 +417,7 @@
 		06A6CE25261E0961000563F0 /* SampleModelV1.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleModelV1.sqlite; sourceTree = "<group>"; };
 		06B71C732629CB4F008DFD11 /* ProgrammaticallyDefinedModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammaticallyDefinedModelTests.swift; sourceTree = "<group>"; };
 		06B71CB72629DB04008DFD11 /* PersistentStoreOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStoreOptions.swift; sourceTree = "<group>"; };
+		06E0635F264942A4009145B6 /* PSC+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PSC+Notifications.swift"; sourceTree = "<group>"; };
 		230C087A214179D400A1B6CB /* SampleModel2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel2.xcdatamodel; sourceTree = "<group>"; };
 		230C087B21417E1900A1B6CB /* MigrationsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationsTests.swift; sourceTree = "<group>"; };
 		231C313E22F5E3BB00BF7129 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
@@ -752,6 +757,7 @@
 			children = (
 				D2011A062614E3D9001902FB /* Notification+Payloads.swift */,
 				D2011A072614E3D9001902FB /* Notification+Utils.swift */,
+				06E0635F264942A4009145B6 /* PSC+Notifications.swift */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -1253,6 +1259,7 @@
 				06A6CDA1261DE0E7000563F0 /* Transformer.swift in Sources */,
 				D2011A422614E3D9001902FB /* NSManagedObject+Utils.swift in Sources */,
 				D214B9AB263BFA22000BBD13 /* Migrator.swift in Sources */,
+				06E06361264942A4009145B6 /* PSC+Notifications.swift in Sources */,
 				D2011A5E2614E3D9001902FB /* NSFetchRequest+Utils.swift in Sources */,
 				D2011A362614E3D9001902FB /* NSManagedObjectContext+History.swift in Sources */,
 				D2011A5A2614E3D9001902FB /* Notification+Utils.swift in Sources */,
@@ -1288,6 +1295,7 @@
 				06A6CDA2261DE0E7000563F0 /* Transformer.swift in Sources */,
 				D2011A432614E3D9001902FB /* NSManagedObject+Utils.swift in Sources */,
 				D214B9AC263BFA22000BBD13 /* Migrator.swift in Sources */,
+				06E06362264942A4009145B6 /* PSC+Notifications.swift in Sources */,
 				D2011A5F2614E3D9001902FB /* NSFetchRequest+Utils.swift in Sources */,
 				D2011A372614E3D9001902FB /* NSManagedObjectContext+History.swift in Sources */,
 				D2011A5B2614E3D9001902FB /* Notification+Utils.swift in Sources */,
@@ -1323,6 +1331,7 @@
 				06A6CDA3261DE0E7000563F0 /* Transformer.swift in Sources */,
 				D2011A442614E3D9001902FB /* NSManagedObject+Utils.swift in Sources */,
 				D214B9AD263BFA22000BBD13 /* Migrator.swift in Sources */,
+				06E06363264942A4009145B6 /* PSC+Notifications.swift in Sources */,
 				D2011A602614E3D9001902FB /* NSFetchRequest+Utils.swift in Sources */,
 				D2011A382614E3D9001902FB /* NSManagedObjectContext+History.swift in Sources */,
 				D2011A5C2614E3D9001902FB /* Notification+Utils.swift in Sources */,
@@ -1358,6 +1367,7 @@
 				06A6CDA0261DE0E7000563F0 /* Transformer.swift in Sources */,
 				D2011A412614E3D9001902FB /* NSManagedObject+Utils.swift in Sources */,
 				D214B9AA263BFA22000BBD13 /* Migrator.swift in Sources */,
+				06E06360264942A4009145B6 /* PSC+Notifications.swift in Sources */,
 				D2011A5D2614E3D9001902FB /* NSFetchRequest+Utils.swift in Sources */,
 				D2011A352614E3D9001902FB /* NSManagedObjectContext+History.swift in Sources */,
 				D2011A592614E3D9001902FB /* Notification+Utils.swift in Sources */,
