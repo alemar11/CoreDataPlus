@@ -332,6 +332,14 @@ public struct PersistentStoreRemoteChange {
     }
     return url
   }
+  
+  /// The store UUID.
+  public var storeUUID: UUID {
+    guard let uuid = notification.userInfo?[NSStoreUUIDKey] as? String else {
+      fatalError("NSPersistentStoreRemoteChange always contains the NSPersistentStore UUID.")
+    }
+    return UUID(uuidString: uuid)!
+  }
 
   public init(notification: Notification) {
     assert(notification.name == Self.notificationName)

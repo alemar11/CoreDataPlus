@@ -863,6 +863,10 @@ final class NotificationPayloadTests: InMemoryTestCase {
       .map { PersistentStoreRemoteChange(notification: $0) }
       .sink { payload in
         XCTAssertNotNil(payload.historyToken)
+        XCTAssertNotNil(payload.storeUUID)
+        let uuidString = container1.persistentStoreCoordinator.persistentStores.first?.metadata[NSStoreUUIDKey] as? String
+        XCTAssertNotNil(uuidString)
+        XCTAssertEqual(uuidString!, payload.storeUUID.uuidString)
         XCTAssertEqual(payload.storeURL, container1.persistentStoreCoordinator.persistentStores.first?.url)
         expectation1.fulfill()
       }
@@ -872,6 +876,10 @@ final class NotificationPayloadTests: InMemoryTestCase {
       .map { PersistentStoreRemoteChange(notification: $0) }
       .sink { payload in
         XCTAssertNotNil(payload.historyToken)
+        XCTAssertNotNil(payload.storeUUID)
+        let uuidString = container2.persistentStoreCoordinator.persistentStores.first?.metadata[NSStoreUUIDKey] as? String
+        XCTAssertNotNil(uuidString)
+        XCTAssertEqual(uuidString!, payload.storeUUID.uuidString)
         XCTAssertEqual(payload.storeURL, container2.persistentStoreCoordinator.persistentStores.first?.url)
         expectation2.fulfill()
       }
