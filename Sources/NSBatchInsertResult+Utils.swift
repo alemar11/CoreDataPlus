@@ -28,7 +28,7 @@ extension NSBatchInsertResult {
     }
   }
 
-  /// Returns the number of inserted objcts.
+  /// Returns the number of inserted objects.
   /// - Note: Make sure the resultType of the `NSBatchInsertResult` is set to `NSBatchInsertRequestResultType.count` before the request is executed otherwise the value is nil.
   public var count: Int? {
     switch resultType {
