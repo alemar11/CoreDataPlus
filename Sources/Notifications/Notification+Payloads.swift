@@ -369,16 +369,16 @@ public struct PersistentStoreCoordinatorStoresWillChange {
   public var removedStores: [NSPersistentStore] {
     notification.userInfo?[NSRemovedPersistentStoresKey] as? [NSPersistentStore] ?? []
   }
-  
-  public var ubiquitousTransitionType: NSPersistentStoreUbiquitousTransitionType {
-    guard
-      let typeValue = notification.userInfo?[NSPersistentStoreUbiquitousTransitionTypeKey] as? UInt,
-      let type = NSPersistentStoreUbiquitousTransitionType.init(rawValue: typeValue)
-    else {
-      fatalError("A Notification.Name.NSPersistentStoreCoordinatorStoresWillChange must have a NSPersistentStoreUbiquitousTransitionType value.")
-    }
-    return type
-  }
+
+//  public var ubiquitousTransitionType: NSPersistentStoreUbiquitousTransitionType {
+//    guard
+//      let typeValue = notification.userInfo?[NSPersistentStoreUbiquitousTransitionTypeKey] as? UInt,
+//      let type = NSPersistentStoreUbiquitousTransitionType.init(rawValue: typeValue)
+//    else {
+//      fatalError("A Notification.Name.NSPersistentStoreCoordinatorStoresWillChange must have a NSPersistentStoreUbiquitousTransitionType value.")
+//    }
+//    return type
+//  }
   
   public init(notification: Notification) {
     assert(notification.name == Self.notificationName)
