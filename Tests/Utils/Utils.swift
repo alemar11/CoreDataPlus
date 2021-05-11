@@ -88,8 +88,6 @@ extension NSManagedObjectContext {
   func _fix_sqlite_warning_when_destroying_a_store() {
     /// If SQLITE_ENABLE_FILE_ASSERTIONS is set to 1 tests crash without this fix.
     /// solve the warning: "BUG IN CLIENT OF libsqlite3.dylib: database integrity compromised by API violation: vnode unlinked while in use..."
-    for store in persistentStoreCoordinator!.persistentStores {
-      try! persistentStoreCoordinator?.remove(store)
-    }
+    try! persistentStoreCoordinator!.removeAllStores()
   }
 }
