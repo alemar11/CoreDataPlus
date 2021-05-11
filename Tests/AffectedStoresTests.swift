@@ -80,29 +80,27 @@ final class AffectedStoresTests: XCTestCase {
     context.reset()
     let predicate2 = NSPredicate(format: "%K == %@", #keyPath(Feedback.authorAlias), "Andrea")
     var isNewUniqueInPart1 = false
-    let _ = try FeedbackV2.findUniqueOrCreate(in: context, where: predicate2, affectedStore: part1) { feedback in
+    let objPart1 = try FeedbackV2.findUniqueOrCreate(in: context, where: predicate2, affectedStore: part1) { feedback in
       feedback.authorAlias = "Andrea"
       feedback.bookID = sharedUUID
       feedback.comment = "ok"
       feedback.rating = 3.5
-      isNewUniqueInPart1 = true
     }
-    XCTAssertTrue(isNewUniqueInPart1)
+    XCTAssertTrue(objPart1.objectID.isTemporaryID)
     try context.save()
     
-    let _ = try FeedbackV2.findUniqueOrCreate(in: context, where: predicate2, affectedStore: part1) { feedback in
+    let obj2Part1 = try FeedbackV2.findUniqueOrCreate(in: context, where: predicate2, affectedStore: part1) { feedback in
       XCTFail("There should be another object matching this predicate.")
     }
+    XCTAssertFalse(obj2Part1.objectID.isTemporaryID)
     
-    var isNewUniqueInPart2 = false
-    let _ = try FeedbackV2.findUniqueOrCreate(in: context, where: predicate2, affectedStore: part2) { feedback in
+    let objPart2 = try FeedbackV2.findUniqueOrCreate(in: context, where: predicate2, affectedStore: part2) { feedback in
       feedback.authorAlias = "Andrea"
       feedback.bookID = sharedUUID
       feedback.comment = "ok"
       feedback.rating = 3.5
-      isNewUniqueInPart2 = true
     }
-    XCTAssertTrue(isNewUniqueInPart2)
+    XCTAssertTrue(objPart2.objectID.isTemporaryID)
     try context.save()
     XCTAssertEqual(try FeedbackV2.count(in: context){ $0.predicate = predicate2 }, 2)
     

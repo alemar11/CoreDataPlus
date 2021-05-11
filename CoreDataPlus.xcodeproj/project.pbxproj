@@ -700,6 +700,7 @@
 		23B580861F94FF0E00A365C0 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				06E06365264ABC0D009145B6 /* AffectedStoresTests.swift */,
 				23D1056A20D7EFEF00AE84CC /* FetchedResultsChangesTests.swift */,
 				230C087B21417E1900A1B6CB /* MigrationsTests.swift */,
 				236351041F95F28B00B3A16A /* ModelVersionTests.swift */,
@@ -723,7 +724,6 @@
 				D2708842255EF13600309E7A /* Resources */,
 				06A4584D239FD20C007BA7C9 /* TestPlans */,
 				2325898122F34FDD00E39FEA /* Utils */,
-				06E06365264ABC0D009145B6 /* AffectedStoresTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
