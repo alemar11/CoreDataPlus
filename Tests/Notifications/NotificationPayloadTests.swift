@@ -1086,5 +1086,9 @@ final class NotificationPayloadOnDiskTests: OnDiskTestCase {
     try psc.persistentStores.forEach {
       try psc.remove($0)
     }
+    
+    context._fix_sqlite_warning_when_destroying_a_store()
+    try FileManager.default.removeItem(at: initialStoreURL)
+    try FileManager.default.removeItem(at: finalStoreURL)
   }
 }
