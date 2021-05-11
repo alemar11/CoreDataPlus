@@ -97,9 +97,10 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - context: Searched context.
   ///   - includingSubentities: A Boolean value that indicates whether the fetch request includes subentities in the results.
   ///   - predicate: Matching predicate.
+  ///   - affectedStores: An array of persistent stores specified for the fetch request.
   /// - Returns: A list of `NSManagedObjectID`.
   /// - Throws: It throws an error in cases of failure.
-  public static func fetchObjectIDs(in context: NSManagedObjectContext, includingSubentities: Bool = true, where predicate: NSPredicate) throws -> [NSManagedObjectID] {
+  public static func fetchObjectIDs(in context: NSManagedObjectContext, includingSubentities: Bool = true, where predicate: NSPredicate, affectedStores: [NSPersistentStore]? = nil) throws -> [NSManagedObjectID] {
     let request = NSFetchRequest<NSManagedObjectID>(entityName: entityName)
     // If includesPropertyValues is false, then Core Data fetches only the object ID information for the matching records—it does not populate the row cache.
     //
@@ -115,6 +116,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     request.resultType = .managedObjectIDResultType
     request.includesSubentities = includingSubentities
     request.predicate = predicate
+    request.affectedStores = affectedStores
 
     return try context.fetch(request)
   }
