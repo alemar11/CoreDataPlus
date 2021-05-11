@@ -130,13 +130,15 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - context: Searched context.
   ///   - predicate: Matching predicate.
   ///   - includesPendingChanges: A Boolean value that indicates whether, when the fetch is executed, it matches against currently unsaved changes in the managed object context.
+  ///   - affectedStores: An array of persistent stores specified for the fetch request.
   /// - Throws: It throws an error in cases of failure.
   /// - Returns: A **materialized** object matching the predicate.
-  public static func fetchOne(in context: NSManagedObjectContext, where predicate: NSPredicate, includesPendingChanges: Bool = true) throws -> Self? {
+  public static func fetchOne(in context: NSManagedObjectContext, where predicate: NSPredicate, includesPendingChanges: Bool = true, affectedStores: [NSPersistentStore]? = nil) throws -> Self? {
     return try fetch(in: context) { request in
       request.predicate = predicate
       request.returnsObjectsAsFaults = false
       request.includesPendingChanges = includesPendingChanges
+      request.affectedStores = affectedStores
       request.fetchLimit = 1
     }.first
   }
@@ -190,14 +192,19 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Parameters:
   ///   - context: Searched context.
   ///   - predicate: Matching predicate.
+  ///   - affectedStore: A persistent store used for the fetch request or in which the newly inserted object will be saved.
   ///   - configuration: Configuration closure called **only** when creating a new object.
   /// - Returns: A matching object or a configured new one.
   /// - Throws: It throws an error in cases of failure.
-  public static func findUniqueOrCreate(in context: NSManagedObjectContext, where predicate: NSPredicate, with configuration: (Self) -> Void) throws -> Self {
-    let uniqueObject = try fetchUnique(in: context, where: predicate)
+  public static func findUniqueOrCreate(in context: NSManagedObjectContext, where predicate: NSPredicate, affectedStore: NSPersistentStore? = nil, with configuration: (Self) -> Void) throws -> Self {
+    let stores = affectedStore.map { [$0] }
+    let uniqueObject = try fetchUnique(in: context, where: predicate, affectedStores: stores)
     guard let object = uniqueObject else {
       let newObject = Self(context: context)
       configuration(newObject)
+      if let store = affectedStore {
+        context.assign(newObject, to: store)
+      }
       return newObject
     }
 
@@ -211,11 +218,13 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Parameters:
   ///   - context: Searched context
   ///   - predicate: Matching predicate.
+  ///   - affectedStores: An array of persistent stores specified for the fetch request.
   /// - Returns: An unique object matching the given configuration (if any).
-  public static func fetchUnique(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? {
+  public static func fetchUnique(in context: NSManagedObjectContext, where predicate: NSPredicate, affectedStores: [NSPersistentStore]? = nil) throws -> Self? {
     let result = try fetch(in: context) { request in
       request.predicate = predicate
       request.includesPendingChanges = true // default, uniqueness should be guaranteed
+      request.affectedStores = affectedStores
       request.fetchLimit = 2
     }
 
@@ -237,12 +246,13 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// If `includingSubentities` is set to `false`, sub-entities will be ignored.
   /// - Note: `NSBatchDeleteRequest` would be more efficient but requires a context with an `NSPersistentStoreCoordinator` directly connected (no child context).
   /// - Throws: It throws an error in cases of failure.
-  public static func delete(in context: NSManagedObjectContext, includingSubentities: Bool = true, where predicate: NSPredicate = NSPredicate(value: true), limit: Int? = nil) throws {
+  public static func delete(in context: NSManagedObjectContext, includingSubentities: Bool = true, where predicate: NSPredicate = NSPredicate(value: true), limit: Int? = nil, affectedStores: [NSPersistentStore]? = nil) throws {
     try autoreleasepool {
       try fetch(in: context) { request in
         request.includesPropertyValues = false
         request.includesSubentities = includingSubentities
         request.predicate = predicate
+        request.affectedStores = affectedStores // TODO add params in the documentation
         if let limit = limit {
           // there could be a very large data set, the delete operation could last an unbounded amount time
           request.fetchLimit = limit
@@ -256,11 +266,12 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Parameters:
   ///   - context: The `NSManagedObjectContext` to remove the Entities from.
   ///   - objects: An Array of `NSManagedObjects` belonging to the `NSManagedObjectContext` to exclude from deletion.
+  ///   - affectedStores: An array of persistent stores specified for the fetch request.
   /// - Throws: It throws an error in cases of failure.
   /// - Note: `NSBatchDeleteRequest` would be more efficient but requires a context with an `NSPersistentStoreCoordinator` directly connected (no child context).
-  public static func delete(in context: NSManagedObjectContext, except objects: [Self]) throws {
+  public static func delete(in context: NSManagedObjectContext, except objects: [Self], affectedStores: [NSPersistentStore]? = nil) throws {
     let predicate = NSPredicate(format: "NOT (self IN %@)", objects)
-    try delete(in: context, includingSubentities: true, where: predicate )
+    try delete(in: context, includingSubentities: true, where: predicate, affectedStores: affectedStores)
   }
 
   // MARK: - Count
