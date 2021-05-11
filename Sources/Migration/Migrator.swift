@@ -29,6 +29,9 @@
 // Usually reusing the same NSMigrationManager for multiple mapping models works fine... until it doesn't!
 // (in particular if the model has entities with "particular" rules, i.e. relationships with min and max set with custom values).
 // In these cases, one of the migrations could fail (mostly due to validation errors) unless we use different NSMigrationManager instance.
+//
+// In a subclass of NSPersistentStore, you can override this to provide a custom migration manager subclass (for example, to take advantage of store-specific functionality to improve migration performance).
+// https://developer.apple.com/documentation/coredata/nspersistentstore/1506361-migrationmanagerclass
 
 import CoreData
 import os.log
