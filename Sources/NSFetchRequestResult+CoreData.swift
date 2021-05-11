@@ -248,6 +248,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// If objects have not yet been saved to a persistent store, they are simply removed from the context.
   /// If the dataset to delete is very large, use the `limit` value to decide the number of objects to be deleted otherwise the operation could last an unbounded amount time.
   /// If `includingSubentities` is set to `false`, sub-entities will be ignored.
+  /// The delete request can be executed only to certain stores if `affectedStores` is not nil.
   /// - Note: `NSBatchDeleteRequest` would be more efficient but requires a context with an `NSPersistentStoreCoordinator` directly connected (no child context).
   /// - Throws: It throws an error in cases of failure.
   public static func delete(in context: NSManagedObjectContext, includingSubentities: Bool = true, where predicate: NSPredicate = NSPredicate(value: true), limit: Int? = nil, affectedStores: [NSPersistentStore]? = nil) throws {
@@ -256,7 +257,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
         request.includesPropertyValues = false
         request.includesSubentities = includingSubentities
         request.predicate = predicate
-        request.affectedStores = affectedStores // TODO add params in the documentation
+        request.affectedStores = affectedStores
         if let limit = limit {
           // there could be a very large data set, the delete operation could last an unbounded amount time
           request.fetchLimit = limit
