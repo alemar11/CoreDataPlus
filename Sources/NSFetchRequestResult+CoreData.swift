@@ -192,17 +192,21 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Parameters:
   ///   - context: Searched context.
   ///   - predicate: Matching predicate.
-  ///   - affectedStore: A persistent store used for the fetch request or in which the newly inserted object will be saved.
+  ///   - affectedStores: An array of persistent stores specified for the fetch request.
+  ///   - assignedStore: A persistent store in which the newly inserted object will be saved.
   ///   - configuration: Configuration closure called **only** when creating a new object.
   /// - Returns: A matching object or a configured new one.
   /// - Throws: It throws an error in cases of failure.
-  public static func findUniqueOrCreate(in context: NSManagedObjectContext, where predicate: NSPredicate, affectedStore: NSPersistentStore? = nil, with configuration: (Self) -> Void) throws -> Self {
-    let stores = affectedStore.map { [$0] }
-    let uniqueObject = try fetchUnique(in: context, where: predicate, affectedStores: stores)
+  public static func findUniqueOrCreate(in context: NSManagedObjectContext,
+                                        where predicate: NSPredicate,
+                                        affectedStores: [NSPersistentStore]? = nil,
+                                        assignedStore: NSPersistentStore? = nil,
+                                        with configuration: (Self) -> Void) throws -> Self {
+    let uniqueObject = try fetchUnique(in: context, where: predicate, affectedStores: affectedStores)
     guard let object = uniqueObject else {
       let newObject = Self(context: context)
       configuration(newObject)
-      if let store = affectedStore {
+      if let store = assignedStore {
         context.assign(newObject, to: store)
       }
       return newObject

@@ -79,8 +79,7 @@ final class AffectedStoresTests: XCTestCase {
     // findUniqueOrCreate
     context.reset()
     let predicate2 = NSPredicate(format: "%K == %@", #keyPath(Feedback.authorAlias), "Andrea")
-    var isNewUniqueInPart1 = false
-    let objPart1 = try FeedbackV2.findUniqueOrCreate(in: context, where: predicate2, affectedStore: part1) { feedback in
+    let objPart1 = try FeedbackV2.findUniqueOrCreate(in: context, where: predicate2, affectedStores: [part1], assignedStore: part1) { feedback in
       feedback.authorAlias = "Andrea"
       feedback.bookID = sharedUUID
       feedback.comment = "ok"
@@ -89,12 +88,12 @@ final class AffectedStoresTests: XCTestCase {
     XCTAssertTrue(objPart1.objectID.isTemporaryID)
     try context.save()
     
-    let obj2Part1 = try FeedbackV2.findUniqueOrCreate(in: context, where: predicate2, affectedStore: part1) { feedback in
+    let obj2Part1 = try FeedbackV2.findUniqueOrCreate(in: context, where: predicate2, affectedStores: [part1]) { feedback in
       XCTFail("There should be another object matching this predicate.")
     }
     XCTAssertFalse(obj2Part1.objectID.isTemporaryID)
     
-    let objPart2 = try FeedbackV2.findUniqueOrCreate(in: context, where: predicate2, affectedStore: part2) { feedback in
+    let objPart2 = try FeedbackV2.findUniqueOrCreate(in: context, where: predicate2, affectedStores: [part2], assignedStore: part2) { feedback in
       feedback.authorAlias = "Andrea"
       feedback.bookID = sharedUUID
       feedback.comment = "ok"

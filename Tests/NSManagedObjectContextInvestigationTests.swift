@@ -213,10 +213,11 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
     car.refresh()
     XCTAssertEqual(car.maker, "FCA")
     context.stalenessInterval = -1 // default
+    // The default is a negative value, which represents infinite staleness allowed. 0.0 represents “no staleness acceptable”.
   }
 
   func testInvestigationShouldRefreshRefetchedObjectsIsStillBroken() throws {
-    // https://mjtsai.com/blog/2020/10/17/core-data-derived-attributes/
+    // https://mjtsai.com/blog/2019/10/17/
     // I've opened a feedback myself too: FB7419788
 
     // Given
