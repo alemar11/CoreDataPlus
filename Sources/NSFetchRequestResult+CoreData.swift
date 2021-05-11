@@ -100,7 +100,10 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - affectedStores: An array of persistent stores specified for the fetch request.
   /// - Returns: A list of `NSManagedObjectID`.
   /// - Throws: It throws an error in cases of failure.
-  public static func fetchObjectIDs(in context: NSManagedObjectContext, includingSubentities: Bool = true, where predicate: NSPredicate, affectedStores: [NSPersistentStore]? = nil) throws -> [NSManagedObjectID] {
+  public static func fetchObjectIDs(in context: NSManagedObjectContext,
+                                    includingSubentities: Bool = true,
+                                    where predicate: NSPredicate,
+                                    affectedStores: [NSPersistentStore]? = nil) throws -> [NSManagedObjectID] {
     let request = NSFetchRequest<NSManagedObjectID>(entityName: entityName)
     // If includesPropertyValues is false, then Core Data fetches only the object ID information for the matching records—it does not populate the row cache.
     //
@@ -251,7 +254,11 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// The delete request can be executed only to certain stores if `affectedStores` is not nil.
   /// - Note: `NSBatchDeleteRequest` would be more efficient but requires a context with an `NSPersistentStoreCoordinator` directly connected (no child context).
   /// - Throws: It throws an error in cases of failure.
-  public static func delete(in context: NSManagedObjectContext, includingSubentities: Bool = true, where predicate: NSPredicate = NSPredicate(value: true), limit: Int? = nil, affectedStores: [NSPersistentStore]? = nil) throws {
+  public static func delete(in context: NSManagedObjectContext,
+                            includingSubentities: Bool = true,
+                            where predicate: NSPredicate = NSPredicate(value: true),
+                            limit: Int? = nil,
+                            affectedStores: [NSPersistentStore]? = nil) throws {
     try autoreleasepool {
       try fetch(in: context) { request in
         request.includesPropertyValues = false

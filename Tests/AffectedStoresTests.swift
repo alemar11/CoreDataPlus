@@ -10,19 +10,19 @@ final class AffectedStoresTests: XCTestCase {
     let uuid = UUID().uuidString
     let url1 = URL.newDatabaseURL(withName: "part1-\(uuid)")
     let url2 = URL.newDatabaseURL(withName: "part2-\(uuid)")
-    
+
     let psc = NSPersistentStoreCoordinator(managedObjectModel: V2.makeManagedObjectModel())
     try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: V2.Configurations.part1, at: url1, options: nil)
     try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: V2.Configurations.part2, at: url2, options: nil)
-    
+
     let part1 = try XCTUnwrap(psc.persistentStores.first { $0.configurationName == V2.Configurations.part1 })
     let part2 = try XCTUnwrap(psc.persistentStores.first { $0.configurationName == V2.Configurations.part2 })
-    
+
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     context.persistentStoreCoordinator = psc
-    
+
     let sharedUUID = UUID()
-    
+
     let feedbackPart1 = FeedbackV2(context: context)
     feedbackPart1.authorAlias = "Alessandro"
     feedbackPart1.bookID = sharedUUID
@@ -30,7 +30,7 @@ final class AffectedStoresTests: XCTestCase {
     feedbackPart1.rating = 3.5
     context.assign(feedbackPart1, to: part1)
     try context.save()
-    
+
     let feedbackPart2 = FeedbackV2(context: context)
     feedbackPart2.authorAlias = "Alessandro"
     feedbackPart2.bookID = sharedUUID
@@ -38,18 +38,18 @@ final class AffectedStoresTests: XCTestCase {
     feedbackPart2.rating = 3.5
     context.assign(feedbackPart2, to: part2)
     try context.save()
-    
+
     context.reset()
     let predicate = NSPredicate(format: "%K == %@", #keyPath(Feedback.authorAlias), "Alessandro")
-    
+
     context.reset()
     XCTAssertEqual(try FeedbackV2.fetch(in: context) { $0.affectedStores = [part1] }.count, 1)
-    
+
     context.reset()
     XCTAssertEqual(try FeedbackV2.count(in: context), 2)
     XCTAssertEqual(try FeedbackV2.count(in: context) { $0.affectedStores = [part1] }, 1)
     XCTAssertEqual(try FeedbackV2.count(in: context) { $0.affectedStores = [part2] }, 1)
-    
+
     // fetchObjectIDs
     context.reset()
     let ids = try FeedbackV2.fetchObjectIDs(in: context, where: predicate)
@@ -58,7 +58,7 @@ final class AffectedStoresTests: XCTestCase {
     XCTAssertEqual(idsPart1, [feedbackPart1.objectID])
     let idsPart2 = try FeedbackV2.fetchObjectIDs(in: context, where: predicate, affectedStores: [part2])
     XCTAssertEqual(idsPart2, [feedbackPart2.objectID])
-    
+
     // fetchOne
     context.reset()
     let one = try FeedbackV2.fetchOne(in: context, where: predicate)
@@ -67,7 +67,7 @@ final class AffectedStoresTests: XCTestCase {
     XCTAssertEqual(onePart1?.objectID, feedbackPart1.objectID)
     let onePart2 = try FeedbackV2.fetchOne(in: context, where: predicate, affectedStores: [part2])
     XCTAssertEqual(onePart2?.objectID, feedbackPart2.objectID)
-    
+
     // fetchUnique
     context.reset()
     // let unique = try FeedbackV2.fetchUnique(in: context, where: predicate) // this fetch request crashes because uniqueness is not guaranteed for that predicate
@@ -75,7 +75,7 @@ final class AffectedStoresTests: XCTestCase {
     XCTAssertEqual(uniquePart1?.objectID, feedbackPart1.objectID)
     let uniquePart2 = try FeedbackV2.fetchUnique(in: context, where: predicate, affectedStores: [part2])
     XCTAssertEqual(uniquePart2?.objectID, feedbackPart2.objectID)
-    
+
     // findUniqueOrCreate
     context.reset()
     let predicate2 = NSPredicate(format: "%K == %@", #keyPath(Feedback.authorAlias), "Andrea")
@@ -87,12 +87,12 @@ final class AffectedStoresTests: XCTestCase {
     }
     XCTAssertTrue(objPart1.objectID.isTemporaryID)
     try context.save()
-    
+
     let obj2Part1 = try FeedbackV2.findUniqueOrCreate(in: context, where: predicate2, affectedStores: [part1]) { feedback in
       XCTFail("There should be another object matching this predicate.")
     }
     XCTAssertFalse(obj2Part1.objectID.isTemporaryID)
-    
+
     let objPart2 = try FeedbackV2.findUniqueOrCreate(in: context, where: predicate2, affectedStores: [part2], assignedStore: part2) { feedback in
       feedback.authorAlias = "Andrea"
       feedback.bookID = sharedUUID
@@ -102,7 +102,7 @@ final class AffectedStoresTests: XCTestCase {
     XCTAssertTrue(objPart2.objectID.isTemporaryID)
     try context.save()
     XCTAssertEqual(try FeedbackV2.count(in: context){ $0.predicate = predicate2 }, 2)
-    
+
     // delete
     context.reset()
     try FeedbackV2.delete(in: context, includingSubentities: true, where: predicate2, limit: nil, affectedStores: [part1])
@@ -111,12 +111,12 @@ final class AffectedStoresTests: XCTestCase {
       $0.affectedStores = [part1]
     }, 0)
     try context.save()
-    
+
     XCTAssertEqual(try FeedbackV2.count(in: context){ $0.predicate = predicate2 }, 1)
     try FeedbackV2.delete(in: context, includingSubentities: true, where: predicate2, limit: nil, affectedStores: nil) // no affectedStores -> part1 & part2
     try context.save()
     XCTAssertEqual(try FeedbackV2.count(in: context){ $0.predicate = predicate2 }, 0)
-    
+
     // delete excluding objects
     context.reset()
     let feedback2Part1 = FeedbackV2(context: context)
@@ -126,13 +126,13 @@ final class AffectedStoresTests: XCTestCase {
     feedback2Part1.rating = 3.5
     context.assign(feedback2Part1, to: part1)
     try context.save()
-    
+
     try FeedbackV2.delete(in: context, except: [feedbackPart1, feedbackPart2], affectedStores: [part2])
     XCTAssertEqual(try FeedbackV2.count(in: context) {
       $0.predicate = predicate2
       $0.affectedStores = [part1]
     }, 1) // feedback2Part1 is still there because the delete request has affected only part2
-    
+
     XCTAssertEqual(try FeedbackV2.count(in: context) {
       $0.predicate = predicate2
       $0.affectedStores = [part2]
@@ -143,12 +143,12 @@ final class AffectedStoresTests: XCTestCase {
       $0.affectedStores = [part1]
     }, 0)
     try context.save()
-    
-    
+
+
     // findOneOrCreate
     // materializedObjectOrFetch
     // batchUpdate, Insert, Delete
-    
+
     context._fix_sqlite_warning_when_destroying_a_store()
     try NSPersistentStoreCoordinator.destroyStore(at: url1)
     try NSPersistentStoreCoordinator.destroyStore(at: url2)
