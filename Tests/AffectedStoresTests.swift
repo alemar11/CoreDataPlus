@@ -6,7 +6,7 @@ import CoreData
 
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 final class AffectedStoresTests: XCTestCase {
-  func test__() throws {
+  func testFetches() throws {
     let uuid = UUID().uuidString
     let url1 = URL.newDatabaseURL(withName: "part1-\(uuid)")
     let url2 = URL.newDatabaseURL(withName: "part2-\(uuid)")
@@ -76,7 +76,7 @@ final class AffectedStoresTests: XCTestCase {
     let uniquePart2 = try FeedbackV2.fetchUnique(in: context, where: predicate, affectedStores: [part2])
     XCTAssertEqual(uniquePart2?.objectID, feedbackPart2.objectID)
     
-    // findUniqueOrCreate
+    // findUniqueOrCreate (deprecated)
     context.reset()
     let predicate2 = NSPredicate(format: "%K == %@", #keyPath(Feedback.authorAlias), "Andrea")
     let objPart1 = try FeedbackV2.findUniqueOrCreate(in: context, where: predicate2, affectedStores: [part1], assignedStore: part1) { feedback in
