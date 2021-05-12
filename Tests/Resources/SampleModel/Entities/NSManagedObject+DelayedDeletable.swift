@@ -10,12 +10,12 @@ public protocol DelayedDeletable: AnyObject {
   ///
   /// Checks whether or not the managed object’s `markedForDeletion` property has unsaved changes.
   var hasChangedForDelayedDeletion: Bool { get }
-
+  
   /// Protocol `DelayedDeletable`.
   ///
   /// This object can be deleted starting from this particular date.
   var markedForDeletionAsOf: Date? { get set }
-
+  
   /// Protocol `DelayedDeletable`.
   ///
   /// Marks an object to be deleted at a later point in time.
@@ -31,7 +31,7 @@ extension DelayedDeletable where Self: NSManagedObject {
   public static var notMarkedForLocalDeletionPredicate: NSPredicate {
     return NSPredicate(format: "%K == NULL", markedForDeletionKey)
   }
-
+  
   /// Protocol `DelayedDeletable`.
   ///
   /// Predicate to filter for objects that have a deletion date.
@@ -49,12 +49,12 @@ extension DelayedDeletable where Self: NSManagedObject {
   public var hasChangedForDelayedDeletion: Bool {
     return changedValue(forKey: markedForDeletionKey) as? Date != nil
   }
-
+  
   /// Marks an object to be deleted at a later point in time (if not already marked).
   /// An object marked for local deletion will no longer match the `notMarkedForDeletionPredicate`.
   public func markForDelayedDeletion() {
     guard markedForDeletionAsOf == nil else { return }
-
+    
     markedForDeletionAsOf = Date()
   }
 }
@@ -63,7 +63,7 @@ extension DelayedDeletable where Self: NSManagedObject {
 
 extension NSFetchRequestResult where Self: NSManagedObject & DelayedDeletable {
   // swiftlint:disable line_length
-
+  
   /// Makes a batch delete operation for object conforming to `DelayedDeletable` older than the `cutOffDate` date.
   ///
   /// - Parameters:
@@ -74,8 +74,8 @@ extension NSFetchRequestResult where Self: NSManagedObject & DelayedDeletable {
   /// - Throws: An error in cases of a batch delete operation failure.
   public static func batchDeleteMarkedForDeletion(with context: NSManagedObjectContext, olderThan cutOffDate: Date = Date(timeIntervalSinceNow: -TimeInterval(120)), resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly) throws -> NSBatchDeleteResult {
     let predicate = NSPredicate(format: "%K <= %@", markedForDeletionKey, cutOffDate as NSDate)
-
-    return try batchDelete(using: context, resultType: resultType, configuration: { $0.predicate = predicate })
+    
+    return try batchDelete(using: context, predicate: predicate, resultType: resultType)
   }
   // swiftlint:enable line_length
 }
