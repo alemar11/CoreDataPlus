@@ -328,7 +328,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   public static func batchInsert(using context: NSManagedObjectContext,
                                  resultType: NSBatchInsertRequestResultType = .statusOnly,
                                  objects: [[String: Any]],
-                                 affectedStores: [NSPersistentStore]? = nil) throws -> NSBatchInsertResult { // TODO docs
+                                 affectedStores: [NSPersistentStore]? = nil) throws -> NSBatchInsertResult {
     let batchRequest = NSBatchInsertRequest(entityName: entityName, objects: objects)
     batchRequest.resultType = resultType
     batchRequest.affectedStores = affectedStores
