@@ -1,6 +1,6 @@
 # Changelog
 
-### 4.0.0 ⭐ (WIP ⚠️)
+### 4.0.0 ⭐
 
 - Added a new `Migrator` class to handle migrations (lightweight and heavyweight).
 - Added `NSDerivedAttributeDescription` utility methods.
