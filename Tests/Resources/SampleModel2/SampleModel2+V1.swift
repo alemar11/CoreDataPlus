@@ -23,10 +23,10 @@ extension SampleModel2.V1 {
 
 
     // Definition using the CoreDataPlus convenience init
-    let feedbackList = NSFetchedPropertyDescription(name: Author.FetchedProperty.feedbacks,
-                                                    destinationEntity: feedback,
-                                                    predicate: NSPredicate(format: "%K == $FETCH_SOURCE.%K", #keyPath(Feedback.authorAlias), #keyPath(Author.alias)),
-                                                    sortDescriptors: [NSSortDescriptor(key: #keyPath(Feedback.rating), ascending: true)])
+    let feedbackList = NSFetchedPropertyDescription(name: Author.FetchedProperty.feedbacks, destinationEntity: feedback) {
+      $0.predicate = NSPredicate(format: "%K == $FETCH_SOURCE.%K", #keyPath(Feedback.authorAlias), #keyPath(Author.alias))
+      $0.sortDescriptors = [NSSortDescriptor(key: #keyPath(Feedback.rating), ascending: true)]
+    }
 
     // Definition without the CoreDataPlus convenience init
 //    let request = NSFetchRequest<NSFetchRequestResult>(entity: feedback)
