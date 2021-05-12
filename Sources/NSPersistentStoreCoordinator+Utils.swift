@@ -38,7 +38,7 @@ extension NSPersistentStoreCoordinator {
                                                           sourceOptions: sourceOptions,
                                                           ofType: NSSQLiteStoreType)
   }
-  
+
   /// Removes all the stores associated with the coordinator.
   public func removeAllStores() throws {
     try persistentStores.forEach { try remove($0) }

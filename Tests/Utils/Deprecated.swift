@@ -4,7 +4,7 @@ import CoreData
 
 extension NSFetchRequestResult where Self: NSManagedObject {
   // MARK: - First
-  
+
   /// Tries to find the first existing object in the context (memory) matching a predicate.
   /// If it doesn’t find a matching materialized object in the context, tries to load it using a fetch request (if multiple objects are found, returns the **first** one).
   ///
@@ -22,7 +22,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     }
     return object
   }
-  
+
   /// Attempts to find an object matching a predicate or creates a new one and configures it (if multiple objects are found, configures the **first** one).
   ///
   /// For uniqueness, use `findUniqueOrCreate(in:where:with) instead.
@@ -42,9 +42,9 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     }
     return object
   }
-  
+
   // MARK: - Unique
-  
+
   /// Attempts to find an unique object matching a predicate or creates a new one and configures it;
   /// if uniqueness is not guaranted (more than one object matching the predicate) a fatal error will occour.
   ///
