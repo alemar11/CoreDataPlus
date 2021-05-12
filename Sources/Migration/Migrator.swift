@@ -125,12 +125,12 @@ extension Migrator {
     let start = DispatchTime.now()
     guard let sourceVersion = try Version(persistentStoreURL: sourceURL) else {
       let message = "A ModelVersion could not be found for the initial store at: \(sourceURL)."
-      os_log(.error, log: log, "%s", message)
+      os_log(.error, log: log, "%{public}s", message)
       fatalError(message)
     }
 
     guard try CoreDataPlus.isMigrationNecessary(for: sourceURL, to: targetVersion) else {
-      os_log(.info, log: log, "Migration to %s is not necessary.", "\(targetVersion.rawValue)")
+      os_log(.info, log: log, "Migration to %{public}s is not necessary.", "\(targetVersion.rawValue)")
       return
     }
 
@@ -143,20 +143,20 @@ extension Migrator {
     }
 
     let steps = sourceVersion.migrationSteps(to: targetVersion)
-    os_log(.debug, log: log, "Number of steps: %d", steps.count)
+    os_log(.debug, log: log, "Number of steps: %{public}d", steps.count)
 
     guard steps.count > 0 else { return }
 
     let migrationStepsProgress = Progress(totalUnitCount: Int64(steps.count), parent: progress, pendingUnitCount: progress.totalUnitCount)
     var currentURL = sourceURL
     try steps.enumerated().forEach { (stepIndex, step) in
-      os_log(.info, log: log, "Step %d (of %d) started; %s to %s.", stepIndex + 1, steps.count, "\(step.sourceVersion)", "\(step.destinationVersion)")
+      os_log(.info, log: log, "Step %{public}d (of %{public}d) started; %{public}s to %{public}s.", stepIndex + 1, steps.count, "\(step.sourceVersion)", "\(step.destinationVersion)")
       try autoreleasepool {
         let temporaryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString).appendingPathExtension("sqlite")
         let mappingModelMigrationProgress = Progress(totalUnitCount: Int64(step.mappingModels.count))
         migrationStepsProgress.addChild(mappingModelMigrationProgress, withPendingUnitCount: 1)
         for (mappingModelIndex, mappingModel) in step.mappingModels.enumerated() {
-          os_log(.info, log: log, "Starting migration for mapping model %d.", mappingModelIndex + 1)
+          os_log(.info, log: log, "Starting migration for mapping model %{public}d.", mappingModelIndex + 1)
           os_log(.debug, log: log, "The store at: %{public}@ will be migrated in a temporary store at: %{public}@.", currentURL as CVarArg, temporaryURL as CVarArg)
           let metadata = Metadata(sourceVersion: step.sourceVersion,
                                   sourceModel: step.sourceModel,
@@ -178,7 +178,7 @@ extension Migrator {
                                      destinationType: NSSQLiteStoreType,
                                      destinationOptions: destinationOptions)
           } catch {
-            os_log(.error, "Migration for mapping model %d failed: %{private}@", mappingModelIndex + 1, error as NSError)
+            os_log(.error, "Migration for mapping model %{public}d failed: %{private}@", mappingModelIndex + 1, error as NSError)
             throw error
           }
           let end = DispatchTime.now()
@@ -186,22 +186,22 @@ extension Migrator {
           progressReporter.markAsFinishedIfNeeded()
           let nanoseconds = end.uptimeNanoseconds - start.uptimeNanoseconds
           let timeInterval = Double(nanoseconds) / 1_000_000_000
-          os_log(.info, log: log, "Migration for mapping model %d finished in %.2f seconds.", mappingModelIndex + 1, timeInterval)
+          os_log(.info, log: log, "Migration for mapping model %{public}d finished in %{public}.2f seconds.", mappingModelIndex + 1, timeInterval)
         }
         // once the migration is done (and the store is migrated to temporaryURL)
         // the store at currentURL can be safely destroyed unless it is the
         // initial store
         if currentURL != sourceURL {
-          os_log(.debug, log: log, "Destroying store at %@.", currentURL as CVarArg)
+          os_log(.debug, log: log, "Destroying store at %{public}@.", currentURL as CVarArg)
           try NSPersistentStoreCoordinator.destroyStore(at: currentURL)
         }
         currentURL = temporaryURL
       }
-      os_log(.info, log: log, "Step %d (of %d) completed.", stepIndex + 1, steps.count)
+      os_log(.info, log: log, "Step %{public}d (of %{public}d) completed.", stepIndex + 1, steps.count)
     }
 
     // move the store at currentURL to (final) destinationURL
-    os_log(.debug, log: log, "Moving the store at: %@ to final store: %{public}@.", currentURL as CVarArg, destinationURL as CVarArg)
+    os_log(.debug, log: log, "Moving the store at: %{public}@ to final store: %{public}@.", currentURL as CVarArg, destinationURL as CVarArg)
     try NSPersistentStoreCoordinator.replaceStore(at: destinationURL, withPersistentStoreFrom: currentURL)
 
     // delete the store at currentURL if it's not the initial store
@@ -218,7 +218,7 @@ extension Migrator {
     let end = DispatchTime.now()
     let nanoseconds = end.uptimeNanoseconds - start.uptimeNanoseconds
     let timeInterval = Double(nanoseconds) / 1_000_000_000
-    os_log(.info, log: log, "Migrator has finished in %.2f seconds, final store at: %{public}@.", timeInterval, destinationURL as CVarArg)
+    os_log(.info, log: log, "Migrator has finished in %{public}.2f seconds, final store at: %{public}@.", timeInterval, destinationURL as CVarArg)
   }
 }
 
