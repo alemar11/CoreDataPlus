@@ -628,9 +628,8 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
   
   // MARK: Batch Insert
   
+  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   func testbatchInsertWithResultTypeStatusOnly() throws {
-    guard #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) else { return }
-    
     // Given
     let context = container.viewContext
     
@@ -646,9 +645,8 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     XCTAssertEqual(result.changes?[NSInsertedObjectsKey]?.count, nil) // wrong result type
   }
   
+  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   func testbatchInsertWithResultTypeCount() throws {
-    guard #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) else { return }
-    
     // Given
     let context = container.viewContext
     
@@ -707,9 +705,8 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     }
   }
   
+  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   func testFailedbatchInsertWithResultObjectIDs() throws {
-    guard #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) else { return }
-    
     // Given
     let context = container.viewContext
     
