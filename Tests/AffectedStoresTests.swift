@@ -85,7 +85,7 @@ final class AffectedStoresTests: XCTestCase {
       feedback.comment = "ok"
       feedback.rating = 3.5
     }
-    XCTAssertTrue(objPart1.objectID.isTemporaryID)
+    XCTAssertTrue(objPart1.hasTemporaryID)
     try context.save()
 
     let obj2Part1 = try FeedbackV2.findUniqueOrCreate(in: context, where: predicate2, affectedStores: [part1]) { feedback in

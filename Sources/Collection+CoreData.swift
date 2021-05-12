@@ -38,7 +38,7 @@ extension Collection where Element: NSManagedObject {
       }
 
       // objects not yet saved can trigger their fault one by one
-      let temporaryObjects = objects.filter { $0.objectID.isTemporaryID }
+      let temporaryObjects = objects.filter { $0.hasTemporaryID }
       if !temporaryObjects.isEmpty {
         temporaryObjects.forEach { $0.materialize() }
       }
