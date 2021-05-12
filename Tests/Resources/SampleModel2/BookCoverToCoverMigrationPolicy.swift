@@ -67,7 +67,7 @@ class BookCoverToCoverMigrationPolicy: NSEntityMigrationPolicy {
 //  override func performCustomValidation(forMapping mapping: NSEntityMapping, manager: NSMigrationManager) throws {
 //    try super.performCustomValidation(forMapping: mapping, manager: manager)
 //  }
-  
+
   //@objc(destinationTitleForSourceBookTitle:manager:)
   @objc
   func destinationTitle(forSourceBookTitle sTitle: String, manager: NSMigrationManager) -> String {

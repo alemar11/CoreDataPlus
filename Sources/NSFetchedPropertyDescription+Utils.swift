@@ -10,8 +10,7 @@ extension NSFetchedPropertyDescription {
   /// - Parameters:
   ///   - name: The name of the attribute.
   ///   - destinationEntity: the fetched propery destination entity.
-  ///   - predicate: The predicate of the fetch request to the the destination entity.
-  ///   - sortDescriptors:The sort descriptors of the fetch request  to the the destination entity.
+  ///   - configuration: A close to configure the underlying NSFetchRequest.
   ///
   /// There are two special variables you can use in the predicate of a fetched property: **$FETCH_SOURCE** and **$FETCHED_PROPERTY**.
   ///
@@ -29,15 +28,12 @@ extension NSFetchedPropertyDescription {
   /// this causes the fetch request associated with this property to be executed again when the object fault is next fired.
   ///
   /// Unlike other relationships, which are all sets, fetched properties are represented by an ordered NSArray object just as if you executed the fetch request yourself.
-  public convenience init(name: String,
-                          destinationEntity: NSEntityDescription,
-                          predicate: NSPredicate,
-                          sortDescriptors: [NSSortDescriptor]? = .none) {
+  public convenience init(name: String, destinationEntity: NSEntityDescription, configuration: (NSFetchRequest<NSFetchRequestResult>) -> Void ) {
     self.init()
     let request = NSFetchRequest<NSFetchRequestResult>(entity: destinationEntity)
-    request.resultType = .managedObjectResultType // it's the only type supported
-    request.predicate = predicate
-    request.sortDescriptors = sortDescriptors
+    request.resultType = .managedObjectResultType
+    configuration(request)
+    assert(request.resultType == .managedObjectResultType, "NSFetchedPropertyDescription supports only NSFetchRequest with resultType set to managedObjectResultType.")
     self.name = name
     self.fetchRequest = request
   }

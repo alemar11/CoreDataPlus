@@ -25,7 +25,7 @@ extension NSBatchDeleteResult {
     }
   }
 
-  /// Returns the number of deleted objcts.
+  /// Returns the number of deleted objects.
   /// - Note: Make sure the resultType of the `NSBatchDeleteRequest` is set to `NSBatchDeleteRequestResultType.resultTypeCount` before the request is executed otherwise the value is nil.
   public var count: Int? {
     switch resultType {

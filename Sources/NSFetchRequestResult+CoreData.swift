@@ -97,9 +97,13 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - context: Searched context.
   ///   - includingSubentities: A Boolean value that indicates whether the fetch request includes subentities in the results.
   ///   - predicate: Matching predicate.
+  ///   - affectedStores: An array of persistent stores specified for the fetch request.
   /// - Returns: A list of `NSManagedObjectID`.
   /// - Throws: It throws an error in cases of failure.
-  public static func fetchObjectIDs(in context: NSManagedObjectContext, includingSubentities: Bool = true, where predicate: NSPredicate) throws -> [NSManagedObjectID] {
+  public static func fetchObjectIDs(in context: NSManagedObjectContext,
+                                    includingSubentities: Bool = true,
+                                    where predicate: NSPredicate,
+                                    affectedStores: [NSPersistentStore]? = nil) throws -> [NSManagedObjectID] {
     let request = NSFetchRequest<NSManagedObjectID>(entityName: entityName)
     // If includesPropertyValues is false, then Core Data fetches only the object ID information for the matching records—it does not populate the row cache.
     //
@@ -115,6 +119,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     request.resultType = .managedObjectIDResultType
     request.includesSubentities = includingSubentities
     request.predicate = predicate
+    request.affectedStores = affectedStores
 
     return try context.fetch(request)
   }
@@ -128,79 +133,20 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - context: Searched context.
   ///   - predicate: Matching predicate.
   ///   - includesPendingChanges: A Boolean value that indicates whether, when the fetch is executed, it matches against currently unsaved changes in the managed object context.
+  ///   - affectedStores: An array of persistent stores specified for the fetch request.
   /// - Throws: It throws an error in cases of failure.
   /// - Returns: A **materialized** object matching the predicate.
-  public static func fetchOne(in context: NSManagedObjectContext, where predicate: NSPredicate, includesPendingChanges: Bool = true) throws -> Self? {
+  public static func fetchOne(in context: NSManagedObjectContext, where predicate: NSPredicate, includesPendingChanges: Bool = true, affectedStores: [NSPersistentStore]? = nil) throws -> Self? {
     return try fetch(in: context) { request in
       request.predicate = predicate
       request.returnsObjectsAsFaults = false
       request.includesPendingChanges = includesPendingChanges
+      request.affectedStores = affectedStores
       request.fetchLimit = 1
     }.first
   }
 
-  /// Attempts to find an object matching a predicate or creates a new one and configures it (if multiple objects are found, configures the **first** one).
-  ///
-  /// For uniqueness, use `findUniqueOrCreate(in:where:with) instead.
-  /// - Note: It searches for a matching materialized object in the given context before accessing the underlying persistent stores.
-  ///
-  /// - Parameters:
-  ///   - context: Searched context.
-  ///   - predicate: Matching predicate.
-  ///   - configuration: Configuration closure called **only** when creating a new object.
-  /// - Returns: A matching object or a configured new one.
-  /// - Throws: It throws an error in cases of failure.
-  public static func findOneOrCreate(in context: NSManagedObjectContext, where predicate: NSPredicate, with configuration: (Self) -> Void) throws -> Self {
-    guard let object = try materializedObjectOrFetch(in: context, where: predicate) else {
-      let newObject = Self(context: context)
-      configuration(newObject)
-      return newObject
-    }
-    return object
-  }
-
-  /// Tries to find the first existing object in the context (memory) matching a predicate.
-  /// If it doesn’t find a matching materialized object in the context, tries to load it using a fetch request (if multiple objects are found, returns the **first** one).
-  ///
-  /// - Parameters:
-  ///   - context: Searched context.
-  ///   - predicate: Matching predicate.
-  /// - Returns: The first materialized matching object (if any).
-  /// - Throws: It throws an error in cases of failure.
-  public static func materializedObjectOrFetch(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? {
-    // first we should fetch an existing object in the context as a performance optimization
-    guard let object = materializedObject(in: context, where: predicate) else {
-      // if it's not in memory, we should execute a fetch to see if it exists
-      // NSFetchRequest always accesses the underlying persistent stores to retrieve the latest results.
-      return try fetchOne(in: context, where: predicate)
-    }
-    return object
-  }
-
   // MARK: - Unique
-
-  /// Attempts to find an unique object matching a predicate or creates a new one and configures it;
-  /// if uniqueness is not guaranted (more than one object matching the predicate) a fatal error will occour.
-  ///
-  /// If uniqueness is not relevant, use `findOneOrCreate(in:where:with) instead.
-  /// - Note: it always accesses the underlying persistent stores to retrieve the latest results.
-  ///
-  /// - Parameters:
-  ///   - context: Searched context.
-  ///   - predicate: Matching predicate.
-  ///   - configuration: Configuration closure called **only** when creating a new object.
-  /// - Returns: A matching object or a configured new one.
-  /// - Throws: It throws an error in cases of failure.
-  public static func findUniqueOrCreate(in context: NSManagedObjectContext, where predicate: NSPredicate, with configuration: (Self) -> Void) throws -> Self {
-    let uniqueObject = try fetchUnique(in: context, where: predicate)
-    guard let object = uniqueObject else {
-      let newObject = Self(context: context)
-      configuration(newObject)
-      return newObject
-    }
-
-    return object
-  }
 
   /// Executes a fetch request where **at most** a single object is expected as result; if more than one object are fetched, a fatal error will occour.
   /// - Note: To guarantee uniqueness the fetch accesses the underlying persistent stores to retrieve the latest results and, also, matches against currently
@@ -209,21 +155,23 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Parameters:
   ///   - context: Searched context
   ///   - predicate: Matching predicate.
+  ///   - affectedStores: An array of persistent stores specified for the fetch request.
   /// - Returns: An unique object matching the given configuration (if any).
-  public static func fetchUnique(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? {
+  public static func fetchUnique(in context: NSManagedObjectContext, where predicate: NSPredicate, affectedStores: [NSPersistentStore]? = nil) throws -> Self? {
     let result = try fetch(in: context) { request in
       request.predicate = predicate
       request.includesPendingChanges = true // default, uniqueness should be guaranteed
+      request.affectedStores = affectedStores
       request.fetchLimit = 2
     }
 
     switch result.count {
-      case 0:
-        return nil
-      case 1:
-        return result[0]
-      default:
-        fatalError("Returned multiple objects, expected max 1.")
+    case 0:
+      return nil
+    case 1:
+      return result[0]
+    default:
+      fatalError("Returned multiple objects, expected max 1.")
     }
   }
 
@@ -233,14 +181,20 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// If objects have not yet been saved to a persistent store, they are simply removed from the context.
   /// If the dataset to delete is very large, use the `limit` value to decide the number of objects to be deleted otherwise the operation could last an unbounded amount time.
   /// If `includingSubentities` is set to `false`, sub-entities will be ignored.
+  /// The delete request can be executed only to certain stores if `affectedStores` is not nil.
   /// - Note: `NSBatchDeleteRequest` would be more efficient but requires a context with an `NSPersistentStoreCoordinator` directly connected (no child context).
   /// - Throws: It throws an error in cases of failure.
-  public static func delete(in context: NSManagedObjectContext, includingSubentities: Bool = true, where predicate: NSPredicate = NSPredicate(value: true), limit: Int? = nil) throws {
+  public static func delete(in context: NSManagedObjectContext,
+                            includingSubentities: Bool = true,
+                            where predicate: NSPredicate = NSPredicate(value: true),
+                            limit: Int? = nil,
+                            affectedStores: [NSPersistentStore]? = nil) throws {
     try autoreleasepool {
       try fetch(in: context) { request in
         request.includesPropertyValues = false
         request.includesSubentities = includingSubentities
         request.predicate = predicate
+        request.affectedStores = affectedStores
         if let limit = limit {
           // there could be a very large data set, the delete operation could last an unbounded amount time
           request.fetchLimit = limit
@@ -254,11 +208,12 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Parameters:
   ///   - context: The `NSManagedObjectContext` to remove the Entities from.
   ///   - objects: An Array of `NSManagedObjects` belonging to the `NSManagedObjectContext` to exclude from deletion.
+  ///   - affectedStores: An array of persistent stores specified for the fetch request.
   /// - Throws: It throws an error in cases of failure.
   /// - Note: `NSBatchDeleteRequest` would be more efficient but requires a context with an `NSPersistentStoreCoordinator` directly connected (no child context).
-  public static func delete(in context: NSManagedObjectContext, except objects: [Self]) throws {
+  public static func delete(in context: NSManagedObjectContext, except objects: [Self], affectedStores: [NSPersistentStore]? = nil) throws {
     let predicate = NSPredicate(format: "NOT (self IN %@)", objects)
-    try delete(in: context, includingSubentities: true, where: predicate )
+    try delete(in: context, includingSubentities: true, where: predicate, affectedStores: affectedStores)
   }
 
   // MARK: - Count
@@ -318,20 +273,12 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Parameters:
   ///   - context: The context whose the persistent store coordinator will be used to execute the batch update.
   ///   - configuration: An handler to configure the NSBatchUpdateRequest.
-  /// - Returns: a NSBatchUpdateRequest result.
   /// - Throws: It throws an error in cases of failure.
+  /// - Returns: The result returned when executing a batch update request.
   /// - Note: A batch delete can **only** be done on a SQLite store.
-  public static func batchUpdate(using context: NSManagedObjectContext,
-                                 resultType: NSBatchUpdateRequestResultType = .statusOnlyResultType,
-                                 propertiesToUpdate: [AnyHashable: Any],
-                                 includesSubentities: Bool = true,
-                                 predicate: NSPredicate? = nil) throws -> NSBatchUpdateResult {
+  public static func batchUpdate(using context: NSManagedObjectContext, configuration: (NSBatchUpdateRequest) -> Void) throws -> NSBatchUpdateResult {
     let batchRequest = NSBatchUpdateRequest(entityName: entityName)
-    batchRequest.resultType = resultType
-    batchRequest.propertiesToUpdate = propertiesToUpdate
-    batchRequest.includesSubentities = includesSubentities
-    batchRequest.predicate = predicate
-
+    configuration(batchRequest)
     // swiftlint:disable:next force_cast
     return try context.execute(batchRequest) as! NSBatchUpdateResult
   }
@@ -339,21 +286,31 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// Executes a batch delete on the context's persistent store coordinator.
   /// - Parameters:
   ///   - context: The context whose the persistent store coordinator will be used to execute the batch delete.
-  ///   - resultType: The type of the batch delete result (default: `NSBatchDeleteRequestResultType.resultTypeStatusOnly`).
-  ///   - configuration: An handler to configure the NSFetchRequest.
-  /// - Returns: a NSBatchDeleteResult result.
+  ///   - predicate: The predicate of the fetch request.
+  ///   - includesSubentities: A Boolean value that indicates whether the fetch request includes subentities in the results.
+  ///   - resultType: The result type of the fetch request.
+  ///   - affectedStores: An array of persistent stores specified for the fetch request.
   /// - Throws: It throws an error in cases of failure.
+  /// - Returns: The result returned when executing a batch delete request.
   /// - Note: A batch delete can **only** be done on a SQLite store.
   @discardableResult
   public static func batchDelete(using context: NSManagedObjectContext,
+                                 predicate: NSPredicate? = nil,
+                                 includesSubentities: Bool = true,
                                  resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly,
-                                 configuration: ((NSFetchRequest<Self>) -> Void)? = nil) throws -> NSBatchDeleteResult {
+                                 affectedStores: [NSPersistentStore]? = nil) throws -> NSBatchDeleteResult {
+    // Only a subset of NSFetchRequest properties are used by a NSBatchDeleteRequest
+    //
+    // affectedStores should be set (if needed) in the NSBatchDeleteRequest object:
+    // if it's set on the underlying NSFetchRequest affectedStores it won't be used in the batch delete
     let request = NSFetchRequest<Self>(entityName: entityName)
-    configuration?(request)
+    request.predicate = predicate
+    request.includesSubentities = includesSubentities
 
     // swiftlint:disable:next force_cast
     let batchRequest = NSBatchDeleteRequest(fetchRequest: request as! NSFetchRequest<NSFetchRequestResult>)
     batchRequest.resultType = resultType
+    batchRequest.affectedStores = affectedStores
 
     // swiftlint:disable:next force_cast
     return try context.execute(batchRequest) as! NSBatchDeleteResult
@@ -364,15 +321,17 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - context: The context whose the persistent store coordinator will be used to execute the batch insert.
   ///   - resultType: The type of the batch insert result (default: `NSBatchInsertRequestResultType.statusOnly`).
   ///   - objects: A dictionary of objects to insert.
-  /// - Returns: a NSBatchInsertResult result.
-  /// - Throws: It throws an error in cases of failure.
+  /// - Throws: It throws an error in cases of failure
+  /// - Returns: The result that Core Data returns when executing a batch-insertion request.
   /// - Note: A batch insert can **only** be done on a SQLite store.
   @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   public static func batchInsert(using context: NSManagedObjectContext,
                                  resultType: NSBatchInsertRequestResultType = .statusOnly,
-                                 objects: [[String: Any]]) throws -> NSBatchInsertResult {
+                                 objects: [[String: Any]],
+                                 affectedStores: [NSPersistentStore]? = nil) throws -> NSBatchInsertResult {
     let batchRequest = NSBatchInsertRequest(entityName: entityName, objects: objects)
     batchRequest.resultType = resultType
+    batchRequest.affectedStores = affectedStores
 
     // swiftlint:disable:next force_cast
     return try context.execute(batchRequest) as! NSBatchInsertResult
@@ -385,7 +344,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - resultType: The type of the batch insert result (default: `NSBatchInsertRequestResultType.statusOnly`).
   ///   - handler: An handler to provide a dictionary to insert; return `true` to exit the block.
   /// - Throws: It throws an error in cases of failure.
-  /// - Returns: a NSBatchInsertResult result.
+  /// - Returns: The result that Core Data returns when executing a batch-insertion request.
   /// - Note: A batch insert can **only** be done on a SQLite store.
   @available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
   public static func batchInsert(using context: NSManagedObjectContext,
@@ -405,7 +364,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - resultType: The type of the batch insert result (default: `NSBatchInsertRequestResultType.statusOnly`).
   ///   - handler: An handler to provide an object to insert; return `true` to exit the block.
   /// - Throws: It throws an error in cases of failure.
-  /// - Returns: a NSBatchInsertResult result.
+  /// - Returns: The result that Core Data returns when executing a batch-insertion request.
   /// - Note: A batch insert can **only** be done on a SQLite store.
   @available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
   public static func batchInsert(using context: NSManagedObjectContext,

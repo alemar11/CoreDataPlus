@@ -86,10 +86,10 @@ final class MigrationsTests: BaseTestCase {
     let migrationNeededFromV2toV1 = try CoreDataPlus.isMigrationNecessary(for: sourceURLV2, to: SampleModelVersion.version1)
     XCTAssertFalse(migrationNeededFromV2toV1)
   }
-  
+
   func testMigrationFromV1toV1() throws {
     let sourceURL = try createSQLiteSampleForV1()
-    
+
     let sourceDescription = NSPersistentStoreDescription(url: sourceURL)
     let destinationDescription = NSPersistentStoreDescription(url: sourceURL)
     let migrator = Migrator<SampleModelVersion>(sourceStoreDescription: sourceDescription,
@@ -256,7 +256,7 @@ final class MigrationsTests: BaseTestCase {
 
     try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
   }
-  
+
   func testCancelMigrationFromV2ToV3() throws {
     // Given
     let sourceURL = try createSQLiteSampleForV2()
@@ -354,7 +354,7 @@ extension MigrationsTests {
     XCTAssertTrue(FileManager.default.fileExists(atPath: sourceURL.path))
     return sourceURL
   }
-  
+
   func createSQLiteSampleForV2() throws -> URL {
     let bundle = Bundle.tests
     let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModelV2", withExtension: "sqlite"))  // 125 cars, 5 sport cars
@@ -366,7 +366,7 @@ extension MigrationsTests {
     XCTAssertTrue(FileManager.default.fileExists(atPath: sourceURL.path))
     return sourceURL
   }
-  
+
   /// Creates a .sqlite with some data for the initial model (version 1)
   func createSampleVersion1(completion: @escaping (Result<URL,Error>) -> Void) {
     let containerSQLite = NSPersistentContainer(name: "SampleModel-\(UUID())", managedObjectModel: model)

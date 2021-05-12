@@ -26,7 +26,7 @@ extension NSBatchUpdateResult {
     }
   }
 
-  /// Returns the number of updated objcts.
+  /// Returns the number of updated objects.
   /// - Note: Make sure the resultType of the `NSBatchUpdateResult` is set to `NSBatchUpdateRequestResultType.updatedObjectsCountResultType` before the request is executed otherwise the value is nil.
   public var count: Int? {
     switch resultType {

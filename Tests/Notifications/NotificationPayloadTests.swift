@@ -863,6 +863,10 @@ final class NotificationPayloadTests: InMemoryTestCase {
       .map { PersistentStoreRemoteChange(notification: $0) }
       .sink { payload in
         XCTAssertNotNil(payload.historyToken)
+        XCTAssertNotNil(payload.storeUUID)
+        let uuidString = container1.persistentStoreCoordinator.persistentStores.first?.metadata[NSStoreUUIDKey] as? String
+        XCTAssertNotNil(uuidString)
+        XCTAssertEqual(uuidString!, payload.storeUUID.uuidString)
         XCTAssertEqual(payload.storeURL, container1.persistentStoreCoordinator.persistentStores.first?.url)
         expectation1.fulfill()
       }
@@ -872,6 +876,10 @@ final class NotificationPayloadTests: InMemoryTestCase {
       .map { PersistentStoreRemoteChange(notification: $0) }
       .sink { payload in
         XCTAssertNotNil(payload.historyToken)
+        XCTAssertNotNil(payload.storeUUID)
+        let uuidString = container2.persistentStoreCoordinator.persistentStores.first?.metadata[NSStoreUUIDKey] as? String
+        XCTAssertNotNil(uuidString)
+        XCTAssertEqual(uuidString!, payload.storeUUID.uuidString)
         XCTAssertEqual(payload.storeURL, container2.persistentStoreCoordinator.persistentStores.first?.url)
         expectation2.fulfill()
       }
@@ -942,5 +950,145 @@ final class NotificationPayloadOnDiskTests: OnDiskTestCase {
     try context.save()
     waitForExpectations(timeout: 2)
     cancellables.forEach { $0.cancel() }
+  }
+
+  func testInvestigationNSPersistentStoreCoordinatorStoresNotifications() throws {
+    let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
+    let initialStoreURL = URL.newDatabaseURL(withID: UUID())
+    let finalStoreURL = URL.newDatabaseURL(withID: UUID())
+    var cancellables = [AnyCancellable]()
+
+    NotificationCenter.default.publisher(for: .NSPersistentStoreCoordinatorStoresWillChange, object: nil)
+      .sink { notification in
+        XCTFail("AFAIK this notification is sent only for deprecated settings for CoreDataUbiquitySupport.")
+        /*
+         Sample of a notification.userInfo (generated from anothr project):
+
+         ▿ 3 elements
+         ▿ 0 : 2 elements
+         ▿ key : AnyHashable("removed")
+         - value : "removed"
+         ▿ value : 1 element
+         - 0 : <NSSQLCore: 0x11de25700> (URL: file:///var/mobile/Containers/Data/Application/A926CA73-AF4D-44E8-ADE5-246ED7F20D7B/Documents/CoreDataUbiquitySupport/mobile~18720936-2A3A-4C6F-BF8E-DF042ED5A917/MY_NAME/D26F608C-F8AC-4E51-AF6C-007B7DC56B7E/store/db.sqlite)
+         ▿ 1 : 2 elements
+         ▿ key : AnyHashable("NSPersistentStoreUbiquitousTransitionTypeKey")
+         - value : "NSPersistentStoreUbiquitousTransitionTypeKey"
+         - value : 4
+         ▿ 2 : 2 elements
+         ▿ key : AnyHashable("added")
+         - value : "added"
+         ▿ value : 1 element
+         - 0 : <NSSQLCore: 0x11de25700> (URL: file:///var/mobile/Containers/Data/Application/A926CA73-AF4D-44E8-ADE5-246ED7F20D7B/Documents/CoreDataUbiquitySupport/mobile~18720936-2A3A-4C6F-BF8E-DF042ED5A917/MY_NAME/D26F608C-F8AC-4E51-AF6C-007B7DC56B7E/store/db.sqlite)
+         */
+      }.store(in: &cancellables)
+
+    NotificationCenter.default.publisher(for: .NSPersistentStoreCoordinatorStoresDidChange, object: nil)
+      .sink { notification in
+        let payload = PersistentStoreCoordinatorStoresDidChange(notification: notification)
+
+        if let addedStore = payload.addedStores.first {
+          if addedStore.url == initialStoreURL {
+            // 1
+            // print(1)
+          } else if addedStore.url == finalStoreURL {
+            // 2
+            // print(2)
+          }
+        } else if let changedStore = payload.uuidChangedStore {
+          // 5
+          // print(5)
+
+          XCTAssertEqual(changedStore.oldStore.url, initialStoreURL)
+          XCTAssertEqual(changedStore.newStore.url, finalStoreURL)
+          XCTAssertEqual(changedStore.migratedIDs.count, 4)
+
+          /*
+           Sample Log
+
+           ➡️ ObjectIDs after save in the old store
+
+           0xc4549980eaebab6a <x-coredata://1996EEB5-8536-4968-8725-FBC0D06A3F72/Person/p1> // A
+           0xc4549980eae7ab6a <x-coredata://1996EEB5-8536-4968-8725-FBC0D06A3F72/Person/p2> // B
+
+           ➡️  ObjectIDs returned as third element by the NSPersistentStoreCoordinatorStoresDidChange
+           It contains both the old and new ObjectIds in sequence.
+
+           0xc4549980eaebab6a <x-coredata://1996EEB5-8536-4968-8725-FBC0D06A3F72/Person/p1> // A
+           0xc4549980eae7ab6e <x-coredata://0E12C804-B3CA-4CC3-9CD0-A98A473C3C3C/Person/p2> // A1
+           0xc4549980eae7ab6a <x-coredata://1996EEB5-8536-4968-8725-FBC0D06A3F72/Person/p2> // B
+           0xc4549980eaebab6e <x-coredata://0E12C804-B3CA-4CC3-9CD0-A98A473C3C3C/Person/p1> // B1
+
+           ➡️ ObjectIDs after fetch with the new store
+
+           0xc4549980eae7ab6e <x-coredata://0E12C804-B3CA-4CC3-9CD0-A98A473C3C3C/Person/p2> // A1
+           0xc4549980eaebab6e <x-coredata://0E12C804-B3CA-4CC3-9CD0-A98A473C3C3C/Person/p1> // B1
+           */
+        } else if let removedStore = payload.removedStores.first {
+          if removedStore.url == initialStoreURL {
+            // 6
+            // print(6)
+          } else if removedStore.url == finalStoreURL {
+            // 7
+            // print(7)
+          }
+        } else {
+          XCTFail("Unexpected use case.")
+        }
+      }.store(in: &cancellables)
+
+    NotificationCenter.default.publisher(for: .NSPersistentStoreCoordinatorWillRemoveStore, object: nil)
+      .sink { notification in
+        let payload = PersistentStoreCoordinatorWillRemoveStore(notification: notification)
+        let store = payload.store
+        if store.url == initialStoreURL {
+          // 3
+          // print(3)
+        } else if store.url == finalStoreURL {
+          // 4
+          // print(4)
+        } else {
+          XCTFail("Unexpected use case.")
+        }
+      }.store(in: &cancellables)
+
+    // triggers a NSPersistentStoreCoordinatorStoresDidChange (1)
+    try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: initialStoreURL, options: nil)
+
+    let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+    context.persistentStoreCoordinator = psc
+
+    let person1 = Person(context: context)
+    person1.firstName = "Edythe"
+    person1.lastName = "Moreton"
+
+    let person2 = Person(context: context)
+    person2.firstName = "Alessandro"
+    person2.lastName = "Marzoli"
+    try context.save()
+    context.reset()
+
+    // triggers a NSPersistentStoreCoordinatorStoresDidChange (2)
+    // triggers a NSPersistentStoreCoordinatorWillRemoveStore (3) for initial URL
+    // triggers a NSPersistentStoreCoordinatorWillRemoveStore (4) for final URL
+    // triggers a NSPersistentStoreCoordinatorStoresDidChange with a NSUUIDChangedPersistentStoresKey (5)
+    // triggers a NSPersistentStoreCoordinatorWillRemoveStore (3) for initial URL
+    // triggers a NSPersistentStoreCoordinatorStoresDidChange (6)
+    print("migratePersistentStore")
+    try psc.persistentStores.forEach {
+      try psc.migratePersistentStore($0, to: finalStoreURL, options: nil, withType: NSSQLiteStoreType)
+    }
+
+    // let people = try Person.fetch(in: context) { $0.sortDescriptors = [NSSortDescriptor(key: #keyPath(Person.firstName), ascending: false)] } // used only to create the sample log
+
+    // triggers a NSPersistentStoreCoordinatorWillRemoveStore (4) for final URL
+    // triggers a NSPersistentStoreCoordinatorStoresDidChange (7)
+    print("remove")
+    try psc.persistentStores.forEach {
+      try psc.remove($0)
+    }
+
+    context._fix_sqlite_warning_when_destroying_a_store()
+    try FileManager.default.removeItem(at: initialStoreURL)
+    try FileManager.default.removeItem(at: finalStoreURL)
   }
 }

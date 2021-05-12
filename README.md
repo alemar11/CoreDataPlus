@@ -44,7 +44,7 @@ platform :ios, '12.0'
 use_frameworks!
 
 target '<Your Target Name>' do
-    pod 'CoreDataPlus', '~> 3.0.0'
+    pod 'CoreDataPlus', '~> 4.0.0'
 end
 ```
 
@@ -68,7 +68,7 @@ $ brew install carthage
 To integrate CoreDataPlus into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "alemar11/CoreDataPlus" ~> 3.0.0
+github "alemar11/CoreDataPlus" ~> 4.0.0
 ```
 
 Run `carthage update` to build the framework and drag the built `CoreDataPlus.framework` into your Xcode project.
@@ -80,7 +80,7 @@ Once you have your Swift package set up, adding CoreDataPlus as a dependency is 
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/alemar11/CoreDataPlus.git", .upToNextMajor(from: "3.0.0"))
+    .package(url: "https://github.com/alemar11/CoreDataPlus.git", .upToNextMajor(from: "4.0.0"))
 ]
 ```
 

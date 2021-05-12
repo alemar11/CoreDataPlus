@@ -197,7 +197,12 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
     try context.save()
 
     let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
-    let result = try Car.batchUpdate(using: context, resultType: .updatedObjectIDsResultType, propertiesToUpdate: [#keyPath(Car.maker): "FCA"], includesSubentities: true, predicate: fiatPredicate)
+    let result = try Car.batchUpdate(using: context) {
+      $0.resultType = .updatedObjectIDsResultType
+      $0.propertiesToUpdate = [#keyPath(Car.maker): "FCA"]
+      $0.includesSubentities = true
+      $0.predicate = fiatPredicate
+    }
     XCTAssertEqual(result.updates?.count, 1)
 
     // When, Then
@@ -213,10 +218,11 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
     car.refresh()
     XCTAssertEqual(car.maker, "FCA")
     context.stalenessInterval = -1 // default
+    // The default is a negative value, which represents infinite staleness allowed. 0.0 represents “no staleness acceptable”.
   }
 
   func testInvestigationShouldRefreshRefetchedObjectsIsStillBroken() throws {
-    // https://mjtsai.com/blog/2020/10/17/core-data-derived-attributes/
+    // https://mjtsai.com/blog/2019/10/17/
     // I've opened a feedback myself too: FB7419788
 
     // Given

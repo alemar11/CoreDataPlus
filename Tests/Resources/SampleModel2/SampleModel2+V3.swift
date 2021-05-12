@@ -24,10 +24,10 @@ extension V3 {
     let feedback = makeFeedbackEntity()
 
     // Definition using the CoreDataPlus convenience init
-    let feedbackList = NSFetchedPropertyDescription(name: AuthorV3.FetchedProperty.feedbacks,
-                                                    destinationEntity: feedback,
-                                                    predicate: NSPredicate(format: "%K == $FETCH_SOURCE.%K", #keyPath(FeedbackV3.authorAlias), #keyPath(AuthorV3.alias)),
-                                                    sortDescriptors: [NSSortDescriptor(key: #keyPath(FeedbackV3.rating), ascending: true)])
+    let feedbackList = NSFetchedPropertyDescription(name: AuthorV3.FetchedProperty.feedbacks, destinationEntity: feedback) {
+      $0.predicate = NSPredicate(format: "%K == $FETCH_SOURCE.%K", #keyPath(FeedbackV3.authorAlias), #keyPath(AuthorV3.alias))
+      $0.sortDescriptors = [NSSortDescriptor(key: #keyPath(FeedbackV3.rating), ascending: true)]
+    }
     author.add(feedbackList)
 
     // Definition without the CoreDataPlus convenience init

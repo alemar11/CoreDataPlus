@@ -11,7 +11,9 @@
 import CoreData
 import Foundation
 
-// MARK: - Will Save
+// MARK: - NSManagedObjectContext
+
+// MARK: Will Save
 
 public struct ManagedObjectContextWillSaveObjects {
   /// Notification name.
@@ -39,7 +41,7 @@ public struct ManagedObjectContextWillSaveObjects {
   }
 }
 
-// MARK: - Did Save
+// MARK: Did Save
 
 public struct ManagedObjectContextDidSaveObjects {
   /// Notification name.
@@ -137,7 +139,7 @@ extension NSManagedObjectContext {
   }
 }
 
-// MARK: - Objects Did Change
+// MARK: Objects Did Change
 
 public struct ManagedObjectContextObjectsDidChange {
   /// Notification name.
@@ -222,7 +224,7 @@ public struct ManagedObjectContextObjectsDidChange {
   }
 }
 
-// MARK: - Did Save IDs
+// MARK: Did Save IDs
 
 @available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
 public struct ManagedObjectContextDidSaveObjectIDs {
@@ -261,7 +263,7 @@ public struct ManagedObjectContextDidSaveObjectIDs {
   }
 }
 
-// MARK: - Did Merge IDs
+// MARK: Did Merge IDs
 
 @available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
 public struct ManagedObjectContextDidMergeChangesObjectIDs {
@@ -310,7 +312,7 @@ public struct ManagedObjectContextDidMergeChangesObjectIDs {
   }
 }
 
-// MARK: - PersistentStore Remote Change
+// MARK: PersistentStore Remote Change
 
 public struct PersistentStoreRemoteChange {
   /// Notification name.
@@ -331,6 +333,132 @@ public struct PersistentStoreRemoteChange {
       fatalError("NSPersistentStoreRemoteChange always contains the NSPersistentStore URL.")
     }
     return url
+  }
+
+  /// The store UUID.
+  public var storeUUID: UUID {
+    guard let uuid = notification.userInfo?[NSStoreUUIDKey] as? String else {
+      fatalError("NSPersistentStoreRemoteChange always contains the NSPersistentStore UUID.")
+    }
+    return UUID(uuidString: uuid)!
+  }
+
+  public init(notification: Notification) {
+    assert(notification.name == Self.notificationName)
+    self.notification = notification
+  }
+}
+
+// MARK: - NSPersistentStoreCoordinator
+
+// MARK: Will Change
+
+public struct PersistentStoreCoordinatorStoresWillChange {
+  /// Notification name.
+  public static let notificationName = Notification.Name.NSPersistentStoreCoordinatorStoresWillChange
+
+  /// Underlying notification object.
+  public let notification: Notification
+
+  /// List of added stores.
+  public var addedStores: [NSPersistentStore] {
+    notification.userInfo?[NSAddedPersistentStoresKey] as? [NSPersistentStore] ?? []
+  }
+
+  /// List of removed stores.
+  public var removedStores: [NSPersistentStore] {
+    notification.userInfo?[NSRemovedPersistentStoresKey] as? [NSPersistentStore] ?? []
+  }
+
+//  public var ubiquitousTransitionType: NSPersistentStoreUbiquitousTransitionType {
+//    guard
+//      let typeValue = notification.userInfo?[NSPersistentStoreUbiquitousTransitionTypeKey] as? UInt,
+//      let type = NSPersistentStoreUbiquitousTransitionType.init(rawValue: typeValue)
+//    else {
+//      fatalError("A Notification.Name.NSPersistentStoreCoordinatorStoresWillChange must have a NSPersistentStoreUbiquitousTransitionType value.")
+//    }
+//    return type
+//  }
+
+  public init(notification: Notification) {
+    assert(notification.name == Self.notificationName)
+    self.notification = notification
+  }
+
+  // This notification is sent (AFAIK) only for deprecated CoreData options supporting iCloud ubiquity.
+  //
+  // description.setOption("MY_NAME" as NSString, forKey: NSPersistentStoreUbiquitousContentNameKey)
+  // description.setOption("MY_UBIQUITY_CONTAINER_IDENTIFIER" as NSString, forKey: NSPersistentStoreUbiquitousContainerIdentifierKey)
+  //
+  // swiftlint:disable:next line_length
+  // https://developer.apple.com/library/archive/documentation/DataManagement/Conceptual/UsingCoreDataWithiCloudPG/UsingSQLiteStoragewithiCloud/UsingSQLiteStoragewithiCloud.html#//apple_ref/doc/uid/TP40013491-CH3
+  //
+  // Store the sqlite database in a folder defined with this API won't trigger the notification:
+  // FileManager.default.url(forUbiquityContainerIdentifier: "MY_UBIQUITY_CONTAINER_IDENTIFIER")
+}
+
+// MARK: Did Change
+
+public struct PersistentStoreCoordinatorStoresDidChange {
+  public struct UUIDChangedStore {
+    public let oldStore: NSPersistentStore
+    public let newStore: NSPersistentStore
+    public let migratedIDs: [NSManagedObjectID]
+
+    fileprivate init(changedStore: NSArray) {
+      // swiftlint:disable:next force_cast
+      self.oldStore = changedStore[0] as! NSPersistentStore
+      // swiftlint:disable:next force_cast
+      self.newStore = changedStore[1] as! NSPersistentStore
+      // When migration happens, the array contains a third object (at index 2) that is an array
+      // containing the new objectIDs for all the migrated objects.
+      self.migratedIDs = changedStore[2] as? [NSManagedObjectID] ?? []
+    }
+  }
+
+  /// Notification name.
+  public static let notificationName = Notification.Name.NSPersistentStoreCoordinatorStoresDidChange
+
+  /// Underlying notification object.
+  public let notification: Notification
+
+  /// List of added stores.
+  public var addedStores: [NSPersistentStore] {
+    notification.userInfo?[NSAddedPersistentStoresKey] as? [NSPersistentStore] ?? []
+  }
+
+  /// List of removed stores.
+  public var removedStores: [NSPersistentStore] {
+    notification.userInfo?[NSRemovedPersistentStoresKey] as? [NSPersistentStore] ?? []
+  }
+
+  /// Store whose UUID changed.
+  public var uuidChangedStore: UUIDChangedStore? {
+    guard let uuidChangedStore = notification.userInfo?[NSUUIDChangedPersistentStoresKey] as? NSArray else { return nil }
+    return UUIDChangedStore(changedStore: uuidChangedStore)
+  }
+
+  public init(notification: Notification) {
+    assert(notification.name == Self.notificationName)
+    self.notification = notification
+  }
+}
+
+// MARK: Will Remove
+
+public struct PersistentStoreCoordinatorWillRemoveStore {
+  /// Notification name.
+  public static let notificationName = Notification.Name.NSPersistentStoreCoordinatorWillRemoveStore
+
+  /// Underlying notification object.
+  public let notification: Notification
+
+  /// The persistent store coordinator that will be removed.
+  public var store: NSPersistentStore {
+    guard let store = notification.object as? NSPersistentStore else {
+      fatalError("A Notification.Name.NSPersistentStoreCoordinatorWillRemoveStore must have a NSPersistentStore object.")
+    }
+    return store
   }
 
   public init(notification: Notification) {
