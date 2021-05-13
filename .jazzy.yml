@@ -1,7 +1,7 @@
 module: CoreDataPlus
 author: Alessandro Marzoli
-author_url: http://www.tinrobots.org
-github_url: https://github.com/tinrobots/coredataplus
+author_url: http://www.alessandromarzoli.com
+github_url: http://www.alessandromarzoli.com/CoreDataPlus/
 copyright: "©[Alessandro Marzoli](http://www.alessandromarzoli.com)"
 clean: true
 podspec: CoreDataPlus.podspec
