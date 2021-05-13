@@ -795,8 +795,8 @@
 		D2708842255EF13600309E7A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				D20F4BC52621F39600F0CB25 /* SampleModel2 */,
 				23C660BA22F3542F00A3EB59 /* SampleModel */,
+				D20F4BC52621F39600F0CB25 /* SampleModel2 */,
 			);
 			path = Resources;
 			sourceTree = "<group>";

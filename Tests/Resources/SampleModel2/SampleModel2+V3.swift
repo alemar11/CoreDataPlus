@@ -1,4 +1,9 @@
 // CoreDataPlus
+//
+// You can use collection operators in CoreData and during migration:
+// https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/KeyValueCoding/CollectionOperators.html
+// i.e. FUNCTION($manager, "destinationInstancesForEntityMappingNamed:sourceInstances:" , "MY_ENTITY_MAPPING_NAME", $source.inventories.@distinctUnionOfSets.products)
+// @distinctUnionOfSets expects an NSSet containing NSSet objects, and returns an NSSet. Because sets can’t contain duplicate values anyway, there is only the distinct operator.)
 
 import CoreData
 @testable import CoreDataPlus
