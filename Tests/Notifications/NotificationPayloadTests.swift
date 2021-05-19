@@ -57,30 +57,30 @@ final class NotificationPayloadTests: InMemoryTestCase {
       .map { ManagedObjectContextObjectsDidChange(notification: $0) }
       .sink { payload in
         switch count {
-        case 0:
-          count += 1
-          XCTAssertTrue(Thread.isMainThread)
-          XCTAssertTrue(payload.managedObjectContext === context)
-          XCTAssertEqual(payload.insertedObjects.count, 1)
-          XCTAssertTrue(payload.deletedObjects.isEmpty)
-          XCTAssertTrue(payload.refreshedObjects.isEmpty)
-          XCTAssertTrue(payload.updatedObjects.isEmpty)
-          XCTAssertTrue(payload.invalidatedObjects.isEmpty)
-          XCTAssertTrue(payload.invalidatedAllObjects.isEmpty)
-          expectation.fulfill()
-        case 1:
-          count += 1
-          XCTAssertTrue(Thread.isMainThread)
-          XCTAssertTrue(payload.managedObjectContext === context)
-          XCTAssertTrue(payload.insertedObjects.isEmpty)
-          XCTAssertTrue(payload.deletedObjects.isEmpty)
-          XCTAssertTrue(payload.refreshedObjects.isEmpty)
-          XCTAssertTrue(payload.updatedObjects.isEmpty)
-          XCTAssertTrue(payload.invalidatedObjects.isEmpty)
-          XCTAssertEqual(payload.invalidatedAllObjects.count, 1)
-          expectation2.fulfill()
-        default:
-          XCTFail("Too many notifications.")
+          case 0:
+            count += 1
+            XCTAssertTrue(Thread.isMainThread)
+            XCTAssertTrue(payload.managedObjectContext === context)
+            XCTAssertEqual(payload.insertedObjects.count, 1)
+            XCTAssertTrue(payload.deletedObjects.isEmpty)
+            XCTAssertTrue(payload.refreshedObjects.isEmpty)
+            XCTAssertTrue(payload.updatedObjects.isEmpty)
+            XCTAssertTrue(payload.invalidatedObjects.isEmpty)
+            XCTAssertTrue(payload.invalidatedAllObjects.isEmpty)
+            expectation.fulfill()
+          case 1:
+            count += 1
+            XCTAssertTrue(Thread.isMainThread)
+            XCTAssertTrue(payload.managedObjectContext === context)
+            XCTAssertTrue(payload.insertedObjects.isEmpty)
+            XCTAssertTrue(payload.deletedObjects.isEmpty)
+            XCTAssertTrue(payload.refreshedObjects.isEmpty)
+            XCTAssertTrue(payload.updatedObjects.isEmpty)
+            XCTAssertTrue(payload.invalidatedObjects.isEmpty)
+            XCTAssertEqual(payload.invalidatedAllObjects.count, 1)
+            expectation2.fulfill()
+          default:
+            XCTFail("Too many notifications.")
         }
       }
 
@@ -330,46 +330,46 @@ final class NotificationPayloadTests: InMemoryTestCase {
       .sink { payload in
         XCTAssertTrue(payload.managedObjectContext === viewContext)
         switch count {
-        case 0:
-          XCTAssertFalse(Thread.isMainThread)
-          XCTAssertEqual(payload.insertedObjects.count, 1)
-          XCTAssertTrue(payload.deletedObjects.isEmpty)
-          XCTAssertTrue(payload.refreshedObjects.isEmpty)
-          XCTAssertTrue(payload.updatedObjects.isEmpty)
-          XCTAssertTrue(payload.invalidatedObjects.isEmpty)
-          XCTAssertTrue(payload.invalidatedAllObjects.isEmpty)
+          case 0:
+            XCTAssertFalse(Thread.isMainThread)
+            XCTAssertEqual(payload.insertedObjects.count, 1)
+            XCTAssertTrue(payload.deletedObjects.isEmpty)
+            XCTAssertTrue(payload.refreshedObjects.isEmpty)
+            XCTAssertTrue(payload.updatedObjects.isEmpty)
+            XCTAssertTrue(payload.invalidatedObjects.isEmpty)
+            XCTAssertTrue(payload.invalidatedAllObjects.isEmpty)
 
-          // To register changes from other contexts, we need to materialize and keep object inserted from other contexts
-          // otherwise you will receive notifications only for used objects (in this case there are used objects by context0)
-          payload.insertedObjects.forEach {
-            $0.willAccessValue(forKey: nil)
-            holds.insert($0)
-          }
-          count += 1
-          expectation1.fulfill()
-        case 1:
-          XCTAssertFalse(Thread.isMainThread)
-          XCTAssertEqual(payload.refreshedObjects.count, 1)
-          count += 1
-          expectation2.fulfill()
-        case 2:
-          XCTAssertTrue(Thread.isMainThread)
-          XCTAssertEqual(payload.updatedObjects.count, 1)
-          count += 1
-          expectation3.fulfill()
-        default:
-          #if !targetEnvironment(macCatalyst)
-          // DTS:
-          // It seems like when ‘automaticallyMergesChangesFromParent’ is true, Core Data on macOS still merge the changes,
-          // even though the changes are from the same context, which is not optimized.
-          //
-          // FB:
-          // There are subtle differences in behavior of the runloop between UIApplication and NSApplication.
-          // Observing just change notifications makes no promises about how many there may be because change notifications are
-          // posted at the end of the run loop and whenever CoreData feels like it (the application lifecycle spins the main run loop).
-          // Save notifications get called once per save.
-          XCTFail("Unexpected change.")
-          #endif
+            // To register changes from other contexts, we need to materialize and keep object inserted from other contexts
+            // otherwise you will receive notifications only for used objects (in this case there are used objects by context0)
+            payload.insertedObjects.forEach {
+              $0.willAccessValue(forKey: nil)
+              holds.insert($0)
+            }
+            count += 1
+            expectation1.fulfill()
+          case 1:
+            XCTAssertFalse(Thread.isMainThread)
+            XCTAssertEqual(payload.refreshedObjects.count, 1)
+            count += 1
+            expectation2.fulfill()
+          case 2:
+            XCTAssertTrue(Thread.isMainThread)
+            XCTAssertEqual(payload.updatedObjects.count, 1)
+            count += 1
+            expectation3.fulfill()
+          default:
+            #if !targetEnvironment(macCatalyst)
+            // DTS:
+            // It seems like when ‘automaticallyMergesChangesFromParent’ is true, Core Data on macOS still merge the changes,
+            // even though the changes are from the same context, which is not optimized.
+            //
+            // FB:
+            // There are subtle differences in behavior of the runloop between UIApplication and NSApplication.
+            // Observing just change notifications makes no promises about how many there may be because change notifications are
+            // posted at the end of the run loop and whenever CoreData feels like it (the application lifecycle spins the main run loop).
+            // Save notifications get called once per save.
+            XCTFail("Unexpected change.")
+            #endif
         }
       }
 
@@ -932,6 +932,7 @@ final class NotificationPayloadOnDiskTests: OnDiskTestCase {
           XCTAssertEqual(payload.insertedObjectIDs.count, 2)
           XCTAssertTrue(payload.deletedObjectIDs.isEmpty)
           XCTAssertTrue(payload.updatedObjectIDs.isEmpty)
+          XCTAssertTrue(payload.insertedObjectIDs.allSatisfy { !$0.isTemporaryID })
           expectation2.fulfill()
         }
         .store(in: &cancellables)
@@ -947,8 +948,50 @@ final class NotificationPayloadOnDiskTests: OnDiskTestCase {
     car2.model = "Panda"
     car2.numberPlate = "2"
 
+    print(car.objectID, car2.objectID)
+
     try context.save()
     waitForExpectations(timeout: 2)
+    cancellables.forEach { $0.cancel() }
+  }
+
+  func testInvestigationInsertionsInChildContextOnDidSaveNotification() throws {
+    // the scope of this test is to verify wheter or not a NSManagedObjectContextDidSaveObjectIDs notification
+    // fired in a child context will have insertedObjectIDs with temporary IDs (expected)
+    let context = container.viewContext
+    let childViewContext = context.newChildContext(concurrencyType: .mainQueueConcurrencyType)
+    var cancellables = [AnyCancellable]()
+
+    if #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *) {
+      let expectation2 = self.expectation(description: "\(#function)\(#line)")
+      expectation2.assertForOverFulfill = false
+      NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSaveObjectIDs, object: childViewContext)
+        .map {
+          ManagedObjectContextDidSaveObjectIDs(notification: $0)
+        }
+        .sink { payload in
+          XCTAssertTrue(payload.managedObjectContext === childViewContext)
+          XCTAssertEqual(payload.insertedObjectIDs.count, 2)
+          XCTAssertTrue(payload.deletedObjectIDs.isEmpty)
+          // we expect to have temporary IDs in the notification
+          XCTAssertTrue(payload.insertedObjectIDs.allSatisfy { $0.isTemporaryID })
+          expectation2.fulfill()
+        }
+        .store(in: &cancellables)
+    }
+
+    let car = Car(context: childViewContext)
+    car.maker = "FIAT"
+    car.model = "Panda"
+    car.numberPlate = "1"
+
+    let car2 = Car(context: childViewContext)
+    car2.maker = "FIAT"
+    car2.model = "Panda"
+    car2.numberPlate = "2"
+
+    try childViewContext.save()
+    waitForExpectations(timeout: 5)
     cancellables.forEach { $0.cancel() }
   }
 
