@@ -846,12 +846,62 @@ final class NotificationPayloadTests: InMemoryTestCase {
 
   // MARK: - NSPersistentStoreRemoteChange
 
+  func testInvestigationPersistentStoreRemoteChangeAndSave() throws {
+    // Cross coordinators change notifications:
+
+    let id = UUID()
+    let container1 = OnDiskPersistentContainer.makeNew(id: id)
+    let container2 = OnDiskPersistentContainer.makeNew(id: id)
+
+    // Given
+    let viewContext1 = container1.viewContext
+    viewContext1.name = "viewContext1"
+    viewContext1.transactionAuthor = "author1"
+
+    let expectation1 = expectation(description: "NSPersistentStoreRemoteChange Notification sent by container1")
+    let cancellable1 = NotificationCenter.default.publisher(for: .NSPersistentStoreRemoteChange, object: container1.persistentStoreCoordinator)
+      .map { PersistentStoreRemoteChange(notification: $0) }
+      .sink { payload in
+        XCTAssertNotNil(payload.historyToken)
+        XCTAssertNotNil(payload.storeUUID)
+        let uuidString = container1.persistentStoreCoordinator.persistentStores.first?.metadata[NSStoreUUIDKey] as? String
+        XCTAssertNotNil(uuidString)
+        XCTAssertEqual(uuidString!, payload.storeUUID.uuidString)
+        XCTAssertEqual(payload.storeURL, container1.persistentStoreCoordinator.persistentStores.first?.url)
+        expectation1.fulfill()
+      }
+
+    let expectation2 = expectation(description: "NSPersistentStoreRemoteChange Notification sent by container2")
+    let cancellable2 = NotificationCenter.default.publisher(for: .NSPersistentStoreRemoteChange, object: container2.persistentStoreCoordinator)
+      .map { PersistentStoreRemoteChange(notification: $0) }
+      .sink { payload in
+        XCTAssertNotNil(payload.historyToken)
+        XCTAssertNotNil(payload.storeUUID)
+        let uuidString = container2.persistentStoreCoordinator.persistentStores.first?.metadata[NSStoreUUIDKey] as? String
+        XCTAssertNotNil(uuidString)
+        XCTAssertEqual(uuidString!, payload.storeUUID.uuidString)
+        XCTAssertEqual(payload.storeURL, container2.persistentStoreCoordinator.persistentStores.first?.url)
+        expectation2.fulfill()
+      }
+
+    let car = Car(context: viewContext1)
+    car.maker = "FIAT"
+    car.numberPlate = "123"
+    car.model = "Panda"
+    try viewContext1.save()
+
+    waitForExpectations(timeout: 5, handler: nil)
+    cancellable1.cancel()
+    cancellable2.cancel()
+  }
+
   func testInvestigationPersistentStoreRemoteChangeAndBatchOperations() throws {
     // Cross coordinators change notifications:
     // This notification notifies when history has been made even when batch operations are done.
 
-    let container1 = InMemoryPersistentContainer.makeNew(named: "123")
-    let container2 = InMemoryPersistentContainer.makeNew(named: "123")
+    let id = UUID()
+    let container1 = OnDiskPersistentContainer.makeNew(id: id)
+    let container2 = OnDiskPersistentContainer.makeNew(id: id)
 
     // Given
     let viewContext1 = container1.viewContext
