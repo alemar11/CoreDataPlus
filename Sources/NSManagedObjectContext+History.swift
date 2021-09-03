@@ -1,9 +1,13 @@
 // CoreDataPlus
 //
-// https://mjtsai.com/blog/2020/08/21/persistent-history-tracking-in-core-data/
+// https://mjtsai.com/blog/2019/08/21/persistent-history-tracking-in-core-data/
 // https://developer.apple.com/documentation/coredata/consuming_relevant_store_changes
 // https://developer.apple.com/documentation/coredata/synchronizing_a_local_store_to_the_cloud
-// WWDC 2020: History requests can be tailored like standard fetch requests (see testInvestigationHistoryFetches)
+
+// WWDC 2017, Introduction: https://developer.apple.com/videos/play/wwdc2017/210/
+// WWDC 2018, Bulk operations and history changes: https://developer.apple.com/videos/play/wwdc2018/224/
+// WWDC 2019, Fetches and Remote Change Notifications: https://developer.apple.com/videos/play/wwdc2019/230
+// WWDC 2020, History requests can be tailored like standard fetch requests (see testInvestigationHistoryFetches), Remote Change Notifications fired when the app goes in foreground if an app extension has done some Core Data transactions: https://developer.apple.com/videos/play/wwdc2020/10017/
 
 import CoreData
 import Foundation
@@ -11,9 +15,13 @@ import Foundation
 extension NSManagedObjectContext {
   // MARK: - Transactions
 
-  /// Returns all the history transactions (anche their associated changes) given a `NSPersistentHistoryChangeRequest` request.
-  public func historyTransactions(using historyFetchRequest: NSPersistentHistoryChangeRequest) throws -> [NSPersistentHistoryTransaction] {
-    historyFetchRequest.resultType = .transactionsAndChanges
+  /// Returns all the history transactions  for given a `NSPersistentHistoryChangeRequest` request.
+  ///
+  /// - Parameters:
+  ///   - historyFetchRequest: A request to fetch persistent history transactions.
+  ///   - withAssociatedChanges: if `true` (default) each transaction will contain all its changes.
+  public func historyTransactions(using historyFetchRequest: NSPersistentHistoryChangeRequest, andAssociatedChanges enableChanges: Bool = true) throws -> [NSPersistentHistoryTransaction] {
+    historyFetchRequest.resultType = enableChanges ? .transactionsAndChanges : .transactionsOnly
     return try performAndWaitResult { context ->[NSPersistentHistoryTransaction] in
       // swiftlint:disable force_cast
       let history = try context.execute(historyFetchRequest) as! NSPersistentHistoryResult
@@ -25,7 +33,9 @@ extension NSManagedObjectContext {
 
   // MARK: - Changes
 
-  /// Returns all the history changes given a `NSPersistentHistoryChangeRequest` request.
+  /// Returns all the history changes for given a `NSPersistentHistoryChangeRequest` request.
+  ///
+  /// - Parameter historyFetchRequest: A request to fetch persistent history changes.
   public func historyChanges(using historyFetchRequest: NSPersistentHistoryChangeRequest) throws -> [NSPersistentHistoryChange] {
     historyFetchRequest.resultType = .changesOnly
     return try performAndWaitResult { context ->[NSPersistentHistoryChange] in
@@ -107,57 +117,5 @@ extension NSManagedObjectContext {
       return status
     }
     return result
-  }
-}
-
-extension NSPersistentHistoryChangeRequest {
-  /// Creates a NSPersistentHistoryChangeRequest to query the Transaction entity.
-  /// - Note: context is used as hint to discover the Transaction entity.
-  ///
-  /// The predicate conditions must be applied to these fields (of the "Transaction" entity):
-  ///
-  /// - `author` (`NSString`)
-  /// - `bundleID` (`NSString`)
-  /// - `contextName` (`NSString`)
-  /// - `processID` (`NSString`)
-  /// - `timestamp` (`NSDate`)
-  /// - `token` (`NSNumber` - `NSInteger64`)
-  /// - `transactionNumber` (`NSNumber` - `NSInteger64`)
-  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-  public final class func historyTransactionFetchRequest(with context: NSManagedObjectContext, where predicate: NSPredicate) -> NSPersistentHistoryChangeRequest? {
-    guard let entity = NSPersistentHistoryTransaction.entityDescription(with: context) else { return nil }
-
-    let transactionFetchRequest = NSFetchRequest<NSFetchRequestResult>()
-    transactionFetchRequest.entity = entity
-    // same as (but for some reasons it's nil during tests):
-    // https://developer.apple.com/videos/play/wwdc2019/230
-    // let transactionFetchRequest = NSPersistentHistoryTransaction.fetchRequest
-
-    transactionFetchRequest.predicate = predicate
-    let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(withFetch: transactionFetchRequest)
-    return historyFetchRequest
-  }
-
-  /// Creates a NSPersistentHistoryChangeRequest to query the Change entity.
-  /// - Note: context is used as hint to discover the Change entity.
-  ///
-  /// The predicate conditions must be applied to these fields (of the "Change" entity):
-  ///
-  /// - `changedID` (`NSNumber` - `NSInteger64`)
-  /// - `changedEntity` (`NSNumber` - `NSInteger64`)
-  /// - `changeType` (`NSNumber` - `NSInteger64`)
-  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-  public final class func historyChangeFetchRequest(with context: NSManagedObjectContext, where predicate: NSPredicate) -> NSPersistentHistoryChangeRequest? {
-    guard let entity = NSPersistentHistoryChange.entityDescription(with: context) else { return nil }
-
-    let changeFetchRequest = NSFetchRequest<NSFetchRequestResult>()
-    changeFetchRequest.entity = entity
-    // same as (but for some reasons it's nil during tests):
-    // https://developer.apple.com/videos/play/wwdc2019/230
-    // let changeFetchRequest = NSPersistentHistoryChange.fetchRequest
-
-    changeFetchRequest.predicate = predicate
-    let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(withFetch: changeFetchRequest)
-    return historyFetchRequest
   }
 }

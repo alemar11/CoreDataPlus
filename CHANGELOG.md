@@ -1,5 +1,11 @@
 # Changelog
 
+### 4.1.0 ⭐
+
+- Xcode 13.
+- Improved methods to fetch persistent history transactions.
+- More tests.
+
 ### 4.0.0 ⭐
 
 - Added a new `Migrator` class to handle migrations (lightweight and heavyweight).
