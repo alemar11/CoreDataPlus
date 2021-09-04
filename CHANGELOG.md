@@ -4,6 +4,7 @@
 
 - Xcode 13.
 - Improved methods to fetch persistent history transactions.
+- Added support for `NSAttributeDescription.AttributeType`.
 - More tests.
 
 ### 4.0.0 ⭐
