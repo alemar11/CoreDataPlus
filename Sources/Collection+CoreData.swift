@@ -55,7 +55,7 @@ extension Collection where Element: NSManagedObject {
         request.returnsObjectsAsFaults = false
         request.predicate = NSPredicate(format: "self IN %@", faults)
 
-        try context.performAndWait { try $0.fetch(request) }
+        try context.performAndWait { _ = try $0.fetch(request) }
       }
     }
   }

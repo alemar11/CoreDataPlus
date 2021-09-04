@@ -60,7 +60,7 @@ extension NSPersistentStoreCoordinator {
 
 /**
  https://developer.apple.com/forums/thread/651325
- Additionally you should almost never use NSPersistentStoreCoordinator's migratePersistentStore... method but instead use the newer replacePersistentStoreAtURL..
+ Additionally you should almost never use NSPersistentStoreCoordinator's migratePersistentStore method but instead use the newer replacePersistentStoreAtURL.
  (you can replace emptiness to make a copy).
  The former loads the store into memory so you can do fairly radical things like write it out as a different store type.
  It pre-dates iOS. The latter will perform an APFS clone where possible.
