@@ -7,7 +7,11 @@ extension NSPersistentStoreCoordinator {
   public static func destroyStore(at url: URL, options: PersistentStoreOptions? = nil) throws {
     let persistentStoreCoordinator = self.init(managedObjectModel: NSManagedObjectModel())
     /// destroyPersistentStore safely deletes everything in the database and leaves an empty database behind.
-    try persistentStoreCoordinator.destroyPersistentStore(at: url, ofType: NSSQLiteStoreType, options: options)
+    if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
+      try persistentStoreCoordinator.destroyPersistentStore(at: url, type: .sqlite, options: options)
+    } else {
+      try persistentStoreCoordinator.destroyPersistentStore(at: url, ofType: NSSQLiteStoreType, options: options)
+    }
 
     let fileManager = FileManager.default
 
@@ -32,11 +36,20 @@ extension NSPersistentStoreCoordinator {
     // https://github.com/atomicbird/CDMoveDemo
     let persistentStoreCoordinator = self.init(managedObjectModel: NSManagedObjectModel())
     // replacing a store has a side effect of removing the current store from the psc
-    try persistentStoreCoordinator.replacePersistentStore(at: destinationURL,
-                                                          destinationOptions: destinationOptions,
-                                                          withPersistentStoreFrom: sourceURL,
-                                                          sourceOptions: sourceOptions,
-                                                          ofType: NSSQLiteStoreType)
+
+    if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
+      try persistentStoreCoordinator.replacePersistentStore(at: destinationURL,
+                                                            destinationOptions: destinationOptions,
+                                                            withPersistentStoreFrom: sourceURL,
+                                                            sourceOptions: sourceOptions,
+                                                            type: .sqlite)
+    } else {
+      try persistentStoreCoordinator.replacePersistentStore(at: destinationURL,
+                                                            destinationOptions: destinationOptions,
+                                                            withPersistentStoreFrom: sourceURL,
+                                                            sourceOptions: sourceOptions,
+                                                            ofType: NSSQLiteStoreType)
+    }
   }
 
   /// Removes all the stores associated with the coordinator.

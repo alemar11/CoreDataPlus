@@ -1009,7 +1009,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
   //        let countExprDesc = NSExpressionDescription()
   //        countExprDesc.name = "count" // alias
   //        countExprDesc.expression = expression
-  //        countExprDesc.expressionResultType = .integer64AttributeType
+  //        countExprDesc.expressionResultType = .integer64AttributeType // in iOS 15 use resultType: NSAttributeDescription.AttributeType
   //
   //        // used in the predicate
   //        let countExpr = NSExpression(forVariable: "count")

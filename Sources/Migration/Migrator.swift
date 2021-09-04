@@ -48,7 +48,7 @@ final class Migrator<Version: ModelVersion>: NSObject, ProgressReporting {
     var progress = Progress(totalUnitCount: 1)
     return progress
   }()
-
+  
   /// Enable log.
   public var enableLog: Bool = false {
     didSet {
@@ -59,18 +59,18 @@ final class Migrator<Version: ModelVersion>: NSObject, ProgressReporting {
       }
     }
   }
-
+  
   private var log: OSLog = .disabled
-
+  
   /// Source description used as starting point for the migration steps.
   let sourceStoreDescription: NSPersistentStoreDescription
-
+  
   /// Desitnation description used as final point for the migrations steps.
   let destinationStoreDescription: NSPersistentStoreDescription
-
+  
   /// `Version` to which the database needs to be migrated.
   let targetVersion: Version
-
+  
   /// Creates a `Migrator` instance to handle a multi step migration to a given `Version`
   /// - Parameters:
   ///   - sourceStoreDescription: Initial persistent store description.
@@ -85,12 +85,12 @@ final class Migrator<Version: ModelVersion>: NSObject, ProgressReporting {
     super.init()
     _ = progress // lazy init for implicit progress support
   }
-
+  
   /// Creates a `Migrator` instance to handle a multi step migration at `targetStoreDescription` to a given `Version`.
   public convenience init(targetStoreDescription: NSPersistentStoreDescription, targetVersion: Version) {
     self.init(sourceStoreDescription: targetStoreDescription, destinationStoreDescription: targetStoreDescription, targetVersion: targetVersion)
   }
-
+  
   /// Migrates the store to a given `Version`, performing a WAL checkpoint if opted in.
   /// - Parameters:
   ///   - targetVersion: The final `Version`.
@@ -101,7 +101,7 @@ final class Migrator<Version: ModelVersion>: NSObject, ProgressReporting {
   public func migrate(enableWALCheckpoint: Bool = false, managerProvider: ((Metadata) -> NSMigrationManager)? = nil) throws {
     guard let sourceURL = sourceStoreDescription.url else { fatalError("Source NSPersistentStoreDescription requires a URL.") }
     guard let destinationURL = destinationStoreDescription.url else { fatalError("Destination NSPersistentStoreDescription requires a URL.") }
-
+    
     try migrateStore(from: sourceURL,
                      sourceOptions: sourceStoreDescription.options,
                      to: destinationURL,
@@ -128,12 +128,12 @@ extension Migrator {
       os_log(.error, log: log, "%{public}s", message)
       fatalError(message)
     }
-
+    
     guard try CoreDataPlus.isMigrationNecessary(for: sourceURL, to: targetVersion) else {
       os_log(.info, log: log, "Migration to %{public}s is not necessary.", "\(targetVersion.rawValue)")
       return
     }
-
+    
     if enableWALCheckpoint {
       os_log(.debug, log: log, "Performing a WAL checkpoint.")
       // A dead lock can occur if a NSPersistentStore with a different journaling mode
@@ -141,12 +141,12 @@ extension Migrator {
       // You need to remove it before performing a WAL checkpoint.
       try performWALCheckpointForStore(at: sourceURL, storeOptions: sourceOptions, model: sourceVersion.managedObjectModel())
     }
-
+    
     let steps = sourceVersion.migrationSteps(to: targetVersion)
     os_log(.debug, log: log, "Number of steps: %{public}d", steps.count)
-
+    
     guard steps.count > 0 else { return }
-
+    
     let migrationStepsProgress = Progress(totalUnitCount: Int64(steps.count), parent: progress, pendingUnitCount: progress.totalUnitCount)
     var currentURL = sourceURL
     try steps.enumerated().forEach { (stepIndex, step) in
@@ -170,13 +170,23 @@ extension Migrator {
           mappingModelMigrationProgress.resignCurrent()
           let start = DispatchTime.now()
           do {
-            try manager.migrateStore(from: currentURL,
-                                     sourceType: NSSQLiteStoreType,
-                                     options: sourceOptions,
-                                     with: mappingModel,
-                                     toDestinationURL: temporaryURL,
-                                     destinationType: NSSQLiteStoreType,
-                                     destinationOptions: destinationOptions)
+            if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
+              try manager.migrateStore(from: currentURL,
+                                       type: .sqlite,
+                                       options: sourceOptions,
+                                       mapping: mappingModel,
+                                       to: temporaryURL,
+                                       type: .sqlite,
+                                       options: destinationOptions)
+            } else {
+              try manager.migrateStore(from: currentURL,
+                                       sourceType: NSSQLiteStoreType,
+                                       options: sourceOptions,
+                                       with: mappingModel,
+                                       toDestinationURL: temporaryURL,
+                                       destinationType: NSSQLiteStoreType,
+                                       destinationOptions: destinationOptions)
+            }
           } catch {
             os_log(.error, "Migration for mapping model %{public}d failed: %{private}@", mappingModelIndex + 1, error as NSError)
             throw error
@@ -199,17 +209,17 @@ extension Migrator {
       }
       os_log(.info, log: log, "Step %{public}d (of %{public}d) completed.", stepIndex + 1, steps.count)
     }
-
+    
     // move the store at currentURL to (final) destinationURL
     os_log(.debug, log: log, "Moving the store at: %{public}@ to final store: %{public}@.", currentURL as CVarArg, destinationURL as CVarArg)
     try NSPersistentStoreCoordinator.replaceStore(at: destinationURL, withPersistentStoreFrom: currentURL)
-
+    
     // delete the store at currentURL if it's not the initial store
     if currentURL != sourceURL {
       os_log(.debug, log: log, "Destroying store at %{public}@.", currentURL as CVarArg)
       try NSPersistentStoreCoordinator.destroyStore(at: currentURL)
     }
-
+    
     // delete the initial store only if the option is set to true
     if destinationURL != sourceURL {
       os_log(.debug, log: log, "Destroying initial store at %{public}@.", sourceURL as CVarArg)
@@ -244,8 +254,13 @@ private func performWALCheckpointForStore(at storeURL: URL, storeOptions: Persis
     // https://developer.apple.com/forums/thread/118924
     options[NSPersistentHistoryTrackingKey] = [NSPersistentHistoryTrackingKey: true as NSNumber]
   }
-
-  let store = try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
+  
+  let store: NSPersistentStore
+  if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
+    store = try persistentStoreCoordinator.addPersistentStore(type: .sqlite, configuration: nil, at: storeURL, options: options)
+  } else {
+    store = try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
+  }
   try persistentStoreCoordinator.remove(store)
 }
 
@@ -257,7 +272,7 @@ extension Migrator {
     let destinationVersion: Version
     let destinationModel: NSManagedObjectModel
     let mappingModel: NSMappingModel
-
+    
     fileprivate init(sourceVersion: Version,
                      sourceModel: NSManagedObjectModel,
                      destinationVersion: Version,
