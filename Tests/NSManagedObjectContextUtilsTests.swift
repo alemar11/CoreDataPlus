@@ -100,30 +100,6 @@ final class NSManagedObjectContextUtilsTests: InMemoryTestCase {
     XCTAssertEqual(viewContext.changesCount, 1)
   }
 
-  func testMetaData() {
-    // When
-    guard let firstPersistentStore = container.viewContext.persistentStores.first else {
-      XCTAssertNotNil(container.viewContext.persistentStores.first)
-      return
-    }
-    // Then
-    let metaData = container.viewContext.metaData(for: firstPersistentStore)
-    XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[Car.entityName])
-    XCTAssertNotNil((metaData["NSStoreModelVersionHashes"] as? [String: Any])?[Person.entityName])
-    XCTAssertNotNil(metaData["NSStoreType"] as? String)
-
-    let addMetaDataExpectation = expectation(description: "Add MetaData Expectation")
-    container.viewContext.setMetaDataObject("Test", with: "testKey", for: firstPersistentStore){ error in
-      XCTAssertNil(error)
-      addMetaDataExpectation.fulfill()
-    }
-    waitForExpectations(timeout: 5.0, handler: nil)
-
-    let updatedMetaData = container.viewContext.metaData(for: firstPersistentStore)
-    XCTAssertNotNil(updatedMetaData["testKey"])
-    XCTAssertEqual(updatedMetaData["testKey"] as? String, "Test")
-  }
-
   func testEntityDescription() {
     XCTAssertNotNil(container.viewContext.entity(forEntityName: Car.entityName))
     XCTAssertNotNil(container.viewContext.entity(forEntityName: Person.entityName))

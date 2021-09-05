@@ -5,6 +5,25 @@ import CoreData
 // TODO: should these method run inside the psc.performAndWait { ... }
 
 extension NSPersistentStoreCoordinator {
+  /// Adds an `object` to the store's metadata.
+  ///
+  /// After updating the metadata, save the managed object context referring to the store’s coordinator to actually persist the changes.
+  ///
+  /// - Parameters:
+  ///   - object: Object to be added to the medata dictionary.
+  ///   - key: Object key
+  ///   - store: NSPersistentStore where is stored the metadata.
+  /// - Important: Setting the metadata for a store does not change the information on disk until the store is actually saved.
+  public final func setMetadataObject(_ object: Any?, with key: String, for store: NSPersistentStore) {
+    // TODO: Any -> Codable or SecureCopying?
+    var metaData = metadata(for: store)
+    metaData[key] = object
+    setMetadata(metaData, for: store)
+    // https://www.meandmark.com/blog/2017/11/saving-settings-with-core-data-metadata/
+    // https://paysonwallach.com/posts/storing-metadata-in-core-data/
+    // https://github.com/objcio/core-data/blob/master/SharedCode/NSManagedObjectContext%2BExtensions.swift
+  }
+
   /// Safely deletes a store at a given url.
   public static func destroyStore(at url: URL, options: PersistentStoreOptions? = nil) throws {
     let persistentStoreCoordinator = self.init(managedObjectModel: NSManagedObjectModel())

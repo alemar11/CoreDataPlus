@@ -5,35 +5,8 @@ import CoreData
 extension NSManagedObjectContext {
   /// The persistent stores associated with the receiver (if any).
   public final var persistentStores: [NSPersistentStore] {
+    // TODO: remove this method?
     return persistentStoreCoordinator?.persistentStores ?? []
-  }
-
-  /// Returns a dictionary that contains the metadata currently stored or to-be-stored in a given persistent store.
-  public final func metaData(for store: NSPersistentStore) -> [String: Any] {
-    // TODO: remove this method (study psc performAndWait method)
-    guard let persistentStoreCoordinator = persistentStoreCoordinator else { preconditionFailure("\(self.description) doesn't have a Persistent Store Coordinator.") }
-
-    return persistentStoreCoordinator.metadata(for: store)
-  }
-
-  /// Adds an `object` to the store's metadata and saves it **asynchronously**.
-  ///
-  /// - Parameters:
-  ///   - object: Object to be added to the medata dictionary.
-  ///   - key: Object key
-  ///   - store: NSPersistentStore where is stored the metadata.
-  ///   - handler: The completion handler called when the saving is completed.
-  public final func setMetaDataObject(_ object: Any?, with key: String, for store: NSPersistentStore, completion handler: ( (Error?) -> Void )? = nil ) {
-    // TODO: create a PSC extension for this method (study psc performAndWait method)
-    performSave(after: { context in
-      guard let persistentStoreCoordinator = context.persistentStoreCoordinator else { preconditionFailure("\(context.description) doesn't have a Persistent Store Coordinator.") }
-
-      var metaData = persistentStoreCoordinator.metadata(for: store)
-      metaData[key] = object
-      persistentStoreCoordinator.setMetadata(metaData, for: store)
-    }, completion: { error in
-      handler?(error)
-    })
   }
 
   /// Returns the entity with the specified name (if any) from the managed object model associated with the specified managed object context’s persistent store coordinator.
@@ -266,25 +239,6 @@ extension NSManagedObjectContext {
 // MARK: Async/Await
 
 extension NSManagedObjectContext {
-  /// Adds an `object` to the store's metadata and saves it **asynchronously**.
-  ///
-  /// - Parameters:
-  ///   - object: Object to be added to the medata dictionary.
-  ///   - key: Object key
-  ///   - store: NSPersistentStore where is stored the metadata.
-  @available(swift 5.5)
-  @available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *)
-  public final func setMetaDataObject(_ object: Any?, with key: String, for store: NSPersistentStore) async throws {
-    try await perform(schedule: .enqueued) {
-      guard let persistentStoreCoordinator = self.persistentStoreCoordinator else { preconditionFailure("\(self.description) doesn't have a Persistent Store Coordinator.") }
-
-      var metaData = persistentStoreCoordinator.metadata(for: store)
-      metaData[key] = object
-      persistentStoreCoordinator.setMetadata(metaData, for: store)
-      try self.saveIfNeeded()
-    }
-  }
-
   /// Saves the `NSManagedObjectContext` up to the last parent `NSManagedObjectContext`.
 //  @available(swift 5.5)
 //  @available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *)
