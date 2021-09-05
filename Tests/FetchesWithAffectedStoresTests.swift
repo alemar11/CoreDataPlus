@@ -4,8 +4,9 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
+/// Tests with fetch requests targeting specific persistent stores
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-final class AffectedStoresTests: XCTestCase {
+final class FetchesWithAffectedStoresTests: XCTestCase {
   func testFetches() throws {
     let uuid = UUID().uuidString
     let url1 = URL.newDatabaseURL(withName: "part1-\(uuid)")

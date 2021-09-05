@@ -2,6 +2,8 @@
 
 import CoreData
 
+// TODO: should these method run inside the psc.performAndWait { ... }
+
 extension NSPersistentStoreCoordinator {
   /// Safely deletes a store at a given url.
   public static func destroyStore(at url: URL, options: PersistentStoreOptions? = nil) throws {

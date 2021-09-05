@@ -447,9 +447,9 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
       let transactionRequest = NSPersistentHistoryChangeRequest.fetchHistory(withFetch: request)
       transactionRequest.resultType = .transactionsOnly
 
-      let transactions = try viewContext2.performAndWaitResult { context ->[NSPersistentHistoryTransaction] in
+      let transactions = try viewContext2.performAndWaitResult { _ ->[NSPersistentHistoryTransaction] in
         // swiftlint:disable force_cast
-        let history = try context.execute(transactionRequest) as! NSPersistentHistoryResult
+        let history = try viewContext2.execute(transactionRequest) as! NSPersistentHistoryResult
         let transactions = history.result as! [NSPersistentHistoryTransaction] // ordered from the oldest to the most recent
         // swiftlint:enable force_cast
         return transactions
@@ -479,8 +479,8 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
       let changeRequest = NSPersistentHistoryChangeRequest.fetchHistory(withFetch: request)
       changeRequest.resultType = .transactionsAndChanges
 
-      let transactions = try viewContext2.performAndWaitResult { context -> [NSPersistentHistoryTransaction] in
-        let history = try context.execute(changeRequest) as! NSPersistentHistoryResult
+      let transactions = try viewContext2.performAndWaitResult { _ -> [NSPersistentHistoryTransaction] in
+        let history = try viewContext2.execute(changeRequest) as! NSPersistentHistoryResult
         let transactions = history.result as! [NSPersistentHistoryTransaction] // ordered from the oldest to the most recent
         return transactions
       }
@@ -539,6 +539,8 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
         // ⚠️ fetching history changes with a changedObjectID in the predicate doesn't work on a context associated with a different container
         // (even if the underlying store is the same)
         // If we remove from the predicate the "changedObjectID" clause, we get both the Updated Person and the Deleted Car.
+        //
+        // At the moment querying for changes using changedObjectID seems useful only in bulk updates (many contexts for the same container)
         let changes2 = try viewContext2.historyChanges(using: historyFetchRequest)
         XCTAssertTrue(changes2.isEmpty, "It seems that applying a predicate with changedObjectID doesn't work on a context associated with a different container.")
 

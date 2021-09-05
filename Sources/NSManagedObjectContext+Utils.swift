@@ -10,6 +10,7 @@ extension NSManagedObjectContext {
 
   /// Returns a dictionary that contains the metadata currently stored or to-be-stored in a given persistent store.
   public final func metaData(for store: NSPersistentStore) -> [String: Any] {
+    // TODO: remove this method (study psc performAndWait method)
     guard let persistentStoreCoordinator = persistentStoreCoordinator else { preconditionFailure("\(self.description) doesn't have a Persistent Store Coordinator.") }
 
     return persistentStoreCoordinator.metadata(for: store)
@@ -23,6 +24,7 @@ extension NSManagedObjectContext {
   ///   - store: NSPersistentStore where is stored the metadata.
   ///   - handler: The completion handler called when the saving is completed.
   public final func setMetaDataObject(_ object: Any?, with key: String, for store: NSPersistentStore, completion handler: ( (Error?) -> Void )? = nil ) {
+    // TODO: create a PSC extension for this method (study psc performAndWait method)
     performSave(after: { context in
       guard let persistentStoreCoordinator = context.persistentStoreCoordinator else { preconditionFailure("\(context.description) doesn't have a Persistent Store Coordinator.") }
 
@@ -36,6 +38,7 @@ extension NSManagedObjectContext {
 
   /// Returns the entity with the specified name (if any) from the managed object model associated with the specified managed object context’s persistent store coordinator.
   public final func entity(forEntityName name: String) -> NSEntityDescription? {
+    // TODO: remove this method?
     guard let persistentStoreCoordinator = persistentStoreCoordinator else { preconditionFailure("\(self.description) doesn't have a Persistent Store Coordinator.") }
     let entity = persistentStoreCoordinator.managedObjectModel.entitiesByName[name]
 
@@ -119,6 +122,7 @@ extension NSManagedObjectContext {
   ///   - changes: Changes to be applied in the current context before the saving operation. If they fail throwing an execption, the context will be reset.
   ///   - completion: Block executed (on the context’s queue.) at the end of the saving operation.
   public final func performSave(after changes: @escaping (NSManagedObjectContext) throws -> Void, completion: ( (NSError?) -> Void )? = nil ) {
+    // TODO: mark this method as deprecated
     // https://stackoverflow.com/questions/37837979/using-weak-strong-self-usage-in-block-core-data-swift
     // `perform` executes the block and then releases it.
     // In Swift terms it is @noescape (and in the future it may be marked that way and you won't need to use self. in noescape closures).
@@ -130,9 +134,7 @@ extension NSManagedObjectContext {
         // TODO
         // add an option flag to decide whether or not a context can be saved if only transient properties are changed
         // in that case hasPersistentChanges should be used instead of hasChanges
-        if self.hasChanges {
-          try self.save()
-        }
+        try self.saveIfNeeded()
       } catch {
         internalError = error as NSError
       }
@@ -144,16 +146,14 @@ extension NSManagedObjectContext {
   ///
   /// - Throws: It throws an error in cases of failure (while applying changes or saving).
   public final func performSaveAndWait(after changes: (NSManagedObjectContext) throws -> Void) throws {
+    // TODO: mark this method as deprecated
     // swiftlint:disable:next identifier_name
     try withoutActuallyEscaping(changes) { _changes in
       var internalError: NSError?
-
       performAndWait {
         do {
           try _changes(self)
-          if hasChanges {
-            try save()
-          }
+          try saveIfNeeded()
         } catch {
           internalError = error as NSError
         }
@@ -163,13 +163,25 @@ extension NSManagedObjectContext {
     }
   }
 
+  /// Saves the `NSManagedObjectContext` if changes are present.
+  public final func saveIfNeeded() throws {
+    if hasChanges {
+      try save()
+    }
+  }
+
   /// Saves the `NSManagedObjectContext` if changes are present or **rollbacks** if any error occurs.
   /// - Note: The rollback removes everything from the undo stack, discards all insertions and deletions, and restores updated objects to their last committed values.
+  @available(*, deprecated, message: "Use saveIfNeededOrRollBack instead.")
   public final func saveOrRollBack() throws {
-    guard hasChanges else { return }
+    try saveIfNeededOrRollBack()
+  }
 
+  /// Saves the `NSManagedObjectContext` if changes are present or **rollbacks** if any error occurs.
+  /// - Note: The rollback removes everything from the undo stack, discards all insertions and deletions, and restores updated objects to their last committed values.
+  public final func saveIfNeededOrRollBack() throws {
     do {
-      try save()
+      try saveIfNeeded()
     } catch {
       rollback() // rolls back the pending changes
       throw error
@@ -182,12 +194,9 @@ extension NSManagedObjectContext {
 
     while parentContext != nil {
       var saveError: Error?
-
       parentContext!.performAndWait {
-        guard parentContext!.hasChanges else { return }
-
         do {
-          try parentContext!.save()
+          try parentContext!.saveIfNeeded()
         } catch {
           saveError = error
         }
@@ -207,13 +216,26 @@ extension NSManagedObjectContext {
   /// Synchronously performs a given block on the context’s queue and returns the final result.
   /// - Throws: It throws an error in cases of failure.
   public func performAndWaitResult<T>(_ block: (NSManagedObjectContext) throws -> T) rethrows -> T {
-    return try _performAndWait(function: performAndWait, execute: block, rescue: { throw $0 })
+    if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
+      return try performAndWait {
+        try block(self)
+      }
+    } else {
+      return try _performAndWait(function: performAndWait, execute: block, rescue: { throw $0 })
+    }
   }
 
   /// Synchronously performs a given block on the context’s queue.
   /// - Throws: It throws an error in cases of failure.
   public func performAndWait(_ block: (NSManagedObjectContext) throws -> Void) rethrows {
-    try _performAndWait(function: performAndWait, execute: block, rescue: { throw $0 })
+    // TODO: to make it very close to the WWDC 2021, remove the NSManagedObjectContext argument (if it makes sense)
+    if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
+      try performAndWait {
+        try block(self)
+      }
+    } else {
+      try _performAndWait(function: performAndWait, execute: block, rescue: { throw $0 })
+    }
   }
 
   /// Helper function for convincing the type checker that the rethrows invariant holds for performAndWait.
@@ -239,4 +261,51 @@ extension NSManagedObjectContext {
       return result!
     }
   }
+}
+
+// MARK: Async/Await
+
+extension NSManagedObjectContext {
+  /// Adds an `object` to the store's metadata and saves it **asynchronously**.
+  ///
+  /// - Parameters:
+  ///   - object: Object to be added to the medata dictionary.
+  ///   - key: Object key
+  ///   - store: NSPersistentStore where is stored the metadata.
+  @available(swift 5.5)
+  @available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *)
+  public final func setMetaDataObject(_ object: Any?, with key: String, for store: NSPersistentStore) async throws {
+    try await perform(schedule: .enqueued) {
+      guard let persistentStoreCoordinator = self.persistentStoreCoordinator else { preconditionFailure("\(self.description) doesn't have a Persistent Store Coordinator.") }
+
+      var metaData = persistentStoreCoordinator.metadata(for: store)
+      metaData[key] = object
+      persistentStoreCoordinator.setMetadata(metaData, for: store)
+      try self.saveIfNeeded()
+    }
+  }
+
+  /// Saves the `NSManagedObjectContext` up to the last parent `NSManagedObjectContext`.
+//  @available(swift 5.5)
+//  @available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *)
+//  @available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *)
+//  internal final func performSaveUpToTheLastParentContextAndWait() async throws {
+//    // TODO: is this method really needed?
+//    var parentContext: NSManagedObjectContext? = self
+//    while parentContext != nil {
+//      var saveError: Error?
+//      await parentContext!.perform(schedule: .immediate) {
+//        do {
+//          try parentContext!.saveIfNeeded()
+//        } catch {
+//          saveError = error
+//        }
+//      }
+//      parentContext = parentContext!.parent
+//
+//      if let error = saveError {
+//        throw error
+//      }
+//    }
+//  }
 }

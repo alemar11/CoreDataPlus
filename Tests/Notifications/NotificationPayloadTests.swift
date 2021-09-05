@@ -289,17 +289,19 @@ final class NotificationPayloadTests: InMemoryTestCase {
         expectation.fulfill()
       }
 
-    try backgroundContext1.performSaveAndWait { context in
+    try backgroundContext1.performAndWait { _ in
       let car = Car(context: backgroundContext1)
       car.maker = "FIAT"
       car.model = "Panda"
       car.numberPlate = "1"
       car.maker = "123!"
+      try backgroundContext1.save()
     }
 
     // no objects are used (kept and materialized by backgroundContext2) so a delete notification will not be triggered
-    try backgroundContext1.performSaveAndWait { context in
-      try Car.delete(in: context)
+    try backgroundContext1.performAndWait { _ in
+      try Car.delete(in: backgroundContext1)
+      try backgroundContext1.save()
     }
 
     waitForExpectations(timeout: 2)
@@ -375,33 +377,36 @@ final class NotificationPayloadTests: InMemoryTestCase {
 
 
     let numberPlate = "123!"
-    try backgroundContext1.performSaveAndWait { context in
-      let car = Car(context: context)
+    try backgroundContext1.performAndWait { _ in
+      let car = Car(context: backgroundContext1)
       car.maker = "FIAT"
       car.model = "Panda"
       car.numberPlate = numberPlate
+      try backgroundContext1.save()
     }
 
     wait(for: [expectation1], timeout: 5)
 
-    try backgroundContext2.performSaveAndWait { context in
-      let uniqueCar = try Car.fetchUnique(in: context, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), numberPlate))
+    try backgroundContext2.performAndWait { _ in
+      let uniqueCar = try Car.fetchUnique(in: backgroundContext2, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), numberPlate))
       guard let car = uniqueCar else {
         XCTFail("Car not found")
         return
       }
       car.model = "**Panda**"
+      try backgroundContext2.save()
     }
 
     wait(for: [expectation2], timeout: 5)
 
-    try viewContext.performSaveAndWait { context in
-      let uniqueCar = try Car.fetchUnique(in: context, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), numberPlate))
+    try viewContext.performAndWait { _ in
+      let uniqueCar = try Car.fetchUnique(in: viewContext, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), numberPlate))
       guard let car = uniqueCar else {
         XCTFail("Car not found")
         return
       }
       car.maker = "**FIAT**"
+      try viewContext.save()
     }
 
     wait(for: [expectation3], timeout: 5)
@@ -413,12 +418,13 @@ final class NotificationPayloadTests: InMemoryTestCase {
     let backgroundContext2 = container.newBackgroundContext()
 
     // 10 Pandas are created on backgroundContext2
-    try backgroundContext2.performSaveAndWait { context in
-      (1...10).forEach { numberPlate in
-        let car = Car(context: context)
+    try backgroundContext2.performAndWait { _ in
+      try (1...10).forEach { numberPlate in
+        let car = Car(context: backgroundContext2)
         car.maker = "FIAT"
         car.model = "Panda"
         car.numberPlate = "\(numberPlate)"
+        try backgroundContext2.save()
       }
     }
 
@@ -454,33 +460,36 @@ final class NotificationPayloadTests: InMemoryTestCase {
 
 
     // car with n. 3, doesn't impact the didChange because it's not materialized in context0
-    try backgroundContext2.performSaveAndWait { context in
-      let uniqueCar = try Car.fetchUnique(in: context, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), "3"))
+    try backgroundContext2.performAndWait { _ in
+      let uniqueCar = try Car.fetchUnique(in: backgroundContext2, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), "3"))
       guard let car = uniqueCar else {
         XCTFail("Car not found")
         return
       }
       car.model = "**Panda**"
+      try backgroundContext2.save()
     }
 
     // car with n. 6, doesn't impact the didChange because it's not materialized in context0
-    try backgroundContext1.performSaveAndWait { context in
-      let uniqueCar = try Car.fetchUnique(in: context, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), "6"))
+    try backgroundContext1.performAndWait { _ in
+      let uniqueCar = try Car.fetchUnique(in: backgroundContext1, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), "6"))
       guard let car = uniqueCar else {
         XCTFail("Car not found")
         return
       }
       car.delete()
+      try backgroundContext1.save()
     }
 
     // car with n. 2, impact the didChange because it's materialized in context0
-    try backgroundContext2.performSaveAndWait { context in
-      let uniqueCar = try Car.fetchUnique(in: context, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), "2"))
+    try backgroundContext2.performAndWait { _ in
+      let uniqueCar = try Car.fetchUnique(in: backgroundContext2, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), "2"))
       guard let car = uniqueCar else {
         XCTFail("Car not found")
         return
       }
       car.model = "**Panda**"
+      try backgroundContext2.save()
     }
 
     waitForExpectations(timeout: 5)
@@ -729,22 +738,23 @@ final class NotificationPayloadTests: InMemoryTestCase {
         expectation2.fulfill()
       }
 
-    try childContext.performSaveAndWait { context in
+    try childContext.performAndWait { _ in
       // 2 inserts
-      let car3 = Car(context: context)
+      let car3 = Car(context: childContext)
       car3.maker = "FIAT"
       car3.model = "Qubo"
       car3.numberPlate = UUID().uuidString
 
-      let car4 = Car(context: context)
+      let car4 = Car(context: childContext)
       car4.maker = "FIAT"
       car4.model = "500"
       car4.numberPlate = UUID().uuidString
       // the save triggers the didChange event
+      try childContext.save()
     }
 
-    try childContext.performSaveAndWait { context in
-      let uniqueCar1 = try Car.fetchUnique(in: context, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), car1Plate))
+    try childContext.performAndWait { _ in
+      let uniqueCar1 = try Car.fetchUnique(in: childContext, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), car1Plate))
       guard let car1 = uniqueCar1 else {
         XCTFail("Car not found.")
         return
@@ -752,26 +762,29 @@ final class NotificationPayloadTests: InMemoryTestCase {
       car1.model = "Panda 1**"
       car1.maker = "FIAT**"
       car1.numberPlate = "111**"
+      try childContext.save()
     }
 
-    try childContext.performSaveAndWait { context in
-      let uniqueCar2 = try Car.fetchUnique(in: context, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), car2Plate))
+    try childContext.performAndWait { _ in
+      let uniqueCar2 = try Car.fetchUnique(in: childContext, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), car2Plate))
       guard let car2 = uniqueCar2 else {
         XCTFail("Car not found.")
         return
       }
       car2.delete()
+      try childContext.save()
     }
 
-    try childContext2.performSaveAndWait { context in
-      let car5 = Car(context: context)
+    try childContext2.performAndWait { childContext2 in
+      let car5 = Car(context: childContext2)
       car5.maker = "FIAT"
       car5.model = "500"
       car5.numberPlate = UUID().uuidString
+      try childContext2.save()
     }
 
-    try parentContext.performAndWaitResult { context in
-      try context.save() // triggers the didSave event
+    try parentContext.performAndWaitResult { _ in
+      try parentContext.save() // triggers the didSave event
     }
 
     waitForExpectations(timeout: 10)

@@ -2,6 +2,8 @@
 
 import CoreData
 
+// TODO: review these methods (probably it's better to add some NSPredicate utils)
+
 extension NSFetchRequest {
   /// Creates a NSFetchRequest.
   ///

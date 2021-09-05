@@ -111,7 +111,7 @@ final class NotificationMergeTests: InMemoryTestCase {
         expectation1.fulfill()
       }
 
-    try backgroundContext.performSaveAndWait {
+    try backgroundContext.performAndWait {
       try Person.delete(in: $0, where: NSPredicate(format: "%K == %@", #keyPath(Person.firstName), "Alessandro"))
       let person = Person(context: $0)
       person.firstName = "Edythe"
@@ -119,6 +119,7 @@ final class NotificationMergeTests: InMemoryTestCase {
 
       let person2 = try XCTUnwrap(Person.object(with: person2.objectID, in: backgroundContext))
       person2.firstName += "**"
+      try backgroundContext.save()
     }
 
     self.waitForExpectations(timeout: 2)

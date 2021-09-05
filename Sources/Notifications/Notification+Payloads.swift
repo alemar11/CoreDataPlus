@@ -6,7 +6,7 @@
 
 // TODO
 // WWDC 2020: there should be a NSManagedObjectContext.NotificationKey.sourceContext to access the context from the userInfo
-// but as of Xcode 12.5 it's not there (and the userInfo contains a _PFWeakReference for key "managedObjectContext")
+// but as of Xcode 13b5 it's not there (and the userInfo contains a _PFWeakReference for key "managedObjectContext")
 
 import CoreData
 import Foundation
@@ -119,6 +119,7 @@ extension NSManagedObjectContext {
   ///   - payload: A `NSManagedObjectContextDidSave` payload posted by another context.
   ///   - completion: The block to be executed after the merge completes.
   public func performMergeChanges(from payload: ManagedObjectContextDidSaveObjects, completion: @escaping () -> Void = {}) {
+    // TODO: remove this method
     perform {
       self.mergeChanges(fromContextDidSave: payload.notification)
       completion()
@@ -133,6 +134,7 @@ extension NSManagedObjectContext {
   ///   - payload: A `NSManagedObjectContextDidSave` payload posted by another context.
   ///   - completion: The block to be executed after the merge completes.
   public func performAndWaitMergeChanges(from payload: ManagedObjectContextDidSaveObjects) {
+    // TODO: remove this method
     performAndWait {
       self.mergeChanges(fromContextDidSave: payload.notification)
     }

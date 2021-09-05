@@ -127,14 +127,14 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     let sportCar1 = SportCar(context: context1)
     sportCar1.numberPlate = "sportCar1-testBatchFaultingWithDifferentContexts"
     
-    let person2 = context2.performAndWaitResult { context -> Person in
+    let person2 = context2.performAndWaitResult { _ -> Person in
       let person = Person(context: context2)
       person.firstName = "firstName-testBatchFaultingWithDifferentContexts"
       person.lastName = "lastName-testBatchFaultingWithDifferentContexts"
       return person
     }
     
-    let car2 = context2.performAndWaitResult { context -> Car in
+    let car2 = context2.performAndWaitResult { _ -> Car in
       let car = Car(context: context2)
       car.numberPlate = "car2-testBatchFaultingWithDifferentContexts"
       return car
@@ -879,7 +879,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
   }
   
   // TODO: investigate this behaviour (and open a FB)
-//  func testFailedbatchUpdateWithResultObjectIDs() throws {
+//  func testFailedBatchUpdateWithResultObjectIDs() throws {
 //    guard #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) else { return }
 //
 //    // Given

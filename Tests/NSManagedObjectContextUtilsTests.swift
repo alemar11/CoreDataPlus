@@ -523,7 +523,7 @@ final class NSManagedObjectContextUtilsTests: InMemoryTestCase {
 
     person1.cars = [car1]
 
-    XCTAssertNoThrow(try context.saveOrRollBack())
+    XCTAssertNoThrow(try context.saveIfNeededOrRollBack())
 
     XCTAssertEqual(context.registeredObjects.count, 2) // person1 and car1 with a circular reference cycle
 
@@ -534,7 +534,7 @@ final class NSManagedObjectContextUtilsTests: InMemoryTestCase {
 
     XCTAssertEqual(context.registeredObjects.count, 3)
 
-    XCTAssertThrowsError(try context.saveOrRollBack())
+    XCTAssertThrowsError(try context.saveIfNeededOrRollBack())
 
     XCTAssertEqual(context.registeredObjects.count, 2) // person2 is discarded because it cannot be saved
   }

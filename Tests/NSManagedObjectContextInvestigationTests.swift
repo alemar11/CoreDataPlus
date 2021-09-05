@@ -65,17 +65,18 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
       childContext.parent = parentContext
       childContext.automaticallyMergesChangesFromParent = true
 
-      let childCar = try childContext.performAndWaitResult { context -> Car in
-        let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: context))
+      let childCar = try childContext.performAndWaitResult { _ -> Car in
+        let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: childContext))
         XCTAssertEqual(car.maker, "FIAT")
         return car
       }
 
-      try parentContext.performSaveAndWait { context in
-        let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: context))
+      try parentContext.performAndWait { _ in
+        let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: parentContext))
         XCTAssertEqual(car.maker, "FIAT")
         car.maker = "😀"
         XCTAssertEqual(car.maker, "😀")
+        try parentContext.save()
       }
 
       // this will fail without automaticallyMergesChangesFromParent to true
@@ -109,11 +110,12 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
         return car
       }
 
-      try parentContext.performSaveAndWait { context in
-        let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: context))
+      try parentContext.performAndWait { _ in
+        let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: parentContext))
         XCTAssertEqual(car.maker, "FIAT")
         car.maker = "😀"
         XCTAssertEqual(car.maker, "😀")
+        try parentContext.save()
       }
 
       childContext.performAndWait {
@@ -135,17 +137,18 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
       childContext.parent = parentContext
       childContext.automaticallyMergesChangesFromParent = true
 
-      let childCar = try childContext.performAndWaitResult { context -> Car in
-        let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: context))
+      let childCar = try childContext.performAndWaitResult { _ -> Car in
+        let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: childContext))
         XCTAssertEqual(car.maker, "FIAT")
         return car
       }
 
-      try parentContext.performSaveAndWait { context in
-        let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: context))
+      try parentContext.performAndWait { _ in
+        let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: parentContext))
         XCTAssertEqual(car.maker, "FIAT")
         car.maker = "😀"
         XCTAssertEqual(car.maker, "😀")
+        try parentContext.save()
       }
 
       // this will fail without automaticallyMergesChangesFromParent to true
@@ -168,17 +171,18 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
       childContext.parent = parentContext
       childContext.automaticallyMergesChangesFromParent = false
 
-      let childCar = try childContext.performAndWaitResult { context -> Car in
-        let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: context))
+      let childCar = try childContext.performAndWaitResult { _ -> Car in
+        let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: childContext))
         XCTAssertEqual(car.maker, "FIAT")
         return car
       }
 
-      try parentContext.performSaveAndWait { context in
-        let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: context))
+      try parentContext.performAndWait { _ in
+        let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: parentContext))
         XCTAssertEqual(car.maker, "FIAT")
         car.maker = "😀"
         XCTAssertEqual(car.maker, "😀")
+        try parentContext.save()
       }
 
       childContext.performAndWait {
