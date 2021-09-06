@@ -127,14 +127,14 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     let sportCar1 = SportCar(context: context1)
     sportCar1.numberPlate = "sportCar1-testBatchFaultingWithDifferentContexts"
     
-    let person2 = context2.performAndWaitResult { _ -> Person in
+    let person2 = context2.performAndWait { _ -> Person in
       let person = Person(context: context2)
       person.firstName = "firstName-testBatchFaultingWithDifferentContexts"
       person.lastName = "lastName-testBatchFaultingWithDifferentContexts"
       return person
     }
     
-    let car2 = context2.performAndWaitResult { _ -> Car in
+    let car2 = context2.performAndWait { _ -> Car in
       let car = Car(context: context2)
       car.numberPlate = "car2-testBatchFaultingWithDifferentContexts"
       return car
@@ -382,78 +382,6 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     XCTAssertNil(car5)
   }
   
-  func testFindOneOrCreate() throws {
-    let context = container.viewContext
-    
-    context.performAndWait {
-      context.fillWithSampleData()
-      try! context.save()
-    }
-    
-    /// existing object
-    do {
-      let car = try Car.findOneOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")) { car in
-        XCTAssertNotNil(car.numberPlate)
-      }
-      XCTAssertNotNil(car)
-      XCTAssertTrue(car.maker == "Lamborghini")
-      XCTAssertFalse(car.objectID.isTemporaryID)
-    }
-    
-    /// new object
-    do {
-      let car = try Car.findOneOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-new"), with: { car in
-        XCTAssertNil(car.numberPlate)
-        car.numberPlate = "304-new"
-        car.model = "test"
-      })
-      XCTAssertNotNil(car)
-      XCTAssertNil(car.maker)
-      XCTAssertEqual(car.numberPlate, "304-new")
-      XCTAssertEqual(car.model, "test")
-      XCTAssertTrue(car.objectID.isTemporaryID)
-      context.delete(car)
-    }
-    
-    /// new object added in the context before the fetch
-    
-    // first we materialiaze all cars
-    XCTAssertNoThrow(try Car.fetch(in: context) { request in request.returnsObjectsAsFaults = false })
-    let car = Car(context: context)
-    car.numberPlate = "304"
-    car.maker = "fake-maker"
-    car.model = "fake-model"
-    
-    /// At this point we have two car with the same 304 number plate in the context, so the method will fetch one of these two.
-    do {
-      let car = try Car.findOneOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"), with: { car in
-        XCTAssertNil(car.numberPlate)
-      })
-      XCTAssertNotNil(car)
-      if car.objectID.isTemporaryID {
-        XCTAssertEqual(car.maker, "fake-maker")
-      } else {
-        XCTAssertEqual(car.maker, "Lamborghini")
-      }
-      
-      let car304 = context.registeredObjects.filter{ $0 is Car } as! Set<Car>
-      
-      XCTAssertTrue(car304.filter { $0.numberPlate == "304" }.count == 2)
-    }
-    
-    context.refreshAllObjects()
-    context.reset()
-    
-    /// multiple objects, the first one matching the condition is returned
-    do {
-      let car = try Car.findOneOrCreate(in: context, where: NSPredicate(value: true), with: { car in
-        XCTAssertNotNil(car.numberPlate)
-      })
-      XCTAssertNotNil(car)
-      XCTAssertFalse(car.objectID.isTemporaryID)
-    }
-  }
-  
   func testFindFirstMaterializedObject() throws {
     let context = container.viewContext
     
@@ -549,7 +477,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     XCTAssertTrue(fiatCount > 0)
     
     let backgroundContext = context.newBackgroundContext()
-    let result = try backgroundContext.performAndWaitResult {
+    let result = try backgroundContext.performAndWait {
       try Car.batchDelete(using: $0, predicate: fiatPredicate, resultType: .resultTypeObjectIDs)
     }
     

@@ -1,6 +1,6 @@
 # Changelog
 
-### 4.1.0 ⭐
+### 4.1.0
 
 - Xcode 13.
 - Improved methods to fetch persistent history transactions.
@@ -17,7 +17,7 @@
 - Added `NSAttributeDescription` utility methods.
 - Added `NSEntityMapping` utility methods.
 - Added `NSAttributeDescription` utility methods.
-- Added `LightweightMigrationManger`,  a `NSMigrationManager` subclass to do *lightweight* migrations with a fake progress reporting.
+- Added `LightweightMigrationManger`, a `NSMigrationManager` subclass to do *lightweight* migrations with a fake progress reporting.
 - Added `MigrationProgressReporter` to report migration progress via a `Progress` object.
 - Added a `NSManagedObjectContext` helper method to create a child context.
 - Added support for `NSPersistentStoreCoordinator` notifications payloads.

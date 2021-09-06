@@ -6,6 +6,16 @@ import CoreData
 
 final class NSPersistentStoreCoordinatorUtilsTests: BaseTestCase {
   func testInvestigationMetadata() throws {
+    // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreData/PersistentStoreFeatures.html
+    // There are two ways you can set the metadata for a store:
+    //
+    // 1. Given an instance of a persistent store, set its metadata using the NSPersistentStoreCoordinator instance method, "setMetadata:forPersistentStore:".
+    // 2. Set the metadata without the overhead of creating a persistence stack by using the NSPersistentStoreCoordinator class method,
+    //    "setMetadata:forPersistentStoreOfType:URL:error:".
+    //
+    // There is again an important difference between these approaches.
+    // If you use setMetadata:forPersistentStore:, you must save the store (through a managed object context) before the new metadata is saved.
+    // If you use setMetadata:forPersistentStoreOfType:URL:error:, however, the metadata is updated immediately, and the last-modified date of the file is changed.
     let id = UUID()
     let container = OnDiskPersistentContainer.makeNew(id: id)
     let url = container.persistentStoreCoordinator.persistentStores.first!.url!
@@ -51,7 +61,7 @@ final class NSPersistentStoreCoordinatorUtilsTests: BaseTestCase {
 
     // ⚠️ A context associated with the psc must be saved to actually persist the metadata changes on disk
     try container1.viewContext.performAndWait { _ in
-      psc1.setMetadataObject("Test", with: "testKey", for: store1)
+      psc1.setMetadataValue("Test", with: "testKey", for: store1)
       try container1.viewContext.save()
     }
 

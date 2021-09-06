@@ -65,7 +65,7 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
       childContext.parent = parentContext
       childContext.automaticallyMergesChangesFromParent = true
 
-      let childCar = try childContext.performAndWaitResult { _ -> Car in
+      let childCar = try childContext.performAndWait { _ -> Car in
         let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: childContext))
         XCTAssertEqual(car.maker, "FIAT")
         return car
@@ -104,7 +104,7 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
       childContext.parent = parentContext
       childContext.automaticallyMergesChangesFromParent = false
 
-      let childCar = try childContext.performAndWaitResult { context -> Car in
+      let childCar = try childContext.performAndWait { context -> Car in
         let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: context))
         XCTAssertEqual(car.maker, "FIAT")
         return car
@@ -137,7 +137,7 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
       childContext.parent = parentContext
       childContext.automaticallyMergesChangesFromParent = true
 
-      let childCar = try childContext.performAndWaitResult { _ -> Car in
+      let childCar = try childContext.performAndWait { _ -> Car in
         let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: childContext))
         XCTAssertEqual(car.maker, "FIAT")
         return car
@@ -171,7 +171,7 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
       childContext.parent = parentContext
       childContext.automaticallyMergesChangesFromParent = false
 
-      let childCar = try childContext.performAndWaitResult { _ -> Car in
+      let childCar = try childContext.performAndWait { _ -> Car in
         let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: childContext))
         XCTAssertEqual(car.maker, "FIAT")
         return car
@@ -234,7 +234,7 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
     let writeContext = container.newBackgroundContext()
 
     var writeCar: Car? = nil
-    try writeContext.performAndWaitResult {
+    try writeContext.performAndWait {
       writeCar = Car(context: writeContext)
       writeCar?.maker = "FIAT"
       writeCar?.model = "Panda"
@@ -251,7 +251,7 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
       XCTAssertEqual(readEntity?.maker, "FIAT")
     }
 
-    try writeContext.performAndWaitResult {
+    try writeContext.performAndWait {
       writeCar?.maker = "FCA"
       try $0.save()
     }

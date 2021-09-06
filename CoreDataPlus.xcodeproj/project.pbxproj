@@ -127,14 +127,14 @@
 		06B71CB92629DB04008DFD11 /* PersistentStoreOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B71CB72629DB04008DFD11 /* PersistentStoreOptions.swift */; };
 		06B71CBA2629DB05008DFD11 /* PersistentStoreOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B71CB72629DB04008DFD11 /* PersistentStoreOptions.swift */; };
 		06B71CBB2629DB05008DFD11 /* PersistentStoreOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B71CB72629DB04008DFD11 /* PersistentStoreOptions.swift */; };
+		06C0E4B926E6237000EEC3A7 /* DeprecatedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C0E4B826E6237000EEC3A7 /* DeprecatedTests.swift */; };
+		06C0E4BA26E6237000EEC3A7 /* DeprecatedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C0E4B826E6237000EEC3A7 /* DeprecatedTests.swift */; };
+		06C0E4BB26E6237000EEC3A7 /* DeprecatedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C0E4B826E6237000EEC3A7 /* DeprecatedTests.swift */; };
+		06C0E4BC26E6237000EEC3A7 /* DeprecatedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C0E4B826E6237000EEC3A7 /* DeprecatedTests.swift */; };
 		06E06366264ABC0D009145B6 /* FetchesWithAffectedStoresTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E06365264ABC0D009145B6 /* FetchesWithAffectedStoresTests.swift */; };
 		06E06367264ABC0D009145B6 /* FetchesWithAffectedStoresTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E06365264ABC0D009145B6 /* FetchesWithAffectedStoresTests.swift */; };
 		06E06368264ABC0D009145B6 /* FetchesWithAffectedStoresTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E06365264ABC0D009145B6 /* FetchesWithAffectedStoresTests.swift */; };
 		06E06369264ABC0D009145B6 /* FetchesWithAffectedStoresTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E06365264ABC0D009145B6 /* FetchesWithAffectedStoresTests.swift */; };
-		06F7D55826E5F7FF00929CA6 /* Deprecated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F7D55726E5F7FF00929CA6 /* Deprecated.swift */; };
-		06F7D55926E5F7FF00929CA6 /* Deprecated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F7D55726E5F7FF00929CA6 /* Deprecated.swift */; };
-		06F7D55A26E5F7FF00929CA6 /* Deprecated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F7D55726E5F7FF00929CA6 /* Deprecated.swift */; };
-		06F7D55B26E5F7FF00929CA6 /* Deprecated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F7D55726E5F7FF00929CA6 /* Deprecated.swift */; };
 		06F7D55D26E5F85D00929CA6 /* NSPredicate+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F7D55C26E5F85D00929CA6 /* NSPredicate+Utils.swift */; };
 		06F7D55E26E5F85D00929CA6 /* NSPredicate+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F7D55C26E5F85D00929CA6 /* NSPredicate+Utils.swift */; };
 		06F7D55F26E5F85D00929CA6 /* NSPredicate+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F7D55C26E5F85D00929CA6 /* NSPredicate+Utils.swift */; };
@@ -434,8 +434,8 @@
 		06A6CE25261E0961000563F0 /* SampleModelV1.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleModelV1.sqlite; sourceTree = "<group>"; };
 		06B71C732629CB4F008DFD11 /* ProgrammaticallyDefinedModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammaticallyDefinedModelTests.swift; sourceTree = "<group>"; };
 		06B71CB72629DB04008DFD11 /* PersistentStoreOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStoreOptions.swift; sourceTree = "<group>"; };
+		06C0E4B826E6237000EEC3A7 /* DeprecatedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeprecatedTests.swift; sourceTree = "<group>"; };
 		06E06365264ABC0D009145B6 /* FetchesWithAffectedStoresTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchesWithAffectedStoresTests.swift; sourceTree = "<group>"; };
-		06F7D55726E5F7FF00929CA6 /* Deprecated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deprecated.swift; sourceTree = "<group>"; };
 		06F7D55C26E5F85D00929CA6 /* NSPredicate+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSPredicate+Utils.swift"; sourceTree = "<group>"; };
 		06F7D56626E5F8DB00929CA6 /* NSPredicateUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSPredicateUtilsTests.swift; sourceTree = "<group>"; };
 		230C087A214179D400A1B6CB /* SampleModel2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel2.xcdatamodel; sourceTree = "<group>"; };
@@ -694,7 +694,6 @@
 			children = (
 				D20119F72614E3D9001902FB /* Collection+CoreData.swift */,
 				D20119F82614E3D9001902FB /* CoreDataPlus.swift */,
-				06F7D55726E5F7FF00929CA6 /* Deprecated.swift */,
 				D20119F92614E3D9001902FB /* FetchedResultsChanges.swift */,
 				D20F4BB72621E71500F0CB25 /* NSAttributeDescription+Utils.swift */,
 				D20119F32614E3D9001902FB /* NSBatchDeleteResult+Utils.swift */,
@@ -748,6 +747,7 @@
 				D2708842255EF13600309E7A /* Resources */,
 				06A4584D239FD20C007BA7C9 /* TestPlans */,
 				2325898122F34FDD00E39FEA /* Utils */,
+				06C0E4B826E6237000EEC3A7 /* DeprecatedTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1254,6 +1254,7 @@
 				06968B0326454CD900088D76 /* Person.swift in Sources */,
 				06968AF226454CBC00088D76 /* Content.swift in Sources */,
 				06968AF426454CBC00088D76 /* Cover.swift in Sources */,
+				06C0E4BC26E6237000EEC3A7 /* DeprecatedTests.swift in Sources */,
 				06968AE726454CAC00088D76 /* NSManagedObjectUpdateTimestampableTests.swift in Sources */,
 				06968B0526454CE000088D76 /* NSManagedObjectContext+SampleModel.swift in Sources */,
 				06968B0726454CE500088D76 /* InMemoryTestCase.swift in Sources */,
@@ -1299,7 +1300,6 @@
 				061C689426209443000BF0A2 /* CustomTransformer.swift in Sources */,
 				D2011A1A2614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
 				065094072643E8BC00B3EE12 /* MigrationProgressReporter.swift in Sources */,
-				06F7D55926E5F7FF00929CA6 /* Deprecated.swift in Sources */,
 				06B71CB92629DB04008DFD11 /* PersistentStoreOptions.swift in Sources */,
 				D2011A4A2614E3D9001902FB /* ModelVersion.swift in Sources */,
 			);
@@ -1336,7 +1336,6 @@
 				061C689526209443000BF0A2 /* CustomTransformer.swift in Sources */,
 				D2011A1B2614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
 				065094082643E8BC00B3EE12 /* MigrationProgressReporter.swift in Sources */,
-				06F7D55A26E5F7FF00929CA6 /* Deprecated.swift in Sources */,
 				06B71CBA2629DB05008DFD11 /* PersistentStoreOptions.swift in Sources */,
 				D2011A4B2614E3D9001902FB /* ModelVersion.swift in Sources */,
 			);
@@ -1373,7 +1372,6 @@
 				061C689626209443000BF0A2 /* CustomTransformer.swift in Sources */,
 				D2011A1C2614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
 				065094092643E8BC00B3EE12 /* MigrationProgressReporter.swift in Sources */,
-				06F7D55B26E5F7FF00929CA6 /* Deprecated.swift in Sources */,
 				06B71CBB2629DB05008DFD11 /* PersistentStoreOptions.swift in Sources */,
 				D2011A4C2614E3D9001902FB /* ModelVersion.swift in Sources */,
 			);
@@ -1410,7 +1408,6 @@
 				061C689326209443000BF0A2 /* CustomTransformer.swift in Sources */,
 				D2011A192614E3D9001902FB /* NSBatchUpdateResult+Utils.swift in Sources */,
 				065094062643E8BC00B3EE12 /* MigrationProgressReporter.swift in Sources */,
-				06F7D55826E5F7FF00929CA6 /* Deprecated.swift in Sources */,
 				06B71CB82629DB04008DFD11 /* PersistentStoreOptions.swift in Sources */,
 				D2011A492614E3D9001902FB /* ModelVersion.swift in Sources */,
 			);
@@ -1462,6 +1459,7 @@
 				2341306A1F95FF90002BE7FC /* NSManagedObjectContextUtilsTests.swift in Sources */,
 				23C3B2B61FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift in Sources */,
 				2377287121490B9D00FDAF32 /* V2toV3.xcmappingmodel in Sources */,
+				06C0E4B926E6237000EEC3A7 /* DeprecatedTests.swift in Sources */,
 				D282327F2624569400F37442 /* Book.swift in Sources */,
 				23EEF5451F962E5700A2E72F /* Car.swift in Sources */,
 				D282325B26244AE200F37442 /* NSManagedObjectContext+SampleModel2.swift in Sources */,
@@ -1522,6 +1520,7 @@
 				234130711F95FF91002BE7FC /* NSManagedObjectContextUtilsTests.swift in Sources */,
 				23C3B2B71FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift in Sources */,
 				2377287221490B9D00FDAF32 /* V2toV3.xcmappingmodel in Sources */,
+				06C0E4BA26E6237000EEC3A7 /* DeprecatedTests.swift in Sources */,
 				D28232802624569400F37442 /* Book.swift in Sources */,
 				23EEF5461F962E5700A2E72F /* Car.swift in Sources */,
 				D282325C26244AE200F37442 /* NSManagedObjectContext+SampleModel2.swift in Sources */,
@@ -1582,6 +1581,7 @@
 				234130781F95FF91002BE7FC /* NSManagedObjectContextUtilsTests.swift in Sources */,
 				23C3B2B81FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift in Sources */,
 				2377287321490B9D00FDAF32 /* V2toV3.xcmappingmodel in Sources */,
+				06C0E4BB26E6237000EEC3A7 /* DeprecatedTests.swift in Sources */,
 				D28232812624569400F37442 /* Book.swift in Sources */,
 				23EEF5471F962E5700A2E72F /* Car.swift in Sources */,
 				D282325D26244AE200F37442 /* NSManagedObjectContext+SampleModel2.swift in Sources */,

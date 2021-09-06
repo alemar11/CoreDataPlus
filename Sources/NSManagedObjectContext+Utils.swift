@@ -29,13 +29,11 @@ extension NSManagedObjectContext {
   ///   - asChildContext: Specifies if this new context is a child context of the current context (default *false*).
   public final func newBackgroundContext(asChildContext isChildContext: Bool = false) -> NSManagedObjectContext {
     let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-
     if isChildContext {
       context.parent = self
     } else {
       context.persistentStoreCoordinator = persistentStoreCoordinator
     }
-
     return context
   }
 
@@ -96,26 +94,13 @@ extension NSManagedObjectContext {
 extension NSManagedObjectContext {
   /// Synchronously performs a given block on the context’s queue and returns the final result.
   /// - Throws: It throws an error in cases of failure.
-  public func performAndWaitResult<T>(_ block: (NSManagedObjectContext) throws -> T) rethrows -> T {
+  public final func performAndWait<T>(_ block: (NSManagedObjectContext) throws -> T) rethrows -> T {
     if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
       return try performAndWait {
         try block(self)
       }
     } else {
-      return try _performAndWait(function: performAndWait, execute: block, rescue: { throw $0 })
-    }
-  }
-
-  /// Synchronously performs a given block on the context’s queue.
-  /// - Throws: It throws an error in cases of failure.
-  public func performAndWait(_ block: (NSManagedObjectContext) throws -> Void) rethrows {
-    // TODO: to make it very close to the WWDC 2021, remove the NSManagedObjectContext argument (if it makes sense)
-    if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
-      try performAndWait {
-        try block(self)
-      }
-    } else {
-      try _performAndWait(function: performAndWait, execute: block, rescue: { throw $0 })
+      return try _performAndWaitHelper(function: performAndWait, execute: block, rescue: { throw $0 })
     }
   }
 
@@ -123,7 +108,9 @@ extension NSManagedObjectContext {
   ///
   /// Source: https://oleb.net/blog/2018/02/performandwait/
   /// Source: https://github.com/apple/swift/blob/bb157a070ec6534e4b534456d208b03adc07704b/stdlib/public/SDK/Dispatch/Queue.swift#L228-L249
-  private func _performAndWait<T>(function: (() -> Void) -> Void, execute work: (NSManagedObjectContext) throws -> T, rescue: ((Error) throws -> (T))) rethrows -> T {
+  private func _performAndWaitHelper<T>(function: (() -> Void) -> Void,
+                                        execute work: (NSManagedObjectContext) throws -> T,
+                                        rescue: (Error) throws -> (T)) rethrows -> T {
     var result: T?
     var error: Error?
     // swiftlint:disable:next identifier_name

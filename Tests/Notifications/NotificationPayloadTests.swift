@@ -663,7 +663,7 @@ final class NotificationPayloadTests: InMemoryTestCase {
     let car2Plate = UUID().uuidString
 
     // When, Then
-    try childContext.performAndWaitResult { context in
+    try childContext.performAndWait { context in
       let car1 = Car(context: context)
       let car2 = Car(context: context)
       car1.maker = "FIAT"
@@ -678,7 +678,7 @@ final class NotificationPayloadTests: InMemoryTestCase {
       try context.save()
     }
 
-    try parentContext.performAndWaitResult { context in
+    try parentContext.performAndWait { context in
       try context.save()
     }
 
@@ -783,7 +783,7 @@ final class NotificationPayloadTests: InMemoryTestCase {
       try childContext2.save()
     }
 
-    try parentContext.performAndWaitResult { _ in
+    try parentContext.performAndWait { _ in
       try parentContext.save() // triggers the didSave event
     }
 
@@ -810,7 +810,7 @@ final class NotificationPayloadTests: InMemoryTestCase {
     func findObjectsOfType<T:NSManagedObject>(_ type: T.Type, in objects: Set<NSManagedObject>, observeSubEntities: Bool = true) -> Set<T> {
       let entity = type.entity()
       if observeSubEntities {
-        return objects.filter { $0.entity.isSubEntity(of: entity, recursive: true) || $0.entity == entity } as? Set<T> ?? []
+        return objects.filter { $0.entity.isDescendantEntity(of: entity, recursive: true) || $0.entity == entity } as? Set<T> ?? []
       } else {
         return objects.filter { $0.entity == entity } as? Set<T> ?? []
       }

@@ -297,14 +297,15 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     let viewContext2 = container2.viewContext
     viewContext2.name = "viewContext2"
     viewContext2.transactionAuthor = "author2"
+    let psc2 = container2.persistentStoreCoordinator
 
-    let lastHistoryToken = try XCTUnwrap(container2.persistentStoreCoordinator.currentPersistentHistoryToken(fromStores: viewContext2.persistentStores))
+    let lastHistoryToken = try XCTUnwrap(psc2.currentPersistentHistoryToken(fromStores: psc2.persistentStores))
 
     viewContext1.fillWithSampleData()
 
     try viewContext1.save()
 
-    let newHistoryToken = try XCTUnwrap(container2.persistentStoreCoordinator.currentPersistentHistoryToken(fromStores: viewContext2.persistentStores))
+    let newHistoryToken = try XCTUnwrap(psc2.currentPersistentHistoryToken(fromStores: psc2.persistentStores))
 
     let tokenGreaterThanLastHistoryTokenPredicate = NSPredicate(format: "%@ < token", lastHistoryToken)
     let tokenGreaterThanNewHistoryTokenPredicate = NSPredicate(format: "%@ < token", newHistoryToken)
@@ -356,7 +357,6 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
       try psc1.remove(store)
     }
 
-    let psc2 = viewContext2.persistentStoreCoordinator!
     try psc2.persistentStores.forEach { store in
       try psc2.remove(store)
     }
@@ -447,7 +447,7 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
       let transactionRequest = NSPersistentHistoryChangeRequest.fetchHistory(withFetch: request)
       transactionRequest.resultType = .transactionsOnly
 
-      let transactions = try viewContext2.performAndWaitResult { _ ->[NSPersistentHistoryTransaction] in
+      let transactions = try viewContext2.performAndWait { _ ->[NSPersistentHistoryTransaction] in
         // swiftlint:disable force_cast
         let history = try viewContext2.execute(transactionRequest) as! NSPersistentHistoryResult
         let transactions = history.result as! [NSPersistentHistoryTransaction] // ordered from the oldest to the most recent
@@ -479,7 +479,7 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
       let changeRequest = NSPersistentHistoryChangeRequest.fetchHistory(withFetch: request)
       changeRequest.resultType = .transactionsAndChanges
 
-      let transactions = try viewContext2.performAndWaitResult { _ -> [NSPersistentHistoryTransaction] in
+      let transactions = try viewContext2.performAndWait { _ -> [NSPersistentHistoryTransaction] in
         let history = try viewContext2.execute(changeRequest) as! NSPersistentHistoryResult
         let transactions = history.result as! [NSPersistentHistoryTransaction] // ordered from the oldest to the most recent
         return transactions

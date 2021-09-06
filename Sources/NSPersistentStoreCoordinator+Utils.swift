@@ -2,26 +2,21 @@
 
 import CoreData
 
-// TODO: should these method run inside the psc.performAndWait { ... }
-
 extension NSPersistentStoreCoordinator {
   /// Adds an `object` to the store's metadata.
   ///
-  /// After updating the metadata, save the managed object context referring to the store’s coordinator to actually persist the changes.
+  /// After updating the metadata, save the  store through a managed object context referring to the store’s coordinator to actually persist the changes.
   ///
   /// - Parameters:
-  ///   - object: Object to be added to the medata dictionary.
-  ///   - key: Object key
+  ///   - value: Value to be added to the medata dictionary.
+  ///   - key: Value key.
   ///   - store: NSPersistentStore where is stored the metadata.
   /// - Important: Setting the metadata for a store does not change the information on disk until the store is actually saved.
-  public final func setMetadataObject(_ object: Any?, with key: String, for store: NSPersistentStore) {
-    // TODO: Any -> Codable or SecureCopying?
+  public final func setMetadataValue(_ value: Any?, with key: String, for store: NSPersistentStore) {
+    // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreData/PersistentStoreFeatures.html
     var metaData = metadata(for: store)
-    metaData[key] = object
+    metaData[key] = value
     setMetadata(metaData, for: store)
-    // https://www.meandmark.com/blog/2017/11/saving-settings-with-core-data-metadata/
-    // https://paysonwallach.com/posts/storing-metadata-in-core-data/
-    // https://github.com/objcio/core-data/blob/master/SharedCode/NSManagedObjectContext%2BExtensions.swift
   }
 
   /// Safely deletes a store at a given url.
@@ -33,15 +28,11 @@ extension NSPersistentStoreCoordinator {
     } else {
       try persistentStoreCoordinator.destroyPersistentStore(at: url, ofType: NSSQLiteStoreType, options: options)
     }
-
     let fileManager = FileManager.default
-
     let storePath = url.path
     try fileManager.removeItem(atPath: storePath)
-
     let writeAheadLog = storePath + "-wal"
     _ = try? fileManager.removeItem(atPath: writeAheadLog)
-
     let sharedMemoryfile = storePath + "-shm"
     _ = try? fileManager.removeItem(atPath: sharedMemoryfile)
   }
@@ -57,7 +48,6 @@ extension NSPersistentStoreCoordinator {
     // https://github.com/atomicbird/CDMoveDemo
     let persistentStoreCoordinator = self.init(managedObjectModel: NSManagedObjectModel())
     // replacing a store has a side effect of removing the current store from the psc
-
     if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
       try persistentStoreCoordinator.replacePersistentStore(at: destinationURL,
                                                             destinationOptions: destinationOptions,

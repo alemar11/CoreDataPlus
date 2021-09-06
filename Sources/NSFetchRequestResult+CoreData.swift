@@ -407,7 +407,8 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   public static func fetchAsync(in context: NSManagedObjectContext,
                                 estimatedResultCount: Int = 0,
                                 with configuration: (NSFetchRequest<Self>) -> Void = { _ in },
-                                completion: @escaping (Result<[Self], Error>) -> Void) throws -> NSAsynchronousFetchResult<Self> {
+                                completion: @escaping (Result<[Self], Error>) -> Void
+  ) throws -> NSAsynchronousFetchResult<Self> {
     let request = Self.newFetchRequest()
     configuration(request)
 

@@ -22,13 +22,11 @@ extension NSManagedObjectContext {
   ///   - withAssociatedChanges: if `true` (default) each transaction will contain all its changes.
   public func historyTransactions(using historyFetchRequest: NSPersistentHistoryChangeRequest, andAssociatedChanges enableChanges: Bool = true) throws -> [NSPersistentHistoryTransaction] {
     historyFetchRequest.resultType = enableChanges ? .transactionsAndChanges : .transactionsOnly
-    return try performAndWaitResult { context ->[NSPersistentHistoryTransaction] in
-      // swiftlint:disable force_cast
-      let history = try context.execute(historyFetchRequest) as! NSPersistentHistoryResult
-      let transactions = history.result as! [NSPersistentHistoryTransaction] // ordered from the oldest to the most recent
-      // swiftlint:enable force_cast
-      return transactions
-    }
+    // swiftlint:disable force_cast
+    let history = try execute(historyFetchRequest) as! NSPersistentHistoryResult
+    let transactions = history.result as! [NSPersistentHistoryTransaction] // ordered from the oldest to the most recent
+    // swiftlint:enable force_cast
+    return transactions
   }
 
   // MARK: - Changes
@@ -38,28 +36,26 @@ extension NSManagedObjectContext {
   /// - Parameter historyFetchRequest: A request to fetch persistent history changes.
   public func historyChanges(using historyFetchRequest: NSPersistentHistoryChangeRequest) throws -> [NSPersistentHistoryChange] {
     historyFetchRequest.resultType = .changesOnly
-    return try performAndWaitResult { context ->[NSPersistentHistoryChange] in
-      // swiftlint:disable force_cast
-      let history = try context.execute(historyFetchRequest) as! NSPersistentHistoryResult
-      let changes = history.result as! [NSPersistentHistoryChange] // ordered from the oldest to the most recent
-      // swiftlint:enable force_cast
-      return changes
-    }
+    // swiftlint:disable force_cast
+    let history = try execute(historyFetchRequest) as! NSPersistentHistoryResult
+    let changes = history.result as! [NSPersistentHistoryChange] // ordered from the oldest to the most recent
+    // swiftlint:enable force_cast
+    return changes
   }
 
   /// Merges all the changes contained in the given list of `NSPersistentHistoryTransaction`.
+  ///
+  /// - Important: The merging operation must be done inside a the context queue.
+  ///
   /// Returns the last merged transaction's token and timestamp.
   public func mergeTransactions(_ transactions: [NSPersistentHistoryTransaction]) throws -> (NSPersistentHistoryToken, Date)? {
-    // Do your merging inside a context.performAndWait { … } as shown in WWDC 2017
-    let result = performAndWaitResult { _ -> (NSPersistentHistoryToken, Date)? in
-      var result: (NSPersistentHistoryToken, Date)?
-      for transaction in transactions {
-        result = (transaction.token, transaction.timestamp)
-        guard transaction.changes != nil else { continue }
-
-        mergeChanges(fromContextDidSave: transaction.objectIDNotification())
-      }
-      return result
+    // Do your merging inside a context.performAndWait { … } (as shown in WWDC 2017).
+    var result: (NSPersistentHistoryToken, Date)?
+    for transaction in transactions {
+      result = (transaction.token, transaction.timestamp)
+      guard transaction.changes != nil else { continue }
+      
+      mergeChanges(fromContextDidSave: transaction.objectIDNotification())
     }
     return result
   }
@@ -74,6 +70,8 @@ extension NSManagedObjectContext {
 
   /// Deletes all history before a given `date`.
   ///
+  /// - Important: The delete operation must be done inside a the context queue.
+  ///
   /// - Parameter date: The date before which the history will be deleted.
   /// - Returns: `true` if the operation succeeds.
   /// - Throws: It throws an error in cases of failure.
@@ -86,6 +84,8 @@ extension NSManagedObjectContext {
 
   /// Deletes all history before a given `token`.
   ///
+  /// - Important: The delete operation must be done inside the context queue.
+  ///
   /// - Parameter token: The token before which the history will be deleted.
   /// - Returns: `true` if the operation succeeds.
   /// - Throws: It throws an error in cases of failure.
@@ -97,6 +97,8 @@ extension NSManagedObjectContext {
 
   /// Deletes all history before a given `transaction`.
   ///
+  /// - Important: The delete operation must be done inside the context queue.
+  ///
   /// - Parameter transaction: The transaction before which the history will be deleted.
   /// - Returns: `true` if the operation succeeds.
   /// - Throws: It throws an error in cases of failure.
@@ -107,15 +109,13 @@ extension NSManagedObjectContext {
   }
 
   /// Deletes all history given a delete `NSPersistentHistoryChangeRequest` instance.
+  /// - Important: The delete operation must be done inside a the context queue.
   private func deleteHistory(using deleteHistoryRequest: NSPersistentHistoryChangeRequest) throws -> Bool {
     deleteHistoryRequest.resultType = .statusOnly
-    let result = try performAndWaitResult { context -> Bool in
-      // swiftlint:disable force_cast
-      let history = try context.execute(deleteHistoryRequest) as! NSPersistentHistoryResult
-      let status = history.result as! Bool
-      // swiftlint:enable force_cast
-      return status
-    }
-    return result
+    // swiftlint:disable force_cast
+    let history = try execute(deleteHistoryRequest) as! NSPersistentHistoryResult
+    let status = history.result as! Bool
+    // swiftlint:enable force_cast
+    return status
   }
 }

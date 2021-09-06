@@ -19,6 +19,8 @@ extension Collection where Element: NSManagedObject {
   /// Materializes all the faulted objects in one batch, executing a single fetch request.
   /// Since this method is defined for a Collection of `NSManagedObject`, it does extra work to materialize all the objects; for this reason it's not optimized for performance.
   ///
+  /// - Important: Each object is materialized synchronously in his context queue.
+  ///
   /// - Throws: It throws an error in cases of failure.
   /// - Note: Materializing all the objects in one batch is faster than triggering the fault for each object on its own.
   public func materializeFaults() throws {
@@ -44,7 +46,7 @@ extension Collection where Element: NSManagedObject {
       }
 
       // avoid multiple fetches for subclass entities.
-      let entities = objects.entities().entitiesKeepingOnlyCommonEntityAncestors()
+      let entities = objects.entities().entitiesKeepingOnlyCommonAncestorEntities()
 
       for entity in entities {
         // important bits
@@ -54,7 +56,6 @@ extension Collection where Element: NSManagedObject {
         request.entity = entity
         request.returnsObjectsAsFaults = false
         request.predicate = NSPredicate(format: "self IN %@", faults)
-
         try context.performAndWait { _ = try $0.fetch(request) }
       }
     }
@@ -70,7 +71,7 @@ extension Collection where Element: NSManagedObject {
 
 extension Collection where Element: NSEntityDescription {
   /// Returns a collection of `NSEntityDescription` with only the commong entity ancestors.
-  internal func entitiesKeepingOnlyCommonEntityAncestors() -> Set<NSEntityDescription> {
+  internal func entitiesKeepingOnlyCommonAncestorEntities() -> Set<NSEntityDescription> {
     let grouped = Dictionary(grouping: self) { return $0.topMostAncestorEntity }
     var result = [NSEntityDescription]()
 
@@ -81,7 +82,7 @@ extension Collection where Element: NSEntityDescription {
         guard !newResult.isEmpty else { return [entity] }
 
         for (index, entityResult) in result.enumerated() {
-          if let ancestor = entityResult.commonEntityAncestor(with: entity) {
+          if let ancestor = entityResult.commonAncestorEntity(with: entity) {
             if !newResult.contains(ancestor) {
               newResult.remove(at: index)
               newResult.append(ancestor)
