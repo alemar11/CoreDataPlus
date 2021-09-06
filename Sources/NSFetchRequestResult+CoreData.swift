@@ -83,7 +83,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
     // When you execute an instance of NSFetchRequest, it always accesses the underlying persistent stores to retrieve the latest results.
     // https://developer.apple.com/documentation/coredata/nsfetchrequest
-
     let request = NSFetchRequest<Self>(entityName: entityName)
     configuration(request)
 

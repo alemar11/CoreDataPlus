@@ -110,37 +110,6 @@ public struct ManagedObjectContextDidSaveObjects {
   }
 }
 
-extension NSManagedObjectContext {
-  /// Asynchronously merges the changes specified in a given payload.
-  /// This method refreshes any objects which have been updated in the other context,
-  /// faults in any newly-inserted objects, and invokes delete(_:): on those which have been deleted.
-  ///
-  /// - Parameters:
-  ///   - payload: A `NSManagedObjectContextDidSave` payload posted by another context.
-  ///   - completion: The block to be executed after the merge completes.
-  public func performMergeChanges(from payload: ManagedObjectContextDidSaveObjects, completion: @escaping () -> Void = {}) {
-    // TODO: remove this method
-    perform {
-      self.mergeChanges(fromContextDidSave: payload.notification)
-      completion()
-    }
-  }
-
-  /// Synchronously merges the changes specified in a given payload.
-  /// This method refreshes any objects which have been updated in the other context,
-  /// faults in any newly-inserted objects, and invokes delete(_:): on those which have been deleted.
-  ///
-  /// - Parameters:
-  ///   - payload: A `NSManagedObjectContextDidSave` payload posted by another context.
-  ///   - completion: The block to be executed after the merge completes.
-  public func performAndWaitMergeChanges(from payload: ManagedObjectContextDidSaveObjects) {
-    // TODO: remove this method
-    performAndWait {
-      self.mergeChanges(fromContextDidSave: payload.notification)
-    }
-  }
-}
-
 // MARK: Objects Did Change
 
 public struct ManagedObjectContextObjectsDidChange {

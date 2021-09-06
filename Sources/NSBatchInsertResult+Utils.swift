@@ -17,12 +17,10 @@ extension NSBatchInsertResult {
     switch resultType {
     case .count, .statusOnly:
       return nil
-
     case .objectIDs:
       guard let objectIDs = result as? [NSManagedObjectID] else { return nil }
       let changes = objectIDs
       return changes
-
     @unknown default:
       return nil
     }
@@ -34,10 +32,8 @@ extension NSBatchInsertResult {
     switch resultType {
     case .statusOnly, .objectIDs:
       return nil
-
     case .count:
       return result as? Int
-
     @unknown default:
       return nil
     }
@@ -49,10 +45,8 @@ extension NSBatchInsertResult {
     switch resultType {
     case .count, .objectIDs:
       return nil
-
     case .statusOnly:
       return result as? Bool
-
     @unknown default:
       return nil
     }

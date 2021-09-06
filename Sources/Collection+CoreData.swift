@@ -71,7 +71,7 @@ extension Collection where Element: NSManagedObject {
 extension Collection where Element: NSEntityDescription {
   /// Returns a collection of `NSEntityDescription` with only the commong entity ancestors.
   internal func entitiesKeepingOnlyCommonEntityAncestors() -> Set<NSEntityDescription> {
-    let grouped = Dictionary(grouping: self) { return $0.topMostEntity }
+    let grouped = Dictionary(grouping: self) { return $0.topMostAncestorEntity }
     var result = [NSEntityDescription]()
 
     grouped.forEach { _, entities in

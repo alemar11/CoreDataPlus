@@ -27,7 +27,7 @@ extension NSManagedObject {
   /// Materializes `self`.
   public final func materialize() {
     // docs: "You can invoke this method with the key value of nil to ensure that a fault has been fired"
-    self.willAccessValue(forKey: nil)
+    willAccessValue(forKey: nil)
   }
 
   // swiftlint:disable line_length

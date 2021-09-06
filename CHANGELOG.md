@@ -6,6 +6,8 @@
 - Improved methods to fetch persistent history transactions.
 - Added support for `NSAttributeDescription.AttributeType`.
 - Added support for `NSPersistentStore.StoreType`.
+- Added `NSPredicate` utility methods.
+- Some `NSEntityDescription` utility methods are now `public`.
 - More tests.
 
 ### 4.0.0 ⭐

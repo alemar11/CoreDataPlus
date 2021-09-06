@@ -16,7 +16,7 @@ final class NSEntityDescriptionUtilsTests: InMemoryTestCase {
   func testEntity() {
     let context = container.viewContext
     let expensiveCar = ExpensiveSportCar(context: context)
-    let entityNames = expensiveCar.entity.hierarchyEntities().compactMap { $0.name}
+    let entityNames = expensiveCar.entity.ancestorEntities().compactMap { $0.name}
     XCTAssertTrue(entityNames.count == 2)
     XCTAssertTrue(entityNames.contains(Car.entityName))
     XCTAssertTrue(entityNames.contains(SportCar.entityName))
@@ -50,11 +50,11 @@ final class NSEntityDescriptionUtilsTests: InMemoryTestCase {
 
     // Using a custom init to avoid some problems during tests.
     let expensiveCar = ExpensiveSportCar(usingContext: container.viewContext)
-    let topMostAncestorEntityForExpensiveCar = expensiveCar.entity.topMostEntity
+    let topMostAncestorEntityForExpensiveCar = expensiveCar.entity.topMostAncestorEntity
     XCTAssertTrue(topMostAncestorEntityForExpensiveCar == carEntity, "\(topMostAncestorEntityForExpensiveCar) should be a Car entity \(String(describing: topMostAncestorEntityForExpensiveCar.name)).")
 
     let car = Car(usingContext: container.viewContext)
-    let topMostAncestorEntity = car.entity.topMostEntity
+    let topMostAncestorEntity = car.entity.topMostAncestorEntity
     XCTAssertTrue(topMostAncestorEntity == carEntity, "\(topMostAncestorEntity) should be a Car entity.")
   }
 

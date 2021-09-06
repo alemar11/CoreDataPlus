@@ -16,11 +16,9 @@ extension NSBatchUpdateResult {
     switch resultType {
     case .statusOnlyResultType, .updatedObjectsCountResultType:
       return nil
-
     case .updatedObjectIDsResultType:
       guard let objectIDs = result as? [NSManagedObjectID] else { return nil }
       return objectIDs
-
     @unknown default:
       return nil
     }
@@ -32,10 +30,8 @@ extension NSBatchUpdateResult {
     switch resultType {
     case .statusOnlyResultType, .updatedObjectIDsResultType:
       return nil
-
     case .updatedObjectsCountResultType:
       return result as? Int
-
     @unknown default:
       return nil
     }
@@ -47,10 +43,8 @@ extension NSBatchUpdateResult {
     switch resultType {
     case .updatedObjectsCountResultType, .updatedObjectIDsResultType:
       return nil
-
     case .statusOnlyResultType:
       return result as? Bool
-
     @unknown default:
       return nil
     }
