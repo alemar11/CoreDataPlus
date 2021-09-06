@@ -34,7 +34,7 @@ extension NSEntityDescription {
       return entity.subentities.contains(self)
     }
   }
-  
+
   /// Returns a list with a hierarchy of all the ancestor (super) entities of `self`.
   internal final func ancestorEntities() -> [NSEntityDescription] {
     var entities = [NSEntityDescription]()

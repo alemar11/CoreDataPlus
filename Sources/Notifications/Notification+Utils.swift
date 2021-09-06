@@ -7,12 +7,12 @@ extension Notification {
   func objects(forKey key: String) -> Set<NSManagedObject> {
     userInfo?[key] as? Set<NSManagedObject> ?? Set()
   }
-  
+
   @available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
   func objects(forKey key: NSManagedObjectContext.NotificationKey) -> Set<NSManagedObject> {
     userInfo?[key.rawValue] as? Set<NSManagedObject> ?? Set()
   }
-  
+
   func objectIDs(forKey key: String) -> Set<NSManagedObjectID> {
     if let objectIDs = userInfo?[key] as? Set<NSManagedObjectID> {
       return objectIDs
@@ -21,7 +21,7 @@ extension Notification {
     }
     return Set()
   }
-  
+
   @available(iOS 14.0, iOSApplicationExtension 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
   func objectIDs(forKey key: NSManagedObjectContext.NotificationKey) -> Set<NSManagedObjectID> {
     if let objectIDs = userInfo?[key.rawValue] as? Set<NSManagedObjectID> {
@@ -31,7 +31,7 @@ extension Notification {
     }
     return Set()
   }
-  
+
   var managedObjectContext: NSManagedObjectContext? {
     object as? NSManagedObjectContext
   }

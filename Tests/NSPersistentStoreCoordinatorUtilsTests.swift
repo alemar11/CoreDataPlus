@@ -41,7 +41,7 @@ final class NSPersistentStoreCoordinatorUtilsTests: BaseTestCase {
     try container1.destroy()
     try container2.destroy()
   }
-  
+
   func testInvestigationSettingMetadataFromPersistentStore() throws {
     let id = UUID()
     let container = OnDiskPersistentContainer.makeNew(id: id)
@@ -49,12 +49,12 @@ final class NSPersistentStoreCoordinatorUtilsTests: BaseTestCase {
     var metadata = store.metadata ?? [String : Any]()
     metadata["testKey"] = "Test"
     store.metadata = metadata
-    
+
     // ⚠️ A context associated with the container store must be saved to actually persist the metadata changes on disk
     try container.viewContext.performAndWait { _ in
       try container.viewContext.save()
     }
-    
+
     let container2 = OnDiskPersistentContainer.makeNew(id: id)
     let store2 = try XCTUnwrap(container2.persistentStoreCoordinator.persistentStores.first)
     let metadata2 =  try XCTUnwrap(store2.metadata)
@@ -62,7 +62,7 @@ final class NSPersistentStoreCoordinatorUtilsTests: BaseTestCase {
     XCTAssertNotNil(metadata2["testKey"])
     XCTAssertEqual(metadata2["testKey"] as? String, "Test")
   }
-  
+
   func testInvestigationSettingMetadataFromPersistentStoreCoordinator() throws {
     // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreData/PersistentStoreFeatures.html
     // There are two ways you can set the metadata for a store:

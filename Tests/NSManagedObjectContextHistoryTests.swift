@@ -172,7 +172,7 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     let transactionsAfterCurrentToken = try container1.viewContext.historyTransactions(using: NSPersistentHistoryChangeRequest.fetchHistory(after: currentToken))
     let result = try container1.viewContext.mergeTransactions(transactionsAfterCurrentToken)
     XCTAssertNil(result)
-    
+
     let result2 = try container1.viewContext.mergeTransactions(transactions)
     XCTAssertNil(result2)
 

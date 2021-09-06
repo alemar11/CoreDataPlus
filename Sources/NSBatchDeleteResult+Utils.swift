@@ -6,7 +6,7 @@ extension NSBatchDeleteResult {
   /// Returns a dictionary containig all the deleted `NSManagedObjectID` instances ready to be passed to `NSManagedObjectContext.mergeChanges(fromRemoteContextSave:into:)`.
   public var changes: [String: [NSManagedObjectID]]? {
     guard let deletes = deletes else { return nil }
-    
+
     return [NSDeletedObjectsKey: deletes]
   }
 

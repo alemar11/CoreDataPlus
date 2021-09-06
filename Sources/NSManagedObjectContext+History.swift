@@ -7,7 +7,9 @@
 // WWDC 2017, Introduction: https://developer.apple.com/videos/play/wwdc2017/210/
 // WWDC 2018, Bulk operations and history changes: https://developer.apple.com/videos/play/wwdc2018/224/
 // WWDC 2019, Fetches and Remote Change Notifications: https://developer.apple.com/videos/play/wwdc2019/230
-// WWDC 2020, History requests can be tailored like standard fetch requests (see testInvestigationHistoryFetches), Remote Change Notifications fired when the app goes in foreground if an app extension has done some Core Data transactions: https://developer.apple.com/videos/play/wwdc2020/10017/
+// WWDC 2020, History requests can be tailored like standard fetch requests (see testInvestigationHistoryFetches),
+//            Remote Change Notifications fired when the app goes in foreground if an app extension has done some
+//            Core Data transactions: https://developer.apple.com/videos/play/wwdc2020/10017/
 
 import CoreData
 import Foundation
@@ -54,7 +56,7 @@ extension NSManagedObjectContext {
     for transaction in transactions {
       result = (transaction.token, transaction.timestamp)
       guard transaction.changes != nil else { continue }
-      
+
       mergeChanges(fromContextDidSave: transaction.objectIDNotification())
     }
     return result

@@ -109,7 +109,7 @@ extension NSManagedObjectContext {
       completion?(internalError)
     }
   }
-  
+
   /// Synchronously performs changes and then saves them: if the changes fail throwing an execption, the context will be reset.
   ///
   /// - Throws: It throws an error in cases of failure (while applying changes or saving).
@@ -126,16 +126,16 @@ extension NSManagedObjectContext {
           internalError = error as NSError
         }
       }
-      
+
       if let error = internalError { throw error }
     }
   }
-  
+
   /// Saves the `NSManagedObjectContext` up to the last parent `NSManagedObjectContext`.
   @available(*, deprecated, message: "Deprecated.")
   internal final func performSaveUpToTheLastParentContextAndWait() throws {
     var parentContext: NSManagedObjectContext? = self
-    
+
     while parentContext != nil {
       var saveError: Error?
       parentContext!.performAndWait {
@@ -146,7 +146,7 @@ extension NSManagedObjectContext {
         }
       }
       parentContext = parentContext!.parent
-      
+
       if let error = saveError {
         throw error
       }

@@ -6,7 +6,7 @@ extension NSManagedObject {
   /// Wheter or not the receiver has temporary object ID.
   /// New objects inserted into a managed object context are assigned a temporary ID.
   public var hasTemporaryID: Bool { objectID.isTemporaryID }
-  
+
   /// Returns the value of a persistent property that has been changed since **last fetching** or **saving operation**.
   /// - Note: This method only reports changes to properties that are defined as persistent properties of the receiver, not changes to transient properties or custom instance variables.
   public final func changedValue(forKey key: String) -> Any? { changedValues()[key] }

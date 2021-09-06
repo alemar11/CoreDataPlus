@@ -7,7 +7,7 @@ final class NSPredicateUtilsTests: XCTestCase {
     XCTAssertEqual(NSPredicate.true.predicateFormat, "TRUEPREDICATE")
     XCTAssertEqual(NSPredicate.false.predicateFormat, "FALSEPREDICATE")
   }
-  
+
   func testPredicateComposition() {
     do {
       let predicate = NSPredicate(format: "X = 10").and(NSPredicate(format: "Y = 30"))

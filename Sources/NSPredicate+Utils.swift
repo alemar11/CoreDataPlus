@@ -8,7 +8,7 @@ extension NSPredicate {
 
   /// An always `false` NSPredicate.
   public static let `false` = NSPredicate(value: false)
-  
+
   /// Returns a `new` compound NSPredicate formed by **AND**-ing `self` with `predicate`.
   /// - Parameter predicate: A `NSPredicate` object.
   public final func and(_ predicate: NSPredicate) -> NSPredicate { NSCompoundPredicate(andPredicateWithSubpredicates: [self, predicate]) }

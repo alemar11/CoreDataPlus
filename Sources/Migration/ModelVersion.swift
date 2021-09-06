@@ -27,37 +27,37 @@ public protocol ModelVersion: Equatable, RawRepresentable {
   ///
   /// List with all versions until now.
   static var allVersions: [Self] { get }
-  
+
   /// Protocol `ModelVersion`.
   ///
   /// Current model version.
   static var currentVersion: Self { get }
-  
+
   /// Protocol `ModelVersion`.
   ///
   /// Version name.
   var versionName: String { get }
-  
+
   /// Protocol `ModelVersion`.
   ///
   /// The next `ModelVersion` in the progressive migration.
   var successor: Self? { get }
-  
+
   /// Protocol `ModelVersion`.
   ///
   /// `NSBundle` object containing the model file.
   var modelBundle: Bundle { get }
-  
+
   /// Protocol `ModelVersion`.
   ///
   /// Model name.
   var modelName: String { get }
-  
+
   /// Protocol `ModelVersions`.
   ///
   /// Return the NSManagedObjectModel for this `ModelVersion`.
   func managedObjectModel() -> NSManagedObjectModel
-  
+
   /// Protocol `ModelVersion`.
   ///
   /// Returns a list of mapping models needed to migrate the current version of the database to the next one.
@@ -79,57 +79,57 @@ extension ModelVersion {
     }
     return version
   }
-  
+
   /// Initializes a `ModelVersion` from a `NSPersistentStore` URL; returns nil if a `ModelVersion` hasn't been correctly defined.
   /// - Throws: It throws an error if no store is found at `persistentStoreURL` or if there is a problem accessing its contents.
   public init?(persistentStoreURL: URL) throws {
-    let metadata: [String : Any]
+    let metadata: [String: Any]
     if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
       metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(type: .sqlite, at: persistentStoreURL, options: nil)
     } else {
       metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: persistentStoreURL, options: nil)
     }
     let version = Self[metadata]
-    
+
     guard let modelVersion = version else {
       return nil
     }
-    
+
     self = modelVersion
   }
-  
+
   /// Protocol `ModelVersion`.
   ///
   /// Returns the NSManagedObjectModel for this `ModelVersion`.
   public func managedObjectModel() -> NSManagedObjectModel {
     return _managedObjectModel()
   }
-  
+
   // swiftlint:disable:next identifier_name
   internal func _managedObjectModel() -> NSManagedObjectModel {
     let momURL = modelBundle.url(forResource: versionName, withExtension: "\(ModelVersionFileExtension.mom)", subdirectory: momd)
-    
+
     //  As of iOS 11, Apple is advising that opening the .omo file for a managed object model is not supported, since the file format can change from release to release
     // let omoURL = modelBundle.url(forResource: versionName, withExtension: "\(ModelVersionExtension.omo)", subdirectory: momd)
     // guard let url = omoURL ?? momURL else { fatalError("Model version \(self) not found.") }
-    
+
     guard let url = momURL else {
       preconditionFailure("Model version '\(self)' not found.")
     }
-    
+
     guard let model = NSManagedObjectModel(contentsOf: url) else {
       preconditionFailure("Error initializing the NSManagedObjectModel: cannot open the model at \(url).")
     }
-    
+
     return model
   }
-  
+
   /// `AnyIterator` to iterate all the successors steps after `self`.
   func successorsIterator() -> AnyIterator<Self> {
     var version: Self = self
     return AnyIterator {
       guard let next = version.successor else { return nil }
-      
+
       version = next
       return version
     }
@@ -148,13 +148,13 @@ public func isMigrationNecessary<Version: ModelVersion>(for storeURL: URL, to ve
   // Before you initiate a migration process, you should first determine whether it is necessary.
   // If the target model configuration is compatible with the persistent store metadata, there is no need to migrate
   // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmCustomizing.html#//apple_ref/doc/uid/TP40004399-CH8-SW2
-  let metadata: [String : Any]
+  let metadata: [String: Any]
   if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
     metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(type: .sqlite, at: storeURL, options: nil)
   } else {
     metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: storeURL, options: nil)
   }
-  
+
   let targetModel = version.managedObjectModel()
   // https://vimeo.com/164904652
   // - configurations define named subsets of a model that contain some but not all entities.
@@ -170,7 +170,7 @@ public func isMigrationNecessary<Version: ModelVersion>(for storeURL: URL, to ve
   // (probably because all the underlying .sqlite files have to be properly migrated even if the entities are not used); for that reason,
   // passing a configuration name or nil to isConfiguration(withName:compatibleWithStoreMetadata:) will always result in a false value (migration needed).
   let isCompatible = targetModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
-  
+
   if isCompatible {
     return false // current and target versions are the same
   } else if let currentVersion = Version[metadata] {
@@ -193,31 +193,31 @@ extension ModelVersion {
     guard self != version else {
       return []
     }
-    
+
     guard let nextVersion = successor else {
       return []
     }
-    
+
     guard let step = MigrationStep(sourceVersion: self, destinationVersion: nextVersion) else {
       fatalError("Couldn't find any mapping models.")
     }
-    
+
     return [step] + nextVersion.migrationSteps(to: version)
   }
-  
+
   /// Returns a `NSMappingModel` that specifies how to map a model to the next version model.
   public func mappingModelToNextModelVersion() -> NSMappingModel? {
     guard let nextVersion = successor else {
       return nil
     }
-    
+
     guard let mappingModel = NSMappingModel(from: [modelBundle], forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel()) else {
       fatalError("No NSMappingModel found for \(self) to \(nextVersion).")
     }
-    
+
     return mappingModel
   }
-  
+
   /// Returns a newly created mapping model that will migrate data from the source to the destination model.
   ///
   /// - Note:
@@ -240,25 +240,25 @@ extension ModelVersion {
     guard let nextVersion = successor else {
       return nil
     }
-    
+
     return try? NSMappingModel.inferredMappingModel(forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel())
   }
-  
+
   /// - Returns: Returns a list of `NSMappingModel` given a list of mapping model names.
   /// - Note: The mapping models must be inside the NSBundle object containing the model file.
   public func mappingModels(for mappingModelNames: [String]) -> [NSMappingModel] {
     var results = [NSMappingModel]()
-    
+
     guard mappingModelNames.count > 0 else {
       return results
     }
-    
+
     guard
       let allMappingModelsURLs = modelBundle.urls(forResourcesWithExtension: ModelVersionFileExtension.cdm, subdirectory: nil),
       allMappingModelsURLs.count > 0 else {
         return results
       }
-    
+
     mappingModelNames.forEach { name in
       let expectedFileName = "\(name).\(ModelVersionFileExtension.cdm)"
       if
@@ -267,7 +267,7 @@ extension ModelVersion {
         results.append(mappingModel)
       }
     }
-    
+
     return results
   }
 }
