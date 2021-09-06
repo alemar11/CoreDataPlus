@@ -95,7 +95,7 @@ public struct ManagedObjectContextDidSaveObjects {
   /// The `NSPersistentHistoryToken` associated to the save operation.
   /// - Note: Optional: NSPersistentHistoryTrackingKey must be enabled.
   public var historyToken: NSPersistentHistoryToken? {
-    // FB: 6840421 (missing documentation for "newChangeToken" key)
+    // FB6840421 (missing documentation for "newChangeToken" key)
     return notification.userInfo?["newChangeToken"] as? NSPersistentHistoryToken
   }
 
