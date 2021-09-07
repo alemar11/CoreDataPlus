@@ -426,7 +426,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     // swiftlint:disable:next force_cast
     return try context.execute(asynchronousRequest) as! NSAsynchronousFetchResult<Self>
   }
-  
+
   /// Performs a configurable asynchronous fetch request in a context.
   ///
   /// - Parameter context: Searched context.

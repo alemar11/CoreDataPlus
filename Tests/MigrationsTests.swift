@@ -4,8 +4,6 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-// TODO: to create a sqlite for migrations with disabled NSPersistentHistoryTrackingKey
-
 final class MigrationsTests: BaseTestCase {
   // MARK: - LightWeight Migration
 
