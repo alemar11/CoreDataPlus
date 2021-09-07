@@ -923,7 +923,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
       }
       try mainContext.save()
     }
-    
+
     let results = try await Car.fetch(in: mainContext) { $0.predicate = .true }
     XCTAssertEqual(results.count, 10_000)
   }
