@@ -76,7 +76,7 @@ jobs:
         run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus tvOS" -destination "${{ matrix.destination }}" clean test -quiet -resultBundlePath '~/Downloads/Report/report.xcresult'
 
       - name: Upload tests report
-        if: ${{ always() }} # to run it only if the previous step fails use ${{ failure() }}
+        if: failure()
         uses: actions/upload-artifact@v2
         with:
           name: tvOS tests report    
@@ -95,7 +95,7 @@ jobs:
         run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus watchOS" -destination "${{ matrix.destination }}" clean test -quiet -resultBundlePath '~/Downloads/Report/report.xcresult'
         
       - name: Upload tests report
-        if: ${{ always() }} # to run it only if the previous step fails use ${{ failure() }}
+        if: failure()
         uses: actions/upload-artifact@v2
         with:
           name: watchOS tests report
