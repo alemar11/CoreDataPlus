@@ -48,6 +48,13 @@ jobs:
       - uses: actions/checkout@v2
       - name: iOS - ${{ matrix.destination }}
         run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus iOS" -destination "${{ matrix.destination }}" clean test | xcpretty
+      
+      - name: Upload tests report
+        if: ${{ always() }} # to run it only if the previous step fails use ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: iOS tests report
+          path: ~/Downloads/Report   
   tvOS:
     name: Test tvOS
     runs-on: macOS-11.0
