@@ -920,10 +920,17 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
       let car = Car(context: mainContext)
       car.numberPlate = "test\(i)"
     }
-
-    try mainContext.save()
-    let results = try await Car.fetch(in: mainContext) { $0.predicate = .true }
-    XCTAssertEqual(results.count, 10_000)
+    
+    try await mainContext.perform(schedule: .immediate) {
+      try mainContext.save()
+      let results = try Car.fetch(in: mainContext) { $0.predicate = .true }
+      XCTAssertEqual(results.count, 10_000)
+    }
+//    try await mainContext.perform(schedule: .immediate) {
+//      let results = try await Car.fetch(in: mainContext) { $0.predicate = .true }
+//      XCTAssertEqual(results.count, 10_000)
+//    }
+    
   }
 
   // MARK: - Group By
