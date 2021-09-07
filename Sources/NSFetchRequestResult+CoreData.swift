@@ -443,11 +443,13 @@ extension NSFetchRequestResult where Self: NSManagedObject {
         // TODO:
         // Swift concurrency and NSProgress: https://github.com/apple/swift-evolution/blob/main/proposals/0297-concurrency-objc.md#nsprogress
         try fetchAsync(in: context, estimatedResultCount: estimatedResultCount, with: configuration) { result in
+          context.perform {
           switch result {
           case .success(let fetchResult):
             continuation.resume(returning: fetchResult)
           case .failure(let error):
             continuation.resume(throwing: error)
+          }
           }
         }
       } catch let error {
