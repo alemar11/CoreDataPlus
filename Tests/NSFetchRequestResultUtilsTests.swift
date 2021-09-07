@@ -908,19 +908,22 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     currentToken?.invalidate()
   }
 
+  #warning("Not working on Github Actions yet.")
+  @available(swift 5.5)
   @available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *)
   func testAsyncFetchUsingSwiftConcurrency() async throws {
     // https://stackoverflow.com/questions/31728425/coredata-asynchronous-fetch-causes-concurrency-debugger-error
     try XCTSkipIf(UserDefaults.standard.integer(forKey: "com.apple.CoreData.ConcurrencyDebug") == 1)
-        
     let mainContext = container.viewContext
-
-    (1...10_000).forEach { (i) in
-      let car = Car(context: mainContext)
-      car.numberPlate = "test\(i)"
+    // runs on Thread Queue : com.apple.root.default-qos.cooperative (serial)
+    try mainContext.performAndWait {
+      (1...10_000).forEach {
+        let car = Car(context: mainContext)
+        car.numberPlate = "test\($0)"
+      }
+      try mainContext.save()
     }
     
-    try mainContext.save()
     let results = try await Car.fetch(in: mainContext) { $0.predicate = .true }
     XCTAssertEqual(results.count, 10_000)
   }
