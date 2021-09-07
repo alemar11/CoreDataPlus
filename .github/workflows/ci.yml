@@ -92,7 +92,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: watchOS - ${{ matrix.destination }}
-        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus watchOS" -destination "${{ matrix.destination }}" clean test -quiet -resultBundlePath '~/Downloads/Report/report.xcresult'
+        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus watchOS" -destination "${{ matrix.destination }}" clean test -resultBundlePath '~/Downloads/Report/report.xcresult'
         
       - name: Upload tests report
         if: failure()
