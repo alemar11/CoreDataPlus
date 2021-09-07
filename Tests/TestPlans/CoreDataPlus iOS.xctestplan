@@ -86,7 +86,7 @@
             "enabled" : false
           }
         ],
-        "threadSanitizerEnabled" : true,
+        "threadSanitizerEnabled" : false,
         "undefinedBehaviorSanitizerEnabled" : true
       }
     }
