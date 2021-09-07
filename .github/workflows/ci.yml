@@ -82,7 +82,7 @@ jobs:
           name: tvOS tests report    
           path: ~/Downloads/Report   
   watchOS:
-    name: Build watchOS
+    name: Test watchOS
     runs-on: macOS-11.0
     env:
       DEVELOPER_DIR: /Applications/Xcode_13.0.app/Contents/Developer
