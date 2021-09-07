@@ -912,6 +912,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
   func testAsyncFetchUsingSwiftConcurrency() async throws {
     // https://stackoverflow.com/questions/31728425/coredata-asynchronous-fetch-causes-concurrency-debugger-error
     try XCTSkipIf(UserDefaults.standard.integer(forKey: "com.apple.CoreData.ConcurrencyDebug") == 1)
+        
     let mainContext = container.viewContext
 
     (1...10_000).forEach { (i) in
