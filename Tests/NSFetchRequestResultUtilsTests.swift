@@ -884,9 +884,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     let currentProgress = Progress(totalUnitCount: 1)
     currentProgress.becomeCurrent(withPendingUnitCount: 1)
 
-    let token = try Car.fetchAsync(in: mainContext, with: { request in
-      request.predicate = NSPredicate(value: true)
-    }) { result in
+    let token = try Car.fetchAsync(in: mainContext, with: { $0.predicate = NSPredicate(value: true) } ) { result in
       switch result {
       case .success(let cars):
         XCTAssertEqual(cars.count, 10_000)
@@ -898,9 +896,8 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
 
     XCTAssertNotNil(token.progress)
 
-    // progress is not nil only if we create a progress and call the becomeCurrent method
+    // ⚠️ progress is not nil only if we create a progress and call the becomeCurrent method
     let currentToken = token.progress?.observe(\.completedUnitCount, options: [.old, .new]) { (progress, change) in
-
       if change.newValue == 10_000 {
         expectation2.fulfill()
       }
@@ -909,6 +906,24 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     waitForExpectations(timeout: 30, handler: nil)
     currentProgress.resignCurrent()
     currentToken?.invalidate()
+  }
+  
+  @available(swift 5.5)
+  @available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *)
+  func testAsyncFetchUsingSwiftConcurrency() async throws {
+    // https://stackoverflow.com/questions/31728425/coredata-asynchronous-fetch-causes-concurrency-debugger-error
+    try XCTSkipIf(UserDefaults.standard.integer(forKey: "com.apple.CoreData.ConcurrencyDebug") == 1)
+    
+    let mainContext = container.viewContext
+
+    (1...10_000).forEach { (i) in
+      let car = Car(context: mainContext)
+      car.numberPlate = "test\(i)"
+    }
+
+    try mainContext.save()
+    let results = try await Car.fetch(in: mainContext) { $0.predicate = .true }
+    XCTAssertEqual(results.count, 10_000)
   }
 
   // MARK: - Group By
