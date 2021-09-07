@@ -35,7 +35,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: macOS
-        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus macOS" -destination "platform=macOS" clean test | xcpretty
+        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus macOS" -destination "platform=macOS" clean test -quiet -resultBundlePath '~/Downloads/Report/report.xcresult'
+      
+      - name: Upload tests report
+        if: ${{ always() }} # to run it only if the previous step fails use ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: macOS tests report
+          path: ~/Downloads/Report           
   iOS:
     name: Test iOS
     runs-on: macOS-11.0
@@ -66,7 +73,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: tvOS - ${{ matrix.destination }}
-        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus tvOS" -destination "${{ matrix.destination }}" clean test | xcpretty
+        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus tvOS" -destination "${{ matrix.destination }}" clean test -quiet -resultBundlePath '~/Downloads/Report/report.xcresult'
+
+      - name: Upload tests report
+        if: ${{ always() }} # to run it only if the previous step fails use ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: tvOS tests report    
+          path: ~/Downloads/Report   
   watchOS:
     name: Build watchOS
     runs-on: macOS-11.0
@@ -78,7 +92,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: watchOS - ${{ matrix.destination }}
-        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus watchOS" -destination "${{ matrix.destination }}" clean test | xcpretty
+        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus watchOS" -destination "${{ matrix.destination }}" clean test -quiet -resultBundlePath '~/Downloads/Report/report.xcresult'
+        
+      - name: Upload tests report
+        if: ${{ always() }} # to run it only if the previous step fails use ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: watchOS tests report
+          path: ~/Downloads/Report        
   spm:
     name: Test SPM Integration
     runs-on: macOS-11.0
