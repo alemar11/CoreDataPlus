@@ -70,7 +70,8 @@
         },
         "commandLineArgumentEntries" : [
           {
-            "argument" : "-com.apple.CoreData.ThreadingDebug 3"
+            "argument" : "-com.apple.CoreData.ThreadingDebug 3",
+            "enabled" : false
           },
           {
             "argument" : "com.apple.CoreData.MigrationDebug 1",
