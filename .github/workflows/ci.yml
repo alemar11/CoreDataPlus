@@ -23,6 +23,7 @@ jobs:
       - name: stats
         run: |
           sw_vers
+          swift --version
           xcodebuild -version
           xcodebuild -showsdks
           xcrun simctl list
