@@ -85,7 +85,7 @@ jobs:
           swift test
   lint:
     name: Swift Lint
-    runs-on: macos-latest
+    runs-on: macos-11.0
     steps:
       - uses: actions/checkout@v2
       - name: Run SwiftLint
