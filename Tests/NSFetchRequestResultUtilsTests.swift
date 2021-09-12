@@ -916,6 +916,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     try XCTSkipIf(UserDefaults.standard.integer(forKey: "com.apple.CoreData.ConcurrencyDebug") == 1)
     let mainContext = container.viewContext
     // runs on Thread Queue : com.apple.root.default-qos.cooperative (serial)
+    // so we need to make sure to be on the main thread (viewContext)
     try mainContext.performAndWait {
       (1...10_000).forEach {
         let car = Car(context: mainContext)
@@ -923,7 +924,6 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
       }
       try mainContext.save()
     }
-
     let results = try await Car.fetch(in: mainContext) { $0.predicate = .true }
     XCTAssertEqual(results.count, 10_000)
   }
