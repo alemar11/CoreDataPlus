@@ -930,48 +930,46 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
 
   // MARK: - Group By
 
-  // TODO: Wip
-  // TODO: read documentation on how to use processPendingChanges and UndoManager
+  func testInvestigationGroupBy() throws {
+    // https://developer.apple.com/documentation/coredata/nsfetchrequest/1506191-propertiestogroupby
+    // https://gist.github.com/pronebird/cca9777af004e9c91f9cd36c23cc821c
+    // http://www.cimgf.com/2015/06/25/core-data-and-aggregate-fetches-in-swift/
+    // https://medium.com/@cocoanetics/group-by-count-and-sum-in-coredata-63e575fb8bc8
 
-  //      func testGroupBy() throws {
-  //        // https://developer.apple.com/documentation/coredata/nsfetchrequest/1506191-propertiestogroupby
-  //        // https://gist.github.com/pronebird/cca9777af004e9c91f9cd36c23cc821c
-  //        // http://www.cimgf.com/2015/06/25/core-data-and-aggregate-fetches-in-swift/
-  //        // https://medium.com/@cocoanetics/group-by-count-and-sum-in-coredata-63e575fb8bc8
-  //        // Given
-  //        let context = container.viewContext
-  //        context.fillWithSampleData()
-  //        try context.save()
-  //        let request = Car.fetchRequest()
-  //
-  //        // SELECT maker, count(*) from cars GROUP BY maker
-  //
-  //        // expression
-  //        let makerExpr = NSExpression(forKeyPath: #keyPath(Car.maker))
-  //        let expression = NSExpression(forFunction: "count:", arguments: [makerExpr])
-  //
-  //        // describes a column to be returned from a fetch that may not appear directly as an attribute or relationship on an entity
-  //        let countExprDesc = NSExpressionDescription()
-  //        countExprDesc.name = "count" // alias
-  //        countExprDesc.expression = expression
-  //        countExprDesc.expressionResultType = .integer64AttributeType // in iOS 15 use resultType: NSAttributeDescription.AttributeType
-  //
-  //        // used in the predicate
-  //        let countExpr = NSExpression(forVariable: "count")
-  //
-  //        request.returnsObjectsAsFaults = false
-  //        request.propertiesToGroupBy = [#keyPath(Car.maker)]
-  //        request.propertiesToFetch = [#keyPath(Car.maker), countExprDesc]
-  //        request.resultType = .dictionaryResultType
-  //        request.havingPredicate = NSPredicate(format: "%@ > 100", countExpr)
-  //        let results = try context.fetch(request) as! [Dictionary<String, Any>]
-  //
-  //        print(results)
-  //      }
+    // Given
+    let context = container.viewContext
+    context.fillWithSampleData()
+    try context.save()
+    let request = Car.fetchRequest()
 
-  //  // MARK: - Undo
+    // SELECT maker, count(*) from cars GROUP BY maker
+
+    // expression
+    let makerExpression = NSExpression(forKeyPath: #keyPath(Car.maker))
+    let expression = NSExpression(forFunction: "count:", arguments: [makerExpression])
+
+    // describes a column to be returned from a fetch that may not appear directly as an attribute or relationship on an entity
+    let countExpressionDescription = NSExpressionDescription()
+    countExpressionDescription.name = "count" // alias
+    countExpressionDescription.expression = expression
+    countExpressionDescription.expressionResultType = .integer64AttributeType // in iOS 15 use resultType: NSAttributeDescription.AttributeType
+
+    // used in the predicate
+    let countExpression = NSExpression(forVariable: "count")
+
+    request.returnsObjectsAsFaults = false
+    request.propertiesToGroupBy = [#keyPath(Car.maker)]
+    request.propertiesToFetch = [#keyPath(Car.maker), countExpressionDescription]
+    request.resultType = .dictionaryResultType
+    request.havingPredicate = NSPredicate(format: "%@ > 100", countExpression)
+    let results = try context.fetch(request) as! [Dictionary<String, Any>]
+
+    XCTAssertEqual(results.count, 1)
+  }
+
+  // MARK: - Undo
   //
-  //  // TODO: the undo manager is needed for undo, redo and rollback
+  //  // TODO: the undo manager is needed for undo, redo and rollback (read documentation on how to use processPendingChanges and UndoManager)
   //  // https://developer.apple.com/documentation/coredata/nsmanagedobjectcontext
   //  // https://stackoverflow.com/questions/10745027/undo-core-data-managed-object
   //  /**
