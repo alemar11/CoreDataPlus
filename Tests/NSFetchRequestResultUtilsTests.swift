@@ -940,7 +940,6 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
-    let request = Car.fetchRequest()
 
     // SELECT maker, count(*) from cars GROUP BY maker
 
@@ -954,14 +953,12 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     countExpressionDescription.expression = expression
     countExpressionDescription.expressionResultType = .integer64AttributeType // in iOS 15 use resultType: NSAttributeDescription.AttributeType
 
-    // used in the predicate
-    let countExpression = NSExpression(forVariable: "count")
-
+    let request = Car.fetchRequest()
     request.returnsObjectsAsFaults = false
     request.propertiesToGroupBy = [#keyPath(Car.maker)]
     request.propertiesToFetch = [#keyPath(Car.maker), countExpressionDescription]
     request.resultType = .dictionaryResultType
-    request.havingPredicate = NSPredicate(format: "%@ > 100", countExpression)
+    request.havingPredicate = NSPredicate(format: "%@ > 100", NSExpression(forVariable: "count"))
     let results = try context.fetch(request) as! [Dictionary<String, Any>]
 
     XCTAssertEqual(results.count, 1)
