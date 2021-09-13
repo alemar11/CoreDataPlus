@@ -385,6 +385,8 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
     }
   }
 
+  // MARK: - Batch Size investigations
+
   func testFetchAsNSArrayUsingBatchSize() throws {
     // For this investigation you have to enable SQL logs in the test plan (-com.apple.CoreData.SQLDebug 3)
     let context = container.viewContext
@@ -430,5 +432,30 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
 
     // firstObject will trigger only a single SELECT with LIMIT 10 ✅
     let _ = cars.firstObject as! Car
+  }
+
+  func testFetchAsDictionaryUsingBatchSize() throws {
+    // For this investigation you have to enable SQL logs in the test plan (-com.apple.CoreData.SQLDebug 3)
+    let context = container.viewContext
+    context.fillWithSampleData()
+    try context.save()
+    context.reset()
+    let request = Car.fetchRequest()
+    request.returnsObjectsAsFaults = false
+    request.propertiesToFetch = [#keyPath(Car.maker), #keyPath(Car.objectID)]
+    request.resultType = .dictionaryResultType
+    request.fetchBatchSize = 10
+    // fetchBatchSize requires to add "objectID" in the "propertiesToFetch" otherwise it won't work
+
+    // triggers SELECT t0.Z_ENT, t0.Z_PK FROM ZCAR t0 ❌
+    // and 13 queries of: SELECT t0.ZMAKER, t0.Z_ENT, t0.Z_PK FROM ZCAR t0 WHERE  t0.Z_PK IN (SELECT * FROM _Z_intarray0)   LIMIT 10
+    // let results__batchSize_not_working = try context.fetch(request) as! [Dictionary<String,Any>] // triggers 13 SELECT with LIMIT 10 ❌
+
+    //    // triggers only SELECT t0.Z_ENT, t0.Z_PK FROM ZCAR t0
+    let results_batchSize_working = try context.fetch(request) as! [NSDictionary]
+
+    //    // triggers only a single SELECT with LIMIT 10 ✅
+    //    // SELECT t0.ZMAKER, t0.Z_ENT, t0.Z_PK FROM ZCAR t0 WHERE  t0.Z_PK IN (SELECT * FROM _Z_intarray0) LIMIT 10
+    XCTAssertNotNil(results_batchSize_working.first)
   }
 }
