@@ -77,7 +77,7 @@
             "enabled" : false
           },
           {
-            "argument" : "-com.apple.CoreData.SQLDebug 1",
+            "argument" : "-com.apple.CoreData.SQLDebug 3",
             "enabled" : false
           },
           {
