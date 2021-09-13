@@ -48,4 +48,9 @@ extension NSManagedObject {
     try managedObjectContext?.obtainPermanentIDs(for: [self])
     return self.objectID
   }
+
+  /// Returns a Boolean value indicating whether `self` matches the conditions specified by the predicate.
+  public func evaluate(with predicate: NSPredicate) -> Bool {
+    predicate.evaluate(with: self)
+  }
 }
