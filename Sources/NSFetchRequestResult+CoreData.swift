@@ -63,7 +63,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     // https://developer.apple.com/documentation/coredata/nsfetchrequest
     let request = NSFetchRequest<Self>(entityName: entityName)
     configuration(request)
-    precondition(request.resultType == .managedObjectResultType, "This method requires a resultType of .managedObjectResultType.")
+    precondition(request.resultType == .managedObjectResultType, "This method requires a NSFetchRequest with resultType of .managedObjectResultType.")
     return try context.fetch(request)
   }
 
