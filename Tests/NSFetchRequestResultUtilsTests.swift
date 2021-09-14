@@ -928,6 +928,29 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     XCTAssertEqual(results.count, 10_000)
   }
   
+  // MARK: Subquery
+  
+  func testInvestigationSubQuery() throws {
+    // https://medium.com/@Czajnikowski/subquery-is-not-that-scary-3f95cb9e2d98
+    let context = container.viewContext
+    context.fillWithSampleData()
+    
+    let people = try Person.fetchObjects(in: context)
+    let results = people.filter { person in
+      let count = person.cars?.filter { object in
+        let car = object as! Car
+        return car.maker == "FIAT"
+      }.count ?? 0
+      //print("\t\(person.firstName) \(person.lastName) has \(count) FIAT cars")
+      return count > 2
+    }
+    
+    //let subquery = NSPredicate(format: "SUBQUERY(cars, $car, $car.maker == \"FIAT\").@count > 2")
+    let subquery = NSPredicate(format: "SUBQUERY(%K, $car, $car.maker == \"FIAT\").@count > 2", #keyPath(Person.cars))
+    let resultsUsingSubquery = try Person.fetchObjects(in: context) { $0.predicate = subquery }
+    XCTAssertEqual(Set(results), Set(resultsUsingSubquery))
+  }
+  
   // MARK: - Group By
   
   func testInvestigationGroupBy() throws {
