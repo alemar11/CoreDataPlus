@@ -1,0 +1,150 @@
+{
+  "configurations" : [
+    {
+      "id" : "D0CA40FF-44F6-4EF6-B693-27878EB5C4B4",
+      "name" : "Memory Checking",
+      "options" : {
+        "commandLineArgumentEntries" : [
+          {
+            "argument" : "-com.apple.CoreData.ThreadingDebug 3"
+          },
+          {
+            "argument" : "com.apple.CoreData.MigrationDebug 1",
+            "enabled" : false
+          },
+          {
+            "argument" : "-com.apple.CoreData.ConcurrencyDebug 1"
+          },
+          {
+            "argument" : "-com.apple.CoreData.SQLDebug 1",
+            "enabled" : false
+          },
+          {
+            "argument" : "-com.apple.CoreData.Logging.stderr 1",
+            "enabled" : false
+          },
+          {
+            "argument" : "zombieObjectsEnabled"
+          }
+        ],
+        "nsZombieEnabled" : true
+      }
+    },
+    {
+      "id" : "58D73E0F-4350-4E4D-B3C6-D326B53A2FE5",
+      "name" : "Concurrency",
+      "options" : {
+        "addressSanitizer" : {
+          "enabled" : false
+        },
+        "commandLineArgumentEntries" : [
+          {
+            "argument" : "-com.apple.CoreData.ThreadingDebug 3"
+          },
+          {
+            "argument" : "com.apple.CoreData.MigrationDebug 1",
+            "enabled" : false
+          },
+          {
+            "argument" : "-com.apple.CoreData.ConcurrencyDebug 1"
+          },
+          {
+            "argument" : "-com.apple.CoreData.SQLDebug 3",
+            "enabled" : false
+          },
+          {
+            "argument" : "-com.apple.CoreData.Logging.stderr 1",
+            "enabled" : false
+          }
+        ],
+        "threadSanitizerEnabled" : true,
+        "undefinedBehaviorSanitizerEnabled" : true
+      }
+    },
+    {
+      "id" : "992DEAB2-7713-4D8B-9501-2AE8248FA08F",
+      "name" : "Concurrency without ConcurrencyDebug flag",
+      "options" : {
+        "addressSanitizer" : {
+          "enabled" : false
+        },
+        "commandLineArgumentEntries" : [
+          {
+            "argument" : "-com.apple.CoreData.ThreadingDebug 3"
+          },
+          {
+            "argument" : "com.apple.CoreData.MigrationDebug 1",
+            "enabled" : false
+          },
+          {
+            "argument" : "-com.apple.CoreData.SQLDebug 3",
+            "enabled" : false
+          },
+          {
+            "argument" : "-com.apple.CoreData.Logging.stderr 1",
+            "enabled" : false
+          }
+        ],
+        "threadSanitizerEnabled" : true,
+        "undefinedBehaviorSanitizerEnabled" : true
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "addressSanitizer" : {
+      "detectStackUseAfterReturn" : true,
+      "enabled" : true
+    },
+    "commandLineArgumentEntries" : [
+      {
+        "argument" : "-com.apple.CoreData.ThreadingDebug 3"
+      },
+      {
+        "argument" : "com.apple.CoreData.MigrationDebug 1",
+        "enabled" : false
+      },
+      {
+        "argument" : "-com.apple.CoreData.SQLDebug 1",
+        "enabled" : false
+      },
+      {
+        "argument" : "-com.apple.CoreData.Logging.stderr 1",
+        "enabled" : false
+      }
+    ],
+    "environmentVariableEntries" : [
+      {
+        "key" : "XCODE_TESTS",
+        "value" : "1"
+      },
+      {
+        "key" : "SQLITE_ENABLE_THREAD_ASSERTIONS",
+        "value" : "1"
+      },
+      {
+        "key" : "SQLITE_AUTO_TRACE",
+        "value" : "0"
+      },
+      {
+        "key" : "SQLITE_ENABLE_FILE_ASSERTIONS",
+        "value" : "1"
+      }
+    ],
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:CoreDataPlus.xcodeproj",
+      "identifier" : "06AF614726F091370090A61B",
+      "name" : "CoreDataPlus"
+    },
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:CoreDataPlus.xcodeproj",
+        "identifier" : "06AF614E26F091370090A61B",
+        "name" : "CoreDataPlus Tests"
+      }
+    }
+  ],
+  "version" : 1
+}

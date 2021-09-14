@@ -120,6 +120,92 @@
 		06A6CE26261E0966000563F0 /* SampleModelV1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 06A6CE25261E0961000563F0 /* SampleModelV1.sqlite */; };
 		06A6CE30261E0966000563F0 /* SampleModelV1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 06A6CE25261E0961000563F0 /* SampleModelV1.sqlite */; };
 		06A6CE3A261E0966000563F0 /* SampleModelV1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 06A6CE25261E0961000563F0 /* SampleModelV1.sqlite */; };
+		06AF615026F091370090A61B /* CoreDataPlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06AF614826F091370090A61B /* CoreDataPlus.framework */; };
+		06AF615D26F092350090A61B /* CoreDataPlus.h in Headers */ = {isa = PBXBuildFile; fileRef = 23B5806D1F94FEDF00A365C0 /* CoreDataPlus.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		06AF615E26F092BB0090A61B /* NSPersistentStoreCoordinator+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20119FD2614E3D9001902FB /* NSPersistentStoreCoordinator+Utils.swift */; };
+		06AF615F26F092BB0090A61B /* NSBatchDeleteResult+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20119F32614E3D9001902FB /* NSBatchDeleteResult+Utils.swift */; };
+		06AF616026F092BB0090A61B /* NSDerivedAttributeDescription+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28232AB26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift */; };
+		06AF616126F092BB0090A61B /* FetchedResultsChanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20119F92614E3D9001902FB /* FetchedResultsChanges.swift */; };
+		06AF616226F092BB0090A61B /* NSBatchUpdateResult+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20119F52614E3D9001902FB /* NSBatchUpdateResult+Utils.swift */; };
+		06AF616326F092BB0090A61B /* NSAttributeDescription+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20F4BB72621E71500F0CB25 /* NSAttributeDescription+Utils.swift */; };
+		06AF616426F092BB0090A61B /* NSFetchedPropertyDescription+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282330E2624A4FE00F37442 /* NSFetchedPropertyDescription+Utils.swift */; };
+		06AF616526F092BB0090A61B /* NSFetchRequestResult+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A002614E3D9001902FB /* NSFetchRequestResult+CoreData.swift */; };
+		06AF616626F092BB0090A61B /* NSSet+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20119FA2614E3D9001902FB /* NSSet+CoreData.swift */; };
+		06AF616726F092BB0090A61B /* CoreDataPlus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20119F82614E3D9001902FB /* CoreDataPlus.swift */; };
+		06AF616826F092BB0090A61B /* NSBatchInsertResult+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20119F62614E3D9001902FB /* NSBatchInsertResult+Utils.swift */; };
+		06AF616926F092BB0090A61B /* NSManagedObjectContext+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20119F42614E3D9001902FB /* NSManagedObjectContext+Utils.swift */; };
+		06AF616A26F092BB0090A61B /* NSPredicate+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F7D55C26E5F85D00929CA6 /* NSPredicate+Utils.swift */; };
+		06AF616B26F092BB0090A61B /* NSMappingModel+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D214B9A4263B0FDE000BBD13 /* NSMappingModel+Utils.swift */; };
+		06AF616C26F092BB0090A61B /* NSEntityDescription+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20119FE2614E3D9001902FB /* NSEntityDescription+Utils.swift */; };
+		06AF616D26F092BB0090A61B /* NSFetchRequest+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A082614E3D9001902FB /* NSFetchRequest+Utils.swift */; };
+		06AF616E26F092BB0090A61B /* PersistentStoreOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B71CB72629DB04008DFD11 /* PersistentStoreOptions.swift */; };
+		06AF616F26F092BB0090A61B /* NSManagedObject+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20119FF2614E3D9001902FB /* NSManagedObject+Utils.swift */; };
+		06AF617026F092BB0090A61B /* NSManagedObjectContext+History.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20119FC2614E3D9001902FB /* NSManagedObjectContext+History.swift */; };
+		06AF617126F092BB0090A61B /* Collection+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20119F72614E3D9001902FB /* Collection+CoreData.swift */; };
+		06AF617226F092C30090A61B /* MigrationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A042614E3D9001902FB /* MigrationStep.swift */; };
+		06AF617326F092C30090A61B /* ModelVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A022614E3D9001902FB /* ModelVersion.swift */; };
+		06AF617426F092C30090A61B /* LightweightMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0650940A2643E8EB00B3EE12 /* LightweightMigrationManager.swift */; };
+		06AF617526F092C30090A61B /* MigrationProgressReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065094052643E8BC00B3EE12 /* MigrationProgressReporter.swift */; };
+		06AF617626F092C30090A61B /* Migrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D214B9A9263BFA22000BBD13 /* Migrator.swift */; };
+		06AF617726F092C80090A61B /* Notification+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A072614E3D9001902FB /* Notification+Utils.swift */; };
+		06AF617826F092C80090A61B /* Notification+Payloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A062614E3D9001902FB /* Notification+Payloads.swift */; };
+		06AF617926F092CC0090A61B /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A6CD9F261DE0E7000563F0 /* Transformer.swift */; };
+		06AF617A26F092CC0090A61B /* CustomTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061C689226209443000BF0A2 /* CustomTransformer.swift */; };
+		06AF617B26F093E20090A61B /* NSPersistentStoreCoordinatorUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B7E1542448BDEA001763BF /* NSPersistentStoreCoordinatorUtilsTests.swift */; };
+		06AF617C26F093E20090A61B /* NSManagedObjectUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351061F95F28C00B3A16A /* NSManagedObjectUtilsTests.swift */; };
+		06AF617D26F093E20090A61B /* NSFetchRequestUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351071F95F28C00B3A16A /* NSFetchRequestUtilsTests.swift */; };
+		06AF617E26F093E20090A61B /* FetchedResultsChangesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D1056A20D7EFEF00AE84CC /* FetchedResultsChangesTests.swift */; };
+		06AF617F26F093E20090A61B /* NSAttributeDescriptionUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282323A2624342400F37442 /* NSAttributeDescriptionUtilsTests.swift */; };
+		06AF618026F093E20090A61B /* NSEntityDescriptionUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23948D1E1F9934F800B3738D /* NSEntityDescriptionUtilsTests.swift */; };
+		06AF618126F093E20090A61B /* FetchesWithAffectedStoresTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E06365264ABC0D009145B6 /* FetchesWithAffectedStoresTests.swift */; };
+		06AF618226F093E20090A61B /* NSFetchRequestResultCoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A8A44C1F9F536D0038DE3A /* NSFetchRequestResultCoreDataTests.swift */; };
+		06AF618326F093E20090A61B /* MigrationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230C087B21417E1900A1B6CB /* MigrationsTests.swift */; };
+		06AF618426F093E20090A61B /* NSManagedObjectContextInvestigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232440B622D2546100A04649 /* NSManagedObjectContextInvestigationTests.swift */; };
+		06AF618526F093E20090A61B /* NSSetCoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C5CE35244762FA00AD19D8 /* NSSetCoreDataTests.swift */; };
+		06AF618626F093E20090A61B /* ProgrammaticMigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20F4C1F2622029400F0CB25 /* ProgrammaticMigrationTests.swift */; };
+		06AF618726F093E20090A61B /* ModelVersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351041F95F28B00B3A16A /* ModelVersionTests.swift */; };
+		06AF618826F093E20090A61B /* TransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A6CDC6261DFC8F000563F0 /* TransformerTests.swift */; };
+		06AF618926F093E20090A61B /* NSManagedObjectDelayedDeletableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2383AC631FB079420085625C /* NSManagedObjectDelayedDeletableTests.swift */; };
+		06AF618A26F093E20090A61B /* NSPredicateUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F7D56626E5F8DB00929CA6 /* NSPredicateUtilsTests.swift */; };
+		06AF618B26F093E20090A61B /* NSManagedObjectUpdateTimestampableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C3B2B51FB0A1C000799E72 /* NSManagedObjectUpdateTimestampableTests.swift */; };
+		06AF618C26F093E20090A61B /* NSManagedObjectContextHistoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23541AF922ECAB0000678A96 /* NSManagedObjectContextHistoryTests.swift */; };
+		06AF618D26F093E20090A61B /* NSManagedObjectContextUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351031F95F28B00B3A16A /* NSManagedObjectContextUtilsTests.swift */; };
+		06AF618E26F093E20090A61B /* ProgrammaticallyDefinedModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B71C732629CB4F008DFD11 /* ProgrammaticallyDefinedModelTests.swift */; };
+		06AF618F26F093E20090A61B /* NSFetchRequestResultUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23DAFA291F964DBB0058654B /* NSFetchRequestResultUtilsTests.swift */; };
+		06AF619026F093E60090A61B /* NotificationMergeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C6493920396FFA00AA514A /* NotificationMergeTests.swift */; };
+		06AF619126F093E60090A61B /* NotificationPayloadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2351687122A2DD4500340611 /* NotificationPayloadTests.swift */; };
+		06AF619226F093EE0090A61B /* SampleModelV1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 06A6CE25261E0961000563F0 /* SampleModelV1.sqlite */; };
+		06AF619326F093F20090A61B /* SampleModelV2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D27A2E2D255F29D20043B43F /* SampleModelV2.sqlite */; };
+		06AF619426F093F60090A61B /* V2to3MakerPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237728642148FACE00FDAF32 /* V2to3MakerPolicy.swift */; };
+		06AF619526F093FB0090A61B /* SampleModelVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2363510B1F95F28C00B3A16A /* SampleModelVersion.swift */; };
+		06AF619626F093FE0090A61B /* NSManagedObject+DelayedDeletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808D1F94FFF600A365C0 /* NSManagedObject+DelayedDeletable.swift */; };
+		06AF619726F093FE0090A61B /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EEF5441F962E5700A2E72F /* Car.swift */; };
+		06AF619826F093FE0090A61B /* Maker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234DA7AA214A5D2B00D5C24F /* Maker.swift */; };
+		06AF619926F093FE0090A61B /* NSManagedObject+UpdateTimestampable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */; };
+		06AF619A26F093FE0090A61B /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EEF5481F962E6A00A2E72F /* Person.swift */; };
+		06AF619B26F094020090A61B /* SampleModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 23DAFA231F9641BD0058654B /* SampleModel.xcdatamodeld */; };
+		06AF619C26F094050090A61B /* NSManagedObjectContext+SampleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233654361F9E1644007F8D3D /* NSManagedObjectContext+SampleModel.swift */; };
+		06AF619D26F0940B0090A61B /* Author.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282326826244D3A00F37442 /* Author.swift */; };
+		06AF619E26F0940B0090A61B /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282327E2624569400F37442 /* Book.swift */; };
+		06AF619F26F0940B0090A61B /* Feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282331E26257A7400F37442 /* Feedback.swift */; };
+		06AF61A026F0940B0090A61B /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28233642625C55100F37442 /* Content.swift */; };
+		06AF61A126F0940B0090A61B /* Cover.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28233712625C56A00F37442 /* Cover.swift */; };
+		06AF61A226F0940B0090A61B /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28232942624754700F37442 /* Page.swift */; };
+		06AF61A326F0940F0090A61B /* BookCoverToCoverMigrationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06968B0C26454FBE00088D76 /* BookCoverToCoverMigrationPolicy.swift */; };
+		06AF61A426F0940F0090A61B /* SampleModel2+V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A448242631B937003059A7 /* SampleModel2+V3.swift */; };
+		06AF61A526F0940F0090A61B /* SampleModel2+V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28233412625C23F00F37442 /* SampleModel2+V1.swift */; };
+		06AF61A626F0940F0090A61B /* FeedbackMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06968B112645685F00088D76 /* FeedbackMigrationManager.swift */; };
+		06AF61A726F0940F0090A61B /* SampleModel2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20F4BC62621F3B000F0CB25 /* SampleModel2.swift */; };
+		06AF61A826F0940F0090A61B /* NSManagedObjectContext+SampleModel2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282325A26244AE200F37442 /* NSManagedObjectContext+SampleModel2.swift */; };
+		06AF61A926F0940F0090A61B /* SampleModel2+V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282334E2625C2A200F37442 /* SampleModel2+V2.swift */; };
+		06AF61AA26F094170090A61B /* BaseTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061C684D261EF969000BF0A2 /* BaseTestCase.swift */; };
+		06AF61AB26F0941A0090A61B /* InMemoryTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236526AA215A46C200A51C9F /* InMemoryTestCase.swift */; };
+		06AF61AC26F0941A0090A61B /* Deprecated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063E100D264BC2F90050E84C /* Deprecated.swift */; };
+		06AF61AD26F0941A0090A61B /* OnDiskTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239F4CBF22F49F2F007888BA /* OnDiskTestCase.swift */; };
+		06AF61AE26F0941A0090A61B /* OnDiskWithProgrammaticallyModelTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28232C22624A15000F37442 /* OnDiskWithProgrammaticallyModelTestCase.swift */; };
+		06AF61AF26F0941A0090A61B /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FFB86122EC948C00391D40 /* Utils.swift */; };
+		06AF61B026F0941A0090A61B /* CoreDataErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282332B2625AB2300F37442 /* CoreDataErrors.swift */; };
+		06AF61B226F0959F0090A61B /* V2toV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2377287021490B9D00FDAF32 /* V2toV3.xcmappingmodel */; };
 		06B71C742629CB4F008DFD11 /* ProgrammaticallyDefinedModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B71C732629CB4F008DFD11 /* ProgrammaticallyDefinedModelTests.swift */; };
 		06B71C752629CB4F008DFD11 /* ProgrammaticallyDefinedModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B71C732629CB4F008DFD11 /* ProgrammaticallyDefinedModelTests.swift */; };
 		06B71C762629CB4F008DFD11 /* ProgrammaticallyDefinedModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B71C732629CB4F008DFD11 /* ProgrammaticallyDefinedModelTests.swift */; };
@@ -386,6 +472,13 @@
 			remoteGlobalIDString = 236350731F95EC1A00B3A16A;
 			remoteInfo = "CoreDataPlus watchOS";
 		};
+		06AF615126F091370090A61B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 23B580611F94FEDF00A365C0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 06AF614726F091370090A61B;
+			remoteInfo = CoreDataPlus;
+		};
 		23EFDE931F95FE730038BE75 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 23B580611F94FEDF00A365C0 /* Project object */;
@@ -428,6 +521,9 @@
 		06A6CD9F261DE0E7000563F0 /* Transformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transformer.swift; sourceTree = "<group>"; };
 		06A6CDC6261DFC8F000563F0 /* TransformerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformerTests.swift; sourceTree = "<group>"; };
 		06A6CE25261E0961000563F0 /* SampleModelV1.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleModelV1.sqlite; sourceTree = "<group>"; };
+		06AF614826F091370090A61B /* CoreDataPlus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreDataPlus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		06AF614F26F091370090A61B /* CoreDataPlus Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CoreDataPlus Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		06AF61B126F095070090A61B /* CoreDataPlus.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CoreDataPlus.xctestplan; sourceTree = "<group>"; };
 		06B71C732629CB4F008DFD11 /* ProgrammaticallyDefinedModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammaticallyDefinedModelTests.swift; sourceTree = "<group>"; };
 		06B71CB72629DB04008DFD11 /* PersistentStoreOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStoreOptions.swift; sourceTree = "<group>"; };
 		06E06365264ABC0D009145B6 /* FetchesWithAffectedStoresTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchesWithAffectedStoresTests.swift; sourceTree = "<group>"; };
@@ -532,6 +628,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		06AF614526F091370090A61B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		06AF614C26F091370090A61B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06AF615026F091370090A61B /* CoreDataPlus.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		236350701F95EC1A00B3A16A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -599,6 +710,7 @@
 		06A4584D239FD20C007BA7C9 /* TestPlans */ = {
 			isa = PBXGroup;
 			children = (
+				06AF61B126F095070090A61B /* CoreDataPlus.xctestplan */,
 				06968AD926454BA300088D76 /* CoreDataPlus watchOS.xctestplan */,
 				06A4584E239FD22C007BA7C9 /* CoreDataPlus iOS.xctestplan */,
 				06A3C1D3239FD36100E08D45 /* CoreDataPlus macOS.xctestplan */,
@@ -663,6 +775,8 @@
 				23EFDE9C1F95FE990038BE75 /* CoreDataPlus Tests tvOS.xctest */,
 				23EFDEAB1F95FEB40038BE75 /* CoreDataPlus Tests macOS.xctest */,
 				06968ACE26454AFF00088D76 /* CoreDataPlus Tests watchOS.xctest */,
+				06AF614826F091370090A61B /* CoreDataPlus.framework */,
+				06AF614F26F091370090A61B /* CoreDataPlus Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -670,16 +784,16 @@
 		23B580841F94FF0300A365C0 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				D254E22A23C3BA7F00A1586E /* LICENSE.md */,
 				06A3C1D5239FD83D00E08D45 /* CHANGELOG.md */,
-				0693F915237C58A7008E4F31 /* workflows */,
 				23B5806D1F94FEDF00A365C0 /* CoreDataPlus.h */,
-				231C313E22F5E3BB00BF7129 /* README.md */,
-				23BAC1181FA7A7D8002EE4F1 /* Package.swift */,
 				236351241F95F53900B3A16A /* IDETemplateMacros.plist */,
 				236350E11F95F1A900B3A16A /* Info-Tests.plist */,
-				23B5806E1F94FEDF00A365C0 /* Info.plist */,
 				236350841F95EC3000B3A16A /* Info-tvOS.plist */,
+				23B5806E1F94FEDF00A365C0 /* Info.plist */,
+				D254E22A23C3BA7F00A1586E /* LICENSE.md */,
+				23BAC1181FA7A7D8002EE4F1 /* Package.swift */,
+				231C313E22F5E3BB00BF7129 /* README.md */,
+				0693F915237C58A7008E4F31 /* workflows */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -841,6 +955,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		06AF614326F091370090A61B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06AF615D26F092350090A61B /* CoreDataPlus.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		236350711F95EC1A00B3A16A /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -892,6 +1014,42 @@
 			name = "CoreDataPlus Tests watchOS";
 			productName = "CoreDataPlus Tests watchOS";
 			productReference = 06968ACE26454AFF00088D76 /* CoreDataPlus Tests watchOS.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		06AF614726F091370090A61B /* CoreDataPlus */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 06AF615B26F091370090A61B /* Build configuration list for PBXNativeTarget "CoreDataPlus" */;
+			buildPhases = (
+				06AF614326F091370090A61B /* Headers */,
+				06AF614426F091370090A61B /* Sources */,
+				06AF614526F091370090A61B /* Frameworks */,
+				06AF614626F091370090A61B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CoreDataPlus;
+			productName = CoreDataPlus;
+			productReference = 06AF614826F091370090A61B /* CoreDataPlus.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		06AF614E26F091370090A61B /* CoreDataPlus Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 06AF615C26F091370090A61B /* Build configuration list for PBXNativeTarget "CoreDataPlus Tests" */;
+			buildPhases = (
+				06AF614B26F091370090A61B /* Sources */,
+				06AF614C26F091370090A61B /* Frameworks */,
+				06AF614D26F091370090A61B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				06AF615226F091370090A61B /* PBXTargetDependency */,
+			);
+			name = "CoreDataPlus Tests";
+			productName = CoreDataPlusTests;
+			productReference = 06AF614F26F091370090A61B /* CoreDataPlus Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		236350731F95EC1A00B3A16A /* CoreDataPlus watchOS */ = {
@@ -1026,12 +1184,18 @@
 		23B580611F94FEDF00A365C0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1250;
+				LastSwiftUpdateCheck = 1300;
 				LastUpgradeCheck = 1200;
-				ORGANIZATIONNAME = Tinrobots;
+				ORGANIZATIONNAME = "Alessandro Marzoli";
 				TargetAttributes = {
 					06968ACD26454AFF00088D76 = {
 						CreatedOnToolsVersion = 12.5;
+					};
+					06AF614726F091370090A61B = {
+						CreatedOnToolsVersion = 13.0;
+					};
+					06AF614E26F091370090A61B = {
+						CreatedOnToolsVersion = 13.0;
 					};
 					236350731F95EC1A00B3A16A = {
 						CreatedOnToolsVersion = 9.1;
@@ -1089,10 +1253,12 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				06AF614726F091370090A61B /* CoreDataPlus */,
 				23B580691F94FEDF00A365C0 /* CoreDataPlus iOS */,
 				236350731F95EC1A00B3A16A /* CoreDataPlus watchOS */,
 				236350801F95EC3000B3A16A /* CoreDataPlus tvOS */,
 				2363509C1F95EC5600B3A16A /* CoreDataPlus macOS */,
+				06AF614E26F091370090A61B /* CoreDataPlus Tests */,
 				23EFDE8C1F95FE730038BE75 /* CoreDataPlus Tests iOS */,
 				23EFDE9B1F95FE990038BE75 /* CoreDataPlus Tests tvOS */,
 				23EFDEAA1F95FEB40038BE75 /* CoreDataPlus Tests macOS */,
@@ -1110,6 +1276,22 @@
 			files = (
 				06968AFA26454CC700088D76 /* SampleModelV1.sqlite in Resources */,
 				06968AFB26454CCB00088D76 /* SampleModelV2.sqlite in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		06AF614626F091370090A61B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		06AF614D26F091370090A61B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06AF619226F093EE0090A61B /* SampleModelV1.sqlite in Resources */,
+				06AF619326F093F20090A61B /* SampleModelV2.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1259,6 +1441,102 @@
 				06968AF326454CBC00088D76 /* Book.swift in Sources */,
 				06968AEC26454CAC00088D76 /* ProgrammaticMigrationTests.swift in Sources */,
 				06F7D56A26E5F8DB00929CA6 /* NSPredicateUtilsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		06AF614426F091370090A61B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06AF617326F092C30090A61B /* ModelVersion.swift in Sources */,
+				06AF617226F092C30090A61B /* MigrationStep.swift in Sources */,
+				06AF616326F092BB0090A61B /* NSAttributeDescription+Utils.swift in Sources */,
+				06AF617926F092CC0090A61B /* Transformer.swift in Sources */,
+				06AF616A26F092BB0090A61B /* NSPredicate+Utils.swift in Sources */,
+				06AF616826F092BB0090A61B /* NSBatchInsertResult+Utils.swift in Sources */,
+				06AF616126F092BB0090A61B /* FetchedResultsChanges.swift in Sources */,
+				06AF617826F092C80090A61B /* Notification+Payloads.swift in Sources */,
+				06AF616926F092BB0090A61B /* NSManagedObjectContext+Utils.swift in Sources */,
+				06AF616F26F092BB0090A61B /* NSManagedObject+Utils.swift in Sources */,
+				06AF617426F092C30090A61B /* LightweightMigrationManager.swift in Sources */,
+				06AF616E26F092BB0090A61B /* PersistentStoreOptions.swift in Sources */,
+				06AF616D26F092BB0090A61B /* NSFetchRequest+Utils.swift in Sources */,
+				06AF616C26F092BB0090A61B /* NSEntityDescription+Utils.swift in Sources */,
+				06AF617726F092C80090A61B /* Notification+Utils.swift in Sources */,
+				06AF617026F092BB0090A61B /* NSManagedObjectContext+History.swift in Sources */,
+				06AF617626F092C30090A61B /* Migrator.swift in Sources */,
+				06AF615E26F092BB0090A61B /* NSPersistentStoreCoordinator+Utils.swift in Sources */,
+				06AF616026F092BB0090A61B /* NSDerivedAttributeDescription+Utils.swift in Sources */,
+				06AF616626F092BB0090A61B /* NSSet+CoreData.swift in Sources */,
+				06AF616426F092BB0090A61B /* NSFetchedPropertyDescription+Utils.swift in Sources */,
+				06AF616726F092BB0090A61B /* CoreDataPlus.swift in Sources */,
+				06AF617A26F092CC0090A61B /* CustomTransformer.swift in Sources */,
+				06AF615F26F092BB0090A61B /* NSBatchDeleteResult+Utils.swift in Sources */,
+				06AF616226F092BB0090A61B /* NSBatchUpdateResult+Utils.swift in Sources */,
+				06AF617526F092C30090A61B /* MigrationProgressReporter.swift in Sources */,
+				06AF616526F092BB0090A61B /* NSFetchRequestResult+CoreData.swift in Sources */,
+				06AF617126F092BB0090A61B /* Collection+CoreData.swift in Sources */,
+				06AF616B26F092BB0090A61B /* NSMappingModel+Utils.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		06AF614B26F091370090A61B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06AF61AD26F0941A0090A61B /* OnDiskTestCase.swift in Sources */,
+				06AF619A26F093FE0090A61B /* Person.swift in Sources */,
+				06AF617F26F093E20090A61B /* NSAttributeDescriptionUtilsTests.swift in Sources */,
+				06AF619026F093E60090A61B /* NotificationMergeTests.swift in Sources */,
+				06AF61A926F0940F0090A61B /* SampleModel2+V2.swift in Sources */,
+				06AF61A726F0940F0090A61B /* SampleModel2.swift in Sources */,
+				06AF618826F093E20090A61B /* TransformerTests.swift in Sources */,
+				06AF618126F093E20090A61B /* FetchesWithAffectedStoresTests.swift in Sources */,
+				06AF619926F093FE0090A61B /* NSManagedObject+UpdateTimestampable.swift in Sources */,
+				06AF61A126F0940B0090A61B /* Cover.swift in Sources */,
+				06AF618526F093E20090A61B /* NSSetCoreDataTests.swift in Sources */,
+				06AF617E26F093E20090A61B /* FetchedResultsChangesTests.swift in Sources */,
+				06AF618626F093E20090A61B /* ProgrammaticMigrationTests.swift in Sources */,
+				06AF61AC26F0941A0090A61B /* Deprecated.swift in Sources */,
+				06AF61AA26F094170090A61B /* BaseTestCase.swift in Sources */,
+				06AF619426F093F60090A61B /* V2to3MakerPolicy.swift in Sources */,
+				06AF618926F093E20090A61B /* NSManagedObjectDelayedDeletableTests.swift in Sources */,
+				06AF61A226F0940B0090A61B /* Page.swift in Sources */,
+				06AF619C26F094050090A61B /* NSManagedObjectContext+SampleModel.swift in Sources */,
+				06AF619F26F0940B0090A61B /* Feedback.swift in Sources */,
+				06AF618226F093E20090A61B /* NSFetchRequestResultCoreDataTests.swift in Sources */,
+				06AF61A326F0940F0090A61B /* BookCoverToCoverMigrationPolicy.swift in Sources */,
+				06AF61A526F0940F0090A61B /* SampleModel2+V1.swift in Sources */,
+				06AF618B26F093E20090A61B /* NSManagedObjectUpdateTimestampableTests.swift in Sources */,
+				06AF618026F093E20090A61B /* NSEntityDescriptionUtilsTests.swift in Sources */,
+				06AF617B26F093E20090A61B /* NSPersistentStoreCoordinatorUtilsTests.swift in Sources */,
+				06AF61AF26F0941A0090A61B /* Utils.swift in Sources */,
+				06AF619E26F0940B0090A61B /* Book.swift in Sources */,
+				06AF619626F093FE0090A61B /* NSManagedObject+DelayedDeletable.swift in Sources */,
+				06AF619726F093FE0090A61B /* Car.swift in Sources */,
+				06AF619D26F0940B0090A61B /* Author.swift in Sources */,
+				06AF61A826F0940F0090A61B /* NSManagedObjectContext+SampleModel2.swift in Sources */,
+				06AF618326F093E20090A61B /* MigrationsTests.swift in Sources */,
+				06AF618C26F093E20090A61B /* NSManagedObjectContextHistoryTests.swift in Sources */,
+				06AF61A626F0940F0090A61B /* FeedbackMigrationManager.swift in Sources */,
+				06AF61A026F0940B0090A61B /* Content.swift in Sources */,
+				06AF618726F093E20090A61B /* ModelVersionTests.swift in Sources */,
+				06AF619B26F094020090A61B /* SampleModel.xcdatamodeld in Sources */,
+				06AF619826F093FE0090A61B /* Maker.swift in Sources */,
+				06AF618A26F093E20090A61B /* NSPredicateUtilsTests.swift in Sources */,
+				06AF617C26F093E20090A61B /* NSManagedObjectUtilsTests.swift in Sources */,
+				06AF618D26F093E20090A61B /* NSManagedObjectContextUtilsTests.swift in Sources */,
+				06AF61B226F0959F0090A61B /* V2toV3.xcmappingmodel in Sources */,
+				06AF61A426F0940F0090A61B /* SampleModel2+V3.swift in Sources */,
+				06AF619126F093E60090A61B /* NotificationPayloadTests.swift in Sources */,
+				06AF61AE26F0941A0090A61B /* OnDiskWithProgrammaticallyModelTestCase.swift in Sources */,
+				06AF618F26F093E20090A61B /* NSFetchRequestResultUtilsTests.swift in Sources */,
+				06AF619526F093FB0090A61B /* SampleModelVersion.swift in Sources */,
+				06AF618E26F093E20090A61B /* ProgrammaticallyDefinedModelTests.swift in Sources */,
+				06AF618426F093E20090A61B /* NSManagedObjectContextInvestigationTests.swift in Sources */,
+				06AF61AB26F0941A0090A61B /* InMemoryTestCase.swift in Sources */,
+				06AF617D26F093E20090A61B /* NSFetchRequestUtilsTests.swift in Sources */,
+				06AF61B026F0941A0090A61B /* CoreDataErrors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1594,6 +1872,11 @@
 			target = 236350731F95EC1A00B3A16A /* CoreDataPlus watchOS */;
 			targetProxy = 06968AD426454AFF00088D76 /* PBXContainerItemProxy */;
 		};
+		06AF615226F091370090A61B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 06AF614726F091370090A61B /* CoreDataPlus */;
+			targetProxy = 06AF615126F091370090A61B /* PBXContainerItemProxy */;
+		};
 		23EFDE941F95FE730038BE75 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 23B580691F94FEDF00A365C0 /* CoreDataPlus iOS */;
@@ -1652,6 +1935,138 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+			};
+			name = Release;
+		};
+		06AF615726F091370090A61B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = XQEAXK7Y68;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2021 Alessandro Marzoli. All rights reserved.";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 4.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alessandromarzoli.CoreDataPlus;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,4";
+			};
+			name = Debug;
+		};
+		06AF615826F091370090A61B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = XQEAXK7Y68;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2021 Alessandro Marzoli. All rights reserved.";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 4.1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alessandromarzoli.CoreDataPlus;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,4";
+			};
+			name = Release;
+		};
+		06AF615926F091370090A61B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XQEAXK7Y68;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alessandromarzoli.CoreDataPlusTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,4,6";
+			};
+			name = Debug;
+		};
+		06AF615A26F091370090A61B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XQEAXK7Y68;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alessandromarzoli.CoreDataPlusTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,4,6";
 			};
 			name = Release;
 		};
@@ -2243,6 +2658,24 @@
 			buildConfigurations = (
 				06968AD626454AFF00088D76 /* Debug */,
 				06968AD726454AFF00088D76 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		06AF615B26F091370090A61B /* Build configuration list for PBXNativeTarget "CoreDataPlus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06AF615726F091370090A61B /* Debug */,
+				06AF615826F091370090A61B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		06AF615C26F091370090A61B /* Build configuration list for PBXNativeTarget "CoreDataPlus Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06AF615926F091370090A61B /* Debug */,
+				06AF615A26F091370090A61B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
