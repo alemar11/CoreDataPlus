@@ -83,7 +83,7 @@ extension NSManagedObjectContext {
     do {
       try saveIfNeeded()
     } catch {
-      rollback() // rolls back the pending changes
+      rollback() // rolls back the pending changes (and clears the undo stack if set up)
       throw error
     }
   }

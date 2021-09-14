@@ -148,7 +148,7 @@ final class NSManagedObjectContextUtilsTests: InMemoryTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testSaveOrRollback() {
+  func testSaveIfNeededOrRollback() {
     let context = container.viewContext
 
     let car1 = Car(context: context)
