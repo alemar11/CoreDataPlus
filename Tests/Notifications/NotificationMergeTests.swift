@@ -50,7 +50,7 @@ final class NotificationMergeTests: InMemoryTestCase {
     XCTAssertEqual(registeredPerson?.firstName, "One")
     XCTAssertEqual(registeredPerson?.lastName, "One")
 
-    let people = try Person.fetch(in: viewContext)
+    let people = try Person.fetchObjects(in: viewContext)
     XCTAssertEqual(people.count, 2)
     XCTAssertEqual(viewContext.registeredObjects.count, 2)
   }
@@ -236,7 +236,7 @@ final class NotificationMergeTests: InMemoryTestCase {
       .store(in: &cancellables)
 
     try backgroundContext.performAndWait { _ in
-      let persons = try Person.fetch(in: backgroundContext)
+      let persons = try Person.fetchObjects(in: backgroundContext)
 
       for person in persons {
         person.firstName += " Updated"
@@ -296,7 +296,7 @@ final class NotificationMergeTests: InMemoryTestCase {
     try context.save()
 
     try anotherContext.performAndWait {_ in
-      let persons = try Person.fetch(in: anotherContext)
+      let persons = try Person.fetchObjects(in: anotherContext)
 
       for person in persons {
         person.firstName += " Updated"
@@ -366,7 +366,7 @@ final class NotificationMergeTests: InMemoryTestCase {
     var person3ObjectId: NSManagedObjectID?
 
     try anotherContext.performAndWait { _ in
-      let persons = try Person.fetch(in: anotherContext)
+      let persons = try Person.fetchObjects(in: anotherContext)
 
       // Insert a new car object on anohterContext
       let car2 = SportCar(context: anotherContext)
@@ -448,7 +448,7 @@ final class NotificationMergeTests: InMemoryTestCase {
         expectation2.fulfill()
       }
 
-    let persons = try Person.fetch(in: context)
+    let persons = try Person.fetchObjects(in: context)
 
     // Insert a new car object on anohterContext
     let car2 = SportCar(context: context)

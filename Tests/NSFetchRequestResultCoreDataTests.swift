@@ -41,26 +41,26 @@ final class NSFetchRequestResultCoreDataTests: InMemoryTestCase {
     // When
     XCTAssertNoThrow(try SportCar.delete(in: context, where: NSPredicate(format: "%K == %@", #keyPath(SportCar.numberPlate), "302"), limit: 1000))
     // Then
-    XCTAssertTrue(try SportCar.fetch(in: context).filter { $0.numberPlate == "302" }.isEmpty)
-    XCTAssertTrue(try ExpensiveSportCar.fetch(in: context).filter { $0.numberPlate == "302" }.isEmpty)
+    XCTAssertTrue(try SportCar.fetchObjects(in: context).filter { $0.numberPlate == "302" }.isEmpty)
+    XCTAssertTrue(try ExpensiveSportCar.fetchObjects(in: context).filter { $0.numberPlate == "302" }.isEmpty)
 
     // When
     XCTAssertNoThrow(try ExpensiveSportCar.delete(in: context, where: NSPredicate(format: "%K == %@", #keyPath(SportCar.numberPlate), "301")))
     // Then
-    XCTAssertTrue(try SportCar.fetch(in: context).filter { $0.numberPlate == "301" }.isEmpty)
-    XCTAssertTrue(try ExpensiveSportCar.fetch(in: context).filter { $0.numberPlate == "301" }.isEmpty)
+    XCTAssertTrue(try SportCar.fetchObjects(in: context).filter { $0.numberPlate == "301" }.isEmpty)
+    XCTAssertTrue(try ExpensiveSportCar.fetchObjects(in: context).filter { $0.numberPlate == "301" }.isEmpty)
 
     // When
     XCTAssertNoThrow(try SportCar.delete(in: context, where: NSPredicate(value: true)))
     // Then
-    XCTAssertTrue(try SportCar.fetch(in: context).isEmpty)
-    XCTAssertTrue(try ExpensiveSportCar.fetch(in: context).isEmpty)
-    XCTAssertTrue(try !Car.fetch(in: context).isEmpty)
+    XCTAssertTrue(try SportCar.fetchObjects(in: context).isEmpty)
+    XCTAssertTrue(try ExpensiveSportCar.fetchObjects(in: context).isEmpty)
+    XCTAssertTrue(try !Car.fetchObjects(in: context).isEmpty)
 
     // When
     XCTAssertNoThrow(try Car.delete(in: context))
     // Then
-    XCTAssertTrue(try Car.fetch(in: context).isEmpty)
+    XCTAssertTrue(try Car.fetchObjects(in: context).isEmpty)
 
   }
 
@@ -72,25 +72,25 @@ final class NSFetchRequestResultCoreDataTests: InMemoryTestCase {
     // When
     XCTAssertNoThrow(try SportCar.delete(in: context, includingSubentities: false, where: NSPredicate(format: "%K == %@", #keyPath(SportCar.numberPlate), "302"))) //it's an ExpensiveSportCar
     // Then
-    XCTAssertFalse(try SportCar.fetch(in: context).filter { $0.numberPlate == "302" }.isEmpty)
-    XCTAssertFalse(try ExpensiveSportCar.fetch(in: context).filter { $0.numberPlate == "302" }.isEmpty)
+    XCTAssertFalse(try SportCar.fetchObjects(in: context).filter { $0.numberPlate == "302" }.isEmpty)
+    XCTAssertFalse(try ExpensiveSportCar.fetchObjects(in: context).filter { $0.numberPlate == "302" }.isEmpty)
 
     // When
     XCTAssertNoThrow(try ExpensiveSportCar.delete(in: context, includingSubentities: false, where: NSPredicate(format: "%K == %@", #keyPath(SportCar.numberPlate), "301")))
     // Then
-    XCTAssertTrue(try SportCar.fetch(in: context).filter { $0.numberPlate == "301" }.isEmpty)
-    XCTAssertTrue(try ExpensiveSportCar.fetch(in: context).filter { $0.numberPlate == "301" }.isEmpty)
+    XCTAssertTrue(try SportCar.fetchObjects(in: context).filter { $0.numberPlate == "301" }.isEmpty)
+    XCTAssertTrue(try ExpensiveSportCar.fetchObjects(in: context).filter { $0.numberPlate == "301" }.isEmpty)
 
     // When
     XCTAssertNoThrow(try SportCar.delete(in: context, includingSubentities: false, where: NSPredicate(value: true)))
     // Then
-    XCTAssertFalse(try SportCar.fetch(in: context).isEmpty)
-    XCTAssertFalse(try ExpensiveSportCar.fetch(in: context).isEmpty)
+    XCTAssertFalse(try SportCar.fetchObjects(in: context).isEmpty)
+    XCTAssertFalse(try ExpensiveSportCar.fetchObjects(in: context).isEmpty)
 
     // When
     XCTAssertNoThrow(try Car.delete(in: context))
     // Then
-    XCTAssertTrue(try Car.fetch(in: context).isEmpty)
+    XCTAssertTrue(try Car.fetchObjects(in: context).isEmpty)
 
   }
 
@@ -99,9 +99,9 @@ final class NSFetchRequestResultCoreDataTests: InMemoryTestCase {
     context.fillWithSampleData()
 
     // Given
-    let optonalCar = try Car.fetch(in: context).filter { $0.numberPlate == "5" }.first
-    let optionalPerson = try Person.fetch(in: context).filter { $0.firstName == "Theodora" && $0.lastName == "Stone" }.first
-    let persons = try Person.fetch(in: context).filter { $0.lastName == "Moreton" }
+    let optonalCar = try Car.fetchObjects(in: context).filter { $0.numberPlate == "5" }.first
+    let optionalPerson = try Person.fetchObjects(in: context).filter { $0.firstName == "Theodora" && $0.lastName == "Stone" }.first
+    let persons = try Person.fetchObjects(in: context).filter { $0.lastName == "Moreton" }
 
     // When
     guard let car = optonalCar, let person = optionalPerson, !persons.isEmpty else {
@@ -115,7 +115,7 @@ final class NSFetchRequestResultCoreDataTests: InMemoryTestCase {
 
     /// Car exception
     XCTAssertNoThrow(try Car.delete(in: context, except: [car]))
-    let cars = try Car.fetch(in: context)
+    let cars = try Car.fetchObjects(in: context)
     XCTAssertNotNil(cars.filter { $0.numberPlate == "5" }.first)
     XCTAssertTrue(cars.filter { $0.numberPlate != "5" }.isEmpty)
 
@@ -123,11 +123,11 @@ final class NSFetchRequestResultCoreDataTests: InMemoryTestCase {
     var exceptions = persons
     exceptions.append(person)
     XCTAssertNoThrow(try Person.delete(in: context, except: exceptions))
-    XCTAssertFalse(try Person.fetch(in: context).filter { ($0.firstName == "Theodora" && $0.lastName == "Stone") || ($0.lastName == "Moreton") }.isEmpty)
+    XCTAssertFalse(try Person.fetchObjects(in: context).filter { ($0.firstName == "Theodora" && $0.lastName == "Stone") || ($0.lastName == "Moreton") }.isEmpty)
 
     /// no exceptions
     XCTAssertNoThrow(try Person.delete(in: context, except: []))
-    XCTAssertTrue(try Person.fetch(in: context).isEmpty)
+    XCTAssertTrue(try Person.fetchObjects(in: context).isEmpty)
 
   }
 
@@ -138,10 +138,10 @@ final class NSFetchRequestResultCoreDataTests: InMemoryTestCase {
 
     // When, Then
     let predicate = NSPredicate(format: "%K >= %@ && %K <= %@", #keyPath(Car.numberPlate), "202", #keyPath(Car.numberPlate), "204")
-    let sportCars = try SportCar.fetch(in: context, with: { $0.predicate = predicate })
+    let sportCars = try SportCar.fetchObjects(in: context, with: { $0.predicate = predicate })
     XCTAssertNotNil(sportCars)
     XCTAssertNoThrow(try Car.delete(in: context, except: sportCars))
-    let carsAfterDelete = try Car.fetch(in: context)
+    let carsAfterDelete = try Car.fetchObjects(in: context)
     XCTAssertTrue(carsAfterDelete.count == 3)
   }
 

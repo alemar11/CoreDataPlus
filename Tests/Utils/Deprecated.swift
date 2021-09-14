@@ -21,7 +21,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     guard let object = materializedObject(in: context, where: predicate) else {
       // if it's not in memory, we should execute a fetch to see if it exists
       // NSFetchRequest always accesses the underlying persistent stores to retrieve the latest results.
-      return try fetchOne(in: context, where: predicate)
+      return try fetchOneObject(in: context, where: predicate)
     }
     return object
   }
@@ -68,7 +68,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
                                         affectedStores: [NSPersistentStore]? = nil,
                                         assignedStore: NSPersistentStore? = nil,
                                         with configuration: (Self) -> Void) throws -> Self {
-    let uniqueObject = try fetchUnique(in: context, where: predicate, affectedStores: affectedStores)
+    let uniqueObject = try fetchUniqueObject(in: context, where: predicate, affectedStores: affectedStores)
     guard let object = uniqueObject else {
       let newObject = Self(context: context)
       configuration(newObject)

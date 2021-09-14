@@ -11,7 +11,7 @@ final class NSManagedObjectDelayedDeletableTests: InMemoryTestCase {
 
     // Given
     let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
-    let cars = try! Car.fetch(in: context) { $0.predicate = fiatPredicate }
+    let cars = try! Car.fetchObjects(in: context) { $0.predicate = fiatPredicate }
 
     // When, Then
     for car in cars {
@@ -28,11 +28,11 @@ final class NSManagedObjectDelayedDeletableTests: InMemoryTestCase {
     // When, Then
     try context.save()
     let fiatNotDeletablePredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [fiatPredicate, Car.notMarkedForLocalDeletionPredicate])
-    let notDeletableCars = try! Car.fetch(in: context) { $0.predicate = fiatNotDeletablePredicate }
+    let notDeletableCars = try! Car.fetchObjects(in: context) { $0.predicate = fiatNotDeletablePredicate }
     XCTAssertTrue(notDeletableCars.isEmpty)
 
     let fiatDeletablePredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [fiatPredicate, Car.markedForLocalDeletionPredicate])
-    let deletableCars = try! Car.fetch(in: context) { $0.predicate = fiatDeletablePredicate }
+    let deletableCars = try! Car.fetchObjects(in: context) { $0.predicate = fiatDeletablePredicate }
     XCTAssertTrue(deletableCars.count > 0)
   }
 }

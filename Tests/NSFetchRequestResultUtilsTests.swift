@@ -202,14 +202,14 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     }
 
     do {
-      let persons = try Person.fetch(in: context) { request in
+      let persons = try Person.fetchObjects(in: context) { request in
         request.predicate = NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "Moreton")
       }
       XCTAssertTrue(persons.count == 2)
     }
 
     do {
-      let persons = try Person.fetch(in: context) { request in
+      let persons = try Person.fetchObjects(in: context) { request in
         request.predicate = NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "MoretonXYZ")
       }
       XCTAssertTrue(persons.isEmpty)
@@ -245,7 +245,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
 
   // MARK: - Unique
 
-  func testfetchUnique() throws {
+  func testfetchUniqueObject() throws {
     let context = container.viewContext
 
     context.performAndWait {
@@ -254,17 +254,17 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     }
 
     // This fetch will cause a fatal error (multiple objects will be fetched
-    //  _ = try Person.fetchUnique(in: context) {
+    //  _ = try Person.fetchUniqueObject(in: context) {
     //    $0.predicate = NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "Moreton")
     //  }
 
     do {
-      let person = try Person.fetchUnique(in: context, where: NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "MoretonXYZ"))
+      let person = try Person.fetchUniqueObject(in: context, where: NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "MoretonXYZ"))
       XCTAssertNil(person)
     }
 
     do {
-      let person = try Person.fetchUnique(in: context, where: NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone"))
+      let person = try Person.fetchUniqueObject(in: context, where: NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone"))
       XCTAssertNotNil(person)
     }
 
@@ -283,13 +283,13 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     let predicate = NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
     try ExpensiveSportCar.delete(in: context, where: predicate)
 
-    let car1 = try ExpensiveSportCar.fetchUnique(in: context, where: predicate)
+    let car1 = try ExpensiveSportCar.fetchUniqueObject(in: context, where: predicate)
     XCTAssertNil(car1)
 
     // pending changes are lost
     context.reset()
 
-    let car2 = try ExpensiveSportCar.fetchUnique(in: context, where: predicate)
+    let car2 = try ExpensiveSportCar.fetchUniqueObject(in: context, where: predicate)
     XCTAssertNotNil(car2)
   }
 
@@ -329,7 +329,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     context.reset()
 
     // first we materialiaze all cars
-    XCTAssertNoThrow(try Car.fetch(in: context) { request in request.returnsObjectsAsFaults = false })
+    XCTAssertNoThrow(try Car.fetchObjects(in: context) { request in request.returnsObjectsAsFaults = false })
     // we add a new car to the context that has an already used numberPlate
     let car = Car(context: context)
     car.numberPlate = "304"
@@ -349,7 +349,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
 
   // MARK: - First
 
-  func testFetchOne() throws {
+  func testfetchOneObject() throws {
     let context = container.viewContext
 
     context.performAndWait {
@@ -357,16 +357,16 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
       try! context.save()
     }
 
-    let car1 = try Car.fetchOne(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"))
+    let car1 = try Car.fetchOneObject(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"))
     XCTAssertNotNil(car1)
 
     car1?.numberPlate = "304-edited"
 
-    let car2 = try Car.fetchOne(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"))
+    let car2 = try Car.fetchOneObject(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"))
     XCTAssertNil(car2)
 
     // the fetch will be run only against saved values (number plate "304-edited" is a pending change)
-    let car3 = try Car.fetchOne(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"), includesPendingChanges: false)
+    let car3 = try Car.fetchOneObject(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"), includesPendingChanges: false)
     XCTAssertNotNil(car3)
 
 
@@ -375,10 +375,10 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     newCar.maker = "fake-maker"
     newCar.model = "fake-model"
 
-    let car4 = try Car.fetchOne(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-fake"))
+    let car4 = try Car.fetchOneObject(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-fake"))
     XCTAssertNotNil(car4)
 
-    let car5 = try Car.fetchOne(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-fake"), includesPendingChanges: false)
+    let car5 = try Car.fetchOneObject(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-fake"), includesPendingChanges: false)
     XCTAssertNil(car5)
   }
 
@@ -539,7 +539,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     try context.save()
 
     let kias = [9, 10, 11]
-    let kiasCars = try Car.fetch(in: context, with: { $0.predicate = NSPredicate(format: "%K IN %@", #keyPath(Car.numberPlate), kias) })
+    let kiasCars = try Car.fetchObjects(in: context, with: { $0.predicate = NSPredicate(format: "%K IN %@", #keyPath(Car.numberPlate), kias) })
     XCTAssertEqual(kiasCars.count, 3)
     kiasCars.forEach { car in
       car.markForDelayedDeletion()
@@ -550,7 +550,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     XCTAssertTrue(result.status!)
 
     try context.save()
-    let kiasCars2 = try Car.fetch(in: context, with: { $0.predicate = NSPredicate(format: "%K IN %@", #keyPath(Car.numberPlate), kias) })
+    let kiasCars2 = try Car.fetchObjects(in: context, with: { $0.predicate = NSPredicate(format: "%K IN %@", #keyPath(Car.numberPlate), kias) })
     XCTAssertEqual(kiasCars2.count, 0)
   }
 
@@ -625,7 +625,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
       XCTAssertEqual(result.inserts!.count, 2)
       XCTAssertEqual(result.changes?[NSInsertedObjectsKey]?.count, 2)
 
-      let cars = try Car.fetch(in: context)
+      let cars = try Car.fetchObjects(in: context)
       let models = cars.compactMap { $0.model }
       let makers = cars.compactMap { $0.maker }
       XCTAssertEqual(models, ["Panda", "Panda"])
@@ -839,7 +839,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
 //
 //    // Row (pk = 1) for entity 'Car' is missing mandatory text data for property 'numberPlate'
 //    do {
-//      let car = try Car.fetchOne(in: context, where: NSPredicate(value: true))
+//      let car = try Car.fetchOneObject(in: context, where: NSPredicate(value: true))
 //      XCTAssertNotNil(car) // since the object is broken the fetch returns nil
 //    }
 //
@@ -850,7 +850,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
 //    XCTAssertTrue(cars2.isEmpty) // All the cars aren't valid (for the CoreData model) anymore
 //
 //    do {
-//      let car = try Car.fetchOne(in: context, where: NSPredicate(value: true))
+//      let car = try Car.fetchOneObject(in: context, where: NSPredicate(value: true))
 //      XCTAssertNotNil(car) // since the object is broken the fetch returns nil
 //    }
 //
@@ -884,7 +884,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     let currentProgress = Progress(totalUnitCount: 1)
     currentProgress.becomeCurrent(withPendingUnitCount: 1)
 
-    let token = try Car.fetchAsync(in: mainContext, with: { $0.predicate = NSPredicate(value: true) } ) { result in
+    let token = try Car.fetchObjects(in: mainContext, with: { $0.predicate = NSPredicate(value: true) } ) { result in
       switch result {
       case .success(let cars):
         XCTAssertEqual(cars.count, 10_000)
@@ -924,7 +924,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
       }
       try mainContext.save()
     }
-    let results = try await Car.fetch(in: mainContext) { $0.predicate = .true }
+    let results = try await Car.fetchObjects(in: mainContext) { $0.predicate = .true }
     XCTAssertEqual(results.count, 10_000)
   }
 

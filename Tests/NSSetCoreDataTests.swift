@@ -16,7 +16,7 @@ final class NSSetCoreDataTests: InMemoryTestCase {
     let request = Person.newFetchRequest()
     request.returnsObjectsAsFaults = true
     let predicate = NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone")
-    let foundPerson = try Person.fetchUnique(in: context, where: predicate, affectedStores: nil)
+    let foundPerson = try Person.fetchUniqueObject(in: context, where: predicate, affectedStores: nil)
     let person = try XCTUnwrap(foundPerson)
     context.refreshAllObjects()
 
@@ -53,7 +53,7 @@ final class NSSetCoreDataTests: InMemoryTestCase {
     request.returnsObjectsAsFaults = true
 
     let predicate = NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone")
-    let foundPerson = try Person.fetchUnique(in: context, where: predicate, affectedStores: nil)
+    let foundPerson = try Person.fetchUniqueObject(in: context, where: predicate, affectedStores: nil)
     let person = try XCTUnwrap(foundPerson)
 
     context.refreshAllObjects()

@@ -34,7 +34,7 @@ final class TransformerTests: OnDiskTestCase {
     try context.save()
     context.reset()
 
-    let firstCar = try XCTUnwrap(try Car.fetchOne(in: context, where: NSPredicate(value: true)))
+    let firstCar = try XCTUnwrap(try Car.fetchOneObject(in: context, where: NSPredicate(value: true)))
 
     let color = try XCTUnwrap(firstCar.color)
     XCTAssertEqual(color.name, "red")
@@ -50,7 +50,7 @@ final class TransformerTests: OnDiskTestCase {
     try context.save()
     context.reset()
 
-    let firstCar = try XCTUnwrap(try Car.fetchOne(in: context, where: NSPredicate(value: true)))
+    let firstCar = try XCTUnwrap(try Car.fetchOneObject(in: context, where: NSPredicate(value: true)))
 
     let color = try XCTUnwrap(firstCar.color)
     XCTAssertEqual(color.name, "red")

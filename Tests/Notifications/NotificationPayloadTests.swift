@@ -388,7 +388,7 @@ final class NotificationPayloadTests: InMemoryTestCase {
     wait(for: [expectation1], timeout: 5)
 
     try backgroundContext2.performAndWait { _ in
-      let uniqueCar = try Car.fetchUnique(in: backgroundContext2, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), numberPlate))
+      let uniqueCar = try Car.fetchUniqueObject(in: backgroundContext2, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), numberPlate))
       guard let car = uniqueCar else {
         XCTFail("Car not found")
         return
@@ -400,7 +400,7 @@ final class NotificationPayloadTests: InMemoryTestCase {
     wait(for: [expectation2], timeout: 5)
 
     try viewContext.performAndWait { _ in
-      let uniqueCar = try Car.fetchUnique(in: viewContext, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), numberPlate))
+      let uniqueCar = try Car.fetchUniqueObject(in: viewContext, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), numberPlate))
       guard let car = uniqueCar else {
         XCTFail("Car not found")
         return
@@ -461,7 +461,7 @@ final class NotificationPayloadTests: InMemoryTestCase {
 
     // car with n. 3, doesn't impact the didChange because it's not materialized in context0
     try backgroundContext2.performAndWait { _ in
-      let uniqueCar = try Car.fetchUnique(in: backgroundContext2, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), "3"))
+      let uniqueCar = try Car.fetchUniqueObject(in: backgroundContext2, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), "3"))
       guard let car = uniqueCar else {
         XCTFail("Car not found")
         return
@@ -472,7 +472,7 @@ final class NotificationPayloadTests: InMemoryTestCase {
 
     // car with n. 6, doesn't impact the didChange because it's not materialized in context0
     try backgroundContext1.performAndWait { _ in
-      let uniqueCar = try Car.fetchUnique(in: backgroundContext1, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), "6"))
+      let uniqueCar = try Car.fetchUniqueObject(in: backgroundContext1, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), "6"))
       guard let car = uniqueCar else {
         XCTFail("Car not found")
         return
@@ -483,7 +483,7 @@ final class NotificationPayloadTests: InMemoryTestCase {
 
     // car with n. 2, impact the didChange because it's materialized in context0
     try backgroundContext2.performAndWait { _ in
-      let uniqueCar = try Car.fetchUnique(in: backgroundContext2, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), "2"))
+      let uniqueCar = try Car.fetchUniqueObject(in: backgroundContext2, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), "2"))
       guard let car = uniqueCar else {
         XCTFail("Car not found")
         return
@@ -754,7 +754,7 @@ final class NotificationPayloadTests: InMemoryTestCase {
     }
 
     try childContext.performAndWait { _ in
-      let uniqueCar1 = try Car.fetchUnique(in: childContext, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), car1Plate))
+      let uniqueCar1 = try Car.fetchUniqueObject(in: childContext, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), car1Plate))
       guard let car1 = uniqueCar1 else {
         XCTFail("Car not found.")
         return
@@ -766,7 +766,7 @@ final class NotificationPayloadTests: InMemoryTestCase {
     }
 
     try childContext.performAndWait { _ in
-      let uniqueCar2 = try Car.fetchUnique(in: childContext, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), car2Plate))
+      let uniqueCar2 = try Car.fetchUniqueObject(in: childContext, where: NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), car2Plate))
       guard let car2 = uniqueCar2 else {
         XCTFail("Car not found.")
         return

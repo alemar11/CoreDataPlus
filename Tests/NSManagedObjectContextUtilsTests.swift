@@ -60,7 +60,7 @@ final class NSManagedObjectContextUtilsTests: InMemoryTestCase {
       try! backgroundContext.save() // pushing the transient value up to the parent context
     }
 
-    let car = try XCTUnwrap(try Car.fetchOne(in: viewContext, where: NSPredicate(value: true)))
+    let car = try XCTUnwrap(try Car.fetchOneObject(in: viewContext, where: NSPredicate(value: true)))
     XCTAssertEqual(car.currentDrivingSpeed, 50)
     XCTAssertTrue(viewContext.hasChanges, "The viewContext should have uncommitted changes after the child save.")
     XCTAssertTrue(viewContext.hasPersistentChanges, "The viewContext should have uncommitted changes after the child save.")
@@ -70,7 +70,7 @@ final class NSManagedObjectContextUtilsTests: InMemoryTestCase {
 
     backgroundContext.performAndWait {
       do {
-        let car = try XCTUnwrap(try Car.fetchOne(in: backgroundContext, where: NSPredicate(value: true)))
+        let car = try XCTUnwrap(try Car.fetchOneObject(in: backgroundContext, where: NSPredicate(value: true)))
         XCTAssertEqual(car.currentDrivingSpeed, 0)
         car.currentDrivingSpeed = 30
         XCTAssertTrue(backgroundContext.hasChanges)
@@ -116,7 +116,7 @@ final class NSManagedObjectContextUtilsTests: InMemoryTestCase {
 
     let cars = try context.performAndWait { (_context) -> [Car] in
       XCTAssertTrue(_context === context )
-      return try Car.fetch(in: _context)
+      return try Car.fetchObjects(in: _context)
     }
 
     XCTAssertFalse(cars.isEmpty)

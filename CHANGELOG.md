@@ -1,12 +1,13 @@
 # Changelog
 
-### 4.1.0
+### 5.0.0 ⭐
 
 - Xcode 13.
 - Improved methods to fetch persistent history transactions.
 - Added support for `NSAttributeDescription.AttributeType`.
 - Added support for `NSPersistentStore.StoreType`.
 - Added `NSPredicate` utility methods.
+- Added additional `NSManagedObject` utility methods.
 - Some `NSEntityDescription` utility methods are now `public`.
 - More tests.
 

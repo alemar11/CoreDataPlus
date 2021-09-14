@@ -336,7 +336,7 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
 
     try childContext.performAndWait {
       XCTAssertTrue(childContext.registeredObjects.isEmpty) // ⚠️ it seems that after a save, the objects are freed unless the context gets dirted again
-      let car = try XCTUnwrap(try Car.fetchUnique(in: $0, where: predicate))
+      let car = try XCTUnwrap(try Car.fetchUniqueObject(in: $0, where: predicate))
       XCTAssertEqual(car.currentDrivingSpeed, 0)
     }
 

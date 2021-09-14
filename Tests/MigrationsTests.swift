@@ -122,7 +122,7 @@ final class MigrationsTests: BaseTestCase {
     try migrator.migrate(enableWALCheckpoint: true)
 
     let migratedContext = NSManagedObjectContext(model: targetVersion.managedObjectModel(), storeURL: sourceURL)
-    let luxuryCars = try LuxuryCar.fetch(in: migratedContext)
+    let luxuryCars = try LuxuryCar.fetchObjects(in: migratedContext)
     XCTAssertEqual(luxuryCars.count, 5)
 
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
@@ -180,7 +180,7 @@ final class MigrationsTests: BaseTestCase {
     }
 
     let migratedContext = NSManagedObjectContext(model: targetVersion.managedObjectModel(), storeURL: sourceURL)
-    let luxuryCars = try LuxuryCar.fetch(in: migratedContext)
+    let luxuryCars = try LuxuryCar.fetchObjects(in: migratedContext)
     XCTAssertEqual(luxuryCars.count, 5)
 
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
@@ -225,7 +225,7 @@ final class MigrationsTests: BaseTestCase {
 
     let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(), storeURL: targetURL)
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
-    let makers = try Maker.fetch(in: migratedContext)
+    let makers = try Maker.fetchObjects(in: migratedContext)
     XCTAssertEqual(makers.count, 10)
     XCTAssertEqual(cars.count, 125)
 

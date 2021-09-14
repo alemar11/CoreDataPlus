@@ -88,7 +88,7 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     // we don't care about the first insert because viewContext2 will fetch everything from the the db
     try viewContext1.deleteHistory(before: .distantFuture)
 
-    let persons = try Person.fetch(in: viewContext2)
+    let persons = try Person.fetchObjects(in: viewContext2)
     // materialize all the objects to listen to updates/merges in addition to inserts and deletes
     try persons.materializeFaults()
     XCTAssertEqual(persons.count, 2)
