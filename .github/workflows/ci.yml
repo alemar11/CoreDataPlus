@@ -18,7 +18,7 @@ jobs:
     name: Show macOS and Xcode versions
     runs-on: macOS-11.0
     env:
-      DEVELOPER_DIR: /Applications/Xcode_13.0.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_13.1.app/Contents/Developer
     steps:
       - name: stats
         run: |
@@ -31,7 +31,7 @@ jobs:
     name: Test macOS
     runs-on: macos-11.0
     env:
-      DEVELOPER_DIR: /Applications/Xcode_13.0.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_13.1.app/Contents/Developer
     steps:
       - uses: actions/checkout@v2
       - name: macOS
@@ -47,10 +47,10 @@ jobs:
     name: Test iOS
     runs-on: macOS-11.0
     env:
-      DEVELOPER_DIR: /Applications/Xcode_13.0.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_13.1.app/Contents/Developer
     strategy:
       matrix:
-        destination: ["OS=15.0,name=iPhone 11 Pro"] #, "OS=12.4,name=iPhone XS", "OS=11.4,name=iPhone X"]
+        destination: ["OS=15.1,name=iPhone 11 Pro"] #, "OS=12.4,name=iPhone XS", "OS=11.4,name=iPhone X"]
     steps:
       - uses: actions/checkout@v2
       - name: iOS - ${{ matrix.destination }}
@@ -66,10 +66,10 @@ jobs:
     name: Test tvOS
     runs-on: macOS-11.0
     env:
-      DEVELOPER_DIR: /Applications/Xcode_13.0.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_13.1.app/Contents/Developer
     strategy:
       matrix:
-        destination: ["OS=15.0,name=Apple TV 4K"] #, "OS=13.0,name=Apple TV 4K (at 1080p)", "OS=11.4,name=Apple TV 4K"]
+        destination: ["OS=15.1,name=Apple TV 4K"] #, "OS=13.0,name=Apple TV 4K (at 1080p)", "OS=11.4,name=Apple TV 4K"]
     steps:
       - uses: actions/checkout@v2
       - name: tvOS - ${{ matrix.destination }}
@@ -85,10 +85,10 @@ jobs:
     name: Test watchOS
     runs-on: macOS-11.0
     env:
-      DEVELOPER_DIR: /Applications/Xcode_13.0.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_13.1.app/Contents/Developer
     strategy:
       matrix:
-        destination: ["OS=8.0,name=Apple Watch Series 5 - 44mm"] #, ""OS=5.3,name=Apple Watch Series 4 - 44mm", "OS=4.2,name=Apple Watch Series 3 - 42mm"]
+        destination: ["OS=8.1,name=Apple Watch Series 5 - 44mm"] #, ""OS=5.3,name=Apple Watch Series 4 - 44mm", "OS=4.2,name=Apple Watch Series 3 - 42mm"]
     steps:
       - uses: actions/checkout@v2
       - name: watchOS - ${{ matrix.destination }}
@@ -104,7 +104,7 @@ jobs:
     name: Test SPM Integration
     runs-on: macOS-11.0
     env:
-      DEVELOPER_DIR: /Applications/Xcode_13.0.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_13.1.app/Contents/Developer
     steps:
       - uses: actions/checkout@v2
       - name: SPM Test
