@@ -16,7 +16,7 @@ on:
 jobs:
   info:
     name: Show macOS and Xcode versions
-    runs-on: macOS-12.0
+    runs-on: macOS-11.0
     env:
       DEVELOPER_DIR: /Applications/Xcode_13.1.app/Contents/Developer
     steps:
@@ -29,7 +29,7 @@ jobs:
           xcrun simctl list
   macOS:
     name: Test macOS
-    runs-on: macOS-12.0
+    runs-on: macOS-11.0
     env:
       DEVELOPER_DIR: /Applications/Xcode_13.1.app/Contents/Developer
     steps:
@@ -45,7 +45,7 @@ jobs:
           path: ~/Downloads/Report           
   iOS:
     name: Test iOS
-    runs-on: macOS-12.0
+    runs-on: macOS-11.0
     env:
       DEVELOPER_DIR: /Applications/Xcode_13.1.app/Contents/Developer
     strategy:
@@ -64,7 +64,7 @@ jobs:
           path: ~/Downloads/Report   
   tvOS:
     name: Test tvOS
-    runs-on: macOS-12.0
+    runs-on: macOS-11.0
     env:
       DEVELOPER_DIR: /Applications/Xcode_13.1.app/Contents/Developer
     strategy:
@@ -83,7 +83,7 @@ jobs:
           path: ~/Downloads/Report   
   watchOS:
     name: Test watchOS
-    runs-on: macOS-12.0
+    runs-on: macOS-11.0
     env:
       DEVELOPER_DIR: /Applications/Xcode_13.1.app/Contents/Developer
     strategy:
@@ -102,7 +102,7 @@ jobs:
           path: ~/Downloads/Report        
   spm:
     name: Test SPM Integration
-    runs-on: macOS-12.0
+    runs-on: macOS-11.0
     env:
       DEVELOPER_DIR: /Applications/Xcode_13.1.app/Contents/Developer
     steps:
@@ -113,7 +113,7 @@ jobs:
           swift test
   lint:
     name: Swift Lint
-    runs-on: macos-12.0
+    runs-on: macOS-11.0
     steps:
       - uses: actions/checkout@v2
       - name: Run SwiftLint
