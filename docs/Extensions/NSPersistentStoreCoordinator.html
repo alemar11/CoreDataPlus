@@ -17,7 +17,7 @@
     <a title="NSPersistentStoreCoordinator Extension Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">CoreDataPlus 3.0.0 Docs</a> (72% documented)</p>
+        <p><a href="../index.html">CoreDataPlus 4.0.0 Docs</a> (75% documented)</p>
         <p class="header-right">
           <form role="search" action="../search.json">
             <input type="text" placeholder="Search documentation" data-typeahead>
@@ -115,10 +115,10 @@
                 <a href="../Extensions/NSMigrationManager.html">NSMigrationManager</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Extensions/NSPersistentHistoryChangeRequest.html">NSPersistentHistoryChangeRequest</a>
+                <a href="../Extensions/NSPersistentStoreCoordinator.html">NSPersistentStoreCoordinator</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Extensions/NSPersistentStoreCoordinator.html">NSPersistentStoreCoordinator</a>
+                <a href="../Extensions/NSPredicate.html">NSPredicate</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/NSSet.html">NSSet</a>
@@ -205,6 +205,83 @@
           <section class="section task-group-section">
             <div class="task-group">
               <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So28NSPersistentStoreCoordinatorC12CoreDataPlusE16setMetadataValue_4with3foryypSg_SSSo0aB0CtF"></a>
+                    <a name="//apple_ref/swift/Method/setMetadataValue(_:with:for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So28NSPersistentStoreCoordinatorC12CoreDataPlusE16setMetadataValue_4with3foryypSg_SSSo0aB0CtF">setMetadataValue(_:<wbr>with:<wbr>for:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds an <code>object</code> to the store&rsquo;s metadata.</p>
+
+<p>After updating the metadata, save the  store through a managed object context referring to the store’s coordinator to actually persist the changes.</p>
+<div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    Setting the metadata for a store does not change the information on disk until the store is actually saved.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">setMetadataValue</span><span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?,</span> <span class="n">with</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="k">for</span> <span class="nv">store</span><span class="p">:</span> <span class="kt">NSPersistentStore</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>value</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Value to be added to the medata dictionary.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Value key.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>store</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>NSPersistentStore where is stored the metadata.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
                 <li class="item">
                   <div>
                     <code>
@@ -299,7 +376,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-05-12)</p>
+          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-10-28)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
