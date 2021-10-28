@@ -4,6 +4,7 @@
 
 - Xcode 13.
 - Improved methods to fetch persistent history transactions.
+- Added CoreDataPlus multi-platform framework.
 - Added support for `NSAttributeDescription.AttributeType`.
 - Added support for `NSPersistentStore.StoreType`.
 - Added `NSPredicate` utility methods.
