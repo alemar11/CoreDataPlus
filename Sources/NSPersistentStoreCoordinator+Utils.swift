@@ -46,6 +46,7 @@ extension NSPersistentStoreCoordinator {
     // https://mjtsai.com/blog/2021/03/31/replacing-vs-migrating-core-data-stores/
     // https://atomicbird.com/blog/mostly-undocumented/
     // https://github.com/atomicbird/CDMoveDemo
+    // https://menuplan.app/coding/2021/10/27/core-data-store-path-migration.html
     let persistentStoreCoordinator = self.init(managedObjectModel: NSManagedObjectModel())
     // replacing a store has a side effect of removing the current store from the psc
     if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
