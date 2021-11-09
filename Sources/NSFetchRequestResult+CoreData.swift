@@ -437,7 +437,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Parameter configuration: Configuration closure called when preparing the `NSFetchRequest`.
   /// - Returns: The results that were received from the fetch request.
   /// - Throws: It throws an error in cases of failure.
-  /// - Warning: If the ConcurrencyDebug is enabled, the fetch request will cause a thread violation error.
+  /// - Warning: If the ConcurrencyDebug is enabled, the fetch request will cause a thread violation error, without it data races will be always detected by Xcode.
   @available(swift 5.5)
   @available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *)
   public static func fetchObjects(in context: NSManagedObjectContext,
@@ -445,8 +445,8 @@ extension NSFetchRequestResult where Self: NSManagedObject {
                                   with configuration: (NSFetchRequest<Self>) -> Void = { _ in }) async throws -> [Self] {
     return try await withCheckedThrowingContinuation { continuation in
       do {
-        // TODO:
-        // Swift concurrency and NSProgress: https://github.com/apple/swift-evolution/blob/main/proposals/0297-concurrency-objc.md#nsprogress
+        // TODO: Swift concurrency and NSProgress: https://github.com/apple/swift-evolution/blob/main/proposals/0297-concurrency-objc.md#nsprogress
+        // TODO: The associated test is disabled because of data races.
         try fetchObjects(in: context, estimatedResultCount: estimatedResultCount, with: configuration) { result in
           switch result {
           case .success(let fetchResult):
