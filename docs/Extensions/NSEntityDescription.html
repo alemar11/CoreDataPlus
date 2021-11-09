@@ -17,7 +17,7 @@
     <a title="NSEntityDescription Extension Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">CoreDataPlus 3.0.0 Docs</a> (72% documented)</p>
+        <p><a href="../index.html">CoreDataPlus 4.0.0 Docs</a> (75% documented)</p>
         <p class="header-right">
           <form role="search" action="../search.json">
             <input type="text" placeholder="Search documentation" data-typeahead>
@@ -115,10 +115,10 @@
                 <a href="../Extensions/NSMigrationManager.html">NSMigrationManager</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Extensions/NSPersistentHistoryChangeRequest.html">NSPersistentHistoryChangeRequest</a>
+                <a href="../Extensions/NSPersistentStoreCoordinator.html">NSPersistentStoreCoordinator</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Extensions/NSPersistentStoreCoordinator.html">NSPersistentStoreCoordinator</a>
+                <a href="../Extensions/NSPredicate.html">NSPredicate</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/NSSet.html">NSSet</a>
@@ -290,12 +290,120 @@
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So19NSEntityDescriptionC12CoreDataPlusE21topMostAncestorEntityABvp"></a>
+                    <a name="//apple_ref/swift/Property/topMostAncestorEntity" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So19NSEntityDescriptionC12CoreDataPlusE21topMostAncestorEntityABvp">topMostAncestorEntity</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the topmost ancestor entity.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="k">var</span> <span class="nv">topMostAncestorEntity</span><span class="p">:</span> <span class="kt">NSEntityDescription</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So19NSEntityDescriptionC12CoreDataPlusE20commonAncestorEntity4withABSgAB_tF"></a>
+                    <a name="//apple_ref/swift/Method/commonAncestorEntity(with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So19NSEntityDescriptionC12CoreDataPlusE20commonAncestorEntity4withABSgAB_tF">commonAncestorEntity(with:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the common ancestor entity (if any) between <code>self</code> and a given <code>entity.</code></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">commonAncestorEntity</span><span class="p">(</span><span class="n">with</span> <span class="nv">entity</span><span class="p">:</span> <span class="kt">NSEntityDescription</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSEntityDescription</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>entity</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the entity to evaluate</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns the common ancestor entity (if any).</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:So19NSEntityDescriptionC12CoreDataPlusE18isDescendantEntity2of9recursiveSbAB_SbtF"></a>
+                    <a name="//apple_ref/swift/Method/isDescendantEntity(of:recursive:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So19NSEntityDescriptionC12CoreDataPlusE18isDescendantEntity2of9recursiveSbAB_SbtF">isDescendantEntity(of:<wbr>recursive:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">isDescendantEntity</span><span class="p">(</span><span class="n">of</span> <span class="nv">entity</span><span class="p">:</span> <span class="kt">NSEntityDescription</span><span class="p">,</span> <span class="nv">recursive</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Wheter or not <code>self</code> is a descendant entity of a given <code>entity</code>.
+If <code>recursive</code> is set to <code>true</code>, it will be evaluated if <code>self</code> super entities hierarchy contains the given <code>entity</code> at some point.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-05-12)</p>
+          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-10-28)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

@@ -174,6 +174,48 @@ final class NSManagedObjectUtilsTests: InMemoryTestCase {
     XCTAssertEqual(car.objectID, permanentID)
     XCTAssertFalse(car.objectID.isTemporaryID)
   }
+
+  func testEvaluatePredicate() {
+    let context = container.viewContext
+    do {
+      let predicate = NSPredicate.true
+      let car = Car(context: context)
+      XCTAssertTrue(car.evaluate(with: predicate))
+    }
+    do {
+      let predicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
+      let car = Car(context: context)
+      XCTAssertFalse(car.evaluate(with: predicate))
+    }
+
+    do {
+      let predicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
+      let car = Car(context: context)
+      car.maker = "McLaren"
+      XCTAssertFalse(car.evaluate(with: predicate))
+    }
+
+    do {
+      let predicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
+      let car = Car(context: context)
+      car.maker = "FIAT"
+      XCTAssertTrue(car.evaluate(with: predicate))
+    }
+    do {
+      let predicate = NSPredicate(format: "%K == %@ AND %K == %@", #keyPath(Car.maker), "FIAT", #keyPath(Car.numberPlate), "123")
+      let car = Car(context: context)
+      car.maker = "FIAT"
+      car.numberPlate = "000"
+      XCTAssertFalse(car.evaluate(with: predicate))
+    }
+    do {
+      let predicate = NSPredicate(format: "%K == %@ AND %K == %@", #keyPath(Car.maker), "FIAT", #keyPath(Car.numberPlate), "123")
+      let car = Car(context: context)
+      car.maker = "FIAT"
+      car.numberPlate = "123"
+      XCTAssertTrue(car.evaluate(with: predicate))
+    }
+  }
 }
 
 

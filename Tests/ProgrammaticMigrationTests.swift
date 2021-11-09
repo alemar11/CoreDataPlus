@@ -308,7 +308,7 @@ final class ProgrammaticMigrationTests: XCTestCase {
     let newContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     newContext.persistentStoreCoordinator = newCoordinator
 
-    let authors = try AuthorV3.fetch(in: newContext) {
+    let authors = try AuthorV3.fetchObjects(in: newContext) {
       $0.predicate = NSPredicate(format: "%K == %@", #keyPath(Author.alias), "Andrea")
     }
     let author = try XCTUnwrap(authors.first)

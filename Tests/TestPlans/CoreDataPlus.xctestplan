@@ -132,8 +132,8 @@
     ],
     "targetForVariableExpansion" : {
       "containerPath" : "container:CoreDataPlus.xcodeproj",
-      "identifier" : "23B580691F94FEDF00A365C0",
-      "name" : "CoreDataPlus iOS"
+      "identifier" : "06AF614726F091370090A61B",
+      "name" : "CoreDataPlus"
     },
     "testTimeoutsEnabled" : true
   },
@@ -141,8 +141,8 @@
     {
       "target" : {
         "containerPath" : "container:CoreDataPlus.xcodeproj",
-        "identifier" : "23EFDE8C1F95FE730038BE75",
-        "name" : "CoreDataPlus Tests iOS"
+        "identifier" : "06AF614E26F091370090A61B",
+        "name" : "CoreDataPlus Tests"
       }
     }
   ],

@@ -6,6 +6,7 @@ extension NSBatchDeleteResult {
   /// Returns a dictionary containig all the deleted `NSManagedObjectID` instances ready to be passed to `NSManagedObjectContext.mergeChanges(fromRemoteContextSave:into:)`.
   public var changes: [String: [NSManagedObjectID]]? {
     guard let deletes = deletes else { return nil }
+
     return [NSDeletedObjectsKey: deletes]
   }
 
@@ -15,11 +16,9 @@ extension NSBatchDeleteResult {
     switch resultType {
     case .resultTypeStatusOnly, .resultTypeCount:
       return nil
-
     case .resultTypeObjectIDs:
       guard let objectIDs = result as? [NSManagedObjectID] else { return nil }
       return objectIDs
-
     @unknown default:
       return nil
     }
@@ -31,10 +30,8 @@ extension NSBatchDeleteResult {
     switch resultType {
     case .resultTypeStatusOnly, .resultTypeObjectIDs:
       return nil
-
     case .resultTypeCount:
       return result as? Int
-
     @unknown default:
       return nil
     }
@@ -46,10 +43,8 @@ extension NSBatchDeleteResult {
     switch resultType {
     case .resultTypeCount, .resultTypeObjectIDs:
       return nil
-
     case .resultTypeStatusOnly:
       return result as? Bool
-
     @unknown default:
       return nil
     }

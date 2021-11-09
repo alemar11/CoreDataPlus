@@ -5,7 +5,8 @@ import Foundation
 
 extension NSSet {
   /// Specifies that all the `NSManagedObject` objects (with a `NSManangedObjectContext`) should be removed from its persistent store when changes are committed.
-  public func deleteManagedObjects() {
+  /// - Important: Each object is deleted synchronously in his context queue.
+  public final func deleteManagedObjects() {
     for object in self.allObjects {
       if let managedObject = object as? NSManagedObject, let context = managedObject.managedObjectContext {
         context.performAndWait {
@@ -20,7 +21,7 @@ extension NSSet {
   ///
   /// - Throws: It throws an error in cases of failure.
   /// - Note: Materializing all the objects in one batch is faster than triggering the fault for each object on its own.
-  public func materializeManagedObjectFaults() throws {
+  public final func materializeManagedObjectFaults() throws {
     guard self.count > 0 else { return }
 
     let managedObjects = self.compactMap { $0 as? NSManagedObject }

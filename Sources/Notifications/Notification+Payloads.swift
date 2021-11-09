@@ -6,7 +6,7 @@
 
 // TODO
 // WWDC 2020: there should be a NSManagedObjectContext.NotificationKey.sourceContext to access the context from the userInfo
-// but as of Xcode 12.5 it's not there (and the userInfo contains a _PFWeakReference for key "managedObjectContext")
+// but as of Xcode 13b5 it's not there (and the userInfo contains a _PFWeakReference for key "managedObjectContext")
 
 import CoreData
 import Foundation
@@ -15,6 +15,7 @@ import Foundation
 
 // MARK: Will Save
 
+/// Typed payload for a Core Data *will save* notification.
 public struct ManagedObjectContextWillSaveObjects {
   /// Notification name.
   public static let notificationName: Notification.Name = {
@@ -43,6 +44,7 @@ public struct ManagedObjectContextWillSaveObjects {
 
 // MARK: Did Save
 
+/// Typed payload for a Core Data *did save* notification.
 public struct ManagedObjectContextDidSaveObjects {
   /// Notification name.
   public static let notificationName: Notification.Name = {
@@ -93,7 +95,7 @@ public struct ManagedObjectContextDidSaveObjects {
   /// The `NSPersistentHistoryToken` associated to the save operation.
   /// - Note: Optional: NSPersistentHistoryTrackingKey must be enabled.
   public var historyToken: NSPersistentHistoryToken? {
-    // FB: 6840421 (missing documentation for "newChangeToken" key)
+    // FB6840421 (missing documentation for "newChangeToken" key)
     return notification.userInfo?["newChangeToken"] as? NSPersistentHistoryToken
   }
 
@@ -111,36 +113,20 @@ public struct ManagedObjectContextDidSaveObjects {
 }
 
 extension NSManagedObjectContext {
-  /// Asynchronously merges the changes specified in a given payload.
+  /// Merges the changes specified in a given payload.
   /// This method refreshes any objects which have been updated in the other context,
   /// faults in any newly-inserted objects, and invokes delete(_:): on those which have been deleted.
   ///
   /// - Parameters:
-  ///   - payload: A `NSManagedObjectContextDidSave` payload posted by another context.
-  ///   - completion: The block to be executed after the merge completes.
-  public func performMergeChanges(from payload: ManagedObjectContextDidSaveObjects, completion: @escaping () -> Void = {}) {
-    perform {
-      self.mergeChanges(fromContextDidSave: payload.notification)
-      completion()
-    }
-  }
-
-  /// Synchronously merges the changes specified in a given payload.
-  /// This method refreshes any objects which have been updated in the other context,
-  /// faults in any newly-inserted objects, and invokes delete(_:): on those which have been deleted.
-  ///
-  /// - Parameters:
-  ///   - payload: A `NSManagedObjectContextDidSave` payload posted by another context.
-  ///   - completion: The block to be executed after the merge completes.
-  public func performAndWaitMergeChanges(from payload: ManagedObjectContextDidSaveObjects) {
-    performAndWait {
-      self.mergeChanges(fromContextDidSave: payload.notification)
-    }
+  ///   - payload: A `ManagedObjectContextDidSaveObjects` payload (a typed payload for a notification posted by another context).
+  public func mergeChanges(fromContextDidSavePayload payload: ManagedObjectContextDidSaveObjects) {
+    mergeChanges(fromContextDidSave: payload.notification)
   }
 }
 
 // MARK: Objects Did Change
 
+/// Typed payload for a Core Data *objects did change* notification.
 public struct ManagedObjectContextObjectsDidChange {
   /// Notification name.
   public static let notificationName: Notification.Name = {
@@ -226,6 +212,7 @@ public struct ManagedObjectContextObjectsDidChange {
 
 // MARK: Did Save IDs
 
+/// Typed payload for a Core Data *object IDs did save* notification.
 @available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
 public struct ManagedObjectContextDidSaveObjectIDs {
   /// Notification name.
@@ -265,6 +252,7 @@ public struct ManagedObjectContextDidSaveObjectIDs {
 
 // MARK: Did Merge IDs
 
+/// Typed payload for a Core Data *did merge changes IDs* notification.
 @available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
 public struct ManagedObjectContextDidMergeChangesObjectIDs {
   /// Notification name.
@@ -314,6 +302,7 @@ public struct ManagedObjectContextDidMergeChangesObjectIDs {
 
 // MARK: PersistentStore Remote Change
 
+/// Typed payload for a Core Data *persistent store remote change* notification.
 public struct PersistentStoreRemoteChange {
   /// Notification name.
   public static let notificationName: Notification.Name = .NSPersistentStoreRemoteChange
@@ -353,6 +342,7 @@ public struct PersistentStoreRemoteChange {
 
 // MARK: Will Change
 
+/// Typed payload for a Core Data *persistent store coordinator will change* notification.
 public struct PersistentStoreCoordinatorStoresWillChange {
   /// Notification name.
   public static let notificationName = Notification.Name.NSPersistentStoreCoordinatorStoresWillChange
@@ -399,6 +389,7 @@ public struct PersistentStoreCoordinatorStoresWillChange {
 
 // MARK: Did Change
 
+/// Typed payload for a Core Data *persistent store coordinator did change* notification.
 public struct PersistentStoreCoordinatorStoresDidChange {
   public struct UUIDChangedStore {
     public let oldStore: NSPersistentStore
@@ -446,6 +437,7 @@ public struct PersistentStoreCoordinatorStoresDidChange {
 
 // MARK: Will Remove
 
+/// Typed payload for a Core Data *persistent store coordinator will remove* notification.
 public struct PersistentStoreCoordinatorWillRemoveStore {
   /// Notification name.
   public static let notificationName = Notification.Name.NSPersistentStoreCoordinatorWillRemoveStore

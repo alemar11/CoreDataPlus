@@ -5,12 +5,12 @@ import Foundation
 
 extension Notification {
   func objects(forKey key: String) -> Set<NSManagedObject> {
-    return userInfo?[key] as? Set<NSManagedObject> ?? Set()
+    userInfo?[key] as? Set<NSManagedObject> ?? Set()
   }
 
   @available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
   func objects(forKey key: NSManagedObjectContext.NotificationKey) -> Set<NSManagedObject> {
-    return userInfo?[key.rawValue] as? Set<NSManagedObject> ?? Set()
+    userInfo?[key.rawValue] as? Set<NSManagedObject> ?? Set()
   }
 
   func objectIDs(forKey key: String) -> Set<NSManagedObjectID> {
@@ -33,6 +33,6 @@ extension Notification {
   }
 
   var managedObjectContext: NSManagedObjectContext? {
-    return object as? NSManagedObjectContext
+    object as? NSManagedObjectContext
   }
 }

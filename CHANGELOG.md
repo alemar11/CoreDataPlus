@@ -1,5 +1,17 @@
 # Changelog
 
+### 5.0.0 ⭐
+
+- Xcode 13.
+- Improved methods to fetch persistent history transactions.
+- Added CoreDataPlus multi-platform framework.
+- Added support for `NSAttributeDescription.AttributeType`.
+- Added support for `NSPersistentStore.StoreType`.
+- Added `NSPredicate` utility methods.
+- Added additional `NSManagedObject` utility methods.
+- Some `NSEntityDescription` utility methods are now `public`.
+- More tests.
+
 ### 4.0.0 ⭐
 
 - Added a new `Migrator` class to handle migrations (lightweight and heavyweight).
@@ -7,7 +19,7 @@
 - Added `NSAttributeDescription` utility methods.
 - Added `NSEntityMapping` utility methods.
 - Added `NSAttributeDescription` utility methods.
-- Added `LightweightMigrationManger`,  a `NSMigrationManager` subclass to do *lightweight* migrations with a fake progress reporting.
+- Added `LightweightMigrationManger`, a `NSMigrationManager` subclass to do *lightweight* migrations with a fake progress reporting.
 - Added `MigrationProgressReporter` to report migration progress via a `Progress` object.
 - Added a `NSManagedObjectContext` helper method to create a child context.
 - Added support for `NSPersistentStoreCoordinator` notifications payloads.

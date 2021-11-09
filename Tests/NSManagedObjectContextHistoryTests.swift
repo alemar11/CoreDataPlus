@@ -30,7 +30,7 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     let cancellable = NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: viewContext2)
       .sink { _ in
         expectation1.fulfill()
-    }
+      }
 
     let transactionsFromDistantPast = try viewContext2.historyTransactions(using: NSPersistentHistoryChangeRequest.fetchHistory(after: .distantPast))
     XCTAssertEqual(transactionsFromDistantPast.count, 1)
@@ -88,7 +88,7 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     // we don't care about the first insert because viewContext2 will fetch everything from the the db
     try viewContext1.deleteHistory(before: .distantFuture)
 
-    let persons = try Person.fetch(in: viewContext2)
+    let persons = try Person.fetchObjects(in: viewContext2)
     // materialize all the objects to listen to updates/merges in addition to inserts and deletes
     try persons.materializeFaults()
     XCTAssertEqual(persons.count, 2)
@@ -126,7 +126,7 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
         } else if !payload.deletedObjects.isEmpty {
           expectation3.fulfill()
         }
-    }
+      }
 
     let transactionsFromDistantPast = try viewContext2.historyTransactions(using: NSPersistentHistoryChangeRequest.fetchHistory(after: .distantPast))
     XCTAssertEqual(transactionsFromDistantPast.count, 3)
@@ -179,7 +179,7 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     try container1.destroy()
   }
 
-  func testPersistentHistoryTrackingEnabledGenerateHistoryTokens() throws {
+  func testPersistentStoreWithHistoryTrackingEnabledGeneratesHistoryTokens() throws {
     // Given
     let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
     let storeURL = URL.newDatabaseURL(withID: UUID())
@@ -195,7 +195,7 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
       .sink { payload in
         XCTAssertNotNil(payload.historyToken)
         expectation1.fulfill()
-    }
+      }
 
     let person1 = Person(context: context)
     person1.firstName = "Edythe"
@@ -215,7 +215,7 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     try NSPersistentStoreCoordinator.destroyStore(at: storeURL)
   }
 
-  func testPersistentHistoryTrackingDisabledDoesntGenerateHistoryTokens() throws {
+  func testPersistentStoreWithHistoryTrackingDisabledDoesntGenerateHistoryTokens() throws {
     // Given
     let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
     let storeURL = URL.newDatabaseURL(withID: UUID())
@@ -230,7 +230,7 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
       .sink { payload in
         XCTAssertNil(payload.historyToken, "The Persistent Store Coordinator doesn't have the NSPersistentStoreRemoteChangeNotificationPostOptionKey option enabled.")
         expectation1.fulfill()
-    }
+      }
 
     let person1 = Person(context: context)
     person1.firstName = "Edythe"
@@ -297,23 +297,32 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     let viewContext2 = container2.viewContext
     viewContext2.name = "viewContext2"
     viewContext2.transactionAuthor = "author2"
+    let psc2 = container2.persistentStoreCoordinator
 
-    let lastHistoryToken = try XCTUnwrap(container2.persistentStoreCoordinator.currentPersistentHistoryToken(fromStores: viewContext2.persistentStores))
+    let lastHistoryToken = try XCTUnwrap(psc2.currentPersistentHistoryToken(fromStores: psc2.persistentStores))
 
     viewContext1.fillWithSampleData()
 
     try viewContext1.save()
 
-    let newHistoryToken = try XCTUnwrap(container2.persistentStoreCoordinator.currentPersistentHistoryToken(fromStores: viewContext2.persistentStores))
+    let newHistoryToken = try XCTUnwrap(psc2.currentPersistentHistoryToken(fromStores: psc2.persistentStores))
 
     let tokenGreaterThanLastHistoryTokenPredicate = NSPredicate(format: "%@ < token", lastHistoryToken)
     let tokenGreaterThanNewHistoryTokenPredicate = NSPredicate(format: "%@ < token", newHistoryToken)
     let notAuthor2Predicate = NSPredicate(format: "author != %@", "author2")
     let notAuthor1Predicate = NSPredicate(format: "author != %@", "author1")
 
+    func makeTransactionFetchRequest(predicate: NSPredicate) throws -> NSPersistentHistoryChangeRequest {
+      let request = try XCTUnwrap(NSPersistentHistoryChangeRequest.makeTransactionFetchRequest(with: viewContext2))
+      request.predicate = predicate
+      let transactionsRequest = NSPersistentHistoryChangeRequest.fetchHistory(withFetch: request)
+      transactionsRequest.resultType = .transactionsOnly
+      return transactionsRequest
+    }
+
     do {
       let predicate = NSCompoundPredicate(type: .and, subpredicates: [tokenGreaterThanLastHistoryTokenPredicate, notAuthor1Predicate])
-      let request = try XCTUnwrap(NSPersistentHistoryChangeRequest.historyTransactionFetchRequest(with: viewContext2, where: predicate))
+      let request = try makeTransactionFetchRequest(predicate: predicate)
       let allTransactions = try viewContext2.historyTransactions(using: request)
       XCTAssertTrue(allTransactions.isEmpty)
 
@@ -323,7 +332,7 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
 
     do {
       let predicate = tokenGreaterThanNewHistoryTokenPredicate
-      let request = try XCTUnwrap(NSPersistentHistoryChangeRequest.historyTransactionFetchRequest(with: viewContext2, where: predicate))
+      let request = try makeTransactionFetchRequest(predicate: predicate)
       let allTransactions = try viewContext2.historyTransactions(using: request)
       XCTAssertTrue(allTransactions.isEmpty)
       XCTAssertTrue(allTransactions.isEmpty)
@@ -334,7 +343,7 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
 
     do {
       let predicate = NSCompoundPredicate(type: .and, subpredicates: [tokenGreaterThanLastHistoryTokenPredicate, notAuthor2Predicate])
-      let request = try XCTUnwrap(NSPersistentHistoryChangeRequest.historyTransactionFetchRequest(with: viewContext2, where: predicate))
+      let request = try makeTransactionFetchRequest(predicate: predicate)
       let allTransactions = try viewContext2.historyTransactions(using: request)
       XCTAssertFalse(allTransactions.isEmpty)
 
@@ -348,7 +357,6 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
       try psc1.remove(store)
     }
 
-    let psc2 = viewContext2.persistentStoreCoordinator!
     try psc2.persistentStores.forEach { store in
       try psc2.remove(store)
     }
@@ -360,7 +368,9 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     // Given
     let id = UUID()
     let container1 = OnDiskPersistentContainer.makeNew(id: id)
+    let psc1 = container1.persistentStoreCoordinator
     let container2 = OnDiskPersistentContainer.makeNew(id: id)
+    let psc2 = container2.persistentStoreCoordinator
 
     let viewContext1 = container1.viewContext
     viewContext1.name = "viewContext1"
@@ -369,12 +379,14 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     viewContext2.name = "viewContext2"
     viewContext2.transactionAuthor = "author2"
 
+    let changeEntityDescription = NSPersistentHistoryChange.entityDescription(with: viewContext1)!
+
     var tokens = [NSPersistentHistoryToken]()
 
-    let initialToken = try XCTUnwrap(container2.persistentStoreCoordinator.currentPersistentHistoryToken(fromStores: viewContext1.persistentStores))
+    let initialToken = try XCTUnwrap(psc1.currentPersistentHistoryToken(fromStores: psc1.persistentStores))
     tokens.append(initialToken)
 
-    // Transaction #1 - 2 Cars, 1 SportCar
+    // Transaction #1 - Added: 2 Cars, 1 SportCar
     let car1 = Car(context: viewContext1)
     car1.maker = "FIAT"
     car1.model = "Panda"
@@ -391,51 +403,58 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     sportCar1.numberPlate = "3"
 
     try viewContext1.save()
-    let token1 = try XCTUnwrap(container2.persistentStoreCoordinator.currentPersistentHistoryToken(fromStores: viewContext1.persistentStores))
+    let token1 = try XCTUnwrap(psc1.currentPersistentHistoryToken(fromStores: psc1.persistentStores))
+    XCTAssertEqual(token1, psc2.currentPersistentHistoryToken(fromStores: psc2.persistentStores))
     tokens.append(token1)
 
-    // Transaction #2 - 1 Person
+    // Transaction #2 - Added: 1 Person
     let person = Person(context: viewContext1)
+    let personObjectID = try person.obtainPermanentID()
     person.firstName = "Alessandro"
     person.lastName = "Marzoli"
 
     try viewContext1.save()
-    let token2 = try XCTUnwrap(container2.persistentStoreCoordinator.currentPersistentHistoryToken(fromStores: viewContext1.persistentStores))
+
+    let token2 = try XCTUnwrap(psc1.currentPersistentHistoryToken(fromStores: psc1.persistentStores))
+    XCTAssertEqual(token2, psc2.currentPersistentHistoryToken(fromStores: psc2.persistentStores))
     tokens.append(token2)
 
-    // Transaction #3 - 1 Person updated, 1 Car deleted
+    // Transaction #3 - Updated: 1 Person; Deleted: 1 Car
     person.firstName = "Alex"
     car2.delete()
 
     try viewContext1.save()
-    let token3 = try XCTUnwrap(container2.persistentStoreCoordinator.currentPersistentHistoryToken(fromStores: viewContext1.persistentStores))
+    let token3 = try XCTUnwrap(psc1.currentPersistentHistoryToken(fromStores: psc1.persistentStores))
+    XCTAssertEqual(token3, psc2.currentPersistentHistoryToken(fromStores: psc2.persistentStores))
     tokens.append(token3)
 
     XCTAssertEqual(tokens.count, 4)
 
-    let currentToken = try XCTUnwrap(container2.persistentStoreCoordinator.currentPersistentHistoryToken(fromStores: viewContext2.persistentStores))
+    let currentToken = try XCTUnwrap(psc1.currentPersistentHistoryToken(fromStores: psc1.persistentStores))
+    XCTAssertEqual(currentToken, psc2.currentPersistentHistoryToken(fromStores: psc2.persistentStores))
 
     let lastToken = try XCTUnwrap(tokens.last)
     let secondLastToken = try XCTUnwrap(tokens.suffix(2).first)
     XCTAssertEqual(lastToken, currentToken)
 
+    viewContext1.reset()
+
     do {
-      // ⏺ Query the Transaction entity
+      // ⏺ Query the "Transaction" entity
       let predicate = NSPredicate(format: "%K > %@", #keyPath(NSPersistentHistoryTransaction.token), secondLastToken)
-      let transactionsRequest = try XCTUnwrap(NSPersistentHistoryChangeRequest.historyTransactionFetchRequest(with: viewContext2, where: predicate))
-      // same as (but during tests the request it's nil):
-      // let transactionFetchRequest = NSPersistentHistoryTransaction.fetchRequest
-      //transactionsRequest.predicate = NSPredicate(format: "token == %@", lastToken)
+      let request = try XCTUnwrap(NSPersistentHistoryChangeRequest.makeTransactionFetchRequest(with: viewContext2))
+      request.predicate = predicate
+      let transactionRequest = NSPersistentHistoryChangeRequest.fetchHistory(withFetch: request)
+      transactionRequest.resultType = .transactionsOnly
 
-      transactionsRequest.resultType = .transactionsOnly
-
-      let transactions = try viewContext2.performAndWaitResult { context ->[NSPersistentHistoryTransaction] in
+      let transactions = try viewContext2.performAndWait { _ ->[NSPersistentHistoryTransaction] in
         // swiftlint:disable force_cast
-        let history = try context.execute(transactionsRequest) as! NSPersistentHistoryResult
+        let history = try viewContext2.execute(transactionRequest) as! NSPersistentHistoryResult
         let transactions = history.result as! [NSPersistentHistoryTransaction] // ordered from the oldest to the most recent
         // swiftlint:enable force_cast
         return transactions
       }
+
       XCTAssertEqual(transactions.count, 1)
       let first = try XCTUnwrap(transactions.first)
       XCTAssertEqual(first.token, tokens.last)
@@ -445,21 +464,23 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     }
 
     do {
-      // ⏺ Query the Change entity
+      // ⏺ Query the "Change" entity by "changeType"
       let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
         NSPredicate(format: "changeType == %d", NSPersistentHistoryChangeType.update.rawValue), // Change condition
         // ⚠️ Even if it seems that some Transaction fields like "token" can be used here, the behavior is not predicatble
-        // it's best if we stick with Change fields
+        // it's best if we stick with Change field names
         // NSPredicate(format: "token > %@", secondLastToken) // Transaction condition (working)
         // NSPredicate(format: "token == %@") // Transaction condition (not working)
         // NSPredicate(format: "author != %@", "author1") // Transaction condition (exception)
       ])
 
-      let changesRequest = try XCTUnwrap(NSPersistentHistoryChangeRequest.historyChangeFetchRequest(with: viewContext2, where: predicate))
-      changesRequest.resultType = .transactionsAndChanges
+      let request = try XCTUnwrap(NSPersistentHistoryChangeRequest.makeChangeFetchRequest(with: viewContext2))
+      request.predicate = predicate
+      let changeRequest = NSPersistentHistoryChangeRequest.fetchHistory(withFetch: request)
+      changeRequest.resultType = .transactionsAndChanges
 
-      let transactions = try viewContext2.performAndWaitResult { context ->[NSPersistentHistoryTransaction] in
-        let history = try context.execute(changesRequest) as! NSPersistentHistoryResult
+      let transactions = try viewContext2.performAndWait { _ -> [NSPersistentHistoryTransaction] in
+        let history = try viewContext2.execute(changeRequest) as! NSPersistentHistoryResult
         let transactions = history.result as! [NSPersistentHistoryTransaction] // ordered from the oldest to the most recent
         return transactions
       }
@@ -474,14 +495,18 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     }
 
     do {
-      // ⏺ Query the Change entity
+      // ⏺ Query the "Change" entity by "changeType" and "changedEntity"
       let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
         NSPredicate(format: "changeType == %d", NSPersistentHistoryChangeType.insert.rawValue),
         NSPredicate(format: "changedEntity == %@ || changedEntity == %@", Car.entity(), Person.entity()) // ignores sub entities
       ])
-      let changesRequest = try XCTUnwrap(NSPersistentHistoryChangeRequest.historyChangeFetchRequest(with: viewContext2, where: predicate))
-      changesRequest.resultType = .changesOnly // ⚠️ impact the return type
-      let changes = try viewContext2.historyChanges(using: changesRequest)
+
+      let request = try XCTUnwrap(NSPersistentHistoryChangeRequest.makeChangeFetchRequest(with: viewContext2))
+      request.predicate = predicate
+      let changeRequest = NSPersistentHistoryChangeRequest.fetchHistory(withFetch: request)
+      changeRequest.resultType = .changesOnly
+
+      let changes = try viewContext2.historyChanges(using: changeRequest)
 
       XCTAssertEqual(changes.count, 3) // 2 Cars + 1 Person
     } catch {
@@ -489,13 +514,63 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     }
 
     do {
-      // ⏺ Query the Change entity
-      let changeEntity = NSPersistentHistoryChange.entityDescription(with: viewContext1)!
-      XCTAssertNil(changeEntity.attributesByName["changedObjectID"], "Shown on WWDC 2020 but currently nil.") // FB8353599
-      let request = NSFetchRequest<NSFetchRequestResult>()
-      request.entity = changeEntity
-      let columnName = changeEntity.attributesByName["changedEntity"]!.name // WWDC 2020
-      request.predicate = NSPredicate(format: "%K = %@", columnName, Car.entity())
+      // ⏺ Query the "Change" entity by "changedObjectID"
+      // WWDC 2020, Core Data: Sundries and maxims; history pointers (16:09)
+      // https://developer.apple.com/videos/play/wwdc2020/10017/
+      if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
+        let request = try XCTUnwrap(NSPersistentHistoryChangeRequest.makeChangeFetchRequest(with: viewContext1))
+        let column = changeEntityDescription.attributesByName["changedObjectID"]!.name
+        request.predicate = NSPredicate(format: "%K == %@", column, personObjectID)
+        // equals to:
+        // request.predicate = NSPredicate(format: "changedObjectID = %@", personObjectID)
+
+        let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: token2)
+        historyFetchRequest.fetchRequest = request
+        historyFetchRequest.resultType = .changesOnly // ⚠️ impact the return type
+
+        // After token2 we expect "Transaction #3" containing 2 changes:
+        // Updated: 1 Person
+        // Deleted: 1 Car
+        // Since the fetch used a predicate on the personObjectID, we expect only the Updated change on the Person object.
+
+        let changes = try viewContext1.historyChanges(using: historyFetchRequest)
+        XCTAssertEqual(changes.count, 1) // Person
+
+        // ⚠️ fetching history changes with a changedObjectID in the predicate doesn't work on a context associated with a different container
+        // (even if the underlying store is the same)
+        // If we remove from the predicate the "changedObjectID" clause, we get both the Updated Person and the Deleted Car.
+        //
+        // At the moment querying for changes using changedObjectID seems useful only in bulk updates (many contexts for the same container)
+        let changes2 = try viewContext2.historyChanges(using: historyFetchRequest)
+        XCTAssertTrue(changes2.isEmpty, "It seems that applying a predicate with changedObjectID doesn't work on a context associated with a different container.")
+
+        let moID = psc2.managedObjectID(forURIRepresentation: personObjectID.uriRepresentation())!
+        let mo = try viewContext2.existingObject(with: moID)
+        XCTAssertNotNil(mo)
+
+        let mo2 = try viewContext2.existingObject(with: personObjectID)
+        XCTAssertNotNil(mo2)
+
+        let backgroundViewContext = container1.newBackgroundContext()
+        try backgroundViewContext.performAndWait {
+          let changes3 = try backgroundViewContext.historyChanges(using: historyFetchRequest)
+          XCTAssertEqual(changes3.count, 1) // Person
+        }
+
+        let first = try XCTUnwrap(changes.first)
+        // Person has been added BEFORE token2 then updated.
+        XCTAssertEqual(first.changeType, NSPersistentHistoryChangeType.update)
+      } else {
+        // FB8353599
+        XCTAssertNil(changeEntityDescription.attributesByName["changedObjectID"], "Shown on WWDC 2020 but nil prior iOS 15 (FB8353599).")
+      }
+    }
+
+    do {
+      // ⏺ Query the "Change" entity by "changedEntity"
+      let request = try XCTUnwrap(NSPersistentHistoryChangeRequest.makeChangeFetchRequest(with: viewContext1))
+      let column = changeEntityDescription.attributesByName["changedEntity"]!.name
+      request.predicate = NSPredicate(format: "%K = %@", column, Car.entity())
 
       let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: secondLastToken)
       historyFetchRequest.fetchRequest = request // ⚠️ WWDC 2020: history requests can be tailored using the fetchRequest property
@@ -509,5 +584,62 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     } catch {
       XCTFail("Querying the Change entity failed: : \(error.localizedDescription)")
     }
+  }
+}
+
+extension NSPersistentHistoryChangeRequest {
+  /// Creates a NSFetchRequest for NSPersistentHistoryTransaction.
+  /// - Note: context is used as hint to discover the Transaction entity.
+  ///
+  /// The predicate conditions must be applied to these fields (of the "Transaction" entity):
+  ///
+  /// - `author` (`NSString`)
+  /// - `bundleID` (`NSString`)
+  /// - `contextName` (`NSString`)
+  /// - `processID` (`NSString`)
+  /// - `timestamp` (`NSDate`)
+  /// - `token` (`NSNumber` - `NSInteger64`)
+  /// - `transactionNumber` (`NSNumber` - `NSInteger64`)
+  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  fileprivate final class func makeTransactionFetchRequest(with context: NSManagedObjectContext) -> NSFetchRequest<NSFetchRequestResult>? {
+    // https://developer.apple.com/videos/play/wwdc2019/230
+    let transactionFetchRequest: NSFetchRequest<NSFetchRequestResult>
+    if let request = NSPersistentHistoryTransaction.fetchRequest {
+      transactionFetchRequest = request
+    } else if let transactionEntityDescription = NSPersistentHistoryTransaction.entityDescription(with: context) {
+      // ⚠️ NSPersistentHistoryTransaction.fetchRequest is nil during tests
+      // TODO: open feedback
+      transactionFetchRequest = NSFetchRequest<NSFetchRequestResult>()
+      transactionFetchRequest.entity = transactionEntityDescription
+    } else {
+      return nil
+    }
+
+    return transactionFetchRequest
+  }
+
+  /// Creates a NSFetchRequest for NSPersistentHistoryChange.
+  /// - Note: context is used as hint to discover the Change entity.
+  ///
+  /// The predicate conditions must be applied to these fields (of the "Change" entity):
+  ///
+  /// - `changedID` (`NSNumber` - `NSInteger64`)
+  /// - `changedEntity` (`NSNumber` - `NSInteger64`)
+  /// - `changeType` (`NSNumber` - `NSInteger64`)
+  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public final class func makeChangeFetchRequest(with context: NSManagedObjectContext) -> NSFetchRequest<NSFetchRequestResult>? {
+    let changeFetchRequest: NSFetchRequest<NSFetchRequestResult>
+    if let request = NSPersistentHistoryChange.fetchRequest {
+      changeFetchRequest = request
+    } else if let changeEntityDescription = NSPersistentHistoryChange.entityDescription(with: context) {
+      // ⚠️ NSPersistentHistoryChange.fetchRequest is nil during tests
+      // TODO: open feedback
+      changeFetchRequest = NSFetchRequest<NSFetchRequestResult>()
+      changeFetchRequest.entity = changeEntityDescription
+    } else {
+      return nil
+    }
+
+    return changeFetchRequest
   }
 }

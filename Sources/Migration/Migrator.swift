@@ -170,13 +170,23 @@ extension Migrator {
           mappingModelMigrationProgress.resignCurrent()
           let start = DispatchTime.now()
           do {
-            try manager.migrateStore(from: currentURL,
-                                     sourceType: NSSQLiteStoreType,
-                                     options: sourceOptions,
-                                     with: mappingModel,
-                                     toDestinationURL: temporaryURL,
-                                     destinationType: NSSQLiteStoreType,
-                                     destinationOptions: destinationOptions)
+            if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
+              try manager.migrateStore(from: currentURL,
+                                       type: .sqlite,
+                                       options: sourceOptions,
+                                       mapping: mappingModel,
+                                       to: temporaryURL,
+                                       type: .sqlite,
+                                       options: destinationOptions)
+            } else {
+              try manager.migrateStore(from: currentURL,
+                                       sourceType: NSSQLiteStoreType,
+                                       options: sourceOptions,
+                                       with: mappingModel,
+                                       toDestinationURL: temporaryURL,
+                                       destinationType: NSSQLiteStoreType,
+                                       destinationOptions: destinationOptions)
+            }
           } catch {
             os_log(.error, "Migration for mapping model %{public}d failed: %{private}@", mappingModelIndex + 1, error as NSError)
             throw error
@@ -245,7 +255,12 @@ private func performWALCheckpointForStore(at storeURL: URL, storeOptions: Persis
     options[NSPersistentHistoryTrackingKey] = [NSPersistentHistoryTrackingKey: true as NSNumber]
   }
 
-  let store = try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
+  let store: NSPersistentStore
+  if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
+    store = try persistentStoreCoordinator.addPersistentStore(type: .sqlite, configuration: nil, at: storeURL, options: options)
+  } else {
+    store = try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
+  }
   try persistentStoreCoordinator.remove(store)
 }
 

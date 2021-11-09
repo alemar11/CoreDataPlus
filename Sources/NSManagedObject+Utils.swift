@@ -6,18 +6,14 @@ extension NSManagedObject {
   /// Wheter or not the receiver has temporary object ID.
   /// New objects inserted into a managed object context are assigned a temporary ID.
   public var hasTemporaryID: Bool { objectID.isTemporaryID }
-  
+
   /// Returns the value of a persistent property that has been changed since **last fetching** or **saving operation**.
   /// - Note: This method only reports changes to properties that are defined as persistent properties of the receiver, not changes to transient properties or custom instance variables.
-  public final func changedValue(forKey key: String) -> Any? {
-    return changedValues()[key]
-  }
+  public final func changedValue(forKey key: String) -> Any? { changedValues()[key] }
 
   /// Returns of the **last fetched** or **saved** value of the propery specified by the given key.
   /// - Note: This method only reports values of properties that are defined as persistent properties of the receiver, not values of transient properties or of custom instance variables.
-  public final func committedValue(forKey key: String) -> Any? {
-    return committedValues(forKeys: [key])[key]
-  }
+  public final func committedValue(forKey key: String) -> Any? { committedValues(forKeys: [key])[key] }
 
   /// Turns `self` into a fault.
   public final func fault() {
@@ -27,7 +23,7 @@ extension NSManagedObject {
   /// Materializes `self`.
   public final func materialize() {
     // docs: "You can invoke this method with the key value of nil to ensure that a fault has been fired"
-    self.willAccessValue(forKey: nil)
+    willAccessValue(forKey: nil)
   }
 
   // swiftlint:disable line_length
@@ -51,5 +47,10 @@ extension NSManagedObject {
   public func obtainPermanentID() throws -> NSManagedObjectID {
     try managedObjectContext?.obtainPermanentIDs(for: [self])
     return self.objectID
+  }
+
+  /// Returns a Boolean value indicating whether `self` matches the conditions specified by the predicate.
+  public func evaluate(with predicate: NSPredicate) -> Bool {
+    predicate.evaluate(with: self)
   }
 }

@@ -18,28 +18,6 @@ extension NSFetchRequest {
     self.fetchBatchSize = batchSize
   }
 
-  /// - Parameter predicate: A NSPredicate object.
-  /// Associates to `self` a `new` compound NSPredicate formed by **AND**-ing the current predicate with a given `predicate`.
-  @objc
-  public func andPredicate(_ predicate: NSPredicate) {
-    guard let currentPredicate = self.predicate else {
-      self.predicate = predicate
-      return
-    }
-    self.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [currentPredicate, predicate])
-  }
-
-  /// - Parameter predicate: A NSPredicate object.
-  /// Associates to `self` a `new` compound NSPredicate formed by **OR**-ing the current predicate with a given `predicate`.
-  @objc
-  public func orPredicate(_ predicate: NSPredicate) {
-    guard let currentPredicate = self.predicate else {
-      self.predicate = predicate
-      return
-    }
-    self.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: [currentPredicate, predicate])
-  }
-
   /// - Parameter descriptors: An array of NSSortDescriptor objects.
   /// Appends to the current sort descriptors an array of `descriptors`.
   @objc

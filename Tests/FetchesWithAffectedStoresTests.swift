@@ -4,8 +4,9 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
+/// Tests with fetch requests targeting specific persistent stores
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-final class AffectedStoresTests: XCTestCase {
+final class FetchesWithAffectedStoresTests: XCTestCase {
   func testFetches() throws {
     let uuid = UUID().uuidString
     let url1 = URL.newDatabaseURL(withName: "part1-\(uuid)")
@@ -43,7 +44,7 @@ final class AffectedStoresTests: XCTestCase {
     let predicate = NSPredicate(format: "%K == %@", #keyPath(Feedback.authorAlias), "Alessandro")
 
     context.reset()
-    XCTAssertEqual(try FeedbackV2.fetch(in: context) { $0.affectedStores = [part1] }.count, 1)
+    XCTAssertEqual(try FeedbackV2.fetchObjects(in: context) { $0.affectedStores = [part1] }.count, 1)
 
     context.reset()
     XCTAssertEqual(try FeedbackV2.count(in: context), 2)
@@ -61,19 +62,19 @@ final class AffectedStoresTests: XCTestCase {
 
     // fetchOne
     context.reset()
-    let one = try FeedbackV2.fetchOne(in: context, where: predicate)
+    let one = try FeedbackV2.fetchOneObject(in: context, where: predicate)
     XCTAssertEqual(one?.objectID, feedbackPart1.objectID) // first inserted is the first one to be fetched during a query
-    let onePart1 = try FeedbackV2.fetchOne(in: context, where: predicate, affectedStores: [part1])
+    let onePart1 = try FeedbackV2.fetchOneObject(in: context, where: predicate, affectedStores: [part1])
     XCTAssertEqual(onePart1?.objectID, feedbackPart1.objectID)
-    let onePart2 = try FeedbackV2.fetchOne(in: context, where: predicate, affectedStores: [part2])
+    let onePart2 = try FeedbackV2.fetchOneObject(in: context, where: predicate, affectedStores: [part2])
     XCTAssertEqual(onePart2?.objectID, feedbackPart2.objectID)
 
     // fetchUnique
     context.reset()
-    // let unique = try FeedbackV2.fetchUnique(in: context, where: predicate) // this fetch request crashes because uniqueness is not guaranteed for that predicate
-    let uniquePart1 = try FeedbackV2.fetchUnique(in: context, where: predicate, affectedStores: [part1])
+    // let unique = try FeedbackV2.fetchUniqueObject(in: context, where: predicate) // this fetch request crashes because uniqueness is not guaranteed for that predicate
+    let uniquePart1 = try FeedbackV2.fetchUniqueObject(in: context, where: predicate, affectedStores: [part1])
     XCTAssertEqual(uniquePart1?.objectID, feedbackPart1.objectID)
-    let uniquePart2 = try FeedbackV2.fetchUnique(in: context, where: predicate, affectedStores: [part2])
+    let uniquePart2 = try FeedbackV2.fetchUniqueObject(in: context, where: predicate, affectedStores: [part2])
     XCTAssertEqual(uniquePart2?.objectID, feedbackPart2.objectID)
 
     // findUniqueOrCreate (deprecated)

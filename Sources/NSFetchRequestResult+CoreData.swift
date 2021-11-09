@@ -56,13 +56,14 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - configuration: Configuration closure applied **only** before fetching.
   /// - Throws: It throws an error in cases of failure.
   /// - Returns: An array of objects meeting the criteria specified by request fetched from *the receiver* and from *the persistent stores* associated with the receiver’s persistent store coordinator.
-  public static func fetch(in context: NSManagedObjectContext, with configuration: (NSFetchRequest<Self>) -> Void = { _ in }) throws -> [Self] {
+  public static func fetchObjects(in context: NSManagedObjectContext, with configuration: (NSFetchRequest<Self>) -> Void = { _ in }) throws -> [Self] {
     // Check the Discussion paragraph for the fetch(_:) documentation:
     // https://developer.apple.com/documentation/coredata/nsmanagedobjectcontext/1506672-fetch
     // When you execute an instance of NSFetchRequest, it always accesses the underlying persistent stores to retrieve the latest results.
     // https://developer.apple.com/documentation/coredata/nsfetchrequest
     let request = NSFetchRequest<Self>(entityName: entityName)
     configuration(request)
+    precondition(request.resultType == .managedObjectResultType, "This method requires a NSFetchRequest with resultType of .managedObjectResultType.")
     return try context.fetch(request)
   }
 
@@ -83,7 +84,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
     // When you execute an instance of NSFetchRequest, it always accesses the underlying persistent stores to retrieve the latest results.
     // https://developer.apple.com/documentation/coredata/nsfetchrequest
-
     let request = NSFetchRequest<Self>(entityName: entityName)
     configuration(request)
 
@@ -136,8 +136,11 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - affectedStores: An array of persistent stores specified for the fetch request.
   /// - Throws: It throws an error in cases of failure.
   /// - Returns: A **materialized** object matching the predicate.
-  public static func fetchOne(in context: NSManagedObjectContext, where predicate: NSPredicate, includesPendingChanges: Bool = true, affectedStores: [NSPersistentStore]? = nil) throws -> Self? {
-    return try fetch(in: context) { request in
+  public static func fetchOneObject(in context: NSManagedObjectContext,
+                                    where predicate: NSPredicate,
+                                    includesPendingChanges: Bool = true,
+                                    affectedStores: [NSPersistentStore]? = nil) throws -> Self? {
+    return try fetchObjects(in: context) { request in
       request.predicate = predicate
       request.returnsObjectsAsFaults = false
       request.includesPendingChanges = includesPendingChanges
@@ -157,8 +160,8 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - predicate: Matching predicate.
   ///   - affectedStores: An array of persistent stores specified for the fetch request.
   /// - Returns: An unique object matching the given configuration (if any).
-  public static func fetchUnique(in context: NSManagedObjectContext, where predicate: NSPredicate, affectedStores: [NSPersistentStore]? = nil) throws -> Self? {
-    let result = try fetch(in: context) { request in
+  public static func fetchUniqueObject(in context: NSManagedObjectContext, where predicate: NSPredicate, affectedStores: [NSPersistentStore]? = nil) throws -> Self? {
+    let result = try fetchObjects(in: context) { request in
       request.predicate = predicate
       request.includesPendingChanges = true // default, uniqueness should be guaranteed
       request.affectedStores = affectedStores
@@ -190,7 +193,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
                             limit: Int? = nil,
                             affectedStores: [NSPersistentStore]? = nil) throws {
     try autoreleasepool {
-      try fetch(in: context) { request in
+      try fetchObjects(in: context) { request in
         request.includesPropertyValues = false
         request.includesSubentities = includingSubentities
         request.predicate = predicate
@@ -405,10 +408,10 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Warning: If the ConcurrencyDebug is enabled, the fetch request will cause a thread violation error.
   /// ([more details here](https://stackoverflow.com/questions/31728425/coredata-asynchronous-fetch-causes-concurrency-debugger-error)).
   @discardableResult
-  public static func fetchAsync(in context: NSManagedObjectContext,
-                                estimatedResultCount: Int = 0,
-                                with configuration: (NSFetchRequest<Self>) -> Void = { _ in },
-                                completion: @escaping (Result<[Self], Error>) -> Void) throws -> NSAsynchronousFetchResult<Self> {
+  public static func fetchObjects(in context: NSManagedObjectContext,
+                                  estimatedResultCount: Int = 0,
+                                  with configuration: (NSFetchRequest<Self>) -> Void = { _ in },
+                                  completion: @escaping (Result<[Self], Error>) -> Void) throws -> NSAsynchronousFetchResult<Self> {
     let request = Self.newFetchRequest()
     configuration(request)
 
@@ -418,12 +421,43 @@ extension NSFetchRequestResult where Self: NSManagedObject {
       } else if let fetchedObjects = result.finalResult {
         completion(.success(fetchedObjects))
       } else {
-        fatalError("Unexpected behaviour")
+        fatalError("Unexpected behaviour.")
       }
     }
     asynchronousRequest.estimatedResultCount = estimatedResultCount
 
     // swiftlint:disable:next force_cast
     return try context.execute(asynchronousRequest) as! NSAsynchronousFetchResult<Self>
+  }
+
+  /// Performs a configurable asynchronous fetch request in a context.
+  ///
+  /// - Parameter context: Searched context.
+  /// - Parameter estimatedResultCount: A parameter that assists Core Data with scheduling the asynchronous fetch request.
+  /// - Parameter configuration: Configuration closure called when preparing the `NSFetchRequest`.
+  /// - Returns: The results that were received from the fetch request.
+  /// - Throws: It throws an error in cases of failure.
+  /// - Warning: If the ConcurrencyDebug is enabled, the fetch request will cause a thread violation error, without it data races will be always detected by Xcode.
+  @available(swift 5.5)
+  @available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *)
+  public static func fetchObjects(in context: NSManagedObjectContext,
+                                  estimatedResultCount: Int = 0,
+                                  with configuration: (NSFetchRequest<Self>) -> Void = { _ in }) async throws -> [Self] {
+    return try await withCheckedThrowingContinuation { continuation in
+      do {
+        // TODO: Swift concurrency and NSProgress: https://github.com/apple/swift-evolution/blob/main/proposals/0297-concurrency-objc.md#nsprogress
+        // TODO: The associated test is disabled because of data races.
+        try fetchObjects(in: context, estimatedResultCount: estimatedResultCount, with: configuration) { result in
+          switch result {
+          case .success(let fetchResult):
+            continuation.resume(returning: fetchResult)
+          case .failure(let error):
+            continuation.resume(throwing: error)
+          }
+        }
+      } catch let error {
+        continuation.resume(throwing: error)
+      }
+    }
   }
 }

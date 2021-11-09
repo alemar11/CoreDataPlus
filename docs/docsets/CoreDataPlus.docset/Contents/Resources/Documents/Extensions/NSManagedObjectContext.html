@@ -17,7 +17,7 @@
     <a title="NSManagedObjectContext Extension Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">CoreDataPlus 3.0.0 Docs</a> (72% documented)</p>
+        <p><a href="../index.html">CoreDataPlus 4.0.0 Docs</a> (75% documented)</p>
         <p class="header-right">
           <form role="search" action="../search.json">
             <input type="text" placeholder="Search documentation" data-typeahead>
@@ -115,10 +115,10 @@
                 <a href="../Extensions/NSMigrationManager.html">NSMigrationManager</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Extensions/NSPersistentHistoryChangeRequest.html">NSPersistentHistoryChangeRequest</a>
+                <a href="../Extensions/NSPersistentStoreCoordinator.html">NSPersistentStoreCoordinator</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Extensions/NSPersistentStoreCoordinator.html">NSPersistentStoreCoordinator</a>
+                <a href="../Extensions/NSPredicate.html">NSPredicate</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/NSSet.html">NSSet</a>
@@ -217,9 +217,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE19historyTransactions5usingSaySo30NSPersistentHistoryTransactionCGSo0jK13ChangeRequestC_tKF"></a>
-                    <a name="//apple_ref/swift/Method/historyTransactions(using:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE19historyTransactions5usingSaySo30NSPersistentHistoryTransactionCGSo0jK13ChangeRequestC_tKF">historyTransactions(using:<wbr>)</a>
+                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE19historyTransactions5using20andAssociatedChangesSaySo30NSPersistentHistoryTransactionCGSo0mN13ChangeRequestC_SbtKF"></a>
+                    <a name="//apple_ref/swift/Method/historyTransactions(using:andAssociatedChanges:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE19historyTransactions5using20andAssociatedChangesSaySo30NSPersistentHistoryTransactionCGSo0mN13ChangeRequestC_SbtKF">historyTransactions(using:<wbr>andAssociatedChanges:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -227,16 +227,47 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns all the history transactions (anche their associated changes) given a <code>NSPersistentHistoryChangeRequest</code> request.</p>
+                        <p>Returns all the history transactions  for given a <code>NSPersistentHistoryChangeRequest</code> request.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">historyTransactions</span><span class="p">(</span><span class="n">using</span> <span class="nv">historyFetchRequest</span><span class="p">:</span> <span class="kt">NSPersistentHistoryChangeRequest</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">NSPersistentHistoryTransaction</span><span class="p">]</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">historyTransactions</span><span class="p">(</span><span class="n">using</span> <span class="nv">historyFetchRequest</span><span class="p">:</span> <span class="kt">NSPersistentHistoryChangeRequest</span><span class="p">,</span> <span class="n">andAssociatedChanges</span> <span class="nv">enableChanges</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">NSPersistentHistoryTransaction</span><span class="p">]</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>historyFetchRequest</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A request to fetch persistent history transactions.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>withAssociatedChanges</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>if <code>true</code> (default) each transaction will contain all its changes.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -267,7 +298,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns all the history changes given a <code>NSPersistentHistoryChangeRequest</code> request.</p>
+                        <p>Returns all the history changes for given a <code>NSPersistentHistoryChangeRequest</code> request.</p>
 
                       </div>
                       <div class="declaration">
@@ -277,6 +308,25 @@
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">historyChanges</span><span class="p">(</span><span class="n">using</span> <span class="nv">historyFetchRequest</span><span class="p">:</span> <span class="kt">NSPersistentHistoryChangeRequest</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">NSPersistentHistoryChange</span><span class="p">]</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>historyFetchRequest</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A request to fetch persistent history changes.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -294,8 +344,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Merges all the changes contained in the given list of <code>NSPersistentHistoryTransaction</code>.
-Returns the last merged transaction&rsquo;s token and timestamp.</p>
+                        <p>Merges all the changes contained in the given list of <code>NSPersistentHistoryTransaction</code>.</p>
+<div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    The merging operation must be done inside a the context queue.
+
+</div>
+
+<p>Returns the last merged transaction&rsquo;s token and timestamp.</p>
 
                       </div>
                       <div class="declaration">
@@ -364,13 +420,17 @@ Returns the last merged transaction&rsquo;s token and timestamp.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Deletes all history before a given <code>date</code>.</p>
-<div class="aside aside-throws">
+<div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    <p>The delete operation must be done inside a the context queue.</p>
+
+</div><div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    It throws an error in cases of failure.
+    <p>It throws an error in cases of failure.</p>
 
 </div><div class="aside aside-note">
     <p class="aside-title">Note</p>
-    Deletions can have tombstones if enabled on single attribues of an entity ( Data Model Inspector &gt; &ldquo;Preserve After Deletion&rdquo;).
+    <p>Deletions can have tombstones if enabled on single attribues of an entity ( Data Model Inspector &gt; &ldquo;Preserve After Deletion&rdquo;).</p>
 
 </div>
 
@@ -424,9 +484,13 @@ Returns the last merged transaction&rsquo;s token and timestamp.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Deletes all history before a given <code>token</code>.</p>
-<div class="aside aside-throws">
+<div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    <p>The delete operation must be done inside the context queue.</p>
+
+</div><div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    It throws an error in cases of failure.
+    <p>It throws an error in cases of failure.</p>
 
 </div>
 
@@ -480,9 +544,13 @@ Returns the last merged transaction&rsquo;s token and timestamp.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Deletes all history before a given <code>transaction</code>.</p>
-<div class="aside aside-throws">
+<div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    <p>The delete operation must be done inside the context queue.</p>
+
+</div><div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    It throws an error in cases of failure.
+    <p>It throws an error in cases of failure.</p>
 
 </div>
 
@@ -518,169 +586,6 @@ Returns the last merged transaction&rsquo;s token and timestamp.</p>
                       <div>
                         <h4>Return Value</h4>
                         <p><code>true</code> if the operation succeeds.</p>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE16persistentStoresSaySo17NSPersistentStoreCGvp"></a>
-                    <a name="//apple_ref/swift/Property/persistentStores" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE16persistentStoresSaySo17NSPersistentStoreCGvp">persistentStores</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The persistent stores associated with the receiver (if any).</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="k">var</span> <span class="nv">persistentStores</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSPersistentStore</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE04metaE03forSDySSypGSo17NSPersistentStoreC_tF"></a>
-                    <a name="//apple_ref/swift/Method/metaData(for:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE04metaE03forSDySSypGSo17NSPersistentStoreC_tF">metaData(for:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Returns a dictionary that contains the metadata currently stored or to-be-stored in a given persistent store.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">metaData</span><span class="p">(</span><span class="k">for</span> <span class="nv">store</span><span class="p">:</span> <span class="kt">NSPersistentStore</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">]</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE07setMetaeB0_4with3for10completionyypSg_SSSo17NSPersistentStoreCys5Error_pSgcSgtF"></a>
-                    <a name="//apple_ref/swift/Method/setMetaDataObject(_:with:for:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE07setMetaeB0_4with3for10completionyypSg_SSSo17NSPersistentStoreCys5Error_pSgcSgtF">setMetaDataObject(_:<wbr>with:<wbr>for:<wbr>completion:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Adds an <code>object</code> to the store&rsquo;s metadata and saves it <strong>asynchronously</strong>.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">setMetaDataObject</span><span class="p">(</span><span class="n">_</span> <span class="nv">object</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?,</span> <span class="n">with</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="k">for</span> <span class="nv">store</span><span class="p">:</span> <span class="kt">NSPersistentStore</span><span class="p">,</span> <span class="n">completion</span> <span class="nv">handler</span><span class="p">:</span> <span class="p">((</span><span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>object</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Object to be added to the medata dictionary.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>key</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Object key</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>store</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>NSPersistentStore where is stored the metadata.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>handler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The completion handler called when the saving is completed.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE6entity13forEntityNameSo19NSEntityDescriptionCSgSS_tF"></a>
-                    <a name="//apple_ref/swift/Method/entity(forEntityName:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE6entity13forEntityNameSo19NSEntityDescriptionCSgSS_tF">entity(forEntityName:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Returns the entity with the specified name (if any) from the managed object model associated with the specified managed object context’s persistent store coordinator.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">entity</span><span class="p">(</span><span class="n">forEntityName</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSEntityDescription</span><span class="p">?</span></code></pre>
-
-                        </div>
                       </div>
                     </section>
                   </div>
@@ -947,9 +852,9 @@ On the other hand, a Swift <code>Array</code> requires having every element in t
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE11performSave5after10completionyyABKc_ySo7NSErrorCSgcSgtF"></a>
-                    <a name="//apple_ref/swift/Method/performSave(after:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE11performSave5after10completionyyABKc_ySo7NSErrorCSgcSgtF">performSave(after:<wbr>completion:<wbr>)</a>
+                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE12saveIfNeededyyKF"></a>
+                    <a name="//apple_ref/swift/Method/saveIfNeeded()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE12saveIfNeededyyKF">saveIfNeeded()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -957,77 +862,14 @@ On the other hand, a Swift <code>Array</code> requires having every element in t
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Asynchronously performs changes and then saves them.</p>
+                        <p>Saves the <code>NSManagedObjectContext</code> if changes are present.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">performSave</span><span class="p">(</span><span class="n">after</span> <span class="nv">changes</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">NSManagedObjectContext</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="p">((</span><span class="kt">NSError</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>changes</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Changes to be applied in the current context before the saving operation. If they fail throwing an execption, the context will be reset.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completion</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Block executed (on the context’s queue.) at the end of the saving operation.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE18performSaveAndWait5afteryyABKXE_tKF"></a>
-                    <a name="//apple_ref/swift/Method/performSaveAndWait(after:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE18performSaveAndWait5afteryyABKXE_tKF">performSaveAndWait(after:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Synchronously performs changes and then saves them: if the changes fail throwing an execption, the context will be reset.</p>
-<div class="aside aside-throws">
-    <p class="aside-title">Throws</p>
-    It throws an error in cases of failure (while applying changes or saving).
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">performSaveAndWait</span><span class="p">(</span><span class="n">after</span> <span class="nv">changes</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSManagedObjectContext</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">saveIfNeeded</span><span class="p">()</span> <span class="k">throws</span></code></pre>
 
                         </div>
                       </div>
@@ -1037,9 +879,9 @@ On the other hand, a Swift <code>Array</code> requires having every element in t
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE14saveOrRollBackyyKF"></a>
-                    <a name="//apple_ref/swift/Method/saveOrRollBack()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE14saveOrRollBackyyKF">saveOrRollBack()</a>
+                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE22saveIfNeededOrRollBackyyKF"></a>
+                    <a name="//apple_ref/swift/Method/saveIfNeededOrRollBack()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE22saveIfNeededOrRollBackyyKF">saveIfNeededOrRollBack()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1059,7 +901,7 @@ On the other hand, a Swift <code>Array</code> requires having every element in t
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">saveOrRollBack</span><span class="p">()</span> <span class="k">throws</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">saveIfNeededOrRollBack</span><span class="p">()</span> <span class="k">throws</span></code></pre>
 
                         </div>
                       </div>
@@ -1082,9 +924,9 @@ On the other hand, a Swift <code>Array</code> requires having every element in t
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE20performAndWaitResultyxxABKXEKlF"></a>
-                    <a name="//apple_ref/swift/Method/performAndWaitResult(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE20performAndWaitResultyxxABKXEKlF">performAndWaitResult(_:<wbr>)</a>
+                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE14performAndWaityxxABKXEKlF"></a>
+                    <a name="//apple_ref/swift/Method/performAndWait(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE14performAndWaityxxABKXEKlF">performAndWait(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1104,39 +946,7 @@ On the other hand, a Swift <code>Array</code> requires having every element in t
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">performAndWaitResult</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">block</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSManagedObjectContext</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">T</span><span class="p">)</span> <span class="k">rethrows</span> <span class="o">-&gt;</span> <span class="kt">T</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE14performAndWaityyyABKXEKF"></a>
-                    <a name="//apple_ref/swift/Method/performAndWait(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE14performAndWaityyyABKXEKF">performAndWait(_:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Synchronously performs a given block on the context’s queue.</p>
-<div class="aside aside-throws">
-    <p class="aside-title">Throws</p>
-    It throws an error in cases of failure.
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">performAndWait</span><span class="p">(</span><span class="n">_</span> <span class="nv">block</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSManagedObjectContext</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="k">rethrows</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="n">performAndWait</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">block</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSManagedObjectContext</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">T</span><span class="p">)</span> <span class="k">rethrows</span> <span class="o">-&gt;</span> <span class="kt">T</span></code></pre>
 
                         </div>
                       </div>
@@ -1159,9 +969,9 @@ On the other hand, a Swift <code>Array</code> requires having every element in t
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE19performMergeChanges4from10completionyAC07ManagedbC14DidSaveObjectsV_yyctF"></a>
-                    <a name="//apple_ref/swift/Method/performMergeChanges(from:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE19performMergeChanges4from10completionyAC07ManagedbC14DidSaveObjectsV_yyctF">performMergeChanges(from:<wbr>completion:<wbr>)</a>
+                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE12mergeChanges04fromC14DidSavePayloadyAC07ManagedbcjK7ObjectsV_tF"></a>
+                    <a name="//apple_ref/swift/Method/mergeChanges(fromContextDidSavePayload:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE12mergeChanges04fromC14DidSavePayloadyAC07ManagedbcjK7ObjectsV_tF">mergeChanges(fromContextDidSavePayload:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1169,7 +979,7 @@ On the other hand, a Swift <code>Array</code> requires having every element in t
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Asynchronously merges the changes specified in a given payload.
+                        <p>Merges the changes specified in a given payload.
 This method refreshes any objects which have been updated in the other context,
 faults in any newly-inserted objects, and invokes delete(_:): on those which have been deleted.</p>
 
@@ -1178,7 +988,7 @@ faults in any newly-inserted objects, and invokes delete(_:): on those which hav
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">performMergeChanges</span><span class="p">(</span><span class="n">from</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt"><a href="../Structs/ManagedObjectContextDidSaveObjects.html">ManagedObjectContextDidSaveObjects</a></span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{})</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">mergeChanges</span><span class="p">(</span><span class="n">fromContextDidSavePayload</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt"><a href="../Structs/ManagedObjectContextDidSaveObjects.html">ManagedObjectContextDidSaveObjects</a></span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -1194,79 +1004,7 @@ faults in any newly-inserted objects, and invokes delete(_:): on those which hav
                               </td>
                               <td>
                                 <div>
-                                  <p>A <code>NSManagedObjectContextDidSave</code> payload posted by another context.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completion</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The block to be executed after the merge completes.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:So22NSManagedObjectContextC12CoreDataPlusE26performAndWaitMergeChanges4fromyAC07ManagedbC14DidSaveObjectsV_tF"></a>
-                    <a name="//apple_ref/swift/Method/performAndWaitMergeChanges(from:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:So22NSManagedObjectContextC12CoreDataPlusE26performAndWaitMergeChanges4fromyAC07ManagedbC14DidSaveObjectsV_tF">performAndWaitMergeChanges(from:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Synchronously merges the changes specified in a given payload.
-This method refreshes any objects which have been updated in the other context,
-faults in any newly-inserted objects, and invokes delete(_:): on those which have been deleted.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">performAndWaitMergeChanges</span><span class="p">(</span><span class="n">from</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt"><a href="../Structs/ManagedObjectContextDidSaveObjects.html">ManagedObjectContextDidSaveObjects</a></span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>payload</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>A <code>NSManagedObjectContextDidSave</code> payload posted by another context.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completion</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The block to be executed after the merge completes.</p>
+                                  <p>A <code><a href="../Structs/ManagedObjectContextDidSaveObjects.html">ManagedObjectContextDidSaveObjects</a></code> payload (a typed payload for a notification posted by another context).</p>
                                 </div>
                               </td>
                             </tr>
@@ -1281,7 +1019,7 @@ faults in any newly-inserted objects, and invokes delete(_:): on those which hav
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-05-12)</p>
+          <p>&copy; 2021 <a class="link" href="https://github.com/alemar11/CoreDataPlus" target="_blank" rel="external">Alessandro Marzoli</a>. All rights reserved. (Last updated: 2021-10-28)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

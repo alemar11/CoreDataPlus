@@ -68,7 +68,7 @@ extension ModelVersion {
   /// Protocol `ModelVersion`.
   ///
   /// Model file name.
-  var momd: String { return "\(modelName).\(ModelVersionFileExtension.momd)" }
+  var momd: String { "\(modelName).\(ModelVersionFileExtension.momd)" }
 }
 
 extension ModelVersion {
@@ -77,14 +77,18 @@ extension ModelVersion {
     let version = Self.allVersions.first {
       $0.managedObjectModel().isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
     }
-
     return version
   }
 
   /// Initializes a `ModelVersion` from a `NSPersistentStore` URL; returns nil if a `ModelVersion` hasn't been correctly defined.
   /// - Throws: It throws an error if no store is found at `persistentStoreURL` or if there is a problem accessing its contents.
   public init?(persistentStoreURL: URL) throws {
-    let metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: persistentStoreURL, options: nil)
+    let metadata: [String: Any]
+    if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
+      metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(type: .sqlite, at: persistentStoreURL, options: nil)
+    } else {
+      metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: persistentStoreURL, options: nil)
+    }
     let version = Self[metadata]
 
     guard let modelVersion = version else {
@@ -144,9 +148,13 @@ public func isMigrationNecessary<Version: ModelVersion>(for storeURL: URL, to ve
   // Before you initiate a migration process, you should first determine whether it is necessary.
   // If the target model configuration is compatible with the persistent store metadata, there is no need to migrate
   // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmCustomizing.html#//apple_ref/doc/uid/TP40004399-CH8-SW2
-  let metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType,
-                                                                             at: storeURL,
-                                                                             options: nil)
+  let metadata: [String: Any]
+  if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
+    metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(type: .sqlite, at: storeURL, options: nil)
+  } else {
+    metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: storeURL, options: nil)
+  }
+
   let targetModel = version.managedObjectModel()
   // https://vimeo.com/164904652
   // - configurations define named subsets of a model that contain some but not all entities.
@@ -189,14 +197,6 @@ extension ModelVersion {
     guard let nextVersion = successor else {
       return []
     }
-
-//    guard let mappings = mappingModelsToNextModelVersion() else {
-//      fatalError("Couldn't find any mapping models.")
-//    }
-//
-//    let step = Migration.Step(source: managedObjectModel(),
-//                              destination: nextVersion.managedObjectModel(),
-//                              mappings: mappings)
 
     guard let step = MigrationStep(sourceVersion: self, destinationVersion: nextVersion) else {
       fatalError("Couldn't find any mapping models.")
@@ -257,7 +257,7 @@ extension ModelVersion {
       let allMappingModelsURLs = modelBundle.urls(forResourcesWithExtension: ModelVersionFileExtension.cdm, subdirectory: nil),
       allMappingModelsURLs.count > 0 else {
         return results
-    }
+      }
 
     mappingModelNames.forEach { name in
       let expectedFileName = "\(name).\(ModelVersionFileExtension.cdm)"

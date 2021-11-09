@@ -12,13 +12,13 @@ final class ProgrammaticallyDefinedModelTests: OnDiskWithProgrammaticallyModelTe
     try context.save()
     context.reset()
 
-    let books = try Book.fetch(in: context)
+    let books = try Book.fetchObjects(in: context)
     XCTAssertEqual(books.count, 52)
 
-    let authors = try Author.fetch(in: context)
+    let authors = try Author.fetchObjects(in: context)
     XCTAssertEqual(authors.count, 2)
 
-    let fetchedAuthor = try Author.fetch(in: context) { $0.predicate = NSPredicate(format: "%K == %@", #keyPath(Author.alias), "Alessandro") }.first
+    let fetchedAuthor = try Author.fetchObjects(in: context) { $0.predicate = NSPredicate(format: "%K == %@", #keyPath(Author.alias), "Alessandro") }.first
 
     let author = try XCTUnwrap(fetchedAuthor)
     let feedbacks = try XCTUnwrap(author.feedbacks)
@@ -33,7 +33,7 @@ final class ProgrammaticallyDefinedModelTests: OnDiskWithProgrammaticallyModelTe
     try context.save()
     context.reset()
 
-    let fetchedAuthor = try Author.fetch(in: context) { $0.predicate = NSPredicate(format: "%K == %@", #keyPath(Author.alias), "Alessandro") }.first
+    let fetchedAuthor = try Author.fetchObjects(in: context) { $0.predicate = NSPredicate(format: "%K == %@", #keyPath(Author.alias), "Alessandro") }.first
 
     let author = try XCTUnwrap(fetchedAuthor)
     XCTAssertEqual(author.favFeedbacks?.count, 2)
@@ -70,7 +70,7 @@ final class ProgrammaticallyDefinedModelV3Tests: XCTestCase {
     try context.save()
     context.reset()
 
-    let fetchedAuthor = try AuthorV3.fetch(in: context) { $0.predicate = NSPredicate(format: "%K == %@", #keyPath(Author.alias), "Alessandro") }.first
+    let fetchedAuthor = try AuthorV3.fetchObjects(in: context) { $0.predicate = NSPredicate(format: "%K == %@", #keyPath(Author.alias), "Alessandro") }.first
 
     let author = try XCTUnwrap(fetchedAuthor)
     let feedbacks = try XCTUnwrap(author.feedbacks)
