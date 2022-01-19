@@ -13,9 +13,9 @@ Core data extensions.
 
 ## Requirements
 
-[![Swift 5.5](https://img.shields.io/badge/Swift-5.3-orange.svg?style=flat)](https://developer.apple.com/swift)
+[![Swift 5.5](https://img.shields.io/badge/Swift-5.5-orange.svg?style=flat)](https://developer.apple.com/swift)
 ![Platforms](https://img.shields.io/badge/Platform-iOS%2012%2B%20|%20macOS%2010.14+%20|%20tvOS%2012+%20|%20watchOS%205+-blue.svg) 
-![Xcode](https://img.shields.io/badge/Xcode-12-blue.svg) 
+![Xcode](https://img.shields.io/badge/Xcode-13-blue.svg) 
 
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/CoreDataPlus.svg)](https://cocoapods.org/pods/CoreDataPlus)
@@ -33,8 +33,6 @@ Documentation is [available online](http://www.alessandromarzoli.com/CoreDataPlu
 ```bash
 $ gem install cocoapods
 ```
-
-> CocoaPods 1.1.0+ is required to build CoreDataPlus 1.0.0+.
 
 To integrate CoreDataPlus into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
