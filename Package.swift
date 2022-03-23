@@ -3,7 +3,7 @@
 import PackageDescription
 import Foundation
 
-let isRunningTestsFromCommandLine: Bool = {
+let isRunningFromCommandLine: Bool = {
   return ProcessInfo.processInfo.environment["XPC_SERVICE_NAME"] == "0"
 }()
 
@@ -16,9 +16,9 @@ var resources: [Resource] = [
   .copy("Resources/SampleModel/Fixtures/SampleModelV2.sqlite")
 ]
 
-if isRunningTestsFromCommandLine {
+if isRunningFromCommandLine {
   // When running tests from terminal, these resources needs to be copied in the test bundle,
-  // viceversa when running tests from Xcode, Xcode will create automatically these binaries automaticcally.
+  // viceversa when running tests from Xcode, Xcode will create automatically these binaries automatically.
   resources.append(contentsOf: [
     .copy("Resources/SampleModel/Fixtures/SampleModel.momd"),
     .copy("Resources/SampleModel/Fixtures/V2toV3.cdm"),
@@ -42,7 +42,8 @@ let package = Package(
     .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
   ],
   targets: [
-    .target(name: "CoreDataPlus", path: "Sources"),
+    .target(name: "CoreDataPlus", 
+            path: "Sources"),
     .testTarget(name: "Tests",
                 dependencies: ["CoreDataPlus"],
                 path: "Tests",
