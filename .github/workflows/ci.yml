@@ -1,5 +1,9 @@
 name: "CoreDataPlus CI"
 
+concurrency: 
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   schedule:
     #- cron:  '0 * * * *' # every 1 hour
