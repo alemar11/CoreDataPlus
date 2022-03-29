@@ -113,7 +113,7 @@ jobs:
           swift test
   lint:
     name: Swift Lint
-    runs-on: macOS-11.0
+    runs-on: macOS-12.0
     steps:
       - uses: actions/checkout@v2
       - name: Run SwiftLint
