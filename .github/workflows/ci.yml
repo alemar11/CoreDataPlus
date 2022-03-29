@@ -102,9 +102,9 @@ jobs:
           path: ~/Downloads/Report        
   spm:
     name: Test SPM Integration
-    runs-on: macOS-12.0
+    runs-on: macos-12
     env:
-      DEVELOPER_DIR: /Applications/Xcode_13.2.1.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_13.3.app/Contents/Developer
     steps:
       - uses: actions/checkout@v2
       - name: SPM Test
@@ -113,7 +113,7 @@ jobs:
           swift test
   lint:
     name: Swift Lint
-    runs-on: macOS-12.0
+    runs-on: macos-12
     steps:
       - uses: actions/checkout@v2
       - name: Run SwiftLint
