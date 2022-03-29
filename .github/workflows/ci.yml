@@ -6,11 +6,11 @@ on:
     - cron:  '* 23 * * *' # At the end of every day
   push:
     branches:
-      - master
+      - main
       - develop
   pull_request:
     branches:
-      - master
+      - main
       - develop
 
 jobs:
