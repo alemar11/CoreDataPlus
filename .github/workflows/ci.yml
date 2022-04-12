@@ -1,16 +1,20 @@
 name: "CoreDataPlus CI"
 
+concurrency: 
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   schedule:
     #- cron:  '0 * * * *' # every 1 hour
     - cron:  '* 23 * * *' # At the end of every day
   push:
     branches:
-      - master
+      - main
       - develop
   pull_request:
     branches:
-      - master
+      - main
       - develop
 
 jobs:
@@ -102,9 +106,9 @@ jobs:
           path: ~/Downloads/Report        
   spm:
     name: Test SPM Integration
-    runs-on: macOS-11.0
+    runs-on: macos-12
     env:
-      DEVELOPER_DIR: /Applications/Xcode_13.2.1.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_13.3.app/Contents/Developer
     steps:
       - uses: actions/checkout@v2
       - name: SPM Test
@@ -113,7 +117,7 @@ jobs:
           swift test
   lint:
     name: Swift Lint
-    runs-on: macOS-11.0
+    runs-on: macos-12
     steps:
       - uses: actions/checkout@v2
       - name: Run SwiftLint
