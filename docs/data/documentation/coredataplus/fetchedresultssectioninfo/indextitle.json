@@ -1,0 +1,211 @@
+{
+  "abstract" : [
+    {
+      "text" : "The string used as an index title of the section.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionInfo"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionInfo\/indexTitle"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:12CoreDataPlus25FetchedResultsSectionInfoV10indexTitleSSSgvp",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "let"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "indexTitle"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:SS",
+        "text" : "String"
+      },
+      {
+        "kind" : "text",
+        "text" : "?"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "CoreDataPlus"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Instance Property",
+    "symbolKind" : "property",
+    "title" : "indexTitle"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "let"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "indexTitle"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:SS",
+              "text" : "String"
+            },
+            {
+              "kind" : "text",
+              "text" : "?"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 2,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/coredataplus\/fetchedresultssectioninfo\/indextitle"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://CoreDataPlus/documentation/CoreDataPlus": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "CoreDataPlus",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsSectionInfo": {
+  "abstract" : [
+    {
+      "text" : "Section info used during the notification of a section being inserted or deleted.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "FetchedResultsSectionInfo"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionInfo",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "FetchedResultsSectionInfo"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "FetchedResultsSectionInfo",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/fetchedresultssectioninfo"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsSectionInfo/indexTitle": {
+  "abstract" : [
+    {
+      "text" : "The string used as an index title of the section.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "let"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "indexTitle"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionInfo\/indexTitle",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "indexTitle",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/fetchedresultssectioninfo\/indextitle"
+}
+}
+}

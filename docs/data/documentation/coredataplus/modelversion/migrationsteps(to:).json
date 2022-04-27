@@ -1,0 +1,364 @@
+{
+  "abstract" : [
+    {
+      "text" : "Returns a list of ",
+      "type" : "text"
+    },
+    {
+      "code" : "MigrationStep",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " needed to mirate to the next ",
+      "type" : "text"
+    },
+    {
+      "code" : "version",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " of the store.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/migrationSteps(to:)"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "extendedModule" : "CoreDataPlus",
+    "externalID" : "s:12CoreDataPlus12ModelVersionPAAE14migrationSteps2toSayAA13MigrationStepCyxGGx_tF",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "func"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "migrationSteps"
+      },
+      {
+        "kind" : "text",
+        "text" : "("
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "to"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "text" : "Self"
+      },
+      {
+        "kind" : "text",
+        "text" : ") -> ["
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:12CoreDataPlus13MigrationStepC",
+        "text" : "MigrationStep"
+      },
+      {
+        "kind" : "text",
+        "text" : "<"
+      },
+      {
+        "kind" : "typeIdentifier",
+        "text" : "Self"
+      },
+      {
+        "kind" : "text",
+        "text" : ">]"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "CoreDataPlus"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Instance Method",
+    "symbolKind" : "method",
+    "title" : "migrationSteps(to:)"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "func"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "migrationSteps"
+            },
+            {
+              "kind" : "text",
+              "text" : "("
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "to"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "internalParam",
+              "text" : "version"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "text" : "Self"
+            },
+            {
+              "kind" : "text",
+              "text" : ") -> ["
+            },
+            {
+              "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationStep",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:12CoreDataPlus13MigrationStepC",
+              "text" : "MigrationStep"
+            },
+            {
+              "kind" : "text",
+              "text" : "<"
+            },
+            {
+              "kind" : "typeIdentifier",
+              "text" : "Self"
+            },
+            {
+              "kind" : "text",
+              "text" : ">]"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 2,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/coredataplus\/modelversion\/migrationsteps(to:)"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://CoreDataPlus/documentation/CoreDataPlus": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "CoreDataPlus",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/MigrationStep": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "class"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "MigrationStep"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationStep",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "MigrationStep"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "MigrationStep",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/migrationstep"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion": {
+  "abstract" : [
+    {
+      "text" : "Types adopting the ",
+      "type" : "text"
+    },
+    {
+      "code" : "ModelVersion",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " protocol can be used to describe a Core Data Model and its versioning.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ModelVersion"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ModelVersion"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ModelVersion",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/modelversion"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion/migrationSteps(to:)": {
+  "abstract" : [
+    {
+      "text" : "Returns a list of ",
+      "type" : "text"
+    },
+    {
+      "code" : "MigrationStep",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " needed to mirate to the next ",
+      "type" : "text"
+    },
+    {
+      "code" : "version",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " of the store.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "migrationSteps"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "to"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "Self"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:12CoreDataPlus13MigrationStepC",
+      "text" : "MigrationStep"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "Self"
+    },
+    {
+      "kind" : "text",
+      "text" : ">]"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/migrationSteps(to:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "migrationSteps(to:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/modelversion\/migrationsteps(to:)"
+}
+}
+}

@@ -1,0 +1,394 @@
+{
+  "abstract" : [
+    {
+      "text" : "A section has been inserted.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionChange"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionChange\/insert(info:index:)"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:12CoreDataPlus27FetchedResultsSectionChangeO6insertyACyxGAA0deF4InfoVyxG_SitcAEmSo15NSManagedObjectCRbzlF",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "case"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "insert"
+      },
+      {
+        "kind" : "text",
+        "text" : "("
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "info"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:12CoreDataPlus25FetchedResultsSectionInfoV",
+        "text" : "FetchedResultsSectionInfo"
+      },
+      {
+        "kind" : "text",
+        "text" : "<"
+      },
+      {
+        "kind" : "typeIdentifier",
+        "text" : "T"
+      },
+      {
+        "kind" : "text",
+        "text" : ">, "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "index"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:Si",
+        "text" : "Int"
+      },
+      {
+        "kind" : "text",
+        "text" : ")"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "CoreDataPlus"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Case",
+    "symbolKind" : "case",
+    "title" : "FetchedResultsSectionChange.insert(info:index:)"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "case"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "insert"
+            },
+            {
+              "kind" : "text",
+              "text" : "("
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "info"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionInfo",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:12CoreDataPlus25FetchedResultsSectionInfoV",
+              "text" : "FetchedResultsSectionInfo"
+            },
+            {
+              "kind" : "text",
+              "text" : "<"
+            },
+            {
+              "kind" : "typeIdentifier",
+              "text" : "T"
+            },
+            {
+              "kind" : "text",
+              "text" : ">, "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "index"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:Si",
+              "text" : "Int"
+            },
+            {
+              "kind" : "text",
+              "text" : ")"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    },
+    {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The inserted section’s information",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "info"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The index where the section was inserted",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "index"
+        }
+      ]
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 2,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/coredataplus\/fetchedresultssectionchange\/insert(info:index:)"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://CoreDataPlus/documentation/CoreDataPlus": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "CoreDataPlus",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsSectionChange": {
+  "abstract" : [
+    {
+      "text" : "An ",
+      "type" : "text"
+    },
+    {
+      "code" : "enum",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " representing the two type of section changes a ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSFetchedResultsController",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " can notify.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "enum"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "FetchedResultsSectionChange"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionChange",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "FetchedResultsSectionChange"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "FetchedResultsSectionChange",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/fetchedresultssectionchange"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsSectionChange/insert(info:index:)": {
+  "abstract" : [
+    {
+      "text" : "A section has been inserted.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "insert"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "info"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:12CoreDataPlus25FetchedResultsSectionInfoV",
+      "text" : "FetchedResultsSectionInfo"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "index"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Si",
+      "text" : "Int"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionChange\/insert(info:index:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "FetchedResultsSectionChange.insert(info:index:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/fetchedresultssectionchange\/insert(info:index:)"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsSectionInfo": {
+  "abstract" : [
+    {
+      "text" : "Section info used during the notification of a section being inserted or deleted.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "FetchedResultsSectionInfo"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionInfo",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "FetchedResultsSectionInfo"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "FetchedResultsSectionInfo",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/fetchedresultssectioninfo"
+}
+}
+}

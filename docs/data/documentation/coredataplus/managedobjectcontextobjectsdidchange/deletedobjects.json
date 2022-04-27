@@ -1,0 +1,275 @@
+{
+  "abstract" : [
+    {
+      "text" : "Returns a ",
+      "type" : "text"
+    },
+    {
+      "code" : "Set",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "of objects that were marked for deletion during the previous event.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange\/deletedObjects"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:12CoreDataPlus36ManagedObjectContextObjectsDidChangeV07deletedG0ShySo09NSManagedE0CGvp",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "var"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "deletedObjects"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:Sh",
+        "text" : "Set"
+      },
+      {
+        "kind" : "text",
+        "text" : "<"
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "c:objc(cs)NSManagedObject",
+        "text" : "NSManagedObject"
+      },
+      {
+        "kind" : "text",
+        "text" : ">"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "CoreDataPlus"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Instance Property",
+    "symbolKind" : "property",
+    "title" : "deletedObjects"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "var"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "deletedObjects"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:Sh",
+              "text" : "Set"
+            },
+            {
+              "kind" : "text",
+              "text" : "<"
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "c:objc(cs)NSManagedObject",
+              "text" : "NSManagedObject"
+            },
+            {
+              "kind" : "text",
+              "text" : "> { "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "get"
+            },
+            {
+              "kind" : "text",
+              "text" : " }"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 2,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange\/deletedobjects"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://CoreDataPlus/documentation/CoreDataPlus": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "CoreDataPlus",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ManagedObjectContextObjectsDidChange": {
+  "abstract" : [
+    {
+      "text" : "Typed payload for a Core Data ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "objects did change",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : " notification.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ManagedObjectContextObjectsDidChange"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ManagedObjectContextObjectsDidChange"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ManagedObjectContextObjectsDidChange",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ManagedObjectContextObjectsDidChange/deletedObjects": {
+  "abstract" : [
+    {
+      "text" : "Returns a ",
+      "type" : "text"
+    },
+    {
+      "code" : "Set",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "of objects that were marked for deletion during the previous event.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "deletedObjects"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObject",
+      "text" : "NSManagedObject"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange\/deletedObjects",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "deletedObjects",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange\/deletedobjects"
+}
+}
+}

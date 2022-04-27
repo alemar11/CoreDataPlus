@@ -1,0 +1,212 @@
+{
+  "abstract" : [
+    {
+      "text" : "Underlying notification object.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextWillSaveObjects"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextWillSaveObjects\/notification"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:12CoreDataPlus35ManagedObjectContextWillSaveObjectsV12notification10Foundation12NotificationVvp",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "let"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "notification"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:10Foundation12NotificationV",
+        "text" : "Notification"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "CoreDataPlus"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Instance Property",
+    "symbolKind" : "property",
+    "title" : "notification"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "let"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "notification"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:10Foundation12NotificationV",
+              "text" : "Notification"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 2,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/coredataplus\/managedobjectcontextwillsaveobjects\/notification"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://CoreDataPlus/documentation/CoreDataPlus": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "CoreDataPlus",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ManagedObjectContextWillSaveObjects": {
+  "abstract" : [
+    {
+      "text" : "Typed payload for a Core Data ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "will save",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : " notification.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ManagedObjectContextWillSaveObjects"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextWillSaveObjects",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ManagedObjectContextWillSaveObjects"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ManagedObjectContextWillSaveObjects",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/managedobjectcontextwillsaveobjects"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ManagedObjectContextWillSaveObjects/notification": {
+  "abstract" : [
+    {
+      "text" : "Underlying notification object.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "let"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "notification"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation12NotificationV",
+      "text" : "Notification"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextWillSaveObjects\/notification",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "notification",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/managedobjectcontextwillsaveobjects\/notification"
+}
+}
+}

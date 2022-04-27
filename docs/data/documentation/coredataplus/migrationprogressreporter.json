@@ -1,0 +1,397 @@
+{
+  "abstract" : [
+    {
+      "text" : "Provides a ",
+      "type" : "text"
+    },
+    {
+      "code" : "Progress",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " instance during a ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSMigrationManager",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " migration phase.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationProgressReporter"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "c:@M@CoreDataPlus@objc(cs)MigrationProgressReporter",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "class"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "MigrationProgressReporter"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "CoreDataPlus"
+      }
+    ],
+    "navigatorTitle" : [
+      {
+        "kind" : "identifier",
+        "text" : "MigrationProgressReporter"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Class",
+    "symbolKind" : "class",
+    "title" : "MigrationProgressReporter"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "final"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "class"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "MigrationProgressReporter"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "relationshipsSections" : [
+    {
+      "identifiers" : [
+
+      ],
+      "kind" : "relationships",
+      "title" : "Inherits From",
+      "type" : "inheritsFrom"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/objc(pl)NSProgressReporting",
+        "doc:\/\/CoreDataPlus\/objc(pl)NSObject",
+        "doc:\/\/CoreDataPlus\/s7CVarArgP",
+        "doc:\/\/CoreDataPlus\/s28CustomDebugStringConvertibleP",
+        "doc:\/\/CoreDataPlus\/s23CustomStringConvertibleP",
+        "doc:\/\/CoreDataPlus\/SQ",
+        "doc:\/\/CoreDataPlus\/SH"
+      ],
+      "kind" : "relationships",
+      "title" : "Conforms To",
+      "type" : "conformsTo"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 2,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationProgressReporter\/init()",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationProgressReporter\/init(manager:)"
+      ],
+      "title" : "Initializers"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationProgressReporter\/progress"
+      ],
+      "title" : "Instance Properties"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationProgressReporter\/markAsFinishedIfNeeded()"
+      ],
+      "title" : "Instance Methods"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/coredataplus\/migrationprogressreporter"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://CoreDataPlus/SH": {
+  "identifier" : "doc:\/\/CoreDataPlus\/SH",
+  "title" : "Swift.Hashable",
+  "type" : "unresolvable"
+},
+"doc://CoreDataPlus/SQ": {
+  "identifier" : "doc:\/\/CoreDataPlus\/SQ",
+  "title" : "Swift.Equatable",
+  "type" : "unresolvable"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "CoreDataPlus",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/MigrationProgressReporter": {
+  "abstract" : [
+    {
+      "text" : "Provides a ",
+      "type" : "text"
+    },
+    {
+      "code" : "Progress",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " instance during a ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSMigrationManager",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " migration phase.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "class"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "MigrationProgressReporter"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationProgressReporter",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "MigrationProgressReporter"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "MigrationProgressReporter",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/migrationprogressreporter"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/MigrationProgressReporter/init()": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "()"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationProgressReporter\/init()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init()",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/migrationprogressreporter\/init()"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/MigrationProgressReporter/init(manager:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "manager"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSMigrationManager",
+      "text" : "NSMigrationManager"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationProgressReporter\/init(manager:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(manager:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/migrationprogressreporter\/init(manager:)"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/MigrationProgressReporter/markAsFinishedIfNeeded()": {
+  "abstract" : [
+    {
+      "text" : "Marks the progress as finished if it’s not already.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "markAsFinishedIfNeeded"
+    },
+    {
+      "kind" : "text",
+      "text" : "()"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationProgressReporter\/markAsFinishedIfNeeded()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "markAsFinishedIfNeeded()",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/migrationprogressreporter\/markasfinishedifneeded()"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/MigrationProgressReporter/progress": {
+  "abstract" : [
+    {
+      "text" : "Migration progress.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "progress"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSProgress",
+      "text" : "Progress"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationProgressReporter\/progress",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "progress",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/migrationprogressreporter\/progress"
+},
+"doc://CoreDataPlus/objc(pl)NSObject": {
+  "identifier" : "doc:\/\/CoreDataPlus\/objc(pl)NSObject",
+  "title" : "ObjectiveC.NSObjectProtocol",
+  "type" : "unresolvable"
+},
+"doc://CoreDataPlus/objc(pl)NSProgressReporting": {
+  "identifier" : "doc:\/\/CoreDataPlus\/objc(pl)NSProgressReporting",
+  "title" : "Foundation.ProgressReporting",
+  "type" : "unresolvable"
+},
+"doc://CoreDataPlus/s23CustomStringConvertibleP": {
+  "identifier" : "doc:\/\/CoreDataPlus\/s23CustomStringConvertibleP",
+  "title" : "Swift.CustomStringConvertible",
+  "type" : "unresolvable"
+},
+"doc://CoreDataPlus/s28CustomDebugStringConvertibleP": {
+  "identifier" : "doc:\/\/CoreDataPlus\/s28CustomDebugStringConvertibleP",
+  "title" : "Swift.CustomDebugStringConvertible",
+  "type" : "unresolvable"
+},
+"doc://CoreDataPlus/s7CVarArgP": {
+  "identifier" : "doc:\/\/CoreDataPlus\/s7CVarArgP",
+  "title" : "Swift.CVarArg",
+  "type" : "unresolvable"
+}
+}
+}

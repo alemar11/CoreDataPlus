@@ -1,0 +1,1382 @@
+{
+  "abstract" : [
+    {
+      "text" : "A ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSMigrationManager",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " proxy for lightweight migrations with a customizable faking ",
+      "type" : "text"
+    },
+    {
+      "code" : "migrationProgress",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "c:@M@CoreDataPlus@objc(cs)LightweightMigrationManager",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "class"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "LightweightMigrationManager"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "CoreDataPlus"
+      }
+    ],
+    "navigatorTitle" : [
+      {
+        "kind" : "identifier",
+        "text" : "LightweightMigrationManager"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Class",
+    "symbolKind" : "class",
+    "title" : "LightweightMigrationManager"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "final"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "class"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "LightweightMigrationManager"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "relationshipsSections" : [
+    {
+      "identifiers" : [
+
+      ],
+      "kind" : "relationships",
+      "title" : "Inherits From",
+      "type" : "inheritsFrom"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/objc(pl)NSObject",
+        "doc:\/\/CoreDataPlus\/s7CVarArgP",
+        "doc:\/\/CoreDataPlus\/s28CustomDebugStringConvertibleP",
+        "doc:\/\/CoreDataPlus\/s23CustomStringConvertibleP",
+        "doc:\/\/CoreDataPlus\/SQ",
+        "doc:\/\/CoreDataPlus\/SH"
+      ],
+      "kind" : "relationships",
+      "title" : "Conforms To",
+      "type" : "conformsTo"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 2,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/init()",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/init(sourceModel:destinationModel:)"
+      ],
+      "title" : "Initializers"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/currentEntityMapping",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/destinationContext",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/destinationModel",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/estimatedTime",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/mappingModel",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/migrationProgress",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/sourceContext",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/sourceModel",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/updateProgressInterval",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/userInfo",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/usesStoreSpecificMigrationManager"
+      ],
+      "title" : "Instance Properties"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/associate(sourceInstance:withDestinationInstance:for:)",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/cancelMigrationWithError(_:)",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/destinationEntity(for:)",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/destinationInstances(forEntityMappingName:sourceInstances:)",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/migrateStore(from:sourceType:options:with:toDestinationURL:destinationType:destinationOptions:)",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/reset()",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/sourceEntity(for:)",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/sourceInstances(forEntityMappingName:destinationInstances:)"
+      ],
+      "title" : "Instance Methods"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/automaticallyNotifiesObservers(forKey:)"
+      ],
+      "title" : "Type Methods"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/coredataplus\/lightweightmigrationmanager"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://CoreDataPlus/SH": {
+  "identifier" : "doc:\/\/CoreDataPlus\/SH",
+  "title" : "Swift.Hashable",
+  "type" : "unresolvable"
+},
+"doc://CoreDataPlus/SQ": {
+  "identifier" : "doc:\/\/CoreDataPlus\/SQ",
+  "title" : "Swift.Equatable",
+  "type" : "unresolvable"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "CoreDataPlus",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager": {
+  "abstract" : [
+    {
+      "text" : "A ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSMigrationManager",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " proxy for lightweight migrations with a customizable faking ",
+      "type" : "text"
+    },
+    {
+      "code" : "migrationProgress",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "class"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "LightweightMigrationManager"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "LightweightMigrationManager"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "LightweightMigrationManager",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/associate(sourceInstance:withDestinationInstance:for:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "associate"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "sourceInstance"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObject",
+      "text" : "NSManagedObject"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "withDestinationInstance"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObject",
+      "text" : "NSManagedObject"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSEntityMapping",
+      "text" : "NSEntityMapping"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/associate(sourceInstance:withDestinationInstance:for:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "associate(sourceInstance:withDestinationInstance:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/associate(sourceinstance:withdestinationinstance:for:)"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/automaticallyNotifiesObservers(forKey:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "class"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "automaticallyNotifiesObservers"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "forKey"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/automaticallyNotifiesObservers(forKey:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "automaticallyNotifiesObservers(forKey:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/automaticallynotifiesobservers(forkey:)"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/cancelMigrationWithError(_:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "cancelMigrationWithError"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s5ErrorP",
+      "text" : "Error"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/cancelMigrationWithError(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "cancelMigrationWithError(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/cancelmigrationwitherror(_:)"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/currentEntityMapping": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "currentEntityMapping"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSEntityMapping",
+      "text" : "NSEntityMapping"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/currentEntityMapping",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "currentEntityMapping",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/currententitymapping"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/destinationContext": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "destinationContext"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObjectContext",
+      "text" : "NSManagedObjectContext"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/destinationContext",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "destinationContext",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/destinationcontext"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/destinationEntity(for:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "destinationEntity"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSEntityMapping",
+      "text" : "NSEntityMapping"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSEntityDescription",
+      "text" : "NSEntityDescription"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/destinationEntity(for:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "destinationEntity(for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/destinationentity(for:)"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/destinationInstances(forEntityMappingName:sourceInstances:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "destinationInstances"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "forEntityMappingName"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "sourceInstances"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObject",
+      "text" : "NSManagedObject"
+    },
+    {
+      "kind" : "text",
+      "text" : "]?) -> ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObject",
+      "text" : "NSManagedObject"
+    },
+    {
+      "kind" : "text",
+      "text" : "]"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/destinationInstances(forEntityMappingName:sourceInstances:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "destinationInstances(forEntityMappingName:sourceInstances:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/destinationinstances(forentitymappingname:sourceinstances:)"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/destinationModel": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "destinationModel"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObjectModel",
+      "text" : "NSManagedObjectModel"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/destinationModel",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "destinationModel",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/destinationmodel"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/estimatedTime": {
+  "abstract" : [
+    {
+      "text" : "An estimated interval (with a 10% tolerance) to carry out the migration (default: 60 seconds).",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "estimatedTime"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:@T@NSTimeInterval",
+      "text" : "TimeInterval"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/estimatedTime",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "estimatedTime",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/estimatedtime"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/init()": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "()"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/init()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init()",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/init()"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/init(sourceModel:destinationModel:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "sourceModel"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObjectModel",
+      "text" : "NSManagedObjectModel"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "destinationModel"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObjectModel",
+      "text" : "NSManagedObjectModel"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/init(sourceModel:destinationModel:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(sourceModel:destinationModel:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/init(sourcemodel:destinationmodel:)"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/mappingModel": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "mappingModel"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSMappingModel",
+      "text" : "NSMappingModel"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/mappingModel",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "mappingModel",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/mappingmodel"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/migrateStore(from:sourceType:options:with:toDestinationURL:destinationType:destinationOptions:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "migrateStore"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "from"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation3URLV",
+      "text" : "URL"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "sourceType"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "options"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s11AnyHashableV",
+      "text" : "AnyHashable"
+    },
+    {
+      "kind" : "text",
+      "text" : " : "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "Any"
+    },
+    {
+      "kind" : "text",
+      "text" : "]?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "with"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSMappingModel",
+      "text" : "NSMappingModel"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "toDestinationURL"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation3URLV",
+      "text" : "URL"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "destinationType"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "destinationOptions"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s11AnyHashableV",
+      "text" : "AnyHashable"
+    },
+    {
+      "kind" : "text",
+      "text" : " : "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "Any"
+    },
+    {
+      "kind" : "text",
+      "text" : "]?) "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/migrateStore(from:sourceType:options:with:toDestinationURL:destinationType:destinationOptions:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "migrateStore(from:sourceType:options:with:toDestinationURL:destinationType:destinationOptions:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/migratestore(from:sourcetype:options:with:todestinationurl:destinationtype:destinationoptions:)"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/migrationProgress": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "migrationProgress"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sf",
+      "text" : "Float"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/migrationProgress",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "migrationProgress",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/migrationprogress"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/reset()": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "reset"
+    },
+    {
+      "kind" : "text",
+      "text" : "()"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/reset()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "reset()",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/reset()"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/sourceContext": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "sourceContext"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObjectContext",
+      "text" : "NSManagedObjectContext"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/sourceContext",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "sourceContext",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/sourcecontext"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/sourceEntity(for:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "sourceEntity"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSEntityMapping",
+      "text" : "NSEntityMapping"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSEntityDescription",
+      "text" : "NSEntityDescription"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/sourceEntity(for:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "sourceEntity(for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/sourceentity(for:)"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/sourceInstances(forEntityMappingName:destinationInstances:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "sourceInstances"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "forEntityMappingName"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "destinationInstances"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObject",
+      "text" : "NSManagedObject"
+    },
+    {
+      "kind" : "text",
+      "text" : "]?) -> ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObject",
+      "text" : "NSManagedObject"
+    },
+    {
+      "kind" : "text",
+      "text" : "]"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/sourceInstances(forEntityMappingName:destinationInstances:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "sourceInstances(forEntityMappingName:destinationInstances:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/sourceinstances(forentitymappingname:destinationinstances:)"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/sourceModel": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "sourceModel"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObjectModel",
+      "text" : "NSManagedObjectModel"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/sourceModel",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "sourceModel",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/sourcemodel"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/updateProgressInterval": {
+  "abstract" : [
+    {
+      "text" : "How often the progress is updated (default: 1 second).",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "updateProgressInterval"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:@T@NSTimeInterval",
+      "text" : "TimeInterval"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/updateProgressInterval",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "updateProgressInterval",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/updateprogressinterval"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/userInfo": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "userInfo"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s11AnyHashableV",
+      "text" : "AnyHashable"
+    },
+    {
+      "kind" : "text",
+      "text" : " : "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "Any"
+    },
+    {
+      "kind" : "text",
+      "text" : "]?"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/userInfo",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "userInfo",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/userinfo"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/usesStoreSpecificMigrationManager": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "usesStoreSpecificMigrationManager"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/usesStoreSpecificMigrationManager",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "usesStoreSpecificMigrationManager",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/usesstorespecificmigrationmanager"
+},
+"doc://CoreDataPlus/objc(pl)NSObject": {
+  "identifier" : "doc:\/\/CoreDataPlus\/objc(pl)NSObject",
+  "title" : "ObjectiveC.NSObjectProtocol",
+  "type" : "unresolvable"
+},
+"doc://CoreDataPlus/s23CustomStringConvertibleP": {
+  "identifier" : "doc:\/\/CoreDataPlus\/s23CustomStringConvertibleP",
+  "title" : "Swift.CustomStringConvertible",
+  "type" : "unresolvable"
+},
+"doc://CoreDataPlus/s28CustomDebugStringConvertibleP": {
+  "identifier" : "doc:\/\/CoreDataPlus\/s28CustomDebugStringConvertibleP",
+  "title" : "Swift.CustomDebugStringConvertible",
+  "type" : "unresolvable"
+},
+"doc://CoreDataPlus/s7CVarArgP": {
+  "identifier" : "doc:\/\/CoreDataPlus\/s7CVarArgP",
+  "title" : "Swift.CVarArg",
+  "type" : "unresolvable"
+}
+}
+}

@@ -1,0 +1,292 @@
+{
+  "abstract" : [
+    {
+      "text" : "Store whose UUID changed.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresDidChange"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresDidChange\/uuidChangedStore-swift.property"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:12CoreDataPlus41PersistentStoreCoordinatorStoresDidChangeV011uuidChangedE0AC011UUIDChangedE0VSgvp",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "var"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "uuidChangedStore"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:12CoreDataPlus41PersistentStoreCoordinatorStoresDidChangeV",
+        "text" : "PersistentStoreCoordinatorStoresDidChange"
+      },
+      {
+        "kind" : "text",
+        "text" : "."
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:12CoreDataPlus41PersistentStoreCoordinatorStoresDidChangeV011UUIDChangedE0V",
+        "text" : "UUIDChangedStore"
+      },
+      {
+        "kind" : "text",
+        "text" : "?"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "CoreDataPlus"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Instance Property",
+    "symbolKind" : "property",
+    "title" : "uuidChangedStore"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "var"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "uuidChangedStore"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresDidChange",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:12CoreDataPlus41PersistentStoreCoordinatorStoresDidChangeV",
+              "text" : "PersistentStoreCoordinatorStoresDidChange"
+            },
+            {
+              "kind" : "text",
+              "text" : "."
+            },
+            {
+              "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresDidChange\/UUIDChangedStore-swift.struct",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:12CoreDataPlus41PersistentStoreCoordinatorStoresDidChangeV011UUIDChangedE0V",
+              "text" : "UUIDChangedStore"
+            },
+            {
+              "kind" : "text",
+              "text" : "? { "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "get"
+            },
+            {
+              "kind" : "text",
+              "text" : " }"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 2,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/coredataplus\/persistentstorecoordinatorstoresdidchange\/uuidchangedstore-swift.property"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://CoreDataPlus/documentation/CoreDataPlus": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "CoreDataPlus",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/PersistentStoreCoordinatorStoresDidChange": {
+  "abstract" : [
+    {
+      "text" : "Typed payload for a Core Data ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "persistent store coordinator did change",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : " notification.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "PersistentStoreCoordinatorStoresDidChange"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresDidChange",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "PersistentStoreCoordinatorStoresDidChange"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "PersistentStoreCoordinatorStoresDidChange",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoresdidchange"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/PersistentStoreCoordinatorStoresDidChange/UUIDChangedStore-swift.struct": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "UUIDChangedStore"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresDidChange\/UUIDChangedStore-swift.struct",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "UUIDChangedStore"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "PersistentStoreCoordinatorStoresDidChange.UUIDChangedStore",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoresdidchange\/uuidchangedstore-swift.struct"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/PersistentStoreCoordinatorStoresDidChange/uuidChangedStore-swift.property": {
+  "abstract" : [
+    {
+      "text" : "Store whose UUID changed.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "uuidChangedStore"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:12CoreDataPlus41PersistentStoreCoordinatorStoresDidChangeV",
+      "text" : "PersistentStoreCoordinatorStoresDidChange"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:12CoreDataPlus41PersistentStoreCoordinatorStoresDidChangeV011UUIDChangedE0V",
+      "text" : "UUIDChangedStore"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresDidChange\/uuidChangedStore-swift.property",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "uuidChangedStore",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoresdidchange\/uuidchangedstore-swift.property"
+}
+}
+}

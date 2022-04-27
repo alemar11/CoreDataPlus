@@ -1,0 +1,720 @@
+{
+  "abstract" : [
+    {
+      "text" : "Typed payload for a Core Data ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "objects did change",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : " notification.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:12CoreDataPlus36ManagedObjectContextObjectsDidChangeV",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "struct"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "ManagedObjectContextObjectsDidChange"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "CoreDataPlus"
+      }
+    ],
+    "navigatorTitle" : [
+      {
+        "kind" : "identifier",
+        "text" : "ManagedObjectContextObjectsDidChange"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Structure",
+    "symbolKind" : "struct",
+    "title" : "ManagedObjectContextObjectsDidChange"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "struct"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "ManagedObjectContextObjectsDidChange"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 2,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange\/init(notification:)"
+      ],
+      "title" : "Initializers"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange\/deletedObjects",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange\/insertedObjects",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange\/invalidatedAllObjects",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange\/invalidatedObjects",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange\/managedObjectContext",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange\/notification",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange\/refreshedObjects",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange\/updatedObjects"
+      ],
+      "title" : "Instance Properties"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange\/notificationName"
+      ],
+      "title" : "Type Properties"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://CoreDataPlus/documentation/CoreDataPlus": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "CoreDataPlus",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ManagedObjectContextObjectsDidChange": {
+  "abstract" : [
+    {
+      "text" : "Typed payload for a Core Data ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "objects did change",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : " notification.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ManagedObjectContextObjectsDidChange"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ManagedObjectContextObjectsDidChange"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ManagedObjectContextObjectsDidChange",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ManagedObjectContextObjectsDidChange/deletedObjects": {
+  "abstract" : [
+    {
+      "text" : "Returns a ",
+      "type" : "text"
+    },
+    {
+      "code" : "Set",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : "of objects that were marked for deletion during the previous event.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "deletedObjects"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObject",
+      "text" : "NSManagedObject"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange\/deletedObjects",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "deletedObjects",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange\/deletedobjects"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ManagedObjectContextObjectsDidChange/init(notification:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "notification"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation12NotificationV",
+      "text" : "Notification"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange\/init(notification:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(notification:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange\/init(notification:)"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ManagedObjectContextObjectsDidChange/insertedObjects": {
+  "abstract" : [
+    {
+      "text" : "Returns a ",
+      "type" : "text"
+    },
+    {
+      "code" : "Set",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " of objects that were inserted into the context.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "insertedObjects"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObject",
+      "text" : "NSManagedObject"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange\/insertedObjects",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "insertedObjects",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange\/insertedobjects"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ManagedObjectContextObjectsDidChange/invalidatedAllObjects": {
+  "abstract" : [
+    {
+      "text" : "When all the object in the context have been invalidated, returns a ",
+      "type" : "text"
+    },
+    {
+      "code" : "Set",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " containing all the invalidated objects’ NSManagedObjectID.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "invalidatedAllObjects"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObjectID",
+      "text" : "NSManagedObjectID"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange\/invalidatedAllObjects",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "invalidatedAllObjects",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange\/invalidatedallobjects"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ManagedObjectContextObjectsDidChange/invalidatedObjects": {
+  "abstract" : [
+    {
+      "text" : "A ",
+      "type" : "text"
+    },
+    {
+      "code" : "Set",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " of objects that were invalidated.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "invalidatedObjects"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObject",
+      "text" : "NSManagedObject"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange\/invalidatedObjects",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "invalidatedObjects",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange\/invalidatedobjects"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ManagedObjectContextObjectsDidChange/managedObjectContext": {
+  "abstract" : [
+    {
+      "code" : "NSManagedObjectContext",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " associated with the notification.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "managedObjectContext"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObjectContext",
+      "text" : "NSManagedObjectContext"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange\/managedObjectContext",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "managedObjectContext",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange\/managedobjectcontext"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ManagedObjectContextObjectsDidChange/notification": {
+  "abstract" : [
+    {
+      "text" : "Underlying notification object.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "let"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "notification"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation12NotificationV",
+      "text" : "Notification"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange\/notification",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "notification",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange\/notification"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ManagedObjectContextObjectsDidChange/notificationName": {
+  "abstract" : [
+    {
+      "text" : "Notification name.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "let"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "notificationName"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation12NotificationV",
+      "text" : "Notification"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation12NotificationV4Namea",
+      "text" : "Name"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange\/notificationName",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "notificationName",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange\/notificationname"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ManagedObjectContextObjectsDidChange/refreshedObjects": {
+  "abstract" : [
+    {
+      "text" : "A ",
+      "type" : "text"
+    },
+    {
+      "code" : "Set",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " of objects that were refreshed but were not dirtied in the scope of this context.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "refreshedObjects"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObject",
+      "text" : "NSManagedObject"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange\/refreshedObjects",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "refreshedObjects",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange\/refreshedobjects"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ManagedObjectContextObjectsDidChange/updatedObjects": {
+  "abstract" : [
+    {
+      "text" : "Returns a ",
+      "type" : "text"
+    },
+    {
+      "code" : "Set",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " of objects that were updated.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "updatedObjects"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObject",
+      "text" : "NSManagedObject"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange\/updatedObjects",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "updatedObjects",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange\/updatedobjects"
+}
+}
+}

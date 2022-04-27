@@ -1,0 +1,639 @@
+{
+  "abstract" : [
+    {
+      "text" : "An ",
+      "type" : "text"
+    },
+    {
+      "code" : "enum",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " representing the four types of object changes a ",
+      "type" : "text"
+    },
+    {
+      "code" : "FetchedResultsController",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " can notify.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsObjectChange"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:12CoreDataPlus26FetchedResultsObjectChangeO",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "enum"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "FetchedResultsObjectChange"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "CoreDataPlus"
+      }
+    ],
+    "navigatorTitle" : [
+      {
+        "kind" : "identifier",
+        "text" : "FetchedResultsObjectChange"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Enumeration",
+    "symbolKind" : "enum",
+    "title" : "FetchedResultsObjectChange"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "enum"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "FetchedResultsObjectChange"
+            },
+            {
+              "kind" : "text",
+              "text" : "<"
+            },
+            {
+              "kind" : "genericParameter",
+              "text" : "T"
+            },
+            {
+              "kind" : "text",
+              "text" : "> "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "where"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "text" : "T"
+            },
+            {
+              "kind" : "text",
+              "text" : " : "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "c:objc(cs)NSManagedObject",
+              "text" : "NSManagedObject"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 2,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsObjectChange\/delete(object:indexPath:)",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsObjectChange\/insert(object:indexPath:)",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsObjectChange\/move(object:fromIndexPath:toIndexPath:)",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsObjectChange\/update(object:indexPath:)"
+      ],
+      "title" : "Enumeration Cases"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsObjectChange\/init(object:indexPath:changeType:newIndexPath:)"
+      ],
+      "title" : "Initializers"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/coredataplus\/fetchedresultsobjectchange"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://CoreDataPlus/documentation/CoreDataPlus": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "CoreDataPlus",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsObjectChange": {
+  "abstract" : [
+    {
+      "text" : "An ",
+      "type" : "text"
+    },
+    {
+      "code" : "enum",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " representing the four types of object changes a ",
+      "type" : "text"
+    },
+    {
+      "code" : "FetchedResultsController",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " can notify.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "enum"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "FetchedResultsObjectChange"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsObjectChange",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "FetchedResultsObjectChange"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "FetchedResultsObjectChange",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/fetchedresultsobjectchange"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsObjectChange/delete(object:indexPath:)": {
+  "abstract" : [
+    {
+      "text" : "An object has been deleted.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "delete"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "object"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "indexPath"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation9IndexPathV",
+      "text" : "IndexPath"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsObjectChange\/delete(object:indexPath:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "FetchedResultsObjectChange.delete(object:indexPath:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/fetchedresultsobjectchange\/delete(object:indexpath:)"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsObjectChange/init(object:indexPath:changeType:newIndexPath:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a new ",
+      "type" : "text"
+    },
+    {
+      "code" : "FetchedResultsObjectChange",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " element.",
+      "type" : "text"
+    }
+  ],
+  "conformance" : {
+    "availabilityPrefix" : [
+      {
+        "text" : "Available when",
+        "type" : "text"
+      }
+    ],
+    "conformancePrefix" : [
+      {
+        "text" : "Conforms when",
+        "type" : "text"
+      }
+    ],
+    "constraints" : [
+      {
+        "code" : "T",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : " inherits ",
+        "type" : "text"
+      },
+      {
+        "code" : "NSManagedObject",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : ".",
+        "type" : "text"
+      }
+    ]
+  },
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "?("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "object"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "Any"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "indexPath"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation9IndexPathV",
+      "text" : "IndexPath"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "changeType"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:@E@NSFetchedResultsChangeType",
+      "text" : "NSFetchedResultsChangeType"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "newIndexPath"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation9IndexPathV",
+      "text" : "IndexPath"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsObjectChange\/init(object:indexPath:changeType:newIndexPath:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(object:indexPath:changeType:newIndexPath:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/fetchedresultsobjectchange\/init(object:indexpath:changetype:newindexpath:)"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsObjectChange/insert(object:indexPath:)": {
+  "abstract" : [
+    {
+      "text" : "An object has been inserted.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "insert"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "object"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "indexPath"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation9IndexPathV",
+      "text" : "IndexPath"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsObjectChange\/insert(object:indexPath:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "FetchedResultsObjectChange.insert(object:indexPath:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/fetchedresultsobjectchange\/insert(object:indexpath:)"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsObjectChange/move(object:fromIndexPath:toIndexPath:)": {
+  "abstract" : [
+    {
+      "text" : "An object has been moved.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "move"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "object"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "fromIndexPath"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation9IndexPathV",
+      "text" : "IndexPath"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "toIndexPath"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation9IndexPathV",
+      "text" : "IndexPath"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsObjectChange\/move(object:fromIndexPath:toIndexPath:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "FetchedResultsObjectChange.move(object:fromIndexPath:toIndexPath:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/fetchedresultsobjectchange\/move(object:fromindexpath:toindexpath:)"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsObjectChange/update(object:indexPath:)": {
+  "abstract" : [
+    {
+      "text" : "An object has been updated.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "update"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "object"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "indexPath"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation9IndexPathV",
+      "text" : "IndexPath"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsObjectChange\/update(object:indexPath:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "FetchedResultsObjectChange.update(object:indexPath:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/fetchedresultsobjectchange\/update(object:indexpath:)"
+}
+}
+}

@@ -1,0 +1,1099 @@
+{
+  "abstract" : [
+    {
+      "text" : "",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "CoreDataPlus",
+    "modules" : [
+      {
+        "name" : "CoreDataPlus"
+      }
+    ],
+    "role" : "collection",
+    "roleHeading" : "Framework",
+    "symbolKind" : "module",
+    "title" : "CoreDataPlus"
+  },
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 2,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CustomTransformer",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationProgressReporter",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationStep",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer"
+      ],
+      "title" : "Classes"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion"
+      ],
+      "title" : "Protocols"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionInfo",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextDidMergeChangesObjectIDs",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextDidSaveObjectIDs",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextDidSaveObjects",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextWillSaveObjects",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresDidChange",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresWillChange",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorWillRemoveStore",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreRemoteChange"
+      ],
+      "title" : "Structures"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/isMigrationNecessary(for:to:)"
+      ],
+      "title" : "Functions"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreOptions"
+      ],
+      "title" : "Type Aliases"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsObjectChange",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionChange"
+      ],
+      "title" : "Enumerations"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/coredataplus"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://CoreDataPlus/documentation/CoreDataPlus": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "CoreDataPlus",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/CustomTransformer": {
+  "abstract" : [
+    {
+      "text" : "A generic ",
+      "type" : "text"
+    },
+    {
+      "code" : "ValueTransformer",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " subclass to implement CoreData ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "Transformable",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : " attributes.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "class"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "CustomTransformer"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CustomTransformer",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "CustomTransformer"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "CustomTransformer",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/customtransformer"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsObjectChange": {
+  "abstract" : [
+    {
+      "text" : "An ",
+      "type" : "text"
+    },
+    {
+      "code" : "enum",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " representing the four types of object changes a ",
+      "type" : "text"
+    },
+    {
+      "code" : "FetchedResultsController",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " can notify.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "enum"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "FetchedResultsObjectChange"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsObjectChange",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "FetchedResultsObjectChange"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "FetchedResultsObjectChange",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/fetchedresultsobjectchange"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsSectionChange": {
+  "abstract" : [
+    {
+      "text" : "An ",
+      "type" : "text"
+    },
+    {
+      "code" : "enum",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " representing the two type of section changes a ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSFetchedResultsController",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " can notify.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "enum"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "FetchedResultsSectionChange"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionChange",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "FetchedResultsSectionChange"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "FetchedResultsSectionChange",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/fetchedresultssectionchange"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsSectionInfo": {
+  "abstract" : [
+    {
+      "text" : "Section info used during the notification of a section being inserted or deleted.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "FetchedResultsSectionInfo"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionInfo",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "FetchedResultsSectionInfo"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "FetchedResultsSectionInfo",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/fetchedresultssectioninfo"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager": {
+  "abstract" : [
+    {
+      "text" : "A ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSMigrationManager",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " proxy for lightweight migrations with a customizable faking ",
+      "type" : "text"
+    },
+    {
+      "code" : "migrationProgress",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "class"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "LightweightMigrationManager"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "LightweightMigrationManager"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "LightweightMigrationManager",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ManagedObjectContextDidMergeChangesObjectIDs": {
+  "abstract" : [
+    {
+      "text" : "Typed payload for a Core Data ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "did merge changes IDs",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : " notification.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ManagedObjectContextDidMergeChangesObjectIDs"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextDidMergeChangesObjectIDs",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ManagedObjectContextDidMergeChangesObjectIDs"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ManagedObjectContextDidMergeChangesObjectIDs",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/managedobjectcontextdidmergechangesobjectids"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ManagedObjectContextDidSaveObjectIDs": {
+  "abstract" : [
+    {
+      "text" : "Typed payload for a Core Data ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "object IDs did save",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : " notification.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ManagedObjectContextDidSaveObjectIDs"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextDidSaveObjectIDs",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ManagedObjectContextDidSaveObjectIDs"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ManagedObjectContextDidSaveObjectIDs",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/managedobjectcontextdidsaveobjectids"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ManagedObjectContextDidSaveObjects": {
+  "abstract" : [
+    {
+      "text" : "Typed payload for a Core Data ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "did save",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : " notification.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ManagedObjectContextDidSaveObjects"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextDidSaveObjects",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ManagedObjectContextDidSaveObjects"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ManagedObjectContextDidSaveObjects",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/managedobjectcontextdidsaveobjects"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ManagedObjectContextObjectsDidChange": {
+  "abstract" : [
+    {
+      "text" : "Typed payload for a Core Data ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "objects did change",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : " notification.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ManagedObjectContextObjectsDidChange"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextObjectsDidChange",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ManagedObjectContextObjectsDidChange"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ManagedObjectContextObjectsDidChange",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ManagedObjectContextWillSaveObjects": {
+  "abstract" : [
+    {
+      "text" : "Typed payload for a Core Data ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "will save",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : " notification.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ManagedObjectContextWillSaveObjects"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextWillSaveObjects",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ManagedObjectContextWillSaveObjects"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ManagedObjectContextWillSaveObjects",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/managedobjectcontextwillsaveobjects"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/MigrationProgressReporter": {
+  "abstract" : [
+    {
+      "text" : "Provides a ",
+      "type" : "text"
+    },
+    {
+      "code" : "Progress",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " instance during a ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSMigrationManager",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " migration phase.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "class"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "MigrationProgressReporter"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationProgressReporter",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "MigrationProgressReporter"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "MigrationProgressReporter",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/migrationprogressreporter"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/MigrationStep": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "class"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "MigrationStep"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationStep",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "MigrationStep"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "MigrationStep",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/migrationstep"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion": {
+  "abstract" : [
+    {
+      "text" : "Types adopting the ",
+      "type" : "text"
+    },
+    {
+      "code" : "ModelVersion",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " protocol can be used to describe a Core Data Model and its versioning.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ModelVersion"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ModelVersion"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ModelVersion",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/modelversion"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/PersistentStoreCoordinatorStoresDidChange": {
+  "abstract" : [
+    {
+      "text" : "Typed payload for a Core Data ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "persistent store coordinator did change",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : " notification.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "PersistentStoreCoordinatorStoresDidChange"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresDidChange",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "PersistentStoreCoordinatorStoresDidChange"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "PersistentStoreCoordinatorStoresDidChange",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoresdidchange"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/PersistentStoreCoordinatorStoresWillChange": {
+  "abstract" : [
+    {
+      "text" : "Typed payload for a Core Data ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "persistent store coordinator will change",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : " notification.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "PersistentStoreCoordinatorStoresWillChange"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresWillChange",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "PersistentStoreCoordinatorStoresWillChange"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "PersistentStoreCoordinatorStoresWillChange",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoreswillchange"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/PersistentStoreCoordinatorWillRemoveStore": {
+  "abstract" : [
+    {
+      "text" : "Typed payload for a Core Data ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "persistent store coordinator will remove",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : " notification.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "PersistentStoreCoordinatorWillRemoveStore"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorWillRemoveStore",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "PersistentStoreCoordinatorWillRemoveStore"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "PersistentStoreCoordinatorWillRemoveStore",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/persistentstorecoordinatorwillremovestore"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/PersistentStoreOptions": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "PersistentStoreOptions"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreOptions",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "PersistentStoreOptions"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "PersistentStoreOptions",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/persistentstoreoptions"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/PersistentStoreRemoteChange": {
+  "abstract" : [
+    {
+      "text" : "Typed payload for a Core Data ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "persistent store remote change",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : " notification.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "PersistentStoreRemoteChange"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreRemoteChange",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "PersistentStoreRemoteChange"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "PersistentStoreRemoteChange",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/persistentstoreremotechange"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/Transformer": {
+  "abstract" : [
+    {
+      "text" : "A generic ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSSecureUnarchiveFromDataTransformer",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " subclass to implement CoreData ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "Transformable",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : " attributes.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "class"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Transformer"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Transformer"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Transformer",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/transformer"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/isMigrationNecessary(for:to:)": {
+  "abstract" : [
+    {
+      "text" : "Returns ",
+      "type" : "text"
+    },
+    {
+      "code" : "true",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " if a migration to a given ",
+      "type" : "text"
+    },
+    {
+      "code" : "ModelVersion",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " is necessary for the persistent store at a given ",
+      "type" : "text"
+    },
+    {
+      "code" : "URL",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "isMigrationNecessary"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "Version"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation3URLV",
+      "text" : "URL"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "to"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "Version"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/isMigrationNecessary(for:to:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "isMigrationNecessary(for:to:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/ismigrationnecessary(for:to:)"
+}
+}
+}

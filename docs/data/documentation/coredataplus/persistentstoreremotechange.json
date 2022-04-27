@@ -1,0 +1,466 @@
+{
+  "abstract" : [
+    {
+      "text" : "Typed payload for a Core Data ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "persistent store remote change",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : " notification.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreRemoteChange"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:12CoreDataPlus27PersistentStoreRemoteChangeV",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "struct"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "PersistentStoreRemoteChange"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "CoreDataPlus"
+      }
+    ],
+    "navigatorTitle" : [
+      {
+        "kind" : "identifier",
+        "text" : "PersistentStoreRemoteChange"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Structure",
+    "symbolKind" : "struct",
+    "title" : "PersistentStoreRemoteChange"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "struct"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "PersistentStoreRemoteChange"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 2,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreRemoteChange\/init(notification:)"
+      ],
+      "title" : "Initializers"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreRemoteChange\/historyToken",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreRemoteChange\/notification",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreRemoteChange\/storeURL",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreRemoteChange\/storeUUID"
+      ],
+      "title" : "Instance Properties"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreRemoteChange\/notificationName"
+      ],
+      "title" : "Type Properties"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/coredataplus\/persistentstoreremotechange"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://CoreDataPlus/documentation/CoreDataPlus": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "CoreDataPlus",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/PersistentStoreRemoteChange": {
+  "abstract" : [
+    {
+      "text" : "Typed payload for a Core Data ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "persistent store remote change",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : " notification.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "PersistentStoreRemoteChange"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreRemoteChange",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "PersistentStoreRemoteChange"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "PersistentStoreRemoteChange",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/persistentstoreremotechange"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/PersistentStoreRemoteChange/historyToken": {
+  "abstract" : [
+    {
+      "text" : "The ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSPersistentHistoryToken",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " associated to the change operation.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "-Note: It’s optional because ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSPersistentHistoryTrackingKey",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " should be enabled.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "historyToken"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSPersistentHistoryToken",
+      "text" : "NSPersistentHistoryToken"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreRemoteChange\/historyToken",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "historyToken",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/persistentstoreremotechange\/historytoken"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/PersistentStoreRemoteChange/init(notification:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "notification"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation12NotificationV",
+      "text" : "Notification"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreRemoteChange\/init(notification:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(notification:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/persistentstoreremotechange\/init(notification:)"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/PersistentStoreRemoteChange/notification": {
+  "abstract" : [
+    {
+      "text" : "Underlying notification object.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "let"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "notification"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation12NotificationV",
+      "text" : "Notification"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreRemoteChange\/notification",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "notification",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/persistentstoreremotechange\/notification"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/PersistentStoreRemoteChange/notificationName": {
+  "abstract" : [
+    {
+      "text" : "Notification name.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "let"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "notificationName"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation12NotificationV",
+      "text" : "Notification"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation12NotificationV4Namea",
+      "text" : "Name"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreRemoteChange\/notificationName",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "notificationName",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/persistentstoreremotechange\/notificationname"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/PersistentStoreRemoteChange/storeURL": {
+  "abstract" : [
+    {
+      "text" : "The changed store URL.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "storeURL"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation3URLV",
+      "text" : "URL"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreRemoteChange\/storeURL",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "storeURL",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/persistentstoreremotechange\/storeurl"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/PersistentStoreRemoteChange/storeUUID": {
+  "abstract" : [
+    {
+      "text" : "The store UUID.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "storeUUID"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation4UUIDV",
+      "text" : "UUID"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreRemoteChange\/storeUUID",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "storeUUID",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/persistentstoreremotechange\/storeuuid"
+}
+}
+}

@@ -1,0 +1,235 @@
+{
+  "abstract" : [
+    {
+      "text" : "Create a new element of ",
+      "type" : "text"
+    },
+    {
+      "code" : "FetchedResultsSectionInfo",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " for a given ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSFetchedResultsSectionInfo",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " object.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionInfo"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionInfo\/init(_:)"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:12CoreDataPlus25FetchedResultsSectionInfoVyACyxGSo09NSFetchedefG0_pcfc",
+    "fragments" : [
+      {
+        "kind" : "identifier",
+        "text" : "init"
+      },
+      {
+        "kind" : "text",
+        "text" : "("
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "c:objc(pl)NSFetchedResultsSectionInfo",
+        "text" : "NSFetchedResultsSectionInfo"
+      },
+      {
+        "kind" : "text",
+        "text" : ")"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "CoreDataPlus"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Initializer",
+    "symbolKind" : "init",
+    "title" : "init(_:)"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "init"
+            },
+            {
+              "kind" : "text",
+              "text" : "("
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "_"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "internalParam",
+              "text" : "info"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "c:objc(pl)NSFetchedResultsSectionInfo",
+              "text" : "NSFetchedResultsSectionInfo"
+            },
+            {
+              "kind" : "text",
+              "text" : ")"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 2,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/coredataplus\/fetchedresultssectioninfo\/init(_:)"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://CoreDataPlus/documentation/CoreDataPlus": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "CoreDataPlus",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsSectionInfo": {
+  "abstract" : [
+    {
+      "text" : "Section info used during the notification of a section being inserted or deleted.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "FetchedResultsSectionInfo"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionInfo",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "FetchedResultsSectionInfo"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "FetchedResultsSectionInfo",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/fetchedresultssectioninfo"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsSectionInfo/init(_:)": {
+  "abstract" : [
+    {
+      "text" : "Create a new element of ",
+      "type" : "text"
+    },
+    {
+      "code" : "FetchedResultsSectionInfo",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " for a given ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSFetchedResultsSectionInfo",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " object.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(pl)NSFetchedResultsSectionInfo",
+      "text" : "NSFetchedResultsSectionInfo"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionInfo\/init(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/fetchedresultssectioninfo\/init(_:)"
+}
+}
+}

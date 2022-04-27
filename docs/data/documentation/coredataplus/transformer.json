@@ -1,0 +1,783 @@
+{
+  "abstract" : [
+    {
+      "text" : "A generic ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSSecureUnarchiveFromDataTransformer",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " subclass to implement CoreData ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "Transformable",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : " attributes.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:12CoreDataPlus11TransformerC",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "class"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "Transformer"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "CoreDataPlus"
+      }
+    ],
+    "navigatorTitle" : [
+      {
+        "kind" : "identifier",
+        "text" : "Transformer"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Class",
+    "symbolKind" : "class",
+    "title" : "Transformer"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "final"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "class"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "Transformer"
+            },
+            {
+              "kind" : "text",
+              "text" : "<"
+            },
+            {
+              "kind" : "genericParameter",
+              "text" : "T"
+            },
+            {
+              "kind" : "text",
+              "text" : "> "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "where"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "text" : "T"
+            },
+            {
+              "kind" : "text",
+              "text" : " : "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "c:objc(cs)NSObject",
+              "text" : "NSObject"
+            },
+            {
+              "kind" : "text",
+              "text" : ", "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "text" : "T"
+            },
+            {
+              "kind" : "text",
+              "text" : " : "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "c:objc(pl)NSSecureCoding",
+              "text" : "NSSecureCoding"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    },
+    {
+      "content" : [
+        {
+          "anchor" : "overview",
+          "level" : 2,
+          "text" : "Overview",
+          "type" : "heading"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "Core Data requires the transformer be NSSecureUnarchiveFromData or its subclass,",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "and that its transformedValue(",
+                  "type" : "text"
+                },
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : ":) method converts a Data object to an instance of the custom class specified in Data Model Inspector and that reverseTransformedValue(",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "emphasis"
+                },
+                {
+                  "text" : ":)",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "does the opposite – converts an instance of the custom class to a Data object.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "style" : "note",
+          "type" : "aside"
+        }
+      ],
+      "kind" : "content"
+    }
+  ],
+  "relationshipsSections" : [
+    {
+      "identifiers" : [
+
+      ],
+      "kind" : "relationships",
+      "title" : "Inherits From",
+      "type" : "inheritsFrom"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/objc(pl)NSObject",
+        "doc:\/\/CoreDataPlus\/s7CVarArgP",
+        "doc:\/\/CoreDataPlus\/s28CustomDebugStringConvertibleP",
+        "doc:\/\/CoreDataPlus\/s23CustomStringConvertibleP",
+        "doc:\/\/CoreDataPlus\/SQ",
+        "doc:\/\/CoreDataPlus\/SH"
+      ],
+      "kind" : "relationships",
+      "title" : "Conforms To",
+      "type" : "conformsTo"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 2,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/init()"
+      ],
+      "title" : "Initializers"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/reverseTransformedValue(_:)",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/transformedValue(_:)"
+      ],
+      "title" : "Instance Methods"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/allowedTopLevelClasses",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/transformerName"
+      ],
+      "title" : "Type Properties"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/allowsReverseTransformation()",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/register()",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/transformedValueClass()",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/unregister()"
+      ],
+      "title" : "Type Methods"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/coredataplus\/transformer"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://CoreDataPlus/SH": {
+  "identifier" : "doc:\/\/CoreDataPlus\/SH",
+  "title" : "Swift.Hashable",
+  "type" : "unresolvable"
+},
+"doc://CoreDataPlus/SQ": {
+  "identifier" : "doc:\/\/CoreDataPlus\/SQ",
+  "title" : "Swift.Equatable",
+  "type" : "unresolvable"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "CoreDataPlus",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/Transformer": {
+  "abstract" : [
+    {
+      "text" : "A generic ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSSecureUnarchiveFromDataTransformer",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " subclass to implement CoreData ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "Transformable",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : " attributes.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "class"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Transformer"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Transformer"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Transformer",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/transformer"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/Transformer/allowedTopLevelClasses": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "class"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "allowedTopLevelClasses"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s8AnyClassa",
+      "text" : "AnyClass"
+    },
+    {
+      "kind" : "text",
+      "text" : "]"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/allowedTopLevelClasses",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "allowedTopLevelClasses",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/transformer\/allowedtoplevelclasses"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/Transformer/allowsReverseTransformation()": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "class"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "allowsReverseTransformation"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/allowsReverseTransformation()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "allowsReverseTransformation()",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/transformer\/allowsreversetransformation()"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/Transformer/init()": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "()"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/init()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init()",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/transformer\/init()"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/Transformer/register()": {
+  "abstract" : [
+    {
+      "text" : "Registers the value transformer.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "register"
+    },
+    {
+      "kind" : "text",
+      "text" : "()"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/register()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "register()",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/transformer\/register()"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/Transformer/reverseTransformedValue(_:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "reverseTransformedValue"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "keyword",
+      "text" : "Any"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "Any"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/reverseTransformedValue(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "reverseTransformedValue(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/transformer\/reversetransformedvalue(_:)"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/Transformer/transformedValue(_:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "transformedValue"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "keyword",
+      "text" : "Any"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "Any"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/transformedValue(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "transformedValue(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/transformer\/transformedvalue(_:)"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/Transformer/transformedValueClass()": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "transformedValueClass"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s8AnyClassa",
+      "text" : "AnyClass"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/transformedValueClass()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "transformedValueClass()",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/transformer\/transformedvalueclass()"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/Transformer/transformerName": {
+  "abstract" : [
+    {
+      "text" : "The name of the transformer. It’s used when registering the transformer using ",
+      "type" : "text"
+    },
+    {
+      "code" : "Transformer.register()",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "It’s composed combining the T class name and the suffix “Transformer” (i.e. if T is Object, the transformer name is ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "ObjectTransformer",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : ").",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "transformerName"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:@T@NSValueTransformerName",
+      "text" : "NSValueTransformerName"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/transformerName",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "transformerName",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/transformer\/transformername"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/Transformer/unregister()": {
+  "abstract" : [
+    {
+      "text" : "Unregisters the value transformer.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "unregister"
+    },
+    {
+      "kind" : "text",
+      "text" : "()"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/unregister()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "unregister()",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/transformer\/unregister()"
+},
+"doc://CoreDataPlus/objc(pl)NSObject": {
+  "identifier" : "doc:\/\/CoreDataPlus\/objc(pl)NSObject",
+  "title" : "ObjectiveC.NSObjectProtocol",
+  "type" : "unresolvable"
+},
+"doc://CoreDataPlus/s23CustomStringConvertibleP": {
+  "identifier" : "doc:\/\/CoreDataPlus\/s23CustomStringConvertibleP",
+  "title" : "Swift.CustomStringConvertible",
+  "type" : "unresolvable"
+},
+"doc://CoreDataPlus/s28CustomDebugStringConvertibleP": {
+  "identifier" : "doc:\/\/CoreDataPlus\/s28CustomDebugStringConvertibleP",
+  "title" : "Swift.CustomDebugStringConvertible",
+  "type" : "unresolvable"
+},
+"doc://CoreDataPlus/s7CVarArgP": {
+  "identifier" : "doc:\/\/CoreDataPlus\/s7CVarArgP",
+  "title" : "Swift.CVarArg",
+  "type" : "unresolvable"
+}
+}
+}

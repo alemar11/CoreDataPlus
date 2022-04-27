@@ -1,0 +1,310 @@
+{
+  "abstract" : [
+    {
+      "text" : "No overview available.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresDidChange"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresDidChange\/UUIDChangedStore-swift.struct"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:12CoreDataPlus41PersistentStoreCoordinatorStoresDidChangeV011UUIDChangedE0V",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "struct"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "UUIDChangedStore"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "CoreDataPlus"
+      }
+    ],
+    "navigatorTitle" : [
+      {
+        "kind" : "identifier",
+        "text" : "UUIDChangedStore"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Structure",
+    "symbolKind" : "struct",
+    "title" : "PersistentStoreCoordinatorStoresDidChange.UUIDChangedStore"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "struct"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "UUIDChangedStore"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 2,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresDidChange\/UUIDChangedStore-swift.struct\/migratedIDs",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresDidChange\/UUIDChangedStore-swift.struct\/newStore",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresDidChange\/UUIDChangedStore-swift.struct\/oldStore"
+      ],
+      "title" : "Instance Properties"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/coredataplus\/persistentstorecoordinatorstoresdidchange\/uuidchangedstore-swift.struct"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://CoreDataPlus/documentation/CoreDataPlus": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "CoreDataPlus",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/PersistentStoreCoordinatorStoresDidChange": {
+  "abstract" : [
+    {
+      "text" : "Typed payload for a Core Data ",
+      "type" : "text"
+    },
+    {
+      "inlineContent" : [
+        {
+          "text" : "persistent store coordinator did change",
+          "type" : "text"
+        }
+      ],
+      "type" : "emphasis"
+    },
+    {
+      "text" : " notification.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "PersistentStoreCoordinatorStoresDidChange"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresDidChange",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "PersistentStoreCoordinatorStoresDidChange"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "PersistentStoreCoordinatorStoresDidChange",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoresdidchange"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/PersistentStoreCoordinatorStoresDidChange/UUIDChangedStore-swift.struct": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "UUIDChangedStore"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresDidChange\/UUIDChangedStore-swift.struct",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "UUIDChangedStore"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "PersistentStoreCoordinatorStoresDidChange.UUIDChangedStore",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoresdidchange\/uuidchangedstore-swift.struct"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/PersistentStoreCoordinatorStoresDidChange/UUIDChangedStore-swift.struct/migratedIDs": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "let"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "migratedIDs"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObjectID",
+      "text" : "NSManagedObjectID"
+    },
+    {
+      "kind" : "text",
+      "text" : "]"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresDidChange\/UUIDChangedStore-swift.struct\/migratedIDs",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "migratedIDs",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoresdidchange\/uuidchangedstore-swift.struct\/migratedids"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/PersistentStoreCoordinatorStoresDidChange/UUIDChangedStore-swift.struct/newStore": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "let"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "newStore"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSPersistentStore",
+      "text" : "NSPersistentStore"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresDidChange\/UUIDChangedStore-swift.struct\/newStore",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "newStore",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoresdidchange\/uuidchangedstore-swift.struct\/newstore"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/PersistentStoreCoordinatorStoresDidChange/UUIDChangedStore-swift.struct/oldStore": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "let"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "oldStore"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSPersistentStore",
+      "text" : "NSPersistentStore"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresDidChange\/UUIDChangedStore-swift.struct\/oldStore",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "oldStore",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoresdidchange\/uuidchangedstore-swift.struct\/oldstore"
+}
+}
+}
