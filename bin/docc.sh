@@ -10,9 +10,8 @@ filepath() {
 }
 
 ROOT="$(dirname $(dirname $(filepath $0)))"
-
-#BUILD_DIR="$ROOT"/.build/gh-pages-build
-
+TARGET="CoreDataPlus"
+HOSTING_BASE_PATH="CoreDataPlus"
 # Set current directory to the repository root
 cd "$ROOT"
 
@@ -28,10 +27,10 @@ export DOCC_JSON_PRETTYPRINT="YES"
 swift package \
     --allow-writing-to-directory "$ROOT/gh-pages/docs" \
     generate-documentation \
-    --target CoreDataPlus \
+    --target "$TARGET" \
     --disable-indexing \
     --transform-for-static-hosting \
-    --hosting-base-path CoreDataPlus \
+    --hosting-base-path "$HOSTING_BASE_PATH" \
     --output-path "$ROOT/gh-pages/docs"
 
 # Save the current commit we've just built documentation from in a variable

@@ -53,3 +53,9 @@ let package = Package(
   ],
   swiftLanguageVersions: [.v5]
 )
+
+// Only require the docc plugin when building documentation
+let buildingDocumentation = getenv("BUILDING_FOR_DOCUMENTATION_GENERATION") != nil
+package.dependencies += buildingDocumentation ? [
+  .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
+] : []
