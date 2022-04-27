@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "No overview available.",
+      "text" : "A dictionary containing key-value pairs that specify store behavior and characteristics.",
       "type" : "text"
     }
   ],
@@ -134,7 +134,10 @@
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/PersistentStoreOptions": {
   "abstract" : [
-
+    {
+      "text" : "A dictionary containing key-value pairs that specify store behavior and characteristics.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
