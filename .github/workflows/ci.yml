@@ -32,9 +32,9 @@ jobs:
           xcrun simctl list
   macOS:
     name: Test macOS
-    runs-on: macOS-11.0
+    runs-on: macos-12
     env:
-      DEVELOPER_DIR: /Applications/Xcode_13.2.1.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_13.3.app/Contents/Developer
     steps:
       - uses: actions/checkout@v2
       - name: macOS
@@ -48,12 +48,12 @@ jobs:
           path: ~/Downloads/Report           
   iOS:
     name: Test iOS
-    runs-on: macOS-11.0
+    runs-on: macos-12
     env:
-      DEVELOPER_DIR: /Applications/Xcode_13.2.1.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_13.3.app/Contents/Developer
     strategy:
       matrix:
-        destination: ["OS=15.2,name=iPhone 11 Pro"] #, "OS=12.4,name=iPhone XS", "OS=11.4,name=iPhone X"]
+        destination: ["OS=15.4,name=iPhone 11 Pro"] #, "OS=12.4,name=iPhone XS", "OS=11.4,name=iPhone X"]
     steps:
       - uses: actions/checkout@v2
       - name: iOS - ${{ matrix.destination }}
