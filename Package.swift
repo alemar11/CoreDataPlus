@@ -6,6 +6,7 @@ import Foundation
 let isRunningFromCommandLine: Bool = {
   return ProcessInfo.processInfo.environment["XPC_SERVICE_NAME"] == "0"
 }()
+let buildingDocumentation = getenv("BUILDING_FOR_DOCUMENTATION_GENERATION") != nil
 
 var excluded = [
   "TestPlans",
@@ -32,6 +33,13 @@ if isRunningFromCommandLine {
   ])
 }
 
+// Remove warnings when building documentation
+if buildingDocumentation {
+  excluded += [
+    "Resources/SampleModel/MappingModels/V2toV3.xcmappingmodel",
+    "Resources/SampleModel/SampleModel.xcdatamodeld"]
+}
+
 let package = Package(
   name: "CoreDataPlus",
   platforms: [.macOS(.v10_14), .iOS(.v12), .tvOS(.v12), .watchOS(.v5)],
@@ -52,7 +60,6 @@ let package = Package(
 )
 
 // Only require the docc plugin when building documentation
-let buildingDocumentation = getenv("BUILDING_FOR_DOCUMENTATION_GENERATION") != nil
 package.dependencies += buildingDocumentation ? [
   .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
 ] : []
