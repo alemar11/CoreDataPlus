@@ -54,7 +54,7 @@ final class MigrationsTests: BaseTestCase {
     let migrator = Migrator<SampleModelVersion>(sourceStoreDescription: sourceDescription,
                                                 destinationStoreDescription: destinationDescription,
                                                 targetVersion: targetVersion)
-    try migrator.migrate(enableWALCheckpoint:  enableWALCheckpoint)
+    try migrator.migrate(enableWALCheckpoint: enableWALCheckpoint)
 
     // ⚠️ migration should be done before loading the NSPersistentContainer instance or you need to create a new one after the migration
     let migratedContainer = NSPersistentContainer(name: name, managedObjectModel: targetVersion.managedObjectModel())
