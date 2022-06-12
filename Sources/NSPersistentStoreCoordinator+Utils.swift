@@ -38,7 +38,7 @@ extension NSPersistentStoreCoordinator {
   }
 
   /// Replaces the destination persistent store with the source store.
-  /// - Attention: The stored must be of SQLite type.
+  /// - Attention: The store must be of SQLite type.
   public static func replaceStore(at destinationURL: URL,
                                   destinationOptions: PersistentStoreOptions? = nil,
                                   withPersistentStoreFrom sourceURL: URL,
