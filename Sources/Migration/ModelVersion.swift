@@ -2,7 +2,7 @@
 
 import CoreData
 
-/// Describes a Core Data model file exention type based on the
+/// Describes a Core Data model file exention type
 ///
 /// [Model File Format and Versions](https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmModelFormat.html)
 ///
