@@ -37,8 +37,8 @@
 import CoreData
 import os.log
 
-/// Handles a multi step migration for SQLite store.
-final class Migrator<Version: ModelVersion>: NSObject, ProgressReporting {
+/// An object that handles a multi step CoreData migration for a `SQLite` store.
+public final class Migrator<Version: ModelVersion>: NSObject, ProgressReporting {
   /// Multi step migration progress.
   public private(set) lazy var progress: Progress = {
     // We don't need to manage any cancellations here:
