@@ -49,7 +49,7 @@ extension NSManagedObject {
     return self.objectID
   }
 
-  /// Returns a Boolean value indicating whether `self` matches the conditions specified by the predicate.
+  /// Returns a boolean value indicating whether `self` matches the conditions specified by the predicate.
   public func evaluate(with predicate: NSPredicate) -> Bool {
     predicate.evaluate(with: self)
   }
