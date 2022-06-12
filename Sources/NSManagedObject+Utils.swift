@@ -20,7 +20,7 @@ extension NSManagedObject {
     refresh(mergeChanges: false)
   }
 
-  /// Materializes `self`.
+  /// Materializes `self` ensuring that all the faults are fired.
   public final func materialize() {
     // docs: "You can invoke this method with the key value of nil to ensure that a fault has been fired"
     willAccessValue(forKey: nil)
