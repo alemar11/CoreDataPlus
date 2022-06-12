@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Please note that at the moment DocC doesn't generate documentation for the extensions. https://developer.apple.com/forums/thread/683878
+# At the moment DocC doesn't generate documentation for the extensions of components not defined in the package. https://developer.apple.com/forums/thread/683878
 
 export BUILDING_FOR_DOCUMENTATION_GENERATION=1
 
