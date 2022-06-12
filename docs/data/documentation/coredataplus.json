@@ -44,6 +44,7 @@
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationProgressReporter",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationStep",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Migrator",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer"
       ],
       "title" : "Classes"
@@ -668,6 +669,48 @@
   "title" : "MigrationStep",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/migrationstep"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/Migrator": {
+  "abstract" : [
+    {
+      "text" : "An object that handles a multi step CoreData migration for a ",
+      "type" : "text"
+    },
+    {
+      "code" : "SQLite",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " store.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "class"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Migrator"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Migrator",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Migrator"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Migrator",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/migrator"
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion": {
   "abstract" : [
