@@ -192,7 +192,7 @@ final class NotificationMergeTests: InMemoryTestCase {
         viewContext.mergeChanges(fromContextDidSavePayload: payload) // fires [2] [6]
 
         viewContext.performAndWait {
-          // Before saving, we didn't change anything: we don't expect any changes in the  objects-did-save notification listened by [3] observer.
+          // Before saving, we didn't change anything: we don't expect any changes in the objects-did-save notification listened by [3] observer.
           // see: testInvesigationMergeChanges()
           try! viewContext.save() // fires [3]
         }
