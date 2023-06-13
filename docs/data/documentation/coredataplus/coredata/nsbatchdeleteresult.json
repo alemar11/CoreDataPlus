@@ -1,0 +1,372 @@
+{
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSBatchDeleteResult"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "extendedModule" : "CoreData",
+    "externalID" : "s:e:s:So19NSBatchDeleteResultC12CoreDataPlusE7changesSDySSSaySo17NSManagedObjectIDCGGSgvp",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "extension"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "preciseIdentifier" : "c:objc(cs)NSBatchDeleteResult",
+        "text" : "NSBatchDeleteResult"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "CoreDataPlus"
+      }
+    ],
+    "navigatorTitle" : [
+      {
+        "kind" : "identifier",
+        "text" : "NSBatchDeleteResult"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Extended Class",
+    "symbolKind" : "extension",
+    "title" : "NSBatchDeleteResult"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "extension"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "c:objc(cs)NSBatchDeleteResult",
+              "text" : "NSBatchDeleteResult"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSBatchDeleteResult\/changes",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSBatchDeleteResult\/count",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSBatchDeleteResult\/deletes",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSBatchDeleteResult\/status"
+      ],
+      "title" : "Instance Properties"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/coredataplus\/coredata\/nsbatchdeleteresult"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://CoreDataPlus/documentation/CoreDataPlus": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "CoreDataPlus",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/CoreData": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "CoreData",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/coredata"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSBatchDeleteResult": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "extension"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "preciseIdentifier" : "c:objc(cs)NSBatchDeleteResult",
+      "text" : "NSBatchDeleteResult"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSBatchDeleteResult",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "NSBatchDeleteResult"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "NSBatchDeleteResult",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/coredata\/nsbatchdeleteresult"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSBatchDeleteResult/changes": {
+  "abstract" : [
+    {
+      "text" : "Returns a dictionary containig all the deleted ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSManagedObjectID",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " instances ready to be passed to ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSManagedObjectContext.mergeChanges(fromRemoteContextSave:into:)",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "changes"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : " : ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObjectID",
+      "text" : "NSManagedObjectID"
+    },
+    {
+      "kind" : "text",
+      "text" : "]]?"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSBatchDeleteResult\/changes",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "changes",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/coredata\/nsbatchdeleteresult\/changes"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSBatchDeleteResult/count": {
+  "abstract" : [
+    {
+      "text" : "Returns the number of deleted objects.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "count"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Si",
+      "text" : "Int"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSBatchDeleteResult\/count",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "count",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/coredata\/nsbatchdeleteresult\/count"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSBatchDeleteResult/deletes": {
+  "abstract" : [
+    {
+      "text" : "Returns all the deleted objects ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSManagedObjectID",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "deletes"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObjectID",
+      "text" : "NSManagedObjectID"
+    },
+    {
+      "kind" : "text",
+      "text" : "]?"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSBatchDeleteResult\/deletes",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "deletes",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/coredata\/nsbatchdeleteresult\/deletes"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSBatchDeleteResult/status": {
+  "abstract" : [
+    {
+      "text" : "Returns ",
+      "type" : "text"
+    },
+    {
+      "code" : "true",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " if the batc delete operation has been completed successfully.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "status"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSBatchDeleteResult\/status",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "status",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/coredata\/nsbatchdeleteresult\/status"
+}
+}
+}

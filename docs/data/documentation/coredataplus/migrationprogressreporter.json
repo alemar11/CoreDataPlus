@@ -105,7 +105,7 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
-
+        "doc:\/\/CoreDataPlus\/objc(cs)NSObject"
       ],
       "kind" : "relationships",
       "title" : "Inherits From",
@@ -128,7 +128,7 @@
   ],
   "schemaVersion" : {
     "major" : 0,
-    "minor" : 2,
+    "minor" : 3,
     "patch" : 0
   },
   "sections" : [
@@ -137,7 +137,6 @@
   "topicSections" : [
     {
       "identifiers" : [
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationProgressReporter\/init()",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationProgressReporter\/init(manager:)"
       ],
       "title" : "Initializers"
@@ -239,27 +238,6 @@
   "title" : "MigrationProgressReporter",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/migrationprogressreporter"
-},
-"doc://CoreDataPlus/documentation/CoreDataPlus/MigrationProgressReporter/init()": {
-  "abstract" : [
-
-  ],
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "()"
-    }
-  ],
-  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationProgressReporter\/init()",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init()",
-  "type" : "topic",
-  "url" : "\/documentation\/coredataplus\/migrationprogressreporter\/init()"
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/MigrationProgressReporter/init(manager:)": {
   "abstract" : [
@@ -367,6 +345,11 @@
   "title" : "progress",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/migrationprogressreporter\/progress"
+},
+"doc://CoreDataPlus/objc(cs)NSObject": {
+  "identifier" : "doc:\/\/CoreDataPlus\/objc(cs)NSObject",
+  "title" : "ObjectiveC.NSObject",
+  "type" : "unresolvable"
 },
 "doc://CoreDataPlus/objc(pl)NSObject": {
   "identifier" : "doc:\/\/CoreDataPlus\/objc(pl)NSObject",

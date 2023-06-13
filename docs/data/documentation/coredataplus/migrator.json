@@ -131,7 +131,7 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
-
+        "doc:\/\/CoreDataPlus\/objc(cs)NSObject"
       ],
       "kind" : "relationships",
       "title" : "Inherits From",
@@ -154,7 +154,7 @@
   ],
   "schemaVersion" : {
     "major" : 0,
-    "minor" : 2,
+    "minor" : 3,
     "patch" : 0
   },
   "sections" : [
@@ -169,7 +169,6 @@
     },
     {
       "identifiers" : [
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Migrator\/init()",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Migrator\/init(sourceStoreDescription:destinationStoreDescription:targetVersion:)",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Migrator\/init(targetStoreDescription:targetVersion:)"
       ],
@@ -368,27 +367,6 @@
   "title" : "enableLog",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/migrator\/enablelog"
-},
-"doc://CoreDataPlus/documentation/CoreDataPlus/Migrator/init()": {
-  "abstract" : [
-
-  ],
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "()"
-    }
-  ],
-  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Migrator\/init()",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init()",
-  "type" : "topic",
-  "url" : "\/documentation\/coredataplus\/migrator\/init()"
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/Migrator/init(sourceStoreDescription:destinationStoreDescription:targetVersion:)": {
   "abstract" : [
@@ -747,6 +725,11 @@
   "title" : "ModelVersion",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/modelversion"
+},
+"doc://CoreDataPlus/objc(cs)NSObject": {
+  "identifier" : "doc:\/\/CoreDataPlus\/objc(cs)NSObject",
+  "title" : "ObjectiveC.NSObject",
+  "type" : "unresolvable"
 },
 "doc://CoreDataPlus/objc(pl)NSObject": {
   "identifier" : "doc:\/\/CoreDataPlus\/objc(pl)NSObject",

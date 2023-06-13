@@ -117,7 +117,7 @@
   ],
   "schemaVersion" : {
     "major" : 0,
-    "minor" : 2,
+    "minor" : 3,
     "patch" : 0
   },
   "sections" : [
@@ -156,6 +156,12 @@
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/currentVersion"
       ],
       "title" : "Type Properties"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/subscript(_:)"
+      ],
+      "title" : "Type Subscripts"
     }
   ],
   "variants" : [
@@ -828,6 +834,63 @@
   "title" : "modelName",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/modelversion\/modelname"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion/subscript(_:)": {
+  "abstract" : [
+    {
+      "text" : "Searches for the first ModelVersion whose model is compatible with the persistent store metedata",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "subscript"
+    },
+    {
+      "kind" : "text",
+      "text" : "(["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : " : "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "Any"
+    },
+    {
+      "kind" : "text",
+      "text" : "]) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "Self"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/subscript(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "subscript(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/modelversion\/subscript(_:)"
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion/successor": {
   "abstract" : [

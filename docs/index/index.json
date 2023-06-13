@@ -1,0 +1,1930 @@
+{
+  "interfaceLanguages" : {
+    "swift" : [
+      {
+        "children" : [
+          {
+            "title" : "Classes",
+            "type" : "groupMarker"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/customtransformer\/init(transform:reversetransform:)",
+                "title" : "init(transform: CustomTransformer<T>.Transform, reverseTransform: CustomTransformer<T>.ReverseTransform)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/customtransformer\/reversetransformedvalue(_:)",
+                "title" : "func reverseTransformedValue(Any?) -> Any?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/customtransformer\/transformedvalue(_:)",
+                "title" : "func transformedValue(Any?) -> Any?",
+                "type" : "method"
+              },
+              {
+                "title" : "Type Aliases",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/customtransformer\/reversetransform",
+                "title" : "CustomTransformer.ReverseTransform",
+                "type" : "typealias"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/customtransformer\/transform",
+                "title" : "CustomTransformer.Transform",
+                "type" : "typealias"
+              },
+              {
+                "title" : "Type Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/customtransformer\/transformername",
+                "title" : "static var transformerName: NSValueTransformerName",
+                "type" : "property"
+              },
+              {
+                "title" : "Type Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/customtransformer\/allowsreversetransformation()",
+                "title" : "class func allowsReverseTransformation() -> Bool",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/customtransformer\/register(transform:reversetransform:)",
+                "title" : "static func register(transform: CustomTransformer<T>.Transform, reverseTransform: CustomTransformer<T>.ReverseTransform)",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/customtransformer\/transformedvalueclass()",
+                "title" : "static func transformedValueClass() -> AnyClass",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/customtransformer\/unregister()",
+                "title" : "static func unregister()",
+                "type" : "method"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/customtransformer",
+            "title" : "CustomTransformer",
+            "type" : "class"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/init(sourcemodel:destinationmodel:)",
+                "title" : "init(sourceModel: NSManagedObjectModel, destinationModel: NSManagedObjectModel)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/currententitymapping",
+                "title" : "var currentEntityMapping: NSEntityMapping",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/destinationcontext",
+                "title" : "var destinationContext: NSManagedObjectContext",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/destinationmodel",
+                "title" : "var destinationModel: NSManagedObjectModel",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/estimatedtime",
+                "title" : "var estimatedTime: TimeInterval",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/mappingmodel",
+                "title" : "var mappingModel: NSMappingModel",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/migrationprogress",
+                "title" : "var migrationProgress: Float",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/sourcecontext",
+                "title" : "var sourceContext: NSManagedObjectContext",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/sourcemodel",
+                "title" : "var sourceModel: NSManagedObjectModel",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/updateprogressinterval",
+                "title" : "var updateProgressInterval: TimeInterval",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/userinfo",
+                "title" : "var userInfo: [AnyHashable : Any]?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/usesstorespecificmigrationmanager",
+                "title" : "var usesStoreSpecificMigrationManager: Bool",
+                "type" : "property"
+              },
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/associate(sourceinstance:withdestinationinstance:for:)",
+                "title" : "func associate(sourceInstance: NSManagedObject, withDestinationInstance: NSManagedObject, for: NSEntityMapping)",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/cancelmigrationwitherror(_:)",
+                "title" : "func cancelMigrationWithError(Error)",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/destinationentity(for:)",
+                "title" : "func destinationEntity(for: NSEntityMapping) -> NSEntityDescription?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/destinationinstances(forentitymappingname:sourceinstances:)",
+                "title" : "func destinationInstances(forEntityMappingName: String, sourceInstances: [NSManagedObject]?) -> [NSManagedObject]",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/migratestore(from:sourcetype:options:with:todestinationurl:destinationtype:destinationoptions:)",
+                "title" : "func migrateStore(from: URL, sourceType: String, options: [AnyHashable : Any]?, with: NSMappingModel?, toDestinationURL: URL, destinationType: String, destinationOptions: [AnyHashable : Any]?) throws",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/reset()",
+                "title" : "func reset()",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/sourceentity(for:)",
+                "title" : "func sourceEntity(for: NSEntityMapping) -> NSEntityDescription?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/sourceinstances(forentitymappingname:destinationinstances:)",
+                "title" : "func sourceInstances(forEntityMappingName: String, destinationInstances: [NSManagedObject]?) -> [NSManagedObject]",
+                "type" : "method"
+              },
+              {
+                "title" : "Type Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/automaticallynotifiesobservers(forkey:)",
+                "title" : "class func automaticallyNotifiesObservers(forKey: String) -> Bool",
+                "type" : "method"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager",
+            "title" : "LightweightMigrationManager",
+            "type" : "class"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/migrationprogressreporter\/init(manager:)",
+                "title" : "init(manager: NSMigrationManager)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/migrationprogressreporter\/progress",
+                "title" : "var progress: Progress",
+                "type" : "property"
+              },
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/migrationprogressreporter\/markasfinishedifneeded()",
+                "title" : "func markAsFinishedIfNeeded()",
+                "type" : "method"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/migrationprogressreporter",
+            "title" : "MigrationProgressReporter",
+            "type" : "class"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/migrationstep\/destinationmodel",
+                "title" : "let destinationModel: NSManagedObjectModel",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/migrationstep\/destinationversion",
+                "title" : "let destinationVersion: Version",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/migrationstep\/mappingmodels",
+                "title" : "let mappingModels: [NSMappingModel]",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/migrationstep\/sourcemodel",
+                "title" : "let sourceModel: NSManagedObjectModel",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/migrationstep\/sourceversion",
+                "title" : "let sourceVersion: Version",
+                "type" : "property"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/migrationstep",
+            "title" : "MigrationStep",
+            "type" : "class"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Structures",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/migrator\/metadata",
+                "title" : "Migrator.Metadata",
+                "type" : "struct"
+              },
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/migrator\/init(sourcestoredescription:destinationstoredescription:targetversion:)",
+                "title" : "init(sourceStoreDescription: NSPersistentStoreDescription, destinationStoreDescription: NSPersistentStoreDescription, targetVersion: Version)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/migrator\/init(targetstoredescription:targetversion:)",
+                "title" : "convenience init(targetStoreDescription: NSPersistentStoreDescription, targetVersion: Version)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/migrator\/enablelog",
+                "title" : "var enableLog: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/migrator\/progress",
+                "title" : "var progress: Progress",
+                "type" : "property"
+              },
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/migrator\/migrate(enablewalcheckpoint:managerprovider:)",
+                "title" : "func migrate(enableWALCheckpoint: Bool, managerProvider: ((Migrator<Version>.Metadata) -> NSMigrationManager)?) throws",
+                "type" : "method"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/migrator",
+            "title" : "Migrator",
+            "type" : "class"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/transformer\/reversetransformedvalue(_:)",
+                "title" : "func reverseTransformedValue(Any?) -> Any?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/transformer\/transformedvalue(_:)",
+                "title" : "func transformedValue(Any?) -> Any?",
+                "type" : "method"
+              },
+              {
+                "title" : "Type Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/transformer\/allowedtoplevelclasses",
+                "title" : "class var allowedTopLevelClasses: [AnyClass]",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/transformer\/transformername",
+                "title" : "static var transformerName: NSValueTransformerName",
+                "type" : "property"
+              },
+              {
+                "title" : "Type Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/transformer\/allowsreversetransformation()",
+                "title" : "class func allowsReverseTransformation() -> Bool",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/transformer\/register()",
+                "title" : "static func register()",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/transformer\/transformedvalueclass()",
+                "title" : "static func transformedValueClass() -> AnyClass",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/transformer\/unregister()",
+                "title" : "static func unregister()",
+                "type" : "method"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/transformer",
+            "title" : "Transformer",
+            "type" : "class"
+          },
+          {
+            "title" : "Protocols",
+            "type" : "groupMarker"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/modelversion\/init(persistentstoreurl:)",
+                "title" : "init?(persistentStoreURL: URL) throws",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/modelversion\/modelbundle",
+                "title" : "var modelBundle: Bundle",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/modelversion\/modelname",
+                "title" : "var modelName: String",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/modelversion\/successor",
+                "title" : "var successor: Self?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/modelversion\/versionname",
+                "title" : "var versionName: String",
+                "type" : "property"
+              },
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/modelversion\/inferredmappingmodeltonextmodelversion()",
+                "title" : "func inferredMappingModelToNextModelVersion() -> NSMappingModel?",
+                "type" : "method"
+              },
+              {
+                "children" : [
+                  {
+                    "children" : [
+                      {
+                        "path" : "\/documentation\/coredataplus\/modelversion\/managedobjectmodel()-6srlx",
+                        "title" : "func managedObjectModel() -> NSManagedObjectModel",
+                        "type" : "method"
+                      }
+                    ],
+                    "title" : "ModelVersion Implementations",
+                    "type" : "groupMarker"
+                  }
+                ],
+                "path" : "\/documentation\/coredataplus\/modelversion\/managedobjectmodel()-6vbac",
+                "title" : "func managedObjectModel() -> NSManagedObjectModel",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/modelversion\/mappingmodeltonextmodelversion()",
+                "title" : "func mappingModelToNextModelVersion() -> NSMappingModel?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/modelversion\/mappingmodels(for:)",
+                "title" : "func mappingModels(for: [String]) -> [NSMappingModel]",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/modelversion\/mappingmodelstonextmodelversion()",
+                "title" : "func mappingModelsToNextModelVersion() -> [NSMappingModel]?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/modelversion\/migrationsteps(to:)",
+                "title" : "func migrationSteps(to: Self) -> [MigrationStep<Self>]",
+                "type" : "method"
+              },
+              {
+                "title" : "Type Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/modelversion\/allversions",
+                "title" : "static var allVersions: [Self]",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/modelversion\/currentversion",
+                "title" : "static var currentVersion: Self",
+                "type" : "property"
+              },
+              {
+                "title" : "Type Subscripts",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/modelversion\/subscript(_:)",
+                "title" : "static subscript([String : Any]) -> Self?",
+                "type" : "subscript"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/modelversion",
+            "title" : "ModelVersion",
+            "type" : "protocol"
+          },
+          {
+            "title" : "Structures",
+            "type" : "groupMarker"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultssectioninfo\/init(_:)",
+                "title" : "init(NSFetchedResultsSectionInfo)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultssectioninfo\/indextitle",
+                "title" : "let indexTitle: String?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultssectioninfo\/name",
+                "title" : "let name: String",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultssectioninfo\/numberofobjects",
+                "title" : "var numberOfObjects: Int",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultssectioninfo\/objects",
+                "title" : "let objects: [T]",
+                "type" : "property"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/fetchedresultssectioninfo",
+            "title" : "FetchedResultsSectionInfo",
+            "type" : "struct"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidmergechangesobjectids\/init(notification:)",
+                "title" : "init(notification: Notification)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidmergechangesobjectids\/deletedobjectids",
+                "title" : "var deletedObjectIDs: Set<NSManagedObjectID>",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidmergechangesobjectids\/insertedobjectids",
+                "title" : "var insertedObjectIDs: Set<NSManagedObjectID>",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidmergechangesobjectids\/invalidatedobjectids",
+                "title" : "var invalidatedObjectIDs: Set<NSManagedObjectID>",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidmergechangesobjectids\/managedobjectcontext",
+                "title" : "var managedObjectContext: NSManagedObjectContext",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidmergechangesobjectids\/notification",
+                "title" : "let notification: Notification",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidmergechangesobjectids\/refreshedobjectids",
+                "title" : "var refreshedObjectIDs: Set<NSManagedObjectID>",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidmergechangesobjectids\/updatedobjectids",
+                "title" : "var updatedObjectIDs: Set<NSManagedObjectID>",
+                "type" : "property"
+              },
+              {
+                "title" : "Type Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidmergechangesobjectids\/notificationname",
+                "title" : "static let notificationName: Notification.Name",
+                "type" : "property"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/managedobjectcontextdidmergechangesobjectids",
+            "title" : "ManagedObjectContextDidMergeChangesObjectIDs",
+            "type" : "struct"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidsaveobjectids\/init(notification:)",
+                "title" : "init(notification: Notification)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidsaveobjectids\/deletedobjectids",
+                "title" : "var deletedObjectIDs: Set<NSManagedObjectID>",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidsaveobjectids\/insertedobjectids",
+                "title" : "var insertedObjectIDs: Set<NSManagedObjectID>",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidsaveobjectids\/managedobjectcontext",
+                "title" : "var managedObjectContext: NSManagedObjectContext",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidsaveobjectids\/notification",
+                "title" : "let notification: Notification",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidsaveobjectids\/updatedobjectids",
+                "title" : "var updatedObjectIDs: Set<NSManagedObjectID>",
+                "type" : "property"
+              },
+              {
+                "title" : "Type Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidsaveobjectids\/notificationname",
+                "title" : "static let notificationName: Notification.Name",
+                "type" : "property"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/managedobjectcontextdidsaveobjectids",
+            "title" : "ManagedObjectContextDidSaveObjectIDs",
+            "type" : "struct"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidsaveobjects\/init(notification:)",
+                "title" : "init(notification: Notification)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidsaveobjects\/deletedobjects",
+                "title" : "var deletedObjects: Set<NSManagedObject>",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidsaveobjects\/historytoken",
+                "title" : "var historyToken: NSPersistentHistoryToken?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidsaveobjects\/insertedobjects",
+                "title" : "var insertedObjects: Set<NSManagedObject>",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidsaveobjects\/managedobjectcontext",
+                "title" : "var managedObjectContext: NSManagedObjectContext",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidsaveobjects\/notification",
+                "title" : "let notification: Notification",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidsaveobjects\/querygenerationtoken",
+                "title" : "var queryGenerationToken: NSQueryGenerationToken?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidsaveobjects\/updatedobjects",
+                "title" : "var updatedObjects: Set<NSManagedObject>",
+                "type" : "property"
+              },
+              {
+                "title" : "Type Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextdidsaveobjects\/notificationname",
+                "title" : "static let notificationName: Notification.Name",
+                "type" : "property"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/managedobjectcontextdidsaveobjects",
+            "title" : "ManagedObjectContextDidSaveObjects",
+            "type" : "struct"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange\/init(notification:)",
+                "title" : "init(notification: Notification)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange\/deletedobjects",
+                "title" : "var deletedObjects: Set<NSManagedObject>",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange\/insertedobjects",
+                "title" : "var insertedObjects: Set<NSManagedObject>",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange\/invalidatedallobjects",
+                "title" : "var invalidatedAllObjects: Set<NSManagedObjectID>",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange\/invalidatedobjects",
+                "title" : "var invalidatedObjects: Set<NSManagedObject>",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange\/managedobjectcontext",
+                "title" : "var managedObjectContext: NSManagedObjectContext",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange\/notification",
+                "title" : "let notification: Notification",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange\/refreshedobjects",
+                "title" : "var refreshedObjects: Set<NSManagedObject>",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange\/updatedobjects",
+                "title" : "var updatedObjects: Set<NSManagedObject>",
+                "type" : "property"
+              },
+              {
+                "title" : "Type Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange\/notificationname",
+                "title" : "static let notificationName: Notification.Name",
+                "type" : "property"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/managedobjectcontextobjectsdidchange",
+            "title" : "ManagedObjectContextObjectsDidChange",
+            "type" : "struct"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextwillsaveobjects\/init(notification:)",
+                "title" : "init(notification: Notification)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextwillsaveobjects\/managedobjectcontext",
+                "title" : "var managedObjectContext: NSManagedObjectContext",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextwillsaveobjects\/notification",
+                "title" : "let notification: Notification",
+                "type" : "property"
+              },
+              {
+                "title" : "Type Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/managedobjectcontextwillsaveobjects\/notificationname",
+                "title" : "static let notificationName: Notification.Name",
+                "type" : "property"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/managedobjectcontextwillsaveobjects",
+            "title" : "ManagedObjectContextWillSaveObjects",
+            "type" : "struct"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Structures",
+                "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoresdidchange\/uuidchangedstore-swift.struct\/migratedids",
+                    "title" : "let migratedIDs: [NSManagedObjectID]",
+                    "type" : "property"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoresdidchange\/uuidchangedstore-swift.struct\/newstore",
+                    "title" : "let newStore: NSPersistentStore",
+                    "type" : "property"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoresdidchange\/uuidchangedstore-swift.struct\/oldstore",
+                    "title" : "let oldStore: NSPersistentStore",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoresdidchange\/uuidchangedstore-swift.struct",
+                "title" : "PersistentStoreCoordinatorStoresDidChange.UUIDChangedStore",
+                "type" : "struct"
+              },
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoresdidchange\/init(notification:)",
+                "title" : "init(notification: Notification)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoresdidchange\/addedstores",
+                "title" : "var addedStores: [NSPersistentStore]",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoresdidchange\/notification",
+                "title" : "let notification: Notification",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoresdidchange\/removedstores",
+                "title" : "var removedStores: [NSPersistentStore]",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoresdidchange\/uuidchangedstore-swift.property",
+                "title" : "var uuidChangedStore: PersistentStoreCoordinatorStoresDidChange.UUIDChangedStore?",
+                "type" : "property"
+              },
+              {
+                "title" : "Type Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoresdidchange\/notificationname",
+                "title" : "static let notificationName: NSNotification.Name",
+                "type" : "property"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoresdidchange",
+            "title" : "PersistentStoreCoordinatorStoresDidChange",
+            "type" : "struct"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoreswillchange\/init(notification:)",
+                "title" : "init(notification: Notification)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoreswillchange\/addedstores",
+                "title" : "var addedStores: [NSPersistentStore]",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoreswillchange\/notification",
+                "title" : "let notification: Notification",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoreswillchange\/removedstores",
+                "title" : "var removedStores: [NSPersistentStore]",
+                "type" : "property"
+              },
+              {
+                "title" : "Type Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoreswillchange\/notificationname",
+                "title" : "static let notificationName: NSNotification.Name",
+                "type" : "property"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/persistentstorecoordinatorstoreswillchange",
+            "title" : "PersistentStoreCoordinatorStoresWillChange",
+            "type" : "struct"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/persistentstorecoordinatorwillremovestore\/init(notification:)",
+                "title" : "init(notification: Notification)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/persistentstorecoordinatorwillremovestore\/notification",
+                "title" : "let notification: Notification",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/persistentstorecoordinatorwillremovestore\/store",
+                "title" : "var store: NSPersistentStore",
+                "type" : "property"
+              },
+              {
+                "title" : "Type Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/persistentstorecoordinatorwillremovestore\/notificationname",
+                "title" : "static let notificationName: NSNotification.Name",
+                "type" : "property"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/persistentstorecoordinatorwillremovestore",
+            "title" : "PersistentStoreCoordinatorWillRemoveStore",
+            "type" : "struct"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/persistentstoreremotechange\/init(notification:)",
+                "title" : "init(notification: Notification)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/persistentstoreremotechange\/historytoken",
+                "title" : "var historyToken: NSPersistentHistoryToken?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/persistentstoreremotechange\/notification",
+                "title" : "let notification: Notification",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/persistentstoreremotechange\/storeurl",
+                "title" : "var storeURL: URL",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/persistentstoreremotechange\/storeuuid",
+                "title" : "var storeUUID: UUID",
+                "type" : "property"
+              },
+              {
+                "title" : "Type Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/persistentstoreremotechange\/notificationname",
+                "title" : "static let notificationName: Notification.Name",
+                "type" : "property"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/persistentstoreremotechange",
+            "title" : "PersistentStoreRemoteChange",
+            "type" : "struct"
+          },
+          {
+            "title" : "Functions",
+            "type" : "groupMarker"
+          },
+          {
+            "path" : "\/documentation\/coredataplus\/ismigrationnecessary(for:to:)",
+            "title" : "func isMigrationNecessary<Version>(for: URL, to: Version) throws -> Bool",
+            "type" : "func"
+          },
+          {
+            "title" : "Type Aliases",
+            "type" : "groupMarker"
+          },
+          {
+            "path" : "\/documentation\/coredataplus\/persistentstoreoptions",
+            "title" : "PersistentStoreOptions",
+            "type" : "typealias"
+          },
+          {
+            "title" : "Enumerations",
+            "type" : "groupMarker"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Enumeration Cases",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultsobjectchange\/delete(object:indexpath:)",
+                "title" : "case delete(object: T, indexPath: IndexPath)",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultsobjectchange\/insert(object:indexpath:)",
+                "title" : "case insert(object: T, indexPath: IndexPath)",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultsobjectchange\/move(object:fromindexpath:toindexpath:)",
+                "title" : "case move(object: T, fromIndexPath: IndexPath, toIndexPath: IndexPath)",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultsobjectchange\/update(object:indexpath:)",
+                "title" : "case update(object: T, indexPath: IndexPath)",
+                "type" : "case"
+              },
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultsobjectchange\/init(object:indexpath:changetype:newindexpath:)",
+                "title" : "init?(object: Any, indexPath: IndexPath?, changeType: NSFetchedResultsChangeType, newIndexPath: IndexPath?)",
+                "type" : "init"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/fetchedresultsobjectchange",
+            "title" : "FetchedResultsObjectChange",
+            "type" : "enum"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Enumeration Cases",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultssectionchange\/delete(info:index:)",
+                "title" : "case delete(info: FetchedResultsSectionInfo<T>, index: Int)",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultssectionchange\/insert(info:index:)",
+                "title" : "case insert(info: FetchedResultsSectionInfo<T>, index: Int)",
+                "type" : "case"
+              },
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultssectionchange\/init(section:index:changetype:)",
+                "title" : "init?(section: NSFetchedResultsSectionInfo, index: Int, changeType: NSFetchedResultsChangeType)",
+                "type" : "init"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/fetchedresultssectionchange",
+            "title" : "FetchedResultsSectionChange",
+            "type" : "enum"
+          },
+          {
+            "title" : "Extended Modules",
+            "type" : "groupMarker"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Extended Classes",
+                "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsattributedescription\/init(name:type:)",
+                    "title" : "convenience init(name: String, type: NSAttributeType)",
+                    "type" : "init"
+                  },
+                  {
+                    "title" : "Type Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsattributedescription\/binarydata(name:defaultvalue:allowsexternalbinarydatastorage:)",
+                    "title" : "static func binaryData(name: String, defaultValue: Data?, allowsExternalBinaryDataStorage: Bool) -> NSAttributeDescription",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsattributedescription\/bool(name:defaultvalue:)",
+                    "title" : "static func bool(name: String, defaultValue: Bool?) -> NSAttributeDescription",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsattributedescription\/customtransformable(for:name:defaultvalue:transform:reverse:)",
+                    "title" : "static func customTransformable<T>(for: T.Type, name: String, defaultValue: T?, transform: CustomTransformer<T>.Transform, reverse: CustomTransformer<T>.ReverseTransform) -> NSAttributeDescription",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsattributedescription\/date(name:defaultvalue:)",
+                    "title" : "static func date(name: String, defaultValue: Date?) -> NSAttributeDescription",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsattributedescription\/decimal(name:defaultvalue:)",
+                    "title" : "static func decimal(name: String, defaultValue: Decimal?) -> NSAttributeDescription",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsattributedescription\/double(name:defaultvalue:)",
+                    "title" : "static func double(name: String, defaultValue: Double?) -> NSAttributeDescription",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsattributedescription\/float(name:defaultvalue:)",
+                    "title" : "static func float(name: String, defaultValue: Float?) -> NSAttributeDescription",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsattributedescription\/int16(name:defaultvalue:)",
+                    "title" : "static func int16(name: String, defaultValue: Int16?) -> NSAttributeDescription",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsattributedescription\/int32(name:defaultvalue:)",
+                    "title" : "static func int32(name: String, defaultValue: Int32?) -> NSAttributeDescription",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsattributedescription\/int64(name:defaultvalue:)",
+                    "title" : "static func int64(name: String, defaultValue: Int64?) -> NSAttributeDescription",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsattributedescription\/string(name:defaultvalue:)",
+                    "title" : "static func string(name: String, defaultValue: String?) -> NSAttributeDescription",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsattributedescription\/transformable(for:name:defaultvalue:)",
+                    "title" : "static func transformable<T>(for: T.Type, name: String, defaultValue: T?) -> NSAttributeDescription",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsattributedescription\/uri(name:defaultvalue:)",
+                    "title" : "static func uri(name: String, defaultValue: URL?) -> NSAttributeDescription",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsattributedescription\/uuid(name:defaultvalue:)",
+                    "title" : "static func uuid(name: String, defaultValue: UUID?) -> NSAttributeDescription",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/coredataplus\/coredata\/nsattributedescription",
+                "title" : "NSAttributeDescription",
+                "type" : "extension"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsbatchdeleteresult\/changes",
+                    "title" : "var changes: [String : [NSManagedObjectID]]?",
+                    "type" : "property"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsbatchdeleteresult\/count",
+                    "title" : "var count: Int?",
+                    "type" : "property"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsbatchdeleteresult\/deletes",
+                    "title" : "var deletes: [NSManagedObjectID]?",
+                    "type" : "property"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsbatchdeleteresult\/status",
+                    "title" : "var status: Bool?",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/coredataplus\/coredata\/nsbatchdeleteresult",
+                "title" : "NSBatchDeleteResult",
+                "type" : "extension"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsbatchinsertresult\/changes",
+                    "title" : "var changes: [String : [NSManagedObjectID]]?",
+                    "type" : "property"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsbatchinsertresult\/count",
+                    "title" : "var count: Int?",
+                    "type" : "property"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsbatchinsertresult\/inserts",
+                    "title" : "var inserts: [NSManagedObjectID]?",
+                    "type" : "property"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsbatchinsertresult\/status",
+                    "title" : "var status: Bool?",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/coredataplus\/coredata\/nsbatchinsertresult",
+                "title" : "NSBatchInsertResult",
+                "type" : "extension"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsbatchupdateresult\/changes",
+                    "title" : "var changes: [String : [NSManagedObjectID]]?",
+                    "type" : "property"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsbatchupdateresult\/count",
+                    "title" : "var count: Int?",
+                    "type" : "property"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsbatchupdateresult\/status",
+                    "title" : "var status: Bool?",
+                    "type" : "property"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsbatchupdateresult\/updates",
+                    "title" : "var updates: [NSManagedObjectID]?",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/coredataplus\/coredata\/nsbatchupdateresult",
+                "title" : "NSBatchUpdateResult",
+                "type" : "extension"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsderivedattributedescription\/init(name:type:derivationexpression:)",
+                    "title" : "convenience init(name: String, type: NSAttributeType, derivationExpression: NSExpression)",
+                    "type" : "init"
+                  }
+                ],
+                "path" : "\/documentation\/coredataplus\/coredata\/nsderivedattributedescription",
+                "title" : "NSDerivedAttributeDescription",
+                "type" : "extension"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsentitydescription\/init(for:withname:)",
+                    "title" : "convenience init<T>(for: T.Type, withName: String?)",
+                    "type" : "init"
+                  },
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsentitydescription\/topmostancestorentity",
+                    "title" : "var topMostAncestorEntity: NSEntityDescription",
+                    "type" : "property"
+                  },
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsentitydescription\/add(_:)",
+                    "title" : "func add(NSPropertyDescription)",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsentitydescription\/commonancestorentity(with:)",
+                    "title" : "func commonAncestorEntity(with: NSEntityDescription) -> NSEntityDescription?",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsentitydescription\/isdescendantentity(of:recursive:)",
+                    "title" : "func isDescendantEntity(of: NSEntityDescription, recursive: Bool) -> Bool",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/coredataplus\/coredata\/nsentitydescription",
+                "title" : "NSEntityDescription",
+                "type" : "extension"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsentitymapping\/isinferred",
+                    "title" : "var isInferred: Bool",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/coredataplus\/coredata\/nsentitymapping",
+                "title" : "NSEntityMapping",
+                "type" : "extension"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequest\/init(entity:predicate:batchsize:)",
+                    "title" : "convenience init(entity: NSEntityDescription, predicate: NSPredicate?, batchSize: Int)",
+                    "type" : "init"
+                  },
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequest\/addsortdescriptors(_:)",
+                    "title" : "func addSortDescriptors([NSSortDescriptor])",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequest",
+                "title" : "NSFetchRequest",
+                "type" : "extension"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchedpropertydescription\/init(name:destinationentity:configuration:)",
+                    "title" : "convenience init(name: String, destinationEntity: NSEntityDescription, configuration: (NSFetchRequest<NSFetchRequestResult>) -> Void)",
+                    "type" : "init"
+                  }
+                ],
+                "path" : "\/documentation\/coredataplus\/coredata\/nsfetchedpropertydescription",
+                "title" : "NSFetchedPropertyDescription",
+                "type" : "extension"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobject\/hastemporaryid",
+                    "title" : "var hasTemporaryID: Bool",
+                    "type" : "property"
+                  },
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobject\/changedvalue(forkey:)",
+                    "title" : "func changedValue(forKey: String) -> Any?",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobject\/committedvalue(forkey:)",
+                    "title" : "func committedValue(forKey: String) -> Any?",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobject\/delete()",
+                    "title" : "func delete()",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobject\/evaluate(with:)",
+                    "title" : "func evaluate(with: NSPredicate) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobject\/fault()",
+                    "title" : "func fault()",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobject\/materialize()",
+                    "title" : "func materialize()",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobject\/obtainpermanentid()",
+                    "title" : "func obtainPermanentID() throws -> NSManagedObjectID",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobject\/refresh(mergechanges:)",
+                    "title" : "func refresh(mergeChanges: Bool)",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobject",
+                "title" : "NSManagedObject",
+                "type" : "extension"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobjectcontext\/changescount",
+                    "title" : "var changesCount: Int",
+                    "type" : "property"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobjectcontext\/haspersistentchanges",
+                    "title" : "var hasPersistentChanges: Bool",
+                    "type" : "property"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobjectcontext\/persistentchangescount",
+                    "title" : "var persistentChangesCount: Int",
+                    "type" : "property"
+                  },
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobjectcontext\/deletehistory()",
+                    "title" : "func deleteHistory() throws -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobjectcontext\/deletehistory(before:)-4mypl",
+                    "title" : "func deleteHistory(before: Date) throws -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobjectcontext\/deletehistory(before:)-7r3ik",
+                    "title" : "func deleteHistory(before: NSPersistentHistoryTransaction) throws -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobjectcontext\/deletehistory(before:)-9jyks",
+                    "title" : "func deleteHistory(before: NSPersistentHistoryToken?) throws -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobjectcontext\/fetchnsarray(_:)",
+                    "title" : "func fetchNSArray<T>(NSFetchRequest<T>) throws -> NSArray",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobjectcontext\/historychanges(using:)",
+                    "title" : "func historyChanges(using: NSPersistentHistoryChangeRequest) throws -> [NSPersistentHistoryChange]",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobjectcontext\/historytransactions(using:andassociatedchanges:)",
+                    "title" : "func historyTransactions(using: NSPersistentHistoryChangeRequest, andAssociatedChanges: Bool) throws -> [NSPersistentHistoryTransaction]",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobjectcontext\/mergechanges(fromcontextdidsavepayload:)",
+                    "title" : "func mergeChanges(fromContextDidSavePayload: ManagedObjectContextDidSaveObjects)",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobjectcontext\/mergetransactions(_:)",
+                    "title" : "func mergeTransactions([NSPersistentHistoryTransaction]) throws -> (NSPersistentHistoryToken, Date)?",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobjectcontext\/newbackgroundcontext(aschildcontext:)",
+                    "title" : "func newBackgroundContext(asChildContext: Bool) -> NSManagedObjectContext",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobjectcontext\/newchildcontext(concurrencytype:)",
+                    "title" : "func newChildContext(concurrencyType: NSManagedObjectContextConcurrencyType?) -> NSManagedObjectContext",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobjectcontext\/performandwait(_:)",
+                    "title" : "func performAndWait<T>((NSManagedObjectContext) throws -> T) rethrows -> T",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobjectcontext\/saveifneeded()",
+                    "title" : "func saveIfNeeded() throws",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobjectcontext\/saveifneededorrollback()",
+                    "title" : "func saveIfNeededOrRollBack() throws",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobjectcontext",
+                "title" : "NSManagedObjectContext",
+                "type" : "extension"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmappingmodel\/isinferred",
+                    "title" : "var isInferred: Bool",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/coredataplus\/coredata\/nsmappingmodel",
+                "title" : "NSMappingModel",
+                "type" : "extension"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmigrationmanager\/makeprogressreporter()",
+                    "title" : "func makeProgressReporter() -> MigrationProgressReporter",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/coredataplus\/coredata\/nsmigrationmanager",
+                "title" : "NSMigrationManager",
+                "type" : "extension"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nspersistentstorecoordinator\/removeallstores()",
+                    "title" : "func removeAllStores() throws",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nspersistentstorecoordinator\/setmetadatavalue(_:with:for:)",
+                    "title" : "func setMetadataValue(Any?, with: String, for: NSPersistentStore)",
+                    "type" : "method"
+                  },
+                  {
+                    "title" : "Type Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nspersistentstorecoordinator\/destroystore(at:options:)",
+                    "title" : "static func destroyStore(at: URL, options: PersistentStoreOptions?) throws",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nspersistentstorecoordinator\/replacestore(at:destinationoptions:withpersistentstorefrom:sourceoptions:)",
+                    "title" : "static func replaceStore(at: URL, destinationOptions: PersistentStoreOptions?, withPersistentStoreFrom: URL, sourceOptions: PersistentStoreOptions?) throws",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/coredataplus\/coredata\/nspersistentstorecoordinator",
+                "title" : "NSPersistentStoreCoordinator",
+                "type" : "extension"
+              },
+              {
+                "title" : "Extended Protocols",
+                "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Type Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/entityname",
+                    "title" : "static var entityName: String",
+                    "type" : "property"
+                  },
+                  {
+                    "title" : "Type Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/batchdelete(using:predicate:includessubentities:resulttype:affectedstores:)",
+                    "title" : "static func batchDelete(using: NSManagedObjectContext, predicate: NSPredicate?, includesSubentities: Bool, resultType: NSBatchDeleteRequestResultType, affectedStores: [NSPersistentStore]?) throws -> NSBatchDeleteResult",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/batchinsert(using:resulttype:dictionaryhandler:)",
+                    "title" : "static func batchInsert(using: NSManagedObjectContext, resultType: NSBatchInsertRequestResultType, dictionaryHandler: (NSMutableDictionary) -> Bool) throws -> NSBatchInsertResult",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/batchinsert(using:resulttype:managedobjecthandler:)",
+                    "title" : "static func batchInsert(using: NSManagedObjectContext, resultType: NSBatchInsertRequestResultType, managedObjectHandler: (Self) -> Bool) throws -> NSBatchInsertResult",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/batchinsert(using:resulttype:objects:affectedstores:)",
+                    "title" : "static func batchInsert(using: NSManagedObjectContext, resultType: NSBatchInsertRequestResultType, objects: [[String : Any]], affectedStores: [NSPersistentStore]?) throws -> NSBatchInsertResult",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/batchupdate(using:configuration:)",
+                    "title" : "static func batchUpdate(using: NSManagedObjectContext, configuration: (NSBatchUpdateRequest) -> Void) throws -> NSBatchUpdateResult",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/count(in:for:)",
+                    "title" : "static func count(in: NSManagedObjectContext, for: (NSFetchRequest<Self>) -> Void) throws -> Int",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/delete(in:except:affectedstores:)",
+                    "title" : "static func delete(in: NSManagedObjectContext, except: [Self], affectedStores: [NSPersistentStore]?) throws",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/delete(in:includingsubentities:where:limit:affectedstores:)",
+                    "title" : "static func delete(in: NSManagedObjectContext, includingSubentities: Bool, where: NSPredicate, limit: Int?, affectedStores: [NSPersistentStore]?) throws",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/existingobject(with:in:)",
+                    "title" : "static func existingObject(with: NSManagedObjectID, in: NSManagedObjectContext) throws -> Self?",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/fetchnsarray(in:with:)",
+                    "title" : "static func fetchNSArray(in: NSManagedObjectContext, with: (NSFetchRequest<Self>) -> Void) throws -> NSArray",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/fetchobjectids(in:includingsubentities:where:affectedstores:)",
+                    "title" : "static func fetchObjectIDs(in: NSManagedObjectContext, includingSubentities: Bool, where: NSPredicate, affectedStores: [NSPersistentStore]?) throws -> [NSManagedObjectID]",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/fetchobjects(in:estimatedresultcount:with:)",
+                    "title" : "static func fetchObjects(in: NSManagedObjectContext, estimatedResultCount: Int, with: (NSFetchRequest<Self>) -> Void) async throws -> [Self]",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/fetchobjects(in:estimatedresultcount:with:completion:)",
+                    "title" : "static func fetchObjects(in: NSManagedObjectContext, estimatedResultCount: Int, with: (NSFetchRequest<Self>) -> Void, completion: (Result<[Self], Error>) -> Void) throws -> NSAsynchronousFetchResult<Self>",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/fetchobjects(in:with:)",
+                    "title" : "static func fetchObjects(in: NSManagedObjectContext, with: (NSFetchRequest<Self>) -> Void) throws -> [Self]",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/fetchoneobject(in:where:includespendingchanges:affectedstores:)",
+                    "title" : "static func fetchOneObject(in: NSManagedObjectContext, where: NSPredicate, includesPendingChanges: Bool, affectedStores: [NSPersistentStore]?) throws -> Self?",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/fetchuniqueobject(in:where:affectedstores:)",
+                    "title" : "static func fetchUniqueObject(in: NSManagedObjectContext, where: NSPredicate, affectedStores: [NSPersistentStore]?) throws -> Self?",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/materializedobject(in:where:)",
+                    "title" : "static func materializedObject(in: NSManagedObjectContext, where: NSPredicate) -> Self?",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/materializedobjects(in:where:)",
+                    "title" : "static func materializedObjects(in: NSManagedObjectContext, where: NSPredicate) -> [Self]",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/newfetchrequest()",
+                    "title" : "static func newFetchRequest() -> NSFetchRequest<Self>",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/object(with:in:)",
+                    "title" : "static func object(with: NSManagedObjectID, in: NSManagedObjectContext) -> Self?",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult",
+                "title" : "NSFetchRequestResult",
+                "type" : "extension"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/coredata",
+            "title" : "CoreData",
+            "type" : "extension"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Extended Classes",
+                "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/foundation\/nspredicate\/and(_:)",
+                    "title" : "func and(NSPredicate) -> NSPredicate",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/foundation\/nspredicate\/or(_:)",
+                    "title" : "func or(NSPredicate) -> NSPredicate",
+                    "type" : "method"
+                  },
+                  {
+                    "title" : "Type Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/foundation\/nspredicate\/false",
+                    "title" : "static let `false`: NSPredicate",
+                    "type" : "property"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/foundation\/nspredicate\/true",
+                    "title" : "static let `true`: NSPredicate",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/coredataplus\/foundation\/nspredicate",
+                "title" : "NSPredicate",
+                "type" : "extension"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/foundation\/nsset\/deletemanagedobjects()",
+                    "title" : "func deleteManagedObjects()",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/foundation\/nsset\/materializemanagedobjectfaults()",
+                    "title" : "func materializeManagedObjectFaults() throws",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/coredataplus\/foundation\/nsset",
+                "title" : "NSSet",
+                "type" : "extension"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/foundation",
+            "title" : "Foundation",
+            "type" : "extension"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Extended Protocols",
+                "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/swift\/collection\/deletemanagedobjects()",
+                    "title" : "func deleteManagedObjects()",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/swift\/collection\/entities()",
+                    "title" : "func entities() -> Set<NSEntityDescription>",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/swift\/collection\/materializefaults()",
+                    "title" : "func materializeFaults() throws",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/coredataplus\/swift\/collection",
+                "title" : "Collection",
+                "type" : "extension"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/swift",
+            "title" : "Swift",
+            "type" : "extension"
+          }
+        ],
+        "path" : "\/documentation\/coredataplus",
+        "title" : "CoreDataPlus",
+        "type" : "module"
+      }
+    ]
+  },
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 1,
+    "patch" : 1
+  }
+}

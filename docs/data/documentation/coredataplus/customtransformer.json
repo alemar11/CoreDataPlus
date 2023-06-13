@@ -197,6 +197,7 @@
               "type" : "paragraph"
             }
           ],
+          "name" : "Note",
           "style" : "note",
           "type" : "aside"
         }
@@ -207,7 +208,7 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
-
+        "doc:\/\/CoreDataPlus\/objc(cs)NSValueTransformer"
       ],
       "kind" : "relationships",
       "title" : "Inherits From",
@@ -229,7 +230,7 @@
   ],
   "schemaVersion" : {
     "major" : 0,
-    "minor" : 2,
+    "minor" : 3,
     "patch" : 0
   },
   "sections" : [
@@ -238,7 +239,6 @@
   "topicSections" : [
     {
       "identifiers" : [
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CustomTransformer\/init()",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CustomTransformer\/init(transform:reverseTransform:)"
       ],
       "title" : "Initializers"
@@ -466,27 +466,6 @@
   "title" : "allowsReverseTransformation()",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/customtransformer\/allowsreversetransformation()"
-},
-"doc://CoreDataPlus/documentation/CoreDataPlus/CustomTransformer/init()": {
-  "abstract" : [
-
-  ],
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "()"
-    }
-  ],
-  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CustomTransformer\/init()",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init()",
-  "type" : "topic",
-  "url" : "\/documentation\/coredataplus\/customtransformer\/init()"
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/CustomTransformer/init(transform:reverseTransform:)": {
   "abstract" : [
@@ -949,6 +928,11 @@
   "title" : "unregister()",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/customtransformer\/unregister()"
+},
+"doc://CoreDataPlus/objc(cs)NSValueTransformer": {
+  "identifier" : "doc:\/\/CoreDataPlus\/objc(cs)NSValueTransformer",
+  "title" : "Foundation.ValueTransformer",
+  "type" : "unresolvable"
 },
 "doc://CoreDataPlus/objc(pl)NSObject": {
   "identifier" : "doc:\/\/CoreDataPlus\/objc(pl)NSObject",

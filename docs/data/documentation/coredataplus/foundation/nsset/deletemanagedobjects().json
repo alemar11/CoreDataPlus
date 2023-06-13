@@ -1,0 +1,262 @@
+{
+  "abstract" : [
+    {
+      "text" : "Specifies that all the ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSManagedObject",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " objects (with a ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSManangedObjectContext",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ") should be removed from its persistent store when changes are committed.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Foundation",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Foundation\/NSSet"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Foundation\/NSSet\/deleteManagedObjects()"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "extendedModule" : "Foundation",
+    "externalID" : "s:So5NSSetC12CoreDataPlusE20deleteManagedObjectsyyF",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "func"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "deleteManagedObjects"
+      },
+      {
+        "kind" : "text",
+        "text" : "()"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "CoreDataPlus"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Instance Method",
+    "symbolKind" : "method",
+    "title" : "deleteManagedObjects()"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "final"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "func"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "deleteManagedObjects"
+            },
+            {
+              "kind" : "text",
+              "text" : "()"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    },
+    {
+      "content" : [
+        {
+          "anchor" : "discussion",
+          "level" : 2,
+          "text" : "Discussion",
+          "type" : "heading"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "Each object is deleted synchronously in his context queue.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "Important",
+          "style" : "important",
+          "type" : "aside"
+        }
+      ],
+      "kind" : "content"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/coredataplus\/foundation\/nsset\/deletemanagedobjects()"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://CoreDataPlus/documentation/CoreDataPlus": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "CoreDataPlus",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/Foundation": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Foundation",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "Foundation",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/foundation"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/Foundation/NSSet": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "extension"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "preciseIdentifier" : "c:objc(cs)NSSet",
+      "text" : "NSSet"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Foundation\/NSSet",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "NSSet"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "NSSet",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/foundation\/nsset"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/Foundation/NSSet/deleteManagedObjects()": {
+  "abstract" : [
+    {
+      "text" : "Specifies that all the ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSManagedObject",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " objects (with a ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSManangedObjectContext",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ") should be removed from its persistent store when changes are committed.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "deleteManagedObjects"
+    },
+    {
+      "kind" : "text",
+      "text" : "()"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Foundation\/NSSet\/deleteManagedObjects()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "deleteManagedObjects()",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/foundation\/nsset\/deletemanagedobjects()"
+}
+}
+}

@@ -105,7 +105,7 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
-
+        "doc:\/\/CoreDataPlus\/objc(cs)NSMigrationManager"
       ],
       "kind" : "relationships",
       "title" : "Inherits From",
@@ -127,7 +127,7 @@
   ],
   "schemaVersion" : {
     "major" : 0,
-    "minor" : 2,
+    "minor" : 3,
     "patch" : 0
   },
   "sections" : [
@@ -136,7 +136,6 @@
   "topicSections" : [
     {
       "identifiers" : [
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/init()",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/init(sourceModel:destinationModel:)"
       ],
       "title" : "Initializers"
@@ -704,27 +703,6 @@
   "title" : "estimatedTime",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/estimatedtime"
-},
-"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/init()": {
-  "abstract" : [
-
-  ],
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "()"
-    }
-  ],
-  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager\/init()",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init()",
-  "type" : "topic",
-  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/init()"
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager/init(sourceModel:destinationModel:)": {
   "abstract" : [
@@ -1357,6 +1335,11 @@
   "title" : "usesStoreSpecificMigrationManager",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/usesstorespecificmigrationmanager"
+},
+"doc://CoreDataPlus/objc(cs)NSMigrationManager": {
+  "identifier" : "doc:\/\/CoreDataPlus\/objc(cs)NSMigrationManager",
+  "title" : "CoreData.NSMigrationManager",
+  "type" : "unresolvable"
 },
 "doc://CoreDataPlus/objc(pl)NSObject": {
   "identifier" : "doc:\/\/CoreDataPlus\/objc(pl)NSObject",

@@ -205,6 +205,7 @@
               "type" : "paragraph"
             }
           ],
+          "name" : "Note",
           "style" : "note",
           "type" : "aside"
         }
@@ -215,7 +216,7 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
-
+        "doc:\/\/CoreDataPlus\/objc(cs)NSSecureUnarchiveFromDataTransformer"
       ],
       "kind" : "relationships",
       "title" : "Inherits From",
@@ -237,19 +238,13 @@
   ],
   "schemaVersion" : {
     "major" : 0,
-    "minor" : 2,
+    "minor" : 3,
     "patch" : 0
   },
   "sections" : [
 
   ],
   "topicSections" : [
-    {
-      "identifiers" : [
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/init()"
-      ],
-      "title" : "Initializers"
-    },
     {
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/reverseTransformedValue(_:)",
@@ -451,27 +446,6 @@
   "title" : "allowsReverseTransformation()",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/transformer\/allowsreversetransformation()"
-},
-"doc://CoreDataPlus/documentation/CoreDataPlus/Transformer/init()": {
-  "abstract" : [
-
-  ],
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "()"
-    }
-  ],
-  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/init()",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init()",
-  "type" : "topic",
-  "url" : "\/documentation\/coredataplus\/transformer\/init()"
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/Transformer/register()": {
   "abstract" : [
@@ -758,6 +732,11 @@
   "title" : "unregister()",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/transformer\/unregister()"
+},
+"doc://CoreDataPlus/objc(cs)NSSecureUnarchiveFromDataTransformer": {
+  "identifier" : "doc:\/\/CoreDataPlus\/objc(cs)NSSecureUnarchiveFromDataTransformer",
+  "title" : "Foundation.NSSecureUnarchiveFromDataTransformer",
+  "type" : "unresolvable"
 },
 "doc://CoreDataPlus/objc(pl)NSObject": {
   "identifier" : "doc:\/\/CoreDataPlus\/objc(pl)NSObject",
