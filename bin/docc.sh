@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# At the moment DocC doesn't generate documentation for the extensions of components not defined in the package. https://developer.apple.com/forums/thread/683878
-
 export BUILDING_FOR_DOCUMENTATION_GENERATION=1
 
 set -eu
@@ -33,6 +31,7 @@ swift package \
     --disable-indexing \
     --transform-for-static-hosting \
     --hosting-base-path "$HOSTING_BASE_PATH" \
+    --include-extended-types \
     --output-path "$ROOT/gh-pages/docs"
 
 # Save the current commit we've just built documentation from in a variable

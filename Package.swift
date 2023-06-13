@@ -1,4 +1,4 @@
-// swift-tools-version:5.6
+// swift-tools-version:5.8
 
 import PackageDescription
 import Foundation
@@ -61,5 +61,5 @@ let package = Package(
 
 // Only require the docc plugin when building documentation
 package.dependencies += buildingDocumentation ? [
-  .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
+  .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.2.0"),
 ] : []
