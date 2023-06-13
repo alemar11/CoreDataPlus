@@ -450,7 +450,7 @@ extension V3 {
     return mapping
   }
 
-  // This mapping takes all the feedbacks whose comment property contains the word "great" a increse their rating by 10
+  // This mapping takes all the feedbacks whose comment property contains the word "great" a increase their rating by 10
   static func makeFeedbackMappingPartOne() -> NSEntityMapping {
     let mapping = NSEntityMapping()
     mapping.name = "FeedbackToFeedbackPartOne"
