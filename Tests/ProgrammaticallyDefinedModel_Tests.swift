@@ -6,7 +6,7 @@ import CoreData
 
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 final class ProgrammaticallyDefinedModelTests: OnDiskWithProgrammaticallyModelTestCase {
-  func testSetup() throws {
+  func test_Setup() throws {
     let context = container.viewContext
     context.fillWithSampleData2()
     try context.save()
@@ -27,7 +27,7 @@ final class ProgrammaticallyDefinedModelTests: OnDiskWithProgrammaticallyModelTe
     XCTAssertEqual(author.favFeedbacks?.count, 2)
   }
 
-  func testTweakFetchedPropertyAtRuntime() throws {
+  func test_TweakFetchedPropertyAtRuntime() throws {
     let context = container.viewContext
     context.fillWithSampleData2()
     try context.save()
@@ -53,7 +53,7 @@ final class ProgrammaticallyDefinedModelTests: OnDiskWithProgrammaticallyModelTe
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 final class ProgrammaticallyDefinedModelV3Tests: XCTestCase {
   // Tests to make it sure that the model V3 is correctly defined
-  func testSetupV3() throws {
+  func test_SetupV3() throws {
     let url = URL.newDatabaseURL(withID: UUID())
     let container = NSPersistentContainer(name: "SampleModel2", managedObjectModel: V3.makeManagedObjectModel())
     let description = NSPersistentStoreDescription()
@@ -79,7 +79,7 @@ final class ProgrammaticallyDefinedModelV3Tests: XCTestCase {
     XCTAssertEqual(author.favFeedbacks?.count, 2)
   }
 
-  func testInvestigationVersionHashes() {
+  func test_InvestigationVersionHashes() {
     // http://openradar.appspot.com/FB9044112
     let coverVersionHash = V3.makeManagedObjectModel().entityVersionHashesByName["Cover"]
     let bookVersionHash = V3.makeManagedObjectModel().entityVersionHashesByName["Book"]

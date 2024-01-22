@@ -13,7 +13,7 @@ fileprivate extension NSManagedObject {
 }
 
 final class NSEntityDescriptionUtilsTests: InMemoryTestCase {
-  func testEntity() {
+  func test_Entity() {
     let context = container.viewContext
     let expensiveCar = ExpensiveSportCar(context: context)
     let entityNames = expensiveCar.entity.ancestorEntities().compactMap { $0.name}
@@ -23,7 +23,7 @@ final class NSEntityDescriptionUtilsTests: InMemoryTestCase {
     XCTAssertFalse(entityNames.contains(ExpensiveSportCar.entityName), "The hierarchy should contain only super entities")
   }
 
-  func testTopMostEntity() {
+  func test_TopMostEntity() {
     /// Making sure that all the necessary bits are available
 
     guard let model = container.viewContext.persistentStoreCoordinator?.managedObjectModel else {
@@ -58,7 +58,7 @@ final class NSEntityDescriptionUtilsTests: InMemoryTestCase {
     XCTAssertTrue(topMostAncestorEntity == carEntity, "\(topMostAncestorEntity) should be a Car entity.")
   }
 
-  func testCommonEntityAncestor() {
+  func test_CommonEntityAncestor() {
     let context = container.viewContext
 
     do {
@@ -133,7 +133,7 @@ final class NSEntityDescriptionUtilsTests: InMemoryTestCase {
   }
 
 
-  func testEntitiesKeepingOnlyCommonEntityAncestors() {
+  func test_EntitiesKeepingOnlyCommonEntityAncestors() {
     let context = container.viewContext
 
     do {
@@ -237,7 +237,7 @@ final class NSEntityDescriptionUtilsTests: InMemoryTestCase {
     }
   }
 
-  func testIsSubEntity() {
+  func test_IsSubEntity() {
     let context = container.viewContext
     let car = Car(context: context).entity
     let sportCar = SportCar(context: context).entity

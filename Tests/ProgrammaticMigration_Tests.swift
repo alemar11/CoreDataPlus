@@ -8,7 +8,7 @@ import Foundation
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 final class ProgrammaticMigrationTests: XCTestCase {
 
-  func testInferringMappingModelFromV1toV2() throws {
+  func test_InferringMappingModelFromV1toV2() throws {
     let mappingModel = try XCTUnwrap(SampleModel2.SampleModel2Version.version1.inferredMappingModelToNextModelVersion())
     XCTAssertTrue(mappingModel.isInferred)
     let mappings = try XCTUnwrap(mappingModel.entityMappings)
@@ -43,7 +43,7 @@ final class ProgrammaticMigrationTests: XCTestCase {
     }
   }
 
-  func testMigrationFromV1ToV2() throws {
+  func test_MigrationFromV1ToV2() throws {
     let url = URL.newDatabaseURL(withID: UUID())
 
     let options = [
@@ -118,7 +118,7 @@ final class ProgrammaticMigrationTests: XCTestCase {
     //try FileManager.default.removeItem(at: url)
   }
 
-  func testMigrationFromV1ToV2WithMultipleStores() throws {
+  func test_MigrationFromV1ToV2WithMultipleStores() throws {
     let options = [
       NSMigratePersistentStoresAutomaticallyOption: true,
       NSInferMappingModelAutomaticallyOption: false,
@@ -235,7 +235,7 @@ final class ProgrammaticMigrationTests: XCTestCase {
     try FileManager.default.removeItem(at: urlPart2)
   }
 
-  func testMigrationFromV1toV3() throws {
+  func test_MigrationFromV1toV3() throws {
     let url = URL.newDatabaseURL(withID: UUID())
 
     let options = [
@@ -336,7 +336,7 @@ final class ProgrammaticMigrationTests: XCTestCase {
     try FileManager.default.removeItem(at: url)
   }
 
-  func testInvestigationNSExpression() {
+  func test_InvestigationNSExpression() {
     // https://nshipster.com/nsexpression/
     // https://funwithobjc.tumblr.com/post/2922267976/using-custom-functions-with-nsexpression
     // https://nshipster.com/kvc-collection-operators/

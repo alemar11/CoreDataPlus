@@ -7,7 +7,7 @@ import CoreData
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 final class NSManagedObjectContextHistoryTests: BaseTestCase {
 
-  func testMergeHistoryAfterDate() throws {
+  func test_MergeHistoryAfterDate() throws {
     // Given
     let id = UUID()
     let container1 = OnDiskPersistentContainer.makeNew(id: id)
@@ -58,7 +58,7 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     try container1.destroy()
   }
 
-  func testMergeHistoryAfterDateWithMultipleTransactions() throws {
+  func test_MergeHistoryAfterDateWithMultipleTransactions() throws {
     // Given
     let id = UUID()
     let container1 = OnDiskPersistentContainer.makeNew(id: id)
@@ -156,7 +156,7 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     try container1.destroy()
   }
 
-  func testMergeHistoryAfterNilTokenWithoutAnyHistoryChanges() throws {
+  func test_MergeHistoryAfterNilTokenWithoutAnyHistoryChanges() throws {
     let container1 = OnDiskPersistentContainer.makeNew()
     let stores = container1.persistentStoreCoordinator.persistentStores
     XCTAssertEqual(stores.count, 1)
@@ -179,7 +179,7 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     try container1.destroy()
   }
 
-  func testPersistentStoreWithHistoryTrackingEnabledGeneratesHistoryTokens() throws {
+  func test_PersistentStoreWithHistoryTrackingEnabledGeneratesHistoryTokens() throws {
     // Given
     let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
     let storeURL = URL.newDatabaseURL(withID: UUID())
@@ -215,7 +215,7 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     try NSPersistentStoreCoordinator.destroyStore(at: storeURL)
   }
 
-  func testPersistentStoreWithHistoryTrackingDisabledDoesntGenerateHistoryTokens() throws {
+  func test_PersistentStoreWithHistoryTrackingDisabledDoesntGenerateHistoryTokens() throws {
     // Given
     let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
     let storeURL = URL.newDatabaseURL(withID: UUID())
@@ -247,7 +247,7 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     try NSPersistentStoreCoordinator.destroyStore(at: storeURL)
   }
 
-  func testDeleteHistoryAfterTransaction() throws {
+  func test_DeleteHistoryAfterTransaction() throws {
     let container = OnDiskPersistentContainer.makeNew()
     let viewContext = container.viewContext
 
@@ -285,7 +285,7 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     XCTAssertEqual(transactions3.count, 1)
   }
 
-  func testFetchHistoryChangesUsingFetchRequest() throws {
+  func test_FetchHistoryChangesUsingFetchRequest() throws {
     // Given
     let id = UUID()
     let container1 = OnDiskPersistentContainer.makeNew(id: id)
@@ -364,7 +364,7 @@ final class NSManagedObjectContextHistoryTests: BaseTestCase {
     try container1.destroy()
   }
 
-  func testInvestigationHistoryFetches() throws {
+  func test_InvestigationHistoryFetches() throws {
     // Given
     let id = UUID()
     let container1 = OnDiskPersistentContainer.makeNew(id: id)

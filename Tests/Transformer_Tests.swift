@@ -24,7 +24,7 @@ final class TransformerTests: OnDiskTestCase {
     }
   }
 
-  func testSaveAndFetchTransformableValue() throws {
+  func test_SaveAndFetchTransformableValue() throws {
     let context = container.viewContext
     let car = Car(context: context)
     car.maker = "FIAT"
@@ -40,7 +40,7 @@ final class TransformerTests: OnDiskTestCase {
     XCTAssertEqual(color.name, "red")
   }
 
-  func testSaveAndFetchTransformableValueUsingCustomTransformer() throws {
+  func test_SaveAndFetchTransformableValueUsingCustomTransformer() throws {
     let context = container.viewContext
     let car = Car(context: context)
     car.maker = "FIAT"
@@ -56,7 +56,7 @@ final class TransformerTests: OnDiskTestCase {
     XCTAssertEqual(color.name, "red")
   }
 
-  func testTransformerUnregister() {
+  func test_TransformerUnregister() {
     XCTAssertFalse(Foundation.ValueTransformer.valueTransformerNames().contains(Transformer<Dummy>.transformerName))
     Transformer<Dummy>.register()
     XCTAssertTrue(Foundation.ValueTransformer.valueTransformerNames().contains(Transformer<Dummy>.transformerName))
@@ -64,7 +64,7 @@ final class TransformerTests: OnDiskTestCase {
     XCTAssertFalse(Foundation.ValueTransformer.valueTransformerNames().contains(Transformer<Dummy>.transformerName))
   }
 
-  func testDataTransformerUnregister() {
+  func test_DataTransformerUnregister() {
     XCTAssertFalse(Foundation.ValueTransformer.valueTransformerNames().contains(CustomTransformer<Dummy>.transformerName))
     CustomTransformer<Dummy>.register {
       guard let color = $0 else { return nil }
@@ -78,7 +78,7 @@ final class TransformerTests: OnDiskTestCase {
     XCTAssertFalse(Foundation.ValueTransformer.valueTransformerNames().contains(CustomTransformer<Dummy>.transformerName))
   }
 
-  func testTransformer() throws {
+  func test_Transformer() throws {
     let transformer = Transformer<Color>()
     let data = transformer.reverseTransformedValue(Color(name: "green"))
     XCTAssertNotNil(data)
@@ -88,7 +88,7 @@ final class TransformerTests: OnDiskTestCase {
     XCTAssertEqual(name, "green")
   }
 
-  func testCustomTransformer() throws {
+  func test_CustomTransformer() throws {
     let transformer = CustomTransformer<Color> { color -> Data? in
       guard let color = color else { return nil }
       return try? NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: true)
@@ -104,7 +104,7 @@ final class TransformerTests: OnDiskTestCase {
     XCTAssertEqual(name, "green")
   }
 
-  func testDataTransformerWithNSArray() throws {
+  func test_DataTransformerWithNSArray() throws {
     let transformer = CustomTransformer<NSArray> { array -> Data? in
       guard let array = array else { return nil }
       return try? NSKeyedArchiver.archivedData(withRootObject: array, requiringSecureCoding: true)

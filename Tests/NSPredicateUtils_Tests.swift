@@ -3,12 +3,12 @@
 import XCTest
 
 final class NSPredicateUtilsTests: XCTestCase {
-  func testAlwaysTrueAndFalsePredicates() {
+  func test_AlwaysTrueAndFalsePredicates() {
     XCTAssertEqual(NSPredicate.true.predicateFormat, "TRUEPREDICATE")
     XCTAssertEqual(NSPredicate.false.predicateFormat, "FALSEPREDICATE")
   }
 
-  func testPredicateComposition() {
+  func test_PredicateComposition() {
     do {
       let predicate = NSPredicate(format: "X = 10").and(NSPredicate(format: "Y = 30"))
       XCTAssertTrue(predicate == NSPredicate(format: "X = 10 AND Y = 30"))

@@ -6,7 +6,7 @@ import CoreData
 
 final class NSManagedObjectUtilsTests: InMemoryTestCase {
 
-  func testRefresh() {
+  func test_Refresh() {
     // Given
     let context = container.viewContext
 
@@ -42,7 +42,7 @@ final class NSManagedObjectUtilsTests: InMemoryTestCase {
   }
 
 
-  func testChangedAndCommittedValue() throws {
+  func test_ChangedAndCommittedValue() throws {
     let context = container.viewContext
 
     let carNumberPlate = #keyPath(Car.numberPlate)
@@ -117,7 +117,7 @@ final class NSManagedObjectUtilsTests: InMemoryTestCase {
     }
   }
 
-  func testFaultAndMaterialize() throws {
+  func test_FaultAndMaterialize() throws {
     let context = container.viewContext
 
     // Given
@@ -143,7 +143,7 @@ final class NSManagedObjectUtilsTests: InMemoryTestCase {
     XCTAssertTrue(sportCar1.isFault)
   }
 
-  func testDelete() {
+  func test_Delete() {
     let context = container.viewContext
 
     // Given
@@ -159,7 +159,7 @@ final class NSManagedObjectUtilsTests: InMemoryTestCase {
     XCTAssertTrue(sportCar1.isDeleted)
   }
 
-  func testCreatePermanentID() throws {
+  func test_CreatePermanentID() throws {
     let context = container.viewContext
     let car = Car(context: context)
     car.maker = "McLaren"
@@ -175,7 +175,7 @@ final class NSManagedObjectUtilsTests: InMemoryTestCase {
     XCTAssertFalse(car.objectID.isTemporaryID)
   }
 
-  func testEvaluatePredicate() {
+  func test_EvaluatePredicate() {
     let context = container.viewContext
     do {
       let predicate = NSPredicate.true

@@ -5,7 +5,7 @@ import CoreData
 @testable import CoreDataPlus
 
 final class NSPersistentStoreCoordinatorUtilsTests: BaseTestCase {
-  func testMetadata() throws {
+  func test_Metadata() throws {
     // Given
     let id = UUID()
     let container1 = OnDiskPersistentContainer.makeNew(id: id)
@@ -42,7 +42,7 @@ final class NSPersistentStoreCoordinatorUtilsTests: BaseTestCase {
     try container2.destroy()
   }
 
-  func testInvestigationSettingMetadataFromPersistentStore() throws {
+  func test_InvestigationSettingMetadataFromPersistentStore() throws {
     let id = UUID()
     let container = OnDiskPersistentContainer.makeNew(id: id)
     let store = try XCTUnwrap(container.persistentStoreCoordinator.persistentStores.first)
@@ -63,7 +63,7 @@ final class NSPersistentStoreCoordinatorUtilsTests: BaseTestCase {
     XCTAssertEqual(metadata2["testKey"] as? String, "Test")
   }
 
-  func testInvestigationSettingMetadataFromPersistentStoreCoordinator() throws {
+  func test_InvestigationSettingMetadataFromPersistentStoreCoordinator() throws {
     // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreData/PersistentStoreFeatures.html
     // There are two ways you can set the metadata for a store:
     //
@@ -103,7 +103,7 @@ final class NSPersistentStoreCoordinatorUtilsTests: BaseTestCase {
     XCTAssertEqual(updatedMetaData2["testKey"] as? String, "Test")
   }
 
-  func testDestroyMissingStore() throws {
+  func test_DestroyMissingStore() throws {
     let wrongURL = URL(fileURLWithPath: "/dev/null")
     XCTAssertThrowsError(try NSPersistentStoreCoordinator.destroyStore(at: wrongURL))
 

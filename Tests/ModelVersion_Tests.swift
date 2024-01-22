@@ -4,18 +4,18 @@ import XCTest
 @testable import CoreDataPlus
 
 final class ModelVersionTests: XCTestCase {
-  func testInvalidInitialization() {
+  func test_InvalidInitialization() {
     XCTAssertThrowsError(try SampleModelVersion(persistentStoreURL: URL(string: "wrong-url")!))
   }
 
-  func testVersionModelSetup() {
+  func test_VersionModelSetup() {
     XCTAssertTrue(SampleModelVersion.currentVersion == .version1)
     XCTAssertTrue(SampleModelVersion.allVersions == [.version1, .version2, .version3])
     XCTAssertTrue(SampleModelVersion.version1.successor == .version2)
     XCTAssertNil(SampleModelVersion.version3.mappingModelToNextModelVersion())
   }
 
-  func testMappingModelsByName() {
+  func test_MappingModelsByName() {
     do {
       let models = SampleModelVersion.version2.mappingModels(for: ["V2toV3"])
       XCTAssertEqual(models.count, 1)

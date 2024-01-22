@@ -11,7 +11,7 @@ import Combine
 
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 final class NotificationMergeTests: InMemoryTestCase {
-  func testInvestigationRegisteredObjects() throws {
+  func test_InvestigationRegisteredObjects() throws {
     try XCTSkipIf(!ProcessInfo.processInfo.environment.keys.contains("XCODE_TESTS"), "This test should be run via Xcode and not using Swift test.")
     try XCTSkipIf(ProcessInfo.processInfo.arguments.contains("zombieObjectsEnabled"), "Testing with Zombie Objects enabled")
 
@@ -55,7 +55,7 @@ final class NotificationMergeTests: InMemoryTestCase {
     XCTAssertEqual(viewContext.registeredObjects.count, 2)
   }
 
-  func testInvestigationMergeChanges() throws {
+  func test_InvestigationMergeChanges() throws {
     // see: testInvesigationRegisteredObjects
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let viewContext = container.viewContext
@@ -127,7 +127,7 @@ final class NotificationMergeTests: InMemoryTestCase {
 
   }
 
-  func testMerge() throws {
+  func test_Merge() throws {
     let viewContext = container.viewContext
     let backgroundContext = container.viewContext.newBackgroundContext(asChildContext: false)
 
@@ -256,7 +256,7 @@ final class NotificationMergeTests: InMemoryTestCase {
     }
   }
 
-  func testAsyncMerge() throws {
+  func test_AsyncMerge() throws {
     let context = container.viewContext
     let anotherContext = container.viewContext.newBackgroundContext(asChildContext: false)
 
@@ -320,7 +320,7 @@ final class NotificationMergeTests: InMemoryTestCase {
     cancellable3.cancel()
   }
 
-  func testNSFetchedResultController() throws {
+  func test_NSFetchedResultController() throws {
     let context = container.viewContext
 
     let person1 = Person(context: context)
@@ -399,7 +399,7 @@ final class NotificationMergeTests: InMemoryTestCase {
     cancellable1.cancel()
   }
 
-  func testNSFetchedResultControllerWithContextReset() throws {
+  func test_NSFetchedResultControllerWithContextReset() throws {
     let context = container.viewContext
 
     let person1 = Person(context: context)

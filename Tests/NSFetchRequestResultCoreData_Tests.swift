@@ -6,7 +6,7 @@ import CoreData
 
 final class NSFetchRequestResultCoreDataTests: InMemoryTestCase {
 
-  func testFetchObjectsIDs() throws {
+  func test_FetchObjectsIDs() throws {
     let context = container.viewContext
 
     // Given
@@ -33,7 +33,7 @@ final class NSFetchRequestResultCoreDataTests: InMemoryTestCase {
     XCTAssertTrue(context.registeredObjects.isEmpty)
   }
 
-  func testdeleteIncludingSubentities() {
+  func test_deleteIncludingSubentities() {
     let context = container.viewContext
 
     // Given
@@ -64,7 +64,7 @@ final class NSFetchRequestResultCoreDataTests: InMemoryTestCase {
 
   }
 
-  func testdeleteExcludingSubentities() {
+  func test_deleteExcludingSubentities() {
     let context = container.viewContext
 
     // Given
@@ -94,7 +94,7 @@ final class NSFetchRequestResultCoreDataTests: InMemoryTestCase {
 
   }
 
-  func testdeleteExcludingExceptions() throws {
+  func test_deleteExcludingExceptions() throws {
     let context = container.viewContext
     context.fillWithSampleData()
 
@@ -131,7 +131,7 @@ final class NSFetchRequestResultCoreDataTests: InMemoryTestCase {
 
   }
 
-  func testdeleteWithSubentitiesExcludingExceptions() throws {
+  func test_deleteWithSubentitiesExcludingExceptions() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()

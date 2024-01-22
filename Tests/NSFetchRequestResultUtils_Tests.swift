@@ -7,7 +7,7 @@ import CoreData
 final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
   // MARK: - Batch Faulting
 
-  func testFaultAndMaterializeObjectWithoutNSManagedObjectContext() throws {
+  func test_FaultAndMaterializeObjectWithoutNSManagedObjectContext() throws {
     let context = container.viewContext
 
     // Given
@@ -27,7 +27,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     XCTAssertFalse(sportCar1.isFault)
   }
 
-  func testFaultAndMaterializeTemporaryObject() throws {
+  func test_FaultAndMaterializeTemporaryObject() throws {
     let context = container.viewContext
 
     // Given
@@ -48,7 +48,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     XCTAssertFalse(sportCar1.isFault)
   }
 
-  func testBatchFaulting() throws {
+  func test_BatchFaulting() throws {
     // Given
     let context = container.viewContext
 
@@ -83,7 +83,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
 
   }
 
-  func testBatchFaultingEdgeCases() throws {
+  func test_BatchFaultingEdgeCases() throws {
     // Given
     let context = container.viewContext
     context.performAndWait {
@@ -117,7 +117,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
 
   }
 
-  func testBatchFaultingWithDifferentContexts() {
+  func test_BatchFaultingWithDifferentContexts() {
     // Given
     let context1 = container.viewContext
     let context2 = context1.newBackgroundContext(asChildContext: false)
@@ -162,7 +162,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     XCTAssertTrue(objects.filter { !$0.isFault }.count == 4)
   }
 
-  func testBatchFaultingToManyRelationship() throws {
+  func test_BatchFaultingToManyRelationship() throws {
     let context = container.viewContext
 
     context.performAndWait {
@@ -193,7 +193,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
 
   // MARK: - Fetch
 
-  func testFetch() throws {
+  func test_Fetch() throws {
     let context = container.viewContext
 
     context.performAndWait {
@@ -219,7 +219,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
 
   // MARK: - Count
 
-  func testCount() throws {
+  func test_Count() throws {
     let context = container.viewContext
 
     context.performAndWait {
@@ -245,7 +245,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
 
   // MARK: - Unique
 
-  func testfetchUniqueObject() throws {
+  func test_fetchUniqueObject() throws {
     let context = container.viewContext
 
     context.performAndWait {
@@ -270,7 +270,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
 
   }
 
-  func testFindUniqueAfterPendingDelete() throws {
+  func test_FindUniqueAfterPendingDelete() throws {
     let context = container.viewContext
 
     // 1. a Lamborghini with plate 304 is saved
@@ -293,7 +293,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     XCTAssertNotNil(car2)
   }
 
-  func testFindUniqueOrCreate() throws {
+  func test_FindUniqueOrCreate() throws {
     let context = container.viewContext
     context.performAndWait {
       context.fillWithSampleData()
@@ -349,7 +349,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
 
   // MARK: - First
 
-  func testfetchOneObject() throws {
+  func test_fetchOneObject() throws {
     let context = container.viewContext
 
     context.performAndWait {
@@ -382,7 +382,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     XCTAssertNil(car5)
   }
 
-  func testFindFirstMaterializedObject() throws {
+  func test_FindFirstMaterializedObject() throws {
     let context = container.viewContext
 
     context.performAndWait {
@@ -410,7 +410,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
 
   // MARK: Materialized Object
 
-  func testfindMaterializedObjects() throws {
+  func test_findMaterializedObjects() throws {
     let context = container.viewContext
 
     context.performAndWait {
@@ -436,7 +436,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
 
   // MARK: Batch Delete
 
-  func testbatchDeleteWithResultTypeStatusOnly() throws {
+  func test_batchDeleteWithResultTypeStatusOnly() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
@@ -451,7 +451,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     XCTAssertEqual(result.changes?[NSDeletedObjectsKey]?.count, nil) // wrong result type
   }
 
-  func testbatchDeleteWithResultTypeCount() throws {
+  func test_batchDeleteWithResultTypeCount() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
@@ -465,7 +465,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     XCTAssertEqual(result.changes?[NSDeletedObjectsKey]?.count, nil) // wrong result type
   }
 
-  func testbatchDeleteWithResultTypeObjectIDs() throws {
+  func test_batchDeleteWithResultTypeObjectIDs() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
@@ -493,7 +493,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     XCTAssertEqual(fiatCountAfterMerge, 0)
   }
 
-  func testBatchDeleteEntities() throws {
+  func test_BatchDeleteEntities() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
@@ -510,7 +510,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     XCTAssertEqual(expensiveSportCarCount, 0)
   }
 
-  func testBatchDeleteEntitiesExcludingSubentities() throws {
+  func test_BatchDeleteEntitiesExcludingSubentities() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
@@ -532,7 +532,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     XCTAssertEqual(expensiveSportCarCount, preDeleteExpensiveSportCarCount)
   }
 
-  func testbatchDeleteMarkedForDeletion() throws {
+  func test_batchDeleteMarkedForDeletion() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
@@ -557,7 +557,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
   // MARK: Batch Insert
 
   @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-  func testbatchInsertWithResultTypeStatusOnly() throws {
+  func test_batchInsertWithResultTypeStatusOnly() throws {
     // Given
     let context = container.viewContext
 
@@ -574,7 +574,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
   }
 
   @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-  func testbatchInsertWithResultTypeCount() throws {
+  func test_batchInsertWithResultTypeCount() throws {
     // Given
     let context = container.viewContext
 
@@ -590,7 +590,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     XCTAssertEqual(result.changes?[NSInsertedObjectsKey]?.count, nil) // wrong result type
   }
 
-  func testbatchInsertWithResultObjectIDs() throws {
+  func test_batchInsertWithResultObjectIDs() throws {
     guard #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) else { return }
 
     // Given
@@ -634,7 +634,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
   }
 
   @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-  func testFailedbatchInsertWithResultObjectIDs() throws {
+  func test_FailedbatchInsertWithResultObjectIDs() throws {
     // Given
     let context = container.viewContext
 
@@ -647,7 +647,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     XCTAssertThrowsError(try Car.batchInsert(using: context, resultType: .objectIDs, objects: objects))
   }
 
-  func testbatchInsertWithDictionaryHandler() throws {
+  func test_batchInsertWithDictionaryHandler() throws {
     // Given
     let context = container.viewContext
 
@@ -678,7 +678,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     XCTAssertEqual(count, total)
   }
 
-  func testBatchInserWithObjectHandler() throws {
+  func test_BatchInserWithObjectHandler() throws {
     // Given
     let context = container.viewContext
 
@@ -715,7 +715,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
 
   // MARK: Batch Update
 
-  func testbatchUpdateWithResultTypeStatusOnly() throws {
+  func test_batchUpdateWithResultTypeStatusOnly() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
@@ -742,7 +742,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     XCTAssertEqual(result.changes?[NSUpdatedObjectsKey]?.count, nil) // wrong result type
   }
 
-  func testbatchUpdateWithResultCountType() throws {
+  func test_batchUpdateWithResultCountType() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
@@ -771,7 +771,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     XCTAssertEqual(result.changes?[NSUpdatedObjectsKey]?.count, nil) // wrong result type
   }
 
-  func testbatchUpdateWithResultObjectIDsType() throws {
+  func test_batchUpdateWithResultObjectIDsType() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
@@ -803,7 +803,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
   }
 
   // TODO: investigate this behaviour (and open a FB)
-//    func testFailedBatchUpdateWithResultObjectIDs() throws {
+//    func test_FailedBatchUpdateWithResultObjectIDs() throws {
 //      guard #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) else { return }
 //
 //      // Given
@@ -862,7 +862,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
 
   // MARK: - Async Fetch
 
-  func testAsyncFetch() throws {
+  func test_AsyncFetch() throws {
     // BUG: Async fetches can't be tested with the ConcurrencyDebug enabled,
     // https://stackoverflow.com/questions/31728425/coredata-asynchronous-fetch-causes-concurrency-debugger-error
     try XCTSkipIf(UserDefaults.standard.integer(forKey: "com.apple.CoreData.ConcurrencyDebug") == 1)
@@ -906,7 +906,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
 
 //  @available(swift 5.5)
 //  @available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *)
-//  func testAsyncFetchUsingSwiftConcurrency() async throws {
+//  func test_AsyncFetchUsingSwiftConcurrency() async throws {
 //    // In testAsyncFetch() the standard implementation doesn't pass the test only if we enable ConcurrencyDebug.
 //    // The async/await version (that is, btw, used in WWDC 2021 videos on how to use continuations) always fails due to data races.
 //    // https://stackoverflow.com/questions/31728425/coredata-asynchronous-fetch-causes-concurrency-debugger-error
@@ -926,7 +926,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
 
   // MARK: - Subquery
 
-  func testInvestigationSubQuery() throws {
+  func test_InvestigationSubQuery() throws {
     // https://medium.com/@Czajnikowski/subquery-is-not-that-scary-3f95cb9e2d98
     let context = container.viewContext
     context.fillWithSampleData()
@@ -949,7 +949,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
 
   // MARK: - Group By
 
-  func testInvestigationGroupBy() throws {
+  func test_InvestigationGroupBy() throws {
     // https://developer.apple.com/documentation/coredata/nsfetchrequest/1506191-propertiestogroupby
     // https://gist.github.com/pronebird/cca9777af004e9c91f9cd36c23cc821c
     // http://www.cimgf.com/2015/06/25/core-data-and-aggregate-fetches-in-swift/

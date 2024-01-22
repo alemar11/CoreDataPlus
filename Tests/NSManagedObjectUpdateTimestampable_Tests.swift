@@ -6,7 +6,7 @@ import CoreData
 
 final class NSManagedObjectUpdateTimestampableTests: InMemoryTestCase {
 
-  func testRefreshUpdateDate() throws {
+  func test_RefreshUpdateDate() throws {
     let context = container.viewContext
     context.fillWithSampleData()
 

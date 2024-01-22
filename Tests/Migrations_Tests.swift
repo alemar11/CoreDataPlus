@@ -7,7 +7,7 @@ import CoreData
 final class MigrationsTests: BaseTestCase {
   // MARK: - LightWeight Migration
 
-  func testMigrationFromNotExistingPersistentStore() {
+  func test_MigrationFromNotExistingPersistentStore() {
     let url = URL(fileURLWithPath: "/path/to/nothing.sqlite")
     let sourceDescription = NSPersistentStoreDescription(url: url)
     let destinationDescription = NSPersistentStoreDescription(url: url)
@@ -18,7 +18,7 @@ final class MigrationsTests: BaseTestCase {
     XCTAssertThrowsError(try migrator.migrate(enableWALCheckpoint: true), "The store shouldn't exist.")
   }
 
-  func testMigrationEdgeCases() throws {
+  func test_MigrationEdgeCases() throws {
     let name = "SampleModel-\(UUID())"
     let container = NSPersistentContainer(name: name, managedObjectModel: model)
     let context = container.viewContext
@@ -71,7 +71,7 @@ final class MigrationsTests: BaseTestCase {
     luxuryCars.forEach { XCTAssertNotNil($0.value(forKey: "isLimitedEdition")) }
   }
 
-  func testIfMigrationIsNeeded() throws {
+  func test_IfMigrationIsNeeded() throws {
     let bundle = Bundle.tests
     let sourceURLV1 = try XCTUnwrap(bundle.url(forResource: "SampleModelV1", withExtension: "sqlite"))
     let sourceURLV2 = try XCTUnwrap(bundle.url(forResource: "SampleModelV2", withExtension: "sqlite"))
@@ -85,7 +85,7 @@ final class MigrationsTests: BaseTestCase {
     XCTAssertFalse(migrationNeededFromV2toV1)
   }
 
-  func testMigrationFromV1toV1() throws {
+  func test_MigrationFromV1toV1() throws {
     let sourceURL = try createSQLiteSampleForV1()
 
     let sourceDescription = NSPersistentStoreDescription(url: sourceURL)
@@ -96,7 +96,7 @@ final class MigrationsTests: BaseTestCase {
     try migrator.migrate(enableWALCheckpoint: true)
   }
 
-  func testMigrationFromV1ToV2() throws {
+  func test_MigrationFromV1ToV2() throws {
     let sourceURL = try createSQLiteSampleForV1()
 
     let targetVersion = SampleModelVersion.version2
@@ -148,7 +148,7 @@ final class MigrationsTests: BaseTestCase {
     token.invalidate()
   }
 
-  func testMigrationFromV1ToV2UsingCustomMigratorProvider() throws {
+  func test_MigrationFromV1ToV2UsingCustomMigratorProvider() throws {
     let sourceURL = try createSQLiteSampleForV1()
 
     let targetVersion = SampleModelVersion.version2
@@ -208,7 +208,7 @@ final class MigrationsTests: BaseTestCase {
 
   // MARK: - HeavyWeight Migration
 
-  func testMigrationFromV2ToV3() throws {
+  func test_MigrationFromV2ToV3() throws {
     let sourceURL = try createSQLiteSampleForV2()
 
     let targetURL = sourceURL
@@ -255,7 +255,7 @@ final class MigrationsTests: BaseTestCase {
     try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
   }
 
-  func testCancelMigrationFromV2ToV3() throws {
+  func test_CancelMigrationFromV2ToV3() throws {
     // Given
     let sourceURL = try createSQLiteSampleForV2()
     let sourceDescription = NSPersistentStoreDescription(url: sourceURL)
@@ -284,7 +284,7 @@ final class MigrationsTests: BaseTestCase {
     try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
   }
 
-  func testMigrationFromV1ToV3() throws {
+  func test_MigrationFromV1ToV3() throws {
     let sourceURL = try createSQLiteSampleForV1()
 
     let version = try SampleModelVersion(persistentStoreURL: sourceURL as URL)
@@ -324,7 +324,7 @@ final class MigrationsTests: BaseTestCase {
     token.invalidate()
   }
 
-  func testInvestigationProgress() {
+  func test_InvestigationProgress() {
     let expectationChildCancelled = expectation(description: "Child Progress cancelled")
     let expectationGrandChildCancelled = expectation(description: "Grandchild Progress cancelled")
     let progress = Progress(totalUnitCount: 1)

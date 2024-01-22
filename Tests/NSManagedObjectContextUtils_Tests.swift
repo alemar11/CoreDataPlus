@@ -5,7 +5,7 @@ import CoreData
 @testable import CoreDataPlus
 
 final class NSManagedObjectContextUtilsTests: InMemoryTestCase {
-  func testHasPersistentChanges() throws {
+  func test_HasPersistentChanges() throws {
     let viewContext = container.viewContext
     XCTAssertFalse(viewContext.hasPersistentChanges)
     let car = Car(context: viewContext)
@@ -27,7 +27,7 @@ final class NSManagedObjectContextUtilsTests: InMemoryTestCase {
     XCTAssertFalse(viewContext.hasPersistentChanges, "viewContext shouldn't have committable changes because only transients properties are changed.")
   }
 
-  func testHasPersistentChangesInParentChildContextRelationship() throws {
+  func test_HasPersistentChangesInParentChildContextRelationship() throws {
     let viewContext = container.viewContext
     let backgroundContext = viewContext.newBackgroundContext(asChildContext: true)
 
@@ -90,7 +90,7 @@ final class NSManagedObjectContextUtilsTests: InMemoryTestCase {
     XCTAssertEqual(viewContext.changesCount, 1)
   }
 
-  func testNewBackgroundContext() {
+  func test_NewBackgroundContext() {
     let backgroundContext = container.viewContext.newBackgroundContext(asChildContext: true)
     XCTAssertEqual(backgroundContext.concurrencyType,.privateQueueConcurrencyType)
     XCTAssertEqual(backgroundContext.parent,container.viewContext)
@@ -100,7 +100,7 @@ final class NSManagedObjectContextUtilsTests: InMemoryTestCase {
     XCTAssertNotEqual(backgroundContext2.parent,container.viewContext)
   }
 
-  func testNewChildContext() {
+  func test_NewChildContext() {
     let childContext = container.viewContext.newChildContext()
     XCTAssertEqual(childContext.concurrencyType, container.viewContext.concurrencyType)
     XCTAssertTrue(childContext.parent === container.viewContext)
@@ -109,7 +109,7 @@ final class NSManagedObjectContextUtilsTests: InMemoryTestCase {
     XCTAssertTrue(childContext2.parent === container.viewContext)
   }
 
-  func testPerformAndWait() throws {
+  func test_PerformAndWait() throws {
 
     let context = container.viewContext
     context.fillWithSampleData()
@@ -122,7 +122,7 @@ final class NSManagedObjectContextUtilsTests: InMemoryTestCase {
     XCTAssertFalse(cars.isEmpty)
   }
 
-  func testPerformAndWaitWithThrow() {
+  func test_PerformAndWaitWithThrow() {
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
     let context = container.viewContext
@@ -148,7 +148,7 @@ final class NSManagedObjectContextUtilsTests: InMemoryTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testSaveIfNeededOrRollback() {
+  func test_SaveIfNeededOrRollback() {
     let context = container.viewContext
 
     let car1 = Car(context: context)
@@ -178,7 +178,7 @@ final class NSManagedObjectContextUtilsTests: InMemoryTestCase {
     XCTAssertEqual(context.registeredObjects.count, 2) // person2 is discarded because it cannot be saved
   }
 
-  func testCollectionDelete() throws {
+  func test_CollectionDelete() throws {
     let context = container.viewContext
     let newContext = context.newBackgroundContext()
 

@@ -6,7 +6,7 @@ import XCTest
 
 final class NSSetCoreDataTests: InMemoryTestCase {
 
-  func testMaterializeFaultedManagedObjects() throws {
+  func test_MaterializeFaultedManagedObjects() throws {
     let context = container.viewContext
     context.performAndWait {
       context.fillWithSampleData()
@@ -42,7 +42,7 @@ final class NSSetCoreDataTests: InMemoryTestCase {
     XCTAssertEqual(finalFaultsCount, 0)
   }
 
-  func testDeleteManagedObjects() throws {
+  func test_DeleteManagedObjects() throws {
     let context = container.viewContext
     context.performAndWait {
       context.fillWithSampleData()

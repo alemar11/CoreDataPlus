@@ -7,7 +7,7 @@ import CoreData
 /// Tests with fetch requests targeting specific persistent stores
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 final class FetchesWithAffectedStoresTests: XCTestCase {
-  func testFetches() throws {
+  func test_Fetches() throws {
     let uuid = UUID().uuidString
     let url1 = URL.newDatabaseURL(withName: "part1-\(uuid)")
     let url2 = URL.newDatabaseURL(withName: "part2-\(uuid)")
@@ -150,7 +150,7 @@ final class FetchesWithAffectedStoresTests: XCTestCase {
     try NSPersistentStoreCoordinator.destroyStore(at: url2)
   }
 
-  func testBatchRequests() throws {
+  func test_BatchRequests() throws {
     let uuid = UUID().uuidString
     let url1 = URL.newDatabaseURL(withName: "part1-\(uuid)")
     let url2 = URL.newDatabaseURL(withName: "part2-\(uuid)")

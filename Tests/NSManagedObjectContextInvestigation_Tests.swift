@@ -5,7 +5,7 @@ import XCTest
 
 final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
   /// Investigation test: calling refreshAllObjects calls refreshObject:mergeChanges on all objects in the context.
-  func testInvestigationRefreshAllObjects() throws {
+  func test_InvestigationRefreshAllObjects() throws {
     let viewContext = container.viewContext
     let car1 = Car(context: viewContext)
     car1.numberPlate = "car1"
@@ -23,7 +23,7 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
   }
 
   /// Investigation test: KVO is fired whenever a property changes (even if the object is not saved in the context).
-  func testInvestigationKVO() throws {
+  func test_InvestigationKVO() throws {
     let context = container.viewContext
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let sportCar1 = SportCar(context: context)
@@ -45,7 +45,7 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
   }
 
   /// Investigation test: automaticallyMergesChangesFromParent behaviour
-  func testInvestigationAutomaticallyMergesChangesFromParent() throws {
+  func test_InvestigationAutomaticallyMergesChangesFromParent() throws {
     // automaticallyMergesChangesFromParent = true
     do {
       let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
@@ -191,7 +191,7 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
     }
   }
 
-  func testInvestigationStalenessInterval() throws {
+  func test_InvestigationStalenessInterval() throws {
     // Given
     let context = container.viewContext
     let car = Car(context: context)
@@ -225,7 +225,7 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
     // The default is a negative value, which represents infinite staleness allowed. 0.0 represents “no staleness acceptable”.
   }
 
-  func testInvestigationShouldRefreshRefetchedObjectsIsStillBroken() throws {
+  func test_InvestigationShouldRefreshRefetchedObjectsIsStillBroken() throws {
     // https://mjtsai.com/blog/2019/10/17/
     // I've opened a feedback myself too: FB7419788
 
@@ -272,7 +272,7 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
     }
   }
 
-  func testInvestigationTransientProperties() throws {
+  func test_InvestigationTransientProperties() throws {
     let container = InMemoryPersistentContainer.makeNew()
     let viewContext = container.viewContext
 
@@ -292,7 +292,7 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
     XCTAssertEqual(car.currentDrivingSpeed, 0)
   }
 
-  func testInvestigationTransientPropertiesBehaviorInParentChildContextRelationship() throws {
+  func test_InvestigationTransientPropertiesBehaviorInParentChildContextRelationship() throws {
     let container = InMemoryPersistentContainer.makeNew()
     let viewContext = container.viewContext
     let childContext = viewContext.newBackgroundContext(asChildContext: true)
@@ -343,7 +343,7 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
     // see testInvestigationContextRegisteredObjectBehaviorAfterSaving
   }
 
-  func testInvestigationContextRegisteredObjectBehaviorAfterSaving() throws {
+  func test_InvestigationContextRegisteredObjectBehaviorAfterSaving() throws {
     let context = container.newBackgroundContext()
 
     // A context keeps registered objects until it's dirted
@@ -387,7 +387,7 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
 
   // MARK: - Batch Size investigations
 
-  func testFetchAsNSArrayUsingBatchSize() throws {
+  func test_FetchAsNSArrayUsingBatchSize() throws {
     // For this investigation you have to enable SQL logs in the test plan (-com.apple.CoreData.SQLDebug 3)
     let context = container.viewContext
     context.fillWithSampleData()
@@ -434,7 +434,7 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
     let _ = cars.firstObject as! Car
   }
 
-  func testFetchAsDictionaryUsingBatchSize() throws {
+  func test_FetchAsDictionaryUsingBatchSize() throws {
     // For this investigation you have to enable SQL logs in the test plan (-com.apple.CoreData.SQLDebug 3)
     let context = container.viewContext
     context.fillWithSampleData()
@@ -492,7 +492,7 @@ final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
    [[moc undoManager] enableUndoRegistration];
    **/
 
-  func testInvestigationUndoManager() throws {
+  func test_InvestigationUndoManager() throws {
     do {
       let context = container.newBackgroundContext()
       context.undoManager = UndoManager() // undoManager is needed to use the undo/redo methods
