@@ -1,11 +1,9 @@
-// swift-tools-version:5.8
+// swift-tools-version:5.9
 
 import PackageDescription
 import Foundation
 
-let isRunningFromCommandLine: Bool = {
-  return ProcessInfo.processInfo.environment["XPC_SERVICE_NAME"] == "0"
-}()
+let isRunningFromCommandLine: Bool = { ProcessInfo.processInfo.environment["XPC_SERVICE_NAME"] == "0" }()
 let buildingDocumentation = getenv("BUILDING_FOR_DOCUMENTATION_GENERATION") != nil
 
 var excluded = [
@@ -42,19 +40,19 @@ if buildingDocumentation {
 
 let package = Package(
   name: "CoreDataPlus",
-  platforms: [.macOS(.v10_14), .iOS(.v12), .tvOS(.v12), .watchOS(.v5)],
+  platforms: [.macOS(.v12), .iOS(.v15), .tvOS(.v15), .watchOS(.v8), .visionOS(.v1)],
   products: [
     .library(name: "CoreDataPlus", targets: ["CoreDataPlus"])
   ],
   targets: [
-    .target(name: "CoreDataPlus", 
+    .target(name: "CoreDataPlus",
             path: "Sources"),
     .testTarget(name: "Tests",
                 dependencies: ["CoreDataPlus"],
                 path: "Tests",
                 exclude: excluded,
                 resources: resources
-    ),
+               ),
   ],
   swiftLanguageVersions: [.v5]
 )
