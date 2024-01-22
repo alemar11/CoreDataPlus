@@ -615,7 +615,7 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
     ]
 
     if #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *) {
-      // on iOS 14, throws an error (NSValidationErrorKey)
+      // on iOS 14 or greater, throws an error (NSValidationErrorKey)
       XCTAssertThrowsError(try Car.batchInsert(using: context, resultType: .objectIDs, objects: objects))
     } else {
       // on iOS 13, it doesn't throw
