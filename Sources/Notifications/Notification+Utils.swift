@@ -8,7 +8,6 @@ extension Notification {
     userInfo?[key] as? Set<NSManagedObject> ?? Set()
   }
 
-  @available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
   func objects(forKey key: NSManagedObjectContext.NotificationKey) -> Set<NSManagedObject> {
     userInfo?[key.rawValue] as? Set<NSManagedObject> ?? Set()
   }
@@ -22,7 +21,6 @@ extension Notification {
     return Set()
   }
 
-  @available(iOS 14.0, iOSApplicationExtension 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
   func objectIDs(forKey key: NSManagedObjectContext.NotificationKey) -> Set<NSManagedObjectID> {
     if let objectIDs = userInfo?[key.rawValue] as? Set<NSManagedObjectID> {
       return objectIDs // Did Save ObjectIDs Notification

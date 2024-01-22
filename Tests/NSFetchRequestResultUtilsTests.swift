@@ -648,8 +648,6 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
   }
 
   func testbatchInsertWithDictionaryHandler() throws {
-    guard #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *) else { return }
-
     // Given
     let context = container.viewContext
 
@@ -681,8 +679,6 @@ final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
   }
 
   func testBatchInserWithObjectHandler() throws {
-    guard #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *) else { return }
-
     // Given
     let context = container.viewContext
 
