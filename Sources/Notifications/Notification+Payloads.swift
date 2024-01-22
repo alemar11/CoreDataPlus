@@ -61,11 +61,7 @@ public struct ManagedObjectContextDidSaveObjects {
   
   /// Returns a `Set` of objects that were inserted into the context.
   public var insertedObjects: Set<NSManagedObject> {
-    if #available(iOS 14.0, iOSApplicationExtension 14.0, macCatalyst 14.0, tvOS 14.0, watchOS 7.0, macOS 11, *) {
-      return notification.objects(forKey: .insertedObjects)
-    } else {
-      return notification.objects(forKey: NSInsertedObjectsKey)
-    }
+    notification.objects(forKey: .insertedObjects)
   }
   
   /// Returns a `Set` of objects that were updated.
