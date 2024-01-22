@@ -1,6 +1,6 @@
 // CoreDataPlus
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 //! Project version number for CoreDataPlus.
 FOUNDATION_EXPORT double CoreDataPlusVersionNumber;
