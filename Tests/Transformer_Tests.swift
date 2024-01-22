@@ -110,7 +110,6 @@ final class TransformerTests: OnDiskTestCase {
       return try? NSKeyedArchiver.archivedData(withRootObject: array, requiringSecureCoding: true)
     } reverseTransform: { data -> NSArray? in
       guard let data = data else { return nil }
-     
       return try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [Color.self, Dummy.self, NSNumber.self, NSArray.self],
                                                      from: data) as? NSArray
     }
