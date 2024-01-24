@@ -5,7 +5,7 @@ import CoreData
 @testable import CoreDataPlus
 import os.lock
 
-final class MigrationsTests: BaseTestCase {
+final class Migrations_Tests: BaseTestCase {
   // MARK: - LightWeight Migration
 
   func test_MigrationFromNotExistingPersistentStore() {
@@ -336,7 +336,7 @@ final class MigrationsTests: BaseTestCase {
   }
 }
 
-extension MigrationsTests {
+extension Migrations_Tests {
   func createSQLiteSampleForV1() throws -> URL {
     let bundle = Bundle.tests
     let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModelV1", withExtension: "sqlite"))  // 125 cars, 5 sport cars

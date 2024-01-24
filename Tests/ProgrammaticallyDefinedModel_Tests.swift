@@ -5,7 +5,7 @@ import CoreData
 @testable import CoreDataPlus
 
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-final class ProgrammaticallyDefinedModelTests: OnDiskWithProgrammaticallyModelTestCase {
+final class ProgrammaticallyDefinedModel_Tests: OnDiskWithProgrammaticallyModelTestCase {
   func test_Setup() throws {
     let context = container.viewContext
     context.fillWithSampleData2()

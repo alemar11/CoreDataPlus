@@ -12,7 +12,7 @@ fileprivate extension NSManagedObject {
   }
 }
 
-final class NSEntityDescriptionUtilsTests: InMemoryTestCase {
+final class NSEntityDescriptionUtils_Tests: InMemoryTestCase {
   func test_Entity() {
     let context = container.viewContext
     let expensiveCar = ExpensiveSportCar(context: context)

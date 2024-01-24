@@ -10,7 +10,7 @@ import Combine
 @testable import CoreDataPlus
 
 @MainActor
-final class NotificationMergeTests: InMemoryTestCase {
+final class NotificationMerge_Tests: InMemoryTestCase {
   func test_InvestigationRegisteredObjects() throws {
     try XCTSkipIf(!ProcessInfo.processInfo.environment.keys.contains("XCODE_TESTS"), "This test should be run via Xcode and not using Swift test.")
     try XCTSkipIf(ProcessInfo.processInfo.arguments.contains("zombieObjectsEnabled"), "Testing with Zombie Objects enabled")

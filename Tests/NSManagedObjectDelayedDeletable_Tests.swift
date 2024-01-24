@@ -4,7 +4,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSManagedObjectDelayedDeletableTests: InMemoryTestCase {
+final class NSManagedObjectDelayedDeletable_Tests: InMemoryTestCase {
   func test_MarkAsDelayedDeletable() throws {
     let context = container.viewContext
     context.fillWithSampleData()

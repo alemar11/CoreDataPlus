@@ -4,7 +4,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSPersistentStoreCoordinatorUtilsTests: BaseTestCase {
+final class NSPersistentStoreCoordinatorUtils_Tests: BaseTestCase {
   func test_Metadata() throws {
     // Given
     let id = UUID()

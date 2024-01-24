@@ -4,7 +4,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSAttributeDescriptionUtilsTests: XCTestCase {
+final class NSAttributeDescriptionUtils_Tests: XCTestCase {
   func test_Int16() {
     let attribute = NSAttributeDescription.int16(name: #function, defaultValue: 1)
     XCTAssertEqual(attribute.name, #function)

@@ -6,7 +6,7 @@ import Combine
 @testable import CoreDataPlus
 
 @MainActor
-final class NotificationPayloadTests: InMemoryTestCase {
+final class NotificationPayload_Tests: InMemoryTestCase {
   /// To issue a NSManagedObjectContextObjectsDidChangeNotification from a background thread, call the NSManagedObjectContext’s processPendingChanges method.
   /// http://openradar.appspot.com/14310964
   /// NSManagedObjectContext’s `perform` method encapsulates an autorelease pool and a call to processPendingChanges, `performAndWait` does not.

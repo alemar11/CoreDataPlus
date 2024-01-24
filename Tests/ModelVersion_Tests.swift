@@ -3,7 +3,7 @@
 import XCTest
 @testable import CoreDataPlus
 
-final class ModelVersionTests: XCTestCase {
+final class ModelVersion_Tests: XCTestCase {
   func test_InvalidInitialization() {
     XCTAssertThrowsError(try SampleModelVersion(persistentStoreURL: URL(string: "wrong-url")!))
   }

@@ -4,7 +4,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSManagedObjectUtilsTests: InMemoryTestCase {
+final class NSManagedObjectUtils_Tests: InMemoryTestCase {
 
   func test_Refresh() {
     // Given

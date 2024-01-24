@@ -4,7 +4,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class TransformerTests: OnDiskTestCase {
+final class Transformer_Tests: OnDiskTestCase {
   @objc(Dummy)
   class Dummy: NSObject, NSSecureCoding {
     static var supportsSecureCoding: Bool { true }

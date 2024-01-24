@@ -4,7 +4,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-final class NSFetchRequestUtilsTests: XCTestCase {
+final class NSFetchRequestUtils_Tests: XCTestCase {
   func test_Init() {
     let fakeEntity = NSEntityDescription()
     do {

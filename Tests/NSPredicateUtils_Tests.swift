@@ -2,7 +2,7 @@
 
 import XCTest
 
-final class NSPredicateUtilsTests: XCTestCase {
+final class NSPredicateUtils_Tests: XCTestCase {
   func test_AlwaysTrueAndFalsePredicates() {
     XCTAssertEqual(NSPredicate.true.predicateFormat, "TRUEPREDICATE")
     XCTAssertEqual(NSPredicate.false.predicateFormat, "FALSEPREDICATE")

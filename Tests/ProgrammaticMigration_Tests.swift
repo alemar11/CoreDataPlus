@@ -6,7 +6,7 @@ import Foundation
 @testable import CoreDataPlus
 
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-final class ProgrammaticMigrationTests: XCTestCase {
+final class ProgrammaticMigration_Tests: XCTestCase {
 
   func test_InferringMappingModelFromV1toV2() throws {
     let mappingModel = try XCTUnwrap(SampleModel2.SampleModel2Version.version1.inferredMappingModelToNextModelVersion())

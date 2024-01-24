@@ -5,7 +5,7 @@ import CoreData
 @testable import CoreDataPlus
 
 @MainActor
-final class NSManagedObjectContextHistoryTests: BaseTestCase {
+final class NSManagedObjectContextHistory_Tests: BaseTestCase {
 
   func test_MergeHistoryAfterDate() throws {
     // Given

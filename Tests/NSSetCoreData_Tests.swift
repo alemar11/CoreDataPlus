@@ -4,7 +4,7 @@ import CoreData
 import XCTest
 @testable import CoreDataPlus
 
-final class NSSetCoreDataTests: InMemoryTestCase {
+final class NSSetCoreData_Tests: InMemoryTestCase {
 
   func test_MaterializeFaultedManagedObjects() throws {
     let context = container.viewContext
