@@ -2,6 +2,7 @@
 
 import CoreData
 import XCTest
+import os.lock
 
 @MainActor
 final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
@@ -28,10 +29,13 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
     let context = container.viewContext
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let sportCar1 = SportCar(context: context)
-    var count = 0
+    let count = OSAllocatedUnfairLock(initialState: 0)
     let token = sportCar1.observe(\.maker, options: .new) { (car, changes) in
-      count += 1
-      if count == 2 {
+      let shouldFulfill = count.withLock {
+        $0 += 1
+        return $0 == 2
+      }
+      if shouldFulfill {
         expectation.fulfill()
       }
     }

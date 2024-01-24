@@ -1,7 +1,7 @@
 // CoreDataPlus
 
 import CoreData
-import os
+import os.lock
 
 /// Provides a `Progress` instance during a `NSMigrationManager` migration phase.
 internal final class MigrationProgressReporter: NSObject, ProgressReporting, @unchecked Sendable {
