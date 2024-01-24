@@ -3,6 +3,8 @@
 import CoreData
 @testable import CoreDataPlus
 
+extension NSManagedObjectContext: @unchecked Sendable { }
+
 let model = SampleModelVersion.version1.managedObjectModel()
 
 // MARK: - URL
@@ -37,10 +39,18 @@ extension URL {
 
 extension Foundation.Bundle {
   fileprivate class Dummy { }
+  
+  static var tests: Bundle {
+#if SWIFT_PACKAGE
+    return Bundle.module
+#else
+    return Bundle(for: Dummy.self)
+#endif
+  }
 
   /// Returns the resource bundle associated with the current Swift module.
   /// Note: the implementation is very close to the one provided by the Swift Package with `Bundle.module` (that is not available for XCTests).
-  static var tests: Bundle = {
+  static var tests_old_implementation: Bundle = {
     let bundleName = "CoreDataPlus_Tests"
 
     let candidates = [

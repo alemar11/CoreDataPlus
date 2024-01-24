@@ -4,6 +4,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
+@MainActor
 final class NSFetchRequestResultUtilsTests: OnDiskTestCase {
   // MARK: - Batch Faulting
 

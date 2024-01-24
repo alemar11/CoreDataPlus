@@ -3,6 +3,7 @@
 import XCTest
 import CoreData
 @testable import CoreDataPlus
+import os.lock
 
 final class MigrationsTests: BaseTestCase {
   // MARK: - LightWeight Migration
@@ -114,9 +115,9 @@ final class MigrationsTests: BaseTestCase {
     migrator.enableLog = true
     migrator.enableLog = false
 
-    var completion = 0.0
+    let completion = OSAllocatedUnfairLock(initialState: 0.0)
     let token = migrator.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
-      completion = progress.fractionCompleted
+      completion.withLock { $0 = progress.fractionCompleted }
     }
 
     try migrator.migrate(enableWALCheckpoint: true)
@@ -142,7 +143,7 @@ final class MigrationsTests: BaseTestCase {
       }
     }
 
-    XCTAssertEqual(completion, 1.0)
+    XCTAssertEqual(completion.withLock { $0 }, 1.0)
 
     migratedContext._fix_sqlite_warning_when_destroying_a_store()
     token.invalidate()
@@ -166,9 +167,9 @@ final class MigrationsTests: BaseTestCase {
                                                 targetVersion: targetVersion)
 
     // When
-    var completion = 0.0
+    let completion = OSAllocatedUnfairLock(initialState: 0.0)
     let token = migrator.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
-      completion = progress.fractionCompleted
+      completion.withLock { $0 = progress.fractionCompleted }
     }
 
     try migrator.migrate(enableWALCheckpoint: true)
@@ -195,7 +196,7 @@ final class MigrationsTests: BaseTestCase {
       }
     }
 
-    XCTAssertEqual(completion, 1.0)
+    XCTAssertEqual(completion.withLock { $0 }, 1.0)
 
     migratedContext._fix_sqlite_warning_when_destroying_a_store()
     token.invalidate()
@@ -293,10 +294,10 @@ final class MigrationsTests: BaseTestCase {
                                                 destinationStoreDescription: destinationDescription,
                                                 targetVersion: .version3)
     migrator.enableLog = true
-    var completion = 0.0
+    let completion = OSAllocatedUnfairLock(initialState: 0.0)
     let token = migrator.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
       print(progress.fractionCompleted)
-      completion = progress.fractionCompleted
+      completion.withLock { $0 = progress.fractionCompleted }
     }
 
     try migrator.migrate(enableWALCheckpoint: true)
@@ -311,7 +312,7 @@ final class MigrationsTests: BaseTestCase {
     }
     try migratedContext.save()
 
-    XCTAssertEqual(completion, 1.0)
+    XCTAssertEqual(completion.withLock { $0 }, 1.0)
     XCTAssertFalse(FileManager.default.fileExists(atPath: sourceURL.path))
     XCTAssertTrue(FileManager.default.fileExists(atPath: targetURL.path))
 

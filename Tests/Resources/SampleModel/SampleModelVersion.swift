@@ -30,7 +30,7 @@ extension SampleModelVersion: ModelVersion {
   public var modelBundle: Bundle { Bundle.tests }
 
   public func managedObjectModel() -> NSManagedObjectModel {
-    if let model = cache[self.versionName], #available(iOS 12.0, tvOS 12.0, watchOS 5.0, macOS 10.14, *) {
+    if let model = cache[self.versionName] {
       return model
     }
 

@@ -4,6 +4,7 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
+@MainActor
 final class NSManagedObjectContextUtilsTests: InMemoryTestCase {
   func test_HasPersistentChanges() throws {
     let viewContext = container.viewContext

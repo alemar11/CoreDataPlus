@@ -10,6 +10,7 @@ var excluded = [
   "TestPlans",
   "Resources/SampleModel/Fixtures/README.md"
 ]
+
 var resources: [Resource] = [
   .copy("Resources/SampleModel/Fixtures/SampleModelV1.sqlite"),
   .copy("Resources/SampleModel/Fixtures/SampleModelV2.sqlite")
@@ -57,8 +58,8 @@ let package = Package(
                 dependencies: ["CoreDataPlus"],
                 path: "Tests",
                 exclude: excluded,
-                resources: resources
-                //swiftSettings: swiftSettings
+                resources: resources,
+                swiftSettings: swiftSettings
                ),
   ],
   swiftLanguageVersions: [.v5]

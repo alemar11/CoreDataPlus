@@ -47,10 +47,6 @@
 		065094072643E8BC00B3EE12 /* MigrationProgressReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065094052643E8BC00B3EE12 /* MigrationProgressReporter.swift */; };
 		065094082643E8BC00B3EE12 /* MigrationProgressReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065094052643E8BC00B3EE12 /* MigrationProgressReporter.swift */; };
 		065094092643E8BC00B3EE12 /* MigrationProgressReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065094052643E8BC00B3EE12 /* MigrationProgressReporter.swift */; };
-		0650940B2643E8EB00B3EE12 /* LightweightMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0650940A2643E8EB00B3EE12 /* LightweightMigrationManager.swift */; };
-		0650940C2643E8EB00B3EE12 /* LightweightMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0650940A2643E8EB00B3EE12 /* LightweightMigrationManager.swift */; };
-		0650940D2643E8EB00B3EE12 /* LightweightMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0650940A2643E8EB00B3EE12 /* LightweightMigrationManager.swift */; };
-		0650940E2643E8EB00B3EE12 /* LightweightMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0650940A2643E8EB00B3EE12 /* LightweightMigrationManager.swift */; };
 		06968AD326454AFF00088D76 /* CoreDataPlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 236350741F95EC1A00B3A16A /* CoreDataPlus.framework */; };
 		06968ADA26454CAC00088D76 /* NSFetchRequestResultCoreData_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A8A44C1F9F536D0038DE3A /* NSFetchRequestResultCoreData_Tests.swift */; };
 		06968ADB26454CAC00088D76 /* NSManagedObjectUtils_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236351061F95F28C00B3A16A /* NSManagedObjectUtils_Tests.swift */; };
@@ -144,7 +140,6 @@
 		06AF617126F092BB0090A61B /* Collection+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20119F72614E3D9001902FB /* Collection+CoreData.swift */; };
 		06AF617226F092C30090A61B /* MigrationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A042614E3D9001902FB /* MigrationStep.swift */; };
 		06AF617326F092C30090A61B /* ModelVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A022614E3D9001902FB /* ModelVersion.swift */; };
-		06AF617426F092C30090A61B /* LightweightMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0650940A2643E8EB00B3EE12 /* LightweightMigrationManager.swift */; };
 		06AF617526F092C30090A61B /* MigrationProgressReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065094052643E8BC00B3EE12 /* MigrationProgressReporter.swift */; };
 		06AF617626F092C30090A61B /* Migrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D214B9A9263BFA22000BBD13 /* Migrator.swift */; };
 		06AF617726F092C80090A61B /* Notification+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2011A072614E3D9001902FB /* Notification+Utils.swift */; };
@@ -508,7 +503,6 @@
 		061C689226209443000BF0A2 /* CustomTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransformer.swift; sourceTree = "<group>"; };
 		063E100D264BC2F90050E84C /* Deprecated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deprecated.swift; sourceTree = "<group>"; };
 		065094052643E8BC00B3EE12 /* MigrationProgressReporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationProgressReporter.swift; sourceTree = "<group>"; };
-		0650940A2643E8EB00B3EE12 /* LightweightMigrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightweightMigrationManager.swift; sourceTree = "<group>"; };
 		0693F915237C58A7008E4F31 /* workflows */ = {isa = PBXFileReference; lastKnownFileType = text; name = workflows; path = .github/workflows; sourceTree = SOURCE_ROOT; };
 		06968ACE26454AFF00088D76 /* CoreDataPlus Tests watchOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CoreDataPlus Tests watchOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		06968AD926454BA300088D76 /* CoreDataPlus watchOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "CoreDataPlus watchOS.xctestplan"; sourceTree = "<group>"; };
@@ -880,7 +874,6 @@
 				D2011A042614E3D9001902FB /* MigrationStep.swift */,
 				D214B9A9263BFA22000BBD13 /* Migrator.swift */,
 				065094052643E8BC00B3EE12 /* MigrationProgressReporter.swift */,
-				0650940A2643E8EB00B3EE12 /* LightweightMigrationManager.swift */,
 			);
 			path = Migration;
 			sourceTree = "<group>";
@@ -1459,7 +1452,6 @@
 				06AF617826F092C80090A61B /* Notification+Payloads.swift in Sources */,
 				06AF616926F092BB0090A61B /* NSManagedObjectContext+Utils.swift in Sources */,
 				06AF616F26F092BB0090A61B /* NSManagedObject+Utils.swift in Sources */,
-				06AF617426F092C30090A61B /* LightweightMigrationManager.swift in Sources */,
 				06AF616E26F092BB0090A61B /* PersistentStoreOptions.swift in Sources */,
 				06AF616D26F092BB0090A61B /* NSFetchRequest+Utils.swift in Sources */,
 				06AF616C26F092BB0090A61B /* NSEntityDescription+Utils.swift in Sources */,
@@ -1564,7 +1556,6 @@
 				D2011A362614E3D9001902FB /* NSManagedObjectContext+History.swift in Sources */,
 				D2011A5A2614E3D9001902FB /* Notification+Utils.swift in Sources */,
 				D2011A262614E3D9001902FB /* CoreDataPlus.swift in Sources */,
-				0650940C2643E8EB00B3EE12 /* LightweightMigrationManager.swift in Sources */,
 				D20F4BB92621E71500F0CB25 /* NSAttributeDescription+Utils.swift in Sources */,
 				D214B9A6263B0FDE000BBD13 /* NSMappingModel+Utils.swift in Sources */,
 				D2011A222614E3D9001902FB /* Collection+CoreData.swift in Sources */,
@@ -1600,7 +1591,6 @@
 				D2011A372614E3D9001902FB /* NSManagedObjectContext+History.swift in Sources */,
 				D2011A5B2614E3D9001902FB /* Notification+Utils.swift in Sources */,
 				D2011A272614E3D9001902FB /* CoreDataPlus.swift in Sources */,
-				0650940D2643E8EB00B3EE12 /* LightweightMigrationManager.swift in Sources */,
 				D20F4BBA2621E71500F0CB25 /* NSAttributeDescription+Utils.swift in Sources */,
 				D214B9A7263B0FDE000BBD13 /* NSMappingModel+Utils.swift in Sources */,
 				D2011A232614E3D9001902FB /* Collection+CoreData.swift in Sources */,
@@ -1636,7 +1626,6 @@
 				D2011A382614E3D9001902FB /* NSManagedObjectContext+History.swift in Sources */,
 				D2011A5C2614E3D9001902FB /* Notification+Utils.swift in Sources */,
 				D2011A282614E3D9001902FB /* CoreDataPlus.swift in Sources */,
-				0650940E2643E8EB00B3EE12 /* LightweightMigrationManager.swift in Sources */,
 				D20F4BBB2621E71500F0CB25 /* NSAttributeDescription+Utils.swift in Sources */,
 				D214B9A8263B0FDE000BBD13 /* NSMappingModel+Utils.swift in Sources */,
 				D2011A242614E3D9001902FB /* Collection+CoreData.swift in Sources */,
@@ -1672,7 +1661,6 @@
 				D2011A352614E3D9001902FB /* NSManagedObjectContext+History.swift in Sources */,
 				D2011A592614E3D9001902FB /* Notification+Utils.swift in Sources */,
 				D2011A252614E3D9001902FB /* CoreDataPlus.swift in Sources */,
-				0650940B2643E8EB00B3EE12 /* LightweightMigrationManager.swift in Sources */,
 				D20F4BB82621E71500F0CB25 /* NSAttributeDescription+Utils.swift in Sources */,
 				D214B9A5263B0FDE000BBD13 /* NSMappingModel+Utils.swift in Sources */,
 				D2011A212614E3D9001902FB /* Collection+CoreData.swift in Sources */,
@@ -1915,7 +1903,7 @@
 				SDKROOT = watchos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
 		};
@@ -1937,7 +1925,7 @@
 				SDKROOT = watchos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
 		};
@@ -1959,7 +1947,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1978,6 +1966,8 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4,5,6";
+				TVOS_DEPLOYMENT_TARGET = 16.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
 		};
@@ -1999,7 +1989,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2017,6 +2007,8 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4,5,6";
+				TVOS_DEPLOYMENT_TARGET = 16.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
 		};
@@ -2031,7 +2023,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = XQEAXK7Y68;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2047,6 +2039,8 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,4,6";
+				TVOS_DEPLOYMENT_TARGET = 16.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
 		};
@@ -2061,7 +2055,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = XQEAXK7Y68;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2076,6 +2070,8 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,4,6";
+				TVOS_DEPLOYMENT_TARGET = 16.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
 		};
@@ -2112,7 +2108,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				TVOS_DEPLOYMENT_TARGET = 12.0;
-				WATCHOS_DEPLOYMENT_TARGET = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
 		};
@@ -2148,7 +2144,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				TVOS_DEPLOYMENT_TARGET = 12.0;
-				WATCHOS_DEPLOYMENT_TARGET = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
 		};
@@ -2184,7 +2180,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 12.0;
+				TVOS_DEPLOYMENT_TARGET = 16.0;
 				WATCHOS_DEPLOYMENT_TARGET = 5.0;
 			};
 			name = Debug;
@@ -2220,7 +2216,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 12.0;
+				TVOS_DEPLOYMENT_TARGET = 16.0;
 				WATCHOS_DEPLOYMENT_TARGET = 5.0;
 			};
 			name = Release;
@@ -2248,7 +2244,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 5.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
@@ -2287,7 +2283,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 5.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
@@ -2371,6 +2367,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DRIVERKIT_DEPLOYMENT_TARGET = 23.2;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -2388,8 +2385,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -2397,10 +2394,10 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TVOS_DEPLOYMENT_TARGET = 15.0;
+				TVOS_DEPLOYMENT_TARGET = 16.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 8.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 				XROS_DEPLOYMENT_TARGET = 1.0;
 			};
 			name = Debug;
@@ -2442,6 +2439,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DRIVERKIT_DEPLOYMENT_TARGET = 23.2;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -2453,19 +2451,19 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
-				TVOS_DEPLOYMENT_TARGET = 15.0;
+				TVOS_DEPLOYMENT_TARGET = 16.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 8.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 				XROS_DEPLOYMENT_TARGET = 1.0;
 			};
 			name = Release;
@@ -2485,7 +2483,7 @@
 				ENABLE_MODULE_VERIFIER = YES;
 				INFOPLIST_FILE = Support/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2523,7 +2521,7 @@
 				ENABLE_MODULE_VERIFIER = YES;
 				INFOPLIST_FILE = Support/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2553,7 +2551,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "Support/Info-Tests.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2578,7 +2576,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "Support/Info-Tests.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2614,7 +2612,7 @@
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 12.0;
+				TVOS_DEPLOYMENT_TARGET = 16.0;
 				WATCHOS_DEPLOYMENT_TARGET = 5.0;
 			};
 			name = Debug;
@@ -2638,7 +2636,7 @@
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 12.0;
+				TVOS_DEPLOYMENT_TARGET = 16.0;
 				WATCHOS_DEPLOYMENT_TARGET = 5.0;
 			};
 			name = Release;
@@ -2659,7 +2657,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alessandromarzoli.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2686,7 +2684,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alessandromarzoli.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";

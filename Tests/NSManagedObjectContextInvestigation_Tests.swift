@@ -3,6 +3,7 @@
 import CoreData
 import XCTest
 
+@MainActor
 final class NSManagedObjectContextInvestigationTests: InMemoryTestCase {
   /// Investigation test: calling refreshAllObjects calls refreshObject:mergeChanges on all objects in the context.
   func test_InvestigationRefreshAllObjects() throws {
