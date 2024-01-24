@@ -278,10 +278,7 @@ final class ProgrammaticMigrationTests: XCTestCase {
 
     try migrator.migrate(enableWALCheckpoint: true) { metadata in
       if metadata.mappingModel.isInferred {
-        let manager = LightweightMigrationManager(sourceModel: metadata.sourceModel, destinationModel: metadata.destinationModel)
-        manager.updateProgressInterval = 0.001 // we need to set a very low refresh interval to get some fake progress updates
-        manager.estimatedTime = 0.1
-        return manager
+        return NSMigrationManager(sourceModel: metadata.sourceModel, destinationModel: metadata.destinationModel)
       } else {
         // In FeedbackMigrationManager.swift there are 2 possibile solutions:
 

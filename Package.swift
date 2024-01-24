@@ -38,20 +38,27 @@ if buildingDocumentation {
     "Resources/SampleModel/SampleModel.xcdatamodeld"]
 }
 
+let swiftSettings: [SwiftSetting] = [
+  .enableExperimentalFeature("StrictConcurrency")
+]
+
 let package = Package(
   name: "CoreDataPlus",
-  platforms: [.macOS(.v12), .iOS(.v15), .tvOS(.v15), .watchOS(.v8), .visionOS(.v1)],
+  platforms: [.macOS(.v13), .iOS(.v16), .tvOS(.v16), .watchOS(.v9), .visionOS(.v1)],
   products: [
     .library(name: "CoreDataPlus", targets: ["CoreDataPlus"])
   ],
   targets: [
     .target(name: "CoreDataPlus",
-            path: "Sources"),
+            path: "Sources",
+            swiftSettings: swiftSettings
+           ),
     .testTarget(name: "Tests",
                 dependencies: ["CoreDataPlus"],
                 path: "Tests",
                 exclude: excluded,
                 resources: resources
+                //swiftSettings: swiftSettings
                ),
   ],
   swiftLanguageVersions: [.v5]

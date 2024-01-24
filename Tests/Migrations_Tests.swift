@@ -171,14 +171,9 @@ final class MigrationsTests: BaseTestCase {
       completion = progress.fractionCompleted
     }
 
-    try migrator.migrate(enableWALCheckpoint: true) { metadata in
-      XCTAssertTrue(metadata.mappingModel.isInferred)
-      let manager = LightweightMigrationManager(sourceModel: metadata.sourceModel, destinationModel: metadata.destinationModel)
-      manager.updateProgressInterval = 0.001 // we need to set a very low refresh interval to get some fake progress updates
-      manager.estimatedTime = 0.1
-      return manager
-    }
+    try migrator.migrate(enableWALCheckpoint: true)
 
+    
     let migratedContext = NSManagedObjectContext(model: targetVersion.managedObjectModel(), storeURL: sourceURL)
     let luxuryCars = try LuxuryCar.fetchObjects(in: migratedContext)
     XCTAssertEqual(luxuryCars.count, 5)

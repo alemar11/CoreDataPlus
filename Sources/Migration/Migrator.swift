@@ -63,13 +63,13 @@ public final class Migrator<Version: ModelVersion>: NSObject, ProgressReporting 
   private var log: OSLog = .disabled
 
   /// Source description used as starting point for the migration steps.
-  let sourceStoreDescription: NSPersistentStoreDescription
+  internal let sourceStoreDescription: NSPersistentStoreDescription
 
   /// Desitnation description used as final point for the migrations steps.
-  let destinationStoreDescription: NSPersistentStoreDescription
+  internal let destinationStoreDescription: NSPersistentStoreDescription
 
   /// `Version` to which the database needs to be migrated.
-  let targetVersion: Version
+  internal let targetVersion: Version
 
   /// Creates a `Migrator` instance to handle a multi step migration to a given `Version`
   /// - Parameters:
@@ -155,38 +155,30 @@ extension Migrator {
         let temporaryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString).appendingPathExtension("sqlite")
         let mappingModelMigrationProgress = Progress(totalUnitCount: Int64(step.mappingModels.count))
         migrationStepsProgress.addChild(mappingModelMigrationProgress, withPendingUnitCount: 1)
+        
         for (mappingModelIndex, mappingModel) in step.mappingModels.enumerated() {
           os_log(.info, log: log, "Starting migration for mapping model %{public}d.", mappingModelIndex + 1)
           os_log(.debug, log: log, "The store at: %{public}@ will be migrated in a temporary store at: %{public}@.", currentURL as CVarArg, temporaryURL as CVarArg)
+          
           let metadata = Metadata(sourceVersion: step.sourceVersion,
                                   sourceModel: step.sourceModel,
                                   destinationVersion: step.destinationVersion,
                                   destinationModel: step.destinationModel,
                                   mappingModel: mappingModel)
           let manager = managerProvider?(metadata) ?? NSMigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
-          mappingModelMigrationProgress.becomeCurrent(withPendingUnitCount: 1)
           // a progress reporter handles a parent progress cancellations automatically
           let progressReporter = manager.makeProgressReporter()
-          mappingModelMigrationProgress.resignCurrent()
+          mappingModelMigrationProgress.addChild(progressReporter.progress, withPendingUnitCount: 1)
+         
           let start = DispatchTime.now()
           do {
-            if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
-              try manager.migrateStore(from: currentURL,
-                                       type: .sqlite,
-                                       options: sourceOptions,
-                                       mapping: mappingModel,
-                                       to: temporaryURL,
-                                       type: .sqlite,
-                                       options: destinationOptions)
-            } else {
-              try manager.migrateStore(from: currentURL,
-                                       sourceType: NSSQLiteStoreType,
-                                       options: sourceOptions,
-                                       with: mappingModel,
-                                       toDestinationURL: temporaryURL,
-                                       destinationType: NSSQLiteStoreType,
-                                       destinationOptions: destinationOptions)
-            }
+            try manager.migrateStore(from: currentURL,
+                                     type: .sqlite,
+                                     options: sourceOptions,
+                                     mapping: mappingModel,
+                                     to: temporaryURL,
+                                     type: .sqlite,
+                                     options: destinationOptions)
           } catch {
             os_log(.error, "Migration for mapping model %{public}d failed: %{private}@", mappingModelIndex + 1, error as NSError)
             throw error
