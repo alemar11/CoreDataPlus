@@ -176,7 +176,7 @@ extension SampleModel2.V1 {
     //publishedAt.setValidationPredicates([publishedAtPredicate], withValidationWarnings: ["Date error"])
 
     let pagesCount = NSDerivedAttributeDescription(name: #keyPath(Book.pagesCount),
-                                                   type: .integer64AttributeType,
+                                                   type: .integer64,
                                                    derivationExpression: NSExpression(format: "pages.@count"))
     pagesCount.isOptional = true
     entity.properties = [uniqueID, title, price, cover, publishedAt, pagesCount]

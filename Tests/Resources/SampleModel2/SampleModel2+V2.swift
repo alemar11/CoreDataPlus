@@ -166,7 +166,7 @@ extension V2 {
     publishedAt.isOptional = false
 
     let pagesCount = NSDerivedAttributeDescription(name: #keyPath(BookV2.pagesCount),
-                                                   type: .integer64AttributeType,
+                                                   type: .integer64,
                                                    derivationExpression: NSExpression(format: "pages.@count"))
     pagesCount.isOptional = true
     entity.properties = [uniqueID, title, price, cover, publishedAt, pagesCount]
