@@ -53,14 +53,14 @@ public final class Migrator<Version: ModelVersion>: NSObject, ProgressReporting 
   public var enableLog: Bool = false {
     didSet {
       if enableLog {
-        log = OSLog(subsystem: bundleIdentifier, category: "Migrator")
+        log = Logger(subsystem: bundleIdentifier, category: "Migrator")
       } else {
-        log = .disabled
+        log = .init(.disabled)
       }
     }
   }
 
-  private var log: OSLog = .disabled
+  private var log: Logger = .init(.disabled)
 
   /// Source description used as starting point for the migration steps.
   internal let sourceStoreDescription: NSPersistentStoreDescription
@@ -121,21 +121,20 @@ extension Migrator {
                                 targetVersion: Version,
                                 enableWALCheckpoint: Bool = false,
                                 managerProvider: ((Metadata) -> NSMigrationManager)? = nil) throws {
-    os_log(.info, log: log, "Migrator has started, initial store at: %{public}@.", sourceURL as CVarArg)
+    log.info("Migrator has started, initial store at: \(sourceURL, privacy: .public)")
     let start = DispatchTime.now()
     guard let sourceVersion = try Version(persistentStoreURL: sourceURL) else {
-      let message = "A ModelVersion could not be found for the initial store at: \(sourceURL)."
-      os_log(.error, log: log, "%{public}s", message)
-      fatalError(message)
+      log.error("A ModelVersion could not be found for the initial store at: \(sourceURL).")
+      fatalError("A ModelVersion could not be found for the initial store at: \(sourceURL).")
     }
 
     guard try CoreDataPlus.isMigrationNecessary(for: sourceURL, to: targetVersion) else {
-      os_log(.info, log: log, "Migration to %{public}s is not necessary.", "\(targetVersion.rawValue)")
+      log.info("Migration to \(targetVersion.debugDescription, privacy: .public) is not necessary.")
       return
     }
 
     if enableWALCheckpoint {
-      os_log(.debug, log: log, "Performing a WAL checkpoint.")
+      log.debug("Performing a WAL checkpoint.")
       // A dead lock can occur if a NSPersistentStore with a different journaling mode
       // is currently active and using the database file.
       // You need to remove it before performing a WAL checkpoint.
@@ -143,22 +142,22 @@ extension Migrator {
     }
 
     let steps = sourceVersion.migrationSteps(to: targetVersion)
-    os_log(.debug, log: log, "Number of steps: %{public}d", steps.count)
+    log.debug("Number of steps: \(steps.count, privacy: .public)")
 
     guard steps.count > 0 else { return }
 
     let migrationStepsProgress = Progress(totalUnitCount: Int64(steps.count), parent: progress, pendingUnitCount: progress.totalUnitCount)
     var currentURL = sourceURL
     try steps.enumerated().forEach { (stepIndex, step) in
-      os_log(.info, log: log, "Step %{public}d (of %{public}d) started; %{public}s to %{public}s.", stepIndex + 1, steps.count, "\(step.sourceVersion)", "\(step.destinationVersion)")
+      log.info("Step \(stepIndex + 1, privacy: .public) (of \(steps.count, privacy: .public)) started: \(step.sourceVersion.debugDescription, privacy: .public) to \(step.destinationVersion.debugDescription, privacy: .public)")
       try autoreleasepool {
         let temporaryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString).appendingPathExtension("sqlite")
         let mappingModelMigrationProgress = Progress(totalUnitCount: Int64(step.mappingModels.count))
         migrationStepsProgress.addChild(mappingModelMigrationProgress, withPendingUnitCount: 1)
 
         for (mappingModelIndex, mappingModel) in step.mappingModels.enumerated() {
-          os_log(.info, log: log, "Starting migration for mapping model %{public}d.", mappingModelIndex + 1)
-          os_log(.debug, log: log, "The store at: %{public}@ will be migrated in a temporary store at: %{public}@.", currentURL as CVarArg, temporaryURL as CVarArg)
+          log.info("Starting migration for mapping model \(mappingModelIndex + 1, privacy: .public).")
+          log.debug("The store at: \(currentURL, privacy: .public) will be migrated in a temporary store at: \(temporaryURL, privacy: .public)")
 
           let metadata = Metadata(sourceVersion: step.sourceVersion,
                                   sourceModel: step.sourceModel,
@@ -180,47 +179,47 @@ extension Migrator {
                                      type: .sqlite,
                                      options: destinationOptions)
           } catch {
-            os_log(.error, "Migration for mapping model %{public}d failed: %{private}@", mappingModelIndex + 1, error as NSError)
+            log.error("Migration for mapping model \(mappingModelIndex + 1, privacy: .public) failed: \(error, privacy: .private)")
             throw error
           }
           let end = DispatchTime.now()
           // Ligthweight migrations don't report progress, the report needs to be marked as finished to proper adjust its progress status.
           progressReporter.markAsFinishedIfNeeded()
           let nanoseconds = end.uptimeNanoseconds - start.uptimeNanoseconds
-          let timeInterval = Double(nanoseconds) / 1_000_000_000
-          os_log(.info, log: log, "Migration for mapping model %{public}d finished in %{public}.2f seconds.", mappingModelIndex + 1, timeInterval)
+          let timeInterval = Double(nanoseconds) / Double(NSEC_PER_SEC)
+          log.info("Migration for mapping model \(mappingModelIndex + 1, privacy: .public) finished in \(timeInterval, format:  .fixed(precision: 2), privacy: .public) seconds.")
         }
         // once the migration is done (and the store is migrated to temporaryURL)
         // the store at currentURL can be safely destroyed unless it is the
         // initial store
         if currentURL != sourceURL {
-          os_log(.debug, log: log, "Destroying store at %{public}@.", currentURL as CVarArg)
+          log.debug("Destroying store at \(currentURL, privacy: .public)")
           try NSPersistentStoreCoordinator.destroyStore(at: currentURL)
         }
         currentURL = temporaryURL
       }
-      os_log(.info, log: log, "Step %{public}d (of %{public}d) completed.", stepIndex + 1, steps.count)
+      log.info("Step \(stepIndex + 1, privacy: .public) (of \(steps.count, privacy: .public) completed.")
     }
 
     // move the store at currentURL to (final) destinationURL
-    os_log(.debug, log: log, "Moving the store at: %{public}@ to final store: %{public}@.", currentURL as CVarArg, destinationURL as CVarArg)
+    log.debug("Moving the store at: \(currentURL, privacy: .public) to final store: \(destinationURL, privacy: .public)")
     try NSPersistentStoreCoordinator.replaceStore(at: destinationURL, withPersistentStoreFrom: currentURL)
 
     // delete the store at currentURL if it's not the initial store
     if currentURL != sourceURL {
-      os_log(.debug, log: log, "Destroying store at %{public}@.", currentURL as CVarArg)
+      log.debug("Destroying store at: \(currentURL, privacy: .public)")
       try NSPersistentStoreCoordinator.destroyStore(at: currentURL)
     }
 
     // delete the initial store only if the option is set to true
     if destinationURL != sourceURL {
-      os_log(.debug, log: log, "Destroying initial store at %{public}@.", sourceURL as CVarArg)
+      log.debug("Destroying initial store at: \(sourceURL, privacy: .public)")
       try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
     }
     let end = DispatchTime.now()
     let nanoseconds = end.uptimeNanoseconds - start.uptimeNanoseconds
-    let timeInterval = Double(nanoseconds) / 1_000_000_000
-    os_log(.info, log: log, "Migrator has finished in %{public}.2f seconds, final store at: %{public}@.", timeInterval, destinationURL as CVarArg)
+    let timeInterval = Double(nanoseconds) / Double(NSEC_PER_SEC)
+    log.info("Migrator has finished in \(timeInterval, format: .fixed(precision: 2), privacy: .public) seconds, final store at: \(destinationURL, privacy: .public)")
   }
 }
 

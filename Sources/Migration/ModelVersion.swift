@@ -22,7 +22,7 @@ private enum ModelVersionFileExtension {
 }
 
 /// Types adopting the `ModelVersion` protocol can be used to describe a Core Data Model and its versioning.
-public protocol ModelVersion: Equatable, RawRepresentable {
+public protocol ModelVersion: Equatable, RawRepresentable, CustomDebugStringConvertible {
   /// Protocol `ModelVersion`.
   ///
   /// List with all versions until now.
@@ -69,6 +69,12 @@ extension ModelVersion {
   ///
   /// Model file name.
   var momd: String { "\(modelName).\(ModelVersionFileExtension.momd)" }
+}
+
+extension ModelVersion {
+  public var debugDescription: String {
+    "\(modelName)‣\(versionName)"
+  }
 }
 
 extension ModelVersion {

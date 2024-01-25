@@ -14,9 +14,9 @@ public enum SampleModelVersion: String, CaseIterable {
 }
 
 extension SampleModelVersion: ModelVersion {
-  public static var allVersions: [SampleModelVersion] { return SampleModelVersion.allCases }
-  public static var currentVersion: SampleModelVersion { return .version1 }
-  public var modelName: String { return "SampleModel" }
+  public static var allVersions: [SampleModelVersion] { SampleModelVersion.allCases }
+  public static var currentVersion: SampleModelVersion { .version1 }
+  public var modelName: String { "SampleModel" }
 
   public var successor: SampleModelVersion? {
     switch self {
