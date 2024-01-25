@@ -4,7 +4,6 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-@available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 class OnDiskWithProgrammaticallyModelTestCase: XCTestCase {
   var container: NSPersistentContainer!
 
@@ -28,7 +27,6 @@ class OnDiskWithProgrammaticallyModelTestCase: XCTestCase {
 
 // MARK: - On Disk NSPersistentContainer with Programmatically Model
 
-@available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 final class OnDiskWithProgrammaticallyModelPersistentContainer: NSPersistentContainer {
   static func makeNew() -> OnDiskWithProgrammaticallyModelPersistentContainer {
     Self.makeNew(id: UUID())

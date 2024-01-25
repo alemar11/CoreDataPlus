@@ -4,7 +4,6 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-@available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 final class ProgrammaticallyDefinedModel_Tests: OnDiskWithProgrammaticallyModelTestCase {
   func test_Setup() throws {
     let context = container.viewContext
@@ -50,7 +49,6 @@ final class ProgrammaticallyDefinedModel_Tests: OnDiskWithProgrammaticallyModelT
 
 // MARK: - V3
 
-@available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 final class ProgrammaticallyDefinedModelV3Tests: XCTestCase {
   // Tests to make it sure that the model V3 is correctly defined
   func test_SetupV3() throws {

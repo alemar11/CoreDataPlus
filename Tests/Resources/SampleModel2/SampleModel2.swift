@@ -15,7 +15,6 @@ public enum SampleModel2 {
   public enum V3 { }
 }
 
-@available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 extension SampleModel2 {
   public enum SampleModel2Version: String, CaseIterable {
     case version1 = "SampleModel2V1"
@@ -24,7 +23,6 @@ extension SampleModel2 {
   }
 }
 
-@available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 extension SampleModel2.SampleModel2Version: ModelVersion {
   public static var allVersions: [SampleModel2.SampleModel2Version] { return SampleModel2.SampleModel2Version.allCases }
   public static var currentVersion: SampleModel2.SampleModel2Version { return .version1 }
@@ -51,7 +49,6 @@ extension SampleModel2.SampleModel2Version: ModelVersion {
   }
 }
 
-@available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 extension SampleModel2.SampleModel2Version {
   public func mappingModelsToNextModelVersion() -> [NSMappingModel]? {
     switch self {

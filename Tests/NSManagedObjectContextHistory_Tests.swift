@@ -600,7 +600,6 @@ extension NSPersistentHistoryChangeRequest {
   /// - `timestamp` (`NSDate`)
   /// - `token` (`NSNumber` - `NSInteger64`)
   /// - `transactionNumber` (`NSNumber` - `NSInteger64`)
-  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   fileprivate final class func makeTransactionFetchRequest(with context: NSManagedObjectContext) -> NSFetchRequest<NSFetchRequestResult>? {
     // https://developer.apple.com/videos/play/wwdc2019/230
     let transactionFetchRequest: NSFetchRequest<NSFetchRequestResult>
@@ -626,7 +625,6 @@ extension NSPersistentHistoryChangeRequest {
   /// - `changedID` (`NSNumber` - `NSInteger64`)
   /// - `changedEntity` (`NSNumber` - `NSInteger64`)
   /// - `changeType` (`NSNumber` - `NSInteger64`)
-  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   public final class func makeChangeFetchRequest(with context: NSManagedObjectContext) -> NSFetchRequest<NSFetchRequestResult>? {
     let changeFetchRequest: NSFetchRequest<NSFetchRequestResult>
     if let request = NSPersistentHistoryChange.fetchRequest {

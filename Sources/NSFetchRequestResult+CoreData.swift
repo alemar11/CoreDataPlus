@@ -327,7 +327,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Throws: It throws an error in cases of failure
   /// - Returns: The result that Core Data returns when executing a batch-insertion request.
   /// - Note: A batch insert can **only** be done on a SQLite store.
-  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   public static func batchInsert(using context: NSManagedObjectContext,
                                  resultType: NSBatchInsertRequestResultType = .statusOnly,
                                  objects: [[String: Any]],
@@ -439,7 +438,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Returns: The results that were received from the fetch request.
   /// - Throws: It throws an error in cases of failure.
   /// - Warning: If the ConcurrencyDebug is enabled, the fetch request will cause a thread violation error, without it data races will be always detected by Xcode.
-  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   public static func fetchObjects(in context: NSManagedObjectContext,
                                   estimatedResultCount: Int = 0,
                                   with configuration: (NSFetchRequest<Self>) -> Void = { _ in }) async throws -> [Self] {

@@ -163,7 +163,6 @@ extension V3 {
     return entity
   }
 
-  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   static func makeCoverEntity() -> NSEntityDescription {
     var entity = NSEntityDescription()
     entity = NSEntityDescription()
@@ -177,7 +176,6 @@ extension V3 {
     return entity
   }
 
-  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   static func makeBookEntity() -> NSEntityDescription {
     var entity = NSEntityDescription()
     entity = NSEntityDescription()
@@ -293,7 +291,6 @@ extension V3 {
 // Fix: since the models are cached (and hence the entities descriptions with their version hasesh too), we use NSManagedObjectModel entityVersionHashesByName;
 // if the model isn't recreated on demand, the entities version hashes will stay the same.
 // If we use Xcode UI, we need to do some manual cleaning: https://github.com/diogot/CoreDataModelMigrationBug
-@available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 extension V3 {
 
   static func makeCoverMapping() -> NSEntityMapping {

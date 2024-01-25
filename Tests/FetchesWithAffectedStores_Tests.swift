@@ -5,7 +5,6 @@ import CoreData
 @testable import CoreDataPlus
 
 /// Tests with fetch requests targeting specific persistent stores
-@available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 final class FetchesWithAffectedStores_Tests: XCTestCase {
   func test_Fetches() throws {
     let uuid = UUID().uuidString

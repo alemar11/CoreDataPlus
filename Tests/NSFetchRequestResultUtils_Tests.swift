@@ -557,7 +557,6 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
 
   // MARK: Batch Insert
 
-  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   func test_batchInsertWithResultTypeStatusOnly() throws {
     // Given
     let context = container.viewContext
@@ -574,7 +573,6 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
     XCTAssertEqual(result.changes?[NSInsertedObjectsKey]?.count, nil) // wrong result type
   }
 
-  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   func test_batchInsertWithResultTypeCount() throws {
     // Given
     let context = container.viewContext
@@ -592,8 +590,6 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
   }
 
   func test_batchInsertWithResultObjectIDs() throws {
-    guard #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) else { return }
-
     // Given
     let context = container.viewContext
     let numberPlate = UUID().uuidString
@@ -634,7 +630,6 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
     }
   }
 
-  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   func test_FailedbatchInsertWithResultObjectIDs() throws {
     // Given
     let context = container.viewContext
@@ -805,8 +800,6 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
 
   // TODO: investigate this behaviour (and open a FB)
 //    func test_FailedBatchUpdateWithResultObjectIDs() throws {
-//      guard #available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) else { return }
-//
 //      // Given
 //      let context = container.viewContext
 //      context.fillWithSampleData()
@@ -906,7 +899,6 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
   }
 
 //  @available(swift 5.5)
-//  @available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *)
 //  func test_AsyncFetchUsingSwiftConcurrency() async throws {
 //    // In testAsyncFetch() the standard implementation doesn't pass the test only if we enable ConcurrencyDebug.
 //    // The async/await version (that is, btw, used in WWDC 2021 videos on how to use continuations) always fails due to data races.
