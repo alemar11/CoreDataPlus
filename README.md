@@ -13,9 +13,9 @@ Core data extensions.
 
 ## Requirements
 
-[![Swift 5.5](https://img.shields.io/badge/Swift-5.5-orange.svg?style=flat)](https://developer.apple.com/swift)
-![Platforms](https://img.shields.io/badge/Platform-iOS%2012%2B%20|%20macOS%2010.14+%20|%20tvOS%2012+%20|%20watchOS%205+-blue.svg) 
-![Xcode](https://img.shields.io/badge/Xcode-13-blue.svg) 
+[![Swift 5.9](https://img.shields.io/badge/Swift-5.9-orange.svg?style=flat)](https://developer.apple.com/swift)
+![Platforms](https://img.shields.io/badge/Platform-iOS%2015%2B%20|%20macOS%2013+%20|%20tvOS%2015+%20|%20watchOS%209+%20|%20visionOS%201+-blue.svg) 
+![Xcode](https://img.shields.io/badge/Xcode-15-blue.svg) 
 
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/CoreDataPlus.svg)](https://cocoapods.org/pods/CoreDataPlus)
