@@ -32,8 +32,8 @@ if isRunningFromCommandLine {
   ])
 }
 
-// Remove warnings when building documentation
-if buildingDocumentation {
+// Remove warnings when building documentation or runnning test from CLI
+if isRunningFromCommandLine || buildingDocumentation {
   excluded += [
     "Resources/SampleModel/MappingModels/V2toV3.xcmappingmodel",
     "Resources/SampleModel/SampleModel.xcdatamodeld"]
