@@ -428,7 +428,6 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   }
 }
 
-#if compiler(>=5.5.2) && canImport(_Concurrency)
 extension NSFetchRequestResult where Self: NSManagedObject {
   /// Performs a configurable asynchronous fetch request in a context.
   ///
@@ -459,4 +458,3 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     }
   }
 }
-#endif
