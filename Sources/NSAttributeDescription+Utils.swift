@@ -27,7 +27,7 @@ extension NSEntityDescription {
     self.isAbstract = false
     self.subentities = []
   }
-
+  
   /// Adds a property description
   public func add(_ property: NSPropertyDescription) {
     properties.append(property)
@@ -40,196 +40,131 @@ extension NSAttributeDescription {
   ///   - defaultValue: The default value of the attribute.
   /// - Returns: Returns a *Int16* attribute description.
   public static func int16(name: String, defaultValue: Int16? = nil) -> NSAttributeDescription {
-    let attributes: NSAttributeDescription
-    if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
-      attributes = NSAttributeDescription()
-      attributes.name = name
-      attributes.type = .integer16
-    } else {
-      attributes = NSAttributeDescription(name: name, type: .integer16AttributeType)
-    }
+    let attributes = NSAttributeDescription()
+    attributes.name = name
+    attributes.type = .integer16
     attributes.defaultValue = defaultValue.map { NSNumber(value: $0) }
     return attributes
   }
-
+  
   public static func int32(name: String, defaultValue: Int32? = nil) -> NSAttributeDescription {
-    let attributes: NSAttributeDescription
-    if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
-      attributes = NSAttributeDescription()
-      attributes.name = name
-      attributes.type = .integer32
-    } else {
-      attributes = NSAttributeDescription(name: name, type: .integer32AttributeType)
-    }
+    let attributes = NSAttributeDescription()
+    attributes.name = name
+    attributes.type = .integer32
     attributes.defaultValue = defaultValue.map { NSNumber(value: $0) }
     return attributes
   }
-
+  
   public static func int64(name: String, defaultValue: Int64? = nil) -> NSAttributeDescription {
-    let attributes: NSAttributeDescription
-    if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
-      attributes = NSAttributeDescription()
-      attributes.name = name
-      attributes.type = .integer64
-    } else {
-      attributes = NSAttributeDescription(name: name, type: .integer64AttributeType)
-    }
+    let attributes = NSAttributeDescription()
+    attributes.name = name
+    attributes.type = .integer64
     attributes.defaultValue = defaultValue.map { NSNumber(value: $0) }
     return attributes
   }
-
+  
   public static func decimal(name: String, defaultValue: Decimal? = nil) -> NSAttributeDescription {
     // https://stackoverflow.com/questions/2376853/core-data-decimal-type-for-currency
-    let attributes: NSAttributeDescription
-    if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
-      attributes = NSAttributeDescription()
-      attributes.name = name
-      attributes.type = .decimal
-    } else {
-      attributes = NSAttributeDescription(name: name, type: .decimalAttributeType)
-    }
+    let attributes = NSAttributeDescription()
+    attributes.name = name
+    attributes.type = .decimal
     attributes.defaultValue = defaultValue.map { NSDecimalNumber(decimal: $0) }
     return attributes
   }
-
+  
   public static func float(name: String, defaultValue: Float? = nil) -> NSAttributeDescription {
-    let attributes: NSAttributeDescription
-    if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
-      attributes = NSAttributeDescription()
-      attributes.name = name
-      attributes.type = .float
-    } else {
-      attributes = NSAttributeDescription(name: name, type: .floatAttributeType)
-    }
+    let attributes = NSAttributeDescription()
+    attributes.name = name
+    attributes.type = .float
     attributes.defaultValue = defaultValue.map { NSNumber(value: $0) }
     return attributes
   }
-
+  
   public static func double(name: String, defaultValue: Double? = nil) -> NSAttributeDescription {
-    let attributes: NSAttributeDescription
-    if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
-      attributes = NSAttributeDescription()
-      attributes.name = name
-      attributes.type = .double
-    } else {
-      attributes = NSAttributeDescription(name: name, type: .doubleAttributeType)
-    }
+    let attributes = NSAttributeDescription()
+    attributes.name = name
+    attributes.type = .double
     attributes.defaultValue = defaultValue.map { NSNumber(value: $0) }
     return attributes
   }
-
+  
   public static func string(name: String, defaultValue: String? = nil) -> NSAttributeDescription {
-    let attributes: NSAttributeDescription
-    if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
-      attributes = NSAttributeDescription()
-      attributes.name = name
-      attributes.type = .string
-    } else {
-      attributes = NSAttributeDescription(name: name, type: .stringAttributeType)
-    }
+    let attributes = NSAttributeDescription()
+    attributes.name = name
+    attributes.type = .string
     attributes.defaultValue = defaultValue
     return attributes
   }
-
+  
   public static func bool(name: String, defaultValue: Bool? = nil) -> NSAttributeDescription {
-    let attributes: NSAttributeDescription
-    if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
-      attributes = NSAttributeDescription()
-      attributes.name = name
-      attributes.type = .boolean
-    } else {
-      attributes = NSAttributeDescription(name: name, type: .booleanAttributeType)
-    }
+    let attributes = NSAttributeDescription()
+    attributes.name = name
+    attributes.type = .boolean
     attributes.defaultValue = defaultValue.map { NSNumber(value: $0) }
     return attributes
   }
-
+  
   public static func date(name: String, defaultValue: Date? = nil) -> NSAttributeDescription {
-    let attributes: NSAttributeDescription
-    if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
-      attributes = NSAttributeDescription()
-      attributes.name = name
-      attributes.type = .date
-    } else {
-      attributes = NSAttributeDescription(name: name, type: .dateAttributeType)
-    }
+    let attributes = NSAttributeDescription()
+    attributes.name = name
+    attributes.type = .date
     attributes.defaultValue = defaultValue
     return attributes
   }
-
+  
   public static func uuid(name: String, defaultValue: UUID? = nil) -> NSAttributeDescription {
-    let attributes: NSAttributeDescription
-    if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
-      attributes = NSAttributeDescription()
-      attributes.name = name
-      attributes.type = .uuid
-    } else {
-      attributes = NSAttributeDescription(name: name, type: .UUIDAttributeType)
-    }
+    let attributes = NSAttributeDescription()
+    attributes.name = name
+    attributes.type = .uuid
     attributes.defaultValue = defaultValue
     return attributes
   }
-
+  
   public static func uri(name: String, defaultValue: URL? = nil) -> NSAttributeDescription {
-    let attributes: NSAttributeDescription
-    if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
-      attributes = NSAttributeDescription()
-      attributes.name = name
-      attributes.type = .uri
-    } else {
-      attributes = NSAttributeDescription(name: name, type: .URIAttributeType)
-    }
+    let attributes = NSAttributeDescription()
+    attributes.name = name
+    attributes.type = .uri
     attributes.defaultValue = defaultValue
     return attributes
   }
-
+  
   public static func binaryData(name: String, defaultValue: Data? = nil, allowsExternalBinaryDataStorage: Bool = false) -> NSAttributeDescription {
-    let attributes: NSAttributeDescription
-    if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
-      attributes = NSAttributeDescription()
-      attributes.name = name
-      attributes.type = .binaryData
-    } else {
-      attributes = NSAttributeDescription(name: name, type: .binaryDataAttributeType)
-    }
+    let attributes = NSAttributeDescription()
+    attributes.name = name
+    attributes.type = .binaryData
     attributes.defaultValue = defaultValue
     attributes.allowsExternalBinaryDataStorage = allowsExternalBinaryDataStorage
     return attributes
   }
-
+  
   // transformerName needs to be unique
   private static func transformable<T: NSObject & NSSecureCoding>(for aClass: T.Type,
                                                                   name: String,
                                                                   defaultValue: T? = nil,
                                                                   valueTransformerName: String) -> NSAttributeDescription {
-    let attributes: NSAttributeDescription
-    if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
-      attributes = NSAttributeDescription()
-      attributes.name = name
-      attributes.type = .transformable
-    } else {
-      attributes = NSAttributeDescription(name: name, type: .transformableAttributeType)
-    }
+    let attributes = NSAttributeDescription()
+    attributes.name = name
+    attributes.type = .transformable
     attributes.defaultValue = defaultValue
     attributes.attributeValueClassName = "\(T.self.classForCoder())"
     attributes.valueTransformerName = valueTransformerName
     return attributes
   }
-
+  
   public static func customTransformable<T: NSObject & NSSecureCoding>(for aClass: T.Type,
                                                                        name: String,
                                                                        defaultValue: T? = nil,
                                                                        transform: @escaping CustomTransformer<T>.Transform,
                                                                        reverse: @escaping CustomTransformer<T>.ReverseTransform) -> NSAttributeDescription {
     CustomTransformer<T>.register(transform: transform, reverseTransform: reverse)
-
+    
     let attributes = NSAttributeDescription.transformable(for: T.self,
                                                           name: name,
                                                           defaultValue: defaultValue,
                                                           valueTransformerName: CustomTransformer<T>.transformerName.rawValue)
     return attributes
   }
-
+  
   public static func transformable<T: NSObject & NSSecureCoding>(for aClass: T.Type,
                                                                  name: String,
                                                                  defaultValue: T? = nil) -> NSAttributeDescription {
@@ -240,7 +175,7 @@ extension NSAttributeDescription {
                                                           valueTransformerName: Transformer<T>.transformerName.rawValue)
     return attributes
   }
-
+  
   /// Creates a new `NSAttributeDescription` instance.
   /// - Parameters:
   ///   - name: The name of the attribute.

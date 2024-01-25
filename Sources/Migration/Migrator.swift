@@ -247,12 +247,8 @@ private func performWALCheckpointForStore(at storeURL: URL, storeOptions: Persis
     options[NSPersistentHistoryTrackingKey] = [NSPersistentHistoryTrackingKey: true as NSNumber]
   }
 
-  let store: NSPersistentStore
-  if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
-    store = try persistentStoreCoordinator.addPersistentStore(type: .sqlite, configuration: nil, at: storeURL, options: options)
-  } else {
-    store = try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
-  }
+  let store = try persistentStoreCoordinator.addPersistentStore(type: .sqlite, configuration: nil, at: storeURL, options: options)
+
   try persistentStoreCoordinator.remove(store)
 }
 
