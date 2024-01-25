@@ -49,8 +49,7 @@ extension Collection where Element: NSManagedObject {
       let entities = objects.entities().entitiesKeepingOnlyCommonAncestorEntities()
 
       for entity in entities {
-        // important bits
-        // about batch faulting:
+        // important bits about batch faulting:
         // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreData/Performance.html
         let request = NSFetchRequest<NSFetchRequestResult>()
         request.entity = entity
