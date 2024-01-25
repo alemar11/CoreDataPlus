@@ -21,3 +21,9 @@ class BaseTestCase: XCTestCase {
     //CustomTransformer<Color>.unregister()
   }
 }
+
+// TODO: Xcode 15 bug
+//
+// No NSValueTransformer with class name XXX was found for attribute YYY on entity ZZZ for custom `NSSecureUnarchiveFromDataTransformer`
+// https://forums.developer.apple.com/forums/thread/740492
+// https://stackoverflow.com/questions/77340664/core-data-no-nsvaluetransformer-with-class-name-xxx-was-found-for-attribute-yy/77623593#77623593
