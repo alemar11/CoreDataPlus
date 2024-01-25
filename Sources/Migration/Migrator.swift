@@ -155,11 +155,11 @@ extension Migrator {
         let temporaryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString).appendingPathExtension("sqlite")
         let mappingModelMigrationProgress = Progress(totalUnitCount: Int64(step.mappingModels.count))
         migrationStepsProgress.addChild(mappingModelMigrationProgress, withPendingUnitCount: 1)
-        
+
         for (mappingModelIndex, mappingModel) in step.mappingModels.enumerated() {
           os_log(.info, log: log, "Starting migration for mapping model %{public}d.", mappingModelIndex + 1)
           os_log(.debug, log: log, "The store at: %{public}@ will be migrated in a temporary store at: %{public}@.", currentURL as CVarArg, temporaryURL as CVarArg)
-          
+
           let metadata = Metadata(sourceVersion: step.sourceVersion,
                                   sourceModel: step.sourceModel,
                                   destinationVersion: step.destinationVersion,
@@ -169,7 +169,7 @@ extension Migrator {
           // a progress reporter handles a parent progress cancellations automatically
           let progressReporter = manager.makeProgressReporter()
           mappingModelMigrationProgress.addChild(progressReporter.progress, withPendingUnitCount: 1)
-         
+
           let start = DispatchTime.now()
           do {
             try manager.migrateStore(from: currentURL,

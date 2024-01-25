@@ -18,13 +18,13 @@ extension NSPersistentStoreCoordinator {
     metaData[key] = value
     setMetadata(metaData, for: store)
   }
-  
+
   /// Safely deletes a store at a given url.
   public static func destroyStore(at url: URL, options: PersistentStoreOptions? = nil) throws {
     let persistentStoreCoordinator = self.init(managedObjectModel: NSManagedObjectModel())
     /// destroyPersistentStore safely deletes everything in the database and leaves an empty database behind.
     try persistentStoreCoordinator.destroyPersistentStore(at: url, type: .sqlite, options: options)
-    
+
     let fileManager = FileManager.default
     let storePath = url.path
     try fileManager.removeItem(atPath: storePath)
@@ -33,7 +33,7 @@ extension NSPersistentStoreCoordinator {
     let sharedMemoryfile = storePath + "-shm"
     _ = try? fileManager.removeItem(atPath: sharedMemoryfile)
   }
-  
+
   /// Replaces the destination persistent store with the source store.
   /// - Attention: The store must be of SQLite type.
   public static func replaceStore(at destinationURL: URL,
@@ -52,7 +52,7 @@ extension NSPersistentStoreCoordinator {
                                                           sourceOptions: sourceOptions,
                                                           type: .sqlite)
   }
-  
+
   /// Removes all the stores associated with the coordinator.
   public func removeAllStores() throws {
     try persistentStores.forEach { try remove($0) }

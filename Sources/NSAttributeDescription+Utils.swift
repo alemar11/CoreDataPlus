@@ -27,7 +27,7 @@ extension NSEntityDescription {
     self.isAbstract = false
     self.subentities = []
   }
-  
+
   /// Adds a property description
   public func add(_ property: NSPropertyDescription) {
     properties.append(property)
@@ -46,7 +46,7 @@ extension NSAttributeDescription {
     attributes.defaultValue = defaultValue.map { NSNumber(value: $0) }
     return attributes
   }
-  
+
   public static func int32(name: String, defaultValue: Int32? = nil) -> NSAttributeDescription {
     let attributes = NSAttributeDescription()
     attributes.name = name
@@ -54,7 +54,7 @@ extension NSAttributeDescription {
     attributes.defaultValue = defaultValue.map { NSNumber(value: $0) }
     return attributes
   }
-  
+
   public static func int64(name: String, defaultValue: Int64? = nil) -> NSAttributeDescription {
     let attributes = NSAttributeDescription()
     attributes.name = name
@@ -62,7 +62,7 @@ extension NSAttributeDescription {
     attributes.defaultValue = defaultValue.map { NSNumber(value: $0) }
     return attributes
   }
-  
+
   public static func decimal(name: String, defaultValue: Decimal? = nil) -> NSAttributeDescription {
     // https://stackoverflow.com/questions/2376853/core-data-decimal-type-for-currency
     let attributes = NSAttributeDescription()
@@ -71,7 +71,7 @@ extension NSAttributeDescription {
     attributes.defaultValue = defaultValue.map { NSDecimalNumber(decimal: $0) }
     return attributes
   }
-  
+
   public static func float(name: String, defaultValue: Float? = nil) -> NSAttributeDescription {
     let attributes = NSAttributeDescription()
     attributes.name = name
@@ -79,7 +79,7 @@ extension NSAttributeDescription {
     attributes.defaultValue = defaultValue.map { NSNumber(value: $0) }
     return attributes
   }
-  
+
   public static func double(name: String, defaultValue: Double? = nil) -> NSAttributeDescription {
     let attributes = NSAttributeDescription()
     attributes.name = name
@@ -87,7 +87,7 @@ extension NSAttributeDescription {
     attributes.defaultValue = defaultValue.map { NSNumber(value: $0) }
     return attributes
   }
-  
+
   public static func string(name: String, defaultValue: String? = nil) -> NSAttributeDescription {
     let attributes = NSAttributeDescription()
     attributes.name = name
@@ -95,7 +95,7 @@ extension NSAttributeDescription {
     attributes.defaultValue = defaultValue
     return attributes
   }
-  
+
   public static func bool(name: String, defaultValue: Bool? = nil) -> NSAttributeDescription {
     let attributes = NSAttributeDescription()
     attributes.name = name
@@ -103,7 +103,7 @@ extension NSAttributeDescription {
     attributes.defaultValue = defaultValue.map { NSNumber(value: $0) }
     return attributes
   }
-  
+
   public static func date(name: String, defaultValue: Date? = nil) -> NSAttributeDescription {
     let attributes = NSAttributeDescription()
     attributes.name = name
@@ -111,7 +111,7 @@ extension NSAttributeDescription {
     attributes.defaultValue = defaultValue
     return attributes
   }
-  
+
   public static func uuid(name: String, defaultValue: UUID? = nil) -> NSAttributeDescription {
     let attributes = NSAttributeDescription()
     attributes.name = name
@@ -119,7 +119,7 @@ extension NSAttributeDescription {
     attributes.defaultValue = defaultValue
     return attributes
   }
-  
+
   public static func uri(name: String, defaultValue: URL? = nil) -> NSAttributeDescription {
     let attributes = NSAttributeDescription()
     attributes.name = name
@@ -127,7 +127,7 @@ extension NSAttributeDescription {
     attributes.defaultValue = defaultValue
     return attributes
   }
-  
+
   public static func binaryData(name: String, defaultValue: Data? = nil, allowsExternalBinaryDataStorage: Bool = false) -> NSAttributeDescription {
     let attributes = NSAttributeDescription()
     attributes.name = name
@@ -136,7 +136,7 @@ extension NSAttributeDescription {
     attributes.allowsExternalBinaryDataStorage = allowsExternalBinaryDataStorage
     return attributes
   }
-  
+
   // transformerName needs to be unique
   private static func transformable<T: NSObject & NSSecureCoding>(for aClass: T.Type,
                                                                   name: String,
@@ -150,21 +150,21 @@ extension NSAttributeDescription {
     attributes.valueTransformerName = valueTransformerName
     return attributes
   }
-  
+
   public static func customTransformable<T: NSObject & NSSecureCoding>(for aClass: T.Type,
                                                                        name: String,
                                                                        defaultValue: T? = nil,
                                                                        transform: @escaping CustomTransformer<T>.Transform,
                                                                        reverse: @escaping CustomTransformer<T>.ReverseTransform) -> NSAttributeDescription {
     CustomTransformer<T>.register(transform: transform, reverseTransform: reverse)
-    
+
     let attributes = NSAttributeDescription.transformable(for: T.self,
                                                           name: name,
                                                           defaultValue: defaultValue,
                                                           valueTransformerName: CustomTransformer<T>.transformerName.rawValue)
     return attributes
   }
-  
+
   public static func transformable<T: NSObject & NSSecureCoding>(for aClass: T.Type,
                                                                  name: String,
                                                                  defaultValue: T? = nil) -> NSAttributeDescription {
@@ -175,7 +175,7 @@ extension NSAttributeDescription {
                                                           valueTransformerName: Transformer<T>.transformerName.rawValue)
     return attributes
   }
-  
+
   /// Creates a new `NSAttributeDescription` instance.
   /// - Parameters:
   ///   - name: The name of the attribute.

@@ -7,7 +7,7 @@ extension SampleModel2.V1 {
   enum Configurations {
     static let one = "SampleConfigurationV1"
   }
-  
+
   static func makeManagedObjectModel() -> NSManagedObjectModel {
     if let model = SampleModel2.modelCache.withLock({ $0["V1"] }) {
       return model

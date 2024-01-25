@@ -42,7 +42,7 @@ extension URL {
 
 extension Foundation.Bundle {
   fileprivate class Dummy { }
-  
+
   static var tests: Bundle {
 #if SWIFT_PACKAGE
     return Bundle.module

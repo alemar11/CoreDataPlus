@@ -124,7 +124,7 @@ extension V3 {
     managedObjectModel.entities = entities
     managedObjectModel.setEntities(entities, forConfigurationName: Configurations.one)
     SampleModel2.modelCache.withLock { $0["V3"] = managedObjectModel }
-    
+
     return managedObjectModel
   }
 

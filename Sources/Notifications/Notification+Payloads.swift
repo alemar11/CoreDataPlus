@@ -21,10 +21,10 @@ public struct ManagedObjectContextWillSaveObjects {
   public static let notificationName: Notification.Name = {
     NSManagedObjectContext.willSaveObjectsNotification
   }()
-  
+
   /// Underlying notification object.
   public let notification: Notification
-  
+
   /// `NSManagedObjectContext` associated with the notification.
   public var managedObjectContext: NSManagedObjectContext {
     guard let context = notification.managedObjectContext else {
@@ -32,7 +32,7 @@ public struct ManagedObjectContextWillSaveObjects {
     }
     return context
   }
-  
+
   public init(notification: Notification) {
     assert(notification.name == Self.notificationName)
     self.notification = notification
@@ -47,10 +47,10 @@ public struct ManagedObjectContextDidSaveObjects {
   public static let notificationName: Notification.Name = {
     NSManagedObjectContext.didSaveObjectsNotification
   }()
-  
+
   /// Underlying notification object.
   public let notification: Notification
-  
+
   /// `NSManagedObjectContext` associated with the notification.
   public var managedObjectContext: NSManagedObjectContext {
     guard let context = notification.managedObjectContext else {
@@ -58,35 +58,35 @@ public struct ManagedObjectContextDidSaveObjects {
     }
     return context
   }
-  
+
   /// Returns a `Set` of objects that were inserted into the context.
   public var insertedObjects: Set<NSManagedObject> {
     notification.objects(forKey: .insertedObjects)
   }
-  
+
   /// Returns a `Set` of objects that were updated.
   public var updatedObjects: Set<NSManagedObject> {
     notification.objects(forKey: .updatedObjects)
   }
-  
+
   /// Returns a `Set`of objects that were marked for deletion during the previous event.
   public var deletedObjects: Set<NSManagedObject> {
     notification.objects(forKey: .deletedObjects)
   }
-  
+
   /// The `NSPersistentHistoryToken` associated to the save operation.
   /// - Note: Optional: NSPersistentHistoryTrackingKey must be enabled.
   public var historyToken: NSPersistentHistoryToken? {
     // FB6840421 (missing documentation for "newChangeToken" key)
     return notification.userInfo?["newChangeToken"] as? NSPersistentHistoryToken
   }
-  
+
   /// The new `NSQueryGenerationToken` associated to the save operation.
   /// - Note: It's only available when you are using a SQLite persistent store.
   public var queryGenerationToken: NSQueryGenerationToken? {
     return notification.userInfo?[NSManagedObjectContext.NotificationKey.queryGeneration.rawValue] as? NSQueryGenerationToken
   }
-  
+
   public init(notification: Notification) {
     assert(notification.name == Self.notificationName)
     self.notification = notification
@@ -113,10 +113,10 @@ public struct ManagedObjectContextObjectsDidChange {
   public static let notificationName: Notification.Name = {
     NSManagedObjectContext.didChangeObjectsNotification
   }()
-  
+
   /// Underlying notification object.
   public let notification: Notification
-  
+
   /// `NSManagedObjectContext` associated with the notification.
   public var managedObjectContext: NSManagedObjectContext {
     guard let context = notification.managedObjectContext else {
@@ -124,40 +124,40 @@ public struct ManagedObjectContextObjectsDidChange {
     }
     return context
   }
-  
+
   /// Returns a `Set` of objects that were inserted into the context.
   public var insertedObjects: Set<NSManagedObject> {
     notification.objects(forKey: .insertedObjects)
   }
-  
+
   /// Returns a `Set` of objects that were updated.
   public var updatedObjects: Set<NSManagedObject> {
     notification.objects(forKey: .updatedObjects)
   }
-  
+
   /// Returns a `Set`of objects that were marked for deletion during the previous event.
   public var deletedObjects: Set<NSManagedObject> {
     notification.objects(forKey: .deletedObjects)
   }
-  
+
   /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
   /// - Note: It can be populated only for `NSManagedObjectContextObjectsDidChange` notifications.
   public var refreshedObjects: Set<NSManagedObject> {
     notification.objects(forKey: .refreshedObjects)
   }
-  
+
   /// A `Set` of objects that were invalidated.
   /// - Note: It can be populated only for `NSManagedObjectContextObjectsDidChange` notifications.
   public var invalidatedObjects: Set<NSManagedObject> {
     notification.objects(forKey: .invalidatedObjects)
   }
-  
+
   /// When all the object in the context have been invalidated, returns a `Set` containing all the invalidated objects' NSManagedObjectID.
   /// - Note: It can be populated only for `NSManagedObjectContextObjectsDidChange` notifications.
   public var invalidatedAllObjects: Set<NSManagedObjectID> {
     notification.objectIDs(forKey: .invalidatedAllObjects)
   }
-  
+
   public init(notification: Notification) {
     assert(notification.name == Self.notificationName)
     self.notification = notification
@@ -170,10 +170,10 @@ public struct ManagedObjectContextObjectsDidChange {
 public struct ManagedObjectContextDidSaveObjectIDs {
   /// Notification name.
   public static let notificationName: Notification.Name = NSManagedObjectContext.didSaveObjectIDsNotification
-  
+
   /// Underlying notification object.
   public let notification: Notification
-  
+
   /// `NSManagedObjectContext` associated with the notification.
   public var managedObjectContext: NSManagedObjectContext {
     guard let context = notification.managedObjectContext else {
@@ -181,22 +181,22 @@ public struct ManagedObjectContextDidSaveObjectIDs {
     }
     return context
   }
-  
+
   /// Returns a `Set` of object IDs that were inserted into the context.
   public var insertedObjectIDs: Set<NSManagedObjectID> {
     notification.objectIDs(forKey: .insertedObjectIDs)
   }
-  
+
   /// Returns a `Set` of object IDs that were updated.
   public var updatedObjectIDs: Set<NSManagedObjectID> {
     notification.objectIDs(forKey: .updatedObjectIDs)
   }
-  
+
   /// Returns a `Set`of object IDs that were marked for deletion during the previous event.
   public var deletedObjectIDs: Set<NSManagedObjectID> {
     notification.objectIDs(forKey: .deletedObjectIDs)
   }
-  
+
   public init(notification: Notification) {
     assert(notification.name == Self.notificationName)
     self.notification = notification
@@ -209,10 +209,10 @@ public struct ManagedObjectContextDidSaveObjectIDs {
 public struct ManagedObjectContextDidMergeChangesObjectIDs {
   /// Notification name.
   public static let notificationName: Notification.Name = NSManagedObjectContext.didMergeChangesObjectIDsNotification
-  
+
   /// Underlying notification object.
   public let notification: Notification
-  
+
   /// `NSManagedObjectContext` associated with the notification.
   public var managedObjectContext: NSManagedObjectContext {
     guard let context = notification.managedObjectContext else {
@@ -220,32 +220,32 @@ public struct ManagedObjectContextDidMergeChangesObjectIDs {
     }
     return context
   }
-  
+
   /// Returns a `Set` of object IDs that were inserted into the context.
   public var insertedObjectIDs: Set<NSManagedObjectID> {
     notification.objectIDs(forKey: .insertedObjectIDs)
   }
-  
+
   /// Returns a `Set` of object IDs that were updated.
   public var updatedObjectIDs: Set<NSManagedObjectID> {
     notification.objectIDs(forKey: .updatedObjectIDs)
   }
-  
+
   /// Returns a `Set`of object IDs that were marked for deletion during the previous event.
   public var deletedObjectIDs: Set<NSManagedObjectID> {
     notification.objectIDs(forKey: .deletedObjectIDs)
   }
-  
+
   /// A `Set` of objects that were refreshed but were not dirtied in the scope of this context.
   public var refreshedObjectIDs: Set<NSManagedObjectID> {
     notification.objectIDs(forKey: .refreshedObjectIDs)
   }
-  
+
   /// A `Set` of object IDs that were invalidated.
   public var invalidatedObjectIDs: Set<NSManagedObjectID> {
     notification.objectIDs(forKey: .invalidatedObjectIDs)
   }
-  
+
   public init(notification: Notification) {
     assert(notification.name == Self.notificationName)
     self.notification = notification
@@ -258,16 +258,16 @@ public struct ManagedObjectContextDidMergeChangesObjectIDs {
 public struct PersistentStoreRemoteChange {
   /// Notification name.
   public static let notificationName: Notification.Name = .NSPersistentStoreRemoteChange
-  
+
   /// Underlying notification object.
   public let notification: Notification
-  
+
   /// The `NSPersistentHistoryToken` associated to the change operation.
   /// -Note: It's optional because `NSPersistentHistoryTrackingKey` should be enabled.
   public var historyToken: NSPersistentHistoryToken? {
     return notification.userInfo?[NSPersistentHistoryTokenKey] as? NSPersistentHistoryToken
   }
-  
+
   /// The changed store URL.
   public var storeURL: URL {
     guard let url = notification.userInfo?[NSPersistentStoreURLKey] as? URL else {
@@ -275,7 +275,7 @@ public struct PersistentStoreRemoteChange {
     }
     return url
   }
-  
+
   /// The store UUID.
   public var storeUUID: UUID {
     guard let uuid = notification.userInfo?[NSStoreUUIDKey] as? String else {
@@ -283,7 +283,7 @@ public struct PersistentStoreRemoteChange {
     }
     return UUID(uuidString: uuid)!
   }
-  
+
   public init(notification: Notification) {
     assert(notification.name == Self.notificationName)
     self.notification = notification
@@ -298,20 +298,20 @@ public struct PersistentStoreRemoteChange {
 public struct PersistentStoreCoordinatorStoresWillChange {
   /// Notification name.
   public static let notificationName = Notification.Name.NSPersistentStoreCoordinatorStoresWillChange
-  
+
   /// Underlying notification object.
   public let notification: Notification
-  
+
   /// List of added stores.
   public var addedStores: [NSPersistentStore] {
     notification.userInfo?[NSAddedPersistentStoresKey] as? [NSPersistentStore] ?? []
   }
-  
+
   /// List of removed stores.
   public var removedStores: [NSPersistentStore] {
     notification.userInfo?[NSRemovedPersistentStoresKey] as? [NSPersistentStore] ?? []
   }
-  
+
   //  public var ubiquitousTransitionType: NSPersistentStoreUbiquitousTransitionType {
   //    guard
   //      let typeValue = notification.userInfo?[NSPersistentStoreUbiquitousTransitionTypeKey] as? UInt,
@@ -321,12 +321,12 @@ public struct PersistentStoreCoordinatorStoresWillChange {
   //    }
   //    return type
   //  }
-  
+
   public init(notification: Notification) {
     assert(notification.name == Self.notificationName)
     self.notification = notification
   }
-  
+
   // This notification is sent (AFAIK) only for deprecated CoreData options supporting iCloud ubiquity.
   //
   // description.setOption("MY_NAME" as NSString, forKey: NSPersistentStoreUbiquitousContentNameKey)
@@ -347,7 +347,7 @@ public struct PersistentStoreCoordinatorStoresDidChange {
     public let oldStore: NSPersistentStore
     public let newStore: NSPersistentStore
     public let migratedIDs: [NSManagedObjectID]
-    
+
     fileprivate init(changedStore: NSArray) {
       // swiftlint:disable:next force_cast
       self.oldStore = changedStore[0] as! NSPersistentStore
@@ -358,29 +358,29 @@ public struct PersistentStoreCoordinatorStoresDidChange {
       self.migratedIDs = changedStore[2] as? [NSManagedObjectID] ?? []
     }
   }
-  
+
   /// Notification name.
   public static let notificationName = Notification.Name.NSPersistentStoreCoordinatorStoresDidChange
-  
+
   /// Underlying notification object.
   public let notification: Notification
-  
+
   /// List of added stores.
   public var addedStores: [NSPersistentStore] {
     notification.userInfo?[NSAddedPersistentStoresKey] as? [NSPersistentStore] ?? []
   }
-  
+
   /// List of removed stores.
   public var removedStores: [NSPersistentStore] {
     notification.userInfo?[NSRemovedPersistentStoresKey] as? [NSPersistentStore] ?? []
   }
-  
+
   /// Store whose UUID changed.
   public var uuidChangedStore: UUIDChangedStore? {
     guard let uuidChangedStore = notification.userInfo?[NSUUIDChangedPersistentStoresKey] as? NSArray else { return nil }
     return UUIDChangedStore(changedStore: uuidChangedStore)
   }
-  
+
   public init(notification: Notification) {
     assert(notification.name == Self.notificationName)
     self.notification = notification
@@ -393,10 +393,10 @@ public struct PersistentStoreCoordinatorStoresDidChange {
 public struct PersistentStoreCoordinatorWillRemoveStore {
   /// Notification name.
   public static let notificationName = Notification.Name.NSPersistentStoreCoordinatorWillRemoveStore
-  
+
   /// Underlying notification object.
   public let notification: Notification
-  
+
   /// The persistent store coordinator that will be removed.
   public var store: NSPersistentStore {
     guard let store = notification.object as? NSPersistentStore else {
@@ -404,7 +404,7 @@ public struct PersistentStoreCoordinatorWillRemoveStore {
     }
     return store
   }
-  
+
   public init(notification: Notification) {
     assert(notification.name == Self.notificationName)
     self.notification = notification
