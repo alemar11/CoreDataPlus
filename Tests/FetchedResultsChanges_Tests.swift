@@ -5,7 +5,7 @@ import CoreData
 @testable import CoreDataPlus
 
 final class FetchedResultsChanges_Tests: InMemoryTestCase {
-  func test__NoChanges() throws {
+  func test_NoChanges() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
@@ -33,7 +33,7 @@ final class FetchedResultsChanges_Tests: InMemoryTestCase {
     XCTAssertFalse(controller.fetchedObjects!.isEmpty)
   }
 
-  func test__RefreshAllObjects() throws {
+  func test_RefreshAllObjects() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
@@ -67,7 +67,7 @@ final class FetchedResultsChanges_Tests: InMemoryTestCase {
     }
   }
 
-  func test__ObjectsChanges() throws {
+  func test_ObjectsChanges() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
@@ -131,7 +131,7 @@ final class FetchedResultsChanges_Tests: InMemoryTestCase {
 
   }
 
-  func test__SectionsChanges() throws {
+  func test_SectionsChanges() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
@@ -176,7 +176,7 @@ final class FetchedResultsChanges_Tests: InMemoryTestCase {
     XCTAssertEqual(deletes.count, 2)
   }
 
-  func test__DeleteDueToThePredicate() throws {
+  func test_DeleteDueToThePredicate() throws {
     // Given
     let context = container.viewContext
     context.fillWithSampleData()
