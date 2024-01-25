@@ -45,18 +45,19 @@ final class ProgrammaticMigration_Tests: XCTestCase {
 
   func test_MigrationFromV1ToV2() throws {
     let url = URL.newDatabaseURL(withID: UUID())
-
+    
     let options = [
-      NSMigratePersistentStoresAutomaticallyOption: true,
+      NSMigratePersistentStoresAutomaticallyOption: false, // the migration works fine even if it's set to true, but it should be false
       NSInferMappingModelAutomaticallyOption: false,
-      NSPersistentHistoryTrackingKey: true, // ⚠️ cannot be changed once set to true
+      NSPersistentHistoryTrackingKey: false, // ⚠️ cannot be changed once set to true
       NSPersistentHistoryTokenKey: true
     ]
 
     let description = NSPersistentStoreDescription(url: url)
     description.configuration = nil
-    description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
-    description.setOption(true as NSNumber, forKey: NSPersistentHistoryTokenKey)
+    options.forEach { key, value in
+      description.setOption(value as NSObject, forKey: key)
+    }
 
     let oldManagedObjectModel = V1.makeManagedObjectModel()
     let coordinator = NSPersistentStoreCoordinator(managedObjectModel: oldManagedObjectModel)
@@ -80,7 +81,8 @@ final class ProgrammaticMigration_Tests: XCTestCase {
       sourceDescription.setOption(value as NSObject, forKey: key)
       destinationDescription.setOption(value as NSObject, forKey: key)
     }
-
+    
+    let newOptions = destinationDescription.options
     let migrator = Migrator<SampleModel2.SampleModel2Version>(sourceStoreDescription: sourceDescription,
                                                               destinationStoreDescription: destinationDescription,
                                                               targetVersion: .version2)
@@ -89,7 +91,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     // Validation
     let newManagedObjectModel = V2.makeManagedObjectModel()
     let newCoordinator = NSPersistentStoreCoordinator(managedObjectModel: newManagedObjectModel)
-    try newCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: options)
+    _ = try newCoordinator.addPersistentStore(type: .sqlite, configuration: nil, at: url, options: newOptions)
 
     let newContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     newContext.persistentStoreCoordinator = newCoordinator
@@ -120,7 +122,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
 
   func test_MigrationFromV1ToV2WithMultipleStores() throws {
     let options = [
-      NSMigratePersistentStoresAutomaticallyOption: true,
+      NSMigratePersistentStoresAutomaticallyOption: false, // the migration works fine even if it's set to true, but it should be false
       NSInferMappingModelAutomaticallyOption: false,
       NSPersistentHistoryTrackingKey: true, // ⚠️ cannot be changed once set to true
       NSPersistentHistoryTokenKey: true
@@ -129,8 +131,8 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     let url = URL.newDatabaseURL(withID: UUID())
     let oldManagedObjectModel = V1.makeManagedObjectModel()
     let coordinator = NSPersistentStoreCoordinator(managedObjectModel: oldManagedObjectModel)
-
-    try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: V1.Configurations.one, at: url, options: options)
+    
+    _ = try coordinator.addPersistentStore(type: .sqlite, configuration: V1.Configurations.one, at: url, options: options)
 
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     context.persistentStoreCoordinator = coordinator
@@ -165,8 +167,8 @@ final class ProgrammaticMigration_Tests: XCTestCase {
 
     // The new coordinator will load both the stores.
     let newCoordinator = NSPersistentStoreCoordinator(managedObjectModel: V2.makeManagedObjectModel())
-    try newCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: V2.Configurations.part1, at: url, options: options)
-    try newCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: V2.Configurations.part2, at: urlPart2, options: options)
+    _ = try newCoordinator.addPersistentStore(type: .sqlite, configuration: V2.Configurations.part1, at: url, options: options)
+    _ = try newCoordinator.addPersistentStore(type: .sqlite, configuration: V2.Configurations.part2, at: urlPart2, options: options)
 
     let newContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     newContext.persistentStoreCoordinator = newCoordinator
@@ -239,7 +241,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     let url = URL.newDatabaseURL(withID: UUID())
 
     let options = [
-      NSMigratePersistentStoresAutomaticallyOption: true,
+      NSMigratePersistentStoresAutomaticallyOption: false, // the migration works fine even if it's set to true, but it should be false
       NSInferMappingModelAutomaticallyOption: false,
       NSPersistentHistoryTrackingKey: true, // ⚠️ cannot be changed once set to true
       NSPersistentHistoryTokenKey: true
@@ -303,7 +305,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
 
     let newManagedObjectModel = V3.makeManagedObjectModel()
     let newCoordinator = NSPersistentStoreCoordinator(managedObjectModel: newManagedObjectModel)
-    try newCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: options)
+    _ = try newCoordinator.addPersistentStore(type: .sqlite, configuration: nil, at: url, options: options)
 
     let newContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     newContext.persistentStoreCoordinator = newCoordinator

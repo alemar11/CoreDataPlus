@@ -171,7 +171,7 @@ extension Migrator {
           mappingModelMigrationProgress.addChild(progressReporter.progress, withPendingUnitCount: 1)
 
           let start = DispatchTime.now()
-          do {
+          do {            
             try manager.migrateStore(from: currentURL,
                                      type: .sqlite,
                                      options: sourceOptions,
