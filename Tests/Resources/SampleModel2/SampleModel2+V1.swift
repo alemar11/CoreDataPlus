@@ -9,7 +9,7 @@ extension SampleModel2.V1 {
   }
   @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   static func makeManagedObjectModel() -> NSManagedObjectModel {
-    if let model = SampleModel2.modelCache["V1"] {
+    if let model = SampleModel2.modelCache.withLock({ $0["V1"] }) {
       return model
     }
 
@@ -102,7 +102,8 @@ extension SampleModel2.V1 {
     managedObjectModel.entities = entities
     managedObjectModel.setEntities(entities, forConfigurationName: Configurations.one)
 
-    SampleModel2.modelCache["V1"] = managedObjectModel
+    SampleModel2.modelCache.withLock { $0["V1"] = managedObjectModel }
+
     return managedObjectModel
   }
 

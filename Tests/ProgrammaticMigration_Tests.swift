@@ -4,6 +4,7 @@ import XCTest
 import CoreData
 import Foundation
 @testable import CoreDataPlus
+import os.lock
 
 @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 final class ProgrammaticMigration_Tests: XCTestCase {
@@ -270,10 +271,13 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     let migrator = Migrator<SampleModel2.SampleModel2Version>(sourceStoreDescription: description,
                                                               destinationStoreDescription: description,
                                                               targetVersion: .version3)
-    var completion = 0.0
+
+    let completion = OSAllocatedUnfairLock(initialState: 0.0)
     let token = migrator.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
       print(progress.fractionCompleted)
-      completion = progress.fractionCompleted
+      completion.withLock {
+        $0 = progress.fractionCompleted
+      }
     }
 
     try migrator.migrate(enableWALCheckpoint: true) { metadata in
@@ -295,7 +299,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     }
 
     // Validation
-    XCTAssertEqual(completion, 1.0)
+    XCTAssertEqual(completion.withLock { $0 }, 1.0)
     token.invalidate()
 
     let newManagedObjectModel = V3.makeManagedObjectModel()

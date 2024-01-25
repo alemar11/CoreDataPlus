@@ -3,7 +3,10 @@
 import CoreData
 @testable import CoreDataPlus
 
+// It should be fine to mark these as Sendable because they can be shared between different threads.
+// https://duckrowing.com/2010/03/11/using-core-data-on-multiple-threads/
 extension NSManagedObjectContext: @unchecked Sendable { }
+extension NSManagedObjectModel: @unchecked Sendable { }
 
 let model = SampleModelVersion.version1.managedObjectModel()
 

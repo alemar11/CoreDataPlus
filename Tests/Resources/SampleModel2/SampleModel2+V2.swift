@@ -8,9 +8,9 @@ extension V2 {
     static let part1 = "SampleConfigurationV2Part1" // all the entities
     static let part2 = "SampleConfigurationV2Part2" // only Feedback
   }
-  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+ 
   static func makeManagedObjectModel() -> NSManagedObjectModel {
-    if let model = SampleModel2.modelCache["V2"] {
+    if let model = SampleModel2.modelCache.withLock ({ $0["V2"] }) {
       return model
     }
 
@@ -101,8 +101,8 @@ extension V2 {
     managedObjectModel.entities = entities
     managedObjectModel.setEntities([writer, author, book, page, feedback], forConfigurationName: Configurations.part1)
     managedObjectModel.setEntities([feedback], forConfigurationName: Configurations.part2)
-
-    SampleModel2.modelCache["V2"] = managedObjectModel
+    SampleModel2.modelCache.withLock { $0["V2"] = managedObjectModel }
+    
     return managedObjectModel
   }
 

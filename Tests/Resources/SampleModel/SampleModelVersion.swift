@@ -3,8 +3,9 @@
 import CoreData
 import XCTest
 @testable import CoreDataPlus
+import os.lock
 
-private var cache = [String: NSManagedObjectModel]()
+private let cache = OSAllocatedUnfairLock(uncheckedState: [String: NSManagedObjectModel]())
 
 public enum SampleModelVersion: String, CaseIterable {
   case version1 = "SampleModel"
@@ -30,12 +31,13 @@ extension SampleModelVersion: ModelVersion {
   public var modelBundle: Bundle { Bundle.tests }
 
   public func managedObjectModel() -> NSManagedObjectModel {
-    if let model = cache[self.versionName] {
+    let vn = self.versionName
+    if let model = cache.withLock({ $0[vn] }) {
       return model
     }
 
     let model = _managedObjectModel()
-    cache[self.versionName] = model
+    cache.withLock { $0[vn] = model }
     return model
   }
 }

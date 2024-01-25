@@ -13,9 +13,8 @@ extension V3 {
     static let one = "SampleConfigurationV3" // all the entities
   }
 
-  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   static func makeManagedObjectModel() -> NSManagedObjectModel {
-    if let model = SampleModel2.modelCache["V3"] {
+    if let model = SampleModel2.modelCache.withLock ({ $0["V3"] }) {
       return model
     }
 
@@ -124,8 +123,8 @@ extension V3 {
     let entities = [writer, author, book, graphicNovel, page, feedback, cover]
     managedObjectModel.entities = entities
     managedObjectModel.setEntities(entities, forConfigurationName: Configurations.one)
-
-    SampleModel2.modelCache["V3"] = managedObjectModel
+    SampleModel2.modelCache.withLock { $0["V3"] = managedObjectModel }
+    
     return managedObjectModel
   }
 
