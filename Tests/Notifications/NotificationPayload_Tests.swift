@@ -1001,7 +1001,7 @@ final class NotificationPayloadOnDiskTests: OnDiskTestCase {
     car2.model = "Panda"
     car2.numberPlate = "2"
 
-    print(car.objectID, car2.objectID)
+    //print(car.objectID, car2.objectID)
 
     try context.save()
     waitForExpectations(timeout: 2)
@@ -1168,7 +1168,7 @@ final class NotificationPayloadOnDiskTests: OnDiskTestCase {
     // triggers a NSPersistentStoreCoordinatorStoresDidChange with a NSUUIDChangedPersistentStoresKey (5)
     // triggers a NSPersistentStoreCoordinatorWillRemoveStore (3) for initial URL
     // triggers a NSPersistentStoreCoordinatorStoresDidChange (6)
-    print("migratePersistentStore")
+    
     try psc.persistentStores.forEach {
       try psc.migratePersistentStore($0, to: finalStoreURL, options: nil, withType: NSSQLiteStoreType)
     }
@@ -1177,7 +1177,6 @@ final class NotificationPayloadOnDiskTests: OnDiskTestCase {
 
     // triggers a NSPersistentStoreCoordinatorWillRemoveStore (4) for final URL
     // triggers a NSPersistentStoreCoordinatorStoresDidChange (7)
-    print("remove")
     try psc.persistentStores.forEach {
       try psc.remove($0)
     }

@@ -292,7 +292,7 @@ final class Migrations_Tests: BaseTestCase {
     migrator.enableLog = true
     let completion = OSAllocatedUnfairLock(initialState: 0.0)
     let token = migrator.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
-      print(progress.fractionCompleted)
+      //print(progress.fractionCompleted)
       completion.withLock { $0 = progress.fractionCompleted }
     }
 

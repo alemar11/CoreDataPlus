@@ -275,7 +275,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
 
     let completion = OSAllocatedUnfairLock(initialState: 0.0)
     let token = migrator.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
-      print(progress.fractionCompleted)
+      //print(progress.fractionCompleted)
       completion.withLock {
         $0 = progress.fractionCompleted
       }

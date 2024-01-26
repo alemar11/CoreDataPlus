@@ -136,7 +136,7 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
     waitForExpectations(timeout: 5, handler: nil)
 
     try viewContext2.save()
-    print(viewContext2.insertedObjects)
+    //print(viewContext2.insertedObjects)
 
     cancellable.cancel()
     let status = try viewContext2.deleteHistory(before: result!.0)

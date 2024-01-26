@@ -315,12 +315,12 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
       try! $0.save()
       carID = car.objectID
       XCTAssertEqual(car.currentDrivingSpeed, 50)
-      print($0.registeredObjects)
+      //print($0.registeredObjects)
       car.currentDrivingSpeed = 20 // ⚠️ dirting the context again
     }
 
     childContext.performAndWait {
-      print(childContext.registeredObjects)
+      //print(childContext.registeredObjects)
     }
 
     let id = try XCTUnwrap(carID)
