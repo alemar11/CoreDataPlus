@@ -1,3 +1,3 @@
 #!/bin/bash
 
-swift-format lint ../Sources ../Tests --recursive --parallel --strict --configuration ../swift-format.json
+swift-format lint ../Sources ../Tests --recursive --parallel --strict --configuration ../.swift-format
