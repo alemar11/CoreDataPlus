@@ -32,7 +32,7 @@ extension URL {
   }
 
   static var temporaryDirectoryURL: URL {
-    let url = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory:true)
+    let url = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
       .appendingPathComponent(bundleIdentifier)
       .appendingPathComponent(UUID().uuidString)
     try! FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
