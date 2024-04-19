@@ -62,7 +62,7 @@ extension Collection where Element: NSManagedObject {
 
   /// Returns all the different `NSEntityDescription` defined in the collection.
   public func entities() -> Set<NSEntityDescription> {
-    return Set(self.map { $0.entity })
+    Set(self.map { $0.entity })
   }
 }
 
@@ -86,7 +86,7 @@ extension Collection where Element: NSEntityDescription {
               newResult.remove(at: index)
               newResult.append(ancestor)
             }
-          } else { // this condition should be never verified
+          } else {  // this condition should be never verified
             newResult.append(entity)
           }
         }

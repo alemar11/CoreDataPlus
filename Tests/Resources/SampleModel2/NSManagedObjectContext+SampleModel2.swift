@@ -1,7 +1,7 @@
 // CoreDataPlus
 
-import Foundation
 import CoreData
+import Foundation
 
 extension NSManagedObjectContext {
   // 1 Author with 3 Books

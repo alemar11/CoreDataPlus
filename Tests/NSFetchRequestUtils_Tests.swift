@@ -1,7 +1,8 @@
 // CoreDataPlus
 
-import XCTest
 import CoreData
+import XCTest
+
 @testable import CoreDataPlus
 
 final class NSFetchRequestUtils_Tests: XCTestCase {

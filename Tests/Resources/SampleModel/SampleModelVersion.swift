@@ -2,8 +2,9 @@
 
 import CoreData
 import XCTest
-@testable import CoreDataPlus
 import os.lock
+
+@testable import CoreDataPlus
 
 private let cache = OSAllocatedUnfairLock(uncheckedState: [String: NSManagedObjectModel]())
 
@@ -26,7 +27,7 @@ extension SampleModelVersion: ModelVersion {
     }
   }
 
-  public var versionName: String { return rawValue }
+  public var versionName: String { rawValue }
 
   public var modelBundle: Bundle { Bundle.tests }
 

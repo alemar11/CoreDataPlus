@@ -1,7 +1,8 @@
 // CoreDataPlus
 
-import XCTest
 import CoreData
+import XCTest
+
 @testable import CoreDataPlus
 
 // MARK: - On Disk XCTestCase
@@ -47,7 +48,8 @@ final class OnDiskPersistentContainer: NSPersistentContainer {
 
     // Enable history tracking and remote notifications
     container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
-    container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
+    container.persistentStoreDescriptions[0].setOption(
+      true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
 
     container.loadPersistentStores { (description, error) in
       XCTAssertNil(error)

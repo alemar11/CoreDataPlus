@@ -128,7 +128,9 @@ extension NSAttributeDescription {
     return attributes
   }
 
-  public static func binaryData(name: String, defaultValue: Data? = nil, allowsExternalBinaryDataStorage: Bool = false) -> NSAttributeDescription {
+  public static func binaryData(name: String, defaultValue: Data? = nil, allowsExternalBinaryDataStorage: Bool = false)
+    -> NSAttributeDescription
+  {
     let attributes = NSAttributeDescription()
     attributes.name = name
     attributes.type = .binaryData
@@ -138,10 +140,12 @@ extension NSAttributeDescription {
   }
 
   // transformerName needs to be unique
-  private static func transformable<T: NSObject & NSSecureCoding>(for aClass: T.Type,
-                                                                  name: String,
-                                                                  defaultValue: T? = nil,
-                                                                  valueTransformerName: String) -> NSAttributeDescription {
+  private static func transformable<T: NSObject & NSSecureCoding>(
+    for aClass: T.Type,
+    name: String,
+    defaultValue: T? = nil,
+    valueTransformerName: String
+  ) -> NSAttributeDescription {
     let attributes = NSAttributeDescription()
     attributes.name = name
     attributes.type = .transformable
@@ -151,28 +155,34 @@ extension NSAttributeDescription {
     return attributes
   }
 
-  public static func customTransformable<T: NSObject & NSSecureCoding>(for aClass: T.Type,
-                                                                       name: String,
-                                                                       defaultValue: T? = nil,
-                                                                       transform: @escaping CustomTransformer<T>.Transform,
-                                                                       reverse: @escaping CustomTransformer<T>.ReverseTransform) -> NSAttributeDescription {
+  public static func customTransformable<T: NSObject & NSSecureCoding>(
+    for aClass: T.Type,
+    name: String,
+    defaultValue: T? = nil,
+    transform: @escaping CustomTransformer<T>.Transform,
+    reverse: @escaping CustomTransformer<T>.ReverseTransform
+  ) -> NSAttributeDescription {
     CustomTransformer<T>.register(transform: transform, reverseTransform: reverse)
 
-    let attributes = NSAttributeDescription.transformable(for: T.self,
-                                                          name: name,
-                                                          defaultValue: defaultValue,
-                                                          valueTransformerName: CustomTransformer<T>.transformerName.rawValue)
+    let attributes = NSAttributeDescription.transformable(
+      for: T.self,
+      name: name,
+      defaultValue: defaultValue,
+      valueTransformerName: CustomTransformer<T>.transformerName.rawValue)
     return attributes
   }
 
-  public static func transformable<T: NSObject & NSSecureCoding>(for aClass: T.Type,
-                                                                 name: String,
-                                                                 defaultValue: T? = nil) -> NSAttributeDescription {
+  public static func transformable<T: NSObject & NSSecureCoding>(
+    for aClass: T.Type,
+    name: String,
+    defaultValue: T? = nil
+  ) -> NSAttributeDescription {
     Transformer<T>.register()
-    let attributes = NSAttributeDescription.transformable(for: T.self,
-                                                          name: name,
-                                                          defaultValue: defaultValue,
-                                                          valueTransformerName: Transformer<T>.transformerName.rawValue)
+    let attributes = NSAttributeDescription.transformable(
+      for: T.self,
+      name: name,
+      defaultValue: defaultValue,
+      valueTransformerName: Transformer<T>.transformerName.rawValue)
     return attributes
   }
 

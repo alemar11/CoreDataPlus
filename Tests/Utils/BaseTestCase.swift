@@ -1,18 +1,19 @@
 // CoreDataPlus
 
-import XCTest
 import CoreData
+import XCTest
+
 @testable import CoreDataPlus
 
 class BaseTestCase: XCTestCase {
   class override func setUp() {
-//    CustomTransformer<Color>.register {
-//      guard let color = $0 else { return nil }
-//      return try? NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: true)
-//    } reverseTransform: {
-//      guard let data = $0 else { return nil }
-//      return try? NSKeyedUnarchiver.unarchivedObject(ofClass: Color.self, from: data)
-//    }
+    //    CustomTransformer<Color>.register {
+    //      guard let color = $0 else { return nil }
+    //      return try? NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: true)
+    //    } reverseTransform: {
+    //      guard let data = $0 else { return nil }
+    //      return try? NSKeyedUnarchiver.unarchivedObject(ofClass: Color.self, from: data)
+    //    }
     Transformer<Color>.register()
   }
 

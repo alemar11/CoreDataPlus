@@ -1,7 +1,8 @@
 // CoreDataPlus
 
-import XCTest
 import CoreData
+import XCTest
+
 @testable import CoreDataPlus
 
 final class NSManagedObjectUtils_Tests: InMemoryTestCase {
@@ -41,7 +42,6 @@ final class NSManagedObjectUtils_Tests: InMemoryTestCase {
 
   }
 
-
   func test_ChangedAndCommittedValue() throws {
     let context = container.viewContext
 
@@ -55,8 +55,8 @@ final class NSManagedObjectUtils_Tests: InMemoryTestCase {
       // When
       let car = Car(context: context)
       let person = Person(context: context)
-      XCTAssertNil(car.changedValue(forKey:  carNumberPlate))
-      XCTAssertNil(car.changedValue(forKey:  carModel))
+      XCTAssertNil(car.changedValue(forKey: carNumberPlate))
+      XCTAssertNil(car.changedValue(forKey: carModel))
       car.model = "MyModel"
       car.numberPlate = "123456"
       person.firstName = "Alessandro"
@@ -100,7 +100,8 @@ final class NSManagedObjectUtils_Tests: InMemoryTestCase {
       XCTAssertNotNil(car.committedValue(forKey: carNumberPlate))
 
       let request = NSFetchRequest<Car>(entityName: "Car")
-      request.predicate = NSPredicate(format: "\(#keyPath(Car.model)) == %@ AND \(#keyPath(Car.numberPlate)) == %@", "MyModel", "202")
+      request.predicate = NSPredicate(
+        format: "\(#keyPath(Car.model)) == %@ AND \(#keyPath(Car.numberPlate)) == %@", "MyModel", "202")
       request.fetchBatchSize = 1
       if let fetchedCar = try! context.fetch(request).first {
         XCTAssertNotNil(car.committedValue(forKey: carNumberPlate))
@@ -202,14 +203,16 @@ final class NSManagedObjectUtils_Tests: InMemoryTestCase {
       XCTAssertTrue(car.evaluate(with: predicate))
     }
     do {
-      let predicate = NSPredicate(format: "%K == %@ AND %K == %@", #keyPath(Car.maker), "FIAT", #keyPath(Car.numberPlate), "123")
+      let predicate = NSPredicate(
+        format: "%K == %@ AND %K == %@", #keyPath(Car.maker), "FIAT", #keyPath(Car.numberPlate), "123")
       let car = Car(context: context)
       car.maker = "FIAT"
       car.numberPlate = "000"
       XCTAssertFalse(car.evaluate(with: predicate))
     }
     do {
-      let predicate = NSPredicate(format: "%K == %@ AND %K == %@", #keyPath(Car.maker), "FIAT", #keyPath(Car.numberPlate), "123")
+      let predicate = NSPredicate(
+        format: "%K == %@ AND %K == %@", #keyPath(Car.maker), "FIAT", #keyPath(Car.numberPlate), "123")
       let car = Car(context: context)
       car.maker = "FIAT"
       car.numberPlate = "123"
@@ -217,5 +220,3 @@ final class NSManagedObjectUtils_Tests: InMemoryTestCase {
     }
   }
 }
-
-

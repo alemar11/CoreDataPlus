@@ -78,13 +78,13 @@ public struct ManagedObjectContextDidSaveObjects {
   /// - Note: Optional: NSPersistentHistoryTrackingKey must be enabled.
   public var historyToken: NSPersistentHistoryToken? {
     // FB6840421 (missing documentation for "newChangeToken" key)
-    return notification.userInfo?["newChangeToken"] as? NSPersistentHistoryToken
+    notification.userInfo?["newChangeToken"] as? NSPersistentHistoryToken
   }
 
   /// The new `NSQueryGenerationToken` associated to the save operation.
   /// - Note: It's only available when you are using a SQLite persistent store.
   public var queryGenerationToken: NSQueryGenerationToken? {
-    return notification.userInfo?[NSManagedObjectContext.NotificationKey.queryGeneration.rawValue] as? NSQueryGenerationToken
+    notification.userInfo?[NSManagedObjectContext.NotificationKey.queryGeneration.rawValue] as? NSQueryGenerationToken
   }
 
   public init(notification: Notification) {
@@ -216,7 +216,8 @@ public struct ManagedObjectContextDidMergeChangesObjectIDs {
   /// `NSManagedObjectContext` associated with the notification.
   public var managedObjectContext: NSManagedObjectContext {
     guard let context = notification.managedObjectContext else {
-      fatalError("A NSManagedObjectContext.didMergeChangesObjectIDsNotification must have a NSManagedObjectContext object.")
+      fatalError(
+        "A NSManagedObjectContext.didMergeChangesObjectIDsNotification must have a NSManagedObjectContext object.")
     }
     return context
   }
@@ -265,7 +266,7 @@ public struct PersistentStoreRemoteChange {
   /// The `NSPersistentHistoryToken` associated to the change operation.
   /// -Note: It's optional because `NSPersistentHistoryTrackingKey` should be enabled.
   public var historyToken: NSPersistentHistoryToken? {
-    return notification.userInfo?[NSPersistentHistoryTokenKey] as? NSPersistentHistoryToken
+    notification.userInfo?[NSPersistentHistoryTokenKey] as? NSPersistentHistoryToken
   }
 
   /// The changed store URL.
@@ -377,7 +378,9 @@ public struct PersistentStoreCoordinatorStoresDidChange {
 
   /// Store whose UUID changed.
   public var uuidChangedStore: UUIDChangedStore? {
-    guard let uuidChangedStore = notification.userInfo?[NSUUIDChangedPersistentStoresKey] as? NSArray else { return nil }
+    guard let uuidChangedStore = notification.userInfo?[NSUUIDChangedPersistentStoresKey] as? NSArray else {
+      return nil
+    }
     return UUIDChangedStore(changedStore: uuidChangedStore)
   }
 
@@ -400,7 +403,8 @@ public struct PersistentStoreCoordinatorWillRemoveStore {
   /// The persistent store coordinator that will be removed.
   public var store: NSPersistentStore {
     guard let store = notification.object as? NSPersistentStore else {
-      fatalError("A Notification.Name.NSPersistentStoreCoordinatorWillRemoveStore must have a NSPersistentStore object.")
+      fatalError(
+        "A Notification.Name.NSPersistentStoreCoordinatorWillRemoveStore must have a NSPersistentStore object.")
     }
     return store
   }

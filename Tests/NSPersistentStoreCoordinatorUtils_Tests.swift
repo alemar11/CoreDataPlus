@@ -1,7 +1,8 @@
 // CoreDataPlus
 
-import XCTest
 import CoreData
+import XCTest
+
 @testable import CoreDataPlus
 
 final class NSPersistentStoreCoordinatorUtils_Tests: BaseTestCase {
@@ -10,7 +11,7 @@ final class NSPersistentStoreCoordinatorUtils_Tests: BaseTestCase {
     let id = UUID()
     let container1 = OnDiskPersistentContainer.makeNew(id: id)
     let store1 = try XCTUnwrap(container1.persistentStoreCoordinator.persistentStores.first)
-    let psc1 = container1.persistentStoreCoordinator // ot context.persistentStoreCoordinator!
+    let psc1 = container1.persistentStoreCoordinator  // ot context.persistentStoreCoordinator!
 
     // When
     let metaData = psc1.metadata(for: store1)
@@ -37,7 +38,7 @@ final class NSPersistentStoreCoordinatorUtils_Tests: BaseTestCase {
     XCTAssertNotNil(updatedMetaData2["testKey"])
     XCTAssertEqual(updatedMetaData2["testKey"] as? String, "Test")
 
-    try psc2.removeAllStores() // container2 must unload the store otherwise container1 can't be destroyed (SQLITE error) because they point to the same db
+    try psc2.removeAllStores()  // container2 must unload the store otherwise container1 can't be destroyed (SQLITE error) because they point to the same db
     try container1.destroy()
     try container2.destroy()
   }
@@ -46,7 +47,7 @@ final class NSPersistentStoreCoordinatorUtils_Tests: BaseTestCase {
     let id = UUID()
     let container = OnDiskPersistentContainer.makeNew(id: id)
     let store = try XCTUnwrap(container.persistentStoreCoordinator.persistentStores.first)
-    var metadata = store.metadata ?? [String : Any]()
+    var metadata = store.metadata ?? [String: Any]()
     metadata["testKey"] = "Test"
     store.metadata = metadata
 
@@ -57,7 +58,7 @@ final class NSPersistentStoreCoordinatorUtils_Tests: BaseTestCase {
 
     let container2 = OnDiskPersistentContainer.makeNew(id: id)
     let store2 = try XCTUnwrap(container2.persistentStoreCoordinator.persistentStores.first)
-    let metadata2 =  try XCTUnwrap(store2.metadata)
+    let metadata2 = try XCTUnwrap(store2.metadata)
 
     XCTAssertNotNil(metadata2["testKey"])
     XCTAssertEqual(metadata2["testKey"] as? String, "Test")
@@ -78,16 +79,20 @@ final class NSPersistentStoreCoordinatorUtils_Tests: BaseTestCase {
     let container = OnDiskPersistentContainer.makeNew(id: id)
     let url = container.persistentStoreCoordinator.persistentStores.first!.url!
 
-    var metaData = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: url, options: nil)
+    var metaData = try NSPersistentStoreCoordinator.metadataForPersistentStore(
+      ofType: NSSQLiteStoreType, at: url, options: nil)
     metaData["testKey"] = "Test"
-    try NSPersistentStoreCoordinator.setMetadata(metaData, forPersistentStoreOfType: NSSQLiteStoreType, at: url, options: nil)
-    let metaData2 = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: url, options: nil)
+    try NSPersistentStoreCoordinator.setMetadata(
+      metaData, forPersistentStoreOfType: NSSQLiteStoreType, at: url, options: nil)
+    let metaData2 = try NSPersistentStoreCoordinator.metadataForPersistentStore(
+      ofType: NSSQLiteStoreType, at: url, options: nil)
     XCTAssertNotNil(metaData2["testKey"])
     XCTAssertEqual(metaData2["testKey"] as? String, "Test")
 
     // Already loaded container must remove and reload the store to see the changes
     try container.persistentStoreCoordinator.removeAllStores()
-    try container.persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: nil)
+    try container.persistentStoreCoordinator.addPersistentStore(
+      ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: nil)
     let psc = container.persistentStoreCoordinator
     let store = try XCTUnwrap(container.persistentStoreCoordinator.persistentStores.first)
     let updatedMetaData = psc.metadata(for: store)

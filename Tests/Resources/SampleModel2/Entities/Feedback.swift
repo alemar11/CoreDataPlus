@@ -31,4 +31,3 @@ public class FeedbackV3: NSManagedObject {
   @NSManaged public var comment: String
   @NSManaged public var rating: Double
 }
-

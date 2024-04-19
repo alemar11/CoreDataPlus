@@ -36,21 +36,24 @@ extension NSPersistentStoreCoordinator {
 
   /// Replaces the destination persistent store with the source store.
   /// - Attention: The store must be of SQLite type.
-  public static func replaceStore(at destinationURL: URL,
-                                  destinationOptions: PersistentStoreOptions? = nil,
-                                  withPersistentStoreFrom sourceURL: URL,
-                                  sourceOptions: PersistentStoreOptions? = nil) throws {
+  public static func replaceStore(
+    at destinationURL: URL,
+    destinationOptions: PersistentStoreOptions? = nil,
+    withPersistentStoreFrom sourceURL: URL,
+    sourceOptions: PersistentStoreOptions? = nil
+  ) throws {
     // https://mjtsai.com/blog/2021/03/31/replacing-vs-migrating-core-data-stores/
     // https://atomicbird.com/blog/mostly-undocumented/
     // https://github.com/atomicbird/CDMoveDemo
     // https://menuplan.app/coding/2021/10/27/core-data-store-path-migration.html
     let persistentStoreCoordinator = self.init(managedObjectModel: NSManagedObjectModel())
     // replacing a store has a side effect of removing the current store from the psc
-    try persistentStoreCoordinator.replacePersistentStore(at: destinationURL,
-                                                          destinationOptions: destinationOptions,
-                                                          withPersistentStoreFrom: sourceURL,
-                                                          sourceOptions: sourceOptions,
-                                                          type: .sqlite)
+    try persistentStoreCoordinator.replacePersistentStore(
+      at: destinationURL,
+      destinationOptions: destinationOptions,
+      withPersistentStoreFrom: sourceURL,
+      sourceOptions: sourceOptions,
+      type: .sqlite)
   }
 
   /// Removes all the stores associated with the coordinator.

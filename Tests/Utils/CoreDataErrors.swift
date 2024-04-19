@@ -13,7 +13,7 @@ let errorKeys = [
   NSAffectedStoresErrorKey,
   NSAffectedObjectsErrorKey,
   NSPersistentStoreSaveConflictsErrorKey,
-  NSSQLiteErrorDomain
+  NSSQLiteErrorDomain,
 ]
 
 let errors = [

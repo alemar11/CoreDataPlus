@@ -1,7 +1,8 @@
 // CoreDataPlus
 
-import XCTest
 import CoreData
+import XCTest
+
 @testable import CoreDataPlus
 
 class OnDiskWithProgrammaticallyModelTestCase: XCTestCase {
@@ -34,8 +35,9 @@ final class OnDiskWithProgrammaticallyModelPersistentContainer: NSPersistentCont
 
   static func makeNew(id: UUID) -> OnDiskWithProgrammaticallyModelPersistentContainer {
     let url = URL.newDatabaseURL(withID: id)
-    let container = OnDiskWithProgrammaticallyModelPersistentContainer(name: "SampleModel2",
-                                                                       managedObjectModel: V1.makeManagedObjectModel())
+    let container = OnDiskWithProgrammaticallyModelPersistentContainer(
+      name: "SampleModel2",
+      managedObjectModel: V1.makeManagedObjectModel())
     let description = NSPersistentStoreDescription()
     description.url = url
     description.shouldMigrateStoreAutomatically = false

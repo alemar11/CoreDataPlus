@@ -123,7 +123,7 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
       }
 
       childContext.performAndWait {
-        XCTAssertEqual(childCar.maker, "FIAT") // no changes
+        XCTAssertEqual(childCar.maker, "FIAT")  // no changes
       }
     }
 
@@ -190,7 +190,7 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
       }
 
       childContext.performAndWait {
-        XCTAssertEqual(childCar.maker, "FIAT") // no changes
+        XCTAssertEqual(childCar.maker, "FIAT")  // no changes
       }
     }
   }
@@ -222,10 +222,10 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
     XCTAssertEqual(car.maker, "FIAT")
 
     // When, Then
-    context.stalenessInterval = 0 // issue a new fetch request instead of using the row cache
+    context.stalenessInterval = 0  // issue a new fetch request instead of using the row cache
     car.refresh()
     XCTAssertEqual(car.maker, "FCA")
-    context.stalenessInterval = -1 // default
+    context.stalenessInterval = -1  // default
     // The default is a negative value, which represents infinite staleness allowed. 0.0 represents “no staleness acceptable”.
   }
 
@@ -315,7 +315,7 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
       carID = car.objectID
       XCTAssertEqual(car.currentDrivingSpeed, 50)
       //print($0.registeredObjects)
-      car.currentDrivingSpeed = 20 // ⚠️ dirting the context again
+      car.currentDrivingSpeed = 20  // ⚠️ dirting the context again
     }
 
     childContext.performAndWait {
@@ -327,19 +327,23 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
     XCTAssertEqual(car.maker, "FIAT")
     XCTAssertEqual(car.model, "Panda")
     XCTAssertEqual(car.numberPlate, plateNumber)
-    XCTAssertEqual(car.currentDrivingSpeed, 50, "The transient property value should be equal to the one saved by the child context.")
+    XCTAssertEqual(
+      car.currentDrivingSpeed, 50, "The transient property value should be equal to the one saved by the child context."
+    )
 
     try childContext.performAndWait {
-      XCTAssertFalse(childContext.registeredObjects.isEmpty) // ⚠️ this condition is verified only because we have dirted the context after a save
+      XCTAssertFalse(childContext.registeredObjects.isEmpty)  // ⚠️ this condition is verified only because we have dirted the context after a save
       let car = try XCTUnwrap($0.object(with: id) as? Car)
       XCTAssertEqual(car.currentDrivingSpeed, 20)
       try $0.save()
     }
 
-    XCTAssertEqual(car.currentDrivingSpeed, 20, "The transient property value should be equal to the one saved by the child context.")
+    XCTAssertEqual(
+      car.currentDrivingSpeed, 20, "The transient property value should be equal to the one saved by the child context."
+    )
 
     try childContext.performAndWait {
-      XCTAssertTrue(childContext.registeredObjects.isEmpty) // ⚠️ it seems that after a save, the objects are freed unless the context gets dirted again
+      XCTAssertTrue(childContext.registeredObjects.isEmpty)  // ⚠️ it seems that after a save, the objects are freed unless the context gets dirted again
       let car = try XCTUnwrap(try Car.fetchUniqueObject(in: $0, where: predicate))
       XCTAssertEqual(car.currentDrivingSpeed, 0)
     }
@@ -403,7 +407,8 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
       let request = Car.fetchRequest()
       request.addSortDescriptors([NSSortDescriptor(key: #keyPath(Car.maker), ascending: true)])
       request.fetchBatchSize = 10
-      let frc = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+      let frc = NSFetchedResultsController(
+        fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
       try frc.performFetch()
       // A SELECT with LIMIT 10 is executed every 10 looped cars ✅
       frc.fetchedObjects?.forEach { car in
@@ -499,7 +504,7 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
   func test_InvestigationUndoManager() throws {
     do {
       let context = container.newBackgroundContext()
-      context.undoManager = UndoManager() // undoManager is needed to use the undo/redo methods
+      context.undoManager = UndoManager()  // undoManager is needed to use the undo/redo methods
       context.performAndWait { _ in
         context.fillWithSampleData()
         context.undo()
@@ -530,14 +535,14 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
       context.performAndWait { _ in
         context.undoManager = UndoManager()
         // stuff...
-        context.processPendingChanges() // flush operations for which you want undos
+        context.processPendingChanges()  // flush operations for which you want undos
         context.undoManager!.disableUndoRegistration()
         // make changes for which undo operations are not to be recorded
         let car = Car(context: context)
         car.numberPlate = "1"
         car.maker = "fake-maker"
         car.model = "fake-model"
-        context.processPendingChanges() // flush operations for which you do not want undos
+        context.processPendingChanges()  // flush operations for which you do not want undos
         context.undoManager!.enableUndoRegistration()
         context.undo()
         XCTAssertFalse(context.insertedObjects.isEmpty)

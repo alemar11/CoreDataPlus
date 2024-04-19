@@ -1,7 +1,7 @@
 // CoreDataPlus
 
-import Foundation
 import CoreData
+import Foundation
 
 extension NSManagedObjectContext {
   /// Fills the context with a sample data set. (145 objects)
@@ -236,7 +236,7 @@ extension NSManagedObjectContext {
     person8.cars = [car7]
     person9.cars = [sportCar3]
     person10.cars = [car8, car9]
-    person11.cars = [car10, car11, car12] // and a lots of panda 🚗
+    person11.cars = [car10, car11, car12]  // and a lots of panda 🚗
     person12.cars = [sportCar4]
     person13.cars = [car13, car14]
     person14.cars = [car13, car14]

@@ -1,7 +1,8 @@
 // CoreDataPlus
 
-import XCTest
 import CoreData
+import XCTest
+
 @testable import CoreDataPlus
 
 final class Transformer_Tests: OnDiskTestCase {
@@ -65,7 +66,8 @@ final class Transformer_Tests: OnDiskTestCase {
   }
 
   func test_DataTransformerUnregister() {
-    XCTAssertFalse(Foundation.ValueTransformer.valueTransformerNames().contains(CustomTransformer<Dummy>.transformerName))
+    XCTAssertFalse(
+      Foundation.ValueTransformer.valueTransformerNames().contains(CustomTransformer<Dummy>.transformerName))
     CustomTransformer<Dummy>.register {
       guard let color = $0 else { return nil }
       return try? NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: true)
@@ -73,9 +75,11 @@ final class Transformer_Tests: OnDiskTestCase {
       guard let data = $0 else { return nil }
       return try? NSKeyedUnarchiver.unarchivedObject(ofClass: Dummy.self, from: data)
     }
-    XCTAssertTrue(Foundation.ValueTransformer.valueTransformerNames().contains(CustomTransformer<Dummy>.transformerName))
+    XCTAssertTrue(
+      Foundation.ValueTransformer.valueTransformerNames().contains(CustomTransformer<Dummy>.transformerName))
     CustomTransformer<Dummy>.unregister()
-    XCTAssertFalse(Foundation.ValueTransformer.valueTransformerNames().contains(CustomTransformer<Dummy>.transformerName))
+    XCTAssertFalse(
+      Foundation.ValueTransformer.valueTransformerNames().contains(CustomTransformer<Dummy>.transformerName))
   }
 
   func test_Transformer() throws {
@@ -110,8 +114,9 @@ final class Transformer_Tests: OnDiskTestCase {
       return try? NSKeyedArchiver.archivedData(withRootObject: array, requiringSecureCoding: true)
     } reverseTransform: { data -> NSArray? in
       guard let data = data else { return nil }
-      return try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [Color.self, Dummy.self, NSNumber.self, NSArray.self],
-                                                     from: data) as? NSArray
+      return try? NSKeyedUnarchiver.unarchivedObject(
+        ofClasses: [Color.self, Dummy.self, NSNumber.self, NSArray.self],
+        from: data) as? NSArray
     }
 
     let array = NSMutableArray()

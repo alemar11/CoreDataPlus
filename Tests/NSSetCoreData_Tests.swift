@@ -2,6 +2,7 @@
 
 import CoreData
 import XCTest
+
 @testable import CoreDataPlus
 
 final class NSSetCoreData_Tests: InMemoryTestCase {
@@ -15,7 +16,8 @@ final class NSSetCoreData_Tests: InMemoryTestCase {
 
     let request = Person.newFetchRequest()
     request.returnsObjectsAsFaults = true
-    let predicate = NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone")
+    let predicate = NSPredicate(
+      format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone")
     let foundPerson = try Person.fetchUniqueObject(in: context, where: predicate, affectedStores: nil)
     let person = try XCTUnwrap(foundPerson)
     context.refreshAllObjects()
@@ -52,7 +54,8 @@ final class NSSetCoreData_Tests: InMemoryTestCase {
     let request = Person.newFetchRequest()
     request.returnsObjectsAsFaults = true
 
-    let predicate = NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone")
+    let predicate = NSPredicate(
+      format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone")
     let foundPerson = try Person.fetchUniqueObject(in: context, where: predicate, affectedStores: nil)
     let person = try XCTUnwrap(foundPerson)
 

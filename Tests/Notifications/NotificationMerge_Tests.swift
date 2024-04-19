@@ -4,15 +4,19 @@
 // http://mikeabdullah.net/merging-saved-changes-betwe.html
 // http://www.mlsite.net/blog/?p=518
 
-import XCTest
-import CoreData
 import Combine
+import CoreData
+import XCTest
+
 @testable import CoreDataPlus
 
 final class NotificationMerge_Tests: InMemoryTestCase {
   func test_InvestigationRegisteredObjects() throws {
-    try XCTSkipIf(!ProcessInfo.processInfo.environment.keys.contains("XCODE_TESTS"), "This test should be run via Xcode and not using Swift test.")
-    try XCTSkipIf(ProcessInfo.processInfo.arguments.contains("zombieObjectsEnabled"), "Testing with Zombie Objects enabled")
+    try XCTSkipIf(
+      !ProcessInfo.processInfo.environment.keys.contains("XCODE_TESTS"),
+      "This test should be run via Xcode and not using Swift test.")
+    try XCTSkipIf(
+      ProcessInfo.processInfo.arguments.contains("zombieObjectsEnabled"), "Testing with Zombie Objects enabled")
 
     // By default, a managed object context only keeps a strong reference to managed objects that have pending changes.
     // This means that objects your code doesn’t have a strong reference to, will be removed from the context’s registeredObjects set and be deallocated
@@ -73,42 +77,45 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     func findRegisteredPersonByFirstName(_ name: String, in context: NSManagedObjectContext) -> Person? {
       var person: Person?
       context.performAndWait {
-        person = context.registeredObjects.first { object in
-          if let person = object as? Person {
-            return person.firstName == name
-          }
-          return false
-        } as? Person
+        person =
+          context.registeredObjects.first { object in
+            if let person = object as? Person {
+              return person.firstName == name
+            }
+            return false
+          } as? Person
       }
       return person
     }
 
     let backgroundContext = container.viewContext.newBackgroundContext(asChildContext: false)
-    let cancellable = NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave, object: backgroundContext)
-      .map { ManagedObjectContextDidSaveObjects(notification: $0) }
-      .sink { payload in
-        XCTAssertEqual(payload.insertedObjects.count, 1)
-        XCTAssertEqual(payload.updatedObjects.count, 1)
-        XCTAssertEqual(payload.deletedObjects.count, 1)
+    let cancellable = NotificationCenter.default.publisher(
+      for: .NSManagedObjectContextDidSave, object: backgroundContext
+    )
+    .map { ManagedObjectContextDidSaveObjects(notification: $0) }
+    .sink { payload in
+      XCTAssertEqual(payload.insertedObjects.count, 1)
+      XCTAssertEqual(payload.updatedObjects.count, 1)
+      XCTAssertEqual(payload.deletedObjects.count, 1)
 
-        XCTAssertEqual(viewContext.registeredObjects.count, 2)
-        XCTAssertEqual(viewContext.deletedObjects.count, 0)
+      XCTAssertEqual(viewContext.registeredObjects.count, 2)
+      XCTAssertEqual(viewContext.deletedObjects.count, 0)
 
-        let updatedPersonBefore = findRegisteredPersonByFirstName("Andrea", in: viewContext)
-        XCTAssertNotNil(updatedPersonBefore)
+      let updatedPersonBefore = findRegisteredPersonByFirstName("Andrea", in: viewContext)
+      XCTAssertNotNil(updatedPersonBefore)
 
-        viewContext.mergeChanges(fromContextDidSavePayload: payload)
+      viewContext.mergeChanges(fromContextDidSavePayload: payload)
 
-        let updatedPersonAfter =  findRegisteredPersonByFirstName("Andrea", in: viewContext)
-        XCTAssertNil(updatedPersonAfter)
-        let updatedPersonAfterCorrect =  findRegisteredPersonByFirstName("Andrea**", in: viewContext)
-        XCTAssertNotNil(updatedPersonAfterCorrect)
+      let updatedPersonAfter = findRegisteredPersonByFirstName("Andrea", in: viewContext)
+      XCTAssertNil(updatedPersonAfter)
+      let updatedPersonAfterCorrect = findRegisteredPersonByFirstName("Andrea**", in: viewContext)
+      XCTAssertNotNil(updatedPersonAfterCorrect)
 
-        XCTAssertEqual(viewContext.registeredObjects.count, 2)
-        XCTAssertEqual(viewContext.insertedObjects.count, 0)  // no objects have been inserted (but not yet saved) in this context
-        XCTAssertEqual(viewContext.deletedObjects.count, 1)   // a previously registered object has been deleted from this context
-        expectation1.fulfill()
-      }
+      XCTAssertEqual(viewContext.registeredObjects.count, 2)
+      XCTAssertEqual(viewContext.insertedObjects.count, 0)  // no objects have been inserted (but not yet saved) in this context
+      XCTAssertEqual(viewContext.deletedObjects.count, 1)  // a previously registered object has been deleted from this context
+      expectation1.fulfill()
+    }
 
     try backgroundContext.performAndWait {
       try Person.delete(in: $0, where: NSPredicate(format: "%K == %@", #keyPath(Person.firstName), "Alessandro"))
@@ -148,19 +155,19 @@ final class NotificationMerge_Tests: InMemoryTestCase {
 
     var cancellables = [AnyCancellable]()
 
-      // [6] observer
-      let expectation6 = self.expectation(description: "\(#function)\(#line)")
-      NotificationCenter.default.publisher(for: .NSManagedObjectContextDidMergeChangesObjectIDs, object: viewContext)
-        .map { ManagedObjectContextDidMergeChangesObjectIDs(notification: $0) }
-        .sink { payload in
-          XCTAssertTrue(payload.managedObjectContext === viewContext)
-          XCTAssertEqual(payload.insertedObjectIDs.count, 1)
-          XCTAssertEqual(payload.updatedObjectIDs.count, 2)
-          XCTAssertTrue(payload.deletedObjectIDs.isEmpty)
-          XCTAssertEqual(payload.refreshedObjectIDs.count, 2)
-          expectation6.fulfill()
-        }
-        .store(in: &cancellables)
+    // [6] observer
+    let expectation6 = self.expectation(description: "\(#function)\(#line)")
+    NotificationCenter.default.publisher(for: .NSManagedObjectContextDidMergeChangesObjectIDs, object: viewContext)
+      .map { ManagedObjectContextDidMergeChangesObjectIDs(notification: $0) }
+      .sink { payload in
+        XCTAssertTrue(payload.managedObjectContext === viewContext)
+        XCTAssertEqual(payload.insertedObjectIDs.count, 1)
+        XCTAssertEqual(payload.updatedObjectIDs.count, 2)
+        XCTAssertTrue(payload.deletedObjectIDs.isEmpty)
+        XCTAssertEqual(payload.refreshedObjectIDs.count, 2)
+        expectation6.fulfill()
+      }
+      .store(in: &cancellables)
 
     // [4] observer
     NotificationCenter.default.publisher(for: .NSManagedObjectContextWillSave, object: backgroundContext)
@@ -186,12 +193,12 @@ final class NotificationMerge_Tests: InMemoryTestCase {
         // merging "backgroundContext" changes into the "viewContext" will:
         // show "backgroundContext" updatedObjects as NSRefreshedObjectsKey changes in the "viewContext" objects-did-change notification
         // show "backgroundContext" insertedObjects as NSInsertedObjectsKey changes in the "viewContext" objects-did-change notification
-        viewContext.mergeChanges(fromContextDidSavePayload: payload) // fires [2] [6]
+        viewContext.mergeChanges(fromContextDidSavePayload: payload)  // fires [2] [6]
 
         viewContext.performAndWait {
           // Before saving, we didn't change anything: we don't expect any changes in the objects-did-save notification listened by [3] observer.
           // see: testInvesigationMergeChanges()
-          try! viewContext.save() // fires [3]
+          try! viewContext.save()  // fires [3]
         }
         expectation2.fulfill()
       }
@@ -243,7 +250,7 @@ final class NotificationMerge_Tests: InMemoryTestCase {
       person3_inserted.firstName = "Alessandro"
       person3_inserted.lastName = "Marzoli"
 
-      try! backgroundContext.save() // fires [0], [4] and then [1]
+      try! backgroundContext.save()  // fires [0], [4] and then [1]
     }
 
     waitForExpectations(timeout: 20)
@@ -263,10 +270,12 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     let expectation2 = expectation(description: "\(#function)\(#line)")
     let expectation3 = expectation(description: "\(#function)\(#line)")
 
-    let cancellable1 = NotificationCenter.default.publisher(for: .NSManagedObjectContextWillSave, object: anotherContext)
-      .sink { _ in
-        expectation1.fulfill()
-      }
+    let cancellable1 = NotificationCenter.default.publisher(
+      for: .NSManagedObjectContextWillSave, object: anotherContext
+    )
+    .sink { _ in
+      expectation1.fulfill()
+    }
 
     let cancellable2 = NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave, object: anotherContext)
       .map { ManagedObjectContextDidSaveObjects(notification: $0) }
@@ -277,10 +286,12 @@ final class NotificationMerge_Tests: InMemoryTestCase {
         }
       }
 
-    let cancellable3 = NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: anotherContext)
-      .sink { _ in
-        expectation3.fulfill()
-      }
+    let cancellable3 = NotificationCenter.default.publisher(
+      for: .NSManagedObjectContextObjectsDidChange, object: anotherContext
+    )
+    .sink { _ in
+      expectation3.fulfill()
+    }
 
     let person1_inserted = Person(context: context)
     person1_inserted.firstName = "Edythe"
@@ -292,7 +303,7 @@ final class NotificationMerge_Tests: InMemoryTestCase {
 
     try context.save()
 
-    try anotherContext.performAndWait {_ in
+    try anotherContext.performAndWait { _ in
       let persons = try Person.fetchObjects(in: anotherContext)
 
       for person in persons {
@@ -305,7 +316,6 @@ final class NotificationMerge_Tests: InMemoryTestCase {
 
       try anotherContext.save()
     }
-
 
     waitForExpectations(timeout: 2)
     XCTAssertFalse(context.hasChanges)
@@ -342,7 +352,8 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     request.addSortDescriptors([])
 
     let delegate = FetchedResultsControllerMockDelegate()
-    let frc = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+    let frc = NSFetchedResultsController(
+      fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
     frc.delegate = delegate
     try frc.performFetch()
 
@@ -352,8 +363,8 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     let cancellable1 = NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave, object: anotherContext)
       .map { ManagedObjectContextDidSaveObjects(notification: $0) }
       .sink { payload in
-        XCTAssertEqual(payload.insertedObjects.count, 2) // 1 person and 1 car
-        XCTAssertEqual(payload.updatedObjects.count, 1) // 1 person
+        XCTAssertEqual(payload.insertedObjects.count, 2)  // 1 person and 1 car
+        XCTAssertEqual(payload.updatedObjects.count, 1)  // 1 person
         context.perform {
           context.mergeChanges(fromContextDidSavePayload: payload)
           expectation1.fulfill()
@@ -387,7 +398,7 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     waitForExpectations(timeout: 5)
 
     XCTAssertEqual(delegate.updatedObjects.count + delegate.movedObjects.count, 1)
-    XCTAssertEqual(delegate.insertedObjects.count, 1) // the FRC monitors only for Person objects
+    XCTAssertEqual(delegate.insertedObjects.count, 1)  // the FRC monitors only for Person objects
 
     XCTAssertEqual(context.registeredObjects.count, 4)
 
@@ -419,7 +430,8 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     request.addSortDescriptors([])
 
     let delegate = FetchedResultsControllerMockDelegate()
-    let frc = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+    let frc = NSFetchedResultsController(
+      fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
     frc.delegate = delegate
     try frc.performFetch()
 
@@ -438,12 +450,14 @@ final class NotificationMerge_Tests: InMemoryTestCase {
         }
       }
 
-    let cancellable2 = NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: context)
-      .map { ManagedObjectContextObjectsDidChange(notification: $0) }
-      .sink { payload in
-        XCTAssertFalse(payload.invalidatedAllObjects.isEmpty)
-        expectation2.fulfill()
-      }
+    let cancellable2 = NotificationCenter.default.publisher(
+      for: .NSManagedObjectContextObjectsDidChange, object: context
+    )
+    .map { ManagedObjectContextObjectsDidChange(notification: $0) }
+    .sink { payload in
+      XCTAssertFalse(payload.invalidatedAllObjects.isEmpty)
+      expectation2.fulfill()
+    }
 
     let persons = try Person.fetchObjects(in: context)
 
@@ -463,7 +477,7 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     firstPerson._cars = Set([car2])
 
     context.reset()
-    try context.save() // the command will do nothing, the FRC delegate is exepcted to have 0 changed objects
+    try context.save()  // the command will do nothing, the FRC delegate is exepcted to have 0 changed objects
 
     waitForExpectations(timeout: 5)
 
@@ -494,8 +508,11 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     var movedObjects = [Any]()
     var deletedObjects = [Any]()
 
-    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-      switch (type) {
+    public func controller(
+      _ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?,
+      for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?
+    ) {
+      switch type {
       case .delete:
         deletedObjects.append(anObject)
       case .insert:

@@ -11,7 +11,7 @@ internal final class MigrationProgressReporter: NSObject, ProgressReporting, @un
     progress.cancellationHandler = { [weak self] in
       self?.cancel()
     }
-    progress.pausingHandler = nil // not supported
+    progress.pausingHandler = nil  // not supported
     return progress
   }()
 
@@ -60,14 +60,14 @@ internal final class MigrationProgressReporter: NSObject, ProgressReporting, @un
   }
 }
 
-internal extension NSMigrationManager {
+extension NSMigrationManager {
   /// Creates a new `MigrationProgressReporter` for the migration manager.
   func makeProgressReporter() -> MigrationProgressReporter {
     MigrationProgressReporter(manager: self)
   }
 }
 
-internal extension NSError {
+extension NSError {
   /// NSError generated when a migration is cancelled by a `Progress` cancel method.
   static let migrationCancelled: NSError = {
     let info: [String: Any] = [NSDebugDescriptionErrorKey: "The migration has been cancelled by its Progress object."]

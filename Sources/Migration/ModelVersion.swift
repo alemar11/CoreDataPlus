@@ -14,11 +14,11 @@ private enum ModelVersionFileExtension {
   /// Extension for a compiled version of a model file package (`.xcdatamodeld`).
   static let momd = "momd"
   /// Extension for a compiled version of a *versioned* model file (`.xcdatamodel`).
-  static let mom  = "mom"
+  static let mom = "mom"
   /// Extension for an optimized version for the '.mom' file.
-  static let omo  = "omo"
+  static let omo = "omo"
   /// Extension for a compiled version of a mapping model file (`.xcmappingmodel`).
-  static let cdm  = "cdm"
+  static let cdm = "cdm"
 }
 
 /// Types adopting the `ModelVersion` protocol can be used to describe a Core Data Model and its versioning.
@@ -90,7 +90,8 @@ extension ModelVersion {
   /// - Throws: It throws an error if no store is found at `persistentStoreURL` or if there is a problem accessing its contents.
   public init?(persistentStoreURL: URL) throws {
     let metadata: [String: Any]
-    metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(type: .sqlite, at: persistentStoreURL, options: nil)
+    metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(
+      type: .sqlite, at: persistentStoreURL, options: nil)
     let version = Self[metadata]
 
     guard let modelVersion = version else {
@@ -104,12 +105,13 @@ extension ModelVersion {
   ///
   /// Returns the NSManagedObjectModel for this `ModelVersion`.
   public func managedObjectModel() -> NSManagedObjectModel {
-    return _managedObjectModel()
+    _managedObjectModel()
   }
 
   // swiftlint:disable:next identifier_name
   internal func _managedObjectModel() -> NSManagedObjectModel {
-    let momURL = modelBundle.url(forResource: versionName, withExtension: "\(ModelVersionFileExtension.mom)", subdirectory: momd)
+    let momURL = modelBundle.url(
+      forResource: versionName, withExtension: "\(ModelVersionFileExtension.mom)", subdirectory: momd)
 
     //  As of iOS 11, Apple is advising that opening the .omo file for a managed object model is not supported, since the file format can change from release to release
     // let omoURL = modelBundle.url(forResource: versionName, withExtension: "\(ModelVersionExtension.omo)", subdirectory: momd)
@@ -150,7 +152,8 @@ public func isMigrationNecessary<Version: ModelVersion>(for storeURL: URL, to ve
   // Before you initiate a migration process, you should first determine whether it is necessary.
   // If the target model configuration is compatible with the persistent store metadata, there is no need to migrate
   // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmCustomizing.html#//apple_ref/doc/uid/TP40004399-CH8-SW2
-  let metadata: [String: Any] = try NSPersistentStoreCoordinator.metadataForPersistentStore(type: .sqlite, at: storeURL, options: nil)
+  let metadata: [String: Any] = try NSPersistentStoreCoordinator.metadataForPersistentStore(
+    type: .sqlite, at: storeURL, options: nil)
 
   let targetModel = version.managedObjectModel()
   // https://vimeo.com/164904652
@@ -169,7 +172,7 @@ public func isMigrationNecessary<Version: ModelVersion>(for storeURL: URL, to ve
   let isCompatible = targetModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
 
   if isCompatible {
-    return false // current and target versions are the same
+    return false  // current and target versions are the same
   } else if let currentVersion = Version[metadata] {
     let iterator = currentVersion.successorsIterator()
     while let nextVersion = iterator.next() {
@@ -208,7 +211,10 @@ extension ModelVersion {
       return nil
     }
 
-    guard let mappingModel = NSMappingModel(from: [modelBundle], forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel()) else {
+    guard
+      let mappingModel = NSMappingModel(
+        from: [modelBundle], forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel())
+    else {
       fatalError("No NSMappingModel found for \(self) to \(nextVersion).")
     }
 
@@ -238,7 +244,8 @@ extension ModelVersion {
       return nil
     }
 
-    return try? NSMappingModel.inferredMappingModel(forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel())
+    return try? NSMappingModel.inferredMappingModel(
+      forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel())
   }
 
   /// - Returns: Returns a list of `NSMappingModel` given a list of mapping model names.
@@ -251,16 +258,18 @@ extension ModelVersion {
     }
 
     guard
-      let allMappingModelsURLs = modelBundle.urls(forResourcesWithExtension: ModelVersionFileExtension.cdm, subdirectory: nil),
-      allMappingModelsURLs.count > 0 else {
+      let allMappingModelsURLs = modelBundle.urls(
+        forResourcesWithExtension: ModelVersionFileExtension.cdm, subdirectory: nil),
+      allMappingModelsURLs.count > 0
+    else {
       return results
     }
 
     mappingModelNames.forEach { name in
       let expectedFileName = "\(name).\(ModelVersionFileExtension.cdm)"
-      if
-        let url = allMappingModelsURLs.first(where: { $0.lastPathComponent == expectedFileName }),
-        let mappingModel = NSMappingModel(contentsOf: url) {
+      if let url = allMappingModelsURLs.first(where: { $0.lastPathComponent == expectedFileName }),
+        let mappingModel = NSMappingModel(contentsOf: url)
+      {
         results.append(mappingModel)
       }
     }

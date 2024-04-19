@@ -1,16 +1,17 @@
 // CoreDataPlus
 
 import CoreData
+
 @testable import CoreDataPlus
 
 extension V2 {
   enum Configurations {
-    static let part1 = "SampleConfigurationV2Part1" // all the entities
-    static let part2 = "SampleConfigurationV2Part2" // only Feedback
+    static let part1 = "SampleConfigurationV2Part1"  // all the entities
+    static let part2 = "SampleConfigurationV2Part2"  // only Feedback
   }
 
   static func makeManagedObjectModel() -> NSManagedObjectModel {
-    if let model = SampleModel2.modelCache.withLock ({ $0["V2"] }) {
+    if let model = SampleModel2.modelCache.withLock({ $0["V2"] }) {
       return model
     }
 
@@ -23,8 +24,11 @@ extension V2 {
     let feedback = makeFeedbackEntity()
 
     // Definition using the CoreDataPlus convenience init
-    let feedbackList = NSFetchedPropertyDescription(name: AuthorV2.FetchedProperty.feedbacks, destinationEntity: feedback) {
-      $0.predicate = NSPredicate(format: "%K == $FETCH_SOURCE.%K", #keyPath(FeedbackV2.authorAlias), #keyPath(AuthorV2.alias))
+    let feedbackList = NSFetchedPropertyDescription(
+      name: AuthorV2.FetchedProperty.feedbacks, destinationEntity: feedback
+    ) {
+      $0.predicate = NSPredicate(
+        format: "%K == $FETCH_SOURCE.%K", #keyPath(FeedbackV2.authorAlias), #keyPath(AuthorV2.alias))
       $0.sortDescriptors = [NSSortDescriptor(key: #keyPath(FeedbackV2.rating), ascending: true)]
     }
     author.add(feedbackList)
@@ -32,7 +36,8 @@ extension V2 {
     // Definition without the CoreDataPlus convenience init
     let request2 = NSFetchRequest<NSFetchRequestResult>(entity: feedback)
     request2.resultType = .managedObjectResultType
-    request2.predicate = NSPredicate(format: "authorAlias == $FETCH_SOURCE.alias AND (comment CONTAINS [c] $FETCHED_PROPERTY.userInfo.search)")
+    request2.predicate = NSPredicate(
+      format: "authorAlias == $FETCH_SOURCE.alias AND (comment CONTAINS [c] $FETCHED_PROPERTY.userInfo.search)")
     let favFeedbackList = NSFetchedPropertyDescription()
     favFeedbackList.name = AuthorV2.FetchedProperty.favFeedbacks
     favFeedbackList.fetchRequest = request2
@@ -81,7 +86,7 @@ extension V2 {
     bookToPages.inverseRelationship = pageToBook
     pageToBook.inverseRelationship = bookToPages
 
-    author.add(authorToBooks) // author.properties += [authorToBooks]
+    author.add(authorToBooks)  // author.properties += [authorToBooks]
     book.properties += [bookToAuthor, bookToPages]
     page.properties += [pageToBook]
 
@@ -121,7 +126,7 @@ extension V2 {
   static func makeAuthorEntity() -> NSEntityDescription {
     var entity = NSEntityDescription()
     entity = NSEntityDescription()
-    entity.name = String(describing: Author.self) // 🚩 the entity name should stay the same
+    entity.name = String(describing: Author.self)  // 🚩 the entity name should stay the same
     entity.managedObjectClassName = String(describing: AuthorV2.self)
 
     // ❌ Removed siteURL
@@ -132,7 +137,8 @@ extension V2 {
     entity.properties = [alias]
     entity.uniquenessConstraints = [[#keyPath(AuthorV2.alias)]]
 
-    let index = NSFetchIndexDescription(name: "authorIndex", elements: [NSFetchIndexElementDescription(property: alias, collationType: .binary)])
+    let index = NSFetchIndexDescription(
+      name: "authorIndex", elements: [NSFetchIndexElementDescription(property: alias, collationType: .binary)])
     entity.indexes.append(index)
 
     return entity
@@ -149,7 +155,9 @@ extension V2 {
 
     let title = NSAttributeDescription.string(name: #keyPath(BookV2.title))
     title.isOptional = false
-    let rule1 = (NSPredicate(format: "length >= 3 AND length <= 50"),"Title must have a length between 3 and 50 chars.")
+    let rule1 = (
+      NSPredicate(format: "length >= 3 AND length <= 50"), "Title must have a length between 3 and 50 chars."
+    )
     let rule2 = (NSPredicate(format: "SELF CONTAINS %@", "title"), "Title must contain 'title'.")
     title.setValidationPredicates([rule1.0, rule2.0], withValidationWarnings: [rule1.1, rule2.1])
 
@@ -158,16 +166,18 @@ extension V2 {
 
     // ✅ Renamed cover as frontCover
     let defaultCover = Cover(text: "default cover")
-    let cover = NSAttributeDescription.transformable(for: Cover.self, name: #keyPath(BookV2.frontCover), defaultValue: defaultCover)
+    let cover = NSAttributeDescription.transformable(
+      for: Cover.self, name: #keyPath(BookV2.frontCover), defaultValue: defaultCover)
     cover.isOptional = false
     cover.renamingIdentifier = #keyPath(Book.cover)
 
     let publishedAt = NSAttributeDescription.date(name: #keyPath(BookV2.publishedAt))
     publishedAt.isOptional = false
 
-    let pagesCount = NSDerivedAttributeDescription(name: #keyPath(BookV2.pagesCount),
-                                                   type: .integer64,
-                                                   derivationExpression: NSExpression(format: "pages.@count"))
+    let pagesCount = NSDerivedAttributeDescription(
+      name: #keyPath(BookV2.pagesCount),
+      type: .integer64,
+      derivationExpression: NSExpression(format: "pages.@count"))
     pagesCount.isOptional = true
     entity.properties = [uniqueID, title, price, cover, publishedAt, pagesCount]
 
@@ -188,10 +198,10 @@ extension V2 {
     isBookmarked.isOptional = false
     isBookmarked.defaultValue = false
 
-    let content = NSAttributeDescription.customTransformable(for: Content.self, name: #keyPath(PageV2.content)) { //(content: Content?) -> Data? in
+    let content = NSAttributeDescription.customTransformable(for: Content.self, name: #keyPath(PageV2.content)) {  //(content: Content?) -> Data? in
       guard let content = $0 else { return nil }
       return try? NSKeyedArchiver.archivedData(withRootObject: content, requiringSecureCoding: true)
-    } reverse: { //data -> Content? in
+    } reverse: {  //data -> Content? in
       guard let data = $0 else { return nil }
       return try? NSKeyedUnarchiver.unarchivedObject(ofClass: Content.self, from: data)
     }

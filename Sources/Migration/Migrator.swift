@@ -76,19 +76,23 @@ public final class Migrator<Version: ModelVersion>: NSObject, ProgressReporting 
   ///   - sourceStoreDescription: Initial persistent store description.
   ///   - destinationStoreDescription: Final persistent store description.
   ///   - targetVersion: `Version` to which the database needs to be migrated.
-  public required init(sourceStoreDescription: NSPersistentStoreDescription,
-                       destinationStoreDescription: NSPersistentStoreDescription,
-                       targetVersion: Version) {
+  public required init(
+    sourceStoreDescription: NSPersistentStoreDescription,
+    destinationStoreDescription: NSPersistentStoreDescription,
+    targetVersion: Version
+  ) {
     self.sourceStoreDescription = sourceStoreDescription
     self.destinationStoreDescription = destinationStoreDescription
     self.targetVersion = targetVersion
     super.init()
-    _ = progress // lazy init for implicit progress support
+    _ = progress  // lazy init for implicit progress support
   }
 
   /// Creates a `Migrator` instance to handle a multi step migration at `targetStoreDescription` to a given `Version`.
   public convenience init(targetStoreDescription: NSPersistentStoreDescription, targetVersion: Version) {
-    self.init(sourceStoreDescription: targetStoreDescription, destinationStoreDescription: targetStoreDescription, targetVersion: targetVersion)
+    self.init(
+      sourceStoreDescription: targetStoreDescription, destinationStoreDescription: targetStoreDescription,
+      targetVersion: targetVersion)
   }
 
   /// Migrates the store to a given `Version`, performing a WAL checkpoint if opted in.
@@ -98,29 +102,38 @@ public final class Migrator<Version: ModelVersion>: NSObject, ProgressReporting 
   ///   A dead lock can occur if a NSPersistentStore with a different journaling mode is currently active and using the database file.
   ///   - managerProvider: Closure to provide a custom `NSMigrationManager` instance.
   /// - Throws: It throws an error if the migration fails.
-  public func migrate(enableWALCheckpoint: Bool = false, managerProvider: ((Metadata) -> NSMigrationManager)? = nil) throws {
-    guard let sourceURL = sourceStoreDescription.url else { fatalError("Source NSPersistentStoreDescription requires a URL.") }
-    guard let destinationURL = destinationStoreDescription.url else { fatalError("Destination NSPersistentStoreDescription requires a URL.") }
+  public func migrate(enableWALCheckpoint: Bool = false, managerProvider: ((Metadata) -> NSMigrationManager)? = nil)
+    throws
+  {
+    guard let sourceURL = sourceStoreDescription.url else {
+      fatalError("Source NSPersistentStoreDescription requires a URL.")
+    }
+    guard let destinationURL = destinationStoreDescription.url else {
+      fatalError("Destination NSPersistentStoreDescription requires a URL.")
+    }
 
-    try migrateStore(from: sourceURL,
-                     sourceOptions: sourceStoreDescription.options,
-                     to: destinationURL,
-                     destinationOptions: destinationStoreDescription.options,
-                     targetVersion: targetVersion,
-                     enableWALCheckpoint: enableWALCheckpoint,
-                     managerProvider: managerProvider)
+    try migrateStore(
+      from: sourceURL,
+      sourceOptions: sourceStoreDescription.options,
+      to: destinationURL,
+      destinationOptions: destinationStoreDescription.options,
+      targetVersion: targetVersion,
+      enableWALCheckpoint: enableWALCheckpoint,
+      managerProvider: managerProvider)
   }
 }
 
 extension Migrator {
   /// Migrates the store at a given source URL to the store at a given destination URL, performing all the migration steps to the target version.
-  fileprivate func migrateStore(from sourceURL: URL,
-                                sourceOptions: PersistentStoreOptions? = nil,
-                                to destinationURL: URL,
-                                destinationOptions: PersistentStoreOptions? = nil,
-                                targetVersion: Version,
-                                enableWALCheckpoint: Bool = false,
-                                managerProvider: ((Metadata) -> NSMigrationManager)? = nil) throws {
+  fileprivate func migrateStore(
+    from sourceURL: URL,
+    sourceOptions: PersistentStoreOptions? = nil,
+    to destinationURL: URL,
+    destinationOptions: PersistentStoreOptions? = nil,
+    targetVersion: Version,
+    enableWALCheckpoint: Bool = false,
+    managerProvider: ((Metadata) -> NSMigrationManager)? = nil
+  ) throws {
     log.info("Migrator has started, initial store at: \(sourceURL, privacy: .public)")
     let start = DispatchTime.now()
     guard let sourceVersion = try Version(persistentStoreURL: sourceURL) else {
@@ -138,7 +151,8 @@ extension Migrator {
       // A dead lock can occur if a NSPersistentStore with a different journaling mode
       // is currently active and using the database file.
       // You need to remove it before performing a WAL checkpoint.
-      try performWALCheckpointForStore(at: sourceURL, storeOptions: sourceOptions, model: sourceVersion.managedObjectModel())
+      try performWALCheckpointForStore(
+        at: sourceURL, storeOptions: sourceOptions, model: sourceVersion.managedObjectModel())
     }
 
     let steps = sourceVersion.migrationSteps(to: targetVersion)
@@ -146,26 +160,37 @@ extension Migrator {
 
     guard steps.count > 0 else { return }
 
-    let migrationStepsProgress = Progress(totalUnitCount: Int64(steps.count), parent: progress, pendingUnitCount: progress.totalUnitCount)
+    let migrationStepsProgress = Progress(
+      totalUnitCount: Int64(steps.count), parent: progress, pendingUnitCount: progress.totalUnitCount)
     var currentURL = sourceURL
     try steps.enumerated().forEach { (stepIndex, step) in
       // swiftlint:disable:next line_length
-      log.info("Step \(stepIndex + 1, privacy: .public) (of \(steps.count, privacy: .public)) started: \(step.sourceVersion.debugDescription, privacy: .public) to \(step.destinationVersion.debugDescription, privacy: .public)")
+      log.info(
+        "Step \(stepIndex + 1, privacy: .public) (of \(steps.count, privacy: .public)) started: \(step.sourceVersion.debugDescription, privacy: .public) to \(step.destinationVersion.debugDescription, privacy: .public)"
+      )
       try autoreleasepool {
-        let temporaryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString).appendingPathExtension("sqlite")
+        let temporaryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(
+          UUID().uuidString
+        )
+        .appendingPathExtension("sqlite")
         let mappingModelMigrationProgress = Progress(totalUnitCount: Int64(step.mappingModels.count))
         migrationStepsProgress.addChild(mappingModelMigrationProgress, withPendingUnitCount: 1)
 
         for (mappingModelIndex, mappingModel) in step.mappingModels.enumerated() {
           log.info("Starting migration for mapping model \(mappingModelIndex + 1, privacy: .public).")
-          log.debug("The store at: \(currentURL, privacy: .public) will be migrated in a temporary store at: \(temporaryURL, privacy: .public)")
+          log.debug(
+            "The store at: \(currentURL, privacy: .public) will be migrated in a temporary store at: \(temporaryURL, privacy: .public)"
+          )
 
-          let metadata = Metadata(sourceVersion: step.sourceVersion,
-                                  sourceModel: step.sourceModel,
-                                  destinationVersion: step.destinationVersion,
-                                  destinationModel: step.destinationModel,
-                                  mappingModel: mappingModel)
-          let manager = managerProvider?(metadata) ?? NSMigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
+          let metadata = Metadata(
+            sourceVersion: step.sourceVersion,
+            sourceModel: step.sourceModel,
+            destinationVersion: step.destinationVersion,
+            destinationModel: step.destinationModel,
+            mappingModel: mappingModel)
+          let manager =
+            managerProvider?(metadata)
+            ?? NSMigrationManager(sourceModel: step.sourceModel, destinationModel: step.destinationModel)
           // a progress reporter handles a parent progress cancellations automatically
           let progressReporter = manager.makeProgressReporter()
           mappingModelMigrationProgress.addChild(progressReporter.progress, withPendingUnitCount: 1)
@@ -173,15 +198,18 @@ extension Migrator {
           let start = DispatchTime.now()
 
           do {
-            try manager.migrateStore(from: currentURL,
-                                     type: .sqlite,
-                                     options: sourceOptions,
-                                     mapping: mappingModel,
-                                     to: temporaryURL,
-                                     type: .sqlite,
-                                     options: destinationOptions)
+            try manager.migrateStore(
+              from: currentURL,
+              type: .sqlite,
+              options: sourceOptions,
+              mapping: mappingModel,
+              to: temporaryURL,
+              type: .sqlite,
+              options: destinationOptions)
           } catch {
-            log.error("Migration for mapping model \(mappingModelIndex + 1, privacy: .public) failed: \(error, privacy: .private)")
+            log.error(
+              "Migration for mapping model \(mappingModelIndex + 1, privacy: .public) failed: \(error, privacy: .private)"
+            )
             throw error
           }
           let end = DispatchTime.now()
@@ -189,7 +217,9 @@ extension Migrator {
           progressReporter.markAsFinishedIfNeeded()
           let nanoseconds = end.uptimeNanoseconds - start.uptimeNanoseconds
           let timeInterval = Double(nanoseconds) / Double(NSEC_PER_SEC)
-          log.info("Migration for mapping model \(mappingModelIndex + 1, privacy: .public) finished in \(timeInterval, format: .fixed(precision: 2), privacy: .public) seconds.")
+          log.info(
+            "Migration for mapping model \(mappingModelIndex + 1, privacy: .public) finished in \(timeInterval, format: .fixed(precision: 2), privacy: .public) seconds."
+          )
         }
         // once the migration is done (and the store is migrated to temporaryURL)
         // the store at currentURL can be safely destroyed unless it is the
@@ -204,7 +234,8 @@ extension Migrator {
     }
 
     // move the store at currentURL to (final) destinationURL
-    log.debug("Moving the store at: \(currentURL, privacy: .public) to final store: \(destinationURL, privacy: .public)")
+    log.debug(
+      "Moving the store at: \(currentURL, privacy: .public) to final store: \(destinationURL, privacy: .public)")
     try NSPersistentStoreCoordinator.replaceStore(at: destinationURL, withPersistentStoreFrom: currentURL)
 
     // delete the store at currentURL if it's not the initial store
@@ -221,14 +252,18 @@ extension Migrator {
     let end = DispatchTime.now()
     let nanoseconds = end.uptimeNanoseconds - start.uptimeNanoseconds
     let timeInterval = Double(nanoseconds) / Double(NSEC_PER_SEC)
-    log.info("Migrator has finished in \(timeInterval, format: .fixed(precision: 2), privacy: .public) seconds, final store at: \(destinationURL, privacy: .public)")
+    log.info(
+      "Migrator has finished in \(timeInterval, format: .fixed(precision: 2), privacy: .public) seconds, final store at: \(destinationURL, privacy: .public)"
+    )
   }
 }
 
 // MARK: - WAL Checkpoint
 
 /// Forces Core Data to perform a checkpoint operation, which merges the data in the `-wal` file to the store file.
-private func performWALCheckpointForStore(at storeURL: URL, storeOptions: PersistentStoreOptions? = nil, model: NSManagedObjectModel) throws {
+private func performWALCheckpointForStore(
+  at storeURL: URL, storeOptions: PersistentStoreOptions? = nil, model: NSManagedObjectModel
+) throws {
   // "If the -wal file is not present, using this approach to add the store won't cause any exceptions,
   // but the transactions recorded in the missing -wal file will be lost." (from: https://developer.apple.com/library/archive/qa/qa1809/_index.html)
   // credits:
@@ -237,9 +272,9 @@ private func performWALCheckpointForStore(at storeURL: URL, storeOptions: Persis
   // https://www.avanderlee.com/swift/write-ahead-logging-wal/
   let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
   var options: PersistentStoreOptions = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]]
-  if
-    let persistentHistoryTokenKey = storeOptions?[NSPersistentHistoryTrackingKey] as? NSNumber,
-    persistentHistoryTokenKey.boolValue {
+  if let persistentHistoryTokenKey = storeOptions?[NSPersistentHistoryTrackingKey] as? NSNumber,
+    persistentHistoryTokenKey.boolValue
+  {
     // Once NSPersistentHistoryTrackingKey is enabled, it can't be reverted back.
     // During a WAL checkpoint this step prevents this warning in the console:
     // "Store opened without NSPersistentHistoryTrackingKey but previously had been opened
@@ -248,7 +283,8 @@ private func performWALCheckpointForStore(at storeURL: URL, storeOptions: Persis
     options[NSPersistentHistoryTrackingKey] = [NSPersistentHistoryTrackingKey: true as NSNumber]
   }
 
-  let store = try persistentStoreCoordinator.addPersistentStore(type: .sqlite, configuration: nil, at: storeURL, options: options)
+  let store = try persistentStoreCoordinator.addPersistentStore(
+    type: .sqlite, configuration: nil, at: storeURL, options: options)
 
   try persistentStoreCoordinator.remove(store)
 }
@@ -262,11 +298,13 @@ extension Migrator {
     let destinationModel: NSManagedObjectModel
     let mappingModel: NSMappingModel
 
-    fileprivate init(sourceVersion: Version,
-                     sourceModel: NSManagedObjectModel,
-                     destinationVersion: Version,
-                     destinationModel: NSManagedObjectModel,
-                     mappingModel: NSMappingModel) {
+    fileprivate init(
+      sourceVersion: Version,
+      sourceModel: NSManagedObjectModel,
+      destinationVersion: Version,
+      destinationModel: NSManagedObjectModel,
+      mappingModel: NSMappingModel
+    ) {
       self.sourceVersion = sourceVersion
       self.sourceModel = sourceModel
       self.destinationVersion = destinationVersion

@@ -1,7 +1,8 @@
 // CoreDataPlus
 
-import XCTest
 import CoreData
+import XCTest
+
 @testable import CoreDataPlus
 
 final class NSAttributeDescriptionUtils_Tests: XCTestCase {
@@ -77,9 +78,10 @@ final class NSAttributeDescriptionUtils_Tests: XCTestCase {
 
   func test_BinaryData() {
     let data = "Test".data(using: .utf8)
-    let attribute = NSAttributeDescription.binaryData(name: #function,
-                                                      defaultValue: data,
-                                                      allowsExternalBinaryDataStorage: true)
+    let attribute = NSAttributeDescription.binaryData(
+      name: #function,
+      defaultValue: data,
+      allowsExternalBinaryDataStorage: true)
     XCTAssertEqual(attribute.name, #function)
     XCTAssertEqual(attribute.defaultValue as? Data, data)
     XCTAssertTrue(attribute.allowsExternalBinaryDataStorage)
@@ -87,7 +89,8 @@ final class NSAttributeDescriptionUtils_Tests: XCTestCase {
 
   func test_CustomTransformable() {
     let color = Color(name: "color")
-    let attribute = NSAttributeDescription.customTransformable(for: Color.self, name: #function, defaultValue: color) { _ in
+    let attribute = NSAttributeDescription.customTransformable(for: Color.self, name: #function, defaultValue: color) {
+      _ in
       return nil
     } reverse: { _ in
       return nil

@@ -1,7 +1,8 @@
 // CoreDataPlus
 
-import XCTest
 import CoreData
+import XCTest
+
 @testable import CoreDataPlus
 
 final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
@@ -62,7 +63,6 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
 
     let request = Car.newFetchRequest()
     request.predicate = NSPredicate(value: true)
-
 
     // When
     let cars = try context.fetch(request)
@@ -170,10 +170,11 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
       try! context.save()
     }
 
-    context.refreshAllObjects() //re-fault objects that don't have pending changes
+    context.refreshAllObjects()  //re-fault objects that don't have pending changes
 
     let request = Person.newFetchRequest()
-    request.predicate = NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone")
+    request.predicate = NSPredicate(
+      format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone")
 
     let persons = try context.fetch(request)
 
@@ -259,12 +260,16 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
     //  }
 
     do {
-      let person = try Person.fetchUniqueObject(in: context, where: NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "MoretonXYZ"))
+      let person = try Person.fetchUniqueObject(
+        in: context, where: NSPredicate(format: "\(#keyPath(Person.lastName)) == %@", "MoretonXYZ"))
       XCTAssertNil(person)
     }
 
     do {
-      let person = try Person.fetchUniqueObject(in: context, where: NSPredicate(format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone"))
+      let person = try Person.fetchUniqueObject(
+        in: context,
+        where: NSPredicate(
+          format: "\(#keyPath(Person.firstName)) == %@ AND \(#keyPath(Person.lastName)) == %@", "Theodora", "Stone"))
       XCTAssertNotNil(person)
     }
 
@@ -302,7 +307,9 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
 
     // Case 1: existing object
     do {
-      let car = try Car.findUniqueOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")) { _ in
+      let car = try Car.findUniqueOrCreate(
+        in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304")
+      ) { _ in
         XCTFail("A new car shouldn't be created.")
       }
 
@@ -312,11 +319,13 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
 
     // Case 2: new object
     do {
-      let car = try Car.findUniqueOrCreate(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-new"), with: { car in
-        XCTAssertNil(car.numberPlate)
-        car.numberPlate = "304-new"
-        car.model = "test"
-      })
+      let car = try Car.findUniqueOrCreate(
+        in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-new"),
+        with: { car in
+          XCTAssertNil(car.numberPlate)
+          car.numberPlate = "304-new"
+          car.model = "test"
+        })
       XCTAssertNotNil(car)
       XCTAssertNil(car.maker)
       XCTAssertEqual(car.numberPlate, "304-new")
@@ -357,28 +366,34 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
       try! context.save()
     }
 
-    let car1 = try Car.fetchOneObject(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"))
+    let car1 = try Car.fetchOneObject(
+      in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"))
     XCTAssertNotNil(car1)
 
     car1?.numberPlate = "304-edited"
 
-    let car2 = try Car.fetchOneObject(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"))
+    let car2 = try Car.fetchOneObject(
+      in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"))
     XCTAssertNil(car2)
 
     // the fetch will be run only against saved values (number plate "304-edited" is a pending change)
-    let car3 = try Car.fetchOneObject(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"), includesPendingChanges: false)
+    let car3 = try Car.fetchOneObject(
+      in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304"),
+      includesPendingChanges: false)
     XCTAssertNotNil(car3)
-
 
     let newCar = Car(context: context)
     newCar.numberPlate = "304-fake"
     newCar.maker = "fake-maker"
     newCar.model = "fake-model"
 
-    let car4 = try Car.fetchOneObject(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-fake"))
+    let car4 = try Car.fetchOneObject(
+      in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-fake"))
     XCTAssertNotNil(car4)
 
-    let car5 = try Car.fetchOneObject(in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-fake"), includesPendingChanges: false)
+    let car5 = try Car.fetchOneObject(
+      in: context, where: NSPredicate(format: "\(#keyPath(Car.numberPlate)) == %@", "304-fake"),
+      includesPendingChanges: false)
     XCTAssertNil(car5)
   }
 
@@ -426,7 +441,10 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
 
     XCTAssertTrue(Car.materializedObjects(in: context, where: NSPredicate(value: true)).count > 1)
     // with the previous fetch we have materialized only one Lamborghini (the expensive one)
-    XCTAssertTrue(SportCar.materializedObjects(in: context, where: NSPredicate(format: "\(#keyPath(Car.maker)) == %@", "Lamborghini")).count == 1)
+    XCTAssertTrue(
+      SportCar.materializedObjects(
+        in: context, where: NSPredicate(format: "\(#keyPath(Car.maker)) == %@", "Lamborghini")
+      ).count == 1)
 
     // de-materialize all objects
     context.refreshAllObjects()
@@ -448,7 +466,7 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
     XCTAssertNotNil(result.status)
     XCTAssertTrue(result.status! == true)
     XCTAssertNil(result.deletes)
-    XCTAssertEqual(result.changes?[NSDeletedObjectsKey]?.count, nil) // wrong result type
+    XCTAssertEqual(result.changes?[NSDeletedObjectsKey]?.count, nil)  // wrong result type
   }
 
   func test_batchDeleteWithResultTypeCount() throws {
@@ -462,7 +480,7 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
 
     XCTAssertNotNil(result.count)
     XCTAssertTrue(result.count! > 1)
-    XCTAssertEqual(result.changes?[NSDeletedObjectsKey]?.count, nil) // wrong result type
+    XCTAssertEqual(result.changes?[NSDeletedObjectsKey]?.count, nil)  // wrong result type
   }
 
   func test_batchDeleteWithResultTypeObjectIDs() throws {
@@ -470,7 +488,6 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
     let context = container.viewContext
     context.fillWithSampleData()
     try context.save()
-
 
     let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
     let fiatCount = try Car.count(in: context) { request in request.predicate = fiatPredicate }
@@ -516,7 +533,7 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
     context.fillWithSampleData()
     try context.save()
 
-    let preDeleteSportCarCount = try SportCar.count(in: context) // This count include all the subentities
+    let preDeleteSportCarCount = try SportCar.count(in: context)  // This count include all the subentities
     let preDeleteExpensiveSportCarCount = try ExpensiveSportCar.count(in: context)
     let expectedRemovedCarCount = preDeleteSportCarCount - preDeleteExpensiveSportCarCount
     let expectedRemainingSportCartCount = preDeleteSportCarCount - expectedRemovedCarCount
@@ -539,18 +556,21 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
     try context.save()
 
     let kias = [9, 10, 11]
-    let kiasCars = try Car.fetchObjects(in: context, with: { $0.predicate = NSPredicate(format: "%K IN %@", #keyPath(Car.numberPlate), kias) })
+    let kiasCars = try Car.fetchObjects(
+      in: context, with: { $0.predicate = NSPredicate(format: "%K IN %@", #keyPath(Car.numberPlate), kias) })
     XCTAssertEqual(kiasCars.count, 3)
     kiasCars.forEach { car in
       car.markForDelayedDeletion()
     }
     try context.save()
 
-    let result = try Car.batchDeleteMarkedForDeletion(with: context, olderThan: Date(), resultType: .resultTypeStatusOnly)
+    let result = try Car.batchDeleteMarkedForDeletion(
+      with: context, olderThan: Date(), resultType: .resultTypeStatusOnly)
     XCTAssertTrue(result.status!)
 
     try context.save()
-    let kiasCars2 = try Car.fetchObjects(in: context, with: { $0.predicate = NSPredicate(format: "%K IN %@", #keyPath(Car.numberPlate), kias) })
+    let kiasCars2 = try Car.fetchObjects(
+      in: context, with: { $0.predicate = NSPredicate(format: "%K IN %@", #keyPath(Car.numberPlate), kias) })
     XCTAssertEqual(kiasCars2.count, 0)
   }
 
@@ -560,32 +580,38 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
     // Given
     let context = container.viewContext
 
-    let object = [#keyPath(Car.maker): "FIAT",
-                  #keyPath(Car.numberPlate): "123",
-                  #keyPath(Car.model): "Panda"]
+    let object = [
+      #keyPath(Car.maker): "FIAT",
+      #keyPath(Car.numberPlate): "123",
+      #keyPath(Car.model): "Panda",
+    ]
 
-    let result = try! Car.batchInsert(using: context,
-                                      resultType: .statusOnly,
-                                      objects: [object])
+    let result = try! Car.batchInsert(
+      using: context,
+      resultType: .statusOnly,
+      objects: [object])
 
     XCTAssertTrue(result.status!)
-    XCTAssertEqual(result.changes?[NSInsertedObjectsKey]?.count, nil) // wrong result type
+    XCTAssertEqual(result.changes?[NSInsertedObjectsKey]?.count, nil)  // wrong result type
   }
 
   func test_batchInsertWithResultTypeCount() throws {
     // Given
     let context = container.viewContext
 
-    let object = [#keyPath(Car.maker): "FIAT",
-                  #keyPath(Car.numberPlate): "123",
-                  #keyPath(Car.model): "Panda"]
+    let object = [
+      #keyPath(Car.maker): "FIAT",
+      #keyPath(Car.numberPlate): "123",
+      #keyPath(Car.model): "Panda",
+    ]
 
-    let result = try! Car.batchInsert(using: context,
-                                      resultType: .count,
-                                      objects: [object])
+    let result = try! Car.batchInsert(
+      using: context,
+      resultType: .count,
+      objects: [object])
 
     XCTAssertEqual(result.count!, 1)
-    XCTAssertEqual(result.changes?[NSInsertedObjectsKey]?.count, nil) // wrong result type
+    XCTAssertEqual(result.changes?[NSInsertedObjectsKey]?.count, nil)  // wrong result type
   }
 
   func test_batchInsertWithResultObjectIDs() throws {
@@ -596,18 +622,24 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
 
     let objects = [
       // This object will be inserted without a maker
-      ["WRONG_KEY": "FIAT",
-       #keyPath(Car.numberPlate): numberPlate,
-       #keyPath(Car.model): "Panda"],
+      [
+        "WRONG_KEY": "FIAT",
+        #keyPath(Car.numberPlate): numberPlate,
+        #keyPath(Car.model): "Panda",
+      ],
 
       // This object will not be inserted because the number plate has already been inserted
-      [#keyPath(Car.maker): "FIAT",
-       #keyPath(Car.numberPlate): numberPlate,
-       #keyPath(Car.model): "Panda*"],
+      [
+        #keyPath(Car.maker): "FIAT",
+        #keyPath(Car.numberPlate): numberPlate,
+        #keyPath(Car.model): "Panda*",
+      ],
 
-      [#keyPath(Car.maker): "FIAT",
-       #keyPath(Car.numberPlate): numberPlate2,
-       #keyPath(Car.model): "Panda"]
+      [
+        #keyPath(Car.maker): "FIAT",
+        #keyPath(Car.numberPlate): numberPlate2,
+        #keyPath(Car.model): "Panda",
+      ],
     ]
 
     if #available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *) {
@@ -634,9 +666,11 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
     let context = container.viewContext
 
     let objects = [
-      [#keyPath(Car.maker): "FIAT",
-       "WRONG_REQUIRED_KEY": "1234",
-       #keyPath(Car.model): "Panda"],
+      [
+        #keyPath(Car.maker): "FIAT",
+        "WRONG_REQUIRED_KEY": "1234",
+        #keyPath(Car.model): "Panda",
+      ]
     ]
 
     XCTAssertThrowsError(try Car.batchInsert(using: context, resultType: .objectIDs, objects: objects))
@@ -657,17 +691,19 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
     // Provide one dictionary at a time when the block is called.
     var index = 0
     let total = dictionaries.count
-    let result = try Car.batchInsert(using: context, dictionaryHandler: { dictionary -> Bool in
-      guard index < total else { return true }
-      dictionary.addEntries(from: dictionaries[index])
-      index += 1
-      return false
-    })
+    let result = try Car.batchInsert(
+      using: context,
+      dictionaryHandler: { dictionary -> Bool in
+        guard index < total else { return true }
+        dictionary.addEntries(from: dictionaries[index])
+        index += 1
+        return false
+      })
 
     let insertResult = try XCTUnwrap(result)
     XCTAssertEqual(index, total)
     XCTAssertTrue(insertResult.status!)
-    XCTAssertEqual(insertResult.changes?[NSInsertedObjectsKey]?.count, nil) // wrong result type
+    XCTAssertEqual(insertResult.changes?[NSInsertedObjectsKey]?.count, nil)  // wrong result type
 
     let count = try Car.count(in: context)
     XCTAssertEqual(count, total)
@@ -688,21 +724,23 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
     // Provide one object at a time when the block is called.
     var index = 0
     let total = dictionaries.count
-    let result = try ExpensiveSportCar.batchInsert(using: context, managedObjectHandler: { car -> Bool in
-      guard index < total else { return true }
-      let dictionary = dictionaries[index]
-      car.maker = dictionary[#keyPath(Car.maker)] as? String
-      car.numberPlate = dictionary[#keyPath(Car.numberPlate)] as? String
-      car.model = dictionary[#keyPath(Car.model)] as? String
-      car.isLimitedEdition = Bool.random()
-      index += 1
-      return false
-    })
+    let result = try ExpensiveSportCar.batchInsert(
+      using: context,
+      managedObjectHandler: { car -> Bool in
+        guard index < total else { return true }
+        let dictionary = dictionaries[index]
+        car.maker = dictionary[#keyPath(Car.maker)] as? String
+        car.numberPlate = dictionary[#keyPath(Car.numberPlate)] as? String
+        car.model = dictionary[#keyPath(Car.model)] as? String
+        car.isLimitedEdition = Bool.random()
+        index += 1
+        return false
+      })
 
     let insertResult = try XCTUnwrap(result)
     XCTAssertEqual(index, total)
     XCTAssertTrue(insertResult.status!)
-    XCTAssertEqual(insertResult.changes?[NSInsertedObjectsKey]?.count, nil) // wrong result type
+    XCTAssertEqual(insertResult.changes?[NSInsertedObjectsKey]?.count, nil)  // wrong result type
 
     let count = try Car.count(in: context)
     XCTAssertEqual(count, total)
@@ -734,7 +772,7 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
     XCTAssertEqual(newFiatCount, 0)
     let newFCACount = try Car.count(in: context) { $0.predicate = fcaPredicate }
     XCTAssertEqual(newFCACount, fiatCount)
-    XCTAssertEqual(result.changes?[NSUpdatedObjectsKey]?.count, nil) // wrong result type
+    XCTAssertEqual(result.changes?[NSUpdatedObjectsKey]?.count, nil)  // wrong result type
   }
 
   func test_batchUpdateWithResultCountType() throws {
@@ -763,7 +801,7 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
     XCTAssertEqual(newFiatCount, 0)
     let newFCACount = try Car.count(in: context) { $0.predicate = fcaPredicate }
     XCTAssertEqual(newFCACount, fiatCount)
-    XCTAssertEqual(result.changes?[NSUpdatedObjectsKey]?.count, nil) // wrong result type
+    XCTAssertEqual(result.changes?[NSUpdatedObjectsKey]?.count, nil)  // wrong result type
   }
 
   func test_batchUpdateWithResultObjectIDsType() throws {
@@ -781,7 +819,7 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
 
     let result = try Car.batchUpdate(using: context) {
       $0.resultType = .updatedObjectIDsResultType
-      $0.propertiesToUpdate =  [#keyPath(Car.maker): "FCA"]
+      $0.propertiesToUpdate = [#keyPath(Car.maker): "FCA"]
       $0.includesSubentities = true
       $0.predicate = fiatPredicate
     }
@@ -798,60 +836,60 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
   }
 
   // TODO: investigate this behaviour (and open a FB)
-//    func test_FailedBatchUpdateWithResultObjectIDs() throws {
-//      // Given
-//      let context = container.viewContext
-//      context.fillWithSampleData()
-//      try context.save()
-//
-//      // numberPlate is not optional constraint for the Car Entity
-//      // but in the backing .sqlite file it's actually just an optional string
-//
-//      XCTAssertThrowsError(try Car.batchUpdate(using: context) {
-//        $0.resultType = .statusOnlyResultType
-//        $0.propertiesToUpdate = [#keyPath(Car.numberPlate): NSExpression(forConstantValue: "SAME_VALE")]
-//        $0.includesSubentities = true
-//      })
-//
-//      let cars = try Car.fetchObjects(in: context)
-//      XCTAssertEqual(cars.count, 125) // Nothing changed here
-//
-//      // While setting the same value for a constraint property throws an exception, setting nil doesn't throw anything but then
-//      // all the updated objects are "broken"
-//      let result2 = try Car.batchUpdate(using: context) {
-//        $0.resultType = .statusOnlyResultType
-//        $0.propertiesToUpdate = [#keyPath(Car.numberPlate): NSExpression(forConstantValue: nil)]
-//        $0.includesSubentities = true
-//      }
-//      XCTAssertNotNil(result2.status, "There should be a status for a batch update with statusOnlyResultType option.")
-//      XCTAssertTrue(result2.status!)
-//
-//      // Row (pk = 1) for entity 'Car' is missing mandatory text data for property 'numberPlate'
-//      do {
-//        let car = try Car.fetchOneObject(in: context, where: NSPredicate(value: true))
-//        XCTAssertNotNil(car) // since the object is broken the fetch returns nil
-//      }
-//
-//      try context.save()
-//      try Car.delete(in: context)
-//      try context.save()
-//      let cars2 = try! Car.fetchObjects(in: context)
-//      XCTAssertTrue(cars2.isEmpty) // All the cars aren't valid (for the CoreData model) anymore
-//
-//      do {
-//        let car = try Car.fetchOneObject(in: context, where: NSPredicate(value: true))
-//        XCTAssertNotNil(car) // since the object is broken the fetch returns nil
-//      }
-//
-//      let count = try Car.count(in: context)
-//      XCTAssertEqual(count, 125)
-//
-//      try Car.batchDelete(using: context, predicate: NSPredicate(format: "%K == NULL", #keyPath(Car.numberPlate)), resultType: .resultTypeCount)
-//      let count2 = try Car.count(in: context)
-//
-//      XCTAssertEqual(count2, 0)
-//      // https://developer.apple.com/library/archive/featuredarticles/CoreData_Batch_Guide/BatchUpdates/BatchUpdates.html
-//    }
+  //    func test_FailedBatchUpdateWithResultObjectIDs() throws {
+  //      // Given
+  //      let context = container.viewContext
+  //      context.fillWithSampleData()
+  //      try context.save()
+  //
+  //      // numberPlate is not optional constraint for the Car Entity
+  //      // but in the backing .sqlite file it's actually just an optional string
+  //
+  //      XCTAssertThrowsError(try Car.batchUpdate(using: context) {
+  //        $0.resultType = .statusOnlyResultType
+  //        $0.propertiesToUpdate = [#keyPath(Car.numberPlate): NSExpression(forConstantValue: "SAME_VALE")]
+  //        $0.includesSubentities = true
+  //      })
+  //
+  //      let cars = try Car.fetchObjects(in: context)
+  //      XCTAssertEqual(cars.count, 125) // Nothing changed here
+  //
+  //      // While setting the same value for a constraint property throws an exception, setting nil doesn't throw anything but then
+  //      // all the updated objects are "broken"
+  //      let result2 = try Car.batchUpdate(using: context) {
+  //        $0.resultType = .statusOnlyResultType
+  //        $0.propertiesToUpdate = [#keyPath(Car.numberPlate): NSExpression(forConstantValue: nil)]
+  //        $0.includesSubentities = true
+  //      }
+  //      XCTAssertNotNil(result2.status, "There should be a status for a batch update with statusOnlyResultType option.")
+  //      XCTAssertTrue(result2.status!)
+  //
+  //      // Row (pk = 1) for entity 'Car' is missing mandatory text data for property 'numberPlate'
+  //      do {
+  //        let car = try Car.fetchOneObject(in: context, where: NSPredicate(value: true))
+  //        XCTAssertNotNil(car) // since the object is broken the fetch returns nil
+  //      }
+  //
+  //      try context.save()
+  //      try Car.delete(in: context)
+  //      try context.save()
+  //      let cars2 = try! Car.fetchObjects(in: context)
+  //      XCTAssertTrue(cars2.isEmpty) // All the cars aren't valid (for the CoreData model) anymore
+  //
+  //      do {
+  //        let car = try Car.fetchOneObject(in: context, where: NSPredicate(value: true))
+  //        XCTAssertNotNil(car) // since the object is broken the fetch returns nil
+  //      }
+  //
+  //      let count = try Car.count(in: context)
+  //      XCTAssertEqual(count, 125)
+  //
+  //      try Car.batchDelete(using: context, predicate: NSPredicate(format: "%K == NULL", #keyPath(Car.numberPlate)), resultType: .resultTypeCount)
+  //      let count2 = try Car.count(in: context)
+  //
+  //      XCTAssertEqual(count2, 0)
+  //      // https://developer.apple.com/library/archive/featuredarticles/CoreData_Batch_Guide/BatchUpdates/BatchUpdates.html
+  //    }
 
   // MARK: - Async Fetch
 
@@ -873,7 +911,7 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
     let currentProgress = Progress(totalUnitCount: 1)
     currentProgress.becomeCurrent(withPendingUnitCount: 1)
 
-    let token = try Car.fetchObjects(in: mainContext, with: { $0.predicate = NSPredicate(value: true) } ) { result in
+    let token = try Car.fetchObjects(in: mainContext, with: { $0.predicate = NSPredicate(value: true) }) { result in
       switch result {
       case .success(let cars):
         XCTAssertEqual(cars.count, 10_000)
@@ -897,24 +935,24 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
     currentToken?.invalidate()
   }
 
-//  func test_AsyncFetchUsingSwiftConcurrency() async throws {
-//    // In test_AsyncFetch() the standard implementation doesn't pass the test only if we enable ConcurrencyDebug.
-//    // The async/await version (that is, btw, used in WWDC 2021 videos on how to use continuations) always fails due to data races.
-//    // https://stackoverflow.com/questions/31728425/coredata-asynchronous-fetch-causes-concurrency-debugger-error
-//    try XCTSkipIf(UserDefaults.standard.integer(forKey: "com.apple.CoreData.ConcurrencyDebug") == 1)
-//    let mainContext = container.viewContext
-//
-//    // https://forums.developer.apple.com/forums/thread/741461
-//
-//    (1...10_000).forEach {
-//      let car = Car(context: mainContext)
-//      car.numberPlate = "test\($0)"
-//    }
-//    try mainContext.save()
-//
-//    let results = try await Car.fetchObjects(in: mainContext) { $0.predicate = .true }
-//    XCTAssertEqual(results.count, 10_000)
-//  }
+  //  func test_AsyncFetchUsingSwiftConcurrency() async throws {
+  //    // In test_AsyncFetch() the standard implementation doesn't pass the test only if we enable ConcurrencyDebug.
+  //    // The async/await version (that is, btw, used in WWDC 2021 videos on how to use continuations) always fails due to data races.
+  //    // https://stackoverflow.com/questions/31728425/coredata-asynchronous-fetch-causes-concurrency-debugger-error
+  //    try XCTSkipIf(UserDefaults.standard.integer(forKey: "com.apple.CoreData.ConcurrencyDebug") == 1)
+  //    let mainContext = container.viewContext
+  //
+  //    // https://forums.developer.apple.com/forums/thread/741461
+  //
+  //    (1...10_000).forEach {
+  //      let car = Car(context: mainContext)
+  //      car.numberPlate = "test\($0)"
+  //    }
+  //    try mainContext.save()
+  //
+  //    let results = try await Car.fetchObjects(in: mainContext) { $0.predicate = .true }
+  //    XCTAssertEqual(results.count, 10_000)
+  //  }
 
   // MARK: - Subquery
 
@@ -925,10 +963,11 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
 
     let people = try Person.fetchObjects(in: context)
     let results = people.filter { person in
-      let count = person.cars?.filter { object in
-        let car = object as! Car
-        return car.maker == "FIAT"
-      }.count ?? 0
+      let count =
+        person.cars?.filter { object in
+          let car = object as! Car
+          return car.maker == "FIAT"
+        }.count ?? 0
       //print("\t\(person.firstName) \(person.lastName) has \(count) FIAT cars")
       return count > 2
     }
@@ -960,9 +999,9 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
 
     // describes a column to be returned from a fetch that may not appear directly as an attribute or relationship on an entity
     let countExpressionDescription = NSExpressionDescription()
-    countExpressionDescription.name = "count" // alias
+    countExpressionDescription.name = "count"  // alias
     countExpressionDescription.expression = expression
-    countExpressionDescription.expressionResultType = .integer64AttributeType // in iOS 15 use resultType: NSAttributeDescription.AttributeType
+    countExpressionDescription.expressionResultType = .integer64AttributeType  // in iOS 15 use resultType: NSAttributeDescription.AttributeType
 
     let request = Car.fetchRequest()
     request.returnsObjectsAsFaults = false
@@ -970,9 +1009,8 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
     request.propertiesToFetch = [#keyPath(Car.maker), countExpressionDescription]
     request.resultType = .dictionaryResultType
     request.havingPredicate = NSPredicate(format: "%@ > 100", NSExpression(forVariable: "count"))
-    let results = try context.fetch(request) as! [Dictionary<String, Any>]
+    let results = try context.fetch(request) as! [[String: Any]]
 
     XCTAssertEqual(results.count, 1)
   }
 }
-

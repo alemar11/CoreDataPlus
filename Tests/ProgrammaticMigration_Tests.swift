@@ -1,10 +1,11 @@
 // CoreDataPlus
 
-import XCTest
 import CoreData
 import Foundation
-@testable import CoreDataPlus
+import XCTest
 import os.lock
+
+@testable import CoreDataPlus
 
 final class ProgrammaticMigration_Tests: XCTestCase {
 
@@ -12,10 +13,10 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     let mappingModel = try XCTUnwrap(SampleModel2.SampleModel2Version.version1.inferredMappingModelToNextModelVersion())
     XCTAssertTrue(mappingModel.isInferred)
     let mappings = try XCTUnwrap(mappingModel.entityMappings)
-    let authorMappingModel = try XCTUnwrap(mappings.first(where:{ $0.sourceEntityName == "Author" }))
+    let authorMappingModel = try XCTUnwrap(mappings.first(where: { $0.sourceEntityName == "Author" }))
     XCTAssertEqual(authorMappingModel.mappingType, .transformEntityMappingType)
 
-    let bookMappingModel = try XCTUnwrap(mappings.first(where:{ $0.sourceEntityName == "Book" }))
+    let bookMappingModel = try XCTUnwrap(mappings.first(where: { $0.sourceEntityName == "Book" }))
     XCTAssertEqual(bookMappingModel.mappingType, .transformEntityMappingType)
 
     do {
@@ -32,7 +33,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     }
 
     do {
-      XCTAssertNotNil(bookMappingModel.attributeMappings?.first(where: { $0.name == "frontCover" })) // this is as far I can go
+      XCTAssertNotNil(bookMappingModel.attributeMappings?.first(where: { $0.name == "frontCover" }))  // this is as far I can go
       let mappingProperties = try XCTUnwrap(bookMappingModel.mappingProperties)
 
       XCTAssertEqual(mappingProperties.mappedProperties.count, 8)
@@ -47,10 +48,10 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     let url = URL.newDatabaseURL(withID: UUID())
 
     let options = [
-      NSMigratePersistentStoresAutomaticallyOption: false, // the migration works fine even if it's set to true, but it should be false
+      NSMigratePersistentStoresAutomaticallyOption: false,  // the migration works fine even if it's set to true, but it should be false
       NSInferMappingModelAutomaticallyOption: false,
-      NSPersistentHistoryTrackingKey: false, // ⚠️ cannot be changed once set to true
-      NSPersistentHistoryTokenKey: true
+      NSPersistentHistoryTrackingKey: false,  // ⚠️ cannot be changed once set to true
+      NSPersistentHistoryTokenKey: true,
     ]
 
     let description = NSPersistentStoreDescription(url: url)
@@ -83,9 +84,10 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     }
 
     let newOptions = destinationDescription.options
-    let migrator = Migrator<SampleModel2.SampleModel2Version>(sourceStoreDescription: sourceDescription,
-                                                              destinationStoreDescription: destinationDescription,
-                                                              targetVersion: .version2)
+    let migrator = Migrator<SampleModel2.SampleModel2Version>(
+      sourceStoreDescription: sourceDescription,
+      destinationStoreDescription: destinationDescription,
+      targetVersion: .version2)
     try migrator.migrate(enableWALCheckpoint: true)
 
     // Validation
@@ -122,17 +124,18 @@ final class ProgrammaticMigration_Tests: XCTestCase {
 
   func test_MigrationFromV1ToV2WithMultipleStores() throws {
     let options = [
-      NSMigratePersistentStoresAutomaticallyOption: false, // the migration works fine even if it's set to true, but it should be false
+      NSMigratePersistentStoresAutomaticallyOption: false,  // the migration works fine even if it's set to true, but it should be false
       NSInferMappingModelAutomaticallyOption: false,
-      NSPersistentHistoryTrackingKey: true, // ⚠️ cannot be changed once set to true
-      NSPersistentHistoryTokenKey: true
+      NSPersistentHistoryTrackingKey: true,  // ⚠️ cannot be changed once set to true
+      NSPersistentHistoryTokenKey: true,
     ]
 
     let url = URL.newDatabaseURL(withID: UUID())
     let oldManagedObjectModel = V1.makeManagedObjectModel()
     let coordinator = NSPersistentStoreCoordinator(managedObjectModel: oldManagedObjectModel)
 
-    _ = try coordinator.addPersistentStore(type: .sqlite, configuration: V1.Configurations.one, at: url, options: options)
+    _ = try coordinator.addPersistentStore(
+      type: .sqlite, configuration: V1.Configurations.one, at: url, options: options)
 
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     context.persistentStoreCoordinator = coordinator
@@ -151,9 +154,10 @@ final class ProgrammaticMigration_Tests: XCTestCase {
       destinationDescription.setOption(value as NSObject, forKey: key)
     }
 
-    let migrator = Migrator<SampleModel2.SampleModel2Version>(sourceStoreDescription: sourceDescription,
-                                                              destinationStoreDescription: destinationDescription,
-                                                              targetVersion: .version2)
+    let migrator = Migrator<SampleModel2.SampleModel2Version>(
+      sourceStoreDescription: sourceDescription,
+      destinationStoreDescription: destinationDescription,
+      targetVersion: .version2)
     try migrator.migrate(enableWALCheckpoint: true)
 
     // Validation
@@ -167,8 +171,10 @@ final class ProgrammaticMigration_Tests: XCTestCase {
 
     // The new coordinator will load both the stores.
     let newCoordinator = NSPersistentStoreCoordinator(managedObjectModel: V2.makeManagedObjectModel())
-    _ = try newCoordinator.addPersistentStore(type: .sqlite, configuration: V2.Configurations.part1, at: url, options: options)
-    _ = try newCoordinator.addPersistentStore(type: .sqlite, configuration: V2.Configurations.part2, at: urlPart2, options: options)
+    _ = try newCoordinator.addPersistentStore(
+      type: .sqlite, configuration: V2.Configurations.part1, at: url, options: options)
+    _ = try newCoordinator.addPersistentStore(
+      type: .sqlite, configuration: V2.Configurations.part2, at: urlPart2, options: options)
 
     let newContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     newContext.persistentStoreCoordinator = newCoordinator
@@ -195,7 +201,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     }
 
     let feedbackRequest = NSFetchRequest<NSManagedObject>(entityName: "Feedback") as! NSFetchRequest<FeedbackV2>
-    feedbackRequest.affectedStores = [part1] // important to take values from part1
+    feedbackRequest.affectedStores = [part1]  // important to take values from part1
     let feedbacks = try newContext.fetch(feedbackRequest)
     XCTAssertEqual(feedbacks.count, 444)
 
@@ -205,7 +211,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
       feedback.bookID = $0.bookID
       feedback.comment = $0.comment
       feedback.rating = $0.rating * 10
-      newContext.assign(feedback, to: part2) // or it will stored in the first added persistent store
+      newContext.assign(feedback, to: part2)  // or it will stored in the first added persistent store
     }
     try newContext.save()
 
@@ -220,7 +226,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
       let fetchedAuthor = try newContext.fetch(fetchedAuthorRequest).first
 
       let author = try XCTUnwrap(fetchedAuthor)
-      XCTAssertEqual(author.feedbacks?.count, 6) // 3 each store
+      XCTAssertEqual(author.feedbacks?.count, 6)  // 3 each store
     }
 
     do {
@@ -229,7 +235,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
       let fetchedAuthor = try newContext.fetch(fetchedAuthorRequest).first
 
       let author = try XCTUnwrap(fetchedAuthor)
-      XCTAssertEqual(author.feedbacks?.count, 882) // 441 each store
+      XCTAssertEqual(author.feedbacks?.count, 882)  // 441 each store
     }
 
     newContext._fix_sqlite_warning_when_destroying_a_store()
@@ -241,10 +247,10 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     let url = URL.newDatabaseURL(withID: UUID())
 
     let options = [
-      NSMigratePersistentStoresAutomaticallyOption: false, // the migration works fine even if it's set to true, but it should be false
+      NSMigratePersistentStoresAutomaticallyOption: false,  // the migration works fine even if it's set to true, but it should be false
       NSInferMappingModelAutomaticallyOption: false,
-      NSPersistentHistoryTrackingKey: true, // ⚠️ cannot be changed once set to true
-      NSPersistentHistoryTokenKey: true
+      NSPersistentHistoryTrackingKey: true,  // ⚠️ cannot be changed once set to true
+      NSPersistentHistoryTokenKey: true,
     ]
 
     let description = NSPersistentStoreDescription(url: url)
@@ -269,9 +275,10 @@ final class ProgrammaticMigration_Tests: XCTestCase {
 
     // Migration
 
-    let migrator = Migrator<SampleModel2.SampleModel2Version>(sourceStoreDescription: description,
-                                                              destinationStoreDescription: description,
-                                                              targetVersion: .version3)
+    let migrator = Migrator<SampleModel2.SampleModel2Version>(
+      sourceStoreDescription: description,
+      destinationStoreDescription: description,
+      targetVersion: .version3)
 
     let completion = OSAllocatedUnfairLock(initialState: 0.0)
     let token = migrator.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
@@ -288,8 +295,11 @@ final class ProgrammaticMigration_Tests: XCTestCase {
         // In FeedbackMigrationManager.swift there are 2 possibile solutions:
 
         // solution #1
-        if metadata.mappingModel.entityMappingsByName["FeedbackToFeedbackPartOne"] != nil && metadata.mappingModel.entityMappingsByName["FeedbackToFeedbackPartTwo"] != nil {
-          return FeedbackMigrationManager(sourceModel: metadata.sourceModel, destinationModel: metadata.destinationModel)
+        if metadata.mappingModel.entityMappingsByName["FeedbackToFeedbackPartOne"] != nil
+          && metadata.mappingModel.entityMappingsByName["FeedbackToFeedbackPartTwo"] != nil
+        {
+          return FeedbackMigrationManager(
+            sourceModel: metadata.sourceModel, destinationModel: metadata.destinationModel)
         } else {
           return NSMigrationManager(sourceModel: metadata.sourceModel, destinationModel: metadata.destinationModel)
         }
@@ -350,7 +360,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     }
 
     do {
-      let expression = NSPredicate(format: "1 + 2 > 2") // for logical expressions use NSPredicate
+      let expression = NSPredicate(format: "1 + 2 > 2")  // for logical expressions use NSPredicate
       let value = expression.evaluate(with: nil)
       XCTAssertEqual(value, true)
     }
@@ -358,7 +368,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     do {
       let numbers = [1, 2, 3, 4, 4, 5, 9, 11]
       let args = [NSExpression(forConstantValue: numbers)]
-      let expression = NSExpression(forFunction:"max:", arguments: args)
+      let expression = NSExpression(forFunction: "max:", arguments: args)
       let value = expression.expressionValue(with: nil, context: nil) as? Int
       XCTAssertEqual(value, 11)
     }
@@ -369,7 +379,8 @@ final class ProgrammaticMigration_Tests: XCTestCase {
       // and the return value of the method must also be an object!
       // FUNCTION(operand, 'function', arguments, ...)
 
-      let expression = NSExpression(format:#"FUNCTION(%@, 'substring2ToIndex:', %@)"#, argumentArray: ["hello world", NSNumber(1)])
+      let expression = NSExpression(
+        format: #"FUNCTION(%@, 'substring2ToIndex:', %@)"#, argumentArray: ["hello world", NSNumber(1)])
       // same as:
       //let expression = NSExpression(format:#"FUNCTION("hello world", 'substring2ToIndex:', %@)"#, argumentArray: [NSNumber(1)])
       let value = expression.expressionValue(with: nil, context: nil) as? NSString
@@ -381,7 +392,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
 extension NSString {
   @objc(substring2ToIndex:)
   func substring2(to index: NSNumber) -> NSString {
-    return self.substring(to: index.intValue) as NSString
+    self.substring(to: index.intValue) as NSString
   }
 }
 

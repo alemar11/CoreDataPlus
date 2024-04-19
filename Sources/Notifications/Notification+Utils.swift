@@ -16,16 +16,16 @@ extension Notification {
     if let objectIDs = userInfo?[key] as? Set<NSManagedObjectID> {
       return objectIDs
     } else if let objectIDs = userInfo?[key] as? [NSManagedObjectID] {
-      return Set(objectIDs) // Did Change Notification
+      return Set(objectIDs)  // Did Change Notification
     }
     return Set()
   }
 
   func objectIDs(forKey key: NSManagedObjectContext.NotificationKey) -> Set<NSManagedObjectID> {
     if let objectIDs = userInfo?[key.rawValue] as? Set<NSManagedObjectID> {
-      return objectIDs // Did Save ObjectIDs Notification
+      return objectIDs  // Did Save ObjectIDs Notification
     } else if let objectIDs = userInfo?[key.rawValue] as? [NSManagedObjectID] {
-      return Set(objectIDs) // Did Change Notification
+      return Set(objectIDs)  // Did Change Notification
     }
     return Set()
   }
