@@ -48,17 +48,17 @@ extension FetchedResultsObjectChange {
       // For more discussion, see https://forums.developer.apple.com/thread/12184
       return nil
 
-    case let (.insert, nil, newIndexPath?):
+    case (.insert, nil, let newIndexPath?):
       self = .insert(object: object, indexPath: newIndexPath)
 
-    case let (.delete, indexPath?, nil):
+    case (.delete, let indexPath?, nil):
       self = .delete(object: object, indexPath: indexPath)
 
-    case let (.update, indexPath?, _):
+    case (.update, let indexPath?, _):
       // before iOS 9, a newIndexPath value was also passed in.
       self = .update(object: object, indexPath: indexPath)
 
-    case let (.move, fromIndexPath?, toIndexPath?):
+    case (.move, let fromIndexPath?, let toIndexPath?):
       // There are at least two different .move-related bugs running on Xcode 7.3.1:
       // - iOS 8.4 sometimes reports both an .update and a .move (with identical index paths) for the same object.
       // - iOS 9.3 sometimes reports just a .move (with identical index paths) and no .update for an object.

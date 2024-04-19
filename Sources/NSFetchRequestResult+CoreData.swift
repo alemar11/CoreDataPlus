@@ -404,7 +404,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
       entityName: entityName,
       managedObjectHandler: { object -> Bool in
         // swiftlint:disable:next force_cast
-        return handler(object as! Self)
+        handler(object as! Self)
       })
     batchRequest.resultType = resultType
 
