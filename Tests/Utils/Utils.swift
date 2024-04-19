@@ -53,7 +53,7 @@ extension Foundation.Bundle {
 
   /// Returns the resource bundle associated with the current Swift module.
   /// Note: the implementation is very close to the one provided by the Swift Package with `Bundle.module` (that is not available for XCTests).
-  static var tests_old_implementation: Bundle = {
+  nonisolated(unsafe) static var tests_old_implementation: Bundle = {
     let bundleName = "CoreDataPlus_Tests"
 
     let candidates = [
@@ -78,7 +78,11 @@ extension Foundation.Bundle {
     // https://forums.swift.org/t/5-3-resources-support-not-working-on-with-swift-test/40381/10
     // https://github.com/apple/swift-package-manager/pull/2905
     // https://bugs.swift.org/browse/SR-13560
-    let url = Bundle(for: Dummy.self).bundleURL.deletingLastPathComponent().appendingPathComponent(bundleName + ".bundle")
+    let url = Bundle(for: Dummy.self)
+      .bundleURL
+      .deletingLastPathComponent()
+      .appendingPathComponent(bundleName + ".bundle")
+
     if let bundle = Bundle(url: url) {
       return bundle
     }

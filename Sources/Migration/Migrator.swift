@@ -149,6 +149,7 @@ extension Migrator {
     let migrationStepsProgress = Progress(totalUnitCount: Int64(steps.count), parent: progress, pendingUnitCount: progress.totalUnitCount)
     var currentURL = sourceURL
     try steps.enumerated().forEach { (stepIndex, step) in
+      // swiftlint:disable:next line_length
       log.info("Step \(stepIndex + 1, privacy: .public) (of \(steps.count, privacy: .public)) started: \(step.sourceVersion.debugDescription, privacy: .public) to \(step.destinationVersion.debugDescription, privacy: .public)")
       try autoreleasepool {
         let temporaryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(UUID().uuidString).appendingPathExtension("sqlite")
@@ -170,7 +171,8 @@ extension Migrator {
           mappingModelMigrationProgress.addChild(progressReporter.progress, withPendingUnitCount: 1)
 
           let start = DispatchTime.now()
-          do {            
+
+          do {
             try manager.migrateStore(from: currentURL,
                                      type: .sqlite,
                                      options: sourceOptions,
@@ -187,7 +189,7 @@ extension Migrator {
           progressReporter.markAsFinishedIfNeeded()
           let nanoseconds = end.uptimeNanoseconds - start.uptimeNanoseconds
           let timeInterval = Double(nanoseconds) / Double(NSEC_PER_SEC)
-          log.info("Migration for mapping model \(mappingModelIndex + 1, privacy: .public) finished in \(timeInterval, format:  .fixed(precision: 2), privacy: .public) seconds.")
+          log.info("Migration for mapping model \(mappingModelIndex + 1, privacy: .public) finished in \(timeInterval, format: .fixed(precision: 2), privacy: .public) seconds.")
         }
         // once the migration is done (and the store is migrated to temporaryURL)
         // the store at currentURL can be safely destroyed unless it is the

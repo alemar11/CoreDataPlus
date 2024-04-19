@@ -13,7 +13,7 @@ Core data extensions.
 
 ## Requirements
 
-[![Swift 5.9](https://img.shields.io/badge/Swift-5.9-orange.svg?style=flat)](https://developer.apple.com/swift)
+[![Swift 5.10](https://img.shields.io/badge/Swift-5.10-orange.svg?style=flat)](https://developer.apple.com/swift)
 ![Platforms](https://img.shields.io/badge/Platform-iOS%2015%2B%20|%20macOS%2013+%20|%20tvOS%2015+%20|%20watchOS%209+%20|%20visionOS%201+-blue.svg) 
 ![Xcode](https://img.shields.io/badge/Xcode-15-blue.svg) 
 
@@ -38,7 +38,7 @@ To integrate CoreDataPlus into your Xcode project using CocoaPods, specify it in
 
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '12.0'
+platform :ios, '13.0'
 use_frameworks!
 
 target '<Your Target Name>' do
@@ -78,7 +78,7 @@ Once you have your Swift package set up, adding CoreDataPlus as a dependency is 
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/alemar11/CoreDataPlus.git", .upToNextMajor(from: "5.0.0"))
+    .package(url: "https://github.com/alemar11/CoreDataPlus.git", .upToNextMajor(from: "6.0.0"))
 ]
 ```
 

@@ -45,7 +45,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
 
   func test_MigrationFromV1ToV2() throws {
     let url = URL.newDatabaseURL(withID: UUID())
-    
+
     let options = [
       NSMigratePersistentStoresAutomaticallyOption: false, // the migration works fine even if it's set to true, but it should be false
       NSInferMappingModelAutomaticallyOption: false,
@@ -81,7 +81,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
       sourceDescription.setOption(value as NSObject, forKey: key)
       destinationDescription.setOption(value as NSObject, forKey: key)
     }
-    
+
     let newOptions = destinationDescription.options
     let migrator = Migrator<SampleModel2.SampleModel2Version>(sourceStoreDescription: sourceDescription,
                                                               destinationStoreDescription: destinationDescription,
@@ -131,7 +131,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     let url = URL.newDatabaseURL(withID: UUID())
     let oldManagedObjectModel = V1.makeManagedObjectModel()
     let coordinator = NSPersistentStoreCoordinator(managedObjectModel: oldManagedObjectModel)
-    
+
     _ = try coordinator.addPersistentStore(type: .sqlite, configuration: V1.Configurations.one, at: url, options: options)
 
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)

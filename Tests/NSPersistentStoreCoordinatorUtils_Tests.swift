@@ -58,7 +58,7 @@ final class NSPersistentStoreCoordinatorUtils_Tests: BaseTestCase {
     let container2 = OnDiskPersistentContainer.makeNew(id: id)
     let store2 = try XCTUnwrap(container2.persistentStoreCoordinator.persistentStores.first)
     let metadata2 =  try XCTUnwrap(store2.metadata)
-    
+
     XCTAssertNotNil(metadata2["testKey"])
     XCTAssertEqual(metadata2["testKey"] as? String, "Test")
   }

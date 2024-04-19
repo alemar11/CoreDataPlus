@@ -9,7 +9,6 @@ import CoreData
 import Combine
 @testable import CoreDataPlus
 
-@MainActor
 final class NotificationMerge_Tests: InMemoryTestCase {
   func test_InvestigationRegisteredObjects() throws {
     try XCTSkipIf(!ProcessInfo.processInfo.environment.keys.contains("XCODE_TESTS"), "This test should be run via Xcode and not using Swift test.")

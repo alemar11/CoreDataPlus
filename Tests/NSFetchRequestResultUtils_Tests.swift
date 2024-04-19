@@ -4,7 +4,6 @@ import XCTest
 import CoreData
 @testable import CoreDataPlus
 
-@MainActor
 final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
   // MARK: - Batch Faulting
 
@@ -904,15 +903,15 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
 //    // https://stackoverflow.com/questions/31728425/coredata-asynchronous-fetch-causes-concurrency-debugger-error
 //    try XCTSkipIf(UserDefaults.standard.integer(forKey: "com.apple.CoreData.ConcurrencyDebug") == 1)
 //    let mainContext = container.viewContext
-//    
+//
 //    // https://forums.developer.apple.com/forums/thread/741461
-//    
+//
 //    (1...10_000).forEach {
 //      let car = Car(context: mainContext)
 //      car.numberPlate = "test\($0)"
 //    }
 //    try mainContext.save()
-//    
+//
 //    let results = try await Car.fetchObjects(in: mainContext) { $0.predicate = .true }
 //    XCTAssertEqual(results.count, 10_000)
 //  }

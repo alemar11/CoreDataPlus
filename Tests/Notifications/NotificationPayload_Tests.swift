@@ -5,7 +5,6 @@ import CoreData
 import Combine
 @testable import CoreDataPlus
 
-@MainActor
 final class NotificationPayload_Tests: InMemoryTestCase {
   /// To issue a NSManagedObjectContextObjectsDidChangeNotification from a background thread, call the NSManagedObjectContext’s processPendingChanges method.
   /// http://openradar.appspot.com/14310964
@@ -954,7 +953,6 @@ final class NotificationPayload_Tests: InMemoryTestCase {
   }
 }
 
-@MainActor
 final class NotificationPayloadOnDiskTests: OnDiskTestCase {
   func test_ObserveInsertionsOnDidSaveNotification() throws {
     let context = container.viewContext
@@ -1168,7 +1166,7 @@ final class NotificationPayloadOnDiskTests: OnDiskTestCase {
     // triggers a NSPersistentStoreCoordinatorStoresDidChange with a NSUUIDChangedPersistentStoresKey (5)
     // triggers a NSPersistentStoreCoordinatorWillRemoveStore (3) for initial URL
     // triggers a NSPersistentStoreCoordinatorStoresDidChange (6)
-    
+
     try psc.persistentStores.forEach {
       try psc.migratePersistentStore($0, to: finalStoreURL, options: nil, withType: NSSQLiteStoreType)
     }
