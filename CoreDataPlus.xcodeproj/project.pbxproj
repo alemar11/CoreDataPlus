@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		06B3A5A62BD7E447009217C0 /* Swift-Format lint */ = {
+		06B3A5A62BD7E447009217C0 /* Swift-Format Lint */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 06B3A5A92BD7E447009217C0 /* Build configuration list for PBXAggregateTarget "Swift-Format lint" */;
+			buildConfigurationList = 06B3A5A92BD7E447009217C0 /* Build configuration list for PBXAggregateTarget "Swift-Format Lint" */;
 			buildPhases = (
 				06B3A5AA2BD7E459009217C0 /* Lint */,
 			);
 			dependencies = (
 			);
-			name = "Swift-Format lint";
+			name = "Swift-Format Lint";
 			productName = "Swift-Format lint";
 		};
 		2364CE511FA383EF0076F2B8 /* SwiftLint */ = {
@@ -1280,7 +1280,7 @@
 				06968ACD26454AFF00088D76 /* CoreDataPlus Tests watchOS */,
 				2364CE511FA383EF0076F2B8 /* SwiftLint */,
 				2364CE561FA3843D0076F2B8 /* Cleanup Whitespace */,
-				06B3A5A62BD7E447009217C0 /* Swift-Format lint */,
+				06B3A5A62BD7E447009217C0 /* Swift-Format Lint */,
 			);
 		};
 /* End PBXProject section */
@@ -2811,7 +2811,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		06B3A5A92BD7E447009217C0 /* Build configuration list for PBXAggregateTarget "Swift-Format lint" */ = {
+		06B3A5A92BD7E447009217C0 /* Build configuration list for PBXAggregateTarget "Swift-Format Lint" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				06B3A5A72BD7E447009217C0 /* Debug */,
