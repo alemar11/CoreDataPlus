@@ -58,6 +58,7 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     XCTAssertEqual(viewContext.registeredObjects.count, 2)
   }
 
+  @MainActor
   func test_InvestigationMergeChanges() throws {
     // see: testInvesigationRegisteredObjects
     let expectation1 = expectation(description: "\(#function)\(#line)")
@@ -135,6 +136,7 @@ final class NotificationMerge_Tests: InMemoryTestCase {
 
   }
 
+  @MainActor
   func test_Merge() throws {
     let viewContext = container.viewContext
     let backgroundContext = container.viewContext.newBackgroundContext(asChildContext: false)
@@ -264,6 +266,7 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     }
   }
 
+  @MainActor
   func test_AsyncMerge() throws {
     let context = container.viewContext
     let anotherContext = container.viewContext.newBackgroundContext(asChildContext: false)
@@ -331,6 +334,7 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     cancellable3.cancel()
   }
 
+  @MainActor
   func test_NSFetchedResultController() throws {
     let context = container.viewContext
 
@@ -411,6 +415,7 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     cancellable1.cancel()
   }
 
+  @MainActor
   func test_NSFetchedResultControllerWithContextReset() throws {
     let context = container.viewContext
 

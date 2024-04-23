@@ -44,6 +44,7 @@ final class NotificationPayload_Tests: InMemoryTestCase {
 
   // MARK: - NSManagedObjectContextObjectsDidChange
 
+  @MainActor
   func test_ObserveInsertionsAndInvalidationsOnDidChangeNotification() {
     // Invalidation causes:
     // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreData/TroubleshootingCoreData.html
@@ -100,6 +101,7 @@ final class NotificationPayload_Tests: InMemoryTestCase {
     cancellable.cancel()
   }
 
+  @MainActor
   func test_ObserveInsertionsOnDidChangeNotificationOnBackgroundContext() {
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let backgroundContext = container.newBackgroundContext()
@@ -133,6 +135,7 @@ final class NotificationPayload_Tests: InMemoryTestCase {
     cancellable.cancel()
   }
 
+  @MainActor
   func test_ObserveAsyncInsertionsOnDidChangeNotificationOnBackgroundContext() {
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let backgroundContext = container.newBackgroundContext()
@@ -166,6 +169,7 @@ final class NotificationPayload_Tests: InMemoryTestCase {
     cancellable.cancel()
   }
 
+  @MainActor
   func test_ObserveAsyncInsertionsOnDidChangeNotificationOnBackgroundContextAndDispatchQueue() {
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let backgroundContext = container.newBackgroundContext()
@@ -211,6 +215,7 @@ final class NotificationPayload_Tests: InMemoryTestCase {
     cancellable.cancel()
   }
 
+  @MainActor
   func test_ObserveInsertionsOnDidChangeNotificationOnPrivateContext() throws {
     let privateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
     privateContext.persistentStoreCoordinator = container.persistentStoreCoordinator
@@ -243,6 +248,7 @@ final class NotificationPayload_Tests: InMemoryTestCase {
     cancellable.cancel()
   }
 
+  @MainActor
   func test_ObserveRefreshedObjectsOnDidChangeNotification() throws {
     let context = container.viewContext
     context.fillWithSampleData()
@@ -272,6 +278,7 @@ final class NotificationPayload_Tests: InMemoryTestCase {
   }
 
   // probably it's not a valid test
+  @MainActor
   func test_ObserveOnlyInsertionsOnDidChangeUsingBackgroundContextsAndAutomaticallyMergesChangesFromParent() throws {
     let backgroundContext1 = container.newBackgroundContext()
     let backgroundContext2 = container.newBackgroundContext()
@@ -428,6 +435,7 @@ final class NotificationPayload_Tests: InMemoryTestCase {
     cancellable.cancel()
   }
 
+  @MainActor
   func test_ObserveRefreshesOnMaterializedObjects() throws {
     let backgroundContext1 = container.newBackgroundContext()
     let backgroundContext2 = container.newBackgroundContext()
@@ -521,6 +529,7 @@ final class NotificationPayload_Tests: InMemoryTestCase {
 
   // MARK: - NSManagedObjectContextWillSave and NSManagedObjectContextDidSave
 
+  @MainActor
   func test_ObserveInsertionsOnWillSaveNotification() throws {
     let context = container.viewContext
     let expectation = self.expectation(description: "\(#function)\(#line)")
@@ -543,6 +552,7 @@ final class NotificationPayload_Tests: InMemoryTestCase {
     cancellable.cancel()
   }
 
+  @MainActor
   func test_ObserveInsertionsOnDidSaveNotification() throws {
     let context = container.viewContext
     var cancellables = [AnyCancellable]()
@@ -593,6 +603,7 @@ final class NotificationPayload_Tests: InMemoryTestCase {
     }
   }
 
+  @MainActor
   func test_ObserveInsertionsUpdatesAndDeletesOnDidSaveNotification() throws {
     let context = container.viewContext
     var cancellables = [AnyCancellable]()
@@ -664,6 +675,7 @@ final class NotificationPayload_Tests: InMemoryTestCase {
     }
   }
 
+  @MainActor
   func test_ObserveMultipleChangesUsingPersistentStoreCoordinatorWithChildAndParentContexts() throws {
     // Given
     let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
@@ -826,6 +838,7 @@ final class NotificationPayload_Tests: InMemoryTestCase {
 
   // MARK: - Entity Observer Example
 
+  @MainActor
   func test_ObserveInsertedOnDidChangeEventForSpecificEntities() {
     let context = container.viewContext
     let expectation1 = expectation(description: "\(#function)\(#line)")
@@ -890,6 +903,7 @@ final class NotificationPayload_Tests: InMemoryTestCase {
 
   // MARK: - NSPersistentStoreRemoteChange
 
+  @MainActor
   func test_InvestigationPersistentStoreRemoteChangeAndSave() throws {
     // Cross coordinators change notifications:
 
@@ -943,6 +957,7 @@ final class NotificationPayload_Tests: InMemoryTestCase {
     cancellable2.cancel()
   }
 
+  @MainActor
   func test_InvestigationPersistentStoreRemoteChangeAndBatchOperations() throws {
     // Cross coordinators change notifications:
     // This notification notifies when history has been made even when batch operations are done.
@@ -1002,6 +1017,7 @@ final class NotificationPayload_Tests: InMemoryTestCase {
 }
 
 final class NotificationPayloadOnDiskTests: OnDiskTestCase {
+  @MainActor
   func test_ObserveInsertionsOnDidSaveNotification() throws {
     let context = container.viewContext
     try context.setQueryGenerationFrom(.current)
@@ -1057,6 +1073,7 @@ final class NotificationPayloadOnDiskTests: OnDiskTestCase {
     }
   }
 
+  @MainActor
   func test_InvestigationInsertionsInChildContextOnDidSaveNotification() throws {
     // the scope of this test is to verify wheter or not a NSManagedObjectContextDidSaveObjectIDs notification
     // fired in a child context will have insertedObjectIDs with temporary IDs (expected)

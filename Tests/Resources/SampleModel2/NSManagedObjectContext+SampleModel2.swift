@@ -116,7 +116,7 @@ extension NSManagedObjectContext {
         book.addToPages(page)
       }
 
-      for index in 1..<10 {
+      for _ in 1..<10 {
         let feedbackBook1 = Feedback(context: self)
         feedbackBook1.bookID = book.uniqueID
         feedbackBook1.rating = [1.3, 2.4, 3.5, 4.6, 5.8].randomElement()!

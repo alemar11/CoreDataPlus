@@ -6,6 +6,7 @@ import os.lock
 
 final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
   /// Investigation test: calling refreshAllObjects calls refreshObject:mergeChanges on all objects in the context.
+  @MainActor
   func test_InvestigationRefreshAllObjects() throws {
     let viewContext = container.viewContext
     let car1 = Car(context: viewContext)
@@ -24,6 +25,7 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
   }
 
   /// Investigation test: KVO is fired whenever a property changes (even if the object is not saved in the context).
+  @MainActor
   func test_InvestigationKVO() throws {
     let context = container.viewContext
     let expectation = self.expectation(description: "\(#function)\(#line)")

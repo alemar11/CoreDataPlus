@@ -6,7 +6,7 @@ import XCTest
 @testable import CoreDataPlus
 
 final class NSManagedObjectContextHistory_Tests: BaseTestCase {
-
+  @MainActor
   func test_MergeHistoryAfterDate() throws {
     // Given
     let id = UUID()
@@ -61,6 +61,7 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
     try container1.destroy()
   }
 
+  @MainActor
   func test_MergeHistoryAfterDateWithMultipleTransactions() throws {
     // Given
     let id = UUID()
@@ -139,6 +140,7 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
 
     let result = try viewContext2.mergeTransactions(transactionsFromDistantPast)
     XCTAssertNotNil(result)
+    
     waitForExpectations(timeout: 5, handler: nil)
 
     try viewContext2.save()
@@ -187,6 +189,7 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
     try container1.destroy()
   }
 
+  @MainActor
   func test_PersistentStoreWithHistoryTrackingEnabledGeneratesHistoryTokens() throws {
     // Given
     let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
@@ -224,6 +227,7 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
     try NSPersistentStoreCoordinator.destroyStore(at: storeURL)
   }
 
+  @MainActor
   func test_PersistentStoreWithHistoryTrackingDisabledDoesntGenerateHistoryTokens() throws {
     // Given
     let psc = NSPersistentStoreCoordinator(managedObjectModel: model)

@@ -893,6 +893,7 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
 
   // MARK: - Async Fetch
 
+  @MainActor
   func test_AsyncFetch() throws {
     // BUG: Async fetches can't be tested with the ConcurrencyDebug enabled,
     // https://stackoverflow.com/questions/31728425/coredata-asynchronous-fetch-causes-concurrency-debugger-error
