@@ -62,7 +62,7 @@ final class FetchedResultsChanges_Tests: InMemoryTestCase {
     XCTAssertEqual(controller.fetchRequest, request)
     XCTAssertFalse(controller.fetchedObjects!.isEmpty)
 
-    delegate.changes.forEach { change in
+    for change in delegate.changes {
       switch change {
       case .delete(object: _, indexPath: _), .insert(object: _, indexPath: _): XCTFail("Unexpected change.")
       default: break  // during a regresh we can have an update or a move
@@ -201,7 +201,8 @@ final class FetchedResultsChanges_Tests: InMemoryTestCase {
 
     try controller.performFetch()
     let car = controller.fetchedObjects!.first
-    car!.numberPlate = "304 no more"  // car needs to be deleted because the numberPlate doesn't fullfil the predicate anymore
+    // car needs to be deleted because the numberPlate doesn't fullfil the predicate anymore
+    car!.numberPlate = "304 no more"
     try context.save()
 
     // Then

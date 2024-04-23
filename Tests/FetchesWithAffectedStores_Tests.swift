@@ -65,7 +65,8 @@ final class FetchesWithAffectedStores_Tests: XCTestCase {
     // fetchOne
     context.reset()
     let one = try FeedbackV2.fetchOneObject(in: context, where: predicate)
-    XCTAssertEqual(one?.objectID, feedbackPart1.objectID)  // first inserted is the first one to be fetched during a query
+    // first inserted is the first one to be fetched during a query
+    XCTAssertEqual(one?.objectID, feedbackPart1.objectID)
     let onePart1 = try FeedbackV2.fetchOneObject(in: context, where: predicate, affectedStores: [part1])
     XCTAssertEqual(onePart1?.objectID, feedbackPart1.objectID)
     let onePart2 = try FeedbackV2.fetchOneObject(in: context, where: predicate, affectedStores: [part2])
@@ -123,7 +124,8 @@ final class FetchesWithAffectedStores_Tests: XCTestCase {
     try context.save()
 
     XCTAssertEqual(try FeedbackV2.count(in: context) { $0.predicate = predicate2 }, 1)
-    try FeedbackV2.delete(in: context, includingSubentities: true, where: predicate2, limit: nil, affectedStores: nil)  // no affectedStores -> part1 & part2
+    // no affectedStores -> part1 & part2
+    try FeedbackV2.delete(in: context, includingSubentities: true, where: predicate2, limit: nil, affectedStores: nil)
     try context.save()
     XCTAssertEqual(try FeedbackV2.count(in: context) { $0.predicate = predicate2 }, 0)
 
@@ -149,7 +151,8 @@ final class FetchesWithAffectedStores_Tests: XCTestCase {
         $0.predicate = predicate2
         $0.affectedStores = [part2]
       }, 0)
-    try FeedbackV2.delete(in: context, except: [feedbackPart1, feedbackPart2], affectedStores: nil)  // no affectedStores -> part1 & part2
+    // no affectedStores -> part1 & part2
+    try FeedbackV2.delete(in: context, except: [feedbackPart1, feedbackPart2], affectedStores: nil)
     XCTAssertEqual(
       try FeedbackV2.count(in: context) {
         $0.predicate = predicate2

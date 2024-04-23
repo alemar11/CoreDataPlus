@@ -31,7 +31,9 @@ final class InMemoryPersistentContainer: NSPersistentContainer {
     // all the SQLite stores with that URL in the same process will connect to the shared in memory database
     // Different coordinators sharing the same in memory store will also dispatch remote change notifications to
     // each other
-    var url = URL(fileURLWithPath: "/dev/null")  // it's the same URL we get by default when we create a description like so: let description = NSPersistentStoreDescription()
+
+    // "/dev/null" it's the same URL we get by default when we create a description like so: let description = NSPersistentStoreDescription()
+    var url = URL(fileURLWithPath: "/dev/null")
     if let named = named {
       url.appendPathComponent(named)
     }

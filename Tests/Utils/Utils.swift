@@ -32,7 +32,7 @@ extension URL {
     return databaseURL
   }
 
-  static var temporaryDirectoryURL: URL {
+  static var temporaryDirectory: URL {
     let url = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
       .appendingPathComponent(bundleIdentifier)
       .appendingPathComponent(UUID().uuidString)
@@ -54,7 +54,7 @@ extension Foundation.Bundle {
 
   /// Returns the resource bundle associated with the current Swift module.
   /// Note: the implementation is very close to the one provided by the Swift Package with `Bundle.module` (that is not available for XCTests).
-  nonisolated(unsafe) static var tests_old_implementation: Bundle = {
+  nonisolated(unsafe) static var moduleOldImplementation: Bundle = {
     let bundleName = "CoreDataPlus_Tests"
 
     let candidates = [

@@ -72,7 +72,9 @@ final class Migrations_Tests: BaseTestCase {
 
     let context2 = migratedContainer.viewContext
     let luxuryCars = try context2.fetch(NSFetchRequest<NSManagedObject>(entityName: "LuxuryCar"))
-    luxuryCars.forEach { XCTAssertNotNil($0.value(forKey: "isLimitedEdition")) }
+    for car in luxuryCars {
+      XCTAssertNotNil(car.value(forKey: "isLimitedEdition"))
+    }
   }
 
   func test_IfMigrationIsNeeded() throws {
@@ -138,7 +140,7 @@ final class Migrations_Tests: BaseTestCase {
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
     XCTAssertTrue(cars.count >= 1)
 
-    cars.forEach { car in
+    for car in cars {
       if car is LuxuryCar || car is SportCar {
         XCTAssertEqual(car.entity.indexes.count, 0)
       } else if car is Car {
@@ -189,7 +191,7 @@ final class Migrations_Tests: BaseTestCase {
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
     XCTAssertTrue(cars.count >= 1)
 
-    cars.forEach { car in
+    for car in cars {
       if car is LuxuryCar || car is SportCar {
         XCTAssertEqual(car.entity.indexes.count, 0)
       } else if car is Car {
@@ -232,7 +234,7 @@ final class Migrations_Tests: BaseTestCase {
     XCTAssertEqual(makers.count, 10)
     XCTAssertEqual(cars.count, 125)
 
-    cars.forEach { object in
+    for object in cars {
       let owner = object.value(forKey: "owner") as? NSManagedObject
       let maker = object.value(forKey: "createdBy") as? NSManagedObject
       XCTAssertNotNil(maker)
@@ -300,7 +302,7 @@ final class Migrations_Tests: BaseTestCase {
 
     XCTAssertTrue(version == .version1)
 
-    let targetURL = URL.temporaryDirectoryURL.appendingPathComponent("SampleModel").appendingPathExtension("sqlite")
+    let targetURL = URL.temporaryDirectory.appendingPathComponent("SampleModel").appendingPathExtension("sqlite")
     let sourceDescription = NSPersistentStoreDescription(url: sourceURL)
     let destinationDescription = NSPersistentStoreDescription(url: targetURL)
     let migrator = Migrator<SampleModelVersion>(
@@ -321,7 +323,7 @@ final class Migrations_Tests: BaseTestCase {
     let makers = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Maker"))
     XCTAssertEqual(makers.count, 10)
 
-    makers.forEach { (maker) in
+    for maker in makers {
       let name = maker.value(forKey: "name") as! String
       maker.setValue("--\(name)--", forKey: "name")
     }
@@ -354,7 +356,8 @@ final class Migrations_Tests: BaseTestCase {
 extension Migrations_Tests {
   func createSQLiteSampleForV1() throws -> URL {
     let bundle = Bundle.tests
-    let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModelV1", withExtension: "sqlite"))  // 125 cars, 5 sport cars
+    // 125 cars, 5 sport cars
+    let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModelV1", withExtension: "sqlite"))
 
     // Being the test run multiple times, we create an unique copy for every test
     let uuid = UUID().uuidString
@@ -366,7 +369,8 @@ extension Migrations_Tests {
 
   func createSQLiteSampleForV2() throws -> URL {
     let bundle = Bundle.tests
-    let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModelV2", withExtension: "sqlite"))  // 125 cars, 5 sport cars
+    // 125 cars, 5 sport cars
+    let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModelV2", withExtension: "sqlite"))
 
     // Being the test run multiple times, we create an unique copy for every test
     let uuid = UUID().uuidString

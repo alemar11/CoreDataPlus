@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		06B3A5A62BD7E447009217C0 /* Swift-Format lint */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 06B3A5A92BD7E447009217C0 /* Build configuration list for PBXAggregateTarget "Swift-Format lint" */;
+			buildPhases = (
+				06B3A5AA2BD7E459009217C0 /* Lint */,
+			);
+			dependencies = (
+			);
+			name = "Swift-Format lint";
+			productName = "Swift-Format lint";
+		};
 		2364CE511FA383EF0076F2B8 /* SwiftLint */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 2364CE541FA383F00076F2B8 /* Build configuration list for PBXAggregateTarget "SwiftLint" */;
@@ -1198,6 +1209,9 @@
 					06AF614E26F091370090A61B = {
 						CreatedOnToolsVersion = 13.0;
 					};
+					06B3A5A62BD7E447009217C0 = {
+						CreatedOnToolsVersion = 15.3;
+					};
 					236350731F95EC1A00B3A16A = {
 						CreatedOnToolsVersion = 9.1;
 						LastSwiftMigration = 1240;
@@ -1266,6 +1280,7 @@
 				06968ACD26454AFF00088D76 /* CoreDataPlus Tests watchOS */,
 				2364CE511FA383EF0076F2B8 /* SwiftLint */,
 				2364CE561FA3843D0076F2B8 /* Cleanup Whitespace */,
+				06B3A5A62BD7E447009217C0 /* Swift-Format lint */,
 			);
 		};
 /* End PBXProject section */
@@ -1354,6 +1369,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		06B3A5AA2BD7E459009217C0 /* Lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Lint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swift-format >/dev/null; then\nswift-format lint ./Sources ./Tests --recursive --parallel --configuration ./.swift-format\nelse\necho \"swift-format not installed\"\nfi\n";
+		};
 		2364CE551FA384090076F2B8 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -2095,6 +2129,24 @@
 			};
 			name = Release;
 		};
+		06B3A5A72BD7E447009217C0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = TUY3F9922N;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		06B3A5A82BD7E447009217C0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = TUY3F9922N;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		2363507A1F95EC1A00B3A16A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2755,6 +2807,15 @@
 			buildConfigurations = (
 				06AF615926F091370090A61B /* Debug */,
 				06AF615A26F091370090A61B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		06B3A5A92BD7E447009217C0 /* Build configuration list for PBXAggregateTarget "Swift-Format lint" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06B3A5A72BD7E447009217C0 /* Debug */,
+				06B3A5A82BD7E447009217C0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

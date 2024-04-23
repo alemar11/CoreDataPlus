@@ -33,7 +33,8 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     }
 
     do {
-      XCTAssertNotNil(bookMappingModel.attributeMappings?.first(where: { $0.name == "frontCover" }))  // this is as far I can go
+      // this is as far I can go
+      XCTAssertNotNil(bookMappingModel.attributeMappings?.first(where: { $0.name == "frontCover" }))
       let mappingProperties = try XCTUnwrap(bookMappingModel.mappingProperties)
 
       XCTAssertEqual(mappingProperties.mappedProperties.count, 8)
@@ -47,8 +48,10 @@ final class ProgrammaticMigration_Tests: XCTestCase {
   func test_MigrationFromV1ToV2() throws {
     let url = URL.newDatabaseURL(withID: UUID())
 
+    // the migration works fine even if NSMigratePersistentStoresAutomaticallyOption is set to true,
+    // but it should be false
     let options = [
-      NSMigratePersistentStoresAutomaticallyOption: false,  // the migration works fine even if it's set to true, but it should be false
+      NSMigratePersistentStoresAutomaticallyOption: false,
       NSInferMappingModelAutomaticallyOption: false,
       NSPersistentHistoryTrackingKey: false,  // ⚠️ cannot be changed once set to true
       NSPersistentHistoryTokenKey: true,
@@ -56,7 +59,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
 
     let description = NSPersistentStoreDescription(url: url)
     description.configuration = nil
-    options.forEach { key, value in
+    for (key, value) in options {
       description.setOption(value as NSObject, forKey: key)
     }
 
@@ -78,7 +81,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     // Migration
     let sourceDescription = NSPersistentStoreDescription(url: url)
     let destinationDescription = NSPersistentStoreDescription(url: url)
-    options.forEach { key, value in
+    for (key, value) in options {
       sourceDescription.setOption(value as NSObject, forKey: key)
       destinationDescription.setOption(value as NSObject, forKey: key)
     }
@@ -101,7 +104,8 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     let authorRequest = NSFetchRequest<NSManagedObject>(entityName: "Author") as! NSFetchRequest<AuthorV2>
     let authors = try newContext.fetch(authorRequest)
     XCTAssertEqual(authors.count, 2)
-    authors.forEach { object in
+
+    for object in authors {
       object.materialize()
       object.alias += "-"
     }
@@ -109,7 +113,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     let bookRequest = NSFetchRequest<NSManagedObject>(entityName: "Book")
     let books = try newContext.fetch(bookRequest)
     XCTAssertEqual(books.count, 52)
-    books.forEach { object in
+    for object in books {
       object.materialize()
       XCTAssertNotNil(object.value(forKey: #keyPath(BookV2.frontCover)))
     }
@@ -123,8 +127,9 @@ final class ProgrammaticMigration_Tests: XCTestCase {
   }
 
   func test_MigrationFromV1ToV2WithMultipleStores() throws {
+    // the migration works fine even if NSMigratePersistentStoresAutomaticallyOption is set to true, but it should be false
     let options = [
-      NSMigratePersistentStoresAutomaticallyOption: false,  // the migration works fine even if it's set to true, but it should be false
+      NSMigratePersistentStoresAutomaticallyOption: false,
       NSInferMappingModelAutomaticallyOption: false,
       NSPersistentHistoryTrackingKey: true,  // ⚠️ cannot be changed once set to true
       NSPersistentHistoryTokenKey: true,
@@ -149,7 +154,8 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     // Migration
     let sourceDescription = NSPersistentStoreDescription(url: url)
     let destinationDescription = NSPersistentStoreDescription(url: url)
-    options.forEach { key, value in
+
+    for (key, value) in options {
       sourceDescription.setOption(value as NSObject, forKey: key)
       destinationDescription.setOption(value as NSObject, forKey: key)
     }
@@ -188,15 +194,17 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     let authorRequest = NSFetchRequest<NSManagedObject>(entityName: "Author") as! NSFetchRequest<AuthorV2>
     let authors = try newContext.fetch(authorRequest)
     XCTAssertEqual(authors.count, 2)
-    authors.forEach {
-      $0.materialize()
+
+    for author in authors {
+      author.materialize()
     }
     try newContext.save()
 
     let bookRequest = NSFetchRequest<NSManagedObject>(entityName: "Book") as! NSFetchRequest<BookV2>
     let books = try newContext.fetch(bookRequest)
     XCTAssertEqual(books.count, 52)
-    books.forEach { book in
+
+    for book in books {
       XCTAssertNotNil(book.value(forKey: #keyPath(BookV2.frontCover)))
     }
 
@@ -205,14 +213,15 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     let feedbacks = try newContext.fetch(feedbackRequest)
     XCTAssertEqual(feedbacks.count, 444)
 
-    feedbacks.forEach {
+    for fb in feedbacks {
       let feedback = FeedbackV2(context: newContext)
-      feedback.authorAlias = $0.authorAlias
-      feedback.bookID = $0.bookID
-      feedback.comment = $0.comment
-      feedback.rating = $0.rating * 10
+      feedback.authorAlias = fb.authorAlias
+      feedback.bookID = fb.bookID
+      feedback.comment = fb.comment
+      feedback.rating = fb.rating * 10
       newContext.assign(feedback, to: part2)  // or it will stored in the first added persistent store
     }
+
     try newContext.save()
 
     let feedbackRequest2 = NSFetchRequest<NSManagedObject>(entityName: "Feedback") as! NSFetchRequest<FeedbackV2>
@@ -246,8 +255,10 @@ final class ProgrammaticMigration_Tests: XCTestCase {
   func test_MigrationFromV1toV3() throws {
     let url = URL.newDatabaseURL(withID: UUID())
 
+    // the migration works fine even if NSMigratePersistentStoresAutomaticallyOption is set to true,
+    // but it should be false
     let options = [
-      NSMigratePersistentStoresAutomaticallyOption: false,  // the migration works fine even if it's set to true, but it should be false
+      NSMigratePersistentStoresAutomaticallyOption: false,
       NSInferMappingModelAutomaticallyOption: false,
       NSPersistentHistoryTrackingKey: true,  // ⚠️ cannot be changed once set to true
       NSPersistentHistoryTokenKey: true,
@@ -329,19 +340,21 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     XCTAssertEqual(author.books.count, 49)
     let feedbacksForAndrea = try XCTUnwrap(author.feedbacks)
     XCTAssertEqual(feedbacksForAndrea.count, 441)
-    feedbacksForAndrea.forEach {
-      if $0.comment.contains("great") {
+
+    for fb in feedbacksForAndrea {
+      if fb.comment.contains("great") {
         // min value assigned randomly is 1.3, during the migration all the ratings get a +10
-        XCTAssertTrue($0.rating >= 11.3)
+        XCTAssertTrue(fb.rating >= 11.3)
       } else {
         // The max value assigned randomly is 5.8
-        XCTAssertTrue($0.rating <= 5.8, "Rating \($0.rating) should be lesser than 5.8")
+        XCTAssertTrue(fb.rating <= 5.8, "Rating \(fb.rating) should be lesser than 5.8")
       }
     }
 
     let books = try XCTUnwrap(author.books as? Set<BookV3>)
-    books.forEach {
-      XCTAssertEqual($0.pages.count, 99)
+
+    for book in books {
+      XCTAssertEqual(book.pages.count, 99)
     }
 
     newContext._fix_sqlite_warning_when_destroying_a_store()

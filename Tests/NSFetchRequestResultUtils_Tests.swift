@@ -559,7 +559,7 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
     let kiasCars = try Car.fetchObjects(
       in: context, with: { $0.predicate = NSPredicate(format: "%K IN %@", #keyPath(Car.numberPlate), kias) })
     XCTAssertEqual(kiasCars.count, 3)
-    kiasCars.forEach { car in
+    for car in kiasCars {
       car.markForDelayedDeletion()
     }
     try context.save()
@@ -902,7 +902,7 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
     let expectation2 = self.expectation(description: "\(#function)\(#line)")
     let mainContext = container.viewContext
 
-    (1...10_000).forEach { (i) in
+    for i in 1...10_000 {
       let car = Car(context: mainContext)
       car.numberPlate = "test\(i)"
     }
@@ -1001,7 +1001,8 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
     let countExpressionDescription = NSExpressionDescription()
     countExpressionDescription.name = "count"  // alias
     countExpressionDescription.expression = expression
-    countExpressionDescription.expressionResultType = .integer64AttributeType  // in iOS 15 use resultType: NSAttributeDescription.AttributeType
+    // in iOS 15 use resultType: NSAttributeDescription.AttributeType
+    countExpressionDescription.expressionResultType = .integer64AttributeType
 
     let request = Car.fetchRequest()
     request.returnsObjectsAsFaults = false

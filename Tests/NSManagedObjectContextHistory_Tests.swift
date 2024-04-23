@@ -49,12 +49,12 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
 
     // cleaning avoiding SQLITE warnings
     let psc1 = viewContext1.persistentStoreCoordinator!
-    try psc1.persistentStores.forEach { store in
+    for store in psc1.persistentStores {
       try psc1.remove(store)
     }
 
     let psc2 = viewContext2.persistentStoreCoordinator!
-    try psc2.persistentStores.forEach { store in
+    for store in psc2.persistentStores {
       try psc2.remove(store)
     }
 
@@ -150,12 +150,12 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
 
     // cleaning avoiding SQLITE warnings
     let psc1 = viewContext1.persistentStoreCoordinator!
-    try psc1.persistentStores.forEach { store in
+    for store in psc1.persistentStores {
       try psc1.remove(store)
     }
 
     let psc2 = viewContext2.persistentStoreCoordinator!
-    try psc2.persistentStores.forEach { store in
+    for store in psc2.persistentStores {
       try psc2.remove(store)
     }
 
@@ -191,7 +191,8 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
     // Given
     let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
     let storeURL = URL.newDatabaseURL(withID: UUID())
-    let options: PersistentStoreOptions = [NSPersistentHistoryTrackingKey: true as NSNumber]  // enable History Tracking
+    // enable History Tracking
+    let options: PersistentStoreOptions = [NSPersistentHistoryTrackingKey: true as NSNumber]
     try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
     let expectation1 = expectation(description: "\(#function)\(#line)")
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
@@ -217,8 +218,8 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
     XCTAssertTrue(result)
 
     // cleaning avoiding SQLITE warnings
-    try psc.persistentStores.forEach {
-      try psc.remove($0)
+    for store in psc.persistentStores {
+      try psc.remove(store)
     }
     try NSPersistentStoreCoordinator.destroyStore(at: storeURL)
   }
@@ -252,8 +253,8 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
     cancellable.cancel()
 
     // cleaning avoiding SQLITE warnings
-    try psc.persistentStores.forEach {
-      try psc.remove($0)
+    for store in psc.persistentStores {
+      try psc.remove(store)
     }
     try NSPersistentStoreCoordinator.destroyStore(at: storeURL)
   }
@@ -369,11 +370,11 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
 
     // cleaning avoiding SQLITE warnings
     let psc1 = viewContext1.persistentStoreCoordinator!
-    try psc1.persistentStores.forEach { store in
+    for store in psc1.persistentStores {
       try psc1.remove(store)
     }
 
-    try psc2.persistentStores.forEach { store in
+    for store in psc2.persistentStores {
       try psc2.remove(store)
     }
 
@@ -466,7 +467,8 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
       let transactions = try viewContext2.performAndWait { _ -> [NSPersistentHistoryTransaction] in
         // swiftlint:disable force_cast
         let history = try viewContext2.execute(transactionRequest) as! NSPersistentHistoryResult
-        let transactions = history.result as! [NSPersistentHistoryTransaction]  // ordered from the oldest to the most recent
+        // ordered from the oldest to the most recent
+        let transactions = history.result as! [NSPersistentHistoryTransaction]
         // swiftlint:enable force_cast
         return transactions
       }
@@ -497,7 +499,8 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
 
       let transactions = try viewContext2.performAndWait { _ -> [NSPersistentHistoryTransaction] in
         let history = try viewContext2.execute(changeRequest) as! NSPersistentHistoryResult
-        let transactions = history.result as! [NSPersistentHistoryTransaction]  // ordered from the oldest to the most recent
+        // ordered from the oldest to the most recent
+        let transactions = history.result as! [NSPersistentHistoryTransaction]
         return transactions
       }
 
@@ -512,9 +515,10 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
 
     do {
       // ⏺ Query the "Change" entity by "changeType" and "changedEntity"
+      // (sub entities are ignored by the second predicate)
       let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
         NSPredicate(format: "changeType == %d", NSPersistentHistoryChangeType.insert.rawValue),
-        NSPredicate(format: "changedEntity == %@ || changedEntity == %@", Car.entity(), Person.entity()),  // ignores sub entities
+        NSPredicate(format: "changedEntity == %@ || changedEntity == %@", Car.entity(), Person.entity()),
       ])
 
       let request = try XCTUnwrap(NSPersistentHistoryChangeRequest.makeChangeFetchRequest(with: viewContext2))
@@ -594,7 +598,8 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
       request.predicate = NSPredicate(format: "%K = %@", column, Car.entity())
 
       let historyFetchRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: secondLastToken)
-      historyFetchRequest.fetchRequest = request  // ⚠️ WWDC 2020: history requests can be tailored using the fetchRequest property
+      // ⚠️ WWDC 2020: history requests can be tailored using the fetchRequest property
+      historyFetchRequest.fetchRequest = request
       historyFetchRequest.resultType = .changesOnly  // ⚠️ impact the return type
       let changes = try viewContext2.historyChanges(using: historyFetchRequest)
 

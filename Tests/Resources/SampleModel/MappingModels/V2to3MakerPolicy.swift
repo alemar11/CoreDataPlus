@@ -8,7 +8,7 @@ final class V2to3MakerPolicy: NSEntityMigrationPolicy {
   ) throws {
     try super.createDestinationInstances(forSource: sInstance, in: mapping, manager: manager)
 
-    guard let makerName = sInstance.value(forKey: MakerKey) as? String else {
+    guard let makerName = sInstance.value(forKey: makerKey) as? String else {
       return
     }
 
@@ -32,13 +32,13 @@ final class V2to3MakerPolicy: NSEntityMigrationPolicy {
     // and memory pressure)
     // let maker = context.findOrCreateMaker(withName: makerName, in: manager)
 
-    if var currentCars = maker.value(forKey: CarsKey) as? Set<NSManagedObject> {
+    if var currentCars = maker.value(forKey: carsKey) as? Set<NSManagedObject> {
       currentCars.insert(car)
-      maker.setValue(currentCars, forKey: CarsKey)
+      maker.setValue(currentCars, forKey: carsKey)
     } else {
       var cars = Set<NSManagedObject>()
       cars.insert(car)
-      maker.setValue(cars, forKey: CarsKey)
+      maker.setValue(cars, forKey: carsKey)
     }
   }
   override func endInstanceCreation(forMapping mapping: NSEntityMapping, manager: NSMigrationManager) throws {
@@ -47,15 +47,15 @@ final class V2to3MakerPolicy: NSEntityMigrationPolicy {
   }
 }
 
-private let CarsKey = "cars"
-private let MakerKey = "maker"
-private let NameKey = "name"
-private let MakerEntityName = "Maker"
-private let CountryEntityName = "Country"
+private let carsKey = "cars"
+private let makerKey = "maker"
+private let nameKey = "name"
+private let makerEntityName = "Maker"
+private let countryEntityName = "Country"
 
 extension NSManagedObject {
   fileprivate func isMaker(withName name: String) -> Bool {
-    entity.name == MakerEntityName && (value(forKey: NameKey) as? String) == name
+    entity.name == makerEntityName && (value(forKey: nameKey) as? String) == name
   }
 }
 
@@ -80,8 +80,8 @@ extension NSManagedObjectContext {
       return maker
     }
 
-    let maker = NSEntityDescription.insertNewObject(forEntityName: MakerEntityName, into: self)
-    maker.setValue(name, forKey: NameKey)
+    let maker = NSEntityDescription.insertNewObject(forEntityName: makerEntityName, into: self)
+    maker.setValue(name, forKey: nameKey)
     makersLookup[name] = maker
     userInfo["makers"] = makersLookup
     manager.userInfo = userInfo
@@ -90,8 +90,8 @@ extension NSManagedObjectContext {
 
   fileprivate func findOrCreateMaker(withName name: String) -> NSManagedObject {
     guard let maker = materializedObject(matching: { $0.isMaker(withName: name) }) else {
-      let maker = NSEntityDescription.insertNewObject(forEntityName: MakerEntityName, into: self)
-      maker.setValue(name, forKey: NameKey)
+      let maker = NSEntityDescription.insertNewObject(forEntityName: makerEntityName, into: self)
+      maker.setValue(name, forKey: nameKey)
       return maker
     }
     return maker

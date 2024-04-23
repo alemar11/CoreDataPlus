@@ -332,7 +332,8 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
     )
 
     try childContext.performAndWait {
-      XCTAssertFalse(childContext.registeredObjects.isEmpty)  // ⚠️ this condition is verified only because we have dirted the context after a save
+      // ⚠️ this condition is verified only because we have dirted the context after a save
+      XCTAssertFalse(childContext.registeredObjects.isEmpty)
       let car = try XCTUnwrap($0.object(with: id) as? Car)
       XCTAssertEqual(car.currentDrivingSpeed, 20)
       try $0.save()
@@ -343,7 +344,8 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
     )
 
     try childContext.performAndWait {
-      XCTAssertTrue(childContext.registeredObjects.isEmpty)  // ⚠️ it seems that after a save, the objects are freed unless the context gets dirted again
+      // ⚠️ it seems that after a save, the objects are freed unless the context gets dirted again
+      XCTAssertTrue(childContext.registeredObjects.isEmpty)
       let car = try XCTUnwrap(try Car.fetchUniqueObject(in: $0, where: predicate))
       XCTAssertEqual(car.currentDrivingSpeed, 0)
     }
@@ -411,7 +413,7 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
         fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
       try frc.performFetch()
       // A SELECT with LIMIT 10 is executed every 10 looped cars ✅
-      frc.fetchedObjects?.forEach { car in
+      for car in frc.fetchedObjects ?? [] {
         let _ = car as! Car
       }
     }
@@ -430,7 +432,7 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
     let cars = try Car.fetchNSArray(in: context) { $0.fetchBatchSize = 10 }
 
     // This for loop will trigger a SELECT with LIMIT 10 every 10 looped cars. ✅
-    cars.forEach { car in
+    for car in cars {
       let _ = car as! Car
     }
 
@@ -461,11 +463,11 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
     // let results__batchSize_not_working = try context.fetch(request) as! [Dictionary<String,Any>] // triggers 13 SELECT with LIMIT 10 ❌
 
     //    // triggers only SELECT t0.Z_ENT, t0.Z_PK FROM ZCAR t0
-    let results_batchSize_working = try context.fetch(request) as! [NSDictionary]
+    let resultsBatchSizeWorking = try context.fetch(request) as! [NSDictionary]
 
     //    // triggers only a single SELECT with LIMIT 10 ✅
     //    // SELECT t0.ZMAKER, t0.Z_ENT, t0.Z_PK FROM ZCAR t0 WHERE  t0.Z_PK IN (SELECT * FROM _Z_intarray0) LIMIT 10
-    XCTAssertNotNil(results_batchSize_working.first)
+    XCTAssertNotNil(resultsBatchSizeWorking.first)
   }
 
   // MARK: - UndoManager

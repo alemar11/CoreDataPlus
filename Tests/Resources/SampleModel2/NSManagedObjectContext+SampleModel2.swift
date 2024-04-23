@@ -22,7 +22,7 @@ extension NSManagedObjectContext {
     book1.title = "title 1 - author 1"
     book1.uniqueID = UUID()
 
-    (1..<100).forEach { index in
+    for index in 1..<100 {
       let page = Page(context: self)
       page.book = book1
       page.number = Int32(index)
@@ -39,7 +39,7 @@ extension NSManagedObjectContext {
     book2.uniqueID = UUID()
 
     let book2Pages = NSMutableSet()
-    (1..<2).forEach { index in
+    for index in 1..<2 {
       let page = Page(context: self)
       page.book = book2
       page.number = Int32(index)
@@ -58,7 +58,7 @@ extension NSManagedObjectContext {
     graphicNovel1.cover = Cover(text: "Cover Graphic Novel")
 
     let graphicNovel1Pages = NSMutableSet()
-    (1..<20).forEach { index in
+    for index in 1..<20 {
       let page = Page(context: self)
       page.book = graphicNovel1
       page.number = Int32(index)
@@ -99,7 +99,7 @@ extension NSManagedObjectContext {
     author.alias = "Andrea"
     author.age = 30
 
-    (1..<50).forEach { index in
+    for index in 1..<50 {
       let book = Book(context: self)
       book.price = NSDecimalNumber(10.11)
       book.publishedAt = Date()
@@ -107,7 +107,7 @@ extension NSManagedObjectContext {
       book.uniqueID = UUID()
       book.author = author
 
-      (1..<100).forEach { index in
+      for index in 1..<100 {
         let page = Page(context: self)
         page.book = book
         page.number = Int32(index)
@@ -116,7 +116,7 @@ extension NSManagedObjectContext {
         book.addToPages(page)
       }
 
-      (1..<10).forEach { _ in
+      for index in 1..<10 {
         let feedbackBook1 = Feedback(context: self)
         feedbackBook1.bookID = book.uniqueID
         feedbackBook1.rating = [1.3, 2.4, 3.5, 4.6, 5.8].randomElement()!
@@ -148,7 +148,7 @@ extension NSManagedObjectContext {
     book1.frontCover = coverForBook1
     coverForBook1.book = book1
 
-    (1..<100).forEach { index in
+    for index in 1..<100 {
       let page = PageV3(context: self)
       page.book = book1
       page.number = Int32(index)
@@ -170,7 +170,7 @@ extension NSManagedObjectContext {
     coverForBook2.book = book2
 
     let book2Pages = NSMutableSet()
-    (1..<2).forEach { index in
+    for index in 1..<2 {
       let page = PageV3(context: self)
       page.book = book2
       page.number = Int32(index)
@@ -193,7 +193,7 @@ extension NSManagedObjectContext {
     coverForGraphicNovel1.book = graphicNovel1
 
     let graphicNovel1Pages = NSMutableSet()
-    (1..<20).forEach { index in
+    for index in 1..<20 {
       let page = PageV3(context: self)
       page.book = graphicNovel1
       page.number = Int32(index)

@@ -120,13 +120,14 @@ final class NotificationPayload_Tests: InMemoryTestCase {
       expectation.fulfill()
     }
 
+    // on a background context, processPendingChanges() must be called to trigger the notification
     backgroundContext.performAndWait {
       let car = Car(context: backgroundContext)
       car.maker = "FIAT"
       car.model = "Panda"
       car.numberPlate = "1"
       car.maker = "123!"
-      backgroundContext.processPendingChanges()  // on a background context, processPendingChanges() must be called to trigger the notification
+      backgroundContext.processPendingChanges()
     }
     waitForExpectations(timeout: 5)
     cancellable.cancel()
@@ -356,9 +357,9 @@ final class NotificationPayload_Tests: InMemoryTestCase {
 
         // To register changes from other contexts, we need to materialize and keep object inserted from other contexts
         // otherwise you will receive notifications only for used objects (in this case there are used objects by context0)
-        payload.insertedObjects.forEach {
-          $0.willAccessValue(forKey: nil)
-          holds.insert($0)
+        for object in payload.insertedObjects {
+          object.willAccessValue(forKey: nil)
+          holds.insert(object)
         }
         count += 1
         expectation1.fulfill()
@@ -433,7 +434,7 @@ final class NotificationPayload_Tests: InMemoryTestCase {
 
     // 10 Pandas are created on backgroundContext2
     try backgroundContext2.performAndWait { _ in
-      try (1...10).forEach { numberPlate in
+      for numberPlate in 1...10 {
         let car = Car(context: backgroundContext2)
         car.maker = "FIAT"
         car.model = "Panda"
@@ -455,7 +456,11 @@ final class NotificationPayload_Tests: InMemoryTestCase {
     let fetch = Car.newFetchRequest()
     fetch.predicate = NSPredicate(format: "%K IN %@", #keyPath(Car.numberPlate), ["1", "2"])
     let cars = try viewContext.fetch(fetch)
-    cars.forEach { $0.willAccessValue(forKey: nil) }
+
+    for car in cars {
+      car.willAccessValue(forKey: nil)
+    }
+
     XCTAssertEqual(cars.count, 2)
 
     let expectation1 = self.expectation(description: "DidChange for Panda with number plate: 2")
@@ -582,7 +587,10 @@ final class NotificationPayload_Tests: InMemoryTestCase {
 
     try context.save()
     waitForExpectations(timeout: 2)
-    cancellables.forEach { $0.cancel() }
+
+    for cancellable in cancellables {
+      cancellable.cancel()
+    }
   }
 
   func test_ObserveInsertionsUpdatesAndDeletesOnDidSaveNotification() throws {
@@ -650,7 +658,10 @@ final class NotificationPayload_Tests: InMemoryTestCase {
 
     try context.save()
     waitForExpectations(timeout: 2)
-    cancellables.forEach { $0.cancel() }
+
+    for cancellable in cancellables {
+      cancellable.cancel()
+    }
   }
 
   func test_ObserveMultipleChangesUsingPersistentStoreCoordinatorWithChildAndParentContexts() throws {
@@ -1040,7 +1051,10 @@ final class NotificationPayloadOnDiskTests: OnDiskTestCase {
 
     try context.save()
     waitForExpectations(timeout: 2)
-    cancellables.forEach { $0.cancel() }
+
+    for cancellable in cancellables {
+      cancellable.cancel()
+    }
   }
 
   func test_InvestigationInsertionsInChildContextOnDidSaveNotification() throws {
@@ -1078,7 +1092,10 @@ final class NotificationPayloadOnDiskTests: OnDiskTestCase {
 
     try childViewContext.save()
     waitForExpectations(timeout: 5)
-    cancellables.forEach { $0.cancel() }
+
+    for cancellable in cancellables {
+      cancellable.cancel()
+    }
   }
 
   func test_InvestigationNSPersistentStoreCoordinatorStoresNotifications() throws {
@@ -1090,25 +1107,23 @@ final class NotificationPayloadOnDiskTests: OnDiskTestCase {
     NotificationCenter.default.publisher(for: .NSPersistentStoreCoordinatorStoresWillChange, object: nil)
       .sink { notification in
         XCTFail("AFAIK this notification is sent only for deprecated settings for CoreDataUbiquitySupport.")
-        /*
-         Sample of a notification.userInfo (generated from anothr project):
-
-         ▿ 3 elements
-         ▿ 0 : 2 elements
-         ▿ key : AnyHashable("removed")
-         - value : "removed"
-         ▿ value : 1 element
-         - 0 : <NSSQLCore: 0x11de25700> (URL: file:///var/mobile/Containers/Data/Application/A926CA73-AF4D-44E8-ADE5-246ED7F20D7B/Documents/CoreDataUbiquitySupport/mobile~18720936-2A3A-4C6F-BF8E-DF042ED5A917/MY_NAME/D26F608C-F8AC-4E51-AF6C-007B7DC56B7E/store/db.sqlite)
-         ▿ 1 : 2 elements
-         ▿ key : AnyHashable("NSPersistentStoreUbiquitousTransitionTypeKey")
-         - value : "NSPersistentStoreUbiquitousTransitionTypeKey"
-         - value : 4
-         ▿ 2 : 2 elements
-         ▿ key : AnyHashable("added")
-         - value : "added"
-         ▿ value : 1 element
-         - 0 : <NSSQLCore: 0x11de25700> (URL: file:///var/mobile/Containers/Data/Application/A926CA73-AF4D-44E8-ADE5-246ED7F20D7B/Documents/CoreDataUbiquitySupport/mobile~18720936-2A3A-4C6F-BF8E-DF042ED5A917/MY_NAME/D26F608C-F8AC-4E51-AF6C-007B7DC56B7E/store/db.sqlite)
-         */
+        //         Sample of a notification.userInfo (generated from anothr project):
+        //
+        //         ▿ 3 elements
+        //         ▿ 0 : 2 elements
+        //         ▿ key : AnyHashable("removed")
+        //         - value : "removed"
+        //         ▿ value : 1 element
+        //         - 0 : <NSSQLCore: 0x11de25700> (URL: file:///var/mobile/Containers/Data/Application/A926CA73-AF4D-44E8-ADE5-246ED7F20D7B/Documents/CoreDataUbiquitySupport/mobile~18720936-2A3A-4C6F-BF8E-DF042ED5A917/MY_NAME/D26F608C-F8AC-4E51-AF6C-007B7DC56B7E/store/db.sqlite)
+        //         ▿ 1 : 2 elements
+        //         ▿ key : AnyHashable("NSPersistentStoreUbiquitousTransitionTypeKey")
+        //         - value : "NSPersistentStoreUbiquitousTransitionTypeKey"
+        //         - value : 4
+        //         ▿ 2 : 2 elements
+        //         ▿ key : AnyHashable("added")
+        //         - value : "added"
+        //         ▿ value : 1 element
+        //         - 0 : <NSSQLCore: 0x11de25700> (URL: file:///var/mobile/Containers/Data/Application/A926CA73-AF4D-44E8-ADE5-246ED7F20D7B/Documents/CoreDataUbiquitySupport/mobile~18720936-2A3A-4C6F-BF8E-DF042ED5A917/MY_NAME/D26F608C-F8AC-4E51-AF6C-007B7DC56B7E/store/db.sqlite)
       }.store(in: &cancellables)
 
     NotificationCenter.default.publisher(for: .NSPersistentStoreCoordinatorStoresDidChange, object: nil)
@@ -1131,27 +1146,20 @@ final class NotificationPayloadOnDiskTests: OnDiskTestCase {
           XCTAssertEqual(changedStore.newStore.url, finalStoreURL)
           XCTAssertEqual(changedStore.migratedIDs.count, 4)
 
-          /*
-           Sample Log
+          // Sample Log
+          // ➡️ ObjectIDs after save in the old store
+          // 0xc4549980eaebab6a <x-coredata://1996EEB5-8536-4968-8725-FBC0D06A3F72/Person/p1> // A
+          // 0xc4549980eae7ab6a <x-coredata://1996EEB5-8536-4968-8725-FBC0D06A3F72/Person/p2> // B
+          // ➡️  ObjectIDs returned as third element by the NSPersistentStoreCoordinatorStoresDidChange
+          // It contains both the old and new ObjectIds in sequence.
+          // 0xc4549980eaebab6a <x-coredata://1996EEB5-8536-4968-8725-FBC0D06A3F72/Person/p1> // A
+          // 0xc4549980eae7ab6e <x-coredata://0E12C804-B3CA-4CC3-9CD0-A98A473C3C3C/Person/p2> // A1
+          // 0xc4549980eae7ab6a <x-coredata://1996EEB5-8536-4968-8725-FBC0D06A3F72/Person/p2> // B
+          // 0xc4549980eaebab6e <x-coredata://0E12C804-B3CA-4CC3-9CD0-A98A473C3C3C/Person/p1> // B1
+          // ➡️ ObjectIDs after fetch with the new store
+          // 0xc4549980eae7ab6e <x-coredata://0E12C804-B3CA-4CC3-9CD0-A98A473C3C3C/Person/p2> // A1
+          // 0xc4549980eaebab6e <x-coredata://0E12C804-B3CA-4CC3-9CD0-A98A473C3C3C/Person/p1> // B1
 
-           ➡️ ObjectIDs after save in the old store
-
-           0xc4549980eaebab6a <x-coredata://1996EEB5-8536-4968-8725-FBC0D06A3F72/Person/p1> // A
-           0xc4549980eae7ab6a <x-coredata://1996EEB5-8536-4968-8725-FBC0D06A3F72/Person/p2> // B
-
-           ➡️  ObjectIDs returned as third element by the NSPersistentStoreCoordinatorStoresDidChange
-           It contains both the old and new ObjectIds in sequence.
-
-           0xc4549980eaebab6a <x-coredata://1996EEB5-8536-4968-8725-FBC0D06A3F72/Person/p1> // A
-           0xc4549980eae7ab6e <x-coredata://0E12C804-B3CA-4CC3-9CD0-A98A473C3C3C/Person/p2> // A1
-           0xc4549980eae7ab6a <x-coredata://1996EEB5-8536-4968-8725-FBC0D06A3F72/Person/p2> // B
-           0xc4549980eaebab6e <x-coredata://0E12C804-B3CA-4CC3-9CD0-A98A473C3C3C/Person/p1> // B1
-
-           ➡️ ObjectIDs after fetch with the new store
-
-           0xc4549980eae7ab6e <x-coredata://0E12C804-B3CA-4CC3-9CD0-A98A473C3C3C/Person/p2> // A1
-           0xc4549980eaebab6e <x-coredata://0E12C804-B3CA-4CC3-9CD0-A98A473C3C3C/Person/p1> // B1
-           */
         } else if let removedStore = payload.removedStores.first {
           if removedStore.url == initialStoreURL {
             // 6
@@ -1203,16 +1211,16 @@ final class NotificationPayloadOnDiskTests: OnDiskTestCase {
     // triggers a NSPersistentStoreCoordinatorWillRemoveStore (3) for initial URL
     // triggers a NSPersistentStoreCoordinatorStoresDidChange (6)
 
-    try psc.persistentStores.forEach {
-      try psc.migratePersistentStore($0, to: finalStoreURL, options: nil, withType: NSSQLiteStoreType)
+    for store in psc.persistentStores {
+      try psc.migratePersistentStore(store, to: finalStoreURL, options: nil, withType: NSSQLiteStoreType)
     }
 
     // let people = try Person.fetch(in: context) { $0.sortDescriptors = [NSSortDescriptor(key: #keyPath(Person.firstName), ascending: false)] } // used only to create the sample log
 
     // triggers a NSPersistentStoreCoordinatorWillRemoveStore (4) for final URL
     // triggers a NSPersistentStoreCoordinatorStoresDidChange (7)
-    try psc.persistentStores.forEach {
-      try psc.remove($0)
+    for store in psc.persistentStores {
+      try psc.remove(store)
     }
 
     context._fix_sqlite_warning_when_destroying_a_store()

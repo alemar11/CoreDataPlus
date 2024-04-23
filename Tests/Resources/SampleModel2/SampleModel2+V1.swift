@@ -206,7 +206,7 @@ extension SampleModel2.V1 {
     isBookmarked.isOptional = false
     isBookmarked.defaultValue = false
 
-    let content = NSAttributeDescription.customTransformable(for: Content.self, name: #keyPath(Page.content)) {  //(content: Content?) -> Data? in
+    let content = NSAttributeDescription.customTransformable(for: Content.self, name: #keyPath(Page.content)) {
       guard let content = $0 else { return nil }
       return try? NSKeyedArchiver.archivedData(withRootObject: content, requiringSecureCoding: true)
     } reverse: {  //data -> Content? in

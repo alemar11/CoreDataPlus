@@ -112,8 +112,10 @@ final class NotificationMerge_Tests: InMemoryTestCase {
       XCTAssertNotNil(updatedPersonAfterCorrect)
 
       XCTAssertEqual(viewContext.registeredObjects.count, 2)
-      XCTAssertEqual(viewContext.insertedObjects.count, 0)  // no objects have been inserted (but not yet saved) in this context
-      XCTAssertEqual(viewContext.deletedObjects.count, 1)  // a previously registered object has been deleted from this context
+      // no objects have been inserted (but not yet saved) in this context
+      XCTAssertEqual(viewContext.insertedObjects.count, 0)
+      // a previously registered object has been deleted from this context
+      XCTAssertEqual(viewContext.deletedObjects.count, 1)
       expectation1.fulfill()
     }
 
@@ -137,13 +139,13 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     let viewContext = container.viewContext
     let backgroundContext = container.viewContext.newBackgroundContext(asChildContext: false)
 
-    let person1_inserted = Person(context: viewContext)
-    person1_inserted.firstName = "Edythe"
-    person1_inserted.lastName = "Moreton"
+    let person1Inserted = Person(context: viewContext)
+    person1Inserted.firstName = "Edythe"
+    person1Inserted.lastName = "Moreton"
 
-    let person2_inserted = Person(context: viewContext)
-    person2_inserted.firstName = "Ellis"
-    person2_inserted.lastName = "Khoury"
+    let person2Inserted = Person(context: viewContext)
+    person2Inserted.firstName = "Ellis"
+    person2Inserted.lastName = "Khoury"
 
     try viewContext.save()
 
@@ -246,9 +248,9 @@ final class NotificationMerge_Tests: InMemoryTestCase {
         person.firstName += " Updated"
       }
 
-      let person3_inserted = Person(context: backgroundContext)
-      person3_inserted.firstName = "Alessandro"
-      person3_inserted.lastName = "Marzoli"
+      let person3Inserted = Person(context: backgroundContext)
+      person3Inserted.firstName = "Alessandro"
+      person3Inserted.lastName = "Marzoli"
 
       try! backgroundContext.save()  // fires [0], [4] and then [1]
     }
@@ -293,13 +295,13 @@ final class NotificationMerge_Tests: InMemoryTestCase {
       expectation3.fulfill()
     }
 
-    let person1_inserted = Person(context: context)
-    person1_inserted.firstName = "Edythe"
-    person1_inserted.lastName = "Moreton"
+    let person1Inserted = Person(context: context)
+    person1Inserted.firstName = "Edythe"
+    person1Inserted.lastName = "Moreton"
 
-    let person2_inserted = Person(context: context)
-    person2_inserted.firstName = "Ellis"
-    person2_inserted.lastName = "Khoury"
+    let person2Inserted = Person(context: context)
+    person2Inserted.firstName = "Ellis"
+    person2Inserted.lastName = "Khoury"
 
     try context.save()
 
@@ -310,9 +312,9 @@ final class NotificationMerge_Tests: InMemoryTestCase {
         person.firstName += " Updated"
       }
 
-      let person3_inserted = Person(context: anotherContext)
-      person3_inserted.firstName = "Alessandro"
-      person3_inserted.lastName = "Marzoli"
+      let person3Inserted = Person(context: anotherContext)
+      person3Inserted.firstName = "Alessandro"
+      person3Inserted.lastName = "Marzoli"
 
       try anotherContext.save()
     }
@@ -490,18 +492,16 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     cancellable2.cancel()
   }
 
-  /**
-   NSFetchedResultsController: Handling Object Invalidation
-
-   https://developer.apple.com/documentation/coredata/nsfetchedresultscontroller
-
-   When a managed object context notifies the fetched results controller that individual objects are invalidated, the controller treats these as deleted objects and sends the proper delegate calls.
-
-   It’s possible for all the objects in a managed object context to be invalidated simultaneously.
-   (For example, as a result of calling reset(), or if a store is removed from the the persistent store coordinator.).
-   When this happens, NSFetchedResultsController does not invalidate all objects, nor does it send individual notifications for object deletions.
-   Instead, you must call performFetch() to reset the state of the controller then reload the data in the table view (reloadData()).
-   **/
+  /// NSFetchedResultsController: Handling Object Invalidation
+  ///
+  /// https://developer.apple.com/documentation/coredata/nsfetchedresultscontroller
+  ///
+  /// When a managed object context notifies the fetched results controller that individual objects are invalidated, the controller treats these as deleted objects and sends the proper delegate calls.
+  ///
+  /// It’s possible for all the objects in a managed object context to be invalidated simultaneously.
+  /// (For example, as a result of calling reset(), or if a store is removed from the the persistent store coordinator.).
+  /// When this happens, NSFetchedResultsController does not invalidate all objects, nor does it send individual notifications for object deletions.
+  /// Instead, you must call performFetch() to reset the state of the controller then reload the data in the table view (reloadData()).
   class FetchedResultsControllerMockDelegate: NSObject, NSFetchedResultsControllerDelegate {
     var updatedObjects = [Any]()
     var insertedObjects = [Any]()

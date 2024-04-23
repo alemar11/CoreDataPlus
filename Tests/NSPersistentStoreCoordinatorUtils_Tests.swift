@@ -38,7 +38,8 @@ final class NSPersistentStoreCoordinatorUtils_Tests: BaseTestCase {
     XCTAssertNotNil(updatedMetaData2["testKey"])
     XCTAssertEqual(updatedMetaData2["testKey"] as? String, "Test")
 
-    try psc2.removeAllStores()  // container2 must unload the store otherwise container1 can't be destroyed (SQLITE error) because they point to the same db
+    // container2 must unload the store otherwise container1 can't be destroyed (SQLITE error) because they point to the same db
+    try psc2.removeAllStores()
     try container1.destroy()
     try container2.destroy()
   }
