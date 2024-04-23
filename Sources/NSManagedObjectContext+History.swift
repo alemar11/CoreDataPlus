@@ -30,7 +30,8 @@ extension NSManagedObjectContext {
     historyFetchRequest.resultType = enableChanges ? .transactionsAndChanges : .transactionsOnly
     // swiftlint:disable force_cast
     let history = try execute(historyFetchRequest) as! NSPersistentHistoryResult
-    let transactions = history.result as! [NSPersistentHistoryTransaction]  // ordered from the oldest to the most recent
+    // ordered from the oldest to the most recent
+    let transactions = history.result as! [NSPersistentHistoryTransaction]
     // swiftlint:enable force_cast
     return transactions
   }

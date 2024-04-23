@@ -265,7 +265,7 @@ extension ModelVersion {
       return results
     }
 
-    mappingModelNames.forEach { name in
+    for name in mappingModelNames {
       let expectedFileName = "\(name).\(ModelVersionFileExtension.cdm)"
       if let url = allMappingModelsURLs.first(where: { $0.lastPathComponent == expectedFileName }),
         let mappingModel = NSMappingModel(contentsOf: url)

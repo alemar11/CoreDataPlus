@@ -58,7 +58,9 @@ extension NSPersistentStoreCoordinator {
 
   /// Removes all the stores associated with the coordinator.
   public func removeAllStores() throws {
-    try persistentStores.forEach { try remove($0) }
+    for store in persistentStores {
+      try remove(store)
+    }
   }
 }
 

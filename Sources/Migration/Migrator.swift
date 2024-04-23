@@ -163,7 +163,8 @@ extension Migrator {
     let migrationStepsProgress = Progress(
       totalUnitCount: Int64(steps.count), parent: progress, pendingUnitCount: progress.totalUnitCount)
     var currentURL = sourceURL
-    try steps.enumerated().forEach { (stepIndex, step) in
+
+    for (stepIndex, step) in steps.enumerated() {
       // swiftlint:disable:next line_length
       log.info(
         "Step \(stepIndex + 1, privacy: .public) (of \(steps.count, privacy: .public)) started: \(step.sourceVersion.debugDescription, privacy: .public) to \(step.destinationVersion.debugDescription, privacy: .public)"

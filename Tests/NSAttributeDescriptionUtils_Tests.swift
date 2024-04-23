@@ -89,7 +89,12 @@ final class NSAttributeDescriptionUtils_Tests: XCTestCase {
 
   func test_CustomTransformable() {
     let color = Color(name: "color")
-    let attribute = NSAttributeDescription.customTransformable(for: Color.self, name: #function, defaultValue: color) { _ in nil } reverse: { _ in nil }
+    let attribute = NSAttributeDescription.customTransformable(for: Color.self, name: #function, defaultValue: color) {
+      _ in
+      nil
+    } reverse: { _ in
+      nil
+    }
     XCTAssertEqual(attribute.name, #function)
     XCTAssertEqual(attribute.defaultValue as? Color, color)
   }
