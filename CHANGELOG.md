@@ -1,5 +1,12 @@
 # Changelog
 
+### 6.0.0 ⭐
+
+- Xcode 15
+- Swift 5.10
+- VisionOS support
+- Swift Concurrency support
+
 ### 5.0.0 ⭐
 
 - Xcode 13.
