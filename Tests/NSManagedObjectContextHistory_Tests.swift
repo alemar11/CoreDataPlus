@@ -140,7 +140,7 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
 
     let result = try viewContext2.mergeTransactions(transactionsFromDistantPast)
     XCTAssertNotNil(result)
-    
+
     waitForExpectations(timeout: 5, handler: nil)
 
     try viewContext2.save()
