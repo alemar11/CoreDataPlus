@@ -128,7 +128,6 @@
 		06A6CE30261E0966000563F0 /* SampleModelV1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 06A6CE25261E0961000563F0 /* SampleModelV1.sqlite */; };
 		06A6CE3A261E0966000563F0 /* SampleModelV1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 06A6CE25261E0961000563F0 /* SampleModelV1.sqlite */; };
 		06AF615026F091370090A61B /* CoreDataPlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06AF614826F091370090A61B /* CoreDataPlus.framework */; };
-		06AF615D26F092350090A61B /* CoreDataPlus.h in Headers */ = {isa = PBXBuildFile; fileRef = 23B5806D1F94FEDF00A365C0 /* CoreDataPlus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		06AF615E26F092BB0090A61B /* NSPersistentStoreCoordinator+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20119FD2614E3D9001902FB /* NSPersistentStoreCoordinator+Utils.swift */; };
 		06AF615F26F092BB0090A61B /* NSBatchDeleteResult+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20119F32614E3D9001902FB /* NSBatchDeleteResult+Utils.swift */; };
 		06AF616026F092BB0090A61B /* NSDerivedAttributeDescription+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28232AB26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift */; };
@@ -264,9 +263,6 @@
 		23541AFA22ECAB0000678A96 /* NSManagedObjectContextHistory_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23541AF922ECAB0000678A96 /* NSManagedObjectContextHistory_Tests.swift */; };
 		23541AFB22ECAB0000678A96 /* NSManagedObjectContextHistory_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23541AF922ECAB0000678A96 /* NSManagedObjectContextHistory_Tests.swift */; };
 		23541AFC22ECAB0000678A96 /* NSManagedObjectContextHistory_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23541AF922ECAB0000678A96 /* NSManagedObjectContextHistory_Tests.swift */; };
-		236350B51F95F0ED00B3A16A /* CoreDataPlus.h in Headers */ = {isa = PBXBuildFile; fileRef = 23B5806D1F94FEDF00A365C0 /* CoreDataPlus.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		236350B61F95F0EF00B3A16A /* CoreDataPlus.h in Headers */ = {isa = PBXBuildFile; fileRef = 23B5806D1F94FEDF00A365C0 /* CoreDataPlus.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		236350B71F95F0F200B3A16A /* CoreDataPlus.h in Headers */ = {isa = PBXBuildFile; fileRef = 23B5806D1F94FEDF00A365C0 /* CoreDataPlus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		236526AB215A46C200A51C9F /* InMemoryTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236526AA215A46C200A51C9F /* InMemoryTestCase.swift */; };
 		236526AC215A46C200A51C9F /* InMemoryTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236526AA215A46C200A51C9F /* InMemoryTestCase.swift */; };
 		236526AD215A46C200A51C9F /* InMemoryTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236526AA215A46C200A51C9F /* InMemoryTestCase.swift */; };
@@ -288,7 +284,6 @@
 		23A8A44D1F9F536D0038DE3A /* NSFetchRequestResultCoreData_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A8A44C1F9F536D0038DE3A /* NSFetchRequestResultCoreData_Tests.swift */; };
 		23A8A44E1F9F536D0038DE3A /* NSFetchRequestResultCoreData_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A8A44C1F9F536D0038DE3A /* NSFetchRequestResultCoreData_Tests.swift */; };
 		23A8A44F1F9F536D0038DE3A /* NSFetchRequestResultCoreData_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A8A44C1F9F536D0038DE3A /* NSFetchRequestResultCoreData_Tests.swift */; };
-		23B5807B1F94FEDF00A365C0 /* CoreDataPlus.h in Headers */ = {isa = PBXBuildFile; fileRef = 23B5806D1F94FEDF00A365C0 /* CoreDataPlus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		23C3B2B61FB0A1C000799E72 /* NSManagedObjectUpdateTimestampable_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C3B2B51FB0A1C000799E72 /* NSManagedObjectUpdateTimestampable_Tests.swift */; };
 		23C3B2B71FB0A1C000799E72 /* NSManagedObjectUpdateTimestampable_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C3B2B51FB0A1C000799E72 /* NSManagedObjectUpdateTimestampable_Tests.swift */; };
 		23C3B2B81FB0A1C000799E72 /* NSManagedObjectUpdateTimestampable_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C3B2B51FB0A1C000799E72 /* NSManagedObjectUpdateTimestampable_Tests.swift */; };
@@ -566,7 +561,6 @@
 		23A38AE72147C08E0086C22A /* SampleModel3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel3.xcdatamodel; sourceTree = "<group>"; };
 		23A8A44C1F9F536D0038DE3A /* NSFetchRequestResultCoreData_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSFetchRequestResultCoreData_Tests.swift; sourceTree = "<group>"; };
 		23B5806A1F94FEDF00A365C0 /* CoreDataPlus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreDataPlus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		23B5806D1F94FEDF00A365C0 /* CoreDataPlus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreDataPlus.h; sourceTree = "<group>"; };
 		23B5806E1F94FEDF00A365C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		23B5808B1F94FFF600A365C0 /* NSManagedObject+UpdateTimestampable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+UpdateTimestampable.swift"; sourceTree = "<group>"; };
 		23B5808D1F94FFF600A365C0 /* NSManagedObject+DelayedDeletable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+DelayedDeletable.swift"; sourceTree = "<group>"; };
@@ -795,7 +789,6 @@
 			isa = PBXGroup;
 			children = (
 				06A3C1D5239FD83D00E08D45 /* CHANGELOG.md */,
-				23B5806D1F94FEDF00A365C0 /* CoreDataPlus.h */,
 				236351241F95F53900B3A16A /* IDETemplateMacros.plist */,
 				236350E11F95F1A900B3A16A /* Info-Tests.plist */,
 				23B5806E1F94FEDF00A365C0 /* Info.plist */,
@@ -964,19 +957,10 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		06AF614326F091370090A61B /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				06AF615D26F092350090A61B /* CoreDataPlus.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		236350711F95EC1A00B3A16A /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				236350B51F95F0ED00B3A16A /* CoreDataPlus.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -984,7 +968,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				236350B61F95F0EF00B3A16A /* CoreDataPlus.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -992,7 +975,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				236350B71F95F0F200B3A16A /* CoreDataPlus.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1000,7 +982,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23B5807B1F94FEDF00A365C0 /* CoreDataPlus.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1029,7 +1010,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 06AF615B26F091370090A61B /* Build configuration list for PBXNativeTarget "CoreDataPlus" */;
 			buildPhases = (
-				06AF614326F091370090A61B /* Headers */,
 				06AF614426F091370090A61B /* Sources */,
 				06AF614526F091370090A61B /* Frameworks */,
 				06AF614626F091370090A61B /* Resources */,
