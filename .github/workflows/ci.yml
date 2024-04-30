@@ -38,7 +38,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: macOS
-        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus macOS" -destination "platform=macOS" clean test -quiet -resultBundlePath '~/Downloads/Report/report.xcresult'
+        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus" -destination "platform=macOS" clean test -quiet -resultBundlePath '~/Downloads/Report/report.xcresult'
       
       - name: Upload tests report
         if: failure()
@@ -57,7 +57,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: iOS - ${{ matrix.destination }}
-        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus iOS" -destination "${{ matrix.destination }}" clean test -quiet -resultBundlePath '~/Downloads/Report/report.xcresult'
+        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus" -destination "${{ matrix.destination }}" clean test -quiet -resultBundlePath '~/Downloads/Report/report.xcresult'
       
       - name: Upload tests report
         if: always()
@@ -76,13 +76,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: iOS - ${{ matrix.destination }}
-        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus iOS" -destination "${{ matrix.destination }}" clean test -quiet -resultBundlePath '~/Downloads/Report/report.xcresult'
+        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus" -destination "${{ matrix.destination }}" clean test -quiet -resultBundlePath '~/Downloads/Report/report.xcresult'
 
       - name: Upload tests report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: iOS tests report
+          name: visionOS tests report
           path: ~/Downloads/Report
   tvOS:
     name: Test tvOS
@@ -95,7 +95,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: tvOS - ${{ matrix.destination }}
-        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus tvOS" -destination "${{ matrix.destination }}" clean test -quiet -resultBundlePath '~/Downloads/Report/report.xcresult'
+        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus" -destination "${{ matrix.destination }}" clean test -quiet -resultBundlePath '~/Downloads/Report/report.xcresult'
 
       - name: Upload tests report
         if: failure()
@@ -114,7 +114,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: watchOS - ${{ matrix.destination }}
-        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus watchOS" -destination "${{ matrix.destination }}" clean test -quiet -resultBundlePath '~/Downloads/Report/report.xcresult'
+        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "CoreDataPlus.xcodeproj" -scheme "CoreDataPlus" -destination "${{ matrix.destination }}" clean test -quiet -resultBundlePath '~/Downloads/Report/report.xcresult'
         
       - name: Upload tests report
         if: failure()
