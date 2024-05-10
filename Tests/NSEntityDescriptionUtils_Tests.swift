@@ -13,10 +13,22 @@ extension NSManagedObject {
   }
 }
 
+// This entity is not mapped in any model and it will trigger an error:
+// "No NSEntityDescriptions in any model claim the NSManagedObject subclass 'CoreDataPlus_Tests.FakeEntity' 
+// so +entity is confused. Have you loaded your NSManagedObjectModel yet ?"
+private class FakeEntity: NSManagedObject { }
+
 final class NSEntityDescriptionUtils_Tests: InMemoryTestCase {
+  func test_EntityName() {
+    XCTAssertEqual(NSManagedObject.entityName, "NSManagedObject")
+    XCTAssertEqual(FakeEntity.entityName, "FakeEntity")
+    XCTAssertEqual(SportCar.entityName, "SportCar")
+  }
+  
   func test_Entity() {
     let context = container.viewContext
     let expensiveCar = ExpensiveSportCar(context: context)
+    XCTAssertEqual(SportCar.entityName, "SportCar")
     let entityNames = expensiveCar.entity.ancestorEntities().compactMap { $0.name }
     XCTAssertTrue(entityNames.count == 2)
     XCTAssertTrue(entityNames.contains(Car.entityName))
@@ -38,10 +50,12 @@ final class NSEntityDescriptionUtils_Tests: InMemoryTestCase {
       XCTFail("Car Entity not found; available entities: \(entities)")
       return
     }
-
+    
     // Car.entity().name can be nil while running tests
     // To avoid some random failed tests, the entity is created by looking in a context.
-    guard let carEntity = NSEntityDescription.entity(forEntityName: Car.entityName, in: container.viewContext) else {
+    guard 
+      let carEntity = NSEntityDescription.entity(forEntityName: Car.entityName, in: container.viewContext)
+    else {
       XCTFail("Car Entity Not Found.")
       return
     }
@@ -142,7 +156,8 @@ final class NSEntityDescriptionUtils_Tests: InMemoryTestCase {
 
     do {
       let entities = [
-        ExpensiveSportCar(context: context).entity, ExpensiveSportCar(context: context).entity,
+        ExpensiveSportCar(context: context).entity, 
+        ExpensiveSportCar(context: context).entity,
         SportCar(context: context).entity,
         SportCar(context: context).entity,
       ]

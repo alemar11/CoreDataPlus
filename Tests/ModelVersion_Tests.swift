@@ -27,4 +27,9 @@ final class ModelVersion_Tests: XCTestCase {
       XCTAssertTrue(models.isEmpty)
     }
   }
+  
+  @available(iOS 17.0, tvOS 17.0, watchOS 10.0, macOS 14.0, visionOS 1.0, iOSApplicationExtension 17.0, macCatalystApplicationExtension 17.0, *)
+  func test_VersionChecksum() {
+    XCTAssertNotNil(SampleModelVersion.currentVersion.versionChecksum)
+  }
 }

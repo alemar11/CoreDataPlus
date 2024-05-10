@@ -15,7 +15,7 @@
 import CoreData
 
 extension NSEntityDescription {
-  /// Creates a new NSEntityDescription instance.
+  /// Creates a new `NSEntityDescription` instance.
   /// - Parameters:
   ///   - aClass: The class that represents the entity.
   ///   - name: The entity name (defaults to the class name).

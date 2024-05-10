@@ -151,8 +151,9 @@ extension Migrator {
       // A dead lock can occur if a NSPersistentStore with a different journaling mode
       // is currently active and using the database file.
       // You need to remove it before performing a WAL checkpoint.
-      try performWALCheckpointForStore(
-        at: sourceURL, storeOptions: sourceOptions, model: sourceVersion.managedObjectModel())
+      try performWALCheckpointForStore(at: sourceURL,
+                                       storeOptions: sourceOptions,
+                                       model: sourceVersion.managedObjectModel())
     }
 
     let steps = sourceVersion.migrationSteps(to: targetVersion)

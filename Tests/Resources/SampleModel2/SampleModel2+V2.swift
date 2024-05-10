@@ -114,7 +114,7 @@ extension V2 {
   static func makeWriterEntity() -> NSEntityDescription {
     let entity = NSEntityDescription(for: WriterV2.self, withName: String(describing: Writer.self))
     entity.isAbstract = true
-
+    
     let age = NSAttributeDescription.int16(name: #keyPath(WriterV2.age))
     age.isOptional = false
 

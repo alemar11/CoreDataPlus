@@ -37,7 +37,7 @@ final class InMemoryPersistentContainer: NSPersistentContainer {
     if let named = named {
       url.appendPathComponent(named)
     }
-    let container = InMemoryPersistentContainer(name: "SampleModel", managedObjectModel: model)
+    let container = InMemoryPersistentContainer(name: "SampleModel", managedObjectModel: model1)
     let description = container.persistentStoreDescriptions.first!
     description.url = url
     //description.type = NSInMemoryStoreType // Setting this value will fail some tests at the moment

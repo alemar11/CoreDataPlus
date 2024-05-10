@@ -54,9 +54,12 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
   func test_InvestigationAutomaticallyMergesChangesFromParent() throws {
     // automaticallyMergesChangesFromParent = true
     do {
-      let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
+      let psc = NSPersistentStoreCoordinator(managedObjectModel: model1)
       let storeURL = URL.newDatabaseURL(withID: UUID())
-      try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
+      try psc.addPersistentStore(ofType: NSSQLiteStoreType, 
+                                 configurationName: nil,
+                                 at: storeURL,
+                                 options: nil)
 
       let parentContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
       parentContext.persistentStoreCoordinator = psc
@@ -93,7 +96,7 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
 
     // automaticallyMergesChangesFromParent = false
     do {
-      let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
+      let psc = NSPersistentStoreCoordinator(managedObjectModel: model1)
       let storeURL = URL.newDatabaseURL(withID: UUID())
       try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
 

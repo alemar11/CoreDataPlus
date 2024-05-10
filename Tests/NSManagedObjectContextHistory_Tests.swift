@@ -192,7 +192,7 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
   @MainActor
   func test_PersistentStoreWithHistoryTrackingEnabledGeneratesHistoryTokens() throws {
     // Given
-    let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
+    let psc = NSPersistentStoreCoordinator(managedObjectModel: model1)
     let storeURL = URL.newDatabaseURL(withID: UUID())
     // enable History Tracking
     let options: PersistentStoreOptions = [NSPersistentHistoryTrackingKey: true as NSNumber]
@@ -230,7 +230,7 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
   @MainActor
   func test_PersistentStoreWithHistoryTrackingDisabledDoesntGenerateHistoryTokens() throws {
     // Given
-    let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
+    let psc = NSPersistentStoreCoordinator(managedObjectModel: model1)
     let storeURL = URL.newDatabaseURL(withID: UUID())
     try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
     let expectation1 = expectation(description: "\(#function)\(#line)")

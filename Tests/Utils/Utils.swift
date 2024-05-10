@@ -9,8 +9,6 @@ import CoreData
 extension NSManagedObjectContext: @unchecked Sendable {}
 extension NSManagedObjectModel: @unchecked Sendable {}
 
-let model = SampleModelVersion.version1.managedObjectModel()
-
 // MARK: - URL
 
 extension URL {

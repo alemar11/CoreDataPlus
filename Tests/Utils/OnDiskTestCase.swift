@@ -38,7 +38,7 @@ final class OnDiskPersistentContainer: NSPersistentContainer {
 
   static func makeNew(id: UUID) -> OnDiskPersistentContainer {
     let url = URL.newDatabaseURL(withID: id)
-    let container = OnDiskPersistentContainer(name: "SampleModel", managedObjectModel: model)
+    let container = OnDiskPersistentContainer(name: "SampleModel", managedObjectModel: model1)
     let description = container.persistentStoreDescriptions.first!
     description.url = url
     // disable automatic migration (true by default)

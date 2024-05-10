@@ -43,13 +43,14 @@ public class Car: BaseEntity {
   @NSManaged public var owner: Person?
   @NSManaged public var currentDrivingSpeed: Int  // transient property
   @NSManaged public var color: Color?  // transformable property
-
+  
   // Additional notes
   // - color: in the "Data Model Inspector", the "class name" field is set to Color; this is an optional requirement but quite useful because CoreData will validate the type when assigned to the color property.
 }
 
 @objc(SportCar)
-public class SportCar: Car {}
+public class SportCar: Car {
+}
 
 @objc(ExpensiveSportCar)
 final public class ExpensiveSportCar: SportCar {
@@ -59,5 +60,9 @@ final public class ExpensiveSportCar: SportCar {
 // V2
 @objc(LuxuryCar)
 final public class LuxuryCar: SportCar {
+  // Some tests fallback to the string representation of LuxuryCar (fallback of entityName instead of entity().name because
+  // entity() is not accessible. If that happens in production, it's better to override the property like so:
+  //public override class var entityName: String { "LuxuryCar" }
+  
   @NSManaged public var isLimitedEdition: Bool
 }

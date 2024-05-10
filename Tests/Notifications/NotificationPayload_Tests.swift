@@ -678,7 +678,7 @@ final class NotificationPayload_Tests: InMemoryTestCase {
   @MainActor
   func test_ObserveMultipleChangesUsingPersistentStoreCoordinatorWithChildAndParentContexts() throws {
     // Given
-    let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
+    let psc = NSPersistentStoreCoordinator(managedObjectModel: model1)
     let storeURL = URL.newDatabaseURL(withID: UUID())
     try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
 
@@ -1116,7 +1116,7 @@ final class NotificationPayloadOnDiskTests: OnDiskTestCase {
   }
 
   func test_InvestigationNSPersistentStoreCoordinatorStoresNotifications() throws {
-    let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
+    let psc = NSPersistentStoreCoordinator(managedObjectModel: model1)
     let initialStoreURL = URL.newDatabaseURL(withID: UUID())
     let finalStoreURL = URL.newDatabaseURL(withID: UUID())
     var cancellables = [AnyCancellable]()

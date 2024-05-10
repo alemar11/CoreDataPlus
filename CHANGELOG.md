@@ -6,6 +6,10 @@
 - Swift 5.10 support.
 - VisionOS support.
 - Swift Concurrency support.
+- `NSCompositeAttributeDescription` extensions.
+- Removed `LightweightMigrationManager`.
+- Added `NSManagedObjectModelReference` and `versionChecksum` to `ModelVersion`.
+- `entityName` is now ovverridable
 
 ### 5.0.0 ⭐
 
@@ -26,7 +30,7 @@
 - Added `NSAttributeDescription` utility methods.
 - Added `NSEntityMapping` utility methods.
 - Added `NSAttributeDescription` utility methods.
-- Added `LightweightMigrationManger`, a `NSMigrationManager` subclass to do *lightweight* migrations with a fake progress reporting.
+- Added `LightweightMigrationManager`, a `NSMigrationManager` subclass to do *lightweight* migrations with a fake progress reporting.
 - Added `MigrationProgressReporter` to report migration progress via a `Progress` object.
 - Added a `NSManagedObjectContext` helper method to create a child context.
 - Added support for `NSPersistentStoreCoordinator` notifications payloads.
