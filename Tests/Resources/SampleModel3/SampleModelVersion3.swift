@@ -53,7 +53,7 @@ extension SampleModelVersion3 {
   @available(iOS 17.0, tvOS 17.0, watchOS 10.0, macOS 14.0, visionOS 1.0, iOSApplicationExtension 17.0, macCatalystApplicationExtension 17.0, *)
   public func migrationStagesToNextModelVersion() -> [NSMigrationStage]? { // TODO return a single stage
     switch self {
-      // There can't be stages with the same versionCheckSum (you can't have NSLightweightMigrationStage and a
+      // There can't be stages with the same versionCheckSum (you can't have a NSLightweightMigrationStage and a
       // NSCustomMigrationStage referencing the same target versionCheckSum)
     case .version1:
       let stage = NSCustomMigrationStage(migratingFrom: self.managedObjectModelReference(), // v1
