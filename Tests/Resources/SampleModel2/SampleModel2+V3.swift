@@ -151,7 +151,7 @@ extension V3 {
     entity.name = String(describing: Author.self)  // 🚩 the entity name should stay the same
     entity.managedObjectClassName = String(describing: AuthorV3.self)
 
-    // ✅ added in V3
+    // ✅ socialURL added in V3
     let socialURL = NSAttributeDescription.uri(name: #keyPath(AuthorV3.socialURL))
     socialURL.isOptional = true
     socialURL.renamingIdentifier = #keyPath(AuthorV3.socialURL)
@@ -202,7 +202,6 @@ extension V3 {
     let price = NSAttributeDescription.decimal(name: #keyPath(BookV3.price))
     price.isOptional = false
 
-    // ✅ Renamed cover as frontCover
     let defaultCover = Cover(text: "default cover")
     let cover = NSAttributeDescription.transformable(
       for: Cover.self, name: #keyPath(BookV3.frontCover), defaultValue: defaultCover)
