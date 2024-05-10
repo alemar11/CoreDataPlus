@@ -398,6 +398,16 @@
 		D214B17F2BECF67C0090F18A /* StagedMigrationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = D214B17B2BECF67C0090F18A /* StagedMigrationStep.swift */; };
 		D214B1802BECF67C0090F18A /* StagedMigrationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = D214B17B2BECF67C0090F18A /* StagedMigrationStep.swift */; };
 		D214B1812BEE088B0090F18A /* V2toV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2377287021490B9D00FDAF32 /* V2toV3.xcmappingmodel */; };
+		D214B1912BEE531B0090F18A /* SampleModel2V1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D214B18F2BEE531B0090F18A /* SampleModel2V1.sqlite */; };
+		D214B1922BEE531B0090F18A /* SampleModel2V1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D214B18F2BEE531B0090F18A /* SampleModel2V1.sqlite */; };
+		D214B1932BEE531B0090F18A /* SampleModel2V1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D214B18F2BEE531B0090F18A /* SampleModel2V1.sqlite */; };
+		D214B1942BEE531B0090F18A /* SampleModel2V1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D214B18F2BEE531B0090F18A /* SampleModel2V1.sqlite */; };
+		D214B1952BEE531B0090F18A /* SampleModel2V1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D214B18F2BEE531B0090F18A /* SampleModel2V1.sqlite */; };
+		D214B1962BEE531B0090F18A /* SampleModel2V2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D214B1902BEE531B0090F18A /* SampleModel2V2.sqlite */; };
+		D214B1972BEE531B0090F18A /* SampleModel2V2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D214B1902BEE531B0090F18A /* SampleModel2V2.sqlite */; };
+		D214B1982BEE531B0090F18A /* SampleModel2V2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D214B1902BEE531B0090F18A /* SampleModel2V2.sqlite */; };
+		D214B1992BEE531B0090F18A /* SampleModel2V2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D214B1902BEE531B0090F18A /* SampleModel2V2.sqlite */; };
+		D214B19A2BEE531B0090F18A /* SampleModel2V2.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = D214B1902BEE531B0090F18A /* SampleModel2V2.sqlite */; };
 		D214B9A5263B0FDE000BBD13 /* NSMappingModel+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D214B9A4263B0FDE000BBD13 /* NSMappingModel+Utils.swift */; };
 		D214B9A6263B0FDE000BBD13 /* NSMappingModel+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D214B9A4263B0FDE000BBD13 /* NSMappingModel+Utils.swift */; };
 		D214B9A7263B0FDE000BBD13 /* NSMappingModel+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D214B9A4263B0FDE000BBD13 /* NSMappingModel+Utils.swift */; };
@@ -608,6 +618,8 @@
 		D20F4BC62621F3B000F0CB25 /* SampleModel2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleModel2.swift; sourceTree = "<group>"; };
 		D20F4C1F2622029400F0CB25 /* ProgrammaticMigration_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammaticMigration_Tests.swift; sourceTree = "<group>"; };
 		D214B17B2BECF67C0090F18A /* StagedMigrationStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StagedMigrationStep.swift; sourceTree = "<group>"; };
+		D214B18F2BEE531B0090F18A /* SampleModel2V1.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleModel2V1.sqlite; sourceTree = "<group>"; };
+		D214B1902BEE531B0090F18A /* SampleModel2V2.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleModel2V2.sqlite; sourceTree = "<group>"; };
 		D214B9A4263B0FDE000BBD13 /* NSMappingModel+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMappingModel+Utils.swift"; sourceTree = "<group>"; };
 		D214B9A9263BFA22000BBD13 /* Migrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Migrator.swift; sourceTree = "<group>"; };
 		D254E22A23C3BA7F00A1586E /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = SOURCE_ROOT; };
@@ -913,6 +925,7 @@
 		D20F4BC52621F39600F0CB25 /* SampleModel2 */ = {
 			isa = PBXGroup;
 			children = (
+				D214B1822BEE4B060090F18A /* Fixtures */,
 				D282326726244D2D00F37442 /* Entities */,
 				D282325A26244AE200F37442 /* NSManagedObjectContext+SampleModel2.swift */,
 				D20F4BC62621F3B000F0CB25 /* SampleModel2.swift */,
@@ -923,6 +936,15 @@
 				06968B112645685F00088D76 /* FeedbackMigrationManager.swift */,
 			);
 			path = SampleModel2;
+			sourceTree = "<group>";
+		};
+		D214B1822BEE4B060090F18A /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				D214B18F2BEE531B0090F18A /* SampleModel2V1.sqlite */,
+				D214B1902BEE531B0090F18A /* SampleModel2V2.sqlite */,
+			);
+			path = Fixtures;
 			sourceTree = "<group>";
 		};
 		D23A9E3824E2D4DF006C2964 /* Notifications */ = {
@@ -1282,7 +1304,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D214B1952BEE531B0090F18A /* SampleModel2V1.sqlite in Resources */,
 				06968AFA26454CC700088D76 /* SampleModelV1.sqlite in Resources */,
+				D214B19A2BEE531B0090F18A /* SampleModel2V2.sqlite in Resources */,
 				06968AFB26454CCB00088D76 /* SampleModelV2.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1298,7 +1322,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D214B1912BEE531B0090F18A /* SampleModel2V1.sqlite in Resources */,
 				06AF619226F093EE0090A61B /* SampleModelV1.sqlite in Resources */,
+				D214B1962BEE531B0090F18A /* SampleModel2V2.sqlite in Resources */,
 				06AF619326F093F20090A61B /* SampleModelV2.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1335,7 +1361,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D214B1922BEE531B0090F18A /* SampleModel2V1.sqlite in Resources */,
 				06A6CE26261E0966000563F0 /* SampleModelV1.sqlite in Resources */,
+				D214B1972BEE531B0090F18A /* SampleModel2V2.sqlite in Resources */,
 				D27A2E36255F29D20043B43F /* SampleModelV2.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1344,7 +1372,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D214B1932BEE531B0090F18A /* SampleModel2V1.sqlite in Resources */,
 				06A6CE30261E0966000563F0 /* SampleModelV1.sqlite in Resources */,
+				D214B1982BEE531B0090F18A /* SampleModel2V2.sqlite in Resources */,
 				D27A2E37255F29D20043B43F /* SampleModelV2.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1353,7 +1383,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D214B1942BEE531B0090F18A /* SampleModel2V1.sqlite in Resources */,
 				06A6CE3A261E0966000563F0 /* SampleModelV1.sqlite in Resources */,
+				D214B1992BEE531B0090F18A /* SampleModel2V2.sqlite in Resources */,
 				D27A2E38255F29D20043B43F /* SampleModelV2.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
