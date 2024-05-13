@@ -14,7 +14,7 @@
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "CoreData",
-    "externalID" : "s:e:s:So29NSDerivedAttributeDescriptionC12CoreDataPlusE4name4type20derivationExpressionABSS_So15NSAttributeTypeVSo12NSExpressionCtcfc",
+    "externalID" : "s:e:s:So29NSDerivedAttributeDescriptionC12CoreDataPlusE4name4type20derivationExpressionABSS_So011NSAttributeC0C0dE0E0B4TypeVSo12NSExpressionCtcfc",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -32,7 +32,10 @@
     ],
     "modules" : [
       {
-        "name" : "CoreDataPlus"
+        "name" : "CoreDataPlus",
+        "relatedModules" : [
+          "CoreData"
+        ]
       }
     ],
     "navigatorTitle" : [
@@ -219,8 +222,17 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "c:@E@NSAttributeType",
-      "text" : "NSAttributeType"
+      "preciseIdentifier" : "c:objc(cs)NSAttributeDescription",
+      "text" : "NSAttributeDescription"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:So22NSAttributeDescriptionC8CoreDataE13AttributeTypeV",
+      "text" : "AttributeType"
     },
     {
       "kind" : "text",

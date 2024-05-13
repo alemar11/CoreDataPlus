@@ -14,7 +14,7 @@
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "CoreData",
-    "externalID" : "s:e:s:So15NSManagedObjectC12CoreDataPlusE14hasTemporaryIDSbvp",
+    "externalID" : "s:e:c:@CM@CoreDataPlus@@objc(cs)NSManagedObject(cpy)entityName",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -32,7 +32,10 @@
     ],
     "modules" : [
       {
-        "name" : "CoreDataPlus"
+        "name" : "CoreDataPlus",
+        "relatedModules" : [
+          "CoreData"
+        ]
       }
     ],
     "navigatorTitle" : [
@@ -103,6 +106,12 @@
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSManagedObject\/refresh(mergeChanges:)"
       ],
       "title" : "Instance Methods"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSManagedObject\/entityName"
+      ],
+      "title" : "Type Properties"
     }
   ],
   "variants" : [
@@ -370,6 +379,51 @@
   "title" : "delete()",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/coredata\/nsmanagedobject\/delete()"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSManagedObject/entityName": {
+  "abstract" : [
+    {
+      "text" : "The entity name.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "class"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "entityName"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSManagedObject\/entityName",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "entityName",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/coredata\/nsmanagedobject\/entityname"
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSManagedObject/evaluate(with:)": {
   "abstract" : [

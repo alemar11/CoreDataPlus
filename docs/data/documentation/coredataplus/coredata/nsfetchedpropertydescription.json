@@ -32,7 +32,10 @@
     ],
     "modules" : [
       {
-        "name" : "CoreDataPlus"
+        "name" : "CoreDataPlus",
+        "relatedModules" : [
+          "CoreData"
+        ]
       }
     ],
     "navigatorTitle" : [
@@ -271,7 +274,7 @@
     },
     {
       "kind" : "text",
-      "text" : "<"
+      "text" : "<any "
     },
     {
       "kind" : "typeIdentifier",

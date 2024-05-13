@@ -171,51 +171,10 @@
     ],
     "modules" : [
       {
-        "name" : "CoreDataPlus"
-      }
-    ],
-    "platforms" : [
-      {
-        "beta" : false,
-        "deprecated" : false,
-        "introducedAt" : "13.0",
-        "name" : "iOS",
-        "unavailable" : false
-      },
-      {
-        "beta" : false,
-        "deprecated" : false,
-        "introducedAt" : "13.0",
-        "name" : "iOS App Extension",
-        "unavailable" : false
-      },
-      {
-        "beta" : false,
-        "deprecated" : false,
-        "introducedAt" : "10.15",
-        "name" : "macOS",
-        "unavailable" : false
-      },
-      {
-        "beta" : false,
-        "deprecated" : false,
-        "introducedAt" : "13.0",
-        "name" : "Mac Catalyst",
-        "unavailable" : false
-      },
-      {
-        "beta" : false,
-        "deprecated" : false,
-        "introducedAt" : "13.0",
-        "name" : "tvOS",
-        "unavailable" : false
-      },
-      {
-        "beta" : false,
-        "deprecated" : false,
-        "introducedAt" : "6.0",
-        "name" : "watchOS",
-        "unavailable" : false
+        "name" : "CoreDataPlus",
+        "relatedModules" : [
+          "CoreData"
+        ]
       }
     ],
     "role" : "symbol",

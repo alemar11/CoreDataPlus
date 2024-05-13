@@ -38,6 +38,7 @@
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSBatchDeleteResult",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSBatchInsertResult",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSBatchUpdateResult",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSCompositeAttributeDescription",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSDerivedAttributeDescription",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSEntityDescription",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSEntityMapping",
@@ -46,7 +47,6 @@
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSManagedObject",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSManagedObjectContext",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSMappingModel",
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSMigrationManager",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSPersistentStoreCoordinator"
       ],
       "title" : "Extended Classes"
@@ -221,6 +221,38 @@
   "title" : "NSBatchUpdateResult",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/coredata\/nsbatchupdateresult"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSCompositeAttributeDescription": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "extension"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "preciseIdentifier" : "c:objc(cs)NSCompositeAttributeDescription",
+      "text" : "NSCompositeAttributeDescription"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSCompositeAttributeDescription",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "NSCompositeAttributeDescription"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "NSCompositeAttributeDescription",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/coredata\/nscompositeattributedescription"
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSDerivedAttributeDescription": {
   "abstract" : [
@@ -509,38 +541,6 @@
   "title" : "NSMappingModel",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/coredata\/nsmappingmodel"
-},
-"doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSMigrationManager": {
-  "abstract" : [
-
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "extension"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "preciseIdentifier" : "c:objc(cs)NSMigrationManager",
-      "text" : "NSMigrationManager"
-    }
-  ],
-  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSMigrationManager",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "NSMigrationManager"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "NSMigrationManager",
-  "type" : "topic",
-  "url" : "\/documentation\/coredataplus\/coredata\/nsmigrationmanager"
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSPersistentStoreCoordinator": {
   "abstract" : [

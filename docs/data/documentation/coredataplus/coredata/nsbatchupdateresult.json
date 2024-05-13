@@ -32,7 +32,10 @@
     ],
     "modules" : [
       {
-        "name" : "CoreDataPlus"
+        "name" : "CoreDataPlus",
+        "relatedModules" : [
+          "CoreData"
+        ]
       }
     ],
     "navigatorTitle" : [

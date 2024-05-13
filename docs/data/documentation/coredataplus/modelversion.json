@@ -86,6 +86,15 @@
             },
             {
               "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:s28CustomDebugStringConvertibleP",
+              "text" : "CustomDebugStringConvertible"
+            },
+            {
+              "kind" : "text",
+              "text" : ", "
+            },
+            {
+              "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:SQ",
               "text" : "Equatable"
             },
@@ -107,6 +116,7 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
+        "doc:\/\/CoreDataPlus\/s28CustomDebugStringConvertibleP",
         "doc:\/\/CoreDataPlus\/SQ",
         "doc:\/\/CoreDataPlus\/SY"
       ],
@@ -134,7 +144,8 @@
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/modelBundle",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/modelName",
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/successor",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/next",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/versionChecksum",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/versionName"
       ],
       "title" : "Instance Properties"
@@ -142,11 +153,14 @@
     {
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/inferredMappingModelToNextModelVersion()",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/isLightWeightMigrationPossibleToNextModelVersion()",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/managedObjectModel()-6vbac",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/managedObjectModelReference()",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/mappingModelToNextModelVersion()",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/mappingModels(for:)",
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/mappingModelsToNextModelVersion()",
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/migrationSteps(to:)"
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/migrationStageToNextModelVersion()",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/migrationSteps(to:)",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/stagedMigrationSteps(to:)"
       ],
       "title" : "Instance Methods"
     },
@@ -162,6 +176,13 @@
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/subscript(_:)"
       ],
       "title" : "Type Subscripts"
+    },
+    {
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/CustomDebugStringConvertible-Implementations"
+      ],
+      "title" : "Default Implementations"
     }
   ],
   "variants" : [
@@ -240,6 +261,17 @@
   "title" : "ModelVersion",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/modelversion"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion/CustomDebugStringConvertible-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/CustomDebugStringConvertible-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "CustomDebugStringConvertible Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/modelversion\/customdebugstringconvertible-implementations"
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion/allVersions": {
   "abstract" : [
@@ -358,6 +390,38 @@
       "type" : "text"
     }
   ],
+  "conformance" : {
+    "availabilityPrefix" : [
+      {
+        "text" : "Available when",
+        "type" : "text"
+      }
+    ],
+    "conformancePrefix" : [
+      {
+        "text" : "Conforms when",
+        "type" : "text"
+      }
+    ],
+    "constraints" : [
+      {
+        "code" : "Self",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : " conforms to ",
+        "type" : "text"
+      },
+      {
+        "code" : "LegacyMigration",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : ".",
+        "type" : "text"
+      }
+    ]
+  },
   "fragments" : [
     {
       "kind" : "keyword",
@@ -461,6 +525,51 @@
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/modelversion\/init(persistentstoreurl:)"
 },
+"doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion/isLightWeightMigrationPossibleToNextModelVersion()": {
+  "abstract" : [
+    {
+      "text" : "Returns",
+      "type" : "text"
+    },
+    {
+      "code" : "true",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " if a lightweight migration to the next model version is possible",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "isLightWeightMigrationPossibleToNextModelVersion"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/isLightWeightMigrationPossibleToNextModelVersion()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "isLightWeightMigrationPossibleToNextModelVersion()",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/modelversion\/islightweightmigrationpossibletonextmodelversion()"
+},
 "doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion/managedObjectModel()-6vbac": {
   "abstract" : [
     {
@@ -468,7 +577,7 @@
       "type" : "text"
     },
     {
-      "code" : "ModelVersions",
+      "code" : "ModelVersion",
       "type" : "codeVoice"
     },
     {
@@ -508,6 +617,83 @@
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/modelversion\/managedobjectmodel()-6vbac"
 },
+"doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion/managedObjectModelReference()": {
+  "abstract" : [
+    {
+      "text" : "Protocol ",
+      "type" : "text"
+    },
+    {
+      "code" : "StagedMigration",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "conformance" : {
+    "availabilityPrefix" : [
+      {
+        "text" : "Available when",
+        "type" : "text"
+      }
+    ],
+    "conformancePrefix" : [
+      {
+        "text" : "Conforms when",
+        "type" : "text"
+      }
+    ],
+    "constraints" : [
+      {
+        "code" : "Self",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : " conforms to ",
+        "type" : "text"
+      },
+      {
+        "code" : "StagedMigration",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : ".",
+        "type" : "text"
+      }
+    ]
+  },
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "managedObjectModelReference"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObjectModelReference",
+      "text" : "NSManagedObjectModelReference"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/managedObjectModelReference()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "managedObjectModelReference()",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/modelversion\/managedobjectmodelreference()"
+},
 "doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion/mappingModelToNextModelVersion()": {
   "abstract" : [
     {
@@ -523,6 +709,38 @@
       "type" : "text"
     }
   ],
+  "conformance" : {
+    "availabilityPrefix" : [
+      {
+        "text" : "Available when",
+        "type" : "text"
+      }
+    ],
+    "conformancePrefix" : [
+      {
+        "text" : "Conforms when",
+        "type" : "text"
+      }
+    ],
+    "constraints" : [
+      {
+        "code" : "Self",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : " conforms to ",
+        "type" : "text"
+      },
+      {
+        "code" : "LegacyMigration",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : ".",
+        "type" : "text"
+      }
+    ]
+  },
   "fragments" : [
     {
       "kind" : "keyword",
@@ -561,6 +779,38 @@
   "abstract" : [
 
   ],
+  "conformance" : {
+    "availabilityPrefix" : [
+      {
+        "text" : "Available when",
+        "type" : "text"
+      }
+    ],
+    "conformancePrefix" : [
+      {
+        "text" : "Conforms when",
+        "type" : "text"
+      }
+    ],
+    "constraints" : [
+      {
+        "code" : "Self",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : " conforms to ",
+        "type" : "text"
+      },
+      {
+        "code" : "LegacyMigration",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : ".",
+        "type" : "text"
+      }
+    ]
+  },
   "fragments" : [
     {
       "kind" : "keyword",
@@ -612,14 +862,14 @@
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/modelversion\/mappingmodels(for:)"
 },
-"doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion/mappingModelsToNextModelVersion()": {
+"doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion/migrationStageToNextModelVersion()": {
   "abstract" : [
     {
       "text" : "Protocol ",
       "type" : "text"
     },
     {
-      "code" : "ModelVersion",
+      "code" : "StagedMigration",
       "type" : "codeVoice"
     },
     {
@@ -627,6 +877,38 @@
       "type" : "text"
     }
   ],
+  "conformance" : {
+    "availabilityPrefix" : [
+      {
+        "text" : "Available when",
+        "type" : "text"
+      }
+    ],
+    "conformancePrefix" : [
+      {
+        "text" : "Conforms when",
+        "type" : "text"
+      }
+    ],
+    "constraints" : [
+      {
+        "code" : "Self",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : " conforms to ",
+        "type" : "text"
+      },
+      {
+        "code" : "StagedMigration",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : ".",
+        "type" : "text"
+      }
+    ]
+  },
   "fragments" : [
     {
       "kind" : "keyword",
@@ -638,29 +920,28 @@
     },
     {
       "kind" : "identifier",
-      "text" : "mappingModelsToNextModelVersion"
+      "text" : "migrationStageToNextModelVersion"
     },
     {
       "kind" : "text",
-      "text" : "() -> ["
+      "text" : "() -> "
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "c:objc(cs)NSMappingModel",
-      "text" : "NSMappingModel"
+      "preciseIdentifier" : "c:objc(cs)NSMigrationStage",
+      "text" : "NSMigrationStage"
     },
     {
       "kind" : "text",
-      "text" : "]?"
+      "text" : "?"
     }
   ],
-  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/mappingModelsToNextModelVersion()",
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/migrationStageToNextModelVersion()",
   "kind" : "symbol",
-  "required" : true,
   "role" : "symbol",
-  "title" : "mappingModelsToNextModelVersion()",
+  "title" : "migrationStageToNextModelVersion()",
   "type" : "topic",
-  "url" : "\/documentation\/coredataplus\/modelversion\/mappingmodelstonextmodelversion()"
+  "url" : "\/documentation\/coredataplus\/modelversion\/migrationstagetonextmodelversion()"
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion/migrationSteps(to:)": {
   "abstract" : [
@@ -685,6 +966,38 @@
       "type" : "text"
     }
   ],
+  "conformance" : {
+    "availabilityPrefix" : [
+      {
+        "text" : "Available when",
+        "type" : "text"
+      }
+    ],
+    "conformancePrefix" : [
+      {
+        "text" : "Conforms when",
+        "type" : "text"
+      }
+    ],
+    "constraints" : [
+      {
+        "code" : "Self",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : " conforms to ",
+        "type" : "text"
+      },
+      {
+        "code" : "LegacyMigration",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : ".",
+        "type" : "text"
+      }
+    ]
+  },
   "fragments" : [
     {
       "kind" : "keyword",
@@ -720,8 +1033,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:12CoreDataPlus13MigrationStepC",
-      "text" : "MigrationStep"
+      "preciseIdentifier" : "s:12CoreDataPlus19LegacyMigrationStepC",
+      "text" : "LegacyMigrationStep"
     },
     {
       "kind" : "text",
@@ -835,6 +1148,168 @@
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/modelversion\/modelname"
 },
+"doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion/next": {
+  "abstract" : [
+    {
+      "text" : "Protocol ",
+      "type" : "text"
+    },
+    {
+      "code" : "ModelVersion",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "next"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "Self"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/next",
+  "kind" : "symbol",
+  "required" : true,
+  "role" : "symbol",
+  "title" : "next",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/modelversion\/next"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion/stagedMigrationSteps(to:)": {
+  "abstract" : [
+    {
+      "text" : "Returns a list of ",
+      "type" : "text"
+    },
+    {
+      "code" : "StagedMigrationStep",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " needed to mirate to the next ",
+      "type" : "text"
+    },
+    {
+      "code" : "version",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " of the store.",
+      "type" : "text"
+    }
+  ],
+  "conformance" : {
+    "availabilityPrefix" : [
+      {
+        "text" : "Available when",
+        "type" : "text"
+      }
+    ],
+    "conformancePrefix" : [
+      {
+        "text" : "Conforms when",
+        "type" : "text"
+      }
+    ],
+    "constraints" : [
+      {
+        "code" : "Self",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : " conforms to ",
+        "type" : "text"
+      },
+      {
+        "code" : "StagedMigration",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : ".",
+        "type" : "text"
+      }
+    ]
+  },
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "stagedMigrationSteps"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "to"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "Self"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:12CoreDataPlus19StagedMigrationStepV",
+      "text" : "StagedMigrationStep"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "Self"
+    },
+    {
+      "kind" : "text",
+      "text" : ">]"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/stagedMigrationSteps(to:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "stagedMigrationSteps(to:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/modelversion\/stagedmigrationsteps(to:)"
+},
 "doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion/subscript(_:)": {
   "abstract" : [
     {
@@ -892,21 +1367,42 @@
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/modelversion\/subscript(_:)"
 },
-"doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion/successor": {
+"doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion/versionChecksum": {
   "abstract" : [
-    {
-      "text" : "Protocol ",
-      "type" : "text"
-    },
-    {
-      "code" : "ModelVersion",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : ".",
-      "type" : "text"
-    }
+
   ],
+  "conformance" : {
+    "availabilityPrefix" : [
+      {
+        "text" : "Available when",
+        "type" : "text"
+      }
+    ],
+    "conformancePrefix" : [
+      {
+        "text" : "Conforms when",
+        "type" : "text"
+      }
+    ],
+    "constraints" : [
+      {
+        "code" : "Self",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : " conforms to ",
+        "type" : "text"
+      },
+      {
+        "code" : "StagedMigration",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : ".",
+        "type" : "text"
+      }
+    ]
+  },
   "fragments" : [
     {
       "kind" : "keyword",
@@ -918,7 +1414,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "successor"
+      "text" : "versionChecksum"
     },
     {
       "kind" : "text",
@@ -926,20 +1422,16 @@
     },
     {
       "kind" : "typeIdentifier",
-      "text" : "Self"
-    },
-    {
-      "kind" : "text",
-      "text" : "?"
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
     }
   ],
-  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/successor",
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/versionChecksum",
   "kind" : "symbol",
-  "required" : true,
   "role" : "symbol",
-  "title" : "successor",
+  "title" : "versionChecksum",
   "type" : "topic",
-  "url" : "\/documentation\/coredataplus\/modelversion\/successor"
+  "url" : "\/documentation\/coredataplus\/modelversion\/versionchecksum"
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion/versionName": {
   "abstract" : [
@@ -986,6 +1478,11 @@
   "title" : "versionName",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/modelversion\/versionname"
+},
+"doc://CoreDataPlus/s28CustomDebugStringConvertibleP": {
+  "identifier" : "doc:\/\/CoreDataPlus\/s28CustomDebugStringConvertibleP",
+  "title" : "Swift.CustomDebugStringConvertible",
+  "type" : "unresolvable"
 }
 }
 }

@@ -14,7 +14,7 @@
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "CoreData",
-    "externalID" : "s:e:s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzrlE10entityNameSSvpZ",
+    "externalID" : "s:e:s:So20NSFetchRequestResultP12CoreDataPlusSo15NSManagedObjectCRbzrlE08newFetchB0So0aB0CyxGyFZ",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -32,7 +32,10 @@
     ],
     "modules" : [
       {
-        "name" : "CoreDataPlus"
+        "name" : "CoreDataPlus",
+        "relatedModules" : [
+          "CoreData"
+        ]
       }
     ],
     "navigatorTitle" : [
@@ -85,12 +88,6 @@
 
   ],
   "topicSections" : [
-    {
-      "identifiers" : [
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSFetchRequestResult\/entityName"
-      ],
-      "title" : "Type Properties"
-    },
     {
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSFetchRequestResult\/batchDelete(using:predicate:includesSubentities:resultType:affectedStores:)",
@@ -1452,83 +1449,6 @@
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/delete(in:includingsubentities:where:limit:affectedstores:)"
 },
-"doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSFetchRequestResult/entityName": {
-  "abstract" : [
-    {
-      "text" : "The entity name.",
-      "type" : "text"
-    }
-  ],
-  "conformance" : {
-    "availabilityPrefix" : [
-      {
-        "text" : "Available when",
-        "type" : "text"
-      }
-    ],
-    "conformancePrefix" : [
-      {
-        "text" : "Conforms when",
-        "type" : "text"
-      }
-    ],
-    "constraints" : [
-      {
-        "code" : "Self",
-        "type" : "codeVoice"
-      },
-      {
-        "text" : " inherits ",
-        "type" : "text"
-      },
-      {
-        "code" : "NSManagedObject",
-        "type" : "codeVoice"
-      },
-      {
-        "text" : ".",
-        "type" : "text"
-      }
-    ]
-  },
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "var"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "entityName"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:SS",
-      "text" : "String"
-    }
-  ],
-  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSFetchRequestResult\/entityName",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "entityName",
-  "type" : "topic",
-  "url" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/entityname"
-},
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSFetchRequestResult/existingObject(with:in:)": {
   "abstract" : [
 
@@ -2268,7 +2188,7 @@
     },
     {
       "kind" : "text",
-      "text" : "], "
+      "text" : "], any "
     },
     {
       "kind" : "typeIdentifier",

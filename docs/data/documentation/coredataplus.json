@@ -35,9 +35,7 @@
     {
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CustomTransformer",
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager",
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationProgressReporter",
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationStep",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LegacyMigrationStep",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Migrator",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer"
       ],
@@ -45,7 +43,9 @@
     },
     {
       "identifiers" : [
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion"
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LegacyMigration",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/StagedMigration"
       ],
       "title" : "Protocols"
     },
@@ -60,7 +60,8 @@
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresDidChange",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorStoresWillChange",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreCoordinatorWillRemoveStore",
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreRemoteChange"
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreRemoteChange",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/StagedMigrationStep"
       ],
       "title" : "Structures"
     },
@@ -328,10 +329,10 @@
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/foundation"
 },
-"doc://CoreDataPlus/documentation/CoreDataPlus/LightweightMigrationManager": {
+"doc://CoreDataPlus/documentation/CoreDataPlus/LegacyMigration": {
   "abstract" : [
     {
-      "text" : "A ",
+      "text" : "Handles migrations with the old ",
       "type" : "text"
     },
     {
@@ -339,17 +340,40 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " proxy for lightweight migrations with a customizable faking ",
-      "type" : "text"
-    },
-    {
-      "code" : "migrationProgress",
-      "type" : "codeVoice"
-    },
-    {
       "text" : ".",
       "type" : "text"
     }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "LegacyMigration"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LegacyMigration",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "LegacyMigration"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "LegacyMigration",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/legacymigration"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/LegacyMigrationStep": {
+  "abstract" : [
+
   ],
   "fragments" : [
     {
@@ -362,21 +386,21 @@
     },
     {
       "kind" : "identifier",
-      "text" : "LightweightMigrationManager"
+      "text" : "LegacyMigrationStep"
     }
   ],
-  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LightweightMigrationManager",
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LegacyMigrationStep",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "LightweightMigrationManager"
+      "text" : "LegacyMigrationStep"
     }
   ],
   "role" : "symbol",
-  "title" : "LightweightMigrationManager",
+  "title" : "LegacyMigrationStep",
   "type" : "topic",
-  "url" : "\/documentation\/coredataplus\/lightweightmigrationmanager"
+  "url" : "\/documentation\/coredataplus\/legacymigrationstep"
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/ManagedObjectContextDidMergeChangesObjectIDs": {
   "abstract" : [
@@ -612,87 +636,6 @@
   "title" : "ManagedObjectContextWillSaveObjects",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/managedobjectcontextwillsaveobjects"
-},
-"doc://CoreDataPlus/documentation/CoreDataPlus/MigrationProgressReporter": {
-  "abstract" : [
-    {
-      "text" : "Provides a ",
-      "type" : "text"
-    },
-    {
-      "code" : "Progress",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " instance during a ",
-      "type" : "text"
-    },
-    {
-      "code" : "NSMigrationManager",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " migration phase.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "class"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "MigrationProgressReporter"
-    }
-  ],
-  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationProgressReporter",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "MigrationProgressReporter"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "MigrationProgressReporter",
-  "type" : "topic",
-  "url" : "\/documentation\/coredataplus\/migrationprogressreporter"
-},
-"doc://CoreDataPlus/documentation/CoreDataPlus/MigrationStep": {
-  "abstract" : [
-
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "class"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "MigrationStep"
-    }
-  ],
-  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationStep",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "MigrationStep"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "MigrationStep",
-  "type" : "topic",
-  "url" : "\/documentation\/coredataplus\/migrationstep"
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/Migrator": {
   "abstract" : [
@@ -999,6 +942,79 @@
   "title" : "PersistentStoreRemoteChange",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/persistentstoreremotechange"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/StagedMigration": {
+  "abstract" : [
+    {
+      "text" : "Handles migrations with the new ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSStagedMigrationManager",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "StagedMigration"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/StagedMigration",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "StagedMigration"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "StagedMigration",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/stagedmigration"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/StagedMigrationStep": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "StagedMigrationStep"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/StagedMigrationStep",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "StagedMigrationStep"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "StagedMigrationStep",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/stagedmigrationstep"
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/Swift": {
   "abstract" : [

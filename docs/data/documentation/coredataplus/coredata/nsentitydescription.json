@@ -32,7 +32,10 @@
     ],
     "modules" : [
       {
-        "name" : "CoreDataPlus"
+        "name" : "CoreDataPlus",
+        "relatedModules" : [
+          "CoreData"
+        ]
       }
     ],
     "navigatorTitle" : [
@@ -288,7 +291,15 @@
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSEntityDescription/init(for:withName:)": {
   "abstract" : [
     {
-      "text" : "Creates a new NSEntityDescription instance.",
+      "text" : "Creates a new ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSEntityDescription",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " instance.",
       "type" : "text"
     }
   ],

@@ -117,6 +117,24 @@
               "text" : " : "
             },
             {
+              "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LegacyMigration",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:12CoreDataPlus15LegacyMigrationP",
+              "text" : "LegacyMigration"
+            },
+            {
+              "kind" : "text",
+              "text" : ", "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "text" : "Version"
+            },
+            {
+              "kind" : "text",
+              "text" : " : "
+            },
+            {
               "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:12CoreDataPlus12ModelVersionP",
@@ -223,6 +241,48 @@
   "type" : "topic",
   "url" : "\/documentation\/coredataplus"
 },
+"doc://CoreDataPlus/documentation/CoreDataPlus/LegacyMigration": {
+  "abstract" : [
+    {
+      "text" : "Handles migrations with the old ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSMigrationManager",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "LegacyMigration"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LegacyMigration",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "LegacyMigration"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "LegacyMigration",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/legacymigration"
+},
 "doc://CoreDataPlus/documentation/CoreDataPlus/Migrator": {
   "abstract" : [
     {
@@ -292,6 +352,14 @@
       },
       {
         "text" : " conforms to ",
+        "type" : "text"
+      },
+      {
+        "code" : "LegacyMigration",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : " and ",
         "type" : "text"
       },
       {

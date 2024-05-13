@@ -35,8 +35,40 @@
   },
   "kind" : "symbol",
   "metadata" : {
+    "conformance" : {
+      "availabilityPrefix" : [
+        {
+          "text" : "Available when",
+          "type" : "text"
+        }
+      ],
+      "conformancePrefix" : [
+        {
+          "text" : "Conforms when",
+          "type" : "text"
+        }
+      ],
+      "constraints" : [
+        {
+          "code" : "Self",
+          "type" : "codeVoice"
+        },
+        {
+          "text" : " conforms to ",
+          "type" : "text"
+        },
+        {
+          "code" : "LegacyMigration",
+          "type" : "codeVoice"
+        },
+        {
+          "text" : ".",
+          "type" : "text"
+        }
+      ]
+    },
     "extendedModule" : "CoreDataPlus",
-    "externalID" : "s:12CoreDataPlus12ModelVersionPAAE14migrationSteps2toSayAA13MigrationStepCyxGGx_tF",
+    "externalID" : "s:12CoreDataPlus12ModelVersionPA2A15LegacyMigrationRzrlE14migrationSteps2toSayAA0fG4StepCyxGGx_tF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -72,8 +104,8 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:12CoreDataPlus13MigrationStepC",
-        "text" : "MigrationStep"
+        "preciseIdentifier" : "s:12CoreDataPlus19LegacyMigrationStepC",
+        "text" : "LegacyMigrationStep"
       },
       {
         "kind" : "text",
@@ -150,10 +182,10 @@
               "text" : ") -> ["
             },
             {
-              "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationStep",
+              "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LegacyMigrationStep",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:12CoreDataPlus13MigrationStepC",
-              "text" : "MigrationStep"
+              "preciseIdentifier" : "s:12CoreDataPlus19LegacyMigrationStepC",
+              "text" : "LegacyMigrationStep"
             },
             {
               "kind" : "text",
@@ -206,7 +238,7 @@
   "type" : "topic",
   "url" : "\/documentation\/coredataplus"
 },
-"doc://CoreDataPlus/documentation/CoreDataPlus/MigrationStep": {
+"doc://CoreDataPlus/documentation/CoreDataPlus/LegacyMigrationStep": {
   "abstract" : [
 
   ],
@@ -221,21 +253,21 @@
     },
     {
       "kind" : "identifier",
-      "text" : "MigrationStep"
+      "text" : "LegacyMigrationStep"
     }
   ],
-  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/MigrationStep",
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LegacyMigrationStep",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "MigrationStep"
+      "text" : "LegacyMigrationStep"
     }
   ],
   "role" : "symbol",
-  "title" : "MigrationStep",
+  "title" : "LegacyMigrationStep",
   "type" : "topic",
-  "url" : "\/documentation\/coredataplus\/migrationstep"
+  "url" : "\/documentation\/coredataplus\/legacymigrationstep"
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion": {
   "abstract" : [
@@ -302,6 +334,38 @@
       "type" : "text"
     }
   ],
+  "conformance" : {
+    "availabilityPrefix" : [
+      {
+        "text" : "Available when",
+        "type" : "text"
+      }
+    ],
+    "conformancePrefix" : [
+      {
+        "text" : "Conforms when",
+        "type" : "text"
+      }
+    ],
+    "constraints" : [
+      {
+        "code" : "Self",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : " conforms to ",
+        "type" : "text"
+      },
+      {
+        "code" : "LegacyMigration",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : ".",
+        "type" : "text"
+      }
+    ]
+  },
   "fragments" : [
     {
       "kind" : "keyword",
@@ -337,8 +401,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:12CoreDataPlus13MigrationStepC",
-      "text" : "MigrationStep"
+      "preciseIdentifier" : "s:12CoreDataPlus19LegacyMigrationStepC",
+      "text" : "LegacyMigrationStep"
     },
     {
       "kind" : "text",

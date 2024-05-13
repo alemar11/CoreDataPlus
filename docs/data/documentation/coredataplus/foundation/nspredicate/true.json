@@ -71,7 +71,10 @@
     ],
     "modules" : [
       {
-        "name" : "CoreDataPlus"
+        "name" : "CoreDataPlus",
+        "relatedModules" : [
+          "Foundation"
+        ]
       }
     ],
     "role" : "symbol",

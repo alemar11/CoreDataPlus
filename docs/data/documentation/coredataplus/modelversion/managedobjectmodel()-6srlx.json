@@ -256,7 +256,7 @@
       "type" : "text"
     },
     {
-      "code" : "ModelVersions",
+      "code" : "ModelVersion",
       "type" : "codeVoice"
     },
     {

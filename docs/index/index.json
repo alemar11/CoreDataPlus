@@ -87,199 +87,37 @@
           {
             "children" : [
               {
-                "title" : "Initializers",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/init(sourcemodel:destinationmodel:)",
-                "title" : "init(sourceModel: NSManagedObjectModel, destinationModel: NSManagedObjectModel)",
-                "type" : "init"
-              },
-              {
                 "title" : "Instance Properties",
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/currententitymapping",
-                "title" : "var currentEntityMapping: NSEntityMapping",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/destinationcontext",
-                "title" : "var destinationContext: NSManagedObjectContext",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/destinationmodel",
-                "title" : "var destinationModel: NSManagedObjectModel",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/estimatedtime",
-                "title" : "var estimatedTime: TimeInterval",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/mappingmodel",
-                "title" : "var mappingModel: NSMappingModel",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/migrationprogress",
-                "title" : "var migrationProgress: Float",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/sourcecontext",
-                "title" : "var sourceContext: NSManagedObjectContext",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/sourcemodel",
-                "title" : "var sourceModel: NSManagedObjectModel",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/updateprogressinterval",
-                "title" : "var updateProgressInterval: TimeInterval",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/userinfo",
-                "title" : "var userInfo: [AnyHashable : Any]?",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/usesstorespecificmigrationmanager",
-                "title" : "var usesStoreSpecificMigrationManager: Bool",
-                "type" : "property"
-              },
-              {
-                "title" : "Instance Methods",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/associate(sourceinstance:withdestinationinstance:for:)",
-                "title" : "func associate(sourceInstance: NSManagedObject, withDestinationInstance: NSManagedObject, for: NSEntityMapping)",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/cancelmigrationwitherror(_:)",
-                "title" : "func cancelMigrationWithError(Error)",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/destinationentity(for:)",
-                "title" : "func destinationEntity(for: NSEntityMapping) -> NSEntityDescription?",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/destinationinstances(forentitymappingname:sourceinstances:)",
-                "title" : "func destinationInstances(forEntityMappingName: String, sourceInstances: [NSManagedObject]?) -> [NSManagedObject]",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/migratestore(from:sourcetype:options:with:todestinationurl:destinationtype:destinationoptions:)",
-                "title" : "func migrateStore(from: URL, sourceType: String, options: [AnyHashable : Any]?, with: NSMappingModel?, toDestinationURL: URL, destinationType: String, destinationOptions: [AnyHashable : Any]?) throws",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/reset()",
-                "title" : "func reset()",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/sourceentity(for:)",
-                "title" : "func sourceEntity(for: NSEntityMapping) -> NSEntityDescription?",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/sourceinstances(forentitymappingname:destinationinstances:)",
-                "title" : "func sourceInstances(forEntityMappingName: String, destinationInstances: [NSManagedObject]?) -> [NSManagedObject]",
-                "type" : "method"
-              },
-              {
-                "title" : "Type Methods",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager\/automaticallynotifiesobservers(forkey:)",
-                "title" : "class func automaticallyNotifiesObservers(forKey: String) -> Bool",
-                "type" : "method"
-              }
-            ],
-            "path" : "\/documentation\/coredataplus\/lightweightmigrationmanager",
-            "title" : "LightweightMigrationManager",
-            "type" : "class"
-          },
-          {
-            "children" : [
-              {
-                "title" : "Initializers",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/migrationprogressreporter\/init(manager:)",
-                "title" : "init(manager: NSMigrationManager)",
-                "type" : "init"
-              },
-              {
-                "title" : "Instance Properties",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/migrationprogressreporter\/progress",
-                "title" : "var progress: Progress",
-                "type" : "property"
-              },
-              {
-                "title" : "Instance Methods",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/migrationprogressreporter\/markasfinishedifneeded()",
-                "title" : "func markAsFinishedIfNeeded()",
-                "type" : "method"
-              }
-            ],
-            "path" : "\/documentation\/coredataplus\/migrationprogressreporter",
-            "title" : "MigrationProgressReporter",
-            "type" : "class"
-          },
-          {
-            "children" : [
-              {
-                "title" : "Instance Properties",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/coredataplus\/migrationstep\/destinationmodel",
+                "path" : "\/documentation\/coredataplus\/legacymigrationstep\/destinationmodel",
                 "title" : "let destinationModel: NSManagedObjectModel",
                 "type" : "property"
               },
               {
-                "path" : "\/documentation\/coredataplus\/migrationstep\/destinationversion",
+                "path" : "\/documentation\/coredataplus\/legacymigrationstep\/destinationversion",
                 "title" : "let destinationVersion: Version",
                 "type" : "property"
               },
               {
-                "path" : "\/documentation\/coredataplus\/migrationstep\/mappingmodels",
+                "path" : "\/documentation\/coredataplus\/legacymigrationstep\/mappingmodels",
                 "title" : "let mappingModels: [NSMappingModel]",
                 "type" : "property"
               },
               {
-                "path" : "\/documentation\/coredataplus\/migrationstep\/sourcemodel",
+                "path" : "\/documentation\/coredataplus\/legacymigrationstep\/sourcemodel",
                 "title" : "let sourceModel: NSManagedObjectModel",
                 "type" : "property"
               },
               {
-                "path" : "\/documentation\/coredataplus\/migrationstep\/sourceversion",
+                "path" : "\/documentation\/coredataplus\/legacymigrationstep\/sourceversion",
                 "title" : "let sourceVersion: Version",
                 "type" : "property"
               }
             ],
-            "path" : "\/documentation\/coredataplus\/migrationstep",
-            "title" : "MigrationStep",
+            "path" : "\/documentation\/coredataplus\/legacymigrationstep",
+            "title" : "LegacyMigrationStep",
             "type" : "class"
           },
           {
@@ -401,6 +239,22 @@
           {
             "children" : [
               {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/legacymigration\/mappingmodelstonextmodelversion()",
+                "title" : "func mappingModelsToNextModelVersion() -> [NSMappingModel]?",
+                "type" : "method"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/legacymigration",
+            "title" : "LegacyMigration",
+            "type" : "protocol"
+          },
+          {
+            "children" : [
+              {
                 "title" : "Initializers",
                 "type" : "groupMarker"
               },
@@ -424,8 +278,13 @@
                 "type" : "property"
               },
               {
-                "path" : "\/documentation\/coredataplus\/modelversion\/successor",
-                "title" : "var successor: Self?",
+                "path" : "\/documentation\/coredataplus\/modelversion\/next",
+                "title" : "var next: Self?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/modelversion\/versionchecksum",
+                "title" : "var versionChecksum: String",
                 "type" : "property"
               },
               {
@@ -440,6 +299,11 @@
               {
                 "path" : "\/documentation\/coredataplus\/modelversion\/inferredmappingmodeltonextmodelversion()",
                 "title" : "func inferredMappingModelToNextModelVersion() -> NSMappingModel?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/modelversion\/islightweightmigrationpossibletonextmodelversion()",
+                "title" : "func isLightWeightMigrationPossibleToNextModelVersion() -> Bool",
                 "type" : "method"
               },
               {
@@ -461,6 +325,11 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/coredataplus\/modelversion\/managedobjectmodelreference()",
+                "title" : "func managedObjectModelReference() -> NSManagedObjectModelReference",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/coredataplus\/modelversion\/mappingmodeltonextmodelversion()",
                 "title" : "func mappingModelToNextModelVersion() -> NSMappingModel?",
                 "type" : "method"
@@ -471,13 +340,18 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/coredataplus\/modelversion\/mappingmodelstonextmodelversion()",
-                "title" : "func mappingModelsToNextModelVersion() -> [NSMappingModel]?",
+                "path" : "\/documentation\/coredataplus\/modelversion\/migrationstagetonextmodelversion()",
+                "title" : "func migrationStageToNextModelVersion() -> NSMigrationStage?",
                 "type" : "method"
               },
               {
                 "path" : "\/documentation\/coredataplus\/modelversion\/migrationsteps(to:)",
-                "title" : "func migrationSteps(to: Self) -> [MigrationStep<Self>]",
+                "title" : "func migrationSteps(to: Self) -> [LegacyMigrationStep<Self>]",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/modelversion\/stagedmigrationsteps(to:)",
+                "title" : "func stagedMigrationSteps(to: Self) -> [StagedMigrationStep<Self>]",
                 "type" : "method"
               },
               {
@@ -502,10 +376,60 @@
                 "path" : "\/documentation\/coredataplus\/modelversion\/subscript(_:)",
                 "title" : "static subscript([String : Any]) -> Self?",
                 "type" : "subscript"
+              },
+              {
+                "title" : "Default Implementations",
+                "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/modelversion\/debugdescription",
+                    "title" : "var debugDescription: String",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/coredataplus\/modelversion\/customdebugstringconvertible-implementations",
+                "title" : "CustomDebugStringConvertible Implementations",
+                "type" : "symbol"
               }
             ],
             "path" : "\/documentation\/coredataplus\/modelversion",
             "title" : "ModelVersion",
+            "type" : "protocol"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/stagedmigration\/versionchecksum",
+                "title" : "var versionChecksum: String",
+                "type" : "property"
+              },
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/stagedmigration\/managedobjectmodelreference()",
+                "title" : "func managedObjectModelReference() -> NSManagedObjectModelReference",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/stagedmigration\/migrationstagetonextmodelversion()",
+                "title" : "func migrationStageToNextModelVersion() -> NSMigrationStage?",
+                "type" : "method"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/stagedmigration",
+            "title" : "StagedMigration",
             "type" : "protocol"
           },
           {
@@ -520,7 +444,7 @@
               },
               {
                 "path" : "\/documentation\/coredataplus\/fetchedresultssectioninfo\/init(_:)",
-                "title" : "init(NSFetchedResultsSectionInfo)",
+                "title" : "init(any NSFetchedResultsSectionInfo)",
                 "type" : "init"
               },
               {
@@ -1054,6 +978,42 @@
             "type" : "struct"
           },
           {
+            "children" : [
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/stagedmigrationstep\/destinationmodelreference",
+                "title" : "let destinationModelReference: NSManagedObjectModelReference",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/stagedmigrationstep\/destinationversion",
+                "title" : "let destinationVersion: Version",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/stagedmigrationstep\/sourcemodelreference",
+                "title" : "let sourceModelReference: NSManagedObjectModelReference",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/stagedmigrationstep\/sourceversion",
+                "title" : "let sourceVersion: Version",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/stagedmigrationstep\/stage",
+                "title" : "let stage: NSMigrationStage",
+                "type" : "property"
+              }
+            ],
+            "path" : "\/documentation\/coredataplus\/stagedmigrationstep",
+            "title" : "StagedMigrationStep",
+            "type" : "struct"
+          },
+          {
             "title" : "Functions",
             "type" : "groupMarker"
           },
@@ -1137,7 +1097,7 @@
               },
               {
                 "path" : "\/documentation\/coredataplus\/fetchedresultssectionchange\/init(section:index:changetype:)",
-                "title" : "init?(section: NSFetchedResultsSectionInfo, index: Int, changeType: NSFetchedResultsChangeType)",
+                "title" : "init?(section: any NSFetchedResultsSectionInfo, index: Int, changeType: NSFetchedResultsChangeType)",
                 "type" : "init"
               }
             ],
@@ -1345,8 +1305,24 @@
                     "type" : "groupMarker"
                   },
                   {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nscompositeattributedescription\/init(name:elements:)",
+                    "title" : "convenience init(name: String, elements: [NSAttributeDescription])",
+                    "type" : "init"
+                  }
+                ],
+                "path" : "\/documentation\/coredataplus\/coredata\/nscompositeattributedescription",
+                "title" : "NSCompositeAttributeDescription",
+                "type" : "extension"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
                     "path" : "\/documentation\/coredataplus\/coredata\/nsderivedattributedescription\/init(name:type:derivationexpression:)",
-                    "title" : "convenience init(name: String, type: NSAttributeType, derivationExpression: NSExpression)",
+                    "title" : "convenience init(name: String, type: NSAttributeDescription.AttributeType, derivationExpression: NSExpression)",
                     "type" : "init"
                   }
                 ],
@@ -1447,7 +1423,7 @@
                   },
                   {
                     "path" : "\/documentation\/coredataplus\/coredata\/nsfetchedpropertydescription\/init(name:destinationentity:configuration:)",
-                    "title" : "convenience init(name: String, destinationEntity: NSEntityDescription, configuration: (NSFetchRequest<NSFetchRequestResult>) -> Void)",
+                    "title" : "convenience init(name: String, destinationEntity: NSEntityDescription, configuration: (NSFetchRequest<any NSFetchRequestResult>) -> Void)",
                     "type" : "init"
                   }
                 ],
@@ -1509,6 +1485,15 @@
                     "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobject\/refresh(mergechanges:)",
                     "title" : "func refresh(mergeChanges: Bool)",
                     "type" : "method"
+                  },
+                  {
+                    "title" : "Type Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobject\/entityname",
+                    "title" : "class var entityName: String",
+                    "type" : "property"
                   }
                 ],
                 "path" : "\/documentation\/coredataplus\/coredata\/nsmanagedobject",
@@ -1638,22 +1623,6 @@
                     "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/coredataplus\/coredata\/nsmigrationmanager\/makeprogressreporter()",
-                    "title" : "func makeProgressReporter() -> MigrationProgressReporter",
-                    "type" : "method"
-                  }
-                ],
-                "path" : "\/documentation\/coredataplus\/coredata\/nsmigrationmanager",
-                "title" : "NSMigrationManager",
-                "type" : "extension"
-              },
-              {
-                "children" : [
-                  {
-                    "title" : "Instance Methods",
-                    "type" : "groupMarker"
-                  },
-                  {
                     "path" : "\/documentation\/coredataplus\/coredata\/nspersistentstorecoordinator\/removeallstores()",
                     "title" : "func removeAllStores() throws",
                     "type" : "method"
@@ -1688,15 +1657,6 @@
               },
               {
                 "children" : [
-                  {
-                    "title" : "Type Properties",
-                    "type" : "groupMarker"
-                  },
-                  {
-                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/entityname",
-                    "title" : "static var entityName: String",
-                    "type" : "property"
-                  },
                   {
                     "title" : "Type Methods",
                     "type" : "groupMarker"
@@ -1763,7 +1723,7 @@
                   },
                   {
                     "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/fetchobjects(in:estimatedresultcount:with:completion:)",
-                    "title" : "static func fetchObjects(in: NSManagedObjectContext, estimatedResultCount: Int, with: (NSFetchRequest<Self>) -> Void, completion: (Result<[Self], Error>) -> Void) throws -> NSAsynchronousFetchResult<Self>",
+                    "title" : "static func fetchObjects(in: NSManagedObjectContext, estimatedResultCount: Int, with: (NSFetchRequest<Self>) -> Void, completion: (Result<[Self], any Error>) -> Void) throws -> NSAsynchronousFetchResult<Self>",
                     "type" : "method"
                   },
                   {

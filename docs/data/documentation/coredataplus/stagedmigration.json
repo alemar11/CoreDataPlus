@@ -1,0 +1,367 @@
+{
+  "abstract" : [
+    {
+      "text" : "Handles migrations with the new ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSStagedMigrationManager",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/StagedMigration"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:12CoreDataPlus15StagedMigrationP",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "protocol"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "StagedMigration"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "CoreDataPlus"
+      }
+    ],
+    "navigatorTitle" : [
+      {
+        "kind" : "identifier",
+        "text" : "StagedMigration"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Protocol",
+    "symbolKind" : "protocol",
+    "title" : "StagedMigration"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "protocol"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "StagedMigration"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    },
+    {
+      "content" : [
+        {
+          "anchor" : "overview",
+          "level" : 2,
+          "text" : "Overview",
+          "type" : "heading"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "",
+                  "type" : "text"
+                },
+                {
+                  "code" : "NSStagedMigrationManager",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " requires ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "NSMigratePersistentStoresAutomaticallyOption",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " and ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "NSInferMappingModelAutomaticallyOption",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " set to to ",
+                  "type" : "text"
+                },
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "true",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "emphasis"
+                },
+                {
+                  "text" : ".",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "Note",
+          "style" : "note",
+          "type" : "aside"
+        }
+      ],
+      "kind" : "content"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/StagedMigration\/versionChecksum"
+      ],
+      "title" : "Instance Properties"
+    },
+    {
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/StagedMigration\/managedObjectModelReference()",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/StagedMigration\/migrationStageToNextModelVersion()"
+      ],
+      "title" : "Instance Methods"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/coredataplus\/stagedmigration"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://CoreDataPlus/documentation/CoreDataPlus": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "CoreDataPlus",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/StagedMigration": {
+  "abstract" : [
+    {
+      "text" : "Handles migrations with the new ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSStagedMigrationManager",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "StagedMigration"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/StagedMigration",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "StagedMigration"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "StagedMigration",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/stagedmigration"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/StagedMigration/managedObjectModelReference()": {
+  "abstract" : [
+    {
+      "text" : "Returns the current ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSManagedObjectModelReference",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "managedObjectModelReference"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObjectModelReference",
+      "text" : "NSManagedObjectModelReference"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/StagedMigration\/managedObjectModelReference()",
+  "kind" : "symbol",
+  "required" : true,
+  "role" : "symbol",
+  "title" : "managedObjectModelReference()",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/stagedmigration\/managedobjectmodelreference()"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/StagedMigration/migrationStageToNextModelVersion()": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "migrationStageToNextModelVersion"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSMigrationStage",
+      "text" : "NSMigrationStage"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/StagedMigration\/migrationStageToNextModelVersion()",
+  "kind" : "symbol",
+  "required" : true,
+  "role" : "symbol",
+  "title" : "migrationStageToNextModelVersion()",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/stagedmigration\/migrationstagetonextmodelversion()"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/StagedMigration/versionChecksum": {
+  "abstract" : [
+    {
+      "text" : "The Base64-encoded 128-bit model version hash.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "versionChecksum"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/StagedMigration\/versionChecksum",
+  "kind" : "symbol",
+  "required" : true,
+  "role" : "symbol",
+  "title" : "versionChecksum",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/stagedmigration\/versionchecksum"
+}
+}
+}

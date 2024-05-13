@@ -13,8 +13,40 @@
   },
   "kind" : "symbol",
   "metadata" : {
+    "conformance" : {
+      "availabilityPrefix" : [
+        {
+          "text" : "Available when",
+          "type" : "text"
+        }
+      ],
+      "conformancePrefix" : [
+        {
+          "text" : "Conforms when",
+          "type" : "text"
+        }
+      ],
+      "constraints" : [
+        {
+          "code" : "Self",
+          "type" : "codeVoice"
+        },
+        {
+          "text" : " conforms to ",
+          "type" : "text"
+        },
+        {
+          "code" : "LegacyMigration",
+          "type" : "codeVoice"
+        },
+        {
+          "text" : ".",
+          "type" : "text"
+        }
+      ]
+    },
     "extendedModule" : "CoreDataPlus",
-    "externalID" : "s:12CoreDataPlus12ModelVersionPAAE13mappingModels3forSaySo09NSMappingD0CGSaySSG_tF",
+    "externalID" : "s:12CoreDataPlus12ModelVersionPA2A15LegacyMigrationRzrlE13mappingModels3forSaySo09NSMappingD0CGSaySSG_tF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -146,7 +178,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "Returns a list of ",
+              "text" : "a list of ",
               "type" : "text"
             },
             {
@@ -154,7 +186,7 @@
               "type" : "codeVoice"
             },
             {
-              "text" : " given a list of mapping model names.",
+              "text" : " from a list of mapping model names.",
               "type" : "text"
             }
           ],
@@ -270,6 +302,38 @@
   "abstract" : [
 
   ],
+  "conformance" : {
+    "availabilityPrefix" : [
+      {
+        "text" : "Available when",
+        "type" : "text"
+      }
+    ],
+    "conformancePrefix" : [
+      {
+        "text" : "Conforms when",
+        "type" : "text"
+      }
+    ],
+    "constraints" : [
+      {
+        "code" : "Self",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : " conforms to ",
+        "type" : "text"
+      },
+      {
+        "code" : "LegacyMigration",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : ".",
+        "type" : "text"
+      }
+    ]
+  },
   "fragments" : [
     {
       "kind" : "keyword",

@@ -170,7 +170,7 @@
       },
       {
         "kind" : "text",
-        "text" : "], "
+        "text" : "], any "
       },
       {
         "kind" : "typeIdentifier",
@@ -218,7 +218,10 @@
     ],
     "modules" : [
       {
-        "name" : "CoreDataPlus"
+        "name" : "CoreDataPlus",
+        "relatedModules" : [
+          "CoreData"
+        ]
       }
     ],
     "role" : "symbol",
@@ -384,7 +387,7 @@
             },
             {
               "kind" : "text",
-              "text" : "], "
+              "text" : "], any "
             },
             {
               "kind" : "typeIdentifier",
@@ -860,7 +863,7 @@
     },
     {
       "kind" : "text",
-      "text" : "], "
+      "text" : "], any "
     },
     {
       "kind" : "typeIdentifier",
