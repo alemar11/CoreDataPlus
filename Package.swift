@@ -12,11 +12,11 @@ var excluded = [
 ]
 
 var resources: [Resource] = [
-  .copy("Resources/SampleModel/Fixtures/SampleModelV1.sqlite"),
-  .copy("Resources/SampleModel/Fixtures/SampleModelV2.sqlite"),
+  .copy("Resources/SampleModel/Fixtures/SampleModel_V1.sqlite"),
+  .copy("Resources/SampleModel/Fixtures/SampleModel_V2.sqlite"),
   
-  .copy("Resources/SampleModel2/Fixtures/SampleModel2V1.sqlite"),
-  .copy("Resources/SampleModel2/Fixtures/SampleModel2V2.sqlite"),
+  .copy("Resources/SampleModel2/Fixtures/SampleModel2_V1.sqlite"),
+  .copy("Resources/SampleModel2/Fixtures/SampleModel2_V2.sqlite"),
   
   .copy("Resources/SampleModel3/Fixtures/SampleModel3_V1.sqlite"),
 ]

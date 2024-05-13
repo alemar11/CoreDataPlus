@@ -80,8 +80,8 @@ final class Migrations_Tests: BaseTestCase {
 
   func test_IfMigrationIsNeeded() throws {
     let bundle = Bundle.tests
-    let sourceURLV1 = try XCTUnwrap(bundle.url(forResource: "SampleModelV1", withExtension: "sqlite"))
-    let sourceURLV2 = try XCTUnwrap(bundle.url(forResource: "SampleModelV2", withExtension: "sqlite"))
+    let sourceURLV1 = try XCTUnwrap(bundle.url(forResource: "SampleModel_V1", withExtension: "sqlite"))
+    let sourceURLV2 = try XCTUnwrap(bundle.url(forResource: "SampleModel_V2", withExtension: "sqlite"))
     let migrationNeededFromV1toV1 = try CoreDataPlus.isMigrationNecessary(
       for: sourceURLV1, to: SampleModelVersion.version1)
     XCTAssertFalse(migrationNeededFromV1toV1)
@@ -357,11 +357,11 @@ extension Migrations_Tests {
   static func createSQLiteSample1ForV1() throws -> URL {
     let bundle = Bundle.tests
     // 125 cars, 5 sport cars
-    let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModelV1", withExtension: "sqlite"))
+    let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModel_V1", withExtension: "sqlite"))
     
     // Being the test run multiple times, we create an unique copy for every test
     let uuid = UUID().uuidString
-    let sourceURL = bundle.bundleURL.appendingPathComponent("SampleModelV1_copy-\(uuid).sqlite")
+    let sourceURL = bundle.bundleURL.appendingPathComponent("SampleModel_V1_copy-\(uuid).sqlite")
     try FileManager.default.copyItem(at: _sourceURL, to: sourceURL)
     XCTAssertTrue(FileManager.default.fileExists(atPath: sourceURL.path))
     return sourceURL
@@ -370,11 +370,11 @@ extension Migrations_Tests {
   static func createSQLiteSample1ForV2() throws -> URL {
     let bundle = Bundle.tests
     // 125 cars, 5 sport cars
-    let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModelV2", withExtension: "sqlite"))
+    let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModel_V2", withExtension: "sqlite"))
     
     // Being the test run multiple times, we create an unique copy for every test
     let uuid = UUID().uuidString
-    let sourceURL = bundle.bundleURL.appendingPathComponent("SampleModelV2_copy-\(uuid).sqlite")
+    let sourceURL = bundle.bundleURL.appendingPathComponent("SampleModel_V2_copy-\(uuid).sqlite")
     try FileManager.default.copyItem(at: _sourceURL, to: sourceURL)
     XCTAssertTrue(FileManager.default.fileExists(atPath: sourceURL.path))
     return sourceURL

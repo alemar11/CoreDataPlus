@@ -113,11 +113,11 @@ final class StagedMigrations_Tests: XCTestCase {
 extension StagedMigrations_Tests {
   static func createSQLiteSample2ForV1() throws -> URL {
     let bundle = Bundle.tests
-    let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModel2V1", withExtension: "sqlite"))
+    let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModel2_V1", withExtension: "sqlite"))
     
     // Being the test run multiple times, we create an unique copy for every test
     let uuid = UUID().uuidString
-    let sourceURL = bundle.bundleURL.appendingPathComponent("SampleModel2V1_copy-\(uuid).sqlite")
+    let sourceURL = bundle.bundleURL.appendingPathComponent("SampleModel2_V1_copy-\(uuid).sqlite")
     try FileManager.default.copyItem(at: _sourceURL, to: sourceURL)
     XCTAssertTrue(FileManager.default.fileExists(atPath: sourceURL.path))
     return sourceURL
@@ -125,11 +125,11 @@ extension StagedMigrations_Tests {
   
   static func createSQLiteSample2ForV2() throws -> URL {
     let bundle = Bundle.tests
-    let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModel2V2", withExtension: "sqlite"))
+    let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModel2_V2", withExtension: "sqlite"))
     
     // Being the test run multiple times, we create an unique copy for every test
     let uuid = UUID().uuidString
-    let sourceURL = bundle.bundleURL.appendingPathComponent("SampleModel2V2_copy-\(uuid).sqlite")
+    let sourceURL = bundle.bundleURL.appendingPathComponent("SampleModel2_V2_copy-\(uuid).sqlite")
     try FileManager.default.copyItem(at: _sourceURL, to: sourceURL)
     XCTAssertTrue(FileManager.default.fileExists(atPath: sourceURL.path))
     return sourceURL
