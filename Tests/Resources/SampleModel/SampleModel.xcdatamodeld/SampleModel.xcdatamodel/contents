@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22757" systemVersion="23E224" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23E224" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1">
     <entity name="Car" representedClassName="Car" syncable="YES">
         <attribute name="color" optional="YES" attributeType="Transformable" valueTransformerName="ColorTransformer" customClassName="Color"/>
         <attribute name="currentDrivingSpeed" optional="YES" transient="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>

@@ -53,15 +53,13 @@ final class ProgrammaticallyDefinedModel_Tests: OnDiskWithProgrammaticallyModelT
     // If we change its value at runtime, the result will reflect that.
     favFeedbacksFetchedProperty.userInfo?["search"] = "interesting"
     XCTAssertEqual(author.favFeedbacks?.count, 1)
-    
-    // TODO: remove the store
   }
 }
 
-// MARK: - V3
+// MARK: - V2
 
 final class ProgrammaticallyDefinedModelV2Tests: XCTestCase {
-  // Tests to make it sure that the model V3 is correctly defined
+  // Tests to make it sure that the model V2 is correctly defined
   func test_SetupV2() throws {
     let url = URL.newDatabaseURL(withID: UUID())
     let model = V2.makeManagedObjectModel()
@@ -89,8 +87,6 @@ final class ProgrammaticallyDefinedModelV2Tests: XCTestCase {
     XCTAssertEqual(feedbacks.map({ $0.rating }), [3.5, 4.2, 4.3])
 
     XCTAssertEqual(author.favFeedbacks?.count, 2)
-    
-    // TODO: remove the store
   }
 }
 
@@ -124,8 +120,6 @@ final class ProgrammaticallyDefinedModelV3Tests: XCTestCase {
     XCTAssertEqual(feedbacks.map({ $0.rating }), [3.5, 4.2, 4.3])
 
     XCTAssertEqual(author.favFeedbacks?.count, 2)
-    
-    // TODO: remove the store
   }
 
   func test_InvestigationVersionHashes() {

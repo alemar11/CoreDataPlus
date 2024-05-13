@@ -3,7 +3,7 @@
 import CoreData
 
 // Representation of a Core Data migration step.
-public final class MigrationStep<Version: ModelVersion> {
+public final class MigrationStep<Version: ModelVersion & LegacyMigration> {
   public let sourceVersion: Version
   public let sourceModel: NSManagedObjectModel
   public let destinationVersion: Version

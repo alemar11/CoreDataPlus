@@ -10,7 +10,7 @@ import CoreData
 /// and an Info.plist file that contains the version information.
 /// The model is compiled into a runtime format—a file package with a `.momd` extension that contains individually compiled model files with a `.mom` extension
 /// documentation.
-private enum ModelVersionFileExtension {
+internal enum ModelVersionFileExtension {
   /// Extension for a compiled version of a model file package (`.xcdatamodeld`).
   static let momd = "momd"
   /// Extension for a compiled version of a *versioned* model file (`.xcdatamodel`).
@@ -41,7 +41,7 @@ public protocol ModelVersion: Equatable, RawRepresentable, CustomDebugStringConv
   /// Protocol `ModelVersion`.
   ///
   /// The next `ModelVersion` in the progressive migration.
-  var successor: Self? { get }
+  var next: Self? { get }
 
   /// Protocol `ModelVersion`.
   ///
@@ -57,42 +57,17 @@ public protocol ModelVersion: Equatable, RawRepresentable, CustomDebugStringConv
   ///
   /// Return the NSManagedObjectModel for this `ModelVersion`.
   func managedObjectModel() -> NSManagedObjectModel
-  
-  /// Protocol `ModelVersion`.
-  ///
-  /// Returns a list of mapping models needed to migrate the current version of the database to the next one.
-  func mappingModelsToNextModelVersion() -> [NSMappingModel]?
-
-  /// Protocol `ModelVersion`.
-  ///
-  /// Returns the `NSManagedObjectModelReference` for this `ModelVersion`.
-  @available(iOS 17.0, tvOS 17.0, watchOS 10.0, macOS 14.0, visionOS 1.0, iOSApplicationExtension 17.0, macCatalystApplicationExtension 17.0, *)
-  func managedObjectModelReference() -> NSManagedObjectModelReference
-  
-  /// Protocol `ModelVersion`.
-  ///
-  /// The Base64-encoded 128-bit model version hash.
-  @available(iOS 17.0, tvOS 17.0, watchOS 10.0, macOS 14.0, visionOS 1.0, iOSApplicationExtension 17.0, macCatalystApplicationExtension 17.0, *)
-  var versionChecksum: String { get }
-  
-  /// Protocol `ModelVersion`.
-  ///
-  /// - Returns a list of `NSCustomMigrationStage` needed to mirate to the next `version` of the store.
-  ///  - Warning: Required only if migrations are handled by the new `NSStagedMigrationManager`.
-  @available(iOS 17.0, tvOS 17.0, watchOS 10.0, macOS 14.0, visionOS 1.0, iOSApplicationExtension 17.0, macCatalystApplicationExtension 17.0, *)
-  func migrationStagesToNextModelVersion() -> [NSMigrationStage]?
 }
+
+
+
+
 
 extension ModelVersion {
   /// Protocol `ModelVersion`.
   ///
   /// Model file name.
   var momd: String { "\(modelName).\(ModelVersionFileExtension.momd)" }
-
-  @available(iOS 17.0, tvOS 17.0, watchOS 10.0, macOS 14.0, visionOS 1.0, iOSApplicationExtension 17.0, macCatalystApplicationExtension 17.0, *)
-  public var versionChecksum: String {
-    managedObjectModel().versionChecksum
-  }
 }
 
 extension ModelVersion {
@@ -133,14 +108,6 @@ extension ModelVersion {
     _managedObjectModel()
   }
   
-  /// Protocol `ModelVersion`.
-  ///
-  /// Returns the `NSManagedObjectModelReference` for this `ModelVersion`.
-  @available(iOS 17.0, tvOS 17.0, watchOS 10.0, macOS 14.0, visionOS 1.0, iOSApplicationExtension 17.0, macCatalystApplicationExtension 17.0, *)
-  public func managedObjectModelReference() -> NSManagedObjectModelReference {
-    .init(model: managedObjectModel(), versionChecksum: versionChecksum)
-  }
-
   // swiftlint:disable:next identifier_name
   internal func _managedObjectModel() -> NSManagedObjectModel {
     let momURL = modelBundle.url(forResource: versionName,
@@ -162,11 +129,11 @@ extension ModelVersion {
     return model
   }
 
-  /// `AnyIterator` to iterate all the successors steps after `self`.
-  func successorsIterator() -> AnyIterator<Self> {
+  /// `AnyIterator` to iterate all the nexts steps after `self`.
+  func makeIterator() -> AnyIterator<Self> {
     var version: Self = self
     return AnyIterator {
-      guard let next = version.successor else { return nil }
+      guard let next = version.next else { return nil }
 
       version = next
       return version
@@ -209,141 +176,15 @@ public func isMigrationNecessary<Version: ModelVersion>(for storeURL: URL, to ve
   if isCompatible {
     return false  // current and target versions are the same
   } else if let currentVersion = Version[metadata] {
-    let iterator = currentVersion.successorsIterator()
+    let iterator = currentVersion.makeIterator()
     while let nextVersion = iterator.next() {
       if nextVersion == version { return true }
     }
-    // can't migrate to a version not defined as a successor step
+    // can't migrate to a version not defined as a next step
     // (target version is probably a prior version of the current one)
     return false
   } else {
     // fallback
     return false
-  }
-}
-
-// MARK: - MigrationStep
-
-extension ModelVersion {
-  /// Returns a list of `MigrationStep` needed to mirate to the next `version` of the store.
-  public func migrationSteps(to version: Self) -> [MigrationStep<Self>] {
-    guard self != version else {
-      return []
-    }
-
-    guard let nextVersion = successor else {
-      return []
-    }
-
-    guard let step = MigrationStep(sourceVersion: self, destinationVersion: nextVersion) else {
-      fatalError("Couldn't find any mapping models.")
-    }
-
-    return [step] + nextVersion.migrationSteps(to: version)
-  }
-
-  /// Returns a `NSMappingModel` that specifies how to map a model to the next version model.
-  public func mappingModelToNextModelVersion() -> NSMappingModel? {
-    guard let nextVersion = successor else {
-      return nil
-    }
-
-    guard
-      let mappingModel = NSMappingModel(
-        from: [modelBundle], forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel())
-    else {
-      fatalError("No NSMappingModel found for \(self) to \(nextVersion).")
-    }
-
-    return mappingModel
-  }
-
-  /// Returns a newly created mapping model that will migrate data from the source to the destination model.
-  ///
-  /// - Note:
-  /// A model will be created only if all changes are simple enough to be able to reasonably infer a mapping such as:
-  ///
-  ///  - Adding, removing, and renaming attributes
-  ///  - Adding, removing, and renaming relationships
-  ///  - Adding, removing, and renaming entities
-  ///  - Changing the optional status of attributes
-  ///  - Adding or removing indexes on attributes
-  ///  - Adding, removing, or changing compound indexes on entities
-  ///  - Adding, removing, or changing unique constraints on entities
-  ///
-  ///  There are a few gotchas to this list:
-  ///
-  /// - if you change an attribute from optional to non-optional, specify a default value.
-  /// - changing indexes (on attributes as well as compound indexes) won’t be picked up as a model change; specify a hash modifier on the changed
-  /// attributes or entities in order to force Core Data to do the right thing during migration.
-  public func inferredMappingModelToNextModelVersion() -> NSMappingModel? {
-    guard let nextVersion = successor else {
-      return nil
-    }
-
-    return try? NSMappingModel.inferredMappingModel(forSourceModel: managedObjectModel(),
-                                                    destinationModel: nextVersion.managedObjectModel())
-  }
-
-  /// - Returns: a list of `NSMappingModel` from a list of mapping model names.
-  /// - Note: The mapping models must be inside the NSBundle object containing the model file.
-  public func mappingModels(for mappingModelNames: [String]) -> [NSMappingModel] {
-    var results = [NSMappingModel]()
-
-    guard mappingModelNames.count > 0 else {
-      return results
-    }
-
-    guard
-      let allMappingModelsURLs = modelBundle.urls(forResourcesWithExtension: ModelVersionFileExtension.cdm,
-                                                  subdirectory: nil),
-      allMappingModelsURLs.count > 0
-    else {
-      return results
-    }
-
-    for name in mappingModelNames {
-      let expectedFileName = "\(name).\(ModelVersionFileExtension.cdm)"
-      if let url = allMappingModelsURLs.first(where: { $0.lastPathComponent == expectedFileName }),
-         let mappingModel = NSMappingModel(contentsOf: url)
-      {
-        results.append(mappingModel)
-      }
-    }
-
-    return results
-  }
-}
-
-// MARK: - NSMigrationStage
-
-extension ModelVersion {
-  /// Returns a list of `NSCustomMigrationStage` needed to mirate to the next `version` of the store.
-  @available(iOS 17.0, tvOS 17.0, watchOS 10.0, macOS 14.0, visionOS 1.0, iOSApplicationExtension 17.0, macCatalystApplicationExtension 17.0, *)
-  public func migrationStagesToNextModelVersion() -> [NSMigrationStage]? {
-    //fatalError("Required only if migrations are handled by the new NSStagedMigrationManager")
-    return nil
-  }
-}
-
-// MARK: - StagedMigrationStep
-
-extension ModelVersion {
-  /// Returns a list of `StagedMigrationStep` needed to mirate to the next `version` of the store.
-  @available(iOS 17.0, tvOS 17.0, watchOS 10.0, macOS 14.0, visionOS 1.0, iOSApplicationExtension 17.0, macCatalystApplicationExtension 17.0, *)
-  public func stagedMigrationSteps(to version: Self) -> [StagedMigrationStep<Self>] {
-    guard self != version else {
-      return []
-    }
-
-    guard let nextVersion = successor else {
-      return []
-    }
-
-    guard let step = StagedMigrationStep(sourceVersion: self, destinationVersion: nextVersion) else {
-      fatalError("Couldn't find any mapping stages.")
-    }
-
-    return [step] + nextVersion.stagedMigrationSteps(to: version)
   }
 }

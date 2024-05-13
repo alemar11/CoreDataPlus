@@ -13,7 +13,12 @@ var excluded = [
 
 var resources: [Resource] = [
   .copy("Resources/SampleModel/Fixtures/SampleModelV1.sqlite"),
-  .copy("Resources/SampleModel/Fixtures/SampleModelV2.sqlite")
+  .copy("Resources/SampleModel/Fixtures/SampleModelV2.sqlite"),
+  
+  .copy("Resources/SampleModel2/Fixtures/SampleModel2V1.sqlite"),
+  .copy("Resources/SampleModel2/Fixtures/SampleModel2V2.sqlite"),
+  
+  .copy("Resources/SampleModel3/Fixtures/SampleModel3_V1.sqlite"),
 ]
 
 if isRunningFromCommandLine {
@@ -22,13 +27,15 @@ if isRunningFromCommandLine {
   resources.append(contentsOf: [
     .copy("Resources/SampleModel/Fixtures/SampleModel.momd"),
     .copy("Resources/SampleModel/Fixtures/V2toV3.cdm"),
+    .copy("Resources/SampleModel3/Fixtures/SampleModel3.momd"),
   ])
 } else {
   // When running tests from Xcode, these resources needs to be excluded
   // because they are automatically created by Xcode
   excluded.append(contentsOf: [
     "Resources/SampleModel/Fixtures/SampleModel.momd",
-    "Resources/SampleModel/Fixtures/V2toV3.cdm"
+    "Resources/SampleModel/Fixtures/V2toV3.cdm",
+    "Resources/SampleModel3/Fixtures/SampleModel3.momd"
   ])
 }
 
@@ -36,7 +43,8 @@ if isRunningFromCommandLine {
 if isRunningFromCommandLine || buildingDocumentation {
   excluded += [
     "Resources/SampleModel/MappingModels/V2toV3.xcmappingmodel",
-    "Resources/SampleModel/SampleModel.xcdatamodeld"]
+    "Resources/SampleModel/SampleModel.xcdatamodeld",
+    "Resources/SampleModel3/SampleModel3.xcdatamodeld"]
 }
 
 let swiftSettings: [SwiftSetting] = [
