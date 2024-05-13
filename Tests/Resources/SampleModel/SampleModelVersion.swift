@@ -11,7 +11,7 @@ let model1 = SampleModelVersion.version1._managedObjectModel()
 let model2 = SampleModelVersion.version2._managedObjectModel()
 let model3 = SampleModelVersion.version3._managedObjectModel()
 
-public enum SampleModelVersion: String, CaseIterable {
+public enum SampleModelVersion: String, CaseIterable, LegacyMigration {
   case version1 = "SampleModel"
   case version2 = "SampleModel2"
   case version3 = "SampleModel3"
@@ -22,7 +22,7 @@ extension SampleModelVersion: ModelVersion {
   public static var currentVersion: SampleModelVersion { .version1 }
   public var modelName: String { "SampleModel" }
 
-  public var successor: SampleModelVersion? {
+  public var next: SampleModelVersion? {
     switch self {
     case .version1: return .version2
     case .version2: return .version3
@@ -77,78 +77,6 @@ extension SampleModelVersion {
       }
 
       return [mappings]
-    default:
-      return []
-    }
-  }
-}
-
-extension SampleModelVersion {
-  @available(iOS 17.0, tvOS 17.0, watchOS 10.0, macOS 14.0, visionOS 1.0, iOSApplicationExtension 17.0, macCatalystApplicationExtension 17.0, *)
-  public func migrationStagesToNextModelVersion() -> [NSMigrationStage]? {
-    switch self {
-    case .version1:
-      let stage = NSLightweightMigrationStage([SampleModelVersion.version1.versionChecksum])
-      stage.label = "V1 to V2 (Lightweight)"
-      return [stage]
-    case .version2:
-      let stage = NSCustomMigrationStage(migratingFrom: SampleModelVersion.version2.managedObjectModelReference(),
-                                         to: SampleModelVersion.version3.managedObjectModelReference())
-
-      stage.label = "V2 to V3 (Custom)"
-      
-      stage.willMigrateHandler = { migrationManager, stage in
-        return
-        guard let container = migrationManager.container else {
-          return
-        }
-        
-        var makers = [NSManagedObject]()
-        
-        let context = container.newBackgroundContext()
-        try context.performAndWait {
-          let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Car")
-          let allCars = try context.fetch(fetchRequest)
-          for car in allCars {
-            if let makerString = car.value(forKey: "maker") as? String {
-              let maker = makers.first { $0.entity.name == "Maker" && $0.value(forKey: "name") as? String == makerString }
-              if let maker {
-                if var currentCars = maker.value(forKey: "cars") as? Set<NSManagedObject> {
-                  currentCars.insert(car)
-                  maker.setValue(currentCars, forKey: "cars")
-                } else {
-                  var cars = Set<NSManagedObject>()
-                  cars.insert(car)
-                  maker.setValue(cars, forKey: "cars")
-                }
-              } else {
-                let maker = NSEntityDescription.insertNewObject(forEntityName: "Maker", into: context)
-                var cars = Set<NSManagedObject>()
-                cars.insert(car)
-                maker.setValue(cars, forKey: "cars")
-                makers.append(maker)
-              }
-            }
-            
-            try context.save()
-          }
-        }
- // TODO: remove this
-      }
-      
-      stage.didMigrateHandler = { migrationManager, stage in
-        print("---")
-        
-        guard let container = migrationManager.container else {
-          return
-        }
-        
-        var makers = [NSManagedObject]()
-        
-        let context = container.newBackgroundContext()
-        print(container.managedObjectModel.entities)
-      }
-      return [stage]
     default:
       return []
     }

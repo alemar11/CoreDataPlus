@@ -10,7 +10,7 @@ import os.lock
 final class ProgrammaticMigration_Tests: XCTestCase {
 
   func test_InferringMappingModelFromV1toV2() throws {
-    let mappingModel = try XCTUnwrap(SampleModel2.SampleModel2Version.version1.inferredMappingModelToNextModelVersion())
+    let mappingModel = try XCTUnwrap(SampleModel2.SampleModelVersion2.version1.inferredMappingModelToNextModelVersion())
     XCTAssertTrue(mappingModel.isInferred)
     let mappings = try XCTUnwrap(mappingModel.entityMappings)
     let authorMappingModel = try XCTUnwrap(mappings.first(where: { $0.sourceEntityName == "Author" }))
@@ -87,7 +87,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     }
 
     let newOptions = destinationDescription.options
-    let migrator = Migrator<SampleModel2.SampleModel2Version>(
+    let migrator = Migrator<SampleModel2.SampleModelVersion2>(
       sourceStoreDescription: sourceDescription,
       destinationStoreDescription: destinationDescription,
       targetVersion: .version2)
@@ -160,7 +160,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
       destinationDescription.setOption(value as NSObject, forKey: key)
     }
 
-    let migrator = Migrator<SampleModel2.SampleModel2Version>(
+    let migrator = Migrator<SampleModel2.SampleModelVersion2>(
       sourceStoreDescription: sourceDescription,
       destinationStoreDescription: destinationDescription,
       targetVersion: .version2)
@@ -254,7 +254,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
 
   func test_MigrationFromV1toV3() throws {
     let url = URL.newDatabaseURL(withID: UUID())
-
+    
     // the migration works fine even if NSMigratePersistentStoresAutomaticallyOption is set to true,
     // but it should be false
     let options = [
@@ -285,8 +285,12 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     })
 
     // Migration
+    
+    XCTAssertTrue(SampleModel2.SampleModelVersion2.version1.isLightWeightMigrationPossibleToNextModelVersion())
+    XCTAssertTrue(SampleModel2.SampleModelVersion2.version2.isLightWeightMigrationPossibleToNextModelVersion())
+    XCTAssertFalse(SampleModel2.SampleModelVersion2.version3.isLightWeightMigrationPossibleToNextModelVersion())
 
-    let migrator = Migrator<SampleModel2.SampleModel2Version>(
+    let migrator = Migrator<SampleModel2.SampleModelVersion2>(
       sourceStoreDescription: description,
       destinationStoreDescription: description,
       targetVersion: .version3)

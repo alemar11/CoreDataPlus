@@ -80,8 +80,8 @@ final class Migrations_Tests: BaseTestCase {
 
   func test_IfMigrationIsNeeded() throws {
     let bundle = Bundle.tests
-    let sourceURLV1 = try XCTUnwrap(bundle.url(forResource: "SampleModelV1", withExtension: "sqlite"))
-    let sourceURLV2 = try XCTUnwrap(bundle.url(forResource: "SampleModelV2", withExtension: "sqlite"))
+    let sourceURLV1 = try XCTUnwrap(bundle.url(forResource: "SampleModel_V1", withExtension: "sqlite"))
+    let sourceURLV2 = try XCTUnwrap(bundle.url(forResource: "SampleModel_V2", withExtension: "sqlite"))
     let migrationNeededFromV1toV1 = try CoreDataPlus.isMigrationNecessary(
       for: sourceURLV1, to: SampleModelVersion.version1)
     XCTAssertFalse(migrationNeededFromV1toV1)
@@ -97,7 +97,7 @@ final class Migrations_Tests: BaseTestCase {
   }
 
   func test_MigrationFromV1toV1() throws {
-    let sourceURL = try createSQLiteSampleForV1()
+    let sourceURL = try Self.createSQLiteSample1ForV1()
 
     let sourceDescription = NSPersistentStoreDescription(url: sourceURL)
     let destinationDescription = NSPersistentStoreDescription(url: sourceURL)
@@ -106,10 +106,12 @@ final class Migrations_Tests: BaseTestCase {
       destinationStoreDescription: destinationDescription,
       targetVersion: .version1)
     try migrator.migrate(enableWALCheckpoint: true)
+    
+    try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
   }
 
   func test_MigrationFromV1ToV2() throws {
-    let sourceURL = try createSQLiteSampleForV1()
+    let sourceURL = try Self.createSQLiteSample1ForV1()
 
     let targetVersion = SampleModelVersion.version2
     let steps = SampleModelVersion.version1.migrationSteps(to: .version2)
@@ -156,11 +158,12 @@ final class Migrations_Tests: BaseTestCase {
 
     migratedContext._fix_sqlite_warning_when_destroying_a_store()
     token.invalidate()
+    try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
   }
 
   func test_MigrationFromV1ToV2UsingCustomMigratorProvider() throws {
-    let sourceURL = try createSQLiteSampleForV1()
-
+    let sourceURL = try Self.createSQLiteSample1ForV1()
+    
     let targetVersion = SampleModelVersion.version2
     let steps = SampleModelVersion.version1.migrationSteps(to: .version2)
     XCTAssertEqual(steps.count, 1)
@@ -207,12 +210,13 @@ final class Migrations_Tests: BaseTestCase {
 
     migratedContext._fix_sqlite_warning_when_destroying_a_store()
     token.invalidate()
+    try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
   }
 
   // MARK: - HeavyWeight Migration
 
   func test_MigrationFromV2ToV3() throws {
-    let sourceURL = try createSQLiteSampleForV2()
+    let sourceURL = try Self.createSQLiteSample1ForV2()
 
     let targetURL = sourceURL
     let version = try SampleModelVersion(persistentStoreURL: sourceURL as URL)
@@ -255,13 +259,12 @@ final class Migrations_Tests: BaseTestCase {
     XCTAssertTrue(FileManager.default.fileExists(atPath: sourceURL.path))
 
     migratedContext._fix_sqlite_warning_when_destroying_a_store()
-
     try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
   }
 
   func test_CancelMigrationFromV2ToV3() throws {
     // Given
-    let sourceURL = try createSQLiteSampleForV2()
+    let sourceURL = try Self.createSQLiteSample1ForV2()
     let sourceDescription = NSPersistentStoreDescription(url: sourceURL)
     let destinationDescription = NSPersistentStoreDescription(url: sourceURL)
     let migrator = Migrator<SampleModelVersion>(sourceStoreDescription: sourceDescription,
@@ -294,9 +297,13 @@ final class Migrations_Tests: BaseTestCase {
   }
 
   func test_MigrationFromV1ToV3() throws {
-    let sourceURL = try createSQLiteSampleForV1()
+    let sourceURL = try Self.createSQLiteSample1ForV1()
     let version = try SampleModelVersion(persistentStoreURL: sourceURL as URL)
     XCTAssertTrue(version == .version1)
+    
+    XCTAssertTrue(SampleModelVersion.version1.isLightWeightMigrationPossibleToNextModelVersion())
+    XCTAssertTrue(SampleModelVersion.version2.isLightWeightMigrationPossibleToNextModelVersion())
+    XCTAssertFalse(SampleModelVersion.version3.isLightWeightMigrationPossibleToNextModelVersion())
 
     let targetURL = URL.temporaryDirectory.appendingPathComponent("SampleModel").appendingPathExtension("sqlite")
     let sourceDescription = NSPersistentStoreDescription(url: sourceURL)
@@ -329,6 +336,7 @@ final class Migrations_Tests: BaseTestCase {
 
     migratedContext._fix_sqlite_warning_when_destroying_a_store()
     token.invalidate()
+    try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
   }
 
   func test_InvestigationProgress() {
@@ -349,36 +357,35 @@ final class Migrations_Tests: BaseTestCase {
 
 // MARK: - Sample creation
 
-// TODO: move from here
-
-  func createSQLiteSampleForV1() throws -> URL {
+extension Migrations_Tests {
+  static func createSQLiteSample1ForV1() throws -> URL {
     let bundle = Bundle.tests
     // 125 cars, 5 sport cars
-    let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModelV1", withExtension: "sqlite"))
-
+    let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModel_V1", withExtension: "sqlite"))
+    
     // Being the test run multiple times, we create an unique copy for every test
     let uuid = UUID().uuidString
-    let sourceURL = bundle.bundleURL.appendingPathComponent("SampleModelV1_copy-\(uuid).sqlite")
+    let sourceURL = bundle.bundleURL.appendingPathComponent("SampleModel_V1_copy-\(uuid).sqlite")
     try FileManager.default.copyItem(at: _sourceURL, to: sourceURL)
     XCTAssertTrue(FileManager.default.fileExists(atPath: sourceURL.path))
     return sourceURL
   }
-
-  func createSQLiteSampleForV2() throws -> URL {
+  
+  static func createSQLiteSample1ForV2() throws -> URL {
     let bundle = Bundle.tests
     // 125 cars, 5 sport cars
-    let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModelV2", withExtension: "sqlite"))
-
+    let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModel_V2", withExtension: "sqlite"))
+    
     // Being the test run multiple times, we create an unique copy for every test
     let uuid = UUID().uuidString
-    let sourceURL = bundle.bundleURL.appendingPathComponent("SampleModelV2_copy-\(uuid).sqlite")
+    let sourceURL = bundle.bundleURL.appendingPathComponent("SampleModel_V2_copy-\(uuid).sqlite")
     try FileManager.default.copyItem(at: _sourceURL, to: sourceURL)
     XCTAssertTrue(FileManager.default.fileExists(atPath: sourceURL.path))
     return sourceURL
   }
-
+  
   /// Creates a .sqlite with some data for the initial model (version 1)
-  func createSampleVersion1(completion: @escaping (Result<URL, Error>) -> Void) {
+  static func createSampleVersion1(completion: @escaping (Result<URL, Error>) -> Void) {
     let containerSQLite = NSPersistentContainer(name: "SampleModel-\(UUID())", managedObjectModel: model1)
     containerSQLite.loadPersistentStores { (description, error) in
       if let error = error {
@@ -396,4 +403,4 @@ final class Migrations_Tests: BaseTestCase {
       }
     }
   }
-
+}

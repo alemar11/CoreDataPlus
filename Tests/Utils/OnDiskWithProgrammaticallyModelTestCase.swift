@@ -30,18 +30,18 @@ class OnDiskWithProgrammaticallyModelTestCase: XCTestCase {
 
 final class OnDiskWithProgrammaticallyModelPersistentContainer: NSPersistentContainer {
   static func makeNew() -> OnDiskWithProgrammaticallyModelPersistentContainer {
-    Self.makeNew(id: UUID())
+    Self.makeNew(id: UUID().uuidString)
   }
 
-  static func makeNew(id: UUID) -> OnDiskWithProgrammaticallyModelPersistentContainer {
-    let url = URL.newDatabaseURL(withID: id)
-    let container = OnDiskWithProgrammaticallyModelPersistentContainer(
-      name: "SampleModel2",
-      managedObjectModel: V1.makeManagedObjectModel())
+  static func makeNew(id: String, 
+                      forStagedMigration enableStagedMigration: Bool = false,
+                      model: NSManagedObjectModel = V1.makeManagedObjectModel()) -> OnDiskWithProgrammaticallyModelPersistentContainer {
+    let url = URL.newDatabaseURL(withName: id)
+    let container = OnDiskWithProgrammaticallyModelPersistentContainer(name: "SampleModel2", managedObjectModel: model)
     let description = NSPersistentStoreDescription()
     description.url = url
-    description.shouldMigrateStoreAutomatically = false
-    description.shouldInferMappingModelAutomatically = false
+    description.shouldMigrateStoreAutomatically = enableStagedMigration
+    description.shouldInferMappingModelAutomatically = enableStagedMigration
 
     // Enable history tracking and remote notifications
     description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
