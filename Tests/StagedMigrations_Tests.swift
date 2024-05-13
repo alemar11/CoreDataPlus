@@ -2,6 +2,7 @@
 
 import CoreData
 import XCTest
+@testable import CoreDataPlus
 
 @available(iOS 17.0, tvOS 17.0, watchOS 10.0, macOS 14.0, visionOS 1.0, iOSApplicationExtension 17.0, macCatalystApplicationExtension 17.0, *)
 final class StagedMigrations_Tests: XCTestCase {
@@ -10,6 +11,9 @@ final class StagedMigrations_Tests: XCTestCase {
     let sourceURL = try Self.createSQLiteSample3ForV1()
     let steps = SampleModelVersion3.version1.stagedMigrationSteps(to: .version2)
     XCTAssertEqual(steps.count, 1)
+    
+    XCTAssertFalse(try isMigrationNecessary(for: sourceURL, to: SampleModelVersion3.version1))
+    XCTAssertTrue(try isMigrationNecessary(for: sourceURL, to: SampleModelVersion3.version2))
     
     let version = try SampleModelVersion3(persistentStoreURL: sourceURL)
     XCTAssertTrue(version == .version1)
@@ -48,6 +52,14 @@ final class StagedMigrations_Tests: XCTestCase {
     let steps = SampleModelVersion3.version1.stagedMigrationSteps(to: .version3)
     XCTAssertEqual(steps.count, 2)
     
+    XCTAssertFalse(try isMigrationNecessary(for: sourceURL, to: SampleModelVersion3.version1))
+    XCTAssertTrue(try isMigrationNecessary(for: sourceURL, to: SampleModelVersion3.version2))
+    XCTAssertTrue(try isMigrationNecessary(for: sourceURL, to: SampleModelVersion3.version3))
+    
+    XCTAssertTrue(SampleModelVersion3.version1.isLightWeightMigrationPossibleToNextModelVersion())
+    XCTAssertTrue(SampleModelVersion3.version2.isLightWeightMigrationPossibleToNextModelVersion())
+    XCTAssertFalse(SampleModelVersion3.version3.isLightWeightMigrationPossibleToNextModelVersion()) // no V4
+    
     let version = try SampleModelVersion3(persistentStoreURL: sourceURL)
     XCTAssertTrue(version == .version1)
     
@@ -59,12 +71,18 @@ final class StagedMigrations_Tests: XCTestCase {
     let storeDescription = try XCTUnwrap(container.persistentStoreDescriptions.first)
     storeDescription.url = sourceURL
     storeDescription.setOption(migrator, forKey: NSPersistentStoreStagedMigrationManagerOptionKey)
+    storeDescription.shouldAddStoreAsynchronously = true
     
+    let expectation = expectation(description: "\(#function)\(#line)")
     container.loadPersistentStores { storeDescription, error in
       if let error = error {
         XCTFail(error.localizedDescription)
+      } else {
+        expectation.fulfill()
       }
     }
+    
+    wait(for: [expectation])
     
     let migratedContext = container.viewContext
     let users = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "User"))

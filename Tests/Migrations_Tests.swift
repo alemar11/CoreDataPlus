@@ -300,6 +300,10 @@ final class Migrations_Tests: BaseTestCase {
     let sourceURL = try Self.createSQLiteSample1ForV1()
     let version = try SampleModelVersion(persistentStoreURL: sourceURL as URL)
     XCTAssertTrue(version == .version1)
+    
+    XCTAssertTrue(SampleModelVersion.version1.isLightWeightMigrationPossibleToNextModelVersion())
+    XCTAssertTrue(SampleModelVersion.version2.isLightWeightMigrationPossibleToNextModelVersion())
+    XCTAssertFalse(SampleModelVersion.version3.isLightWeightMigrationPossibleToNextModelVersion())
 
     let targetURL = URL.temporaryDirectory.appendingPathComponent("SampleModel").appendingPathExtension("sqlite")
     let sourceDescription = NSPersistentStoreDescription(url: sourceURL)

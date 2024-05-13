@@ -22,7 +22,7 @@ extension SampleModelVersion3: ModelVersion {
   public static var currentVersion: SampleModelVersion3 { .version1 }
   public var modelName: String { "SampleModel3" }
   
-  public var next: SampleModelVersion3? { // TODO: rename as next
+  public var next: SampleModelVersion3? {
     switch self {
     case .version1: return .version2
     case .version2: return .version3

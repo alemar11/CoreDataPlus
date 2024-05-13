@@ -14,7 +14,7 @@ public protocol LegacyMigration {
 
 extension ModelVersion where Self: LegacyMigration {
   /// Returns a list of `MigrationStep` needed to mirate to the next `version` of the store.
-  public func migrationSteps(to version: Self) -> [MigrationStep<Self>] {
+  public func migrationSteps(to version: Self) -> [LegacyMigrationStep<Self>] {
     guard self != version else {
       return []
     }
@@ -23,7 +23,7 @@ extension ModelVersion where Self: LegacyMigration {
       return []
     }
 
-    guard let step = MigrationStep(sourceVersion: self, destinationVersion: nextVersion) else {
+    guard let step = LegacyMigrationStep(sourceVersion: self, destinationVersion: nextVersion) else {
       fatalError("Couldn't find any mapping models.")
     }
 

@@ -141,6 +141,37 @@ extension ModelVersion {
   }
 }
 
+extension ModelVersion {
+  /// Returns`true` if a lightweight migration to the next model version is possible
+  ///
+  /// - Note:
+  /// Lightweight migrations are possible only if all changes are simple enough to be automaticaly inferred such as:
+  ///
+  ///  - Adding, removing, and renaming attributes
+  ///  - Adding, removing, and renaming relationships
+  ///  - Adding, removing, and renaming entities
+  ///  - Changing the optional status of attributes
+  ///  - Adding or removing indexes on attributes
+  ///  - Adding, removing, or changing compound indexes on entities
+  ///  - Adding, removing, or changing unique constraints on entities
+  ///
+  ///  There are a few gotchas to this list:
+  ///
+  /// - if you change an attribute from optional to non-optional, specify a default value.
+  /// - changing indexes (on attributes as well as compound indexes) won’t be picked up as a model change; specify a hash modifier on the changed
+  /// attributes or entities in order to force Core Data to do the right thing during migration.
+  public func isLightWeightMigrationPossibleToNextModelVersion() -> Bool {
+    guard let nextVersion = next else {
+      return false
+    }
+
+    let mappingModel =  try? NSMappingModel.inferredMappingModel(forSourceModel: managedObjectModel(),
+                                                                 destinationModel: nextVersion.managedObjectModel())
+    
+    return mappingModel != nil
+  }
+}
+
 // MARK: - Migration
 
 /// Returns `true` if a migration to a given `ModelVersion` is necessary for the persistent store at a given `URL`.
