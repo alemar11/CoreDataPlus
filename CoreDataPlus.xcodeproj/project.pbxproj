@@ -562,6 +562,9 @@
 		06123EA02BF3481B00801E51 /* SampleModel3_v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel3_v2.xcdatamodel; sourceTree = "<group>"; };
 		06123EA12BF3481B00801E51 /* SampleModel3_v3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel3_v3.xcdatamodel; sourceTree = "<group>"; };
 		06123EA22BF3481B00801E51 /* SampleModel3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel3.xcdatamodel; sourceTree = "<group>"; };
+		06123EA92BF34BAA00801E51 /* SampleModel3_v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel3_v2.xcdatamodel; sourceTree = "<group>"; };
+		06123EAA2BF34BAA00801E51 /* SampleModel3_v3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel3_v3.xcdatamodel; sourceTree = "<group>"; };
+		06123EAB2BF34BAA00801E51 /* SampleModel3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel3.xcdatamodel; sourceTree = "<group>"; };
 		061C6843261E100E000BF0A2 /* SampleModel.momd */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SampleModel.momd; sourceTree = "<group>"; };
 		061C684D261EF969000BF0A2 /* BaseTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTestCase.swift; sourceTree = "<group>"; };
 		061C689226209443000BF0A2 /* CustomTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransformer.swift; sourceTree = "<group>"; };
@@ -982,6 +985,7 @@
 		D214B1BB2BEEAE5B0090F18A /* SampleModel3 */ = {
 			isa = PBXGroup;
 			children = (
+				06123EA82BF34BAA00801E51 /* SampleModel3.xcdatamodeld */,
 				D214B1D02BEEB4840090F18A /* Fixtures */,
 				D214B1C32BEEAF610090F18A /* SampleModel3.swift */,
 				D214B1C92BEEB09B0090F18A /* SampleModelVersion3.swift */,
@@ -3049,6 +3053,19 @@
 			currentVersion = 06123EA22BF3481B00801E51 /* SampleModel3.xcdatamodel */;
 			name = SampleModel3.xcdatamodeld;
 			path = "/Users/amarzoli/Downloads/CoreDataPlus-staged_migration2/Tests/Resources/SampleModel3/SampleModel3.xcdatamodeld";
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		06123EA82BF34BAA00801E51 /* SampleModel3.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				06123EA92BF34BAA00801E51 /* SampleModel3_v2.xcdatamodel */,
+				06123EAA2BF34BAA00801E51 /* SampleModel3_v3.xcdatamodel */,
+				06123EAB2BF34BAA00801E51 /* SampleModel3.xcdatamodel */,
+			);
+			currentVersion = 06123EAB2BF34BAA00801E51 /* SampleModel3.xcdatamodel */;
+			name = SampleModel3.xcdatamodeld;
+			path = /Users/amarzoli/Developer/CoreDataPlus/Tests/Resources/SampleModel3/SampleModel3.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
