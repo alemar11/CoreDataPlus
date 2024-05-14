@@ -2,7 +2,7 @@ name: "CoreDataPlus CI"
 
 on:
   schedule:
-    cron: '0 0 * * 2' # Run every Tuesday
+    - cron: '0 0 * * 2' # Run every Tuesday
   push:
     branches:
       - main
