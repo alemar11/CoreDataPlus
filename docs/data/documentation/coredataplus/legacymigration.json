@@ -172,15 +172,7 @@
 "doc://CoreDataPlus/documentation/CoreDataPlus/LegacyMigration/mappingModelsToNextModelVersion()": {
   "abstract" : [
     {
-      "text" : "Protocol ",
-      "type" : "text"
-    },
-    {
-      "code" : "LegacyMigration",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : ".",
+      "text" : "Returns a list of mapping models needed to migrate the current version of the database to the next one.",
       "type" : "text"
     }
   ],
