@@ -177,6 +177,7 @@
 		06F7D55C26E5F85D00929CA6 /* NSPredicate+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSPredicate+Utils.swift"; sourceTree = "<group>"; };
 		06F7D56626E5F8DB00929CA6 /* NSPredicateUtils_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSPredicateUtils_Tests.swift; sourceTree = "<group>"; };
 		06F9DD762BF35A4D00D80B8F /* SampleModel3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel3.xcdatamodel; sourceTree = "<group>"; };
+		06F9DD782BF35ADC00D80B8F /* SampleModel_v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel_v2.xcdatamodel; sourceTree = "<group>"; };
 		230C087A214179D400A1B6CB /* SampleModel2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel2.xcdatamodel; sourceTree = "<group>"; };
 		230C087B21417E1900A1B6CB /* Migrations_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Migrations_Tests.swift; sourceTree = "<group>"; };
 		231C313E22F5E3BB00BF7129 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
@@ -1244,6 +1245,7 @@
 		06F9DD752BF35A4D00D80B8F /* SampleModel3.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				06F9DD782BF35ADC00D80B8F /* SampleModel_v2.xcdatamodel */,
 				06F9DD762BF35A4D00D80B8F /* SampleModel3.xcdatamodel */,
 			);
 			currentVersion = 06F9DD762BF35A4D00D80B8F /* SampleModel3.xcdatamodel */;
