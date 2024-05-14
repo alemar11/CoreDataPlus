@@ -71,8 +71,8 @@ final class StagedMigrations_Tests: XCTestCase {
     let storeDescription = try XCTUnwrap(container.persistentStoreDescriptions.first)
     storeDescription.url = sourceURL
     storeDescription.setOption(migrator, forKey: NSPersistentStoreStagedMigrationManagerOptionKey)
-    storeDescription.shouldAddStoreAsynchronously = true
-    
+    //storeDescription.shouldAddStoreAsynchronously = true
+
     let expectation = expectation(description: "\(#function)\(#line)")
     container.loadPersistentStores { storeDescription, error in
       if let error = error {
