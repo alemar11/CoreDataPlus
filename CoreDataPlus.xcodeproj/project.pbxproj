@@ -127,7 +127,6 @@
 		06AF61AF26F0941A0090A61B /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FFB86122EC948C00391D40 /* Utils.swift */; };
 		06AF61B026F0941A0090A61B /* CoreDataErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282332B2625AB2300F37442 /* CoreDataErrors.swift */; };
 		06DED80B2BF36795005EFEA5 /* SampleModel3.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 06DED8072BF36795005EFEA5 /* SampleModel3.xcdatamodeld */; };
-		06DED80D2BF36C9F005EFEA5 /* SampleModel3.momd in Resources */ = {isa = PBXBuildFile; fileRef = 06DED80C2BF36C9F005EFEA5 /* SampleModel3.momd */; };
 		06F9DDDF2BF3627900D80B8F /* SampleModel3_V1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 06F9DDD02BF3627900D80B8F /* SampleModel3_V1.sqlite */; };
 		06F9DDE12BF3627900D80B8F /* SampleModel3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F9DDD32BF3627900D80B8F /* SampleModel3.swift */; };
 		06F9DDE32BF3627900D80B8F /* SampleModelVersion3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F9DDD52BF3627900D80B8F /* SampleModelVersion3.swift */; };
@@ -673,7 +672,6 @@
 				06AF619226F093EE0090A61B /* SampleModel_V1.sqlite in Resources */,
 				06AF619326F093F20090A61B /* SampleModel_V2.sqlite in Resources */,
 				D214B1E02BEECAE90090F18A /* SampleModel2_V2.sqlite in Resources */,
-				06DED80D2BF36C9F005EFEA5 /* SampleModel3.momd in Resources */,
 				06F9DDDF2BF3627900D80B8F /* SampleModel3_V1.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
