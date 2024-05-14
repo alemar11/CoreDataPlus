@@ -127,11 +127,7 @@
 		06AF61AF26F0941A0090A61B /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FFB86122EC948C00391D40 /* Utils.swift */; };
 		06AF61B026F0941A0090A61B /* CoreDataErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282332B2625AB2300F37442 /* CoreDataErrors.swift */; };
 		06DED80B2BF36795005EFEA5 /* SampleModel3.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 06DED8072BF36795005EFEA5 /* SampleModel3.xcdatamodeld */; };
-		06F9DDDA2BF3627900D80B8F /* SampleModel3_v2.mom in Resources */ = {isa = PBXBuildFile; fileRef = 06F9DDCA2BF3627900D80B8F /* SampleModel3_v2.mom */; };
-		06F9DDDB2BF3627900D80B8F /* SampleModel3_v3.mom in Resources */ = {isa = PBXBuildFile; fileRef = 06F9DDCB2BF3627900D80B8F /* SampleModel3_v3.mom */; };
-		06F9DDDC2BF3627900D80B8F /* SampleModel3.mom in Resources */ = {isa = PBXBuildFile; fileRef = 06F9DDCC2BF3627900D80B8F /* SampleModel3.mom */; };
-		06F9DDDD2BF3627900D80B8F /* SampleModel3.omo in Resources */ = {isa = PBXBuildFile; fileRef = 06F9DDCD2BF3627900D80B8F /* SampleModel3.omo */; };
-		06F9DDDE2BF3627900D80B8F /* VersionInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06F9DDCE2BF3627900D80B8F /* VersionInfo.plist */; };
+		06DED80D2BF36C9F005EFEA5 /* SampleModel3.momd in Resources */ = {isa = PBXBuildFile; fileRef = 06DED80C2BF36C9F005EFEA5 /* SampleModel3.momd */; };
 		06F9DDDF2BF3627900D80B8F /* SampleModel3_V1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 06F9DDD02BF3627900D80B8F /* SampleModel3_V1.sqlite */; };
 		06F9DDE12BF3627900D80B8F /* SampleModel3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F9DDD32BF3627900D80B8F /* SampleModel3.swift */; };
 		06F9DDE32BF3627900D80B8F /* SampleModelVersion3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F9DDD52BF3627900D80B8F /* SampleModelVersion3.swift */; };
@@ -181,14 +177,10 @@
 		06DED8082BF36795005EFEA5 /* SampleModel3_v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel3_v2.xcdatamodel; sourceTree = "<group>"; };
 		06DED8092BF36795005EFEA5 /* SampleModel3_v3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel3_v3.xcdatamodel; sourceTree = "<group>"; };
 		06DED80A2BF36795005EFEA5 /* SampleModel3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel3.xcdatamodel; sourceTree = "<group>"; };
+		06DED80C2BF36C9F005EFEA5 /* SampleModel3.momd */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SampleModel3.momd; sourceTree = "<group>"; };
 		06E06365264ABC0D009145B6 /* FetchesWithAffectedStores_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchesWithAffectedStores_Tests.swift; sourceTree = "<group>"; };
 		06F7D55C26E5F85D00929CA6 /* NSPredicate+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSPredicate+Utils.swift"; sourceTree = "<group>"; };
 		06F7D56626E5F8DB00929CA6 /* NSPredicateUtils_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSPredicateUtils_Tests.swift; sourceTree = "<group>"; };
-		06F9DDCA2BF3627900D80B8F /* SampleModel3_v2.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = SampleModel3_v2.mom; sourceTree = "<group>"; };
-		06F9DDCB2BF3627900D80B8F /* SampleModel3_v3.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = SampleModel3_v3.mom; sourceTree = "<group>"; };
-		06F9DDCC2BF3627900D80B8F /* SampleModel3.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = SampleModel3.mom; sourceTree = "<group>"; };
-		06F9DDCD2BF3627900D80B8F /* SampleModel3.omo */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleModel3.omo; sourceTree = "<group>"; };
-		06F9DDCE2BF3627900D80B8F /* VersionInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = VersionInfo.plist; sourceTree = "<group>"; };
 		06F9DDD02BF3627900D80B8F /* SampleModel3_V1.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleModel3_V1.sqlite; sourceTree = "<group>"; };
 		06F9DDD32BF3627900D80B8F /* SampleModel3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleModel3.swift; sourceTree = "<group>"; };
 		06F9DDD52BF3627900D80B8F /* SampleModelVersion3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleModelVersion3.swift; sourceTree = "<group>"; };
@@ -318,22 +310,10 @@
 			path = TestPlans;
 			sourceTree = "<group>";
 		};
-		06F9DDCF2BF3627900D80B8F /* SampleModel3.momd */ = {
-			isa = PBXGroup;
-			children = (
-				06F9DDCA2BF3627900D80B8F /* SampleModel3_v2.mom */,
-				06F9DDCB2BF3627900D80B8F /* SampleModel3_v3.mom */,
-				06F9DDCC2BF3627900D80B8F /* SampleModel3.mom */,
-				06F9DDCD2BF3627900D80B8F /* SampleModel3.omo */,
-				06F9DDCE2BF3627900D80B8F /* VersionInfo.plist */,
-			);
-			path = SampleModel3.momd;
-			sourceTree = "<group>";
-		};
 		06F9DDD12BF3627900D80B8F /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
-				06F9DDCF2BF3627900D80B8F /* SampleModel3.momd */,
+				06DED80C2BF36C9F005EFEA5 /* SampleModel3.momd */,
 				06F9DDD02BF3627900D80B8F /* SampleModel3_V1.sqlite */,
 			);
 			path = Fixtures;
@@ -693,12 +673,8 @@
 				06AF619226F093EE0090A61B /* SampleModel_V1.sqlite in Resources */,
 				06AF619326F093F20090A61B /* SampleModel_V2.sqlite in Resources */,
 				D214B1E02BEECAE90090F18A /* SampleModel2_V2.sqlite in Resources */,
-				06F9DDDB2BF3627900D80B8F /* SampleModel3_v3.mom in Resources */,
-				06F9DDDA2BF3627900D80B8F /* SampleModel3_v2.mom in Resources */,
-				06F9DDDC2BF3627900D80B8F /* SampleModel3.mom in Resources */,
-				06F9DDDD2BF3627900D80B8F /* SampleModel3.omo in Resources */,
+				06DED80D2BF36C9F005EFEA5 /* SampleModel3.momd in Resources */,
 				06F9DDDF2BF3627900D80B8F /* SampleModel3_V1.sqlite in Resources */,
-				06F9DDDE2BF3627900D80B8F /* VersionInfo.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

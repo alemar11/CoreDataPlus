@@ -88,8 +88,8 @@ final class StagedMigrations_Tests: XCTestCase {
     let users = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "User"))
     for user in users {
       let pet = user.value(forKey: "pet") as? NSManagedObject
-      XCTAssertNotNil(pet)
-      XCTAssertNotNil(pet?.value(forKey: "name"))
+      XCTAssertNotNil(pet, "Pet should not be nil after migration to V3")
+      XCTAssertNotNil(pet?.value(forKey: "name"), "Pet name is not optional after migration to V3")
     }
     
     migratedContext._fix_sqlite_warning_when_destroying_a_store()
