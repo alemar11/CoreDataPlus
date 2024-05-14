@@ -4,8 +4,6 @@ import CoreData
 
 /// Handles migrations with the old `NSMigrationManager`.
 public protocol LegacyMigration {
-  /// Protocol `LegacyMigration`.
-  ///
   /// Returns a list of mapping models needed to migrate the current version of the database to the next one.
   func mappingModelsToNextModelVersion() -> [NSMappingModel]?
 }
