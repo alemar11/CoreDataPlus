@@ -126,6 +126,7 @@
 		06AF61AE26F0941A0090A61B /* OnDiskWithProgrammaticallyModelTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28232C22624A15000F37442 /* OnDiskWithProgrammaticallyModelTestCase.swift */; };
 		06AF61AF26F0941A0090A61B /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FFB86122EC948C00391D40 /* Utils.swift */; };
 		06AF61B026F0941A0090A61B /* CoreDataErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282332B2625AB2300F37442 /* CoreDataErrors.swift */; };
+		06DED80B2BF36795005EFEA5 /* SampleModel3.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 06DED8072BF36795005EFEA5 /* SampleModel3.xcdatamodeld */; };
 		06F9DDDA2BF3627900D80B8F /* SampleModel3_v2.mom in Resources */ = {isa = PBXBuildFile; fileRef = 06F9DDCA2BF3627900D80B8F /* SampleModel3_v2.mom */; };
 		06F9DDDB2BF3627900D80B8F /* SampleModel3_v3.mom in Resources */ = {isa = PBXBuildFile; fileRef = 06F9DDCB2BF3627900D80B8F /* SampleModel3_v3.mom */; };
 		06F9DDDC2BF3627900D80B8F /* SampleModel3.mom in Resources */ = {isa = PBXBuildFile; fileRef = 06F9DDCC2BF3627900D80B8F /* SampleModel3.mom */; };
@@ -133,7 +134,6 @@
 		06F9DDDE2BF3627900D80B8F /* VersionInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06F9DDCE2BF3627900D80B8F /* VersionInfo.plist */; };
 		06F9DDDF2BF3627900D80B8F /* SampleModel3_V1.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 06F9DDD02BF3627900D80B8F /* SampleModel3_V1.sqlite */; };
 		06F9DDE12BF3627900D80B8F /* SampleModel3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F9DDD32BF3627900D80B8F /* SampleModel3.swift */; };
-		06F9DDE22BF3627900D80B8F /* SampleModel3.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 06F9DDD42BF3627900D80B8F /* SampleModel3.xcdatamodeld */; };
 		06F9DDE32BF3627900D80B8F /* SampleModelVersion3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F9DDD52BF3627900D80B8F /* SampleModelVersion3.swift */; };
 		D214B17C2BECF67C0090F18A /* StagedMigrationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = D214B17B2BECF67C0090F18A /* StagedMigrationStep.swift */; };
 		D214B1812BEE088B0090F18A /* V2toV3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2377287021490B9D00FDAF32 /* V2toV3.xcmappingmodel */; };
@@ -178,6 +178,9 @@
 		06AF61B126F095070090A61B /* CoreDataPlus.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CoreDataPlus.xctestplan; sourceTree = "<group>"; };
 		06B71C732629CB4F008DFD11 /* ProgrammaticallyDefinedModel_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammaticallyDefinedModel_Tests.swift; sourceTree = "<group>"; };
 		06B71CB72629DB04008DFD11 /* PersistentStoreOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStoreOptions.swift; sourceTree = "<group>"; };
+		06DED8082BF36795005EFEA5 /* SampleModel3_v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel3_v2.xcdatamodel; sourceTree = "<group>"; };
+		06DED8092BF36795005EFEA5 /* SampleModel3_v3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel3_v3.xcdatamodel; sourceTree = "<group>"; };
+		06DED80A2BF36795005EFEA5 /* SampleModel3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel3.xcdatamodel; sourceTree = "<group>"; };
 		06E06365264ABC0D009145B6 /* FetchesWithAffectedStores_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchesWithAffectedStores_Tests.swift; sourceTree = "<group>"; };
 		06F7D55C26E5F85D00929CA6 /* NSPredicate+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSPredicate+Utils.swift"; sourceTree = "<group>"; };
 		06F7D56626E5F8DB00929CA6 /* NSPredicateUtils_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSPredicateUtils_Tests.swift; sourceTree = "<group>"; };
@@ -189,9 +192,6 @@
 		06F9DDD02BF3627900D80B8F /* SampleModel3_V1.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleModel3_V1.sqlite; sourceTree = "<group>"; };
 		06F9DDD32BF3627900D80B8F /* SampleModel3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleModel3.swift; sourceTree = "<group>"; };
 		06F9DDD52BF3627900D80B8F /* SampleModelVersion3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleModelVersion3.swift; sourceTree = "<group>"; };
-		06F9DDD72BF3627900D80B8F /* SampleModel3_v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel3_v2.xcdatamodel; sourceTree = "<group>"; };
-		06F9DDD82BF3627900D80B8F /* SampleModel3_v3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel3_v3.xcdatamodel; sourceTree = "<group>"; };
-		06F9DDD92BF3627900D80B8F /* SampleModel3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel3.xcdatamodel; sourceTree = "<group>"; };
 		230C087A214179D400A1B6CB /* SampleModel2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SampleModel2.xcdatamodel; sourceTree = "<group>"; };
 		230C087B21417E1900A1B6CB /* Migrations_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Migrations_Tests.swift; sourceTree = "<group>"; };
 		231C313E22F5E3BB00BF7129 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
@@ -344,7 +344,7 @@
 			children = (
 				06F9DDD12BF3627900D80B8F /* Fixtures */,
 				06F9DDD32BF3627900D80B8F /* SampleModel3.swift */,
-				06F9DDD42BF3627900D80B8F /* SampleModel3.xcdatamodeld */,
+				06DED8072BF36795005EFEA5 /* SampleModel3.xcdatamodeld */,
 				06F9DDD52BF3627900D80B8F /* SampleModelVersion3.swift */,
 			);
 			path = SampleModel3;
@@ -802,6 +802,7 @@
 			files = (
 				06AF61AD26F0941A0090A61B /* OnDiskTestCase.swift in Sources */,
 				06AF619A26F093FE0090A61B /* Person.swift in Sources */,
+				06DED80B2BF36795005EFEA5 /* SampleModel3.xcdatamodeld in Sources */,
 				06AF617F26F093E20090A61B /* NSAttributeDescriptionUtils_Tests.swift in Sources */,
 				06AF619026F093E60090A61B /* NotificationMerge_Tests.swift in Sources */,
 				06AF61A926F0940F0090A61B /* SampleModel2+V2.swift in Sources */,
@@ -824,7 +825,6 @@
 				06F9DDE32BF3627900D80B8F /* SampleModelVersion3.swift in Sources */,
 				06AF61A326F0940F0090A61B /* BookCoverToCoverMigrationPolicy.swift in Sources */,
 				06AF61A526F0940F0090A61B /* SampleModel2+V1.swift in Sources */,
-				06F9DDE22BF3627900D80B8F /* SampleModel3.xcdatamodeld in Sources */,
 				06AF618B26F093E20090A61B /* NSManagedObjectUpdateTimestampable_Tests.swift in Sources */,
 				06AF618026F093E20090A61B /* NSEntityDescriptionUtils_Tests.swift in Sources */,
 				06AF617B26F093E20090A61B /* NSPersistentStoreCoordinatorUtils_Tests.swift in Sources */,
@@ -1269,16 +1269,15 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		06F9DDD42BF3627900D80B8F /* SampleModel3.xcdatamodeld */ = {
+		06DED8072BF36795005EFEA5 /* SampleModel3.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				06F9DDD72BF3627900D80B8F /* SampleModel3_v2.xcdatamodel */,
-				06F9DDD82BF3627900D80B8F /* SampleModel3_v3.xcdatamodel */,
-				06F9DDD92BF3627900D80B8F /* SampleModel3.xcdatamodel */,
+				06DED8082BF36795005EFEA5 /* SampleModel3_v2.xcdatamodel */,
+				06DED8092BF36795005EFEA5 /* SampleModel3_v3.xcdatamodel */,
+				06DED80A2BF36795005EFEA5 /* SampleModel3.xcdatamodel */,
 			);
-			currentVersion = 06F9DDD92BF3627900D80B8F /* SampleModel3.xcdatamodel */;
-			name = SampleModel3.xcdatamodeld;
-			path = /Users/amarzoli/Developer/CoreDataPlus/Tests/Resources/SampleModel3/SampleModel3.xcdatamodeld;
+			currentVersion = 06DED80A2BF36795005EFEA5 /* SampleModel3.xcdatamodel */;
+			path = SampleModel3.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
