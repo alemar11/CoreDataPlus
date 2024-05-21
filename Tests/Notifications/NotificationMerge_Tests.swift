@@ -496,39 +496,39 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     cancellable1.cancel()
     cancellable2.cancel()
   }
+}
 
-  /// NSFetchedResultsController: Handling Object Invalidation
-  ///
-  /// https://developer.apple.com/documentation/coredata/nsfetchedresultscontroller
-  ///
-  /// When a managed object context notifies the fetched results controller that individual objects are invalidated, the controller treats these as deleted objects and sends the proper delegate calls.
-  ///
-  /// It’s possible for all the objects in a managed object context to be invalidated simultaneously.
-  /// (For example, as a result of calling reset(), or if a store is removed from the the persistent store coordinator.).
-  /// When this happens, NSFetchedResultsController does not invalidate all objects, nor does it send individual notifications for object deletions.
-  /// Instead, you must call performFetch() to reset the state of the controller then reload the data in the table view (reloadData()).
-  class FetchedResultsControllerMockDelegate: NSObject, NSFetchedResultsControllerDelegate {
-    var updatedObjects = [Any]()
-    var insertedObjects = [Any]()
-    var movedObjects = [Any]()
-    var deletedObjects = [Any]()
+/// NSFetchedResultsController: Handling Object Invalidation
+///
+/// https://developer.apple.com/documentation/coredata/nsfetchedresultscontroller
+///
+/// When a managed object context notifies the fetched results controller that individual objects are invalidated, the controller treats these as deleted objects and sends the proper delegate calls.
+///
+/// It’s possible for all the objects in a managed object context to be invalidated simultaneously.
+/// (For example, as a result of calling reset(), or if a store is removed from the the persistent store coordinator.).
+/// When this happens, NSFetchedResultsController does not invalidate all objects, nor does it send individual notifications for object deletions.
+/// Instead, you must call performFetch() to reset the state of the controller then reload the data in the table view (reloadData()).
+class FetchedResultsControllerMockDelegate: NSObject, NSFetchedResultsControllerDelegate {
+  var updatedObjects = [Any]()
+  var insertedObjects = [Any]()
+  var movedObjects = [Any]()
+  var deletedObjects = [Any]()
 
-    public func controller(
-      _ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?,
-      for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?
-    ) {
-      switch type {
-      case .delete:
-        deletedObjects.append(anObject)
-      case .insert:
-        insertedObjects.append(anObject)
-      case .move:
-        movedObjects.append(anObject)
-      case .update:
-        updatedObjects.append(anObject)
-      @unknown default:
-        fatalError("not implemented")
-      }
+  public func controller(
+    _ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?,
+    for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?
+  ) {
+    switch type {
+    case .delete:
+      deletedObjects.append(anObject)
+    case .insert:
+      insertedObjects.append(anObject)
+    case .move:
+      movedObjects.append(anObject)
+    case .update:
+      updatedObjects.append(anObject)
+    @unknown default:
+      fatalError("not implemented")
     }
   }
 }
