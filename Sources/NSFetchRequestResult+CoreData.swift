@@ -33,16 +33,16 @@ extension NSManagedObject {
 //    if let name = entity().name {
 //      return name
 //    }
-//    
+//
 //    // https://stackoverflow.com/questions/37909392/exc-bad-access-when-calling-new-entity-method-in-ios-10-macos-sierra-core-da
 //    // https://stackoverflow.com/questions/43231873/nspersistentcontainer-unittests-with-ios10/43286175
 //    // https://www.jessesquires.com/blog/swift-coredata-and-testing/
 //    // https://github.com/jessesquires/rdar-19368054
-//    
+//
 //    // Returning a string representation of Self metatype doesn't work if you have a NSManagedObject subclass
 //    // with a name different from the NSEntityDescription name.
 //    // return String(describing: Self.self)
-//    
+//
 //    fatalError("Have you loaded your NSManagedObjectModel yet?")
 //  }
 //}
@@ -227,12 +227,11 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// The delete request can be executed only to certain stores if `affectedStores` is not nil.
   /// - Note: `NSBatchDeleteRequest` would be more efficient but requires a context with an `NSPersistentStoreCoordinator` directly connected (no child context).
   /// - Throws: It throws an error in cases of failure.
-  public static func delete(
-    in context: NSManagedObjectContext,
-    includingSubentities: Bool = true,
-    where predicate: NSPredicate = NSPredicate(value: true),
-    limit: Int? = nil,
-    affectedStores: [NSPersistentStore]? = nil
+  public static func delete(in context: NSManagedObjectContext,
+                            includingSubentities: Bool = true,
+                            where predicate: NSPredicate = NSPredicate(value: true),
+                            limit: Int? = nil,
+                            affectedStores: [NSPersistentStore]? = nil
   ) throws {
     try autoreleasepool {
       try fetchObjects(in: context) { request in
@@ -267,8 +266,8 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   
   /// Counts the results of a configurable fetch request in a context.
   /// - Throws: It throws an error in cases of failure.
-  public static func count(
-    in context: NSManagedObjectContext, for configuration: (NSFetchRequest<Self>) -> Void = { _ in }
+  public static func count(in context: NSManagedObjectContext,
+                           for configuration: (NSFetchRequest<Self>) -> Void = { _ in }
   ) throws -> Int {
     let request = newFetchRequest()
     configuration(request)
@@ -325,9 +324,8 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Throws: It throws an error in cases of failure.
   /// - Returns: The result returned when executing a batch update request.
   /// - Note: A batch delete can **only** be done on a SQLite store.
-  public static func batchUpdate(using context: NSManagedObjectContext, configuration: (NSBatchUpdateRequest) -> Void)
-  throws -> NSBatchUpdateResult
-  {
+  public static func batchUpdate(using context: NSManagedObjectContext, 
+                                 configuration: (NSBatchUpdateRequest) -> Void) throws -> NSBatchUpdateResult {
     let batchRequest = NSBatchUpdateRequest(entityName: entityName)
     configuration(batchRequest)
     // swiftlint:disable:next force_cast
@@ -345,12 +343,11 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Returns: The result returned when executing a batch delete request.
   /// - Note: A batch delete can **only** be done on a SQLite store.
   @discardableResult
-  public static func batchDelete(
-    using context: NSManagedObjectContext,
-    predicate: NSPredicate? = nil,
-    includesSubentities: Bool = true,
-    resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly,
-    affectedStores: [NSPersistentStore]? = nil
+  public static func batchDelete(using context: NSManagedObjectContext,
+                                 predicate: NSPredicate? = nil,
+                                 includesSubentities: Bool = true,
+                                 resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly,
+                                 affectedStores: [NSPersistentStore]? = nil
   ) throws -> NSBatchDeleteResult {
     // Only a subset of NSFetchRequest properties are used by a NSBatchDeleteRequest
     //
@@ -377,11 +374,10 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Throws: It throws an error in cases of failure
   /// - Returns: The result that Core Data returns when executing a batch-insertion request.
   /// - Note: A batch insert can **only** be done on a SQLite store.
-  public static func batchInsert(
-    using context: NSManagedObjectContext,
-    resultType: NSBatchInsertRequestResultType = .statusOnly,
-    objects: [[String: Any]],
-    affectedStores: [NSPersistentStore]? = nil
+  public static func batchInsert(using context: NSManagedObjectContext,
+                                 resultType: NSBatchInsertRequestResultType = .statusOnly,
+                                 objects: [[String: Any]],
+                                 affectedStores: [NSPersistentStore]? = nil
   ) throws -> NSBatchInsertResult {
     let batchRequest = NSBatchInsertRequest(entityName: entityName, objects: objects)
     batchRequest.resultType = resultType
@@ -421,10 +417,9 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Throws: It throws an error in cases of failure.
   /// - Returns: The result that Core Data returns when executing a batch-insertion request.
   /// - Note: A batch insert can **only** be done on a SQLite store.
-  public static func batchInsert(
-    using context: NSManagedObjectContext,
-    resultType: NSBatchInsertRequestResultType = .statusOnly,
-    managedObjectHandler handler: @escaping (Self) -> Bool
+  public static func batchInsert(using context: NSManagedObjectContext,
+                                 resultType: NSBatchInsertRequestResultType = .statusOnly,
+                                 managedObjectHandler handler: @escaping (Self) -> Bool
   ) throws -> NSBatchInsertResult {
     let batchRequest = NSBatchInsertRequest(
       entityName: entityName,
@@ -463,11 +458,10 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Warning: If the ConcurrencyDebug is enabled, the fetch request will cause a thread violation error.
   /// ([more details here](https://stackoverflow.com/questions/31728425/coredata-asynchronous-fetch-causes-concurrency-debugger-error)).
   @discardableResult
-  public static func fetchObjects(
-    in context: NSManagedObjectContext,
-    estimatedResultCount: Int = 0,
-    with configuration: (NSFetchRequest<Self>) -> Void = { _ in },
-    completion: @escaping (Result<[Self], Error>) -> Void
+  public static func fetchObjects(in context: NSManagedObjectContext,
+                                  estimatedResultCount: Int = 0,
+                                  with configuration: (NSFetchRequest<Self>) -> Void = { _ in },
+                                  completion: @escaping (Result<[Self], Error>) -> Void
   ) throws -> NSAsynchronousFetchResult<Self> {
     let request = Self.newFetchRequest()
     configuration(request)
