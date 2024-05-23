@@ -486,11 +486,9 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Returns: The results that were received from the fetch request.
   /// - Throws: It throws an error in cases of failure.
   /// - Warning: If the ConcurrencyDebug is enabled, the fetch request will cause a thread violation error, without it data races will be always detected by Xcode.
-  public static func fetchObjects(
-    in context: NSManagedObjectContext,
-    estimatedResultCount: Int = 0,
-    with configuration: (NSFetchRequest<Self>) -> Void = { _ in }
-  ) async throws -> [Self] {
+  public static func fetchObjects(in context: NSManagedObjectContext,
+                                  estimatedResultCount: Int = 0,
+                                  with configuration: (NSFetchRequest<Self>) -> Void = { _ in }) async throws -> [Self] {
     try await withCheckedThrowingContinuation { continuation in
       do {
         // TODO: Swift concurrency and NSProgress: https://github.com/apple/swift-evolution/blob/main/proposals/0297-concurrency-objc.md#nsprogress
