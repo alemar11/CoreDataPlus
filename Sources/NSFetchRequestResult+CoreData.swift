@@ -132,12 +132,10 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - affectedStores: An array of persistent stores specified for the fetch request.
   /// - Returns: A list of `NSManagedObjectID`.
   /// - Throws: It throws an error in cases of failure.
-  public static func fetchObjectIDs(
-    in context: NSManagedObjectContext,
-    includingSubentities: Bool = true,
-    where predicate: NSPredicate,
-    affectedStores: [NSPersistentStore]? = nil
-  ) throws -> [NSManagedObjectID] {
+  public static func fetchObjectIDs(in context: NSManagedObjectContext,
+                                    includingSubentities: Bool = true,
+                                    where predicate: NSPredicate,
+                                    affectedStores: [NSPersistentStore]? = nil) throws -> [NSManagedObjectID] {
     let request = NSFetchRequest<NSManagedObjectID>(entityName: entityName)
     // If includesPropertyValues is false, then Core Data fetches only the object ID information for the matching records—it does not populate the row cache.
     //
@@ -196,11 +194,9 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - predicate: Matching predicate.
   ///   - affectedStores: An array of persistent stores specified for the fetch request.
   /// - Returns: An unique object matching the given configuration (if any).
-  public static func fetchUniqueObject(
-    in context: NSManagedObjectContext, where predicate: NSPredicate, affectedStores: [NSPersistentStore]? = nil
-  )
-  throws -> Self?
-  {
+  public static func fetchUniqueObject(in context: NSManagedObjectContext,
+                                       where predicate: NSPredicate,
+                                       affectedStores: [NSPersistentStore]? = nil) throws -> Self? {
     let result = try fetchObjects(in: context) { request in
       request.predicate = predicate
       request.includesPendingChanges = true  // default, uniqueness should be guaranteed
@@ -214,7 +210,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     case 1:
       return result[0]
     default:
-      fatalError("Returned multiple objects, expected max 1.")
+      fatalError("Returned multiple objects, expected only one.")
     }
   }
   
@@ -255,9 +251,9 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - affectedStores: An array of persistent stores specified for the fetch request.
   /// - Throws: It throws an error in cases of failure.
   /// - Note: `NSBatchDeleteRequest` would be more efficient but requires a context with an `NSPersistentStoreCoordinator` directly connected (no child context).
-  public static func delete(
-    in context: NSManagedObjectContext, except objects: [Self], affectedStores: [NSPersistentStore]? = nil
-  ) throws {
+  public static func delete(in context: NSManagedObjectContext,
+                            except objects: [Self],
+                            affectedStores: [NSPersistentStore]? = nil) throws {
     let predicate = NSPredicate(format: "NOT (self IN %@)", objects)
     try delete(in: context, includingSubentities: true, where: predicate, affectedStores: affectedStores)
   }
@@ -267,8 +263,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// Counts the results of a configurable fetch request in a context.
   /// - Throws: It throws an error in cases of failure.
   public static func count(in context: NSManagedObjectContext,
-                           for configuration: (NSFetchRequest<Self>) -> Void = { _ in }
-  ) throws -> Int {
+                           for configuration: (NSFetchRequest<Self>) -> Void = { _ in }) throws -> Int {
     let request = newFetchRequest()
     configuration(request)
     

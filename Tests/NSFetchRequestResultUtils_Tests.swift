@@ -503,7 +503,7 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
     XCTAssertTrue(deletedValues > 1)
     XCTAssertTrue(result.changes?[NSDeletedObjectsKey]?.count ?? 0 > 1)
 
-    // the var `changes`  is usefull when used while merging changes
+    // the var `changes` is usefull when used while merging changes
     NSManagedObjectContext.mergeChanges(fromRemoteContextSave: result.changes!, into: [context])
 
     let fiatCountAfterMerge = try Car.count(in: context) { request in request.predicate = fiatPredicate }
