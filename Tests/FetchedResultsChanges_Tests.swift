@@ -20,8 +20,10 @@ final class FetchedResultsChanges_Tests: InMemoryTestCase {
     delegate.didChangeExpectation.isInverted = true
 
     // When
-    let controller = NSFetchedResultsController(
-      fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+    let controller = NSFetchedResultsController(fetchRequest: request,
+                                                managedObjectContext: context,
+                                                sectionNameKeyPath: nil,
+                                                cacheName: nil)
     controller.delegate = delegate
 
     try controller.performFetch()
@@ -132,7 +134,6 @@ final class FetchedResultsChanges_Tests: InMemoryTestCase {
     XCTAssertEqual(deletes.count, 1)
     XCTAssertEqual(moves.count, 1)
     XCTAssertEqual(updates.count, 2)
-
   }
 
   func test_SectionsChanges() throws {
@@ -195,8 +196,10 @@ final class FetchedResultsChanges_Tests: InMemoryTestCase {
     let delegate = MockNSFetchedResultControllerDelegate()
 
     // When
-    let controller = NSFetchedResultsController(
-      fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+    let controller = NSFetchedResultsController(fetchRequest: request,
+                                                managedObjectContext: context,
+                                                sectionNameKeyPath: nil,
+                                                cacheName: nil)
     controller.delegate = delegate
 
     try controller.performFetch()
@@ -230,9 +233,10 @@ private final class MockNSFetchedResultControllerDelegate<T: NSManagedObject>: N
   var willChangeExpectation = XCTestExpectation(description: "\(#function)\(#line)")
   var didChangeExpectation = XCTestExpectation(description: "\(#function)\(#line)")
 
-  public func controller(
-    _ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?,
-    for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?
+  public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                         didChange anObject: Any,
+                         at indexPath: IndexPath?,
+                         for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?
   ) {
     if let change = FetchedResultsObjectChange<T>(
       object: anObject, indexPath: indexPath, changeType: type, newIndexPath: newIndexPath)
@@ -241,10 +245,9 @@ private final class MockNSFetchedResultControllerDelegate<T: NSManagedObject>: N
     }
   }
 
-  public func controller(
-    _ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo,
-    atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType
-  ) {
+  public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                         didChange sectionInfo: NSFetchedResultsSectionInfo,
+                         atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
     if let change = FetchedResultsSectionChange<T>(section: sectionInfo, index: sectionIndex, changeType: type) {
       sectionChanges.append(change)
     }
