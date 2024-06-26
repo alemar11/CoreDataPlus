@@ -40,7 +40,10 @@ extension FetchedResultsObjectChange {
                indexPath: IndexPath?,
                changeType type: NSFetchedResultsChangeType,
                newIndexPath: IndexPath?) {
-    guard let object = object as? T else { return nil }
+    guard let object = object as? T else {
+      assertionFailure("Invalid change. The changed object is not a \(T.self).")
+      return nil
+    }
 
     switch (type, indexPath, newIndexPath) {
     case (.insert, _?, _):
@@ -74,7 +77,74 @@ extension FetchedResultsObjectChange {
       }
 
     default:
-      preconditionFailure("Invalid change. Missing a required index path for corresponding change type.")
+      assertionFailure("Invalid change. Missing a required index path for corresponding change type.")
+      return nil
+    }
+  }
+}
+
+extension FetchedResultsObjectChange {
+  /// Returns the underlaying object of type `<T>` that was changed.
+  public var object: T {
+    switch self {
+    case .insert(let object, _): object
+    case .move(let object, _, _): object
+    case .delete(let object, _): object
+    case .update(let object, _): object
+    }
+  }
+  
+  /// Returns `true` if the change is a move.
+  public var isMove: Bool {
+    switch self {
+    case .move:
+      return true
+    default:
+      return false
+    }
+  }
+  
+  /// Returns`true` if the change is an insertion.
+  public var isInsertion: Bool {
+    switch self {
+    case .insert:
+      return true
+    default:
+      return false
+    }
+  }
+  
+  /// Returns `true` if the change is a deletion.
+  public var isDeletion: Bool {
+    switch self {
+    case .delete:
+      return true
+    default:
+      return false
+    }
+  }
+  
+  /// Returns `true` if the change is an update.
+  public var isUpdate: Bool {
+    switch self {
+    case .update:
+      return true
+    default:
+      return false
+    }
+  }
+  
+  /// The `IndexPath` of the change.
+  public var indexPath: IndexPath {
+    switch self {
+    case let .insert(_, index):
+      return index
+    case let .move(_, _, toIndex):
+      return toIndex
+    case let .update(_, index):
+      return index
+    case let .delete(_, index):
+      return index
     }
   }
 }
@@ -96,7 +166,7 @@ public struct FetchedResultsSectionInfo<T: NSManagedObject> {
   public let indexTitle: String?
 
   /// Create a new element of `FetchedResultsSectionInfo` for a given `NSFetchedResultsSectionInfo` object.
-  public init(_ info: NSFetchedResultsSectionInfo) {
+  public init(from info: NSFetchedResultsSectionInfo) {
     self.objects = (info.objects as? [T]) ?? []
     self.name = info.name
     self.indexTitle = info.indexTitle
@@ -127,7 +197,7 @@ extension FetchedResultsSectionChange {
   public init?(section sectionInfo: NSFetchedResultsSectionInfo,
                index sectionIndex: Int,
                changeType type: NSFetchedResultsChangeType) {
-    let info = FetchedResultsSectionInfo<T>(sectionInfo)
+    let info = FetchedResultsSectionInfo<T>(from: sectionInfo)
 
     switch type {
     case .insert:
@@ -140,6 +210,46 @@ extension FetchedResultsSectionChange {
       return nil
     @unknown default:
       return nil
+    }
+  }
+}
+
+extension FetchedResultsSectionChange {
+  /// Returns the underlaying `FetchedResultsSectionInfo<T>` that was changed.
+  public var info: FetchedResultsSectionInfo<T> {
+    switch self {
+    case .insert(let info, _): info
+    case .delete(let info, _): info
+    }
+  }
+    
+  /// Returns`true` if the change is an insertion.
+  public var isInsertion: Bool {
+    switch self {
+    case .insert:
+      return true
+    default:
+      return false
+    }
+  }
+  
+  /// Returns `true` if the change is a deletion.
+  public var isDeletion: Bool {
+    switch self {
+    case .delete:
+      return true
+    default:
+      return false
+    }
+  }
+    
+  /// The index of the change.
+  public var index: Int {
+    switch self {
+    case let .insert(_, index):
+      return index
+    case let .delete(_, index):
+      return index
     }
   }
 }

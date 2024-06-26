@@ -134,6 +134,38 @@ final class FetchedResultsChanges_Tests: InMemoryTestCase {
     XCTAssertEqual(deletes.count, 1)
     XCTAssertEqual(moves.count, 1)
     XCTAssertEqual(updates.count, 2)
+    
+    for insert in inserts {
+      XCTAssertTrue(insert.isInsertion)
+      XCTAssertFalse(insert.isMove)
+      XCTAssertFalse(insert.isUpdate)
+      XCTAssertFalse(insert.isDeletion)
+      XCTAssert(insert.object is Person)
+    }
+    
+    for delete in deletes {
+      XCTAssertFalse(delete.isInsertion)
+      XCTAssertFalse(delete.isMove)
+      XCTAssertFalse(delete.isUpdate)
+      XCTAssertTrue(delete.isDeletion)
+      XCTAssert(delete.object is Person)
+    }
+    
+    for udpate in updates {
+      XCTAssertFalse(udpate.isInsertion)
+      XCTAssertFalse(udpate.isMove)
+      XCTAssertTrue(udpate.isUpdate)
+      XCTAssertFalse(udpate.isDeletion)
+      XCTAssert(udpate.object is Person)
+    }
+    
+    for move in moves {
+      XCTAssertFalse(move.isInsertion)
+      XCTAssertTrue(move.isMove)
+      XCTAssertFalse(move.isUpdate)
+      XCTAssertFalse(move.isDeletion)
+      XCTAssert(move.object is Person)
+    }
   }
 
   func test_SectionsChanges() throws {
@@ -148,28 +180,32 @@ final class FetchedResultsChanges_Tests: InMemoryTestCase {
     let delegate = MockNSFetchedResultControllerDelegate()
 
     // When
-    let controller = NSFetchedResultsController(
-      fetchRequest: request,
-      managedObjectContext: context,
-      sectionNameKeyPath: #keyPath(Person.lastName),
-      cacheName: nil)
+    let controller = NSFetchedResultsController(fetchRequest: request,
+                                                managedObjectContext: context,
+                                                sectionNameKeyPath: #keyPath(Person.lastName),
+                                                cacheName: nil)
     controller.delegate = delegate
 
     try controller.performFetch()
 
     // sections starting with A and B will be destroyed and a new section Z will be created
-    for person in controller.fetchedObjects! {
+    let people = controller.fetchedObjects!
+    var count = 0
+    for person in people {
       if person.lastName.starts(with: "A") {
         person.lastName = "Z"
+        count += 1
       }
       if person.lastName.starts(with: "B") {
         person.lastName = "Z"
+        count += 1
       }
     }
 
     // Then
     wait(for: [delegate.willChangeExpectation, delegate.didChangeExpectation], timeout: 10)
     XCTAssertEqual(delegate.sectionChanges.count, 3)
+    
     let inserts = delegate.sectionChanges.filter {
       guard case FetchedResultsSectionChange.insert = $0 else { return false }
       return true
@@ -178,8 +214,21 @@ final class FetchedResultsChanges_Tests: InMemoryTestCase {
       guard case FetchedResultsSectionChange.delete = $0 else { return false }
       return true
     }
+    
     XCTAssertEqual(inserts.count, 1)
     XCTAssertEqual(deletes.count, 2)
+    
+    for insert in inserts {
+      XCTAssertTrue(insert.isInsertion)
+      XCTAssertFalse(insert.isDeletion)
+      XCTAssertEqual(insert.info.objects.count, count) // 2 peopble have been renamed
+    }
+    
+    for delete in deletes {
+      XCTAssertFalse(delete.isInsertion)
+      XCTAssertTrue(delete.isDeletion)
+      XCTAssertEqual(delete.info.objects.count, 0)
+    }
   }
 
   func test_DeleteDueToThePredicate() throws {

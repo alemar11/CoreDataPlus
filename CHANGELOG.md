@@ -1,5 +1,9 @@
 # Changelog
 
+### 6.1.0
+
+- Added utility methods for `FetchedResultsObjectChange` and `FetchedResultsSectionChange`.
+
 ### 6.0.0 ⭐
 
 - Xcode 15.
