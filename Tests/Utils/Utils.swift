@@ -1,9 +1,13 @@
 // CoreDataPlus
 
 import CoreData
+
 @testable import CoreDataPlus
 
-let model = SampleModelVersion.version1.managedObjectModel()
+// It should be fine to mark these as Sendable because they can be shared between different threads.
+// https://duckrowing.com/2010/03/11/using-core-data-on-multiple-threads/
+extension NSManagedObjectContext: @unchecked Sendable {}
+extension NSManagedObjectModel: @unchecked Sendable {}
 
 // MARK: - URL
 
@@ -26,8 +30,8 @@ extension URL {
     return databaseURL
   }
 
-  static var temporaryDirectoryURL: URL {
-    let url = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory:true)
+  static var temporaryDirectory: URL {
+    let url = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
       .appendingPathComponent(bundleIdentifier)
       .appendingPathComponent(UUID().uuidString)
     try! FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
@@ -36,11 +40,19 @@ extension URL {
 }
 
 extension Foundation.Bundle {
-  fileprivate class Dummy { }
+  fileprivate class Dummy {}
+
+  static var tests: Bundle {
+    #if SWIFT_PACKAGE
+      return Bundle.module
+    #else
+      return Bundle(for: Dummy.self)
+    #endif
+  }
 
   /// Returns the resource bundle associated with the current Swift module.
   /// Note: the implementation is very close to the one provided by the Swift Package with `Bundle.module` (that is not available for XCTests).
-  static var tests: Bundle = {
+  nonisolated(unsafe) static var moduleOldImplementation: Bundle = {
     let bundleName = "CoreDataPlus_Tests"
 
     let candidates = [
@@ -65,7 +77,11 @@ extension Foundation.Bundle {
     // https://forums.swift.org/t/5-3-resources-support-not-working-on-with-swift-test/40381/10
     // https://github.com/apple/swift-package-manager/pull/2905
     // https://bugs.swift.org/browse/SR-13560
-    let url = Bundle(for: Dummy.self).bundleURL.deletingLastPathComponent().appendingPathComponent(bundleName + ".bundle")
+    let url = Bundle(for: Dummy.self)
+      .bundleURL
+      .deletingLastPathComponent()
+      .appendingPathComponent(bundleName + ".bundle")
+
     if let bundle = Bundle(url: url) {
       return bundle
     }

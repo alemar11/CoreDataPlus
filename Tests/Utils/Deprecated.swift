@@ -16,7 +16,9 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Returns: The first materialized matching object (if any).
   /// - Throws: It throws an error in cases of failure.
   @available(*, deprecated, message: "Deprecated.")
-  public static func materializedObjectOrFetch(in context: NSManagedObjectContext, where predicate: NSPredicate) throws -> Self? {
+  public static func materializedObjectOrFetch(in context: NSManagedObjectContext, where predicate: NSPredicate) throws
+    -> Self?
+  {
     // first we should fetch an existing object in the context as a performance optimization
     guard let object = materializedObject(in: context, where: predicate) else {
       // if it's not in memory, we should execute a fetch to see if it exists
@@ -38,7 +40,11 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   /// - Returns: A matching object or a configured new one.
   /// - Throws: It throws an error in cases of failure.
   @available(*, deprecated, message: "Deprecated.")
-  public static func findOneOrCreate(in context: NSManagedObjectContext, where predicate: NSPredicate, with configuration: (Self) -> Void) throws -> Self {
+  public static func findOneOrCreate(
+    in context: NSManagedObjectContext, where predicate: NSPredicate, with configuration: (Self) -> Void
+  ) throws
+    -> Self
+  {
     guard let object = try materializedObjectOrFetch(in: context, where: predicate) else {
       let newObject = Self(context: context)
       configuration(newObject)
@@ -63,11 +69,13 @@ extension NSFetchRequestResult where Self: NSManagedObject {
   ///   - configuration: Configuration closure called **only** when creating a new object.
   /// - Returns: A matching object or a configured new one.
   /// - Throws: It throws an error in cases of failure.
-  public static func findUniqueOrCreate(in context: NSManagedObjectContext,
-                                        where predicate: NSPredicate,
-                                        affectedStores: [NSPersistentStore]? = nil,
-                                        assignedStore: NSPersistentStore? = nil,
-                                        with configuration: (Self) -> Void) throws -> Self {
+  public static func findUniqueOrCreate(
+    in context: NSManagedObjectContext,
+    where predicate: NSPredicate,
+    affectedStores: [NSPersistentStore]? = nil,
+    assignedStore: NSPersistentStore? = nil,
+    with configuration: (Self) -> Void
+  ) throws -> Self {
     let uniqueObject = try fetchUniqueObject(in: context, where: predicate, affectedStores: affectedStores)
     guard let object = uniqueObject else {
       let newObject = Self(context: context)
@@ -90,7 +98,9 @@ extension NSManagedObjectContext {
   ///   - changes: Changes to be applied in the current context before the saving operation. If they fail throwing an execption, the context will be reset.
   ///   - completion: Block executed (on the context’s queue.) at the end of the saving operation.
   @available(*, deprecated, message: "Deprecated.")
-  public final func performSave(after changes: @escaping (NSManagedObjectContext) throws -> Void, completion: ( (NSError?) -> Void )? = nil ) {
+  public final func performSave(
+    after changes: @escaping (NSManagedObjectContext) throws -> Void, completion: ((NSError?) -> Void)? = nil
+  ) {
     // https://stackoverflow.com/questions/37837979/using-weak-strong-self-usage-in-block-core-data-swift
     // `perform` executes the block and then releases it.
     // In Swift terms it is @noescape (and in the future it may be marked that way and you won't need to use self. in noescape closures).

@@ -28,12 +28,16 @@ extension NSFetchedPropertyDescription {
   /// this causes the fetch request associated with this property to be executed again when the object fault is next fired.
   ///
   /// Unlike other relationships, which are all sets, fetched properties are represented by an ordered NSArray object just as if you executed the fetch request yourself.
-  public convenience init(name: String, destinationEntity: NSEntityDescription, configuration: (NSFetchRequest<NSFetchRequestResult>) -> Void ) {
+  public convenience init(
+    name: String, destinationEntity: NSEntityDescription, configuration: (NSFetchRequest<NSFetchRequestResult>) -> Void
+  ) {
     self.init()
     let request = NSFetchRequest<NSFetchRequestResult>(entity: destinationEntity)
     request.resultType = .managedObjectResultType
     configuration(request)
-    assert(request.resultType == .managedObjectResultType, "NSFetchedPropertyDescription supports only NSFetchRequest with resultType set to managedObjectResultType.")
+    assert(
+      request.resultType == .managedObjectResultType,
+      "NSFetchedPropertyDescription supports only NSFetchRequest with resultType set to managedObjectResultType.")
     self.name = name
     self.fetchRequest = request
   }

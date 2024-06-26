@@ -29,14 +29,14 @@ extension DelayedDeletable where Self: NSManagedObject {
   ///
   /// Predicate to filter for objects that haven’t a deletion date.
   public static var notMarkedForLocalDeletionPredicate: NSPredicate {
-    return NSPredicate(format: "%K == NULL", markedForDeletionKey)
+    NSPredicate(format: "%K == NULL", markedForDeletionKey)
   }
 
   /// Protocol `DelayedDeletable`.
   ///
   /// Predicate to filter for objects that have a deletion date.
   public static var markedForLocalDeletionPredicate: NSPredicate {
-    return NSPredicate(format: "%K != NULL", markedForDeletionKey)
+    NSPredicate(format: "%K != NULL", markedForDeletionKey)
   }
 }
 
@@ -47,7 +47,7 @@ extension DelayedDeletable where Self: NSManagedObject {
   ///
   /// Returns true if `self` has been marked for deletion.
   public var hasChangedForDelayedDeletion: Bool {
-    return changedValue(forKey: markedForDeletionKey) as? Date != nil
+    changedValue(forKey: markedForDeletionKey) as? Date != nil
   }
 
   /// Marks an object to be deleted at a later point in time (if not already marked).
@@ -72,7 +72,10 @@ extension NSFetchRequestResult where Self: NSManagedObject & DelayedDeletable {
   ///   - resultType: The type of the batch delete result (default: `NSBatchDeleteRequestResultType.resultTypeStatusOnly`).
   /// - Returns: a NSBatchDeleteResult result.
   /// - Throws: An error in cases of a batch delete operation failure.
-  public static func batchDeleteMarkedForDeletion(with context: NSManagedObjectContext, olderThan cutOffDate: Date = Date(timeIntervalSinceNow: -TimeInterval(120)), resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly) throws -> NSBatchDeleteResult {
+  public static func batchDeleteMarkedForDeletion(
+    with context: NSManagedObjectContext, olderThan cutOffDate: Date = Date(timeIntervalSinceNow: -TimeInterval(120)),
+    resultType: NSBatchDeleteRequestResultType = .resultTypeStatusOnly
+  ) throws -> NSBatchDeleteResult {
     let predicate = NSPredicate(format: "%K <= %@", markedForDeletionKey, cutOffDate as NSDate)
 
     return try batchDelete(using: context, predicate: predicate, resultType: resultType)

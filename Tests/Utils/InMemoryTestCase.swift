@@ -1,7 +1,8 @@
 // CoreDataPlus
 
-import XCTest
 import CoreData
+import XCTest
+
 @testable import CoreDataPlus
 
 // MARK: - In Memory XCTestCase
@@ -30,20 +31,21 @@ final class InMemoryPersistentContainer: NSPersistentContainer {
     // all the SQLite stores with that URL in the same process will connect to the shared in memory database
     // Different coordinators sharing the same in memory store will also dispatch remote change notifications to
     // each other
-    var url = URL(fileURLWithPath: "/dev/null") // it's the same URL we get by default when we create a description like so: let description = NSPersistentStoreDescription()
+
+    // "/dev/null" it's the same URL we get by default when we create a description like so: let description = NSPersistentStoreDescription()
+    var url = URL(fileURLWithPath: "/dev/null")
     if let named = named {
       url.appendPathComponent(named)
     }
-    let container = InMemoryPersistentContainer(name: "SampleModel", managedObjectModel: model)
+    let container = InMemoryPersistentContainer(name: "SampleModel", managedObjectModel: model1)
     let description = container.persistentStoreDescriptions.first!
     description.url = url
     //description.type = NSInMemoryStoreType // Setting this value will fail some tests at the moment
 
     // Enable history tracking and remote notifications
     container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
-    if #available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) {
-      container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
-    }
+    container.persistentStoreDescriptions[0].setOption(
+      true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
 
     container.loadPersistentStores { (description, error) in
       XCTAssertNil(error)
@@ -51,4 +53,3 @@ final class InMemoryPersistentContainer: NSPersistentContainer {
     return container
   }
 }
-

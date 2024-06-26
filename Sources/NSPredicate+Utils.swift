@@ -11,9 +11,13 @@ extension NSPredicate {
 
   /// Returns a `new` compound NSPredicate formed by **AND**-ing `self` with `predicate`.
   /// - Parameter predicate: A `NSPredicate` object.
-  public final func and(_ predicate: NSPredicate) -> NSPredicate { NSCompoundPredicate(andPredicateWithSubpredicates: [self, predicate]) }
+  public final func and(_ predicate: NSPredicate) -> NSPredicate {
+    NSCompoundPredicate(andPredicateWithSubpredicates: [self, predicate])
+  }
 
   /// Returns: a `new` compound NSPredicate formed by **OR**-ing `self` with `predicate`.
   /// - Parameter predicate: A `NSPredicate` object.
-  public final func or(_ predicate: NSPredicate) -> NSPredicate { NSCompoundPredicate(orPredicateWithSubpredicates: [self, predicate]) }
+  public final func or(_ predicate: NSPredicate) -> NSPredicate {
+    NSCompoundPredicate(orPredicateWithSubpredicates: [self, predicate])
+  }
 }

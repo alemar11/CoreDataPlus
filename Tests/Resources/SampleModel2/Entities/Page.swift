@@ -37,4 +37,3 @@ public class PageV3: NSManagedObject {
 
   var isEmpty: Bool { content == .none }
 }
-

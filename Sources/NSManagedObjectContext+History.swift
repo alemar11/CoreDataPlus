@@ -22,11 +22,16 @@ extension NSManagedObjectContext {
   /// - Parameters:
   ///   - historyFetchRequest: A request to fetch persistent history transactions.
   ///   - withAssociatedChanges: if `true` (default) each transaction will contain all its changes.
-  public func historyTransactions(using historyFetchRequest: NSPersistentHistoryChangeRequest, andAssociatedChanges enableChanges: Bool = true) throws -> [NSPersistentHistoryTransaction] {
+  public func historyTransactions(
+    using historyFetchRequest: NSPersistentHistoryChangeRequest, andAssociatedChanges enableChanges: Bool = true
+  ) throws
+    -> [NSPersistentHistoryTransaction]
+  {
     historyFetchRequest.resultType = enableChanges ? .transactionsAndChanges : .transactionsOnly
     // swiftlint:disable force_cast
     let history = try execute(historyFetchRequest) as! NSPersistentHistoryResult
-    let transactions = history.result as! [NSPersistentHistoryTransaction] // ordered from the oldest to the most recent
+    // ordered from the oldest to the most recent
+    let transactions = history.result as! [NSPersistentHistoryTransaction]
     // swiftlint:enable force_cast
     return transactions
   }
@@ -36,11 +41,13 @@ extension NSManagedObjectContext {
   /// Returns all the history changes for given a `NSPersistentHistoryChangeRequest` request.
   ///
   /// - Parameter historyFetchRequest: A request to fetch persistent history changes.
-  public func historyChanges(using historyFetchRequest: NSPersistentHistoryChangeRequest) throws -> [NSPersistentHistoryChange] {
+  public func historyChanges(using historyFetchRequest: NSPersistentHistoryChangeRequest) throws
+    -> [NSPersistentHistoryChange]
+  {
     historyFetchRequest.resultType = .changesOnly
     // swiftlint:disable force_cast
     let history = try execute(historyFetchRequest) as! NSPersistentHistoryResult
-    let changes = history.result as! [NSPersistentHistoryChange] // ordered from the oldest to the most recent
+    let changes = history.result as! [NSPersistentHistoryChange]  // ordered from the oldest to the most recent
     // swiftlint:enable force_cast
     return changes
   }
@@ -50,7 +57,9 @@ extension NSManagedObjectContext {
   /// - Important: The merging operation must be done inside a the context queue.
   ///
   /// Returns the last merged transaction's token and timestamp.
-  public func mergeTransactions(_ transactions: [NSPersistentHistoryTransaction]) throws -> (NSPersistentHistoryToken, Date)? {
+  public func mergeTransactions(_ transactions: [NSPersistentHistoryTransaction]) throws -> (
+    NSPersistentHistoryToken, Date
+  )? {
     // Do your merging inside a context.performAndWait { … } (as shown in WWDC 2017).
     var result: (NSPersistentHistoryToken, Date)?
     for transaction in transactions {
@@ -67,7 +76,7 @@ extension NSManagedObjectContext {
   /// Deletes all history.
   @discardableResult
   public func deleteHistory() throws -> Bool {
-    return try deleteHistory(before: .distantFuture)
+    try deleteHistory(before: .distantFuture)
   }
 
   /// Deletes all history before a given `date`.

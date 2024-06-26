@@ -35,22 +35,25 @@ extension Collection where Element: NSManagedObject {
       // objects without context can trigger their fault one by one
       guard let context = context else {
         // important bits
-        objects.forEach { $0.materialize() }
+        for object in objects {
+          object.materialize()
+        }
         continue
       }
 
       // objects not yet saved can trigger their fault one by one
       let temporaryObjects = objects.filter { $0.hasTemporaryID }
       if !temporaryObjects.isEmpty {
-        temporaryObjects.forEach { $0.materialize() }
+        for object in temporaryObjects {
+          object.materialize()
+        }
       }
 
       // avoid multiple fetches for subclass entities.
       let entities = objects.entities().entitiesKeepingOnlyCommonAncestorEntities()
 
       for entity in entities {
-        // important bits
-        // about batch faulting:
+        // important bits about batch faulting:
         // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreData/Performance.html
         let request = NSFetchRequest<NSFetchRequestResult>()
         request.entity = entity
@@ -63,7 +66,7 @@ extension Collection where Element: NSManagedObject {
 
   /// Returns all the different `NSEntityDescription` defined in the collection.
   public func entities() -> Set<NSEntityDescription> {
-    return Set(self.map { $0.entity })
+    Set(self.map { $0.entity })
   }
 }
 
@@ -72,10 +75,10 @@ extension Collection where Element: NSManagedObject {
 extension Collection where Element: NSEntityDescription {
   /// Returns a collection of `NSEntityDescription` with only the commong entity ancestors.
   internal func entitiesKeepingOnlyCommonAncestorEntities() -> Set<NSEntityDescription> {
-    let grouped = Dictionary(grouping: self) { return $0.topMostAncestorEntity }
+    let grouped = Dictionary(grouping: self) { $0.topMostAncestorEntity }
     var result = [NSEntityDescription]()
 
-    grouped.forEach { _, entities in
+    for (_, entities) in grouped {
       let set = Set(entities)
       let test = set.reduce([]) { (result, entity) -> [NSEntityDescription] in
         var newResult = result
@@ -87,7 +90,7 @@ extension Collection where Element: NSEntityDescription {
               newResult.remove(at: index)
               newResult.append(ancestor)
             }
-          } else { // this condition should be never verified
+          } else {  // this condition should be never verified
             newResult.append(entity)
           }
         }

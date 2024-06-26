@@ -2,22 +2,27 @@
 
 import CoreData
 import XCTest
+import os.lock
+
 @testable import CoreDataPlus
 
-private var cache = [String: NSManagedObjectModel]()
+// Make sure models are loaded in memory
+let model1 = SampleModelVersion.version1._managedObjectModel()
+let model2 = SampleModelVersion.version2._managedObjectModel()
+let model3 = SampleModelVersion.version3._managedObjectModel()
 
-public enum SampleModelVersion: String, CaseIterable {
+public enum SampleModelVersion: String, CaseIterable, LegacyMigration {
   case version1 = "SampleModel"
   case version2 = "SampleModel2"
   case version3 = "SampleModel3"
 }
 
 extension SampleModelVersion: ModelVersion {
-  public static var allVersions: [SampleModelVersion] { return SampleModelVersion.allCases }
-  public static var currentVersion: SampleModelVersion { return .version1 }
-  public var modelName: String { return "SampleModel" }
+  public static var allVersions: [SampleModelVersion] { SampleModelVersion.allCases }
+  public static var currentVersion: SampleModelVersion { .version1 }
+  public var modelName: String { "SampleModel" }
 
-  public var successor: SampleModelVersion? {
+  public var next: SampleModelVersion? {
     switch self {
     case .version1: return .version2
     case .version2: return .version3
@@ -25,18 +30,19 @@ extension SampleModelVersion: ModelVersion {
     }
   }
 
-  public var versionName: String { return rawValue }
+  public var versionName: String { rawValue }
 
   public var modelBundle: Bundle { Bundle.tests }
 
   public func managedObjectModel() -> NSManagedObjectModel {
-    if let model = cache[self.versionName], #available(iOS 12.0, tvOS 12.0, watchOS 5.0, macOS 10.14, *) {
-      return model
+    switch self {
+    case .version1:
+      model1
+    case .version2:
+      model2
+    case .version3:
+      model3
     }
-
-    let model = _managedObjectModel()
-    cache[self.versionName] = model
-    return model
   }
 }
 

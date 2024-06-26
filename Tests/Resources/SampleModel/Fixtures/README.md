@@ -11,13 +11,13 @@ When you open a Swift package with Xcode, Xcode knows how to handle common Apple
 
 That means Xcode will compile `SampleModel.xcdatamodeld` into `SampleModel.md` and  `V2toV3.xcmappingmodel` into `V2toV3.cdm` and will copy them in the Resources folder of the test bundle automatically.
 
-When using the terminal, though, we need to have already compiled versions of the model and mapping models and copy them in the resources bundle during the build phase.
+When using the CLI, though, we need to have already compiled versions of the model and mapping models and copy them in the resources bundle during the build phase.
 That's why the `Fixtures` folder contains these binaries:
 
 - `SampleModel.momd`
 - `V2toV3.cdm`
 
-The main problem to have tests working from both Xcode and terminal is that, when building from Xcode, to avoid conflict errors, we need to exclude the compiled binaries described above because Xcode will create them automatically for us, while when building from terminal these binaries must be included and copied.
+The main problem to have tests working from both Xcode and CLI (terminal) is that, when building from Xcode, to avoid conflict errors, we need to exclude the compiled binaries described above because Xcode will create them automatically for us, while when building from CLI these binaries must be included and copied.
 
 In the `Package.swift` these inclusions and exclusions are done automatically based on whether or not tests are being run from the command line. 
 

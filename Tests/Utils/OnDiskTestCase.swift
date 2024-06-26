@@ -1,7 +1,8 @@
 // CoreDataPlus
 
-import XCTest
 import CoreData
+import XCTest
+
 @testable import CoreDataPlus
 
 // MARK: - On Disk XCTestCase
@@ -37,7 +38,7 @@ final class OnDiskPersistentContainer: NSPersistentContainer {
 
   static func makeNew(id: UUID) -> OnDiskPersistentContainer {
     let url = URL.newDatabaseURL(withID: id)
-    let container = OnDiskPersistentContainer(name: "SampleModel", managedObjectModel: model)
+    let container = OnDiskPersistentContainer(name: "SampleModel", managedObjectModel: model1)
     let description = container.persistentStoreDescriptions.first!
     description.url = url
     // disable automatic migration (true by default)
@@ -47,9 +48,8 @@ final class OnDiskPersistentContainer: NSPersistentContainer {
 
     // Enable history tracking and remote notifications
     container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
-    if #available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *) {
-      container.persistentStoreDescriptions[0].setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
-    }
+    container.persistentStoreDescriptions[0].setOption(
+      true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
 
     container.loadPersistentStores { (description, error) in
       XCTAssertNil(error)

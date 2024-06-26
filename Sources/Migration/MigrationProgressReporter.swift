@@ -1,24 +1,26 @@
 // CoreDataPlus
 
 import CoreData
+import os.lock
 
 /// Provides a `Progress` instance during a `NSMigrationManager` migration phase.
-public final class MigrationProgressReporter: NSObject, ProgressReporting {
+internal final class MigrationProgressReporter: NSObject, ProgressReporting, @unchecked Sendable {
   /// Migration progress.
   public private(set) lazy var progress: Progress = {
     let progress = Progress(totalUnitCount: Int64(totalUnitCount))
     progress.cancellationHandler = { [weak self] in
       self?.cancel()
     }
-    progress.pausingHandler = nil // not supported
+    progress.pausingHandler = nil  // not supported
     return progress
   }()
 
   private let totalUnitCount: Int64 = 100
   private let manager: NSMigrationManager
   private var token: NSKeyValueObservation?
+  private let lock = OSAllocatedUnfairLock()
 
-  public init(manager: NSMigrationManager) {
+  fileprivate init(manager: NSMigrationManager) {
     self.manager = manager
     super.init()
     self.token = manager.observe(\.migrationProgress, options: [.new]) { [weak self] (_, change) in
@@ -40,19 +42,25 @@ public final class MigrationProgressReporter: NSObject, ProgressReporting {
 
   /// Marks the progress as finished if it's not already.
   /// - Note: Since lightweight migrations don't support progress, this method ensures that a lightweight migration is at least finished.
-  public func markAsFinishedIfNeeded() {
+  internal func markAsFinishedIfNeeded() {
+    lock.lock()
+    defer { lock.unlock() }
+
     if !progress.isFinished {
       progress.completedUnitCount = progress.totalUnitCount
     }
   }
 
-  func cancel() {
+  internal func cancel() {
+    lock.lock()
+    defer { lock.unlock() }
+
     let error = NSError.migrationCancelled
     manager.cancelMigrationWithError(error)
   }
 }
 
-public extension NSMigrationManager {
+extension NSMigrationManager {
   /// Creates a new `MigrationProgressReporter` for the migration manager.
   func makeProgressReporter() -> MigrationProgressReporter {
     MigrationProgressReporter(manager: self)

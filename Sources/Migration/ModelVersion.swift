@@ -10,19 +10,19 @@ import CoreData
 /// and an Info.plist file that contains the version information.
 /// The model is compiled into a runtime format—a file package with a `.momd` extension that contains individually compiled model files with a `.mom` extension
 /// documentation.
-private enum ModelVersionFileExtension {
+internal enum ModelVersionFileExtension {
   /// Extension for a compiled version of a model file package (`.xcdatamodeld`).
   static let momd = "momd"
   /// Extension for a compiled version of a *versioned* model file (`.xcdatamodel`).
-  static let mom  = "mom"
+  static let mom = "mom"
   /// Extension for an optimized version for the '.mom' file.
-  static let omo  = "omo"
+  static let omo = "omo"
   /// Extension for a compiled version of a mapping model file (`.xcmappingmodel`).
-  static let cdm  = "cdm"
+  static let cdm = "cdm"
 }
 
 /// Types adopting the `ModelVersion` protocol can be used to describe a Core Data Model and its versioning.
-public protocol ModelVersion: Equatable, RawRepresentable {
+public protocol ModelVersion: Equatable, RawRepresentable, CustomDebugStringConvertible {
   /// Protocol `ModelVersion`.
   ///
   /// List with all versions until now.
@@ -41,7 +41,7 @@ public protocol ModelVersion: Equatable, RawRepresentable {
   /// Protocol `ModelVersion`.
   ///
   /// The next `ModelVersion` in the progressive migration.
-  var successor: Self? { get }
+  var next: Self? { get }
 
   /// Protocol `ModelVersion`.
   ///
@@ -53,22 +53,27 @@ public protocol ModelVersion: Equatable, RawRepresentable {
   /// Model name.
   var modelName: String { get }
 
-  /// Protocol `ModelVersions`.
+  /// Protocol `ModelVersion`.
   ///
   /// Return the NSManagedObjectModel for this `ModelVersion`.
   func managedObjectModel() -> NSManagedObjectModel
-
-  /// Protocol `ModelVersion`.
-  ///
-  /// Returns a list of mapping models needed to migrate the current version of the database to the next one.
-  func mappingModelsToNextModelVersion() -> [NSMappingModel]?
 }
+
+
+
+
 
 extension ModelVersion {
   /// Protocol `ModelVersion`.
   ///
   /// Model file name.
   var momd: String { "\(modelName).\(ModelVersionFileExtension.momd)" }
+}
+
+extension ModelVersion {
+  public var debugDescription: String {
+    "\(modelName)‣\(versionName)"
+  }
 }
 
 extension ModelVersion {
@@ -84,11 +89,9 @@ extension ModelVersion {
   /// - Throws: It throws an error if no store is found at `persistentStoreURL` or if there is a problem accessing its contents.
   public init?(persistentStoreURL: URL) throws {
     let metadata: [String: Any]
-    if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
-      metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(type: .sqlite, at: persistentStoreURL, options: nil)
-    } else {
-      metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: persistentStoreURL, options: nil)
-    }
+    metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(type: .sqlite,
+                                                                           at: persistentStoreURL, 
+                                                                           options: nil)
     let version = Self[metadata]
 
     guard let modelVersion = version else {
@@ -102,12 +105,14 @@ extension ModelVersion {
   ///
   /// Returns the NSManagedObjectModel for this `ModelVersion`.
   public func managedObjectModel() -> NSManagedObjectModel {
-    return _managedObjectModel()
+    _managedObjectModel()
   }
-
+  
   // swiftlint:disable:next identifier_name
   internal func _managedObjectModel() -> NSManagedObjectModel {
-    let momURL = modelBundle.url(forResource: versionName, withExtension: "\(ModelVersionFileExtension.mom)", subdirectory: momd)
+    let momURL = modelBundle.url(forResource: versionName,
+                                 withExtension: "\(ModelVersionFileExtension.mom)",
+                                 subdirectory: momd)
 
     //  As of iOS 11, Apple is advising that opening the .omo file for a managed object model is not supported, since the file format can change from release to release
     // let omoURL = modelBundle.url(forResource: versionName, withExtension: "\(ModelVersionExtension.omo)", subdirectory: momd)
@@ -124,15 +129,46 @@ extension ModelVersion {
     return model
   }
 
-  /// `AnyIterator` to iterate all the successors steps after `self`.
-  func successorsIterator() -> AnyIterator<Self> {
+  /// `AnyIterator` to iterate all the nexts steps after `self`.
+  func makeIterator() -> AnyIterator<Self> {
     var version: Self = self
     return AnyIterator {
-      guard let next = version.successor else { return nil }
+      guard let next = version.next else { return nil }
 
       version = next
       return version
     }
+  }
+}
+
+extension ModelVersion {
+  /// Returns`true` if a lightweight migration to the next model version is possible
+  ///
+  /// - Note:
+  /// Lightweight migrations are possible only if all changes are simple enough to be automaticaly inferred such as:
+  ///
+  ///  - Adding, removing, and renaming attributes
+  ///  - Adding, removing, and renaming relationships
+  ///  - Adding, removing, and renaming entities
+  ///  - Changing the optional status of attributes
+  ///  - Adding or removing indexes on attributes
+  ///  - Adding, removing, or changing compound indexes on entities
+  ///  - Adding, removing, or changing unique constraints on entities
+  ///
+  ///  There are a few gotchas to this list:
+  ///
+  /// - if you change an attribute from optional to non-optional, specify a default value.
+  /// - changing indexes (on attributes as well as compound indexes) won’t be picked up as a model change; specify a hash modifier on the changed
+  /// attributes or entities in order to force Core Data to do the right thing during migration.
+  public func isLightWeightMigrationPossibleToNextModelVersion() -> Bool {
+    guard let nextVersion = next else {
+      return false
+    }
+
+    let mappingModel =  try? NSMappingModel.inferredMappingModel(forSourceModel: managedObjectModel(),
+                                                                 destinationModel: nextVersion.managedObjectModel())
+    
+    return mappingModel != nil
   }
 }
 
@@ -148,12 +184,9 @@ public func isMigrationNecessary<Version: ModelVersion>(for storeURL: URL, to ve
   // Before you initiate a migration process, you should first determine whether it is necessary.
   // If the target model configuration is compatible with the persistent store metadata, there is no need to migrate
   // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmCustomizing.html#//apple_ref/doc/uid/TP40004399-CH8-SW2
-  let metadata: [String: Any]
-  if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
-    metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(type: .sqlite, at: storeURL, options: nil)
-  } else {
-    metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: storeURL, options: nil)
-  }
+  let metadata: [String: Any] = try NSPersistentStoreCoordinator.metadataForPersistentStore(type: .sqlite,
+                                                                                            at: storeURL,
+                                                                                            options: nil)
 
   let targetModel = version.managedObjectModel()
   // https://vimeo.com/164904652
@@ -172,102 +205,17 @@ public func isMigrationNecessary<Version: ModelVersion>(for storeURL: URL, to ve
   let isCompatible = targetModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
 
   if isCompatible {
-    return false // current and target versions are the same
+    return false  // current and target versions are the same
   } else if let currentVersion = Version[metadata] {
-    let iterator = currentVersion.successorsIterator()
+    let iterator = currentVersion.makeIterator()
     while let nextVersion = iterator.next() {
       if nextVersion == version { return true }
     }
-    // can't migrate to a version not defined as a successor step
+    // can't migrate to a version not defined as a next step
     // (target version is probably a prior version of the current one)
     return false
   } else {
     // fallback
     return false
-  }
-}
-
-extension ModelVersion {
-  /// Returns a list of `MigrationStep` needed to mirate to the next `version` of the store.
-  public func migrationSteps(to version: Self) -> [MigrationStep<Self>] {
-    guard self != version else {
-      return []
-    }
-
-    guard let nextVersion = successor else {
-      return []
-    }
-
-    guard let step = MigrationStep(sourceVersion: self, destinationVersion: nextVersion) else {
-      fatalError("Couldn't find any mapping models.")
-    }
-
-    return [step] + nextVersion.migrationSteps(to: version)
-  }
-
-  /// Returns a `NSMappingModel` that specifies how to map a model to the next version model.
-  public func mappingModelToNextModelVersion() -> NSMappingModel? {
-    guard let nextVersion = successor else {
-      return nil
-    }
-
-    guard let mappingModel = NSMappingModel(from: [modelBundle], forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel()) else {
-      fatalError("No NSMappingModel found for \(self) to \(nextVersion).")
-    }
-
-    return mappingModel
-  }
-
-  /// Returns a newly created mapping model that will migrate data from the source to the destination model.
-  ///
-  /// - Note:
-  /// A model will be created only if all changes are simple enough to be able to reasonably infer a mapping such as:
-  ///
-  ///  - Adding, removing, and renaming attributes
-  ///  - Adding, removing, and renaming relationships
-  ///  - Adding, removing, and renaming entities
-  ///  - Changing the optional status of attributes
-  ///  - Adding or removing indexes on attributes
-  ///  - Adding, removing, or changing compound indexes on entities
-  ///  - Adding, removing, or changing unique constraints on entities
-  ///
-  ///  There are a few gotchas to this list:
-  ///
-  /// - if you change an attribute from optional to non-optional, specify a default value.
-  /// - changing indexes (on attributes as well as compound indexes) won’t be picked up as a model change; specify a hash modifier on the changed
-  /// attributes or entities in order to force Core Data to do the right thing during migration.
-  public func inferredMappingModelToNextModelVersion() -> NSMappingModel? {
-    guard let nextVersion = successor else {
-      return nil
-    }
-
-    return try? NSMappingModel.inferredMappingModel(forSourceModel: managedObjectModel(), destinationModel: nextVersion.managedObjectModel())
-  }
-
-  /// - Returns: Returns a list of `NSMappingModel` given a list of mapping model names.
-  /// - Note: The mapping models must be inside the NSBundle object containing the model file.
-  public func mappingModels(for mappingModelNames: [String]) -> [NSMappingModel] {
-    var results = [NSMappingModel]()
-
-    guard mappingModelNames.count > 0 else {
-      return results
-    }
-
-    guard
-      let allMappingModelsURLs = modelBundle.urls(forResourcesWithExtension: ModelVersionFileExtension.cdm, subdirectory: nil),
-      allMappingModelsURLs.count > 0 else {
-        return results
-      }
-
-    mappingModelNames.forEach { name in
-      let expectedFileName = "\(name).\(ModelVersionFileExtension.cdm)"
-      if
-        let url = allMappingModelsURLs.first(where: { $0.lastPathComponent == expectedFileName }),
-        let mappingModel = NSMappingModel(contentsOf: url) {
-        results.append(mappingModel)
-      }
-    }
-
-    return results
   }
 }

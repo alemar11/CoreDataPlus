@@ -1,10 +1,10 @@
 // CoreDataPlus
 
-import XCTest
 import CoreData
+import XCTest
+
 @testable import CoreDataPlus
 
-@available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 class OnDiskWithProgrammaticallyModelTestCase: XCTestCase {
   var container: NSPersistentContainer!
 
@@ -28,20 +28,20 @@ class OnDiskWithProgrammaticallyModelTestCase: XCTestCase {
 
 // MARK: - On Disk NSPersistentContainer with Programmatically Model
 
-@available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 final class OnDiskWithProgrammaticallyModelPersistentContainer: NSPersistentContainer {
   static func makeNew() -> OnDiskWithProgrammaticallyModelPersistentContainer {
-    Self.makeNew(id: UUID())
+    Self.makeNew(id: UUID().uuidString)
   }
 
-  static func makeNew(id: UUID) -> OnDiskWithProgrammaticallyModelPersistentContainer {
-    let url = URL.newDatabaseURL(withID: id)
-    let container = OnDiskWithProgrammaticallyModelPersistentContainer(name: "SampleModel2",
-                                                                       managedObjectModel: V1.makeManagedObjectModel())
+  static func makeNew(id: String, 
+                      forStagedMigration enableStagedMigration: Bool = false,
+                      model: NSManagedObjectModel = V1.makeManagedObjectModel()) -> OnDiskWithProgrammaticallyModelPersistentContainer {
+    let url = URL.newDatabaseURL(withName: id)
+    let container = OnDiskWithProgrammaticallyModelPersistentContainer(name: "SampleModel2", managedObjectModel: model)
     let description = NSPersistentStoreDescription()
     description.url = url
-    description.shouldMigrateStoreAutomatically = false
-    description.shouldInferMappingModelAutomatically = false
+    description.shouldMigrateStoreAutomatically = enableStagedMigration
+    description.shouldInferMappingModelAutomatically = enableStagedMigration
 
     // Enable history tracking and remote notifications
     description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)

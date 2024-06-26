@@ -41,7 +41,7 @@ public final class Transformer<T: NSObject & NSSecureCoding>: NSSecureUnarchiveF
     // transformedValue(_:) and reverseTransformedValue(_:) methods for NSSecureUnarchiveFromDataTransformer subclasses are called
     // in the opposite way than on ValuteTransformer subclasses
     guard let data = value as? Data else { return nil }
-    return super.transformedValue(data) // super returns an instance of T
+    return super.transformedValue(data)  // super returns an instance of T
   }
 
   public override func reverseTransformedValue(_ value: Any?) -> Any? {
@@ -50,6 +50,6 @@ public final class Transformer<T: NSObject & NSSecureCoding>: NSSecureUnarchiveF
     // context: this method may be called during a save
     guard let receivedValue = value as? T else { return nil }
 
-    return super.reverseTransformedValue(receivedValue) // super returns a Data object
+    return super.reverseTransformedValue(receivedValue)  // super returns a Data object
   }
 }

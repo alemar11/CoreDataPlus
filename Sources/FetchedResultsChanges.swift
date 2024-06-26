@@ -36,7 +36,10 @@ extension FetchedResultsObjectChange {
   ///   - indexPath: The old index patch for the object
   ///   - type: The type of the reported change
   ///   - newIndexPath: The new index path for the object
-  public init?(object: Any, indexPath: IndexPath?, changeType type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+  public init?(object: Any,
+               indexPath: IndexPath?,
+               changeType type: NSFetchedResultsChangeType,
+               newIndexPath: IndexPath?) {
     guard let object = object as? T else { return nil }
 
     switch (type, indexPath, newIndexPath) {
@@ -46,17 +49,17 @@ extension FetchedResultsObjectChange {
       // For more discussion, see https://forums.developer.apple.com/thread/12184
       return nil
 
-    case let (.insert, nil, newIndexPath?):
+    case (.insert, nil, let newIndexPath?):
       self = .insert(object: object, indexPath: newIndexPath)
 
-    case let (.delete, indexPath?, nil):
+    case (.delete, let indexPath?, nil):
       self = .delete(object: object, indexPath: indexPath)
 
-    case let (.update, indexPath?, _):
+    case (.update, let indexPath?, _):
       // before iOS 9, a newIndexPath value was also passed in.
       self = .update(object: object, indexPath: indexPath)
 
-    case let (.move, fromIndexPath?, toIndexPath?):
+    case (.move, let fromIndexPath?, let toIndexPath?):
       // There are at least two different .move-related bugs running on Xcode 7.3.1:
       // - iOS 8.4 sometimes reports both an .update and a .move (with identical index paths) for the same object.
       // - iOS 9.3 sometimes reports just a .move (with identical index paths) and no .update for an object.
@@ -94,10 +97,10 @@ public struct FetchedResultsSectionInfo<T: NSManagedObject> {
 
   /// Create a new element of `FetchedResultsSectionInfo` for a given `NSFetchedResultsSectionInfo` object.
   public init(_ info: NSFetchedResultsSectionInfo) {
-    objects = (info.objects as? [T]) ?? []
-    name = info.name
-    indexTitle = info.indexTitle
-    numberOfObjects = info.numberOfObjects
+    self.objects = (info.objects as? [T]) ?? []
+    self.name = info.name
+    self.indexTitle = info.indexTitle
+    self.numberOfObjects = info.numberOfObjects
   }
 }
 
@@ -121,7 +124,9 @@ extension FetchedResultsSectionChange {
   ///   - sectionInfo: The `NSFetchedResultsSectionInfo` instance
   ///   - sectionIndex: The section index
   ///   - type: The type of the reported change
-  public init?(section sectionInfo: NSFetchedResultsSectionInfo, index sectionIndex: Int, changeType type: NSFetchedResultsChangeType) {
+  public init?(section sectionInfo: NSFetchedResultsSectionInfo,
+               index sectionIndex: Int,
+               changeType type: NSFetchedResultsChangeType) {
     let info = FetchedResultsSectionInfo<T>(sectionInfo)
 
     switch type {

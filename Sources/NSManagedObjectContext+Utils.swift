@@ -16,6 +16,7 @@ extension NSManagedObjectContext {
     // https://developer.apple.com/forums/thread/651325.
     // swiftlint:disable force_cast
     let protocolRequest = request as! NSFetchRequest<NSFetchRequestResult>
+    // swiftlint:enable force_cast
     let results = try fetch(protocolRequest) as NSArray
     return results
   }
@@ -40,7 +41,9 @@ extension NSManagedObjectContext {
   /// Returns a `new` child `NSManagedObjectContext`.
   /// - Parameters:
   ///   - concurrencyType: Specifies the concurrency pattern used by this child context (defaults to the parent type).
-  public final func newChildContext(concurrencyType: NSManagedObjectContextConcurrencyType? = nil) -> NSManagedObjectContext {
+  public final func newChildContext(concurrencyType: NSManagedObjectContextConcurrencyType? = nil)
+    -> NSManagedObjectContext
+  {
     let type = concurrencyType ?? self.concurrencyType
     let context = NSManagedObjectContext(concurrencyType: type)
     context.parent = self
@@ -61,7 +64,8 @@ extension NSManagedObjectContext {
   /// - Note: The `hasChanges` method would return `true` for transient changes as well which can lead to false positives.
   public var hasPersistentChanges: Bool {
     guard hasChanges else { return false }
-    return !insertedObjects.isEmpty || !deletedObjects.isEmpty || updatedObjects.first(where: { $0.hasPersistentChangedValues }) != nil
+    return !insertedObjects.isEmpty || !deletedObjects.isEmpty
+      || updatedObjects.first(where: { $0.hasPersistentChangedValues }) != nil
   }
 
   /// Returns the number of changes that will change the persistent store (transient changes are ignored).
@@ -83,7 +87,7 @@ extension NSManagedObjectContext {
     do {
       try saveIfNeeded()
     } catch {
-      rollback() // rolls back the pending changes (and clears the undo stack if set up)
+      rollback()  // rolls back the pending changes (and clears the undo stack if set up)
       throw error
     }
   }
@@ -108,9 +112,11 @@ extension NSManagedObjectContext {
   ///
   /// Source: https://oleb.net/blog/2018/02/performandwait/
   /// Source: https://github.com/apple/swift/blob/bb157a070ec6534e4b534456d208b03adc07704b/stdlib/public/SDK/Dispatch/Queue.swift#L228-L249
-  private func _performAndWaitHelper<T>(function: (() -> Void) -> Void,
-                                        execute work: (NSManagedObjectContext) throws -> T,
-                                        rescue: (Error) throws -> (T)) rethrows -> T {
+  private func _performAndWaitHelper<T>(
+    function: (() -> Void) -> Void,
+    execute work: (NSManagedObjectContext) throws -> T,
+    rescue: (Error) throws -> (T)
+  ) rethrows -> T {
     var result: T?
     var error: Error?
     // swiftlint:disable:next identifier_name

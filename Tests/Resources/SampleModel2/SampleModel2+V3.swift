@@ -6,16 +6,16 @@
 // @distinctUnionOfSets expects an NSSet containing NSSet objects, and returns an NSSet. Because sets can’t contain duplicate values anyway, there is only the distinct operator.)
 
 import CoreData
+
 @testable import CoreDataPlus
 
 extension V3 {
   enum Configurations {
-    static let one = "SampleConfigurationV3" // all the entities
+    static let one = "SampleConfigurationV3"  // all the entities
   }
 
-  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   static func makeManagedObjectModel() -> NSManagedObjectModel {
-    if let model = SampleModel2.modelCache["V3"] {
+    if let model = SampleModel2.modelCache.withLock({ $0["V3"] }) {
       return model
     }
 
@@ -29,8 +29,11 @@ extension V3 {
     let feedback = makeFeedbackEntity()
 
     // Definition using the CoreDataPlus convenience init
-    let feedbackList = NSFetchedPropertyDescription(name: AuthorV3.FetchedProperty.feedbacks, destinationEntity: feedback) {
-      $0.predicate = NSPredicate(format: "%K == $FETCH_SOURCE.%K", #keyPath(FeedbackV3.authorAlias), #keyPath(AuthorV3.alias))
+    let feedbackList = NSFetchedPropertyDescription(
+      name: AuthorV3.FetchedProperty.feedbacks, destinationEntity: feedback
+    ) {
+      $0.predicate = NSPredicate(
+        format: "%K == $FETCH_SOURCE.%K", #keyPath(FeedbackV3.authorAlias), #keyPath(AuthorV3.alias))
       $0.sortDescriptors = [NSSortDescriptor(key: #keyPath(FeedbackV3.rating), ascending: true)]
     }
     author.add(feedbackList)
@@ -38,7 +41,8 @@ extension V3 {
     // Definition without the CoreDataPlus convenience init
     let request2 = NSFetchRequest<NSFetchRequestResult>(entity: feedback)
     request2.resultType = .managedObjectResultType
-    request2.predicate = NSPredicate(format: "authorAlias == $FETCH_SOURCE.alias AND (comment CONTAINS [c] $FETCHED_PROPERTY.userInfo.search)")
+    request2.predicate = NSPredicate(
+      format: "authorAlias == $FETCH_SOURCE.alias AND (comment CONTAINS [c] $FETCHED_PROPERTY.userInfo.search)")
     let favFeedbackList = NSFetchedPropertyDescription()
     favFeedbackList.name = AuthorV3.FetchedProperty.favFeedbacks
     favFeedbackList.fetchRequest = request2
@@ -113,7 +117,7 @@ extension V3 {
     bookToPages.inverseRelationship = pageToBook
     pageToBook.inverseRelationship = bookToPages
 
-    author.add(authorToBooks) // author.properties += [authorToBooks]
+    author.add(authorToBooks)  // author.properties += [authorToBooks]
     book.properties += [bookToAuthor, bookToPages, bookToCover]
     cover.properties += [coverToBook]
     page.properties += [pageToBook]
@@ -124,8 +128,8 @@ extension V3 {
     let entities = [writer, author, book, graphicNovel, page, feedback, cover]
     managedObjectModel.entities = entities
     managedObjectModel.setEntities(entities, forConfigurationName: Configurations.one)
+    SampleModel2.modelCache.withLock { $0["V3"] = managedObjectModel }
 
-    SampleModel2.modelCache["V3"] = managedObjectModel
     return managedObjectModel
   }
 
@@ -144,10 +148,10 @@ extension V3 {
   static func makeAuthorEntity() -> NSEntityDescription {
     var entity = NSEntityDescription()
     entity = NSEntityDescription()
-    entity.name = String(describing: Author.self) // 🚩 the entity name should stay the same
+    entity.name = String(describing: Author.self)  // 🚩 the entity name should stay the same
     entity.managedObjectClassName = String(describing: AuthorV3.self)
 
-    // ✅ added in V3
+    // ✅ socialURL added in V3
     let socialURL = NSAttributeDescription.uri(name: #keyPath(AuthorV3.socialURL))
     socialURL.isOptional = true
     socialURL.renamingIdentifier = #keyPath(AuthorV3.socialURL)
@@ -158,13 +162,13 @@ extension V3 {
     entity.properties = [alias, socialURL]
     entity.uniquenessConstraints = [[#keyPath(AuthorV3.alias)]]
 
-    let index = NSFetchIndexDescription(name: "authorIndex", elements: [NSFetchIndexElementDescription(property: alias, collationType: .binary)])
+    let index = NSFetchIndexDescription(
+      name: "authorIndex", elements: [NSFetchIndexElementDescription(property: alias, collationType: .binary)])
     entity.indexes.append(index)
 
     return entity
   }
 
-  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   static func makeCoverEntity() -> NSEntityDescription {
     var entity = NSEntityDescription()
     entity = NSEntityDescription()
@@ -178,7 +182,6 @@ extension V3 {
     return entity
   }
 
-  @available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   static func makeBookEntity() -> NSEntityDescription {
     var entity = NSEntityDescription()
     entity = NSEntityDescription()
@@ -190,24 +193,27 @@ extension V3 {
 
     let title = NSAttributeDescription.string(name: #keyPath(BookV3.title))
     title.isOptional = false
-    let rule1 = (NSPredicate(format: "length >= 3 AND length <= 50"),"Title must have a length between 3 and 50 chars.")
+    let rule1 = (
+      NSPredicate(format: "length >= 3 AND length <= 50"), "Title must have a length between 3 and 50 chars."
+    )
     let rule2 = (NSPredicate(format: "SELF CONTAINS %@", "title"), "Title must contain 'title'.")
     title.setValidationPredicates([rule1.0, rule2.0], withValidationWarnings: [rule1.1, rule2.1])
 
     let price = NSAttributeDescription.decimal(name: #keyPath(BookV3.price))
     price.isOptional = false
 
-    // ✅ Renamed cover as frontCover
     let defaultCover = Cover(text: "default cover")
-    let cover = NSAttributeDescription.transformable(for: Cover.self, name: #keyPath(BookV3.frontCover), defaultValue: defaultCover)
+    let cover = NSAttributeDescription.transformable(
+      for: Cover.self, name: #keyPath(BookV3.frontCover), defaultValue: defaultCover)
     cover.isOptional = false
 
     let publishedAt = NSAttributeDescription.date(name: #keyPath(BookV3.publishedAt))
     publishedAt.isOptional = false
 
-    let pagesCount = NSDerivedAttributeDescription(name: #keyPath(BookV3.pagesCount),
-                                                   type: .integer64AttributeType,
-                                                   derivationExpression: NSExpression(format: "pages.@count"))
+    let pagesCount = NSDerivedAttributeDescription(
+      name: #keyPath(BookV3.pagesCount),
+      type: .integer64,
+      derivationExpression: NSExpression(format: "pages.@count"))
     pagesCount.isOptional = true
     entity.properties = [uniqueID, title, price, cover, publishedAt, pagesCount]
 
@@ -228,10 +234,10 @@ extension V3 {
     isBookmarked.isOptional = false
     isBookmarked.defaultValue = false
 
-    let content = NSAttributeDescription.customTransformable(for: Content.self, name: #keyPath(PageV3.content)) { //(content: Content?) -> Data? in
+    let content = NSAttributeDescription.customTransformable(for: Content.self, name: #keyPath(PageV3.content)) {
       guard let content = $0 else { return nil }
       return try? NSKeyedArchiver.archivedData(withRootObject: content, requiringSecureCoding: true)
-    } reverse: { //data -> Content? in
+    } reverse: {  //data -> Content? in
       guard let data = $0 else { return nil }
       return try? NSKeyedUnarchiver.unarchivedObject(ofClass: Content.self, from: data)
     }
@@ -294,7 +300,6 @@ extension V3 {
 // Fix: since the models are cached (and hence the entities descriptions with their version hasesh too), we use NSManagedObjectModel entityVersionHashesByName;
 // if the model isn't recreated on demand, the entities version hashes will stay the same.
 // If we use Xcode UI, we need to do some manual cleaning: https://github.com/diogot/CoreDataModelMigrationBug
-@available(iOS 13.0, iOSApplicationExtension 13.0, macCatalyst 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 extension V3 {
 
   static func makeCoverMapping() -> NSEntityMapping {
@@ -345,7 +350,10 @@ extension V3 {
     title.name = #keyPath(BookV3.title)
     // 🚩 Investigating how to implement and call custom methods in the policy
     //title.valueExpression = NSExpression(format: "$source.\(#keyPath(BookV2.title))")
-    title.valueExpression = NSExpression(format: #"FUNCTION($entityPolicy, "destinationTitleForSourceBookTitle:manager:", $source.\#(#keyPath(BookV2.title)),$manager)"#)
+    title.valueExpression = NSExpression(
+      format:
+        #"FUNCTION($entityPolicy, "destinationTitleForSourceBookTitle:manager:", $source.\#(#keyPath(BookV2.title)),$manager)"#
+    )
 
     let price = NSPropertyMapping()
     price.name = #keyPath(BookV3.price)
@@ -361,25 +369,34 @@ extension V3 {
 
     let pages = NSPropertyMapping()
     pages.name = #keyPath(BookV3.pages)
-    pages.valueExpression = NSExpression(format: #"FUNCTION($manager, "destinationInstancesForEntityMappingNamed:sourceInstances:", "PageToPage", $source.\#(#keyPath(BookV2.pages)))"#)
-
+    pages.valueExpression = NSExpression(
+      format:
+        #"FUNCTION($manager, "destinationInstancesForEntityMappingNamed:sourceInstances:", "PageToPage", $source.\#(#keyPath(BookV2.pages)))"#
+    )
 
     let author = NSPropertyMapping()
     author.name = #keyPath(BookV3.author)
-    author.valueExpression = NSExpression(format: #"FUNCTION($manager, "destinationInstancesForEntityMappingNamed:sourceInstances:", "AuthorToAuthor", $source.\#(#keyPath(BookV2.author)))"#)
+    author.valueExpression = NSExpression(
+      format:
+        #"FUNCTION($manager, "destinationInstancesForEntityMappingNamed:sourceInstances:", "AuthorToAuthor", $source.\#(#keyPath(BookV2.author)))"#
+    )
 
     let frontCover = NSPropertyMapping()
     frontCover.name = #keyPath(BookV3.frontCover)
 
-    mapping.attributeMappings = [pagesCount,
-                                 price,
-                                 publishedAt,
-                                 title,
-                                 uniqueID
+    mapping.attributeMappings = [
+      pagesCount,
+      price,
+      publishedAt,
+      title,
+      uniqueID,
     ]
 
     mapping.relationshipMappings = [author, frontCover, pages]
-    mapping.sourceExpression = NSExpression(format: #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "Book", "TRUEPREDICATE"), $manager.sourceContext, NO)"#)
+    mapping.sourceExpression = NSExpression(
+      format:
+        #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "Book", "TRUEPREDICATE"), $manager.sourceContext, NO)"#
+    )
     return mapping
   }
 
@@ -408,7 +425,10 @@ extension V3 {
     title.name = #keyPath(BookV3.title)
     // 🚩 Investigating how to implement and call custom methods in the policy
     //title.valueExpression = NSExpression(format: "$source.\(#keyPath(GraphicNovelV2.title))")
-    title.valueExpression = NSExpression(format: #"FUNCTION($entityPolicy, "destinationTitleForSourceBookTitle:manager:", $source.\#(#keyPath(BookV2.title)),$manager)"#)
+    title.valueExpression = NSExpression(
+      format:
+        #"FUNCTION($entityPolicy, "destinationTitleForSourceBookTitle:manager:", $source.\#(#keyPath(BookV2.title)),$manager)"#
+    )
 
     let price = NSPropertyMapping()
     price.name = #keyPath(BookV3.price)
@@ -424,11 +444,17 @@ extension V3 {
 
     let pages = NSPropertyMapping()
     pages.name = #keyPath(BookV3.pages)
-    pages.valueExpression = NSExpression(format: #"FUNCTION($manager, "destinationInstancesForEntityMappingNamed:sourceInstances:", "PageToPage", $source.\#(#keyPath(BookV2.pages)))"#)
+    pages.valueExpression = NSExpression(
+      format:
+        #"FUNCTION($manager, "destinationInstancesForEntityMappingNamed:sourceInstances:", "PageToPage", $source.\#(#keyPath(BookV2.pages)))"#
+    )
 
     let author = NSPropertyMapping()
     author.name = #keyPath(BookV3.author)
-    author.valueExpression = NSExpression(format: #"FUNCTION($manager, "destinationInstancesForEntityMappingNamed:sourceInstances:", "AuthorToAuthor", $source.\#(#keyPath(GraphicNovelV2.author)))"#)
+    author.valueExpression = NSExpression(
+      format:
+        #"FUNCTION($manager, "destinationInstancesForEntityMappingNamed:sourceInstances:", "AuthorToAuthor", $source.\#(#keyPath(GraphicNovelV2.author)))"#
+    )
 
     let frontCover = NSPropertyMapping()
     frontCover.name = #keyPath(BookV3.frontCover)
@@ -437,16 +463,20 @@ extension V3 {
     isBlackAndWhite.name = #keyPath(GraphicNovelV3.isBlackAndWhite)
     isBlackAndWhite.valueExpression = NSExpression(format: "$source.\(#keyPath(GraphicNovelV2.isBlackAndWhite))")
 
-    mapping.attributeMappings = [isBlackAndWhite,
-                                 pageCount,
-                                 price,
-                                 publishedAt,
-                                 title,
-                                 uniqueID,
+    mapping.attributeMappings = [
+      isBlackAndWhite,
+      pageCount,
+      price,
+      publishedAt,
+      title,
+      uniqueID,
     ]
 
     mapping.relationshipMappings = [author, frontCover, pages]
-    mapping.sourceExpression = NSExpression(format: #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "GraphicNovel", "TRUEPREDICATE"), $manager.sourceContext, NO)"#)
+    mapping.sourceExpression = NSExpression(
+      format:
+        #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "GraphicNovel", "TRUEPREDICATE"), $manager.sourceContext, NO)"#
+    )
     return mapping
   }
 
@@ -482,7 +512,10 @@ extension V3 {
     // 🚩 Investigating how to implement and call custom methods in the manager
     // the FETCH uses customfetchRequestForSourceEntityNamed:predicateString: defined in FeedbackMigrationManager instead of:
     // mapping.sourceExpression = NSExpression(format: #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "Feedback", %@), $manager.sourceContext, NO)"#, argumentArray: [predicate.description])
-    mapping.sourceExpression = NSExpression(format: #"FETCH(FUNCTION($manager, "customfetchRequestForSourceEntityNamed:predicateString:" , "Feedback", %@), $manager.sourceContext, NO)"#, argumentArray: [predicate.description])
+    mapping.sourceExpression = NSExpression(
+      format:
+        #"FETCH(FUNCTION($manager, "customfetchRequestForSourceEntityNamed:predicateString:" , "Feedback", %@), $manager.sourceContext, NO)"#,
+      argumentArray: [predicate.description])
     return mapping
   }
 
@@ -515,7 +548,10 @@ extension V3 {
     mapping.attributeMappings = [authorAlias, bookID, comment, rating]
 
     let predicate = NSPredicate(format: "NOT (%K CONTAINS [c] %@)", "comment", "great")
-    mapping.sourceExpression = NSExpression(format: #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "Feedback", %@), $manager.sourceContext, NO)"#, argumentArray: [predicate.description])
+    mapping.sourceExpression = NSExpression(
+      format:
+        #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "Feedback", %@), $manager.sourceContext, NO)"#,
+      argumentArray: [predicate.description])
     return mapping
   }
 
@@ -546,7 +582,10 @@ extension V3 {
     rating.valueExpression = NSExpression(format: "$source.\(#keyPath(FeedbackV2.rating))")
 
     mapping.attributeMappings = [authorAlias, bookID, comment, rating]
-    mapping.sourceExpression = NSExpression(format: #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "Feedback", "TRUEPREDICATE"), $manager.sourceContext, NO)"#)
+    mapping.sourceExpression = NSExpression(
+      format:
+        #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "Feedback", "TRUEPREDICATE"), $manager.sourceContext, NO)"#
+    )
     return mapping
   }
 
@@ -568,7 +607,10 @@ extension V3 {
 
     let book = NSPropertyMapping()
     book.name = #keyPath(PageV3.book)
-    book.valueExpression = NSExpression(format: #"FUNCTION($manager, "destinationInstancesForSourceRelationshipNamed:sourceInstances:", "book", $source.\#(#keyPath(PageV2.book)))"#)
+    book.valueExpression = NSExpression(
+      format:
+        #"FUNCTION($manager, "destinationInstancesForSourceRelationshipNamed:sourceInstances:", "book", $source.\#(#keyPath(PageV2.book)))"#
+    )
 
     let isBookmarked = NSPropertyMapping()
     isBookmarked.name = #keyPath(PageV3.isBookmarked)
@@ -580,7 +622,10 @@ extension V3 {
 
     mapping.attributeMappings = [content, isBookmarked, number]
     mapping.relationshipMappings = [book]
-    mapping.sourceExpression = NSExpression(format: #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "Page", "TRUEPREDICATE"), $manager.sourceContext, NO)"#)
+    mapping.sourceExpression = NSExpression(
+      format:
+        #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "Page", "TRUEPREDICATE"), $manager.sourceContext, NO)"#
+    )
     return mapping
   }
 
@@ -610,11 +655,17 @@ extension V3 {
 
     let books = NSPropertyMapping()
     books.name = #keyPath(AuthorV3.books)
-    books.valueExpression = NSExpression(format: #"FUNCTION($manager, "destinationInstancesForSourceRelationshipNamed:sourceInstances:", "books", $source.\#(#keyPath(AuthorV2.books)))"#)
+    books.valueExpression = NSExpression(
+      format:
+        #"FUNCTION($manager, "destinationInstancesForSourceRelationshipNamed:sourceInstances:", "books", $source.\#(#keyPath(AuthorV2.books)))"#
+    )
 
     mapping.attributeMappings = [age, alias, socialURL]
     mapping.relationshipMappings = [books]
-    mapping.sourceExpression = NSExpression(format: #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "Author", "TRUEPREDICATE"), $manager.sourceContext, NO)"#)
+    mapping.sourceExpression = NSExpression(
+      format:
+        #"FETCH(FUNCTION($manager, "fetchRequestForSourceEntityNamed:predicateString:" , "Author", "TRUEPREDICATE"), $manager.sourceContext, NO)"#
+    )
     return mapping
   }
 
@@ -681,4 +732,3 @@ extension V3 {
     return [mappingModel1, mappingModel2]
   }
 }
-

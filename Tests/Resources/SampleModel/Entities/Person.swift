@@ -1,20 +1,21 @@
 // CoreDataPlus
 
-import Foundation
 import CoreData
 import CoreDataPlus
+import Foundation
 
 @objc(Person)
 final public class Person: NSManagedObject {
-  @NSManaged public private(set) var id: UUID // preserved after deletion (tombstone)
+  @NSManaged public private(set) var id: UUID  // preserved after deletion (tombstone)
   @NSManaged public var firstName: String
   @NSManaged public var lastName: String
-  @NSManaged public var cars: NSSet? // This is why it must be a NSSet https://twitter.com/an0/status/1157072652290445314 and https://developer.apple.com/forums/thread/651325
-  @NSManaged public var isDriving: Bool // transient property
+  // This is why it must be a NSSet https://twitter.com/an0/status/1157072652290445314 and https://developer.apple.com/forums/thread/651325
+  @NSManaged public var cars: NSSet?
+  @NSManaged public var isDriving: Bool  // transient property
 
   public var _cars: Set<Car>? {
     get {
-      return cars as? Set<Car>
+      cars as? Set<Car>
     }
     set {
       if let newCars = newValue {
@@ -50,7 +51,7 @@ extension Person {
     // if only transients properties have changed, don't refresh the update date
     guard hasPersistentChangedValues else { return }
 
-    refreshUpdateDate(observingChanges: false) // we don't want to get notified when this value changes.
+    refreshUpdateDate(observingChanges: false)  // we don't want to get notified when this value changes.
   }
 
 }
