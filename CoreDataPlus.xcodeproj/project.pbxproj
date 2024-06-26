@@ -48,7 +48,7 @@
 		06AF615E26F092BB0090A61B /* NSPersistentStoreCoordinator+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20119FD2614E3D9001902FB /* NSPersistentStoreCoordinator+Utils.swift */; };
 		06AF615F26F092BB0090A61B /* NSBatchDeleteResult+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20119F32614E3D9001902FB /* NSBatchDeleteResult+Utils.swift */; };
 		06AF616026F092BB0090A61B /* NSDerivedAttributeDescription+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28232AB26249FAF00F37442 /* NSDerivedAttributeDescription+Utils.swift */; };
-		06AF616126F092BB0090A61B /* FetchedResultsChanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20119F92614E3D9001902FB /* FetchedResultsChanges.swift */; };
+		06AF616126F092BB0090A61B /* FetchedResultsChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20119F92614E3D9001902FB /* FetchedResultsChange.swift */; };
 		06AF616226F092BB0090A61B /* NSBatchUpdateResult+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20119F52614E3D9001902FB /* NSBatchUpdateResult+Utils.swift */; };
 		06AF616326F092BB0090A61B /* NSAttributeDescription+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20F4BB72621E71500F0CB25 /* NSAttributeDescription+Utils.swift */; };
 		06AF616426F092BB0090A61B /* NSFetchedPropertyDescription+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282330E2624A4FE00F37442 /* NSFetchedPropertyDescription+Utils.swift */; };
@@ -223,7 +223,7 @@
 		D20119F62614E3D9001902FB /* NSBatchInsertResult+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSBatchInsertResult+Utils.swift"; sourceTree = "<group>"; };
 		D20119F72614E3D9001902FB /* Collection+CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+CoreData.swift"; sourceTree = "<group>"; };
 		D20119F82614E3D9001902FB /* CoreDataPlus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataPlus.swift; sourceTree = "<group>"; };
-		D20119F92614E3D9001902FB /* FetchedResultsChanges.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedResultsChanges.swift; sourceTree = "<group>"; };
+		D20119F92614E3D9001902FB /* FetchedResultsChange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedResultsChange.swift; sourceTree = "<group>"; };
 		D20119FA2614E3D9001902FB /* NSSet+CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSSet+CoreData.swift"; sourceTree = "<group>"; };
 		D20119FC2614E3D9001902FB /* NSManagedObjectContext+History.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+History.swift"; sourceTree = "<group>"; };
 		D20119FD2614E3D9001902FB /* NSPersistentStoreCoordinator+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSPersistentStoreCoordinator+Utils.swift"; sourceTree = "<group>"; };
@@ -402,7 +402,7 @@
 			children = (
 				D20119F72614E3D9001902FB /* Collection+CoreData.swift */,
 				D20119F82614E3D9001902FB /* CoreDataPlus.swift */,
-				D20119F92614E3D9001902FB /* FetchedResultsChanges.swift */,
+				D20119F92614E3D9001902FB /* FetchedResultsChange.swift */,
 				D20F4BB72621E71500F0CB25 /* NSAttributeDescription+Utils.swift */,
 				D20119F32614E3D9001902FB /* NSBatchDeleteResult+Utils.swift */,
 				D20119F62614E3D9001902FB /* NSBatchInsertResult+Utils.swift */,
@@ -612,7 +612,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1300;
-				LastUpgradeCheck = 1530;
+				LastUpgradeCheck = 1540;
 				ORGANIZATIONNAME = "Alessandro Marzoli";
 				TargetAttributes = {
 					06AF614726F091370090A61B = {
@@ -741,7 +741,7 @@
 				06AF616A26F092BB0090A61B /* NSPredicate+Utils.swift in Sources */,
 				D214B1E62BF23E4B0090F18A /* StagedMigration.swift in Sources */,
 				06AF616826F092BB0090A61B /* NSBatchInsertResult+Utils.swift in Sources */,
-				06AF616126F092BB0090A61B /* FetchedResultsChanges.swift in Sources */,
+				06AF616126F092BB0090A61B /* FetchedResultsChange.swift in Sources */,
 				06AF617826F092C80090A61B /* Notification+Payloads.swift in Sources */,
 				06AF616926F092BB0090A61B /* NSManagedObjectContext+Utils.swift in Sources */,
 				06AF616F26F092BB0090A61B /* NSManagedObject+Utils.swift in Sources */,
