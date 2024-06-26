@@ -8,7 +8,7 @@
 - Swift Concurrency support.
 - `NSCompositeAttributeDescription` extensions.
 - Removed `LightweightMigrationManager`.
-- `entityName` is now ovverridable
+- `entityName` is now overridable
 - `ModelVersion` now support both the old migration flow (`LegacyMigration`) and the new one (`StagedMigration`)
 
 ### 5.0.0 ⭐
