@@ -238,8 +238,10 @@ private final class MockNSFetchedResultControllerDelegate<T: NSManagedObject>: N
                          at indexPath: IndexPath?,
                          for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?
   ) {
-    if let change = FetchedResultsObjectChange<T>(
-      object: anObject, indexPath: indexPath, changeType: type, newIndexPath: newIndexPath)
+    if let change = FetchedResultsObjectChange<T>(object: anObject,
+                                                  indexPath: indexPath,
+                                                  changeType: type,
+                                                  newIndexPath: newIndexPath)
     {
       changes.append(change)
     }
@@ -248,7 +250,9 @@ private final class MockNSFetchedResultControllerDelegate<T: NSManagedObject>: N
   public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                          didChange sectionInfo: NSFetchedResultsSectionInfo,
                          atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-    if let change = FetchedResultsSectionChange<T>(section: sectionInfo, index: sectionIndex, changeType: type) {
+    if let change = FetchedResultsSectionChange<T>(section: sectionInfo, 
+                                                   index: sectionIndex,
+                                                   changeType: type) {
       sectionChanges.append(change)
     }
   }

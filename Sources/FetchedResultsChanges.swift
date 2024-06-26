@@ -36,9 +36,10 @@ extension FetchedResultsObjectChange {
   ///   - indexPath: The old index patch for the object
   ///   - type: The type of the reported change
   ///   - newIndexPath: The new index path for the object
-  public init?(
-    object: Any, indexPath: IndexPath?, changeType type: NSFetchedResultsChangeType, newIndexPath: IndexPath?
-  ) {
+  public init?(object: Any,
+               indexPath: IndexPath?,
+               changeType type: NSFetchedResultsChangeType,
+               newIndexPath: IndexPath?) {
     guard let object = object as? T else { return nil }
 
     switch (type, indexPath, newIndexPath) {
@@ -96,10 +97,10 @@ public struct FetchedResultsSectionInfo<T: NSManagedObject> {
 
   /// Create a new element of `FetchedResultsSectionInfo` for a given `NSFetchedResultsSectionInfo` object.
   public init(_ info: NSFetchedResultsSectionInfo) {
-    objects = (info.objects as? [T]) ?? []
-    name = info.name
-    indexTitle = info.indexTitle
-    numberOfObjects = info.numberOfObjects
+    self.objects = (info.objects as? [T]) ?? []
+    self.name = info.name
+    self.indexTitle = info.indexTitle
+    self.numberOfObjects = info.numberOfObjects
   }
 }
 
@@ -123,10 +124,9 @@ extension FetchedResultsSectionChange {
   ///   - sectionInfo: The `NSFetchedResultsSectionInfo` instance
   ///   - sectionIndex: The section index
   ///   - type: The type of the reported change
-  public init?(
-    section sectionInfo: NSFetchedResultsSectionInfo, index sectionIndex: Int,
-    changeType type: NSFetchedResultsChangeType
-  ) {
+  public init?(section sectionInfo: NSFetchedResultsSectionInfo,
+               index sectionIndex: Int,
+               changeType type: NSFetchedResultsChangeType) {
     let info = FetchedResultsSectionInfo<T>(sectionInfo)
 
     switch type {
