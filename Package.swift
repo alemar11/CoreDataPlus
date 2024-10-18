@@ -1,4 +1,4 @@
-// swift-tools-version:5.10
+// swift-tools-version: 6.0
 
 import PackageDescription
 import Foundation
@@ -47,9 +47,7 @@ if isRunningFromCommandLine || buildingDocumentation {
     "Resources/SampleModel3/SampleModel3.xcdatamodeld"]
 }
 
-let swiftSettings: [SwiftSetting] = [
-  .enableExperimentalFeature("StrictConcurrency")
-]
+let swiftSettings: [SwiftSetting] = []
 
 let package = Package(
   name: "CoreDataPlus",
