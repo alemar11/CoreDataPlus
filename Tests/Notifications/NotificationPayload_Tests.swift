@@ -44,7 +44,6 @@ final class NotificationPayload_Tests: InMemoryTestCase {
 
   // MARK: - NSManagedObjectContextObjectsDidChange
 
-  @MainActor
   func test_ObserveInsertionsAndInvalidationsOnDidChangeNotification() {
     // Invalidation causes:
     // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreData/TroubleshootingCoreData.html
@@ -97,11 +96,10 @@ final class NotificationPayload_Tests: InMemoryTestCase {
       context.reset()
     }
 
-    waitForExpectations(timeout: 2)
+    wait(for: [expectation, expectation2], timeout: 2)
     cancellable.cancel()
   }
 
-  @MainActor
   func test_ObserveInsertionsOnDidChangeNotificationOnBackgroundContext() {
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let backgroundContext = container.newBackgroundContext()
@@ -131,11 +129,10 @@ final class NotificationPayload_Tests: InMemoryTestCase {
       car.maker = "123!"
       backgroundContext.processPendingChanges()
     }
-    waitForExpectations(timeout: 5)
+    wait(for: [expectation], timeout: 5)
     cancellable.cancel()
   }
 
-  @MainActor
   func test_ObserveAsyncInsertionsOnDidChangeNotificationOnBackgroundContext() {
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let backgroundContext = container.newBackgroundContext()
@@ -165,11 +162,11 @@ final class NotificationPayload_Tests: InMemoryTestCase {
       car.numberPlate = "1"
       car.maker = "123!"
     }
-    waitForExpectations(timeout: 5)
+    
+    wait(for: [expectation], timeout: 5)
     cancellable.cancel()
   }
 
-  @MainActor
   func test_ObserveAsyncInsertionsOnDidChangeNotificationOnBackgroundContextAndDispatchQueue() {
     let expectation = self.expectation(description: "\(#function)\(#line)")
     let backgroundContext = container.newBackgroundContext()
@@ -211,11 +208,10 @@ final class NotificationPayload_Tests: InMemoryTestCase {
       }
     }
 
-    waitForExpectations(timeout: 5)
+    wait(for: [expectation], timeout: 5)
     cancellable.cancel()
   }
 
-  @MainActor
   func test_ObserveInsertionsOnDidChangeNotificationOnPrivateContext() throws {
     let privateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
     privateContext.persistentStoreCoordinator = container.persistentStoreCoordinator
@@ -244,11 +240,11 @@ final class NotificationPayload_Tests: InMemoryTestCase {
       car.maker = "123!"
       privateContext.processPendingChanges()
     }
-    waitForExpectations(timeout: 5)
+    
+    wait(for: [expectation], timeout: 5)
     cancellable.cancel()
   }
 
-  @MainActor
   func test_ObserveRefreshedObjectsOnDidChangeNotification() throws {
     let context = container.viewContext
     context.fillWithSampleData()
@@ -273,12 +269,11 @@ final class NotificationPayload_Tests: InMemoryTestCase {
 
     context.refreshAllObjects()
 
-    waitForExpectations(timeout: 5)
+    wait(for: [expectation], timeout: 2)
     cancellable.cancel()
   }
 
   // probably it's not a valid test
-  @MainActor
   func test_ObserveOnlyInsertionsOnDidChangeUsingBackgroundContextsAndAutomaticallyMergesChangesFromParent() throws {
     let backgroundContext1 = container.newBackgroundContext()
     let backgroundContext2 = container.newBackgroundContext()
@@ -323,7 +318,7 @@ final class NotificationPayload_Tests: InMemoryTestCase {
       try backgroundContext1.save()
     }
 
-    waitForExpectations(timeout: 2)
+    wait(for: [expectation], timeout: 2)
     cancellable.cancel()
   }
 
@@ -435,7 +430,6 @@ final class NotificationPayload_Tests: InMemoryTestCase {
     cancellable.cancel()
   }
 
-  @MainActor
   func test_ObserveRefreshesOnMaterializedObjects() throws {
     let backgroundContext1 = container.newBackgroundContext()
     let backgroundContext2 = container.newBackgroundContext()
@@ -523,13 +517,12 @@ final class NotificationPayload_Tests: InMemoryTestCase {
       try backgroundContext2.save()
     }
 
-    waitForExpectations(timeout: 5)
+    wait(for: [expectation1], timeout: 5)
     cancellable.cancel()
   }
 
   // MARK: - NSManagedObjectContextWillSave and NSManagedObjectContextDidSave
 
-  @MainActor
   func test_ObserveInsertionsOnWillSaveNotification() throws {
     let context = container.viewContext
     let expectation = self.expectation(description: "\(#function)\(#line)")
@@ -548,11 +541,10 @@ final class NotificationPayload_Tests: InMemoryTestCase {
     car.maker = "123!"
 
     try context.save()
-    waitForExpectations(timeout: 2)
+    wait(for: [expectation], timeout: 2)
     cancellable.cancel()
   }
 
-  @MainActor
   func test_ObserveInsertionsOnDidSaveNotification() throws {
     let context = container.viewContext
     var cancellables = [AnyCancellable]()
@@ -596,14 +588,13 @@ final class NotificationPayload_Tests: InMemoryTestCase {
     car2.numberPlate = "2"
 
     try context.save()
-    waitForExpectations(timeout: 2)
+    wait(for: [expectation, expectation2], timeout: 2)
 
     for cancellable in cancellables {
       cancellable.cancel()
     }
   }
 
-  @MainActor
   func test_ObserveInsertionsUpdatesAndDeletesOnDidSaveNotification() throws {
     let context = container.viewContext
     var cancellables = [AnyCancellable]()
@@ -668,14 +659,13 @@ final class NotificationPayload_Tests: InMemoryTestCase {
     car2.delete()
 
     try context.save()
-    waitForExpectations(timeout: 2)
+    wait(for: [expectation, expectation2], timeout: 2)
 
     for cancellable in cancellables {
       cancellable.cancel()
     }
   }
 
-  @MainActor
   func test_ObserveMultipleChangesUsingPersistentStoreCoordinatorWithChildAndParentContexts() throws {
     // Given
     let psc = NSPersistentStoreCoordinator(managedObjectModel: model1)
@@ -826,7 +816,7 @@ final class NotificationPayload_Tests: InMemoryTestCase {
       try parentContext.save()  // triggers the didSave event
     }
 
-    waitForExpectations(timeout: 10)
+    wait(for: [expectation, expectation2], timeout: 10)
 
     // cleaning stuff
     let store = psc.persistentStores.first!
@@ -838,7 +828,6 @@ final class NotificationPayload_Tests: InMemoryTestCase {
 
   // MARK: - Entity Observer Example
 
-  @MainActor
   func test_ObserveInsertedOnDidChangeEventForSpecificEntities() {
     let context = container.viewContext
     let expectation1 = expectation(description: "\(#function)\(#line)")
@@ -897,13 +886,12 @@ final class NotificationPayload_Tests: InMemoryTestCase {
     person1.firstName = "Edythe"
     person1.lastName = "Moreton"
 
-    waitForExpectations(timeout: 2)
+    wait(for: [expectation1], timeout: 2)
     cancellable.cancel()
   }
 
   // MARK: - NSPersistentStoreRemoteChange
 
-  @MainActor
   func test_InvestigationPersistentStoreRemoteChangeAndSave() throws {
     // Cross coordinators change notifications:
 
@@ -952,12 +940,11 @@ final class NotificationPayload_Tests: InMemoryTestCase {
     car.model = "Panda"
     try viewContext1.save()
 
-    waitForExpectations(timeout: 5, handler: nil)
+    wait(for: [expectation1, expectation2], timeout: 5)
     cancellable1.cancel()
     cancellable2.cancel()
   }
 
-  @MainActor
   func test_InvestigationPersistentStoreRemoteChangeAndBatchOperations() throws {
     // Cross coordinators change notifications:
     // This notification notifies when history has been made even when batch operations are done.
@@ -973,7 +960,8 @@ final class NotificationPayload_Tests: InMemoryTestCase {
 
     let expectation1 = expectation(description: "NSPersistentStoreRemoteChange Notification sent by container1")
     let cancellable1 = NotificationCenter.default.publisher(
-      for: .NSPersistentStoreRemoteChange, object: container1.persistentStoreCoordinator
+      for: .NSPersistentStoreRemoteChange,
+      object: container1.persistentStoreCoordinator
     )
     .map { PersistentStoreRemoteChange(notification: $0) }
     .sink { payload in
@@ -988,7 +976,8 @@ final class NotificationPayload_Tests: InMemoryTestCase {
 
     let expectation2 = expectation(description: "NSPersistentStoreRemoteChange Notification sent by container2")
     let cancellable2 = NotificationCenter.default.publisher(
-      for: .NSPersistentStoreRemoteChange, object: container2.persistentStoreCoordinator
+      for: .NSPersistentStoreRemoteChange,
+      object: container2.persistentStoreCoordinator
     )
     .map { PersistentStoreRemoteChange(notification: $0) }
     .sink { payload in
@@ -1010,14 +999,14 @@ final class NotificationPayload_Tests: InMemoryTestCase {
     let result = try Car.batchInsert(using: viewContext1, resultType: .count, objects: [object])
     XCTAssertEqual(result.count!, 1)
 
-    waitForExpectations(timeout: 5, handler: nil)
+    wait(for: [expectation1, expectation2])
     cancellable1.cancel()
     cancellable2.cancel()
   }
 }
 
 final class NotificationPayloadOnDiskTests: OnDiskTestCase {
-  @MainActor
+
   func test_ObserveInsertionsOnDidSaveNotification() throws {
     let context = container.viewContext
     try context.setQueryGenerationFrom(.current)
@@ -1066,14 +1055,13 @@ final class NotificationPayloadOnDiskTests: OnDiskTestCase {
     //print(car.objectID, car2.objectID)
 
     try context.save()
-    waitForExpectations(timeout: 2)
+    wait(for: [expectation, expectation2])
 
     for cancellable in cancellables {
       cancellable.cancel()
     }
   }
 
-  @MainActor
   func test_InvestigationInsertionsInChildContextOnDidSaveNotification() throws {
     // the scope of this test is to verify wheter or not a NSManagedObjectContextDidSaveObjectIDs notification
     // fired in a child context will have insertedObjectIDs with temporary IDs (expected)
@@ -1108,7 +1096,7 @@ final class NotificationPayloadOnDiskTests: OnDiskTestCase {
     car2.numberPlate = "2"
 
     try childViewContext.save()
-    waitForExpectations(timeout: 5)
+    wait(for: [expectation2])
 
     for cancellable in cancellables {
       cancellable.cancel()

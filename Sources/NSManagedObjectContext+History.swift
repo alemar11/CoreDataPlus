@@ -53,10 +53,10 @@ extension NSManagedObjectContext {
   }
 
   /// Merges all the changes contained in the given list of `NSPersistentHistoryTransaction`.
-  ///
+  /// 
   /// - Important: The merging operation must be done inside a the context queue.
-  ///
-  /// Returns the last merged transaction's token and timestamp.
+  /// 
+  /// - Returns: the last merged transaction's token and timestamp.
   public func mergeTransactions(_ transactions: [NSPersistentHistoryTransaction]) throws -> (
     NSPersistentHistoryToken, Date
   )? {

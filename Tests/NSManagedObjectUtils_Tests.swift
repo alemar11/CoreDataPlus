@@ -179,10 +179,10 @@ final class NSManagedObjectUtils_Tests: InMemoryTestCase {
   func test_EvaluatePredicate() {
     let context = container.viewContext
     do {
-      let predicate = NSPredicate.true
       let car = Car(context: context)
-      XCTAssertTrue(car.evaluate(with: predicate))
+      XCTAssertTrue(car.evaluate(with: .init(value: true)))
     }
+    
     do {
       let predicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
       let car = Car(context: context)

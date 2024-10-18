@@ -28,7 +28,7 @@ class OnDiskWithProgrammaticallyModelTestCase: XCTestCase {
 
 // MARK: - On Disk NSPersistentContainer with Programmatically Model
 
-final class OnDiskWithProgrammaticallyModelPersistentContainer: NSPersistentContainer {
+final class OnDiskWithProgrammaticallyModelPersistentContainer: NSPersistentContainer, @unchecked Sendable {
   static func makeNew() -> OnDiskWithProgrammaticallyModelPersistentContainer {
     Self.makeNew(id: UUID().uuidString)
   }
