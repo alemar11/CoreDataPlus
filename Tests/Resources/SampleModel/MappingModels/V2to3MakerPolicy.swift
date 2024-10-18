@@ -3,19 +3,20 @@
 import CoreData
 
 final class V2to3MakerPolicy: NSEntityMigrationPolicy {
-  override func createDestinationInstances(forSource sInstance: NSManagedObject,
-                                           in mapping: NSEntityMapping,
-                                           manager: NSMigrationManager
+  override func createDestinationInstances(
+    forSource sInstance: NSManagedObject,
+    in mapping: NSEntityMapping,
+    manager: NSMigrationManager
   ) throws {
     try super.createDestinationInstances(forSource: sInstance, in: mapping, manager: manager)
 
-    guard 
+    guard
       let makerName = sInstance.value(forKey: makerKey) as? String
     else {
       return
     }
 
-    guard 
+    guard
       let car = manager.destinationInstances(forEntityMappingName: mapping.name, sourceInstances: [sInstance]).first
     else {
       fatalError("must return car")

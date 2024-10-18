@@ -33,9 +33,11 @@ final class OnDiskWithProgrammaticallyModelPersistentContainer: NSPersistentCont
     Self.makeNew(id: UUID().uuidString)
   }
 
-  static func makeNew(id: String, 
-                      forStagedMigration enableStagedMigration: Bool = false,
-                      model: NSManagedObjectModel = V1.makeManagedObjectModel()) -> OnDiskWithProgrammaticallyModelPersistentContainer {
+  static func makeNew(
+    id: String,
+    forStagedMigration enableStagedMigration: Bool = false,
+    model: NSManagedObjectModel = V1.makeManagedObjectModel()
+  ) -> OnDiskWithProgrammaticallyModelPersistentContainer {
     let url = URL.newDatabaseURL(withName: id)
     let container = OnDiskWithProgrammaticallyModelPersistentContainer(name: "SampleModel2", managedObjectModel: model)
     let description = NSPersistentStoreDescription()

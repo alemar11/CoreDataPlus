@@ -162,7 +162,7 @@ final class NotificationPayload_Tests: InMemoryTestCase {
       car.numberPlate = "1"
       car.maker = "123!"
     }
-    
+
     wait(for: [expectation], timeout: 5)
     cancellable.cancel()
   }
@@ -240,7 +240,7 @@ final class NotificationPayload_Tests: InMemoryTestCase {
       car.maker = "123!"
       privateContext.processPendingChanges()
     }
-    
+
     wait(for: [expectation], timeout: 5)
     cancellable.cancel()
   }

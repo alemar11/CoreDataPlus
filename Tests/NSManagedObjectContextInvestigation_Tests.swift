@@ -56,10 +56,11 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
     do {
       let psc = NSPersistentStoreCoordinator(managedObjectModel: model1)
       let storeURL = URL.newDatabaseURL(withID: UUID())
-      try psc.addPersistentStore(ofType: NSSQLiteStoreType, 
-                                 configurationName: nil,
-                                 at: storeURL,
-                                 options: nil)
+      try psc.addPersistentStore(
+        ofType: NSSQLiteStoreType,
+        configurationName: nil,
+        at: storeURL,
+        options: nil)
 
       let parentContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
       parentContext.persistentStoreCoordinator = psc
