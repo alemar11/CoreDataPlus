@@ -68,7 +68,7 @@ let package = Package(
                 swiftSettings: swiftSettings
                ),
   ],
-  swiftLanguageVersions: [.v5]
+  swiftLanguageModes: [.v6]
 )
 
 // Only require the docc plugin when building documentation
