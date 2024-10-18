@@ -1,5 +1,10 @@
 # Changelog
 
+### 6.2.0
+
+- Xcode 16
+- Swift 6 (Strict concurrency checking)
+
 ### 6.1.0
 
 - Added utility methods for `FetchedResultsObjectChange` and `FetchedResultsSectionChange`.
