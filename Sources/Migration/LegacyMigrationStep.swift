@@ -2,7 +2,7 @@
 
 import CoreData
 
-// Representation of a Core Data legacy migration step.
+/// Representation of a Core Data legacy migration step.
 public final class LegacyMigrationStep<Version: ModelVersion & LegacyMigration> {
   public let sourceVersion: Version
   public let sourceModel: NSManagedObjectModel
