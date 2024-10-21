@@ -493,34 +493,39 @@ extension NSFetchRequestResult where Self: NSManagedObject {
     return try context.execute(asynchronousRequest) as! NSAsynchronousFetchResult<Self>
   }
 }
-#warning("TODO: fixing Swift concurrency issues")
-//extension NSFetchRequestResult where Self: NSManagedObject {
-//  /// Performs a configurable asynchronous fetch request in a context.
-//  ///
-//  /// - Parameter context: Searched context.
-//  /// - Parameter estimatedResultCount: A parameter that assists Core Data with scheduling the asynchronous fetch request.
-//  /// - Parameter configuration: Configuration closure called when preparing the `NSFetchRequest`.
-//  /// - Returns: The results that were received from the fetch request.
-//  /// - Throws: It throws an error in cases of failure.
-//  /// - Warning: If the ConcurrencyDebug is enabled, the fetch request will cause a thread violation error, without it data races will be always detected by Xcode.
-//  public static func fetchObjects(in context: NSManagedObjectContext,
-//                                  estimatedResultCount: Int = 0,
-//                                  with configuration: (NSFetchRequest<Self>) -> Void = { _ in }) async throws -> [Self] {
-//    try await withCheckedThrowingContinuation { continuation in
-//      do {
-//        // TODO: Swift concurrency and NSProgress: https://github.com/apple/swift-evolution/blob/main/proposals/0297-concurrency-objc.md#nsprogress
-//        // TODO: The associated test is disabled because of data races.
-//        try fetchObjects(in: context, estimatedResultCount: estimatedResultCount, with: configuration) { result in
-//          switch result {
-//          case .success(let fetchResult):
-//            continuation.resume(returning: fetchResult)
-//          case .failure(let error):
-//            continuation.resume(throwing: error)
-//          }
-//        }
-//      } catch let error {
-//        continuation.resume(throwing: error)
-//      }
-//    }
-//  }
-//}
+
+extension NSFetchRequestResult where Self: NSManagedObject {
+  /// Performs a configurable asynchronous fetch request in a context.
+  ///
+  /// - Parameter context: Searched context (used internally to execute the request).
+  /// - Parameter estimatedResultCount: A parameter that assists Core Data with scheduling the asynchronous fetch request.
+  /// - Parameter configuration: Configuration closure called when preparing the `NSFetchRequest`.
+  /// - Returns: The results that were received from the fetch request.
+  /// - Throws: It throws an error in cases of failure.
+  /// - Warning: If the ConcurrencyDebug is enabled, the fetch request will cause a thread violation error, without it data races will be always detected by Xcode.
+  public static func fetchObjects(
+    in context: NSManagedObjectContext,
+    estimatedResultCount: Int = 0,
+    with configuration: (NSFetchRequest<Self>) -> Void = { _ in },
+    progress: ((Progress) -> Void)? = nil
+  ) async throws -> [Self] {
+    try await withCheckedThrowingContinuation { continuation in
+      do {
+        // TODO: Swift concurrency and NSProgress: https://github.com/apple/swift-evolution/blob/main/proposals/0297-concurrency-objc.md#nsprogress
+          try fetchObjects(in: context, estimatedResultCount: estimatedResultCount, with: configuration) { result in
+            //currentProgress.resignCurrent()
+            switch result {
+            case .success(let fetchResult):
+              // it's up to the caller to access the result (NSManagedObject objects) from the correct NSManagedContext to avoid thread issues
+              nonisolated(unsafe) let _fetchResult = fetchResult
+              continuation.resume(returning: _fetchResult)
+            case .failure(let error):
+              continuation.resume(throwing: error)
+            }
+          }
+      } catch let error {
+        continuation.resume(throwing: error)
+      }
+    }
+  }
+}

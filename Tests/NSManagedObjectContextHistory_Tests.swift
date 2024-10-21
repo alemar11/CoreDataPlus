@@ -6,7 +6,7 @@ import XCTest
 @testable import CoreDataPlus
 
 final class NSManagedObjectContextHistory_Tests: BaseTestCase {
-  @MainActor
+  
   func test_MergeHistoryAfterDate() throws {
     // Given
     let id = UUID()
@@ -42,7 +42,7 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
     XCTAssertNotNil(result)
     XCTAssertTrue(viewContext2.registeredObjects.isEmpty)
 
-    waitForExpectations(timeout: 5, handler: nil)
+    wait(for: [expectation1], timeout: 5)
     cancellable.cancel()
     let status = try viewContext2.deleteHistory(before: result!.0)
     XCTAssertTrue(status)
@@ -61,7 +61,6 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
     try container1.destroy()
   }
 
-  @MainActor
   func test_MergeHistoryAfterDateWithMultipleTransactions() throws {
     // Given
     let id = UUID()
@@ -141,7 +140,8 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
     let result = try viewContext2.mergeTransactions(transactionsFromDistantPast)
     XCTAssertNotNil(result)
 
-    waitForExpectations(timeout: 5, handler: nil)
+    
+    wait(for: [expectation1, expectation2, expectation3], timeout: 5)
 
     try viewContext2.save()
     //print(viewContext2.insertedObjects)
@@ -189,7 +189,6 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
     try container1.destroy()
   }
 
-  @MainActor
   func test_PersistentStoreWithHistoryTrackingEnabledGeneratesHistoryTokens() throws {
     // Given
     let psc = NSPersistentStoreCoordinator(managedObjectModel: model1)
@@ -214,7 +213,7 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
     person1.lastName = "Moreton"
 
     try context.save()
-    waitForExpectations(timeout: 5, handler: nil)
+    wait(for: [expectation1], timeout: 5)
     cancellable.cancel()
 
     let result = try context.deleteHistory()
@@ -227,7 +226,6 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
     try NSPersistentStoreCoordinator.destroyStore(at: storeURL)
   }
 
-  @MainActor
   func test_PersistentStoreWithHistoryTrackingDisabledDoesntGenerateHistoryTokens() throws {
     // Given
     let psc = NSPersistentStoreCoordinator(managedObjectModel: model1)
@@ -253,7 +251,7 @@ final class NSManagedObjectContextHistory_Tests: BaseTestCase {
     person1.lastName = "Moreton"
 
     try context.save()
-    waitForExpectations(timeout: 5, handler: nil)
+    wait(for: [expectation1], timeout: 5)
     cancellable.cancel()
 
     // cleaning avoiding SQLITE warnings

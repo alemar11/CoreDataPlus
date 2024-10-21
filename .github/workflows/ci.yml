@@ -19,9 +19,9 @@ concurrency:
 jobs:
   info:
     name: Show macOS and Xcode versions
-    runs-on: macos-14
+    runs-on: macos-15
     env:
-      DEVELOPER_DIR: /Applications/Xcode_15.3.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_16.app/Contents/Developer
     steps:
       - name: Versions
         run: |
@@ -32,9 +32,9 @@ jobs:
           xcrun simctl list
   macOS:
     name: Test macOS
-    runs-on: macos-14
+    runs-on: macos-15
     env:
-      DEVELOPER_DIR: /Applications/Xcode_15.3.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_16.app/Contents/Developer
     steps:
       - uses: actions/checkout@v4
       - name: macOS
@@ -48,12 +48,12 @@ jobs:
           path: ~/Downloads/Report           
   iOS:
     name: Test iOS
-    runs-on: macos-14
+    runs-on: macos-15
     env:
-      DEVELOPER_DIR: /Applications/Xcode_15.3.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_16.app/Contents/Developer
     strategy:
       matrix:
-        destination: ["OS=17.0,name=iPhone 15 Pro"]
+        destination: ["OS=18.0,name=iPhone 16 Pro"]
     steps:
       - uses: actions/checkout@v4
       - name: iOS - ${{ matrix.destination }}
@@ -67,12 +67,12 @@ jobs:
           path: ~/Downloads/Report
   visionOS:
     name: Test visionOS
-    runs-on: macos-14
+    runs-on: macos-15
     env:
-      DEVELOPER_DIR: /Applications/Xcode_15.3.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_16.app/Contents/Developer
     strategy:
       matrix:
-        destination: ["OS=1.0,name=Apple Vision Pro"]
+        destination: ["OS=2.0,name=Apple Vision Pro"]
     steps:
       - uses: actions/checkout@v4
       - name: iOS - ${{ matrix.destination }}
@@ -86,12 +86,12 @@ jobs:
           path: ~/Downloads/Report
   tvOS:
     name: Test tvOS
-    runs-on: macos-14
+    runs-on: macos-15
     env:
-      DEVELOPER_DIR: /Applications/Xcode_15.3.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_16.app/Contents/Developer
     strategy:
       matrix:
-        destination: ["OS=17.0,name=Apple TV"]
+        destination: ["OS=18.0,name=Apple TV"]
     steps:
       - uses: actions/checkout@v4
       - name: tvOS - ${{ matrix.destination }}
@@ -105,12 +105,12 @@ jobs:
           path: ~/Downloads/Report   
   watchOS:
     name: Test watchOS
-    runs-on: macos-14
+    runs-on: macos-15
     env:
-      DEVELOPER_DIR: /Applications/Xcode_15.3.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_16.app/Contents/Developer
     strategy:
       matrix:
-        destination: ["OS=10.0,name=Apple Watch Series 9 (45mm)"]
+        destination: ["OS=11.0,name=Apple Watch Series 10 (46mm)"]
     steps:
       - uses: actions/checkout@v4
       - name: watchOS - ${{ matrix.destination }}
@@ -124,9 +124,9 @@ jobs:
           path: ~/Downloads/Report        
   SPM:
     name: Test SPM Integration
-    runs-on: macos-14
+    runs-on: macos-15
     env:
-      DEVELOPER_DIR: /Applications/Xcode_15.3.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_16.app/Contents/Developer
     steps:
       - uses: actions/checkout@v4
       - name: SPM Test
@@ -135,7 +135,7 @@ jobs:
           swift test
 #  lint:
 #    name: Swift Lint
-#    runs-on: macos-14
+#    runs-on: macos-15
 #    steps:
 #      - uses: actions/checkout@v4
 #      - name: Run SwiftLint
