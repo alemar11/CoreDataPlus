@@ -20,10 +20,11 @@ final class FetchedResultsChanges_Tests: InMemoryTestCase {
     delegate.didChangeExpectation.isInverted = true
 
     // When
-    let controller = NSFetchedResultsController(fetchRequest: request,
-                                                managedObjectContext: context,
-                                                sectionNameKeyPath: nil,
-                                                cacheName: nil)
+    let controller = NSFetchedResultsController(
+      fetchRequest: request,
+      managedObjectContext: context,
+      sectionNameKeyPath: nil,
+      cacheName: nil)
     controller.delegate = delegate
 
     try controller.performFetch()
@@ -134,7 +135,7 @@ final class FetchedResultsChanges_Tests: InMemoryTestCase {
     XCTAssertEqual(deletes.count, 1)
     XCTAssertEqual(moves.count, 1)
     XCTAssertEqual(updates.count, 2)
-    
+
     for insert in inserts {
       XCTAssertTrue(insert.isInsertion)
       XCTAssertFalse(insert.isMove)
@@ -142,7 +143,7 @@ final class FetchedResultsChanges_Tests: InMemoryTestCase {
       XCTAssertFalse(insert.isDeletion)
       XCTAssert(insert.object is Person)
     }
-    
+
     for delete in deletes {
       XCTAssertFalse(delete.isInsertion)
       XCTAssertFalse(delete.isMove)
@@ -150,7 +151,7 @@ final class FetchedResultsChanges_Tests: InMemoryTestCase {
       XCTAssertTrue(delete.isDeletion)
       XCTAssert(delete.object is Person)
     }
-    
+
     for udpate in updates {
       XCTAssertFalse(udpate.isInsertion)
       XCTAssertFalse(udpate.isMove)
@@ -158,7 +159,7 @@ final class FetchedResultsChanges_Tests: InMemoryTestCase {
       XCTAssertFalse(udpate.isDeletion)
       XCTAssert(udpate.object is Person)
     }
-    
+
     for move in moves {
       XCTAssertFalse(move.isInsertion)
       XCTAssertTrue(move.isMove)
@@ -180,10 +181,11 @@ final class FetchedResultsChanges_Tests: InMemoryTestCase {
     let delegate = MockNSFetchedResultControllerDelegate()
 
     // When
-    let controller = NSFetchedResultsController(fetchRequest: request,
-                                                managedObjectContext: context,
-                                                sectionNameKeyPath: #keyPath(Person.lastName),
-                                                cacheName: nil)
+    let controller = NSFetchedResultsController(
+      fetchRequest: request,
+      managedObjectContext: context,
+      sectionNameKeyPath: #keyPath(Person.lastName),
+      cacheName: nil)
     controller.delegate = delegate
 
     try controller.performFetch()
@@ -205,7 +207,7 @@ final class FetchedResultsChanges_Tests: InMemoryTestCase {
     // Then
     wait(for: [delegate.willChangeExpectation, delegate.didChangeExpectation], timeout: 10)
     XCTAssertEqual(delegate.sectionChanges.count, 3)
-    
+
     let inserts = delegate.sectionChanges.filter {
       guard case FetchedResultsSectionChange.insert = $0 else { return false }
       return true
@@ -214,16 +216,16 @@ final class FetchedResultsChanges_Tests: InMemoryTestCase {
       guard case FetchedResultsSectionChange.delete = $0 else { return false }
       return true
     }
-    
+
     XCTAssertEqual(inserts.count, 1)
     XCTAssertEqual(deletes.count, 2)
-    
+
     for insert in inserts {
       XCTAssertTrue(insert.isInsertion)
       XCTAssertFalse(insert.isDeletion)
-      XCTAssertEqual(insert.info.objects.count, count) // 2 peopble have been renamed
+      XCTAssertEqual(insert.info.objects.count, count)  // 2 peopble have been renamed
     }
-    
+
     for delete in deletes {
       XCTAssertFalse(delete.isInsertion)
       XCTAssertTrue(delete.isDeletion)
@@ -245,10 +247,11 @@ final class FetchedResultsChanges_Tests: InMemoryTestCase {
     let delegate = MockNSFetchedResultControllerDelegate()
 
     // When
-    let controller = NSFetchedResultsController(fetchRequest: request,
-                                                managedObjectContext: context,
-                                                sectionNameKeyPath: nil,
-                                                cacheName: nil)
+    let controller = NSFetchedResultsController(
+      fetchRequest: request,
+      managedObjectContext: context,
+      sectionNameKeyPath: nil,
+      cacheName: nil)
     controller.delegate = delegate
 
     try controller.performFetch()
@@ -282,26 +285,32 @@ private final class MockNSFetchedResultControllerDelegate<T: NSManagedObject>: N
   var willChangeExpectation = XCTestExpectation(description: "\(#function)\(#line)")
   var didChangeExpectation = XCTestExpectation(description: "\(#function)\(#line)")
 
-  public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
-                         didChange anObject: Any,
-                         at indexPath: IndexPath?,
-                         for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?
+  public func controller(
+    _ controller: NSFetchedResultsController<NSFetchRequestResult>,
+    didChange anObject: Any,
+    at indexPath: IndexPath?,
+    for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?
   ) {
-    if let change = FetchedResultsObjectChange<T>(object: anObject,
-                                                  indexPath: indexPath,
-                                                  changeType: type,
-                                                  newIndexPath: newIndexPath)
+    if let change = FetchedResultsObjectChange<T>(
+      object: anObject,
+      indexPath: indexPath,
+      changeType: type,
+      newIndexPath: newIndexPath)
     {
       changes.append(change)
     }
   }
 
-  public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
-                         didChange sectionInfo: NSFetchedResultsSectionInfo,
-                         atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-    if let change = FetchedResultsSectionChange<T>(section: sectionInfo, 
-                                                   index: sectionIndex,
-                                                   changeType: type) {
+  public func controller(
+    _ controller: NSFetchedResultsController<NSFetchRequestResult>,
+    didChange sectionInfo: NSFetchedResultsSectionInfo,
+    atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType
+  ) {
+    if let change = FetchedResultsSectionChange<T>(
+      section: sectionInfo,
+      index: sectionIndex,
+      changeType: type)
+    {
       sectionChanges.append(change)
     }
   }

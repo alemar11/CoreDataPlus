@@ -6,7 +6,6 @@ import os.lock
 
 final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
   /// Investigation test: calling refreshAllObjects calls refreshObject:mergeChanges on all objects in the context.
-  @MainActor
   func test_InvestigationRefreshAllObjects() throws {
     let viewContext = container.viewContext
     let car1 = Car(context: viewContext)
@@ -25,7 +24,6 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
   }
 
   /// Investigation test: KVO is fired whenever a property changes (even if the object is not saved in the context).
-  @MainActor
   func test_InvestigationKVO() throws {
     let context = container.viewContext
     let expectation = self.expectation(description: "\(#function)\(#line)")
@@ -46,7 +44,8 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
     sportCar1.maker = "McLaren 2"
     try context.save()
 
-    waitForExpectations(timeout: 10)
+    
+    wait(for: [expectation], timeout: 5)
     token.invalidate()
   }
 
@@ -56,10 +55,11 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
     do {
       let psc = NSPersistentStoreCoordinator(managedObjectModel: model1)
       let storeURL = URL.newDatabaseURL(withID: UUID())
-      try psc.addPersistentStore(ofType: NSSQLiteStoreType, 
-                                 configurationName: nil,
-                                 at: storeURL,
-                                 options: nil)
+      try psc.addPersistentStore(
+        ofType: NSSQLiteStoreType,
+        configurationName: nil,
+        at: storeURL,
+        options: nil)
 
       let parentContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
       parentContext.persistentStoreCoordinator = psc

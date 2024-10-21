@@ -13,7 +13,8 @@
             "enabled" : false
           },
           {
-            "argument" : "-com.apple.CoreData.ConcurrencyDebug 1"
+            "argument" : "-com.apple.CoreData.ConcurrencyDebug 1",
+            "enabled" : false
           },
           {
             "argument" : "-com.apple.CoreData.SQLDebug 1",

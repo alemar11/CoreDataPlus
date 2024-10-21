@@ -6,7 +6,7 @@ import CoreData
 
 @objc(User)
 public class User: NSManagedObject {
-  @NSManaged public var name: String! // unique
+  @NSManaged public var name: String!  // unique
   @NSManaged public var petName: String?
 }
 

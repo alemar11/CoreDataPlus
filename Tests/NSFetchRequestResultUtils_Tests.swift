@@ -745,27 +745,27 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
     let count = try Car.count(in: context)
     XCTAssertEqual(count, total)
   }
-  
-  @MainActor
+
   func test_BatchInserWithNSFetchedResultController() throws {
     // How to make FRC aware of batch insertions
-    
+
     let context = container.viewContext
     context.automaticallyMergesChangesFromParent = true
     let backgroundContext = container.newBackgroundContext()
-    
+
     let request = Car.fetchRequest()
     request.addSortDescriptors([])
     let delegate = FetchedResultsControllerMockDelegate()
-    let frc = NSFetchedResultsController(fetchRequest: request,
-                                         managedObjectContext: context,
-                                         sectionNameKeyPath: nil,
-                                         cacheName: nil)
+    let frc = NSFetchedResultsController(
+      fetchRequest: request,
+      managedObjectContext: context,
+      sectionNameKeyPath: nil,
+      cacheName: nil)
     frc.delegate = delegate
     try frc.performFetch()
-    
+
     XCTAssertTrue((frc.fetchedObjects ?? []).isEmpty)
-    
+
     let objects = [
       [
         #keyPath(Car.maker): "FIAT",
@@ -783,18 +783,19 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
         #keyPath(Car.model): "Panda",
       ],
     ]
-   
+
     try backgroundContext.performAndWait {
-      let result: NSBatchInsertResult = try Car.batchInsert(using: $0,
-                                                            resultType: .objectIDs,
-                                                            objects: objects)
-      try $0.save() // not needed because batch insertions are done directly in the store
-      XCTAssertEqual(delegate.insertedObjects.count, 0) // FRC is not aware yet
-      
+      let result: NSBatchInsertResult = try Car.batchInsert(
+        using: $0,
+        resultType: .objectIDs,
+        objects: objects)
+      try $0.save()  // not needed because batch insertions are done directly in the store
+      XCTAssertEqual(delegate.insertedObjects.count, 0)  // FRC is not aware yet
+
       let changes = try XCTUnwrap(result.changes)
-      NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [context]) // make FRC aware of inserts
+      NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [context])  // make FRC aware of inserts
     }
-   
+
     XCTAssertEqual(delegate.insertedObjects.count, 3)
     XCTAssertEqual(delegate.deletedObjects.count, 0)
     XCTAssertEqual(delegate.updatedObjects.count, 0)
@@ -947,7 +948,6 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
 
   // MARK: - Async Fetch
 
-  @MainActor
   func test_AsyncFetch() throws {
     // BUG: Async fetches can't be tested with the ConcurrencyDebug enabled,
     // https://stackoverflow.com/questions/31728425/coredata-asynchronous-fetch-causes-concurrency-debugger-error
@@ -985,29 +985,31 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
       }
     }
 
-    waitForExpectations(timeout: 30, handler: nil)
+    wait(for: [expectation1, expectation2], timeout: 30)
     currentProgress.resignCurrent()
     currentToken?.invalidate()
   }
 
-  //  func test_AsyncFetchUsingSwiftConcurrency() async throws {
-  //    // In test_AsyncFetch() the standard implementation doesn't pass the test only if we enable ConcurrencyDebug.
-  //    // The async/await version (that is, btw, used in WWDC 2021 videos on how to use continuations) always fails due to data races.
-  //    // https://stackoverflow.com/questions/31728425/coredata-asynchronous-fetch-causes-concurrency-debugger-error
-  //    try XCTSkipIf(UserDefaults.standard.integer(forKey: "com.apple.CoreData.ConcurrencyDebug") == 1)
-  //    let mainContext = container.viewContext
-  //
-  //    // https://forums.developer.apple.com/forums/thread/741461
-  //
-  //    (1...10_000).forEach {
-  //      let car = Car(context: mainContext)
-  //      car.numberPlate = "test\($0)"
-  //    }
-  //    try mainContext.save()
-  //
-  //    let results = try await Car.fetchObjects(in: mainContext) { $0.predicate = .true }
-  //    XCTAssertEqual(results.count, 10_000)
-  //  }
+  func test_AsyncFetchUsingSwiftConcurrency() async throws {
+    // In test_AsyncFetch() the standard implementation doesn't pass the test only if we enable ConcurrencyDebug.
+    // The async/await version (that is, btw, used in WWDC 2021 videos on how to use continuations) always fails due to data races.
+    // https://stackoverflow.com/questions/31728425/coredata-asynchronous-fetch-causes-concurrency-debugger-error
+    try XCTSkipIf(UserDefaults.standard.integer(forKey: "com.apple.CoreData.ConcurrencyDebug") == 1)
+    let mainContext = container.newBackgroundContext()
+    
+    // https://forums.developer.apple.com/forums/thread/741461
+    
+    try mainContext.performAndWait { context in
+      (1...10_000).forEach {
+        let car = Car(context: mainContext)
+        car.numberPlate = "test\($0)"
+      }
+      try mainContext.save()
+    }
+
+    let results = try await Car.fetchObjects(in: mainContext) { $0.predicate = .true() }
+    XCTAssertEqual(results.count, 10_000)
+  }
 
   // MARK: - Subquery
 

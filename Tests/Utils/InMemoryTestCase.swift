@@ -23,7 +23,7 @@ class InMemoryTestCase: BaseTestCase {
 
 // MARK: - In Memory NSPersistentContainer
 
-final class InMemoryPersistentContainer: NSPersistentContainer {
+final class InMemoryPersistentContainer: NSPersistentContainer, @unchecked Sendable {
   static func makeNew(named: String? = nil) -> InMemoryPersistentContainer {
     // WWDC https://developer.apple.com/videos/play/wwdc2019/230
     // A simple in memory store can't be shared between coordinators (remote change notifications won't work)

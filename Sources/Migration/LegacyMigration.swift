@@ -2,7 +2,7 @@
 
 import CoreData
 
-/// Handles migrations with the old `NSMigrationManager`.
+/// Handles migrations via `NSMigrationManager`.
 public protocol LegacyMigration {
   /// Returns a list of mapping models needed to migrate the current version of the database to the next one.
   func mappingModelsToNextModelVersion() -> [NSMappingModel]?
@@ -67,8 +67,9 @@ extension ModelVersion where Self: LegacyMigration {
       return nil
     }
 
-    return try? NSMappingModel.inferredMappingModel(forSourceModel: managedObjectModel(),
-                                                    destinationModel: nextVersion.managedObjectModel())
+    return try? NSMappingModel.inferredMappingModel(
+      forSourceModel: managedObjectModel(),
+      destinationModel: nextVersion.managedObjectModel())
   }
 
   /// - Returns: a list of `NSMappingModel` from a list of mapping model names.
@@ -81,8 +82,9 @@ extension ModelVersion where Self: LegacyMigration {
     }
 
     guard
-      let allMappingModelsURLs = modelBundle.urls(forResourcesWithExtension: ModelVersionFileExtension.cdm,
-                                                  subdirectory: nil),
+      let allMappingModelsURLs = modelBundle.urls(
+        forResourcesWithExtension: ModelVersionFileExtension.cdm,
+        subdirectory: nil),
       allMappingModelsURLs.count > 0
     else {
       return results
@@ -91,7 +93,7 @@ extension ModelVersion where Self: LegacyMigration {
     for name in mappingModelNames {
       let expectedFileName = "\(name).\(ModelVersionFileExtension.cdm)"
       if let url = allMappingModelsURLs.first(where: { $0.lastPathComponent == expectedFileName }),
-         let mappingModel = NSMappingModel(contentsOf: url)
+        let mappingModel = NSMappingModel(contentsOf: url)
       {
         results.append(mappingModel)
       }

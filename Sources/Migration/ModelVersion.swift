@@ -59,10 +59,6 @@ public protocol ModelVersion: Equatable, RawRepresentable, CustomDebugStringConv
   func managedObjectModel() -> NSManagedObjectModel
 }
 
-
-
-
-
 extension ModelVersion {
   /// Protocol `ModelVersion`.
   ///
@@ -89,9 +85,10 @@ extension ModelVersion {
   /// - Throws: It throws an error if no store is found at `persistentStoreURL` or if there is a problem accessing its contents.
   public init?(persistentStoreURL: URL) throws {
     let metadata: [String: Any]
-    metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(type: .sqlite,
-                                                                           at: persistentStoreURL, 
-                                                                           options: nil)
+    metadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(
+      type: .sqlite,
+      at: persistentStoreURL,
+      options: nil)
     let version = Self[metadata]
 
     guard let modelVersion = version else {
@@ -107,12 +104,13 @@ extension ModelVersion {
   public func managedObjectModel() -> NSManagedObjectModel {
     _managedObjectModel()
   }
-  
+
   // swiftlint:disable:next identifier_name
   internal func _managedObjectModel() -> NSManagedObjectModel {
-    let momURL = modelBundle.url(forResource: versionName,
-                                 withExtension: "\(ModelVersionFileExtension.mom)",
-                                 subdirectory: momd)
+    let momURL = modelBundle.url(
+      forResource: versionName,
+      withExtension: "\(ModelVersionFileExtension.mom)",
+      subdirectory: momd)
 
     //  As of iOS 11, Apple is advising that opening the .omo file for a managed object model is not supported, since the file format can change from release to release
     // let omoURL = modelBundle.url(forResource: versionName, withExtension: "\(ModelVersionExtension.omo)", subdirectory: momd)
@@ -165,9 +163,10 @@ extension ModelVersion {
       return false
     }
 
-    let mappingModel =  try? NSMappingModel.inferredMappingModel(forSourceModel: managedObjectModel(),
-                                                                 destinationModel: nextVersion.managedObjectModel())
-    
+    let mappingModel = try? NSMappingModel.inferredMappingModel(
+      forSourceModel: managedObjectModel(),
+      destinationModel: nextVersion.managedObjectModel())
+
     return mappingModel != nil
   }
 }
@@ -184,9 +183,10 @@ public func isMigrationNecessary<Version: ModelVersion>(for storeURL: URL, to ve
   // Before you initiate a migration process, you should first determine whether it is necessary.
   // If the target model configuration is compatible with the persistent store metadata, there is no need to migrate
   // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/vmCustomizing.html#//apple_ref/doc/uid/TP40004399-CH8-SW2
-  let metadata: [String: Any] = try NSPersistentStoreCoordinator.metadataForPersistentStore(type: .sqlite,
-                                                                                            at: storeURL,
-                                                                                            options: nil)
+  let metadata: [String: Any] = try NSPersistentStoreCoordinator.metadataForPersistentStore(
+    type: .sqlite,
+    at: storeURL,
+    options: nil)
 
   let targetModel = version.managedObjectModel()
   // https://vimeo.com/164904652

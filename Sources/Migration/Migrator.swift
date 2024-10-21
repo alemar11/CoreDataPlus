@@ -151,9 +151,10 @@ extension Migrator {
       // A dead lock can occur if a NSPersistentStore with a different journaling mode
       // is currently active and using the database file.
       // You need to remove it before performing a WAL checkpoint.
-      try performWALCheckpointForStore(at: sourceURL,
-                                       storeOptions: sourceOptions,
-                                       model: sourceVersion.managedObjectModel())
+      try performWALCheckpointForStore(
+        at: sourceURL,
+        storeOptions: sourceOptions,
+        model: sourceVersion.managedObjectModel())
     }
 
     let steps = sourceVersion.migrationSteps(to: targetVersion)
@@ -263,9 +264,11 @@ extension Migrator {
 // MARK: - WAL Checkpoint
 
 /// Forces Core Data to perform a checkpoint operation, which merges the data in the `-wal` file to the store file.
-private func performWALCheckpointForStore(at storeURL: URL,
-                                           storeOptions: PersistentStoreOptions? = nil,
-                                           model: NSManagedObjectModel) throws {
+private func performWALCheckpointForStore(
+  at storeURL: URL,
+  storeOptions: PersistentStoreOptions? = nil,
+  model: NSManagedObjectModel
+) throws {
   // "If the -wal file is not present, using this approach to add the store won't cause any exceptions,
   // but the transactions recorded in the missing -wal file will be lost." (from: https://developer.apple.com/library/archive/qa/qa1809/_index.html)
   // credits:
@@ -285,10 +288,11 @@ private func performWALCheckpointForStore(at storeURL: URL,
     options[NSPersistentHistoryTrackingKey] = [NSPersistentHistoryTrackingKey: true as NSNumber]
   }
 
-  let store = try persistentStoreCoordinator.addPersistentStore(type: .sqlite,
-                                                                configuration: nil, 
-                                                                at: storeURL,
-                                                                options: options)
+  let store = try persistentStoreCoordinator.addPersistentStore(
+    type: .sqlite,
+    configuration: nil,
+    at: storeURL,
+    options: options)
 
   try persistentStoreCoordinator.remove(store)
 }

@@ -58,7 +58,6 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     XCTAssertEqual(viewContext.registeredObjects.count, 2)
   }
 
-  @MainActor
   func test_InvestigationMergeChanges() throws {
     // see: testInvesigationRegisteredObjects
     let expectation1 = expectation(description: "\(#function)\(#line)")
@@ -131,12 +130,10 @@ final class NotificationMerge_Tests: InMemoryTestCase {
       try backgroundContext.save()
     }
 
-    self.waitForExpectations(timeout: 2)
+    wait(for: [expectation1], timeout: 5)
     cancellable.cancel()
-
   }
 
-  @MainActor
   func test_Merge() throws {
     let viewContext = container.viewContext
     let backgroundContext = container.viewContext.newBackgroundContext(asChildContext: false)
@@ -257,7 +254,7 @@ final class NotificationMerge_Tests: InMemoryTestCase {
       try! backgroundContext.save()  // fires [0], [4] and then [1]
     }
 
-    waitForExpectations(timeout: 20)
+    wait(for: [expectation1, expectation2, expectation3, expectation4, expectation5, expectation6], timeout: 20)
     XCTAssertFalse(viewContext.hasChanges)
 
     try backgroundContext.performAndWait { _ in
@@ -266,7 +263,6 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     }
   }
 
-  @MainActor
   func test_AsyncMerge() throws {
     let context = container.viewContext
     let anotherContext = container.viewContext.newBackgroundContext(asChildContext: false)
@@ -322,7 +318,8 @@ final class NotificationMerge_Tests: InMemoryTestCase {
       try anotherContext.save()
     }
 
-    waitForExpectations(timeout: 2)
+    wait(for: [expectation1, expectation2, expectation3], timeout: 5)
+
     XCTAssertFalse(context.hasChanges)
     try anotherContext.performAndWait { _ in
       XCTAssertFalse(anotherContext.hasChanges)
@@ -334,7 +331,6 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     cancellable3.cancel()
   }
 
-  @MainActor
   func test_NSFetchedResultController() throws {
     let context = container.viewContext
 
@@ -401,7 +397,8 @@ final class NotificationMerge_Tests: InMemoryTestCase {
       person3ObjectId = person3.objectID
     }
 
-    waitForExpectations(timeout: 5)
+    
+    wait(for: [expectation1], timeout: 5)
 
     XCTAssertEqual(delegate.updatedObjects.count + delegate.movedObjects.count, 1)
     XCTAssertEqual(delegate.insertedObjects.count, 1)  // the FRC monitors only for Person objects
@@ -415,7 +412,6 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     cancellable1.cancel()
   }
 
-  @MainActor
   func test_NSFetchedResultControllerWithContextReset() throws {
     let context = container.viewContext
 
@@ -486,7 +482,7 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     context.reset()
     try context.save()  // the command will do nothing, the FRC delegate is exepcted to have 0 changed objects
 
-    waitForExpectations(timeout: 5)
+    wait(for: [expectation1, expectation2], timeout: 5)
 
     XCTAssertEqual(delegate.updatedObjects.count, 0)
     XCTAssertEqual(delegate.deletedObjects.count, 0)

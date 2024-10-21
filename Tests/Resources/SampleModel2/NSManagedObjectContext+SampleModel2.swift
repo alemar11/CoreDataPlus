@@ -5,14 +5,14 @@ import Foundation
 
 extension NSManagedObjectContext {
   func fillWithSampleData2() {
-    fillWithAuthor1() // Author with 2 books and 1 Graphic Novel
-    fillWithAuthor2() // Author with 49 books
+    fillWithAuthor1()  // Author with 2 books and 1 Graphic Novel
+    fillWithAuthor2()  // Author with 49 books
   }
-  
+
   func fillWithSampleData2UsingModelV2() {
     fillWithAuthor1UsingModelV2()
   }
-  
+
   func fillWithSampleData2UsingModelV3() {
     fillWithAuthor1UsingModelV3()
   }
@@ -133,7 +133,7 @@ extension NSManagedObjectContext {
       }
     }
   }
-  
+
   func fillWithAuthor1UsingModelV2() {
     let author = AuthorV2(context: self)
     author.alias = "Alessandro"

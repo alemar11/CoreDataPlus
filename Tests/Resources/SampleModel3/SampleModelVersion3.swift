@@ -21,7 +21,7 @@ extension SampleModelVersion3: ModelVersion {
   public static var allVersions: [SampleModelVersion3] { SampleModelVersion3.allCases }
   public static var currentVersion: SampleModelVersion3 { .version1 }
   public var modelName: String { "SampleModel3" }
-  
+
   public var next: SampleModelVersion3? {
     switch self {
     case .version1: return .version2
@@ -29,10 +29,10 @@ extension SampleModelVersion3: ModelVersion {
     default: return nil
     }
   }
-  
+
   public var versionName: String { rawValue }
   public var modelBundle: Bundle { Bundle.tests }
-  
+
   public func managedObjectModel() -> NSManagedObjectModel {
     switch self {
     case .version1:
@@ -46,23 +46,27 @@ extension SampleModelVersion3: ModelVersion {
 }
 
 extension SampleModelVersion3 {
-  @available(iOS 17.0, tvOS 17.0, watchOS 10.0, macOS 14.0, visionOS 1.0, iOSApplicationExtension 17.0, macCatalystApplicationExtension 17.0, *)
+  @available(
+    iOS 17.0, tvOS 17.0, watchOS 10.0, macOS 14.0, visionOS 1.0, iOSApplicationExtension 17.0,
+    macCatalystApplicationExtension 17.0, *
+  )
   public func migrationStageToNextModelVersion() -> NSMigrationStage? {
     switch self {
-      // There can't be stages with the same versionCheckSum (you can't have a NSLightweightMigrationStage and a
-      // NSCustomMigrationStage referencing the same target versionCheckSum)
+    // There can't be stages with the same versionCheckSum (you can't have a NSLightweightMigrationStage and a
+    // NSCustomMigrationStage referencing the same target versionCheckSum)
     case .version1:
-      let stage = NSCustomMigrationStage(migratingFrom: self.managedObjectModelReference(), // v1
-                                         to: self.next!.managedObjectModelReference()) // v2
+      let stage = NSCustomMigrationStage(
+        migratingFrom: self.managedObjectModelReference(),  // v1
+        to: self.next!.managedObjectModelReference())  // v2
       stage.label = "V1 to V2 (Add Pet entity and denormalize User entity)"
-      
+
       stage.willMigrateHandler = { migrationManager, stage in
         // in willMigrateHandler Pet is not yet defined
       }
-      
+
       stage.didMigrateHandler = { migrationManager, stage in
         guard let container = migrationManager.container else { return }
-        
+
         let context = container.newBackgroundContext()
         try context.performAndWait {
           let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "User")
@@ -77,10 +81,10 @@ extension SampleModelVersion3 {
           try context.save()
         }
       }
-      
+
       return stage
     case .version2:
-      let stage = NSLightweightMigrationStage([self.next!.versionChecksum]) // v3
+      let stage = NSLightweightMigrationStage([self.next!.versionChecksum])  // v3
       stage.label = "V2 to V3 (remove petName from User entity)"
       return stage
     default:
@@ -95,5 +99,3 @@ extension SampleModelVersion3 {
 // it tries to use that instead.
 //
 // SampleModel2 is defined programmatically and I didn't find a way to make it work
-
-

@@ -2,6 +2,7 @@
 
 import CoreData
 import XCTest
+
 @testable import CoreDataPlus
 
 // MARK: - V1
@@ -12,7 +13,7 @@ final class ProgrammaticallyDefinedModel_Tests: OnDiskWithProgrammaticallyModelT
     context.fillWithSampleData2()
     try context.save()
     context.reset()
-    
+
     let books = try Book.fetchObjects(in: context)
     XCTAssertEqual(books.count, 52)
 
@@ -77,7 +78,7 @@ final class ProgrammaticallyDefinedModelV2Tests: XCTestCase {
 
     try context.save()
     context.reset()
-    
+
     let fetchedAuthor = try AuthorV2.fetchObjects(in: context) {
       $0.predicate = NSPredicate(format: "%K == %@", #keyPath(Author.alias), "Alessandro")
     }.first

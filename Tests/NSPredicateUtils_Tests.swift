@@ -4,8 +4,8 @@ import XCTest
 
 final class NSPredicateUtils_Tests: XCTestCase {
   func test_AlwaysTrueAndFalsePredicates() {
-    XCTAssertEqual(NSPredicate.true.predicateFormat, "TRUEPREDICATE")
-    XCTAssertEqual(NSPredicate.false.predicateFormat, "FALSEPREDICATE")
+    XCTAssertEqual(NSPredicate.true().predicateFormat, "TRUEPREDICATE")
+    XCTAssertEqual(NSPredicate.false().predicateFormat, "FALSEPREDICATE")
   }
 
   func test_PredicateComposition() {
