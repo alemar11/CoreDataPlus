@@ -30,7 +30,7 @@ class OnDiskTestCase: BaseTestCase {
 
 // MARK: - On Disk NSPersistentContainer
 
-final class OnDiskPersistentContainer: NSPersistentContainer {
+final class OnDiskPersistentContainer: NSPersistentContainer, @unchecked Sendable {
 
   static func makeNew() -> OnDiskPersistentContainer {
     Self.makeNew(id: UUID())

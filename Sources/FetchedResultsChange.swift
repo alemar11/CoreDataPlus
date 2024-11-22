@@ -36,10 +36,12 @@ extension FetchedResultsObjectChange {
   ///   - indexPath: The old index patch for the object
   ///   - type: The type of the reported change
   ///   - newIndexPath: The new index path for the object
-  public init?(object: Any,
-               indexPath: IndexPath?,
-               changeType type: NSFetchedResultsChangeType,
-               newIndexPath: IndexPath?) {
+  public init?(
+    object: Any,
+    indexPath: IndexPath?,
+    changeType type: NSFetchedResultsChangeType,
+    newIndexPath: IndexPath?
+  ) {
     guard let object = object as? T else {
       assertionFailure("Invalid change. The changed object is not a \(T.self).")
       return nil
@@ -93,7 +95,7 @@ extension FetchedResultsObjectChange {
     case .update(let object, _): object
     }
   }
-  
+
   /// Returns `true` if the change is a move.
   public var isMove: Bool {
     switch self {
@@ -103,7 +105,7 @@ extension FetchedResultsObjectChange {
       return false
     }
   }
-  
+
   /// Returns`true` if the change is an insertion.
   public var isInsertion: Bool {
     switch self {
@@ -113,7 +115,7 @@ extension FetchedResultsObjectChange {
       return false
     }
   }
-  
+
   /// Returns `true` if the change is a deletion.
   public var isDeletion: Bool {
     switch self {
@@ -123,7 +125,7 @@ extension FetchedResultsObjectChange {
       return false
     }
   }
-  
+
   /// Returns `true` if the change is an update.
   public var isUpdate: Bool {
     switch self {
@@ -133,7 +135,7 @@ extension FetchedResultsObjectChange {
       return false
     }
   }
-  
+
   /// The `IndexPath` of the change.
   public var indexPath: IndexPath {
     switch self {
@@ -194,9 +196,11 @@ extension FetchedResultsSectionChange {
   ///   - sectionInfo: The `NSFetchedResultsSectionInfo` instance
   ///   - sectionIndex: The section index
   ///   - type: The type of the reported change
-  public init?(section sectionInfo: NSFetchedResultsSectionInfo,
-               index sectionIndex: Int,
-               changeType type: NSFetchedResultsChangeType) {
+  public init?(
+    section sectionInfo: NSFetchedResultsSectionInfo,
+    index sectionIndex: Int,
+    changeType type: NSFetchedResultsChangeType
+  ) {
     let info = FetchedResultsSectionInfo<T>(from: sectionInfo)
 
     switch type {
@@ -222,7 +226,7 @@ extension FetchedResultsSectionChange {
     case .delete(let info, _): info
     }
   }
-    
+
   /// Returns`true` if the change is an insertion.
   public var isInsertion: Bool {
     switch self {
@@ -232,7 +236,7 @@ extension FetchedResultsSectionChange {
       return false
     }
   }
-  
+
   /// Returns `true` if the change is a deletion.
   public var isDeletion: Bool {
     switch self {
@@ -242,7 +246,7 @@ extension FetchedResultsSectionChange {
       return false
     }
   }
-    
+
   /// The index of the change.
   public var index: Int {
     switch self {

@@ -130,7 +130,6 @@ final class NSManagedObjectContextUtils_Tests: InMemoryTestCase {
     XCTAssertFalse(cars.isEmpty)
   }
 
-  @MainActor
   func test_PerformAndWaitWithThrow() {
     let expectation1 = expectation(description: "\(#function)\(#line)")
 
@@ -154,7 +153,7 @@ final class NSManagedObjectContextUtils_Tests: InMemoryTestCase {
       expectation1.fulfill()
     }
 
-    waitForExpectations(timeout: 2)
+    wait(for: [expectation1], timeout: 2)
   }
 
   func test_SaveIfNeededOrRollback() {

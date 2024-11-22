@@ -61,8 +61,9 @@ final class Migrations_Tests: BaseTestCase {
     try migrator.migrate(enableWALCheckpoint: enableWALCheckpoint)
 
     // ⚠️ migration should be done before loading the NSPersistentContainer instance or you need to create a new one after the migration
-    let migratedContainer = NSPersistentContainer(name: name, 
-                                                  managedObjectModel: targetVersion.managedObjectModel())
+    let migratedContainer = NSPersistentContainer(
+      name: name,
+      managedObjectModel: targetVersion.managedObjectModel())
 
     let expectation2 = expectation(description: "\(#function)\(#line)")
     migratedContainer.loadPersistentStores { (store, error) in
@@ -106,7 +107,7 @@ final class Migrations_Tests: BaseTestCase {
       destinationStoreDescription: destinationDescription,
       targetVersion: .version1)
     try migrator.migrate(enableWALCheckpoint: true)
-    
+
     try NSPersistentStoreCoordinator.destroyStore(at: sourceURL)
   }
 
@@ -122,8 +123,9 @@ final class Migrations_Tests: BaseTestCase {
 
     // When
     let targetDescription = NSPersistentStoreDescription(url: sourceURL)
-    let migrator = Migrator<SampleModelVersion>(targetStoreDescription: targetDescription,
-                                                targetVersion: targetVersion)
+    let migrator = Migrator<SampleModelVersion>(
+      targetStoreDescription: targetDescription,
+      targetVersion: targetVersion)
     migrator.enableLog = true
     migrator.enableLog = false
 
@@ -134,8 +136,9 @@ final class Migrations_Tests: BaseTestCase {
 
     try migrator.migrate(enableWALCheckpoint: true)
 
-    let migratedContext = NSManagedObjectContext(model: targetVersion.managedObjectModel(),
-                                                 storeURL: sourceURL)
+    let migratedContext = NSManagedObjectContext(
+      model: targetVersion.managedObjectModel(),
+      storeURL: sourceURL)
     let luxuryCars = try LuxuryCar.fetchObjects(in: migratedContext)
     XCTAssertEqual(luxuryCars.count, 5)
 
@@ -163,7 +166,7 @@ final class Migrations_Tests: BaseTestCase {
 
   func test_MigrationFromV1ToV2UsingCustomMigratorProvider() throws {
     let sourceURL = try Self.createSQLiteSample1ForV1()
-    
+
     let targetVersion = SampleModelVersion.version2
     let steps = SampleModelVersion.version1.migrationSteps(to: .version2)
     XCTAssertEqual(steps.count, 1)
@@ -225,13 +228,15 @@ final class Migrations_Tests: BaseTestCase {
 
     let sourceDescription = NSPersistentStoreDescription(url: sourceURL)
     let destinationDescription = NSPersistentStoreDescription(url: sourceURL)
-    let migrator = Migrator<SampleModelVersion>(sourceStoreDescription: sourceDescription,
-                                                destinationStoreDescription: destinationDescription,
-                                                targetVersion: .version3)
+    let migrator = Migrator<SampleModelVersion>(
+      sourceStoreDescription: sourceDescription,
+      destinationStoreDescription: destinationDescription,
+      targetVersion: .version3)
     try migrator.migrate(enableWALCheckpoint: true)
 
-    let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(),
-                                                 storeURL: targetURL)
+    let migratedContext = NSManagedObjectContext(
+      model: SampleModelVersion.version3.managedObjectModel(),
+      storeURL: targetURL)
     let cars = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Car"))
     let makers = try Maker.fetchObjects(in: migratedContext)
     XCTAssertEqual(makers.count, 10)
@@ -267,9 +272,10 @@ final class Migrations_Tests: BaseTestCase {
     let sourceURL = try Self.createSQLiteSample1ForV2()
     let sourceDescription = NSPersistentStoreDescription(url: sourceURL)
     let destinationDescription = NSPersistentStoreDescription(url: sourceURL)
-    let migrator = Migrator<SampleModelVersion>(sourceStoreDescription: sourceDescription,
-                                                destinationStoreDescription: destinationDescription,
-                                                targetVersion: .version3)
+    let migrator = Migrator<SampleModelVersion>(
+      sourceStoreDescription: sourceDescription,
+      destinationStoreDescription: destinationDescription,
+      targetVersion: .version3)
     migrator.enableLog = true
     // When
     migrator.progress.cancel()
@@ -300,7 +306,7 @@ final class Migrations_Tests: BaseTestCase {
     let sourceURL = try Self.createSQLiteSample1ForV1()
     let version = try SampleModelVersion(persistentStoreURL: sourceURL as URL)
     XCTAssertTrue(version == .version1)
-    
+
     XCTAssertTrue(SampleModelVersion.version1.isLightWeightMigrationPossibleToNextModelVersion())
     XCTAssertTrue(SampleModelVersion.version2.isLightWeightMigrationPossibleToNextModelVersion())
     XCTAssertFalse(SampleModelVersion.version3.isLightWeightMigrationPossibleToNextModelVersion())
@@ -308,9 +314,10 @@ final class Migrations_Tests: BaseTestCase {
     let targetURL = URL.temporaryDirectory.appendingPathComponent("SampleModel").appendingPathExtension("sqlite")
     let sourceDescription = NSPersistentStoreDescription(url: sourceURL)
     let destinationDescription = NSPersistentStoreDescription(url: targetURL)
-    let migrator = Migrator<SampleModelVersion>(sourceStoreDescription: sourceDescription,
-                                                destinationStoreDescription: destinationDescription,
-                                                targetVersion: .version3)
+    let migrator = Migrator<SampleModelVersion>(
+      sourceStoreDescription: sourceDescription,
+      destinationStoreDescription: destinationDescription,
+      targetVersion: .version3)
     migrator.enableLog = true
     let completion = OSAllocatedUnfairLock(initialState: 0.0)
     let token = migrator.progress.observe(\.fractionCompleted, options: [.new]) { (progress, change) in
@@ -319,8 +326,9 @@ final class Migrations_Tests: BaseTestCase {
     }
 
     try migrator.migrate(enableWALCheckpoint: true)
-    let migratedContext = NSManagedObjectContext(model: SampleModelVersion.version3.managedObjectModel(),
-                                                 storeURL: targetURL)
+    let migratedContext = NSManagedObjectContext(
+      model: SampleModelVersion.version3.managedObjectModel(),
+      storeURL: targetURL)
     let makers = try migratedContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "Maker"))
     XCTAssertEqual(makers.count, 10)
 
@@ -362,7 +370,7 @@ extension Migrations_Tests {
     let bundle = Bundle.tests
     // 125 cars, 5 sport cars
     let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModel_V1", withExtension: "sqlite"))
-    
+
     // Being the test run multiple times, we create an unique copy for every test
     let uuid = UUID().uuidString
     let sourceURL = bundle.bundleURL.appendingPathComponent("SampleModel_V1_copy-\(uuid).sqlite")
@@ -370,12 +378,12 @@ extension Migrations_Tests {
     XCTAssertTrue(FileManager.default.fileExists(atPath: sourceURL.path))
     return sourceURL
   }
-  
+
   static func createSQLiteSample1ForV2() throws -> URL {
     let bundle = Bundle.tests
     // 125 cars, 5 sport cars
     let _sourceURL = try XCTUnwrap(bundle.url(forResource: "SampleModel_V2", withExtension: "sqlite"))
-    
+
     // Being the test run multiple times, we create an unique copy for every test
     let uuid = UUID().uuidString
     let sourceURL = bundle.bundleURL.appendingPathComponent("SampleModel_V2_copy-\(uuid).sqlite")
@@ -383,7 +391,7 @@ extension Migrations_Tests {
     XCTAssertTrue(FileManager.default.fileExists(atPath: sourceURL.path))
     return sourceURL
   }
-  
+
   /// Creates a .sqlite with some data for the initial model (version 1)
   static func createSampleVersion1(completion: @escaping (Result<URL, Error>) -> Void) {
     let containerSQLite = NSPersistentContainer(name: "SampleModel-\(UUID())", managedObjectModel: model1)

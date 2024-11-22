@@ -254,7 +254,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
 
   func test_MigrationFromV1toV3() throws {
     let url = URL.newDatabaseURL(withID: UUID())
-    
+
     // the migration works fine even if NSMigratePersistentStoresAutomaticallyOption is set to true,
     // but it should be false
     let options = [
@@ -285,7 +285,7 @@ final class ProgrammaticMigration_Tests: XCTestCase {
     })
 
     // Migration
-    
+
     XCTAssertTrue(SampleModel2.SampleModelVersion2.version1.isLightWeightMigrationPossibleToNextModelVersion())
     XCTAssertTrue(SampleModel2.SampleModelVersion2.version2.isLightWeightMigrationPossibleToNextModelVersion())
     XCTAssertFalse(SampleModel2.SampleModelVersion2.version3.isLightWeightMigrationPossibleToNextModelVersion())

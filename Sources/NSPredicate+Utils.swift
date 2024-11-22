@@ -4,10 +4,10 @@ import Foundation
 
 extension NSPredicate {
   /// A `NSPredicate` that always evaluates to `true`.
-  public static let `true` = NSPredicate(value: true)
+  public final class func `true`() -> NSPredicate { NSPredicate(value: true) }
 
   /// A `NSPredicate` that always evaluates to `false`.
-  public static let `false` = NSPredicate(value: false)
+  public final class func `false`() -> NSPredicate { NSPredicate(value: false) }
 
   /// Returns a `new` compound NSPredicate formed by **AND**-ing `self` with `predicate`.
   /// - Parameter predicate: A `NSPredicate` object.

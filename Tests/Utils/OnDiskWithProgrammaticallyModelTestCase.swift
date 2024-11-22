@@ -28,14 +28,16 @@ class OnDiskWithProgrammaticallyModelTestCase: XCTestCase {
 
 // MARK: - On Disk NSPersistentContainer with Programmatically Model
 
-final class OnDiskWithProgrammaticallyModelPersistentContainer: NSPersistentContainer {
+final class OnDiskWithProgrammaticallyModelPersistentContainer: NSPersistentContainer, @unchecked Sendable {
   static func makeNew() -> OnDiskWithProgrammaticallyModelPersistentContainer {
     Self.makeNew(id: UUID().uuidString)
   }
 
-  static func makeNew(id: String, 
-                      forStagedMigration enableStagedMigration: Bool = false,
-                      model: NSManagedObjectModel = V1.makeManagedObjectModel()) -> OnDiskWithProgrammaticallyModelPersistentContainer {
+  static func makeNew(
+    id: String,
+    forStagedMigration enableStagedMigration: Bool = false,
+    model: NSManagedObjectModel = V1.makeManagedObjectModel()
+  ) -> OnDiskWithProgrammaticallyModelPersistentContainer {
     let url = URL.newDatabaseURL(withName: id)
     let container = OnDiskWithProgrammaticallyModelPersistentContainer(name: "SampleModel2", managedObjectModel: model)
     let description = NSPersistentStoreDescription()
