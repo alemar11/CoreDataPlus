@@ -66,7 +66,7 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     let person = Person(context: viewContext)
     person.firstName = "Alessandro"
     person.lastName = "Marzoli"
-    let person2 = Person(context: viewContext)
+    nonisolated(unsafe) let person2 = Person(context: viewContext)
     person2.firstName = "Andrea"
     person2.lastName = "Marzoli"
     XCTAssertEqual(viewContext.registeredObjects.count, 2)
@@ -75,7 +75,7 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     XCTAssertEqual(viewContext.registeredObjects.count, 2)
 
     func findRegisteredPersonByFirstName(_ name: String, in context: NSManagedObjectContext) -> Person? {
-      var person: Person?
+      nonisolated(unsafe) var person: Person?
       context.performAndWait {
         person =
           context.registeredObjects.first { object in
@@ -281,8 +281,9 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     let cancellable2 = NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave, object: anotherContext)
       .map { ManagedObjectContextDidSaveObjects(notification: $0) }
       .sink { payload in
+        nonisolated(unsafe) let _payload = payload
         context.perform {
-          context.mergeChanges(fromContextDidSavePayload: payload)
+          context.mergeChanges(fromContextDidSavePayload: _payload)
           expectation2.fulfill()
         }
       }
@@ -334,7 +335,7 @@ final class NotificationMerge_Tests: InMemoryTestCase {
   func test_NSFetchedResultController() throws {
     let context = container.viewContext
 
-    let person1 = Person(context: context)
+    nonisolated(unsafe) let person1 = Person(context: context)
     person1.firstName = "Edythe"
     person1.lastName = "Moreton"
 
@@ -365,15 +366,16 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     let cancellable1 = NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave, object: anotherContext)
       .map { ManagedObjectContextDidSaveObjects(notification: $0) }
       .sink { payload in
-        XCTAssertEqual(payload.insertedObjects.count, 2)  // 1 person and 1 car
-        XCTAssertEqual(payload.updatedObjects.count, 1)  // 1 person
+        nonisolated(unsafe) let _payload = payload
+        XCTAssertEqual(_payload.insertedObjects.count, 2)  // 1 person and 1 car
+        XCTAssertEqual(_payload.updatedObjects.count, 1)  // 1 person
         context.perform {
-          context.mergeChanges(fromContextDidSavePayload: payload)
+          context.mergeChanges(fromContextDidSavePayload: _payload)
           expectation1.fulfill()
         }
       }
 
-    var person3ObjectId: NSManagedObjectID?
+    nonisolated(unsafe) var person3ObjectId: NSManagedObjectID?
 
     try anotherContext.performAndWait { _ in
       let persons = try Person.fetchObjects(in: anotherContext)
@@ -444,11 +446,12 @@ final class NotificationMerge_Tests: InMemoryTestCase {
     let cancellable1 = NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave, object: context)
       .map { ManagedObjectContextDidSaveObjects(notification: $0) }
       .sink { payload in
-        XCTAssertEqual(payload.insertedObjects.count, 0)
-        XCTAssertEqual(payload.updatedObjects.count, 0)
-        XCTAssertEqual(payload.deletedObjects.count, 0)
+        nonisolated(unsafe) let _payload = payload
+        XCTAssertEqual(_payload.insertedObjects.count, 0)
+        XCTAssertEqual(_payload.updatedObjects.count, 0)
+        XCTAssertEqual(_payload.deletedObjects.count, 0)
         context.perform {
-          context.mergeChanges(fromContextDidSavePayload: payload)
+          context.mergeChanges(fromContextDidSavePayload: _payload)
           expectation1.fulfill()
         }
       }
@@ -504,7 +507,7 @@ final class NotificationMerge_Tests: InMemoryTestCase {
 /// (For example, as a result of calling reset(), or if a store is removed from the the persistent store coordinator.).
 /// When this happens, NSFetchedResultsController does not invalidate all objects, nor does it send individual notifications for object deletions.
 /// Instead, you must call performFetch() to reset the state of the controller then reload the data in the table view (reloadData()).
-class FetchedResultsControllerMockDelegate: NSObject, NSFetchedResultsControllerDelegate {
+class FetchedResultsControllerMockDelegate: NSObject, NSFetchedResultsControllerDelegate, @unchecked Sendable {
   var updatedObjects = [Any]()
   var insertedObjects = [Any]()
   var movedObjects = [Any]()

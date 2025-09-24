@@ -99,7 +99,7 @@ extension NSManagedObjectContext {
   ///   - completion: Block executed (on the context’s queue.) at the end of the saving operation.
   @available(*, deprecated, message: "Deprecated.")
   public final func performSave(
-    after changes: @escaping (NSManagedObjectContext) throws -> Void, completion: ((NSError?) -> Void)? = nil
+    after changes: @escaping @Sendable (NSManagedObjectContext) throws -> Void, completion: (@Sendable (NSError?) -> Void)? = nil
   ) {
     // https://stackoverflow.com/questions/37837979/using-weak-strong-self-usage-in-block-core-data-swift
     // `perform` executes the block and then releases it.
@@ -124,10 +124,10 @@ extension NSManagedObjectContext {
   ///
   /// - Throws: It throws an error in cases of failure (while applying changes or saving).
   @available(*, deprecated, message: "Deprecated.")
-  public final func performSaveAndWait(after changes: (NSManagedObjectContext) throws -> Void) throws {
+  public final func performSaveAndWait(after changes: @Sendable (NSManagedObjectContext) throws -> Void) throws {
     // swiftlint:disable:next identifier_name
     try withoutActuallyEscaping(changes) { _changes in
-      var internalError: NSError?
+      nonisolated(unsafe) var internalError: NSError?
       performAndWait {
         do {
           try _changes(self)
@@ -144,10 +144,10 @@ extension NSManagedObjectContext {
   /// Saves the `NSManagedObjectContext` up to the last parent `NSManagedObjectContext`.
   @available(*, deprecated, message: "Deprecated.")
   internal final func performSaveUpToTheLastParentContextAndWait() throws {
-    var parentContext: NSManagedObjectContext? = self
+    nonisolated(unsafe) var parentContext: NSManagedObjectContext? = self
 
     while parentContext != nil {
-      var saveError: Error?
+      nonisolated(unsafe) var saveError: Error?
       parentContext!.performAndWait {
         do {
           try parentContext!.saveIfNeeded()

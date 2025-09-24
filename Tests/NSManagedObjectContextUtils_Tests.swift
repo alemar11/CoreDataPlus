@@ -201,7 +201,7 @@ final class NSManagedObjectContextUtils_Tests: InMemoryTestCase {
 
     /// This code will output: CoreData: error: CoreData: error: Failed to call designated initializer on NSManagedObject class 'Person'
     /// but it is fine for this test.
-    let person2 = Person()
+    nonisolated(unsafe) let person2 = Person()
     person1.firstName = "Tin2"
     person1.lastName = "Robots2"
 
@@ -216,11 +216,12 @@ final class NSManagedObjectContextUtils_Tests: InMemoryTestCase {
     list.deleteManagedObjects()
 
     for mo in list {
+      nonisolated(unsafe) let _mo = mo
       mo.managedObjectContext?.performAndWait {
-        if mo === person2 {
-          XCTAssertNil(mo.managedObjectContext)
+        if _mo === person2 {
+          XCTAssertNil(_mo.managedObjectContext)
         } else {
-          XCTAssertTrue(mo.isDeleted)
+          XCTAssertTrue(_mo.isDeleted)
         }
       }
     }

@@ -489,7 +489,7 @@ final class NSFetchRequestResultUtils_Tests: OnDiskTestCase {
     context.fillWithSampleData()
     try context.save()
 
-    let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
+    nonisolated(unsafe) let fiatPredicate = NSPredicate(format: "%K == %@", #keyPath(Car.maker), "FIAT")
     let fiatCount = try Car.count(in: context) { request in request.predicate = fiatPredicate }
     XCTAssertTrue(fiatCount > 0)
 

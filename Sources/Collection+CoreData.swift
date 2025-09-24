@@ -1,6 +1,6 @@
 // CoreDataPlus
 
-import CoreData
+@preconcurrency import CoreData
 
 // MARK: - NSManagedObject
 
@@ -10,8 +10,10 @@ extension Collection where Element: NSManagedObject {
     let managedObjectsWithContext = self.filter { $0.managedObjectContext != nil }
     for object in managedObjectsWithContext {
       let context = object.managedObjectContext!
+      nonisolated(unsafe) let objectToDelete = object
+      // performAndWait ensures thread safety by executing synchronously on the context's queue
       context.performAndWait {
-        object.delete()
+        objectToDelete.delete()
       }
     }
   }

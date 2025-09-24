@@ -8,9 +8,13 @@ extension NSSet {
   /// - Important: Each object is deleted synchronously in his context queue.
   public final func deleteManagedObjects() {
     for object in self.allObjects {
-      if let managedObject = object as? NSManagedObject, let context = managedObject.managedObjectContext {
+      if
+        let managedObject = object as? NSManagedObject,
+        let context = managedObject.managedObjectContext
+      {
+        nonisolated(unsafe) let objectToDelete = managedObject
         context.performAndWait {
-          managedObject.delete()
+          objectToDelete.delete()
         }
       }
     }

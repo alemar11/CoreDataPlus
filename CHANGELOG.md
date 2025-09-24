@@ -1,5 +1,10 @@
 # Changelog
 
+### 6.3.0
+
+- Xcode 26
+- Fixed some new strict concurrency checking warnings and errors
+
 ### 6.2.0
 
 - Xcode 16

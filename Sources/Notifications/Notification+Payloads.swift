@@ -7,6 +7,7 @@
 // TODO
 // WWDC 2020: there should be a NSManagedObjectContext.NotificationKey.sourceContext to access the context from the userInfo
 // but as of Xcode 13b5 it's not there (and the userInfo contains a _PFWeakReference for key "managedObjectContext")
+// Notification doesn’t conform to Sendable, because several of its members can’t be sendable, such as object and the userInfo dictionary. https://developer.apple.com/documentation/foundation/notificationcenter/notifications(named:object:)
 
 import CoreData
 import Foundation

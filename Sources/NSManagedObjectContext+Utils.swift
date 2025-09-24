@@ -98,7 +98,8 @@ extension NSManagedObjectContext {
 extension NSManagedObjectContext {
   /// Synchronously performs a given block on the context’s queue and returns the final result.
   /// - Throws: It throws an error in cases of failure.
-  public final func performAndWait<T>(_ block: (NSManagedObjectContext) throws -> T) rethrows -> T {
+  @preconcurrency nonisolated
+  public final func performAndWait<T>(_ block: @Sendable (NSManagedObjectContext) throws -> T) rethrows -> T {
     if #available(iOS 15.0, iOSApplicationExtension 15.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, macOS 12, *) {
       return try performAndWait {
         try block(self)
@@ -112,27 +113,31 @@ extension NSManagedObjectContext {
   ///
   /// Source: https://oleb.net/blog/2018/02/performandwait/
   /// Source: https://github.com/apple/swift/blob/bb157a070ec6534e4b534456d208b03adc07704b/stdlib/public/SDK/Dispatch/Queue.swift#L228-L249
+  @preconcurrency nonisolated
   private func _performAndWaitHelper<T>(
-    function: (() -> Void) -> Void,
+    function: (@Sendable () -> Void) -> Void,
     execute work: (NSManagedObjectContext) throws -> T,
     rescue: (Error) throws -> (T)
   ) rethrows -> T {
-    var result: T?
-    var error: Error?
+
     // swiftlint:disable:next identifier_name
-    withoutActuallyEscaping(work) { _work in
+    try withoutActuallyEscaping(work) { _work in
+      nonisolated(unsafe) let _execution = _work
+      nonisolated(unsafe) var result: T?
+      nonisolated(unsafe) var error: Error?
       function {
         do {
-          result = try _work(self)
+          result = try _execution(self)
         } catch let catchedError {
           error = catchedError
         }
       }
+      if let error = error {
+        return try rescue(error)
+      } else {
+        return result!
+      }
     }
-    if let error = error {
-      return try rescue(error)
-    } else {
-      return result!
-    }
+
   }
 }

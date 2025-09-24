@@ -13,7 +13,7 @@ final class NSManagedObjectUtils_Tests: InMemoryTestCase {
 
     do {
       // When
-      let person = Person(context: context)
+      nonisolated(unsafe) let person = Person(context: context)
       context.performAndWait {
         person.firstName = "Myname"
         person.lastName = "MyLastName"
@@ -27,7 +27,7 @@ final class NSManagedObjectUtils_Tests: InMemoryTestCase {
 
     do {
       // When
-      let person = Person(context: context)
+      nonisolated(unsafe) let person = Person(context: context)
       context.performAndWait {
         person.firstName = "Myname2"
         person.lastName = "MyLastName2"

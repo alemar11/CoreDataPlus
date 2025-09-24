@@ -64,7 +64,7 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
       let parentContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
       parentContext.persistentStoreCoordinator = psc
 
-      let car1 = Car(context: parentContext)
+      nonisolated(unsafe) let car1 = Car(context: parentContext)
       car1.maker = "FIAT"
       car1.model = "Panda"
       car1.numberPlate = UUID().uuidString
@@ -74,7 +74,7 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
       childContext.parent = parentContext
       childContext.automaticallyMergesChangesFromParent = true
 
-      let childCar = try childContext.performAndWait { _ -> Car in
+      nonisolated(unsafe) let childCar = try childContext.performAndWait { _ -> Car in
         let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: childContext))
         XCTAssertEqual(car.maker, "FIAT")
         return car
@@ -103,7 +103,7 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
       let parentContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
       parentContext.persistentStoreCoordinator = psc
 
-      let car1 = Car(context: parentContext)
+      nonisolated(unsafe) let car1 = Car(context: parentContext)
       car1.maker = "FIAT"
       car1.model = "Panda"
       car1.numberPlate = UUID().uuidString
@@ -113,7 +113,7 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
       childContext.parent = parentContext
       childContext.automaticallyMergesChangesFromParent = false
 
-      let childCar = try childContext.performAndWait { context -> Car in
+      nonisolated(unsafe) let childCar = try childContext.performAndWait { context -> Car in
         let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: context))
         XCTAssertEqual(car.maker, "FIAT")
         return car
@@ -136,7 +136,7 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
     do {
       let parentContext = container.viewContext
 
-      let car1 = Car(context: parentContext)
+      nonisolated(unsafe) let car1 = Car(context: parentContext)
       car1.maker = "FIAT"
       car1.model = "Panda"
       car1.numberPlate = UUID().uuidString
@@ -146,7 +146,7 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
       childContext.parent = parentContext
       childContext.automaticallyMergesChangesFromParent = true
 
-      let childCar = try childContext.performAndWait { _ -> Car in
+      nonisolated(unsafe) let childCar = try childContext.performAndWait { _ -> Car in
         let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: childContext))
         XCTAssertEqual(car.maker, "FIAT")
         return car
@@ -170,7 +170,7 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
     do {
       let parentContext = container.viewContext
 
-      let car1 = Car(context: parentContext)
+      nonisolated(unsafe) let car1 = Car(context: parentContext)
       car1.maker = "FIAT"
       car1.model = "Panda"
       car1.numberPlate = UUID().uuidString
@@ -180,7 +180,7 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
       childContext.parent = parentContext
       childContext.automaticallyMergesChangesFromParent = false
 
-      let childCar = try childContext.performAndWait { _ -> Car in
+      nonisolated(unsafe) let childCar = try childContext.performAndWait { _ -> Car in
         let car = try XCTUnwrap(try Car.existingObject(with: car1.objectID, in: childContext))
         XCTAssertEqual(car.maker, "FIAT")
         return car
@@ -242,7 +242,7 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
     let readContext = container.viewContext
     let writeContext = container.newBackgroundContext()
 
-    var writeCar: Car? = nil
+    nonisolated(unsafe) var writeCar: Car? = nil
     try writeContext.performAndWait {
       writeCar = Car(context: writeContext)
       writeCar?.maker = "FIAT"
@@ -252,12 +252,12 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
     }
 
     // When
-    var readEntity: Car? = nil
-    readContext.performAndWait {
-      readEntity = try! readContext.fetch(Car.newFetchRequest()).first!
+    nonisolated(unsafe) let readEntity = try readContext.performAndWait { 
+      let entity = try readContext.fetch(Car.newFetchRequest()).first!
       // Initially the attribute should be FIAT
-      XCTAssertNotNil(readEntity)
-      XCTAssertEqual(readEntity?.maker, "FIAT")
+      XCTAssertNotNil(entity)
+      XCTAssertEqual(entity.maker, "FIAT")
+      return entity
     }
 
     try writeContext.performAndWait {
@@ -273,11 +273,11 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
       // ⚠️ Now the attribute should be FCA, but it is still FIAT
       // This should be XCTAssertEqual, XCTAssertNotEqual is used only to make the test pass until
       // the problem is fixed
-      XCTAssertNotEqual(readEntity?.maker, "FCA")
+      XCTAssertNotEqual(readEntity.maker, "FCA")
 
-      readContext.refresh(readEntity!, mergeChanges: false)
+      readContext.refresh(readEntity, mergeChanges: false)
       // However, manually refreshing does update it to FCA
-      XCTAssertEqual(readEntity?.maker, "FCA")
+      XCTAssertEqual(readEntity.maker, "FCA")
     }
   }
 
@@ -305,10 +305,10 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
     let container = InMemoryPersistentContainer.makeNew()
     let viewContext = container.viewContext
     let childContext = viewContext.newBackgroundContext(asChildContext: true)
-    var carID: NSManagedObjectID?
+    nonisolated(unsafe) var carID: NSManagedObjectID?
 
     let plateNumber = UUID().uuidString
-    let predicate = NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), plateNumber)
+    nonisolated(unsafe) let predicate = NSPredicate(format: "%K == %@", #keyPath(Car.numberPlate), plateNumber)
 
     childContext.performAndWait {
       let car = Car(context: $0)
@@ -328,7 +328,7 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
     }
 
     let id = try XCTUnwrap(carID)
-    let car = try XCTUnwrap(Car.object(with: id, in: viewContext))
+    nonisolated(unsafe) let car = try XCTUnwrap(Car.object(with: id, in: viewContext))
     XCTAssertEqual(car.maker, "FIAT")
     XCTAssertEqual(car.model, "Panda")
     XCTAssertEqual(car.numberPlate, plateNumber)
@@ -507,7 +507,7 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
    [moc processPendingChanges];  // flush operations for which you do not want undos
    [[moc undoManager] enableUndoRegistration];
    **/
-
+  @MainActor
   func test_InvestigationUndoManager() throws {
     do {
       let context = container.newBackgroundContext()
@@ -540,17 +540,42 @@ final class NSManagedObjectContextInvestigation_Tests: InMemoryTestCase {
     do {
       let context = container.newBackgroundContext()
       context.performAndWait { _ in
-        context.undoManager = UndoManager()
+        if Thread.isMainThread{
+          MainActor.assumeIsolated {
+            context.undoManager = UndoManager()
+          }
+        } else {
+          DispatchQueue.main.sync {
+            context.undoManager = UndoManager()
+          }
+        }
+
         // stuff...
         context.processPendingChanges()  // flush operations for which you want undos
-        context.undoManager!.disableUndoRegistration()
+        if Thread.isMainThread{
+          MainActor.assumeIsolated {
+            context.undoManager!.disableUndoRegistration()
+          }
+        } else {
+          DispatchQueue.main.sync {
+            context.undoManager!.disableUndoRegistration()
+          }
+        }
         // make changes for which undo operations are not to be recorded
         let car = Car(context: context)
         car.numberPlate = "1"
         car.maker = "fake-maker"
         car.model = "fake-model"
         context.processPendingChanges()  // flush operations for which you do not want undos
-        context.undoManager!.enableUndoRegistration()
+        if Thread.isMainThread{
+          MainActor.assumeIsolated {
+            context.undoManager!.enableUndoRegistration()
+          }
+        } else {
+          DispatchQueue.main.sync {
+            context.undoManager!.enableUndoRegistration()
+          }
+        }
         context.undo()
         XCTAssertFalse(context.insertedObjects.isEmpty)
       }
