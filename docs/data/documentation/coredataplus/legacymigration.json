@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Handles migrations with the old ",
+      "text" : "Handles migrations via ",
       "type" : "text"
     },
     {
@@ -96,6 +96,8 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Instance-Methods",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LegacyMigration\/mappingModelsToNextModelVersion()"
       ],
@@ -130,7 +132,7 @@
 "doc://CoreDataPlus/documentation/CoreDataPlus/LegacyMigration": {
   "abstract" : [
     {
-      "text" : "Handles migrations with the old ",
+      "text" : "Handles migrations via ",
       "type" : "text"
     },
     {

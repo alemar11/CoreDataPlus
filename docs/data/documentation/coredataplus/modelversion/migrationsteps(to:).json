@@ -9,7 +9,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " needed to mirate to the next ",
+      "text" : " needed to migrate to the next ",
       "type" : "text"
     },
     {
@@ -240,7 +240,10 @@
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/LegacyMigrationStep": {
   "abstract" : [
-
+    {
+      "text" : "Representation of a Core Data legacy migration step.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -322,7 +325,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " needed to mirate to the next ",
+      "text" : " needed to migrate to the next ",
       "type" : "text"
     },
     {

@@ -89,6 +89,8 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Instance-Methods",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSPersistentStoreCoordinator\/removeAllStores()",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSPersistentStoreCoordinator\/setMetadataValue(_:with:for:)"
@@ -96,6 +98,8 @@
       "title" : "Instance Methods"
     },
     {
+      "anchor" : "Type-Methods",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSPersistentStoreCoordinator\/destroyStore(at:options:)",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSPersistentStoreCoordinator\/replaceStore(at:destinationOptions:withPersistentStoreFrom:sourceOptions:)"

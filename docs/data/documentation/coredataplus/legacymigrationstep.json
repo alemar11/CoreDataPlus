@@ -1,4 +1,10 @@
 {
+  "abstract" : [
+    {
+      "text" : "Representation of a Core Data legacy migration step.",
+      "type" : "text"
+    }
+  ],
   "hierarchy" : {
     "paths" : [
       [
@@ -142,6 +148,8 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Instance-Properties",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LegacyMigrationStep\/destinationModel",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LegacyMigrationStep\/destinationVersion",
@@ -180,7 +188,7 @@
 "doc://CoreDataPlus/documentation/CoreDataPlus/LegacyMigration": {
   "abstract" : [
     {
-      "text" : "Handles migrations with the old ",
+      "text" : "Handles migrations via ",
       "type" : "text"
     },
     {
@@ -221,7 +229,10 @@
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/LegacyMigrationStep": {
   "abstract" : [
-
+    {
+      "text" : "Representation of a Core Data legacy migration step.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {

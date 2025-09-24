@@ -227,28 +227,6 @@
             }
           ],
           "name" : "historyFetchRequest"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "if ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "true",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " (default) each transaction will contain all its changes.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "withAssociatedChanges"
         }
       ]
     }

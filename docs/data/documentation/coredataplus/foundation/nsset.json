@@ -89,6 +89,8 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Instance-Methods",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Foundation\/NSSet\/deleteManagedObjects()",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Foundation\/NSSet\/materializeManagedObjectFaults()"
@@ -179,7 +181,7 @@
       "type" : "text"
     },
     {
-      "code" : "NSManangedObjectContext",
+      "code" : "NSManagedObjectContext",
       "type" : "codeVoice"
     },
     {

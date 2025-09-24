@@ -429,7 +429,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "it always accesses the underlying persistent stores to retrieve the latest results.",
+                  "text" : "It always accesses the underlying persistent stores to retrieve the latest results.",
                   "type" : "text"
                 }
               ],

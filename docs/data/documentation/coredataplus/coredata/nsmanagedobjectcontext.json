@@ -89,6 +89,8 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Instance-Properties",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSManagedObjectContext\/changesCount",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSManagedObjectContext\/hasPersistentChanges",
@@ -97,6 +99,8 @@
       "title" : "Instance Properties"
     },
     {
+      "anchor" : "Instance-Methods",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSManagedObjectContext\/deleteHistory()",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSManagedObjectContext\/deleteHistory(before:)-4mypl",

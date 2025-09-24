@@ -365,12 +365,12 @@
               "text" : ": "
             },
             {
-              "kind" : "keyword",
-              "text" : "@escaping"
+              "kind" : "attribute",
+              "text" : "@escaping "
             },
             {
               "kind" : "text",
-              "text" : " ("
+              "text" : "("
             },
             {
               "kind" : "typeIdentifier",
@@ -589,6 +589,18 @@
                 }
               ],
               "type" : "paragraph"
+            },
+            {
+              "code" : [
+                "let progress = Progress(totalUnitCount: 1)",
+                "progress.becomeCurrent(withPendingUnitCount: 1)",
+                "let fetchResultToken = try ENTITY.fetchAsync(in:with:completion:)",
+                "let token = fetchResultToken.progress?.observe(\\.completedUnitCount, options: [.old, .new]) { (progress, change) }",
+                "progress.resignCurrent()",
+                ""
+              ],
+              "syntax" : null,
+              "type" : "codeListing"
             }
           ],
           "name" : "Note",

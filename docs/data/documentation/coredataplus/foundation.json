@@ -12,7 +12,7 @@
   },
   "kind" : "symbol",
   "metadata" : {
-    "externalID" : "s:m:s:e:s:So11NSPredicateC12CoreDataPlusE4trueABvpZ",
+    "externalID" : "s:m:s:e:s:So11NSPredicateC12CoreDataPlusE4trueAByFZ",
     "modules" : [
       {
         "name" : "CoreDataPlus"
@@ -33,6 +33,8 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Extended-Classes",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Foundation\/NSPredicate",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Foundation\/NSSet"

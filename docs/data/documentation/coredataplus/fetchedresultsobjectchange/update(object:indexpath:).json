@@ -166,53 +166,30 @@
             }
           ],
           "name" : "object"
-        }
-      ]
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "discussion",
-          "level" : 2,
-          "text" : "Discussion",
-          "type" : "heading"
         },
         {
-          "items" : [
+          "content" : [
             {
-              "content" : [
+              "inlineContent" : [
                 {
-                  "inlineContent" : [
-                    {
-                      "text" : "parameter indexPath ",
-                      "type" : "text"
-                    },
-                    {
-                      "code" : "NSIndexPath",
-                      "type" : "codeVoice"
-                    },
-                    {
-                      "text" : ": The ",
-                      "type" : "text"
-                    },
-                    {
-                      "code" : "NSIndexPath",
-                      "type" : "codeVoice"
-                    },
-                    {
-                      "text" : " of the updated object",
-                      "type" : "text"
-                    }
-                  ],
-                  "type" : "paragraph"
+                  "text" : "The ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "NSIndexPath",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " of the updated object",
+                  "type" : "text"
                 }
-              ]
+              ],
+              "type" : "paragraph"
             }
           ],
-          "type" : "unorderedList"
+          "name" : "indexPath"
         }
-      ],
-      "kind" : "content"
+      ]
     }
   ],
   "schemaVersion" : {

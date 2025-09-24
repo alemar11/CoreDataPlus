@@ -89,6 +89,8 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Instance-Methods",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Swift\/Collection\/deleteManagedObjects()",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Swift\/Collection\/entities()",
@@ -180,7 +182,7 @@
       "type" : "text"
     },
     {
-      "code" : "NSManangedObjectContext",
+      "code" : "NSManagedObjectContext",
       "type" : "codeVoice"
     },
     {

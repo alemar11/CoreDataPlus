@@ -183,7 +183,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "only matters if the object has unsaved changes. In this case, a ",
+                  "text" : "Only matters if the object has unsaved changes. In this case, a ",
                   "type" : "text"
                 },
                 {

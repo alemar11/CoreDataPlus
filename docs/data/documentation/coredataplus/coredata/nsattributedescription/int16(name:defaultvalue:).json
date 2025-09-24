@@ -1,4 +1,10 @@
 {
+  "abstract" : [
+    {
+      "text" : "Creates a new Int16 attribute description.",
+      "type" : "text"
+    }
+  ],
   "hierarchy" : {
     "paths" : [
       [
@@ -318,7 +324,10 @@
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSAttributeDescription/int16(name:defaultValue:)": {
   "abstract" : [
-
+    {
+      "text" : "Creates a new Int16 attribute description.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {

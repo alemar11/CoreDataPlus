@@ -14,7 +14,7 @@
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Foundation",
-    "externalID" : "s:e:s:So11NSPredicateC12CoreDataPlusE4trueABvpZ",
+    "externalID" : "s:e:s:So11NSPredicateC12CoreDataPlusE4trueAByFZ",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -89,6 +89,8 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Instance-Methods",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Foundation\/NSPredicate\/and(_:)",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Foundation\/NSPredicate\/or(_:)"
@@ -96,11 +98,13 @@
       "title" : "Instance Methods"
     },
     {
+      "anchor" : "Type-Methods",
+      "generated" : true,
       "identifiers" : [
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Foundation\/NSPredicate\/false",
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Foundation\/NSPredicate\/true"
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Foundation\/NSPredicate\/false()",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Foundation\/NSPredicate\/true()"
       ],
-      "title" : "Type Properties"
+      "title" : "Type Methods"
     }
   ],
   "variants" : [
@@ -254,7 +258,7 @@
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/foundation\/nspredicate\/and(_:)"
 },
-"doc://CoreDataPlus/documentation/CoreDataPlus/Foundation/NSPredicate/false": {
+"doc://CoreDataPlus/documentation/CoreDataPlus/Foundation/NSPredicate/false()": {
   "abstract" : [
     {
       "text" : "A ",
@@ -280,7 +284,7 @@
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "static"
+      "text" : "class"
     },
     {
       "kind" : "text",
@@ -288,7 +292,7 @@
     },
     {
       "kind" : "keyword",
-      "text" : "let"
+      "text" : "func"
     },
     {
       "kind" : "text",
@@ -300,7 +304,7 @@
     },
     {
       "kind" : "text",
-      "text" : ": "
+      "text" : "() -> "
     },
     {
       "kind" : "typeIdentifier",
@@ -308,12 +312,12 @@
       "text" : "NSPredicate"
     }
   ],
-  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Foundation\/NSPredicate\/false",
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Foundation\/NSPredicate\/false()",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "false",
+  "title" : "false()",
   "type" : "topic",
-  "url" : "\/documentation\/coredataplus\/foundation\/nspredicate\/false"
+  "url" : "\/documentation\/coredataplus\/foundation\/nspredicate\/false()"
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/Foundation/NSPredicate/or(_:)": {
   "abstract" : [
@@ -398,7 +402,7 @@
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/foundation\/nspredicate\/or(_:)"
 },
-"doc://CoreDataPlus/documentation/CoreDataPlus/Foundation/NSPredicate/true": {
+"doc://CoreDataPlus/documentation/CoreDataPlus/Foundation/NSPredicate/true()": {
   "abstract" : [
     {
       "text" : "A ",
@@ -424,7 +428,7 @@
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "static"
+      "text" : "class"
     },
     {
       "kind" : "text",
@@ -432,7 +436,7 @@
     },
     {
       "kind" : "keyword",
-      "text" : "let"
+      "text" : "func"
     },
     {
       "kind" : "text",
@@ -444,7 +448,7 @@
     },
     {
       "kind" : "text",
-      "text" : ": "
+      "text" : "() -> "
     },
     {
       "kind" : "typeIdentifier",
@@ -452,12 +456,12 @@
       "text" : "NSPredicate"
     }
   ],
-  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Foundation\/NSPredicate\/true",
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Foundation\/NSPredicate\/true()",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "true",
+  "title" : "true()",
   "type" : "topic",
-  "url" : "\/documentation\/coredataplus\/foundation\/nspredicate\/true"
+  "url" : "\/documentation\/coredataplus\/foundation\/nspredicate\/true()"
 }
 }
 }

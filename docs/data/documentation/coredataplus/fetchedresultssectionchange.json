@@ -137,6 +137,8 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Enumeration-Cases",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionChange\/delete(info:index:)",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionChange\/insert(info:index:)"
@@ -144,10 +146,23 @@
       "title" : "Enumeration Cases"
     },
     {
+      "anchor" : "Initializers",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionChange\/init(section:index:changeType:)"
       ],
       "title" : "Initializers"
+    },
+    {
+      "anchor" : "Instance-Properties",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionChange\/index",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionChange\/info",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionChange\/isDeletion",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionChange\/isInsertion"
+      ],
+      "title" : "Instance Properties"
     }
   ],
   "variants" : [
@@ -298,6 +313,164 @@
   "title" : "FetchedResultsSectionChange.delete(info:index:)",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/fetchedresultssectionchange\/delete(info:index:)"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsSectionChange/index": {
+  "abstract" : [
+    {
+      "text" : "The index of the change.",
+      "type" : "text"
+    }
+  ],
+  "conformance" : {
+    "availabilityPrefix" : [
+      {
+        "text" : "Available when",
+        "type" : "text"
+      }
+    ],
+    "conformancePrefix" : [
+      {
+        "text" : "Conforms when",
+        "type" : "text"
+      }
+    ],
+    "constraints" : [
+      {
+        "code" : "T",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : " inherits ",
+        "type" : "text"
+      },
+      {
+        "code" : "NSManagedObject",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : ".",
+        "type" : "text"
+      }
+    ]
+  },
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "index"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Si",
+      "text" : "Int"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionChange\/index",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "index",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/fetchedresultssectionchange\/index"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsSectionChange/info": {
+  "abstract" : [
+    {
+      "text" : "Returns the underlaying ",
+      "type" : "text"
+    },
+    {
+      "code" : "FetchedResultsSectionInfo<T>",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " that was changed.",
+      "type" : "text"
+    }
+  ],
+  "conformance" : {
+    "availabilityPrefix" : [
+      {
+        "text" : "Available when",
+        "type" : "text"
+      }
+    ],
+    "conformancePrefix" : [
+      {
+        "text" : "Conforms when",
+        "type" : "text"
+      }
+    ],
+    "constraints" : [
+      {
+        "code" : "T",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : " inherits ",
+        "type" : "text"
+      },
+      {
+        "code" : "NSManagedObject",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : ".",
+        "type" : "text"
+      }
+    ]
+  },
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "info"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:12CoreDataPlus25FetchedResultsSectionInfoV",
+      "text" : "FetchedResultsSectionInfo"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionChange\/info",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "info",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/fetchedresultssectionchange\/info"
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsSectionChange/init(section:index:changeType:)": {
   "abstract" : [
@@ -479,6 +652,152 @@
   "title" : "FetchedResultsSectionChange.insert(info:index:)",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/fetchedresultssectionchange\/insert(info:index:)"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsSectionChange/isDeletion": {
+  "abstract" : [
+    {
+      "text" : "Returns ",
+      "type" : "text"
+    },
+    {
+      "code" : "true",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " if the change is a deletion.",
+      "type" : "text"
+    }
+  ],
+  "conformance" : {
+    "availabilityPrefix" : [
+      {
+        "text" : "Available when",
+        "type" : "text"
+      }
+    ],
+    "conformancePrefix" : [
+      {
+        "text" : "Conforms when",
+        "type" : "text"
+      }
+    ],
+    "constraints" : [
+      {
+        "code" : "T",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : " inherits ",
+        "type" : "text"
+      },
+      {
+        "code" : "NSManagedObject",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : ".",
+        "type" : "text"
+      }
+    ]
+  },
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "isDeletion"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionChange\/isDeletion",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "isDeletion",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/fetchedresultssectionchange\/isdeletion"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsSectionChange/isInsertion": {
+  "abstract" : [
+    {
+      "text" : "Returns true if the change is an insertion.",
+      "type" : "text"
+    }
+  ],
+  "conformance" : {
+    "availabilityPrefix" : [
+      {
+        "text" : "Available when",
+        "type" : "text"
+      }
+    ],
+    "conformancePrefix" : [
+      {
+        "text" : "Conforms when",
+        "type" : "text"
+      }
+    ],
+    "constraints" : [
+      {
+        "code" : "T",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : " inherits ",
+        "type" : "text"
+      },
+      {
+        "code" : "NSManagedObject",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : ".",
+        "type" : "text"
+      }
+    ]
+  },
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "isInsertion"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionChange\/isInsertion",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "isInsertion",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/fetchedresultssectionchange\/isinsertion"
 }
 }
 }

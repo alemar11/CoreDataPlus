@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Returns a dictionary containig all the deleted ",
+      "text" : "Returns a dictionary containing all the deleted ",
       "type" : "text"
     },
     {
@@ -225,7 +225,7 @@
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSBatchDeleteResult/changes": {
   "abstract" : [
     {
-      "text" : "Returns a dictionary containig all the deleted ",
+      "text" : "Returns a dictionary containing all the deleted ",
       "type" : "text"
     },
     {

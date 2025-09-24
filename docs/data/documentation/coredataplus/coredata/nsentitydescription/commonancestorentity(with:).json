@@ -173,7 +173,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "the entity to evaluate",
+                  "text" : "The entity to evaluate",
                   "type" : "text"
                 }
               ],

@@ -1,15 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Returns",
-      "type" : "text"
-    },
-    {
-      "code" : "true",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " if a lightweight migration to the next model version is possible",
+      "text" : "Returns true if a lightweight migration to the next model version is possible",
       "type" : "text"
     }
   ],
@@ -204,6 +196,30 @@
           "type" : "unorderedList"
         },
         {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "Lightweight migrations are possible only if all changes are simple enough to be automaticaly inferred such as:",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "Note",
+          "style" : "note",
+          "type" : "aside"
+        },
+        {
           "inlineContent" : [
             {
               "text" : "There are a few gotchas to this list:",
@@ -333,15 +349,7 @@
 "doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion/isLightWeightMigrationPossibleToNextModelVersion()": {
   "abstract" : [
     {
-      "text" : "Returns",
-      "type" : "text"
-    },
-    {
-      "code" : "true",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " if a lightweight migration to the next model version is possible",
+      "text" : "Returns true if a lightweight migration to the next model version is possible",
       "type" : "text"
     }
   ],

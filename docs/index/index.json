@@ -1,4 +1,7 @@
 {
+  "includedArchiveIdentifiers" : [
+    "CoreDataPlus"
+  ],
   "interfaceLanguages" : {
     "swift" : [
       {
@@ -320,7 +323,7 @@
                     "type" : "groupMarker"
                   }
                 ],
-                "path" : "\/documentation\/coredataplus\/modelversion\/managedobjectmodel()-6vbac",
+                "path" : "\/documentation\/coredataplus\/modelversion\/managedobjectmodel()",
                 "title" : "func managedObjectModel() -> NSManagedObjectModel",
                 "type" : "method"
               },
@@ -443,8 +446,8 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/coredataplus\/fetchedresultssectioninfo\/init(_:)",
-                "title" : "init(any NSFetchedResultsSectionInfo)",
+                "path" : "\/documentation\/coredataplus\/fetchedresultssectioninfo\/init(from:)",
+                "title" : "init(from: any NSFetchedResultsSectionInfo)",
                 "type" : "init"
               },
               {
@@ -1069,6 +1072,40 @@
                 "path" : "\/documentation\/coredataplus\/fetchedresultsobjectchange\/init(object:indexpath:changetype:newindexpath:)",
                 "title" : "init?(object: Any, indexPath: IndexPath?, changeType: NSFetchedResultsChangeType, newIndexPath: IndexPath?)",
                 "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultsobjectchange\/indexpath",
+                "title" : "var indexPath: IndexPath",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultsobjectchange\/isdeletion",
+                "title" : "var isDeletion: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultsobjectchange\/isinsertion",
+                "title" : "var isInsertion: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultsobjectchange\/ismove",
+                "title" : "var isMove: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultsobjectchange\/isupdate",
+                "title" : "var isUpdate: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultsobjectchange\/object",
+                "title" : "var object: T",
+                "type" : "property"
               }
             ],
             "path" : "\/documentation\/coredataplus\/fetchedresultsobjectchange",
@@ -1099,6 +1136,30 @@
                 "path" : "\/documentation\/coredataplus\/fetchedresultssectionchange\/init(section:index:changetype:)",
                 "title" : "init?(section: any NSFetchedResultsSectionInfo, index: Int, changeType: NSFetchedResultsChangeType)",
                 "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultssectionchange\/index",
+                "title" : "var index: Int",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultssectionchange\/info",
+                "title" : "var info: FetchedResultsSectionInfo<T>",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultssectionchange\/isdeletion",
+                "title" : "var isDeletion: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/coredataplus\/fetchedresultssectionchange\/isinsertion",
+                "title" : "var isInsertion: Bool",
+                "type" : "property"
               }
             ],
             "path" : "\/documentation\/coredataplus\/fetchedresultssectionchange",
@@ -1717,13 +1778,13 @@
                     "type" : "method"
                   },
                   {
-                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/fetchobjects(in:estimatedresultcount:with:)",
-                    "title" : "static func fetchObjects(in: NSManagedObjectContext, estimatedResultCount: Int, with: (NSFetchRequest<Self>) -> Void) async throws -> [Self]",
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/fetchobjects(in:estimatedresultcount:with:completion:)",
+                    "title" : "static func fetchObjects(in: NSManagedObjectContext, estimatedResultCount: Int, with: (NSFetchRequest<Self>) -> Void, completion: (Result<[Self], any Error>) -> Void) throws -> NSAsynchronousFetchResult<Self>",
                     "type" : "method"
                   },
                   {
-                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/fetchobjects(in:estimatedresultcount:with:completion:)",
-                    "title" : "static func fetchObjects(in: NSManagedObjectContext, estimatedResultCount: Int, with: (NSFetchRequest<Self>) -> Void, completion: (Result<[Self], any Error>) -> Void) throws -> NSAsynchronousFetchResult<Self>",
+                    "path" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/fetchobjects(in:estimatedresultcount:with:progress:)",
+                    "title" : "static func fetchObjects(in: NSManagedObjectContext, estimatedResultCount: Int, with: (NSFetchRequest<Self>) -> Void, progress: ((Progress) -> Void)?) async throws -> [Self]",
                     "type" : "method"
                   },
                   {
@@ -1794,18 +1855,18 @@
                     "type" : "method"
                   },
                   {
-                    "title" : "Type Properties",
+                    "title" : "Type Methods",
                     "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/coredataplus\/foundation\/nspredicate\/false",
-                    "title" : "static let `false`: NSPredicate",
-                    "type" : "property"
+                    "path" : "\/documentation\/coredataplus\/foundation\/nspredicate\/false()",
+                    "title" : "class func `false`() -> NSPredicate",
+                    "type" : "method"
                   },
                   {
-                    "path" : "\/documentation\/coredataplus\/foundation\/nspredicate\/true",
-                    "title" : "static let `true`: NSPredicate",
-                    "type" : "property"
+                    "path" : "\/documentation\/coredataplus\/foundation\/nspredicate\/true()",
+                    "title" : "class func `true`() -> NSPredicate",
+                    "type" : "method"
                   }
                 ],
                 "path" : "\/documentation\/coredataplus\/foundation\/nspredicate",
@@ -1885,6 +1946,6 @@
   "schemaVersion" : {
     "major" : 0,
     "minor" : 1,
-    "patch" : 1
+    "patch" : 2
   }
 }

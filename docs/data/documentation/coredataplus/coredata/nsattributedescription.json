@@ -89,12 +89,16 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Initializers",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSAttributeDescription\/init(name:type:)"
       ],
       "title" : "Initializers"
     },
     {
+      "anchor" : "Type-Methods",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSAttributeDescription\/binaryData(name:defaultValue:allowsExternalBinaryDataStorage:)",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSAttributeDescription\/bool(name:defaultValue:)",
@@ -184,7 +188,10 @@
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSAttributeDescription/binaryData(name:defaultValue:allowsExternalBinaryDataStorage:)": {
   "abstract" : [
-
+    {
+      "text" : "Creates a new Data attribute description.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -277,7 +284,10 @@
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSAttributeDescription/bool(name:defaultValue:)": {
   "abstract" : [
-
+    {
+      "text" : "Creates a new Bool attribute description.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -353,7 +363,10 @@
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSAttributeDescription/customTransformable(for:name:defaultValue:transform:reverse:)": {
   "abstract" : [
-
+    {
+      "text" : "Creates a new transformable attribute description with custom transform functions.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -520,7 +533,10 @@
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSAttributeDescription/date(name:defaultValue:)": {
   "abstract" : [
-
+    {
+      "text" : "Creates a new Date attribute description.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -596,7 +612,10 @@
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSAttributeDescription/decimal(name:defaultValue:)": {
   "abstract" : [
-
+    {
+      "text" : "Creates a new Decimal attribute description.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -672,7 +691,10 @@
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSAttributeDescription/double(name:defaultValue:)": {
   "abstract" : [
-
+    {
+      "text" : "Creates a new Double attribute description.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -748,7 +770,10 @@
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSAttributeDescription/float(name:defaultValue:)": {
   "abstract" : [
-
+    {
+      "text" : "Creates a new Float attribute description.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -898,7 +923,10 @@
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSAttributeDescription/int16(name:defaultValue:)": {
   "abstract" : [
-
+    {
+      "text" : "Creates a new Int16 attribute description.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -974,7 +1002,10 @@
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSAttributeDescription/int32(name:defaultValue:)": {
   "abstract" : [
-
+    {
+      "text" : "Creates a new Int32 attribute description.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -1050,7 +1081,10 @@
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSAttributeDescription/int64(name:defaultValue:)": {
   "abstract" : [
-
+    {
+      "text" : "Creates a new Int64 attribute description.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -1126,7 +1160,10 @@
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSAttributeDescription/string(name:defaultValue:)": {
   "abstract" : [
-
+    {
+      "text" : "Creates a new String attribute description.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -1202,7 +1239,10 @@
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSAttributeDescription/transformable(for:name:defaultValue:)": {
   "abstract" : [
-
+    {
+      "text" : "Creates a new transformable attribute description.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -1301,7 +1341,10 @@
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSAttributeDescription/uri(name:defaultValue:)": {
   "abstract" : [
-
+    {
+      "text" : "Creates a new URL attribute description.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -1377,7 +1420,10 @@
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSAttributeDescription/uuid(name:defaultValue:)": {
   "abstract" : [
-
+    {
+      "text" : "Creates a new UUID attribute description.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {

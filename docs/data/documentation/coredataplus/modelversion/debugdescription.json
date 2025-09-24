@@ -17,8 +17,7 @@
     "paths" : [
       [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion",
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/CustomDebugStringConvertible-Implementations"
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion"
       ]
     ]
   },
@@ -187,17 +186,6 @@
   "title" : "ModelVersion",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/modelversion"
-},
-"doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion/CustomDebugStringConvertible-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/CustomDebugStringConvertible-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "CustomDebugStringConvertible Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/coredataplus\/modelversion\/customdebugstringconvertible-implementations"
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion/debugDescription": {
   "abstract" : [

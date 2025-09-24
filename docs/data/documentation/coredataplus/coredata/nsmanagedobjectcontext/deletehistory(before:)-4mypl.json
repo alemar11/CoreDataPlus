@@ -229,7 +229,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The delete operation must be done inside a the context queue.",
+                  "text" : "The delete operation must be done inside the context queue.",
                   "type" : "text"
                 }
               ],

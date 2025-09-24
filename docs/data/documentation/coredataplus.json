@@ -33,6 +33,8 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Classes",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CustomTransformer",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LegacyMigrationStep",
@@ -42,6 +44,8 @@
       "title" : "Classes"
     },
     {
+      "anchor" : "Protocols",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/LegacyMigration",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion",
@@ -50,6 +54,8 @@
       "title" : "Protocols"
     },
     {
+      "anchor" : "Structures",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionInfo",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ManagedObjectContextDidMergeChangesObjectIDs",
@@ -66,18 +72,24 @@
       "title" : "Structures"
     },
     {
+      "anchor" : "Functions",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/isMigrationNecessary(for:to:)"
       ],
       "title" : "Functions"
     },
     {
+      "anchor" : "Type-Aliases",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/PersistentStoreOptions"
       ],
       "title" : "Type Aliases"
     },
     {
+      "anchor" : "Enumerations",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsObjectChange",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionChange"
@@ -85,6 +97,8 @@
       "title" : "Enumerations"
     },
     {
+      "anchor" : "Extended-Modules",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Foundation",
@@ -332,7 +346,7 @@
 "doc://CoreDataPlus/documentation/CoreDataPlus/LegacyMigration": {
   "abstract" : [
     {
-      "text" : "Handles migrations with the old ",
+      "text" : "Handles migrations via ",
       "type" : "text"
     },
     {
@@ -373,7 +387,10 @@
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/LegacyMigrationStep": {
   "abstract" : [
-
+    {
+      "text" : "Representation of a Core Data legacy migration step.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {

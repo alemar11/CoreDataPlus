@@ -176,12 +176,8 @@
               "text" : ": "
             },
             {
-              "kind" : "keyword",
-              "text" : "@escaping"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
+              "kind" : "attribute",
+              "text" : "@escaping "
             },
             {
               "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CustomTransformer",
@@ -220,12 +216,8 @@
               "text" : ": "
             },
             {
-              "kind" : "keyword",
-              "text" : "@escaping"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
+              "kind" : "attribute",
+              "text" : "@escaping "
             },
             {
               "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CustomTransformer",

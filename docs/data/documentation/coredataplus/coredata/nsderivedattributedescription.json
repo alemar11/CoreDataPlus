@@ -89,6 +89,8 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Initializers",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSDerivedAttributeDescription\/init(name:type:derivationExpression:)"
       ],

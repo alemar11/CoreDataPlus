@@ -261,7 +261,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "the current store URL.",
+                  "text" : "The current store URL.",
                   "type" : "text"
                 }
               ],
@@ -275,7 +275,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "the ModelVersion to which the store is compared.",
+                  "text" : "The ModelVersion to which the store is compared.",
                   "type" : "text"
                 }
               ],

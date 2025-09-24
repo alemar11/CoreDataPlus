@@ -238,12 +238,16 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Initializers",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CustomTransformer\/init(transform:reverseTransform:)"
       ],
       "title" : "Initializers"
     },
     {
+      "anchor" : "Instance-Methods",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CustomTransformer\/reverseTransformedValue(_:)",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CustomTransformer\/transformedValue(_:)"
@@ -251,6 +255,8 @@
       "title" : "Instance Methods"
     },
     {
+      "anchor" : "Type-Aliases",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CustomTransformer\/ReverseTransform",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CustomTransformer\/Transform"
@@ -258,12 +264,16 @@
       "title" : "Type Aliases"
     },
     {
+      "anchor" : "Type-Properties",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CustomTransformer\/transformerName"
       ],
       "title" : "Type Properties"
     },
     {
+      "anchor" : "Type-Methods",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CustomTransformer\/allowsReverseTransformation()",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CustomTransformer\/register(transform:reverseTransform:)",

@@ -89,6 +89,8 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Type-Methods",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSFetchRequestResult\/batchDelete(using:predicate:includesSubentities:resultType:affectedStores:)",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSFetchRequestResult\/batchInsert(using:resultType:dictionaryHandler:)",
@@ -101,8 +103,8 @@
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSFetchRequestResult\/existingObject(with:in:)",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSFetchRequestResult\/fetchNSArray(in:with:)",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSFetchRequestResult\/fetchObjectIDs(in:includingSubentities:where:affectedStores:)",
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSFetchRequestResult\/fetchObjects(in:estimatedResultCount:with:)",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSFetchRequestResult\/fetchObjects(in:estimatedResultCount:with:completion:)",
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSFetchRequestResult\/fetchObjects(in:estimatedResultCount:with:progress:)",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSFetchRequestResult\/fetchObjects(in:with:)",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSFetchRequestResult\/fetchOneObject(in:where:includesPendingChanges:affectedStores:)",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSFetchRequestResult\/fetchUniqueObject(in:where:affectedStores:)",
@@ -1869,170 +1871,6 @@
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/fetchobjectids(in:includingsubentities:where:affectedstores:)"
 },
-"doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSFetchRequestResult/fetchObjects(in:estimatedResultCount:with:)": {
-  "abstract" : [
-    {
-      "text" : "Performs a configurable asynchronous fetch request in a context.",
-      "type" : "text"
-    }
-  ],
-  "conformance" : {
-    "availabilityPrefix" : [
-      {
-        "text" : "Available when",
-        "type" : "text"
-      }
-    ],
-    "conformancePrefix" : [
-      {
-        "text" : "Conforms when",
-        "type" : "text"
-      }
-    ],
-    "constraints" : [
-      {
-        "code" : "Self",
-        "type" : "codeVoice"
-      },
-      {
-        "text" : " inherits ",
-        "type" : "text"
-      },
-      {
-        "code" : "NSManagedObject",
-        "type" : "codeVoice"
-      },
-      {
-        "text" : ".",
-        "type" : "text"
-      }
-    ]
-  },
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "fetchObjects"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "in"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "c:objc(cs)NSManagedObjectContext",
-      "text" : "NSManagedObjectContext"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "estimatedResultCount"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Si",
-      "text" : "Int"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "with"
-    },
-    {
-      "kind" : "text",
-      "text" : ": ("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "c:objc(cs)NSFetchRequest",
-      "text" : "NSFetchRequest"
-    },
-    {
-      "kind" : "text",
-      "text" : "<"
-    },
-    {
-      "kind" : "typeIdentifier",
-      "text" : "Self"
-    },
-    {
-      "kind" : "text",
-      "text" : ">) -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:s4Voida",
-      "text" : "Void"
-    },
-    {
-      "kind" : "text",
-      "text" : ") "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "async"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "throws"
-    },
-    {
-      "kind" : "text",
-      "text" : " -> ["
-    },
-    {
-      "kind" : "typeIdentifier",
-      "text" : "Self"
-    },
-    {
-      "kind" : "text",
-      "text" : "]"
-    }
-  ],
-  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSFetchRequestResult\/fetchObjects(in:estimatedResultCount:with:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "fetchObjects(in:estimatedResultCount:with:)",
-  "type" : "topic",
-  "url" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/fetchobjects(in:estimatedresultcount:with:)"
-},
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSFetchRequestResult/fetchObjects(in:estimatedResultCount:with:completion:)": {
   "abstract" : [
     {
@@ -2240,6 +2078,196 @@
   "title" : "fetchObjects(in:estimatedResultCount:with:completion:)",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/fetchobjects(in:estimatedresultcount:with:completion:)"
+},
+"doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSFetchRequestResult/fetchObjects(in:estimatedResultCount:with:progress:)": {
+  "abstract" : [
+    {
+      "text" : "Performs a configurable asynchronous fetch request in a context.",
+      "type" : "text"
+    }
+  ],
+  "conformance" : {
+    "availabilityPrefix" : [
+      {
+        "text" : "Available when",
+        "type" : "text"
+      }
+    ],
+    "conformancePrefix" : [
+      {
+        "text" : "Conforms when",
+        "type" : "text"
+      }
+    ],
+    "constraints" : [
+      {
+        "code" : "Self",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : " inherits ",
+        "type" : "text"
+      },
+      {
+        "code" : "NSManagedObject",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : ".",
+        "type" : "text"
+      }
+    ]
+  },
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "fetchObjects"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "in"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSManagedObjectContext",
+      "text" : "NSManagedObjectContext"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "estimatedResultCount"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Si",
+      "text" : "Int"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "with"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSFetchRequest",
+      "text" : "NSFetchRequest"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "Self"
+    },
+    {
+      "kind" : "text",
+      "text" : ">) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s4Voida",
+      "text" : "Void"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "progress"
+    },
+    {
+      "kind" : "text",
+      "text" : ": (("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSProgress",
+      "text" : "Progress"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s4Voida",
+      "text" : "Void"
+    },
+    {
+      "kind" : "text",
+      "text" : ")?) "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "async"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "Self"
+    },
+    {
+      "kind" : "text",
+      "text" : "]"
+    }
+  ],
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSFetchRequestResult\/fetchObjects(in:estimatedResultCount:with:progress:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "fetchObjects(in:estimatedResultCount:with:progress:)",
+  "type" : "topic",
+  "url" : "\/documentation\/coredataplus\/coredata\/nsfetchrequestresult\/fetchobjects(in:estimatedresultcount:with:progress:)"
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSFetchRequestResult/fetchObjects(in:with:)": {
   "abstract" : [
@@ -2552,7 +2580,7 @@
       "type" : "strong"
     },
     {
-      "text" : " a single object is expected as result; if more than one object are fetched, a fatal error will occour.",
+      "text" : " a single object is expected as result; if more than one object are fetched, a fatal error will occur.",
       "type" : "text"
     }
   ],

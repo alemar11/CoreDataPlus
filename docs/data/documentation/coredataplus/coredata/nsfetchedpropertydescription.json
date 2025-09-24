@@ -89,6 +89,8 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Initializers",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSFetchedPropertyDescription\/init(name:destinationEntity:configuration:)"
       ],

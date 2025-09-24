@@ -283,7 +283,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "the fetched propery destination entity.",
+                  "text" : "The fetched propery destination entity.",
                   "type" : "text"
                 }
               ],
@@ -297,7 +297,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "A close to configure the underlying NSFetchRequest.",
+                  "text" : "A closure to configure the underlying NSFetchRequest.",
                   "type" : "text"
                 }
               ],

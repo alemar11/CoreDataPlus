@@ -9,7 +9,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " needed to mirate to the next ",
+      "text" : " needed to migrate to the next ",
       "type" : "text"
     },
     {
@@ -143,15 +143,15 @@
       {
         "beta" : false,
         "deprecated" : false,
-        "introducedAt" : "14.0",
-        "name" : "macOS",
+        "introducedAt" : "17.0",
+        "name" : "Mac Catalyst App Extension",
         "unavailable" : false
       },
       {
         "beta" : false,
         "deprecated" : false,
-        "introducedAt" : "17.0",
-        "name" : "Mac Catalyst App Extension",
+        "introducedAt" : "14.0",
+        "name" : "macOS",
         "unavailable" : false
       },
       {
@@ -164,15 +164,15 @@
       {
         "beta" : false,
         "deprecated" : false,
-        "introducedAt" : "10.0",
-        "name" : "watchOS",
+        "introducedAt" : "1.0",
+        "name" : "visionOS",
         "unavailable" : false
       },
       {
         "beta" : false,
         "deprecated" : false,
-        "introducedAt" : "1.0",
-        "name" : "visionOS",
+        "introducedAt" : "10.0",
+        "name" : "watchOS",
         "unavailable" : false
       }
     ],
@@ -342,7 +342,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " needed to mirate to the next ",
+      "text" : " needed to migrate to the next ",
       "type" : "text"
     },
     {

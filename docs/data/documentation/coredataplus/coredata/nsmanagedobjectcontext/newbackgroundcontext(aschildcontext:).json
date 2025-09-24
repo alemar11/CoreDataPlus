@@ -160,38 +160,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "Specifies if this new context is a child context of the current context (default ",
-                  "type" : "text"
-                },
-                {
-                  "inlineContent" : [
-                    {
-                      "text" : "false",
-                      "type" : "text"
-                    }
-                  ],
-                  "type" : "emphasis"
-                },
-                {
-                  "text" : ").",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "asChildContext"
-        }
-      ]
     }
   ],
   "schemaVersion" : {

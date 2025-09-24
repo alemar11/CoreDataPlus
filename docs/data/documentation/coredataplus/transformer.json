@@ -246,6 +246,8 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Instance-Methods",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/reverseTransformedValue(_:)",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/transformedValue(_:)"
@@ -253,6 +255,8 @@
       "title" : "Instance Methods"
     },
     {
+      "anchor" : "Type-Properties",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/allowedTopLevelClasses",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/transformerName"
@@ -260,6 +264,8 @@
       "title" : "Type Properties"
     },
     {
+      "anchor" : "Type-Methods",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/allowsReverseTransformation()",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Transformer\/register()",

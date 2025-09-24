@@ -89,6 +89,8 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Instance-Properties",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSBatchUpdateResult\/changes",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSBatchUpdateResult\/count",
@@ -169,7 +171,7 @@
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSBatchUpdateResult/changes": {
   "abstract" : [
     {
-      "text" : "Returns a dictionary containig all the updated ",
+      "text" : "Returns a dictionary containing all the updated ",
       "type" : "text"
     },
     {

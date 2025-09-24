@@ -225,7 +225,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "Value to be added to the medata dictionary.",
+                  "text" : "Value to be added to the metadata dictionary.",
                   "type" : "text"
                 }
               ],

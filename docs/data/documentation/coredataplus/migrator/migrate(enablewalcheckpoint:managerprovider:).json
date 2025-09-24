@@ -226,28 +226,6 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The final ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "Version",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : ".",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "targetVersion"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
                   "text" : "Wheter or not a WAL checkpoint needs to be done.",
                   "type" : "text"
                 },

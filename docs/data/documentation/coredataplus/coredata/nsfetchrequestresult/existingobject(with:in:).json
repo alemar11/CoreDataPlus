@@ -254,7 +254,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "the object for the specified ID or nil if the object does not exist.",
+              "text" : "The object for the specified ID or nil if the object does not exist.",
               "type" : "text"
             },
             {

@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Wheter or not the receiver has temporary object ID.",
+      "text" : "Whether or not the receiver has temporary object ID.",
       "type" : "text"
     },
     {
@@ -195,7 +195,7 @@
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSManagedObject/hasTemporaryID": {
   "abstract" : [
     {
-      "text" : "Wheter or not the receiver has temporary object ID.",
+      "text" : "Whether or not the receiver has temporary object ID.",
       "type" : "text"
     },
     {

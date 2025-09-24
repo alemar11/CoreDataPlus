@@ -180,12 +180,16 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Structures",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Migrator\/Metadata"
       ],
       "title" : "Structures"
     },
     {
+      "anchor" : "Initializers",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Migrator\/init(sourceStoreDescription:destinationStoreDescription:targetVersion:)",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Migrator\/init(targetStoreDescription:targetVersion:)"
@@ -193,6 +197,8 @@
       "title" : "Initializers"
     },
     {
+      "anchor" : "Instance-Properties",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Migrator\/enableLog",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Migrator\/progress"
@@ -200,6 +206,8 @@
       "title" : "Instance Properties"
     },
     {
+      "anchor" : "Instance-Methods",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/Migrator\/migrate(enableWALCheckpoint:managerProvider:)"
       ],
@@ -244,7 +252,7 @@
 "doc://CoreDataPlus/documentation/CoreDataPlus/LegacyMigration": {
   "abstract" : [
     {
-      "text" : "Handles migrations with the old ",
+      "text" : "Handles migrations via ",
       "type" : "text"
     },
     {

@@ -142,7 +142,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "Usually there is no need to override this property; once overridden be sure to ovverride it in all the subclasses (if any).",
+              "text" : "Usually there is no need to override this property; once overridden be sure to override it in all the subclasses (if any).",
               "type" : "text"
             }
           ],

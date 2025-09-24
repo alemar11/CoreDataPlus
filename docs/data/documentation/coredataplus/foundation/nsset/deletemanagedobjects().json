@@ -13,7 +13,7 @@
       "type" : "text"
     },
     {
-      "code" : "NSManangedObjectContext",
+      "code" : "NSManagedObjectContext",
       "type" : "codeVoice"
     },
     {
@@ -228,7 +228,7 @@
       "type" : "text"
     },
     {
-      "code" : "NSManangedObjectContext",
+      "code" : "NSManagedObjectContext",
       "type" : "codeVoice"
     },
     {

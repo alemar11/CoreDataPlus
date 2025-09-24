@@ -121,12 +121,16 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Initializers",
+      "generated" : true,
       "identifiers" : [
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionInfo\/init(_:)"
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionInfo\/init(from:)"
       ],
       "title" : "Initializers"
     },
     {
+      "anchor" : "Instance-Properties",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionInfo\/indexTitle",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionInfo\/name",
@@ -236,7 +240,7 @@
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/fetchedresultssectioninfo\/indextitle"
 },
-"doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsSectionInfo/init(_:)": {
+"doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsSectionInfo/init(from:)": {
   "abstract" : [
     {
       "text" : "Create a new element of ",
@@ -266,7 +270,15 @@
     },
     {
       "kind" : "text",
-      "text" : "(any "
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "from"
+    },
+    {
+      "kind" : "text",
+      "text" : ": any "
     },
     {
       "kind" : "typeIdentifier",
@@ -278,12 +290,12 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionInfo\/init(_:)",
+  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/FetchedResultsSectionInfo\/init(from:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "init(_:)",
+  "title" : "init(from:)",
   "type" : "topic",
-  "url" : "\/documentation\/coredataplus\/fetchedresultssectioninfo\/init(_:)"
+  "url" : "\/documentation\/coredataplus\/fetchedresultssectioninfo\/init(from:)"
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/FetchedResultsSectionInfo/name": {
   "abstract" : [

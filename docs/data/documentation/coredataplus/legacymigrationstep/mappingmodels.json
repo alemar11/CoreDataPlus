@@ -128,7 +128,10 @@
 },
 "doc://CoreDataPlus/documentation/CoreDataPlus/LegacyMigrationStep": {
   "abstract" : [
-
+    {
+      "text" : "Representation of a Core Data legacy migration step.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {

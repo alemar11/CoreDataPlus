@@ -89,6 +89,8 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Instance-Properties",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSBatchInsertResult\/changes",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSBatchInsertResult\/count",
@@ -169,7 +171,7 @@
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSBatchInsertResult/changes": {
   "abstract" : [
     {
-      "text" : "Returns a dictionary containig all the inserted ",
+      "text" : "Returns a dictionary containing all the inserted ",
       "type" : "text"
     },
     {

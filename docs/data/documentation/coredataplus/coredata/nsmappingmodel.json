@@ -89,6 +89,8 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Instance-Properties",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/CoreData\/NSMappingModel\/isInferred"
       ],
@@ -166,7 +168,7 @@
 "doc://CoreDataPlus/documentation/CoreDataPlus/CoreData/NSMappingModel/isInferred": {
   "abstract" : [
     {
-      "text" : "Wheter or not the mapping model is inferred.",
+      "text" : "Whether or not the mapping model is inferred.",
       "type" : "text"
     }
   ],

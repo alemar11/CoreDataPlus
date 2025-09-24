@@ -160,12 +160,16 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Instance-Properties",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/StagedMigration\/versionChecksum"
       ],
       "title" : "Instance Properties"
     },
     {
+      "anchor" : "Instance-Methods",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/StagedMigration\/managedObjectModelReference()",
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/StagedMigration\/migrationStageToNextModelVersion()"

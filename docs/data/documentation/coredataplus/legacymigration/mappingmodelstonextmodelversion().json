@@ -136,7 +136,7 @@
 "doc://CoreDataPlus/documentation/CoreDataPlus/LegacyMigration": {
   "abstract" : [
     {
-      "text" : "Handles migrations with the old ",
+      "text" : "Handles migrations via ",
       "type" : "text"
     },
     {

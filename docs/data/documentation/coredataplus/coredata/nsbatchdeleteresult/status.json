@@ -9,7 +9,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " if the batc delete operation has been completed successfully.",
+      "text" : " if the batch delete operation has been completed successfully.",
       "type" : "text"
     }
   ],
@@ -250,7 +250,7 @@
       "type" : "codeVoice"
     },
     {
-      "text" : " if the batc delete operation has been completed successfully.",
+      "text" : " if the batch delete operation has been completed successfully.",
       "type" : "text"
     }
   ],

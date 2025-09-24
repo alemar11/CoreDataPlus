@@ -236,6 +236,30 @@
           "type" : "unorderedList"
         },
         {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "A model will be created only if all changes are simple enough to be able to reasonably infer a mapping such as:",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "Note",
+          "style" : "note",
+          "type" : "aside"
+        },
+        {
           "inlineContent" : [
             {
               "text" : "There are a few gotchas to this list:",

@@ -14,7 +14,7 @@
       "type" : "strong"
     },
     {
-      "text" : " a single object is expected as result; if more than one object are fetched, a fatal error will occour.",
+      "text" : " a single object is expected as result; if more than one object are fetched, a fatal error will occur.",
       "type" : "text"
     }
   ],
@@ -491,7 +491,7 @@
       "type" : "strong"
     },
     {
-      "text" : " a single object is expected as result; if more than one object are fetched, a fatal error will occour.",
+      "text" : " a single object is expected as result; if more than one object are fetched, a fatal error will occur.",
       "type" : "text"
     }
   ],

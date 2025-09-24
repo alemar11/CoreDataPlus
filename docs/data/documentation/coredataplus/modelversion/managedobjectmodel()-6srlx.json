@@ -17,8 +17,7 @@
     "paths" : [
       [
         "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus",
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion",
-        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/managedObjectModel()-6vbac"
+        "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion"
       ]
     ]
   },
@@ -248,53 +247,6 @@
   "title" : "managedObjectModel()",
   "type" : "topic",
   "url" : "\/documentation\/coredataplus\/modelversion\/managedobjectmodel()-6srlx"
-},
-"doc://CoreDataPlus/documentation/CoreDataPlus/ModelVersion/managedObjectModel()-6vbac": {
-  "abstract" : [
-    {
-      "text" : "Protocol ",
-      "type" : "text"
-    },
-    {
-      "code" : "ModelVersion",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : ".",
-      "type" : "text"
-    }
-  ],
-  "defaultImplementations" : 1,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "managedObjectModel"
-    },
-    {
-      "kind" : "text",
-      "text" : "() -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "c:objc(cs)NSManagedObjectModel",
-      "text" : "NSManagedObjectModel"
-    }
-  ],
-  "identifier" : "doc:\/\/CoreDataPlus\/documentation\/CoreDataPlus\/ModelVersion\/managedObjectModel()-6vbac",
-  "kind" : "symbol",
-  "required" : true,
-  "role" : "symbol",
-  "title" : "managedObjectModel()",
-  "type" : "topic",
-  "url" : "\/documentation\/coredataplus\/modelversion\/managedobjectmodel()-6vbac"
 }
 }
 }
