@@ -5,7 +5,7 @@ import CoreData
 extension NSManagedObject {
   /// The entity name.
   ///
-  /// Usually there is no need to override this property; once overridden be sure to ovverride it in all the subclasses (if any).
+  /// Usually there is no need to override this property; once overridden be sure to override it in all the subclasses (if any).
   /// - Warning: If the `NSManagedObjectModel` is not loaded, the value will fallback to a string representation of `Self`.
   @objc open class var entityName: String {
     if let name = entity().name {
@@ -20,7 +20,7 @@ extension NSManagedObject {
     // https://github.com/jessesquires/rdar-19368054
 
     // Returning a string representation of Self metatype doesn't work if you have a NSManagedObject subclass
-    // with a name different from the NSEntityDescription name (In that case is ovverride this property).
+    // with a name different from the NSEntityDescription name (In that case override this property).
 
     return String(describing: Self.self)
   }
@@ -189,7 +189,7 @@ extension NSFetchRequestResult where Self: NSManagedObject {
 
   // MARK: - Unique
 
-  /// Executes a fetch request where **at most** a single object is expected as result; if more than one object are fetched, a fatal error will occour.
+  /// Executes a fetch request where **at most** a single object is expected as result; if more than one object are fetched, a fatal error will occur.
   /// - Note: To guarantee uniqueness the fetch accesses the underlying persistent stores to retrieve the latest results and, also, matches against currently
   /// unsaved changes in the managed object context.
   ///

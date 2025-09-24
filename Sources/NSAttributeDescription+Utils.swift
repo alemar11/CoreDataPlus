@@ -35,6 +35,7 @@ extension NSEntityDescription {
 }
 
 extension NSAttributeDescription {
+  /// Creates a new Int16 attribute description.
   /// - Parameters:
   ///   - name: The name of the attribute.
   ///   - defaultValue: The default value of the attribute.
@@ -47,6 +48,11 @@ extension NSAttributeDescription {
     return attributes
   }
 
+  /// Creates a new Int32 attribute description.
+  /// - Parameters:
+  ///   - name: The name of the attribute.
+  ///   - defaultValue: The default value of the attribute.
+  /// - Returns: Returns a *Int32* attribute description.
   public static func int32(name: String, defaultValue: Int32? = nil) -> NSAttributeDescription {
     let attributes = NSAttributeDescription()
     attributes.name = name
@@ -55,6 +61,11 @@ extension NSAttributeDescription {
     return attributes
   }
 
+  /// Creates a new Int64 attribute description.
+  /// - Parameters:
+  ///   - name: The name of the attribute.
+  ///   - defaultValue: The default value of the attribute.
+  /// - Returns: Returns a *Int64* attribute description.
   public static func int64(name: String, defaultValue: Int64? = nil) -> NSAttributeDescription {
     let attributes = NSAttributeDescription()
     attributes.name = name
@@ -63,6 +74,11 @@ extension NSAttributeDescription {
     return attributes
   }
 
+  /// Creates a new Decimal attribute description.
+  /// - Parameters:
+  ///   - name: The name of the attribute.
+  ///   - defaultValue: The default value of the attribute.
+  /// - Returns: Returns a *Decimal* attribute description.
   public static func decimal(name: String, defaultValue: Decimal? = nil) -> NSAttributeDescription {
     // https://stackoverflow.com/questions/2376853/core-data-decimal-type-for-currency
     let attributes = NSAttributeDescription()
@@ -72,6 +88,11 @@ extension NSAttributeDescription {
     return attributes
   }
 
+  /// Creates a new Float attribute description.
+  /// - Parameters:
+  ///   - name: The name of the attribute.
+  ///   - defaultValue: The default value of the attribute.
+  /// - Returns: Returns a *Float* attribute description.
   public static func float(name: String, defaultValue: Float? = nil) -> NSAttributeDescription {
     let attributes = NSAttributeDescription()
     attributes.name = name
@@ -80,6 +101,11 @@ extension NSAttributeDescription {
     return attributes
   }
 
+  /// Creates a new Double attribute description.
+  /// - Parameters:
+  ///   - name: The name of the attribute.
+  ///   - defaultValue: The default value of the attribute.
+  /// - Returns: Returns a *Double* attribute description.
   public static func double(name: String, defaultValue: Double? = nil) -> NSAttributeDescription {
     let attributes = NSAttributeDescription()
     attributes.name = name
@@ -88,6 +114,11 @@ extension NSAttributeDescription {
     return attributes
   }
 
+  /// Creates a new String attribute description.
+  /// - Parameters:
+  ///   - name: The name of the attribute.
+  ///   - defaultValue: The default value of the attribute.
+  /// - Returns: Returns a *String* attribute description.
   public static func string(name: String, defaultValue: String? = nil) -> NSAttributeDescription {
     let attributes = NSAttributeDescription()
     attributes.name = name
@@ -96,6 +127,11 @@ extension NSAttributeDescription {
     return attributes
   }
 
+  /// Creates a new Bool attribute description.
+  /// - Parameters:
+  ///   - name: The name of the attribute.
+  ///   - defaultValue: The default value of the attribute.
+  /// - Returns: Returns a *Bool* attribute description.
   public static func bool(name: String, defaultValue: Bool? = nil) -> NSAttributeDescription {
     let attributes = NSAttributeDescription()
     attributes.name = name
@@ -104,6 +140,11 @@ extension NSAttributeDescription {
     return attributes
   }
 
+  /// Creates a new Date attribute description.
+  /// - Parameters:
+  ///   - name: The name of the attribute.
+  ///   - defaultValue: The default value of the attribute.
+  /// - Returns: Returns a *Date* attribute description.
   public static func date(name: String, defaultValue: Date? = nil) -> NSAttributeDescription {
     let attributes = NSAttributeDescription()
     attributes.name = name
@@ -112,6 +153,11 @@ extension NSAttributeDescription {
     return attributes
   }
 
+  /// Creates a new UUID attribute description.
+  /// - Parameters:
+  ///   - name: The name of the attribute.
+  ///   - defaultValue: The default value of the attribute.
+  /// - Returns: Returns a *UUID* attribute description.
   public static func uuid(name: String, defaultValue: UUID? = nil) -> NSAttributeDescription {
     let attributes = NSAttributeDescription()
     attributes.name = name
@@ -120,6 +166,11 @@ extension NSAttributeDescription {
     return attributes
   }
 
+  /// Creates a new URL attribute description.
+  /// - Parameters:
+  ///   - name: The name of the attribute.
+  ///   - defaultValue: The default value of the attribute.
+  /// - Returns: Returns a *URL* attribute description.
   public static func uri(name: String, defaultValue: URL? = nil) -> NSAttributeDescription {
     let attributes = NSAttributeDescription()
     attributes.name = name
@@ -128,6 +179,12 @@ extension NSAttributeDescription {
     return attributes
   }
 
+  /// Creates a new Data attribute description.
+  /// - Parameters:
+  ///   - name: The name of the attribute.
+  ///   - defaultValue: The default value of the attribute.
+  ///   - allowsExternalBinaryDataStorage: Whether the attribute allows external binary data storage.
+  /// - Returns: Returns a *Data* attribute description.
   public static func binaryData(name: String, defaultValue: Data? = nil, allowsExternalBinaryDataStorage: Bool = false)
     -> NSAttributeDescription
   {
@@ -155,6 +212,14 @@ extension NSAttributeDescription {
     return attributes
   }
 
+  /// Creates a new transformable attribute description with custom transform functions.
+  /// - Parameters:
+  ///   - aClass: The class type for the transformable attribute.
+  ///   - name: The name of the attribute.
+  ///   - defaultValue: The default value of the attribute.
+  ///   - transform: The transform function to convert the object to data.
+  ///   - reverse: The reverse transform function to convert data back to the object.
+  /// - Returns: Returns a *transformable* attribute description.
   public static func customTransformable<T: NSObject & NSSecureCoding>(
     for aClass: T.Type,
     name: String,
@@ -172,6 +237,12 @@ extension NSAttributeDescription {
     return attributes
   }
 
+  /// Creates a new transformable attribute description.
+  /// - Parameters:
+  ///   - aClass: The class type for the transformable attribute.
+  ///   - name: The name of the attribute.
+  ///   - defaultValue: The default value of the attribute.
+  /// - Returns: Returns a *transformable* attribute description.
   public static func transformable<T: NSObject & NSSecureCoding>(
     for aClass: T.Type,
     name: String,

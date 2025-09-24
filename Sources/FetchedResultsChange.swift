@@ -24,7 +24,7 @@ public enum FetchedResultsObjectChange<T: NSManagedObject> {
 
   /// An object has been updated.
   /// - parameter object: The updated object of type `<T>`
-  /// - parameter indexPath `NSIndexPath`: The `NSIndexPath` of the updated object
+  /// - parameter indexPath: The `NSIndexPath` of the updated object
   case update(object: T, indexPath: IndexPath)
 }
 
@@ -33,7 +33,7 @@ extension FetchedResultsObjectChange {
   ///
   /// - Parameters:
   ///   - object: The changed object
-  ///   - indexPath: The old index patch for the object
+  ///   - indexPath: The old index path for the object
   ///   - type: The type of the reported change
   ///   - newIndexPath: The new index path for the object
   public init?(
@@ -106,7 +106,7 @@ extension FetchedResultsObjectChange {
     }
   }
 
-  /// Returns`true` if the change is an insertion.
+  /// Returns true if the change is an insertion.
   public var isInsertion: Bool {
     switch self {
     case .insert:
@@ -227,7 +227,7 @@ extension FetchedResultsSectionChange {
     }
   }
 
-  /// Returns`true` if the change is an insertion.
+  /// Returns true if the change is an insertion.
   public var isInsertion: Bool {
     switch self {
     case .insert:

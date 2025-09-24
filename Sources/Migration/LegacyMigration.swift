@@ -11,7 +11,7 @@ public protocol LegacyMigration {
 // MARK: - MigrationStep
 
 extension ModelVersion where Self: LegacyMigration {
-  /// Returns a list of `MigrationStep` needed to mirate to the next `version` of the store.
+  /// Returns a list of `MigrationStep` needed to migrate to the next `version` of the store.
   public func migrationSteps(to version: Self) -> [LegacyMigrationStep<Self>] {
     guard self != version else {
       return []

@@ -140,7 +140,7 @@ extension ModelVersion {
 }
 
 extension ModelVersion {
-  /// Returns`true` if a lightweight migration to the next model version is possible
+  /// Returns true if a lightweight migration to the next model version is possible
   ///
   /// - Note:
   /// Lightweight migrations are possible only if all changes are simple enough to be automaticaly inferred such as:

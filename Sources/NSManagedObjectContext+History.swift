@@ -54,7 +54,7 @@ extension NSManagedObjectContext {
 
   /// Merges all the changes contained in the given list of `NSPersistentHistoryTransaction`.
   ///
-  /// - Important: The merging operation must be done inside a the context queue.
+  /// - Important: The merging operation must be done inside the context queue.
   ///
   /// - Returns: the last merged transaction's token and timestamp.
   public func mergeTransactions(_ transactions: [NSPersistentHistoryTransaction]) throws -> (
@@ -81,7 +81,7 @@ extension NSManagedObjectContext {
 
   /// Deletes all history before a given `date`.
   ///
-  /// - Important: The delete operation must be done inside a the context queue.
+  /// - Important: The delete operation must be done inside the context queue.
   ///
   /// - Parameter date: The date before which the history will be deleted.
   /// - Returns: `true` if the operation succeeds.
@@ -120,7 +120,7 @@ extension NSManagedObjectContext {
   }
 
   /// Deletes all history given a delete `NSPersistentHistoryChangeRequest` instance.
-  /// - Important: The delete operation must be done inside a the context queue.
+  /// - Important: The delete operation must be done inside the context queue.
   private func deleteHistory(using deleteHistoryRequest: NSPersistentHistoryChangeRequest) throws -> Bool {
     deleteHistoryRequest.resultType = .statusOnly
     // swiftlint:disable force_cast

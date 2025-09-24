@@ -3,7 +3,7 @@
 import CoreData
 
 extension NSManagedObject {
-  /// Wheter or not the receiver has temporary object ID.
+  /// Whether or not the receiver has temporary object ID.
   /// New objects inserted into a managed object context are assigned a temporary ID.
   public var hasTemporaryID: Bool { objectID.isTemporaryID }
 

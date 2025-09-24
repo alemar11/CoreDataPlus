@@ -65,7 +65,7 @@ public final class Migrator<Version: ModelVersion & LegacyMigration>: NSObject, 
   /// Source description used as starting point for the migration steps.
   internal let sourceStoreDescription: NSPersistentStoreDescription
 
-  /// Desitnation description used as final point for the migrations steps.
+  /// Destination description used as final point for the migrations steps.
   internal let destinationStoreDescription: NSPersistentStoreDescription
 
   /// `Version` to which the database needs to be migrated.

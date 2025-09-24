@@ -8,7 +8,7 @@ extension NSPersistentStoreCoordinator {
   /// After updating the metadata, save the  store through a managed object context referring to the store’s coordinator to actually persist the changes.
   ///
   /// - Parameters:
-  ///   - value: Value to be added to the medata dictionary.
+  ///   - value: Value to be added to the metadata dictionary.
   ///   - key: Value key.
   ///   - store: NSPersistentStore where is stored the metadata.
   /// - Important: Setting the metadata for a store does not change the information on disk until the store is actually saved.

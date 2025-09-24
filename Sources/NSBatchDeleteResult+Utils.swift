@@ -3,7 +3,7 @@
 import CoreData
 
 extension NSBatchDeleteResult {
-  /// Returns a dictionary containig all the deleted `NSManagedObjectID` instances ready to be passed to `NSManagedObjectContext.mergeChanges(fromRemoteContextSave:into:)`.
+  /// Returns a dictionary containing all the deleted `NSManagedObjectID` instances ready to be passed to `NSManagedObjectContext.mergeChanges(fromRemoteContextSave:into:)`.
   public var changes: [String: [NSManagedObjectID]]? {
     guard let deletes = deletes else { return nil }
 
@@ -37,7 +37,7 @@ extension NSBatchDeleteResult {
     }
   }
 
-  /// Returns `true` if the batc delete operation has been completed successfully.
+  /// Returns `true` if the batch delete operation has been completed successfully.
   /// - Note: Make sure the resultType of the `NSBatchDeleteRequest` is set to `NSBatchDeleteRequestResultType.resultTypeStatusOnly` before the request is executed otherwise the value is nil.
   public var status: Bool? {
     switch resultType {

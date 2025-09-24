@@ -3,7 +3,7 @@
 import CoreData
 
 extension NSBatchUpdateResult {
-  /// Returns a dictionary containig all the updated `NSManagedObjectID` instances ready to be passed to `NSManagedObjectContext.mergeChanges(fromRemoteContextSave:into:)`.
+  /// Returns a dictionary containing all the updated `NSManagedObjectID` instances ready to be passed to `NSManagedObjectContext.mergeChanges(fromRemoteContextSave:into:)`.
   public var changes: [String: [NSManagedObjectID]]? {
     guard let updates = updates else { return nil }
 

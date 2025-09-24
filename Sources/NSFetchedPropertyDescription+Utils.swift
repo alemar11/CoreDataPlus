@@ -10,7 +10,7 @@ extension NSFetchedPropertyDescription {
   /// - Parameters:
   ///   - name: The name of the attribute.
   ///   - destinationEntity: the fetched propery destination entity.
-  ///   - configuration: A close to configure the underlying NSFetchRequest.
+  ///   - configuration: A closure to configure the underlying NSFetchRequest.
   ///
   /// There are two special variables you can use in the predicate of a fetched property: **$FETCH_SOURCE** and **$FETCHED_PROPERTY**.
   ///

@@ -64,7 +64,7 @@ extension ModelVersion where Self: StagedMigration {
 // MARK: - StagedMigrationStep
 
 extension ModelVersion where Self: StagedMigration {
-  /// Returns a list of `StagedMigrationStep` needed to mirate to the next `version` of the store.
+  /// Returns a list of `StagedMigrationStep` needed to migrate to the next `version` of the store.
   @available(
     iOS 17.0, tvOS 17.0, watchOS 10.0, macOS 14.0, visionOS 1.0, iOSApplicationExtension 17.0,
     macCatalystApplicationExtension 17.0, *

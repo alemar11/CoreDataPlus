@@ -3,7 +3,7 @@
 import CoreData
 
 extension NSBatchInsertResult {
-  /// Returns a dictionary containig all the inserted `NSManagedObjectID` instances ready to be passed to `NSManagedObjectContext.mergeChanges(fromRemoteContextSave:into:)`.
+  /// Returns a dictionary containing all the inserted `NSManagedObjectID` instances ready to be passed to `NSManagedObjectContext.mergeChanges(fromRemoteContextSave:into:)`.
   public var changes: [String: [NSManagedObjectID]]? {
     guard let inserts = inserts else { return nil }
 

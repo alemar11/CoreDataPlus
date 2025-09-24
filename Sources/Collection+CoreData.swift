@@ -5,7 +5,7 @@
 // MARK: - NSManagedObject
 
 extension Collection where Element: NSManagedObject {
-  /// Specifies that all the `NSManagedObject` objects (with a `NSManangedObjectContext`) should be removed from its persistent store when changes are committed.
+  /// Specifies that all the `NSManagedObject` objects (with a `NSManagedObjectContext`) should be removed from its persistent store when changes are committed.
   public func deleteManagedObjects() {
     let managedObjectsWithContext = self.filter { $0.managedObjectContext != nil }
     for object in managedObjectsWithContext {
@@ -75,7 +75,7 @@ extension Collection where Element: NSManagedObject {
 // MARK: - NSEntityDescription
 
 extension Collection where Element: NSEntityDescription {
-  /// Returns a collection of `NSEntityDescription` with only the commong entity ancestors.
+  /// Returns a collection of `NSEntityDescription` with only the common entity ancestors.
   internal func entitiesKeepingOnlyCommonAncestorEntities() -> Set<NSEntityDescription> {
     let grouped = Dictionary(grouping: self) { $0.topMostAncestorEntity }
     var result = [NSEntityDescription]()

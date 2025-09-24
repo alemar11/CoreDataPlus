@@ -25,7 +25,7 @@ extension NSEntityDescription {
     return entity
   }
 
-  /// - Returns: Wheter or not `self` is a descendant entity of a given `entity`.
+  /// - Returns: Whether or not `self` is a descendant entity of a given `entity`.
   /// If `recursive` is set to `true`, it will be evaluated if `self` super entities hierarchy contains the given `entity` at some point.
   public final func isDescendantEntity(of entity: NSEntityDescription, recursive: Bool = false) -> Bool {
     if recursive {
